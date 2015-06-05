@@ -69,6 +69,9 @@ protected:
 
     // In the master, the actual URL. In the child, the copy inside the chroot jail.
     std::string _docURL;
+
+private:
+    std::mutex _mutex;
 };
 
 template<typename charT, typename traits>
