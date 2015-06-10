@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../../dist/leaflet.css">
 <link rel="stylesheet" href="../../plugins/draw-0.2.4/dist/leaflet.draw.css">
 <link rel="stylesheet" href="../../src/scrollbar/jquery.mCustomScrollbar.css">
+<link rel="stylesheet" href="../../dist/lool-style.css">
 <style type="text/css"></style></head>
 <body>
     <script src="../../dist/leaflet-src.js"></script>
@@ -27,9 +28,11 @@
         The "map" div is the actual document and it has the document's size
         and width, this being inside the smaller "document-container" will
         cause the content to overflow, creating scrollbars -->
-    <div id="toolbar" align="center">
-    </div>
-    <div id="document-container" style="top:100px">
+    <div id="chrome">
+        <div id="toolbar" align="center">
+        </div>
+    </div><!--End #Chrome-->
+    <div id="document-container" style="top:80px">
         <div id="map"></div>
         <div id="scroll-container">
             <div id="mock-document">
