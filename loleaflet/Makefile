@@ -10,13 +10,13 @@ all:
 	cd plugins/draw-$(DRAW_VERSION) && jake build
 
 .PHONY: dist
-dist: all
+dist: all loleaflet.spec
 	rm -rf loleaflet-$(VERSION)
 	mkdir loleaflet-$(VERSION)
-	cp README loleaflet-$(VERSION)
+	cp README loleaflet.spec loleaflet-$(VERSION)
 	tar cf - dist plugins/draw-$(DRAW_VERSION)/dist debug/document src/scrollbar | (cd loleaflet-$(VERSION) && tar xf -)
 	tar cfz loleaflet-$(VERSION).tar.gz loleaflet-$(VERSION)
 	rm -rf loleaflet-$(VERSION)
 
-loleaflet.spec: loleaflet.spec.in
+loleaflet.spec: loleaflet.spec.in Makefile
 	sed -e 's/@PACKAGE_VERSION@/$(VERSION)/g' <loleaflet.spec.in >loleaflet.spec
