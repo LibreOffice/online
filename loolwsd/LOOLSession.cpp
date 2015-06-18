@@ -30,6 +30,7 @@
 
 #include <Poco/Exception.h>
 #include <Poco/File.h>
+#include <Poco/Net/HTTPSStreamFactory.h>
 #include <Poco/Net/HTTPStreamFactory.h>
 #include <Poco/Net/WebSocket.h>
 #include <Poco/Path.h>
@@ -54,6 +55,7 @@ using namespace LOOLProtocol;
 
 using Poco::File;
 using Poco::IOException;
+using Poco::Net::HTTPSStreamFactory;
 using Poco::Net::HTTPStreamFactory;
 using Poco::Net::WebSocket;
 using Poco::Path;
@@ -594,6 +596,7 @@ void MasterProcessSession::dispatchChild()
 
     URIStreamOpener opener;
     opener.registerStreamFactory("http", new HTTPStreamFactory());
+    opener.registerStreamFactory("https", new HTTPSStreamFactory());
     try
     {
         std::istream *input = opener.open(_docURL);

@@ -60,6 +60,7 @@ DEALINGS IN THE SOFTWARE.
 
 #include <Poco/Exception.h>
 #include <Poco/File.h>
+#include <Poco/Net/Context.h>
 #include <Poco/Net/HTTPClientSession.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPRequestHandler.h>
@@ -69,12 +70,18 @@ DEALINGS IN THE SOFTWARE.
 #include <Poco/Net/HTTPServerParams.h>
 #include <Poco/Net/HTTPServerRequest.h>
 #include <Poco/Net/HTTPServerResponse.h>
+#include <Poco/Net/InvalidCertificateHandler.h>
 #include <Poco/Net/NetException.h>
+#include <Poco/Net/PrivateKeyFactory.h>
+#include <Poco/Net/PrivateKeyPassphraseHandler.h>
+#include <Poco/Net/RejectCertificateHandler.h>
 #include <Poco/Net/ServerSocket.h>
 #include <Poco/Net/SocketAddress.h>
+#include <Poco/Net/SSLManager.h>
 #include <Poco/Net/WebSocket.h>
 #include <Poco/Path.h>
 #include <Poco/Process.h>
+#include <Poco/SharedPtr.h>
 #include <Poco/StringTokenizer.h>
 #include <Poco/ThreadPool.h>
 #include <Poco/Util/HelpFormatter.h>
@@ -94,6 +101,7 @@ using namespace LOOLProtocol;
 using Poco::Exception;
 using Poco::File;
 using Poco::IOException;
+using Poco::Net::Context;
 using Poco::Net::HTTPClientSession;
 using Poco::Net::HTTPRequest;
 using Poco::Net::HTTPRequestHandler;
@@ -103,13 +111,21 @@ using Poco::Net::HTTPServer;
 using Poco::Net::HTTPServerParams;
 using Poco::Net::HTTPServerRequest;
 using Poco::Net::HTTPServerResponse;
+using Poco::Net::InvalidCertificateHandler;
+using Poco::Net::PrivateKeyFactory;
+using Poco::Net::PrivateKeyFactoryImpl;
+using Poco::Net::PrivateKeyPassphraseHandler;
+using Poco::Net::RejectCertificateHandler;
 using Poco::Net::ServerSocket;
+using Poco::Net::SocketAddress;
+using Poco::Net::SSLManager;
 using Poco::Net::SocketAddress;
 using Poco::Net::WebSocket;
 using Poco::Net::WebSocketException;
 using Poco::Path;
 using Poco::Process;
 using Poco::Runnable;
+using Poco::SharedPtr;
 using Poco::StringTokenizer;
 using Poco::Thread;
 using Poco::ThreadPool;
@@ -454,6 +470,23 @@ public:
             }
         }
         std::cout << Util::logPrefix() << "All child processes have died (I hope)" << std::endl;
+    }
+};
+
+class NoKeyHandler : public PrivateKeyPassphraseHandler
+{
+public:
+	NoKeyHandler(bool server) :
+        PrivateKeyPassphraseHandler(server)
+    {
+    }
+
+	~NoKeyHandler()
+    {
+    }
+
+	void onPrivateKeyRequested(const void* pSender, std::string& privateKey) override
+    {
     }
 };
 
@@ -816,6 +849,19 @@ int LOOLWSD::main(const std::vector<std::string>& args)
 #else
     dropCapability();
 #endif
+
+    SSLManager::instance().privateKeyFactoryMgr().setFactory("NoKeyHandler", new PrivateKeyFactoryImpl<NoKeyHandler>());
+
+    // Why does this have to be so complocated, couldn't there be some simple way to get these
+    // settings as defaults, one wonders...
+
+    // We want no console interaction, invalid certificates to be rejected, to be an SSL client, use
+    // default certificates from OpenSSL. This is based on the example in the documentation from Context::Context()
+
+    SharedPtr<PrivateKeyPassphraseHandler> passphraseHandler = new NoKeyHandler(false);
+    SharedPtr<InvalidCertificateHandler> invalidCertificateHandler = new RejectCertificateHandler(false);
+    Context::Ptr context = new Context(Context::CLIENT_USE, "", "", "", Context::VERIFY_RELAXED, 9, true);
+    SSLManager::instance().initializeClient(passphraseHandler, invalidCertificateHandler, context);
 
     if (access(cache.c_str(), R_OK | W_OK | X_OK) != 0)
     {
