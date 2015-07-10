@@ -263,6 +263,11 @@ var deps = {
 		desc: 'Permission change handler (edit, view, readonly).'
 	},
 
+	Parts: {
+		src: ['control/Parts.js'],
+		desc: 'Parts change handler.'
+	},
+
 	AnimationPan: {
 		src: [
 			'dom/DomEvent.js',

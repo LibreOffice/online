@@ -192,7 +192,6 @@ L.TileLayer = L.GridLayer.extend({
 		this._map.on('zoomend resize', this._updateScrollOffset, this);
 		this._map.on('zoomstart zoomend', this._onZoom, this);
 		this._map.on('clearselection', this._clearSelections, this);
-		this._map.on('prevpart nextpart', this._onSwitchPart, this);
 		this._map.on('drag', this._updateScrollOffset, this);
 		this._map.on('copy', this._onCopy, this);
 		this._map.on('mousedown mouseup mouseover mouseout mousemove dblclick',
@@ -385,13 +384,9 @@ L.TileLayer = L.GridLayer.extend({
 				this._docHeightTwips = command.height;
 				this._updateMaxBounds(true);
 				this._documentInfo = textMsg;
-				if (this._parts === undefined && command.parts > 1) {
-					this._map.addControl(L.control.parts({
-						'parts': command.parts,
-						'currentPart': command.currentPart}));
-				}
 				this._parts = command.parts;
 				this._currentPart = command.currentPart;
+				this._map.fire('updateparts', {currentPart : this._currentPart, parts: this._parts});
 				this._update();
 			}
 		}
@@ -831,22 +826,6 @@ L.TileLayer = L.GridLayer.extend({
 			this._mouseEventsQueue[i]();
 		}
 		this._mouseEventsQueue = [];
-	},
-
-	_onSwitchPart: function (e) {
-		if (e.type === 'prevpart') {
-			if (this._currentPart > 0) {
-				this._currentPart -= 1;
-			}
-		}
-		else if (e.type === 'nextpart') {
-			if (this._currentPart < this._parts - 1) {
-				this._currentPart += 1;
-			}
-		}
-		this._update();
-		this._pruneTiles();
-		this._clearSelections();
 	},
 
 	// Convert javascript key codes to UNO key codes.
