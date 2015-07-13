@@ -723,10 +723,6 @@ L.TileLayer = L.GridLayer.extend({
 			return;
 		}
 
-		if (this._permission === 'readonly') {
-			return;
-		}
-
 		if (e.type === 'mousedown') {
 			this._mouseDown = true;
 			if (this._holdMouseEvent) {
@@ -739,7 +735,7 @@ L.TileLayer = L.GridLayer.extend({
 		}
 		else if (e.type === 'mouseup') {
 			this._mouseDown = false;
-			if (this._permission !== 'edit') {
+			if (this._map.dragging.enabled()) {
 				if (this._mouseEventsQueue.length === 0) {
 					// mouse up after panning
 					return;
@@ -764,7 +760,7 @@ L.TileLayer = L.GridLayer.extend({
 					if (this._mouseEventsQueue.length > 1) {
 						// it's a click, fire mousedown
 						this._mouseEventsQueue[0]();
-						if (this._permission !== 'edit') {
+						if (this._permission === 'view') {
 							this._map.setPermission('edit');
 						}
 					}
@@ -786,7 +782,7 @@ L.TileLayer = L.GridLayer.extend({
 			if (this._holdMouseEvent) {
 				clearTimeout(this._holdMouseEvent);
 				this._holdMouseEvent = null;
-				if (this._permission !== 'edit') {
+				if (this._map.dragging.enabled()) {
 					// The user just panned the document
 					this._mouseEventsQueue = [];
 					return;
@@ -798,7 +794,7 @@ L.TileLayer = L.GridLayer.extend({
 				}
 				this._mouseEventsQueue = [];
 			}
-			if (this._permission === 'edit') {
+			if (!this._map.dragging.enabled()) {
 				mousePos = this._latLngToTwips(e.latlng);
 				this._postMouseEvent('move', mousePos.x, mousePos.y, 1);
 				if (this._startMarker._icon) {
@@ -820,15 +816,6 @@ L.TileLayer = L.GridLayer.extend({
 
 	_executeMouseEvents: function () {
 		this._holdMouseEvent = null;
-		if (this._mouseEventsQueue.length === 1 && this._permission !== 'edit') {
-			// long mouse down or a mouseup after panning
-			this._mouseEventsQueue = [];
-			return;
-		}
-		else if (this._permission !== 'edit') {
-			// this time we have a mousedown and mouseup
-			this._map.setPermission('edit');
-		}
 		for (var i = 0; i < this._mouseEventsQueue.length; i++) {
 			this._mouseEventsQueue[i]();
 		}
