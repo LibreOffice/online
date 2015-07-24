@@ -101,11 +101,9 @@ L.TileLayer = L.GridLayer.extend({
 			this._map.socket.send('load url=' + this.options.doc);
 			this._map.socket.send('status');
 		}
-		this._map._scrollContainer.onscroll = L.bind(this._onScroll, this);
-		this._map.on('zoomend resize', this._updateScrollOffset, this);
+		this._map.on('drag resize zoomend', this._updateScrollOffset, this);
 		this._map.on('zoomstart zoomend', this._onZoom, this);
 		this._map.on('clearselection', this._clearSelections, this);
-		this._map.on('drag', this._updateScrollOffset, this);
 		this._map.on('copy', this._onCopy, this);
 		this._startMarker.on('drag dragend', this._onSelectionHandleDrag, this);
 		this._endMarker.on('drag dragend', this._onSelectionHandleDrag, this);
@@ -361,7 +359,7 @@ L.TileLayer = L.GridLayer.extend({
 					center = center.subtract(this._map.getSize().divideBy(2));
 					center.x = center.x < 0 ? 0 : center.x;
 					center.y = center.y < 0 ? 0 : center.y;
-					$('#scroll-container').mCustomScrollbar('scrollTo', [center.y, center.x]);
+					this._map.fire('scrollto', {x: center.x, y: center.y});
 				}
 
 				var polygons = this._rectanglesToPolygons(rectangles);
@@ -654,7 +652,7 @@ L.TileLayer = L.GridLayer.extend({
 				center = center.subtract(this._map.getSize().divideBy(2));
 				center.x = center.x < 0 ? 0 : center.x;
 				center.y = center.y < 0 ? 0 : center.y;
-				$('#scroll-container').mCustomScrollbar('scrollTo', [center.y, center.x]);
+				this._map.fire('scrollto', {x: center.x, y: center.y});
 			}
 		}
 		else if (this._cursorMarker) {
