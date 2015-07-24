@@ -51,6 +51,90 @@ To see an example:
 and you should see the document in the browser.  In case anything goes wrong,
 check the loolwsd console for the debugging output.
 
+API & events
+------------
+
+Search:
+    - API:
+        map.search(text, [backward])
+    - events:
+        map.on('searchnotfound', function)
+
+Zoom:
+    - API:
+        map.zoomIn(amount)
+        map.zoomOut(amout)
+        map.getMinZoom()
+        map.getMaxZoom()
+    - events:
+        map.on('zoomend zoomlevelschange', function)
+
+Edit, view, readOnly:
+    - API:
+        map.setPermission('edit' | 'view' | 'readonly')
+    - events:
+        map.on('updatepermission', function (e) {}) where:
+            + e.perm == 'edit' | 'view' | 'readonly'
+
+Buttons like Bold, Italic, Strike through etc.
+    - API:
+        map.toggleCommandState('Bold' | 'Italic' | 'Underline' | 'Strikeout' | 'AlighLeft', etc)
+    - events:
+        map.on('commandstatechanged', function (e) {}) where:
+            + e.unoCmd == 'Bold' | 'Italic' etc.
+            + e.state = 'true' | 'false'
+
+Parts (like slides in presentation, or sheets in spreadsheets):
+    - API:
+        map.setPart('next' | 'prev' | partNumber)
+        map.getPartPreview(id, part, maxWidth, maxHeight) where:
+            + id = the ID of the request so that the response can be identified
+            + maxWidth / maxHeight are the desired dimensions of the preview, a smaller
+              image might be returned in order to keep the original ratio of the document
+    - events:
+        map.on('updateparts', function (e) {}) where:
+            + e.currentPart is the current part
+            + e.parts == the number of parts that the document has
+            + e.docType == 'text' | 'spreadsheet' | 'presentation' | 'drawing' | 'other'
+            + [e.partNames] if present, part names (e.g. sheet names)
+
+Statusindicator (when the document is loading):
+    - events
+        map.on('statusindicator', function (e) {}) where:
+            + e.statusType = 'start' | 'setvalue' | 'finish'
+            + e.value == a value from 0 to 100 indicating the status
+              if the statusType is 'setvalue
+
+Save:
+    - API:
+        map.saveAs(url, [format, options])
+
+Scroll (the following are measured in pixels):
+    - API:
+        map.scroll(x,y)
+            + scroll right by 'x' and down by 'y' (or left and up if negative)
+        map.scrollDown(y)
+            + scroll down by 'y' (or up if negative)
+        map.scrollRight(x)
+            + scroll right by 'x' (or left if nevative)
+    - events
+        map.on('docsize', function (e) {}) where:
+            + e.x = document width
+            + e.y = document height
+        map.on('updatescrolloffset', function (e) {}) where:
+            + e.x = difference between document's left and current view's left
+                (how much has the document been scrolled right)
+            + e.y = difference between document's top and current view's top
+                (how much has the document been scrolled down)
+            - this event is fired when zooming and the current view is maintained but the
+                document shrinks or grow OR when the document is panned OR when the container is resized
+        map.on('scrollto', function (e) {}) where:
+            + e.x = view's left position (so that the cursor/search result is in the center)
+            + e.y = view's top position (so that the cursor/search result is in the center)
+        map.on('scrollby', function (e) {}) where:
+            + e.x = the amount scrolled to the right (or left if negative)
+            + e.y = the amount scrolled to the bottom (or top if negative)
+
 Contributing
 ------------
 
