@@ -120,7 +120,6 @@ L.TileLayer = L.GridLayer.extend({
 	getEvents: function () {
 		var events = {
 			viewreset: this._viewReset,
-			movestart: this._moveStart,
 			moveend: this._move
 		};
 
