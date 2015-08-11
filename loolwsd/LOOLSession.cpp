@@ -371,7 +371,7 @@ bool MasterProcessSession::loadDocument(const char *buffer, int length, StringTo
     }
     catch(Poco::SyntaxException&)
     {
-        sendTextFrame("error: cmd=load kind=URI invalid syntax");
+        sendTextFrame("error: cmd=load kind=uriinvalid");
         return false;
     }
 
@@ -757,13 +757,13 @@ bool ChildProcessSession::loadDocument(const char *buffer, int length, StringTok
     }
     catch(Poco::SyntaxException&)
     {
-        sendTextFrame("error: cmd=load kind=URI invalid syntax");
+        sendTextFrame("error: cmd=load kind=uriinvalid");
         return false;
     }
 
     if (aUri.empty())
     {
-        sendTextFrame("error: cmd=load kind=URI empty");
+        sendTextFrame("error: cmd=load kind=uriempty");
         return false;
     }
 
