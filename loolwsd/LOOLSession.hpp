@@ -142,6 +142,7 @@ private:
     static Poco::Random _rng;
     static std::mutex _rngMutex;
     int _curPart;
+    int _loadPart;
 };
 
 class ChildProcessSession final : public LOOLSession
