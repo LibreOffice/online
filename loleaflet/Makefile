@@ -3,7 +3,7 @@
 # ("micro") part: Between releases odd, even for releases (no other
 # changes inbetween).
 
-VERSION=1.1.33
+VERSION=1.1.34
 
 # Version number of the bundled 'draw' thing
 DRAW_VERSION=0.2.4
