@@ -619,7 +619,6 @@ bool ChildProcessSession::handleInput(const char *buffer, int length)
         if (_docType != "text" && _loKitDocument->pClass->getPart(_loKitDocument) != _clientPart)
         {
             _loKitDocument->pClass->setPart(_loKitDocument, _clientPart);
-            getStatus("", 0);
         }
         if (tokens[0] == "gettextselection")
         {
@@ -862,7 +861,6 @@ void ChildProcessSession::sendTile(const char *buffer, int length, StringTokeniz
     unsigned char *pixmap = new unsigned char[4 * width * height];
     if (_docType != "text" && part != _loKitDocument->pClass->getPart(_loKitDocument)) {
         _loKitDocument->pClass->setPart(_loKitDocument, part);
-        getStatus("", 0);
     }
     _loKitDocument->pClass->paintTile(_loKitDocument, pixmap, width, height, tilePosX, tilePosY, tileWidth, tileHeight);
 
@@ -1059,7 +1057,6 @@ bool ChildProcessSession::setPage(const char *buffer, int length, StringTokenize
         return false;
     }
     _loKitDocument->pClass->setPart(_loKitDocument, page);
-    getStatus("", 0);
     return true;
 }
 
