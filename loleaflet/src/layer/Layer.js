@@ -62,10 +62,7 @@ L.Layer = L.Evented.extend({
 
 		this.fire('add');
 		map.fire('layeradd', {layer: this});
-	},
-
-	_initDocument: function () {},
-	_onMessage: function () {}
+	}
 });
 
 
