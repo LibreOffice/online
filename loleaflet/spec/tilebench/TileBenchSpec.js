@@ -49,6 +49,7 @@ describe('TileBench', function () {
 			map.on('statusindicator', L.bind(function (e) {
 				if (e.statusType === 'alltilesloaded') {
 					map.fire('requestloksession');
+					map._docLayer._preFetchTiles = function () {};
 					done();
 				}
 			}, done));
