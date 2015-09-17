@@ -51,8 +51,9 @@ L.GridLayer = L.Layer.extend({
 		if (this._graphicMarker) {
 			this._graphicMarker.remove();
 		}
-		this._startMarker.remove();
-		this._endMarker.remove();
+		for (var key in this._selectionHandles) {
+			this._selectionHandles[key].remove();
+		}
 	},
 
 	bringToFront: function () {
