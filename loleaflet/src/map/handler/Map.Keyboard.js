@@ -234,6 +234,21 @@ L.Map.Keyboard = L.Handler.extend({
 			}
 		}
 
+		// Change slides with PgUp/PgDown in Presentation
+		if (this._map.getDocType() === 'presentation' && !this.modifier && e.type === 'keyup') {
+			var _keyCode = e.originalEvent.keyCode;
+			if (_keyCode === 33 || _keyCode === 34) {
+				e.originalEvent.preventDefault();
+				e.originalEvent.stopPropagation();
+			}
+			if (_keyCode === 33) {
+				this._map.setPart('prev');
+			}
+			else if (_keyCode === 34) {
+				this._map.setPart('next');
+			}
+		}
+
 		// page up or page down, handled by this.dopagejump
 		// to jump back to the anchor from footnote/endnote by PgUp
 		// or jump back to the main text from header/footer by PgUp or PgDown
