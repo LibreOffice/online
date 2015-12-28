@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab17558_b269438e",
+        "filename": "loleaflet/src/map/handler/Map.Keyboard.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2015-12-28T23:42:10Z",
+      "side": 1,
+      "message": "Maybe we should define 33 and 34 with meaningful names somewhere.",
+      "range": {
+        "startLine": 240,
+        "startChar": 7,
+        "endLine": 240,
+        "endChar": 41
+      },
+      "revId": "7351a7d748d0d7bb84c8e6f666cd2accb3599f0e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
