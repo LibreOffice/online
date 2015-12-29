@@ -22,6 +22,30 @@
       "revId": "7351a7d748d0d7bb84c8e6f666cd2accb3599f0e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_f2090bdf",
+        "filename": "loleaflet/src/map/handler/Map.Keyboard.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1001160
+      },
+      "writtenOn": "2015-12-29T00:15:38Z",
+      "side": 1,
+      "message": "Hey Ashod, You are right it is better using names instead of hardcoded keycodes but the file contains all hardcoded keycodes so maybe we should change them all at once in a seperate patch?",
+      "parentUuid": "dab17558_b269438e",
+      "range": {
+        "startLine": 240,
+        "startChar": 7,
+        "endLine": 240,
+        "endChar": 41
+      },
+      "revId": "7351a7d748d0d7bb84c8e6f666cd2accb3599f0e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
