@@ -46,6 +46,30 @@
       "revId": "7351a7d748d0d7bb84c8e6f666cd2accb3599f0e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dab17558_6d489a2e",
+        "filename": "loleaflet/src/map/handler/Map.Keyboard.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2015-12-31T19:17:09Z",
+      "side": 1,
+      "message": "Depending on the number of codes and occurrences, it might be better to do it in smaller patches for better review. So I prefer to add this with keycode names from the start, as it\u0027s easier to review it that way.",
+      "parentUuid": "dab17558_f2090bdf",
+      "range": {
+        "startLine": 240,
+        "startChar": 7,
+        "endLine": 240,
+        "endChar": 41
+      },
+      "revId": "7351a7d748d0d7bb84c8e6f666cd2accb3599f0e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
