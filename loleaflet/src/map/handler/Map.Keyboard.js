@@ -340,6 +340,12 @@ L.Map.Keyboard = L.Handler.extend({
 
 		if (e.originalEvent.altKey || e.originalEvent.shiftKey) {
 
+			// need to handle Ctrl + Alt + c seperately for firefox
+			if (e.originalEvent.key === 'c' && e.originalEvent.altKey) {
+				L.Socket.sendMessage('uno .uno:InsertAnnotation');
+				return true;
+			}
+
 			// Ctrl + Alt
 			if (!e.originalEvent.shiftKey) {
 				switch (e.originalEvent.keyCode) {
