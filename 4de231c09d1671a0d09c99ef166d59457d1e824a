@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab17558_30eeea22",
+        "filename": "loleaflet/src/control/Parts.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-01-04T20:29:24Z",
+      "side": 1,
+      "message": "Why not have separate handlers for insert and duplicate? The code is simple enough that we can maintain two versions without the need for flags.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 34
+      },
+      "revId": "4de231c09d1671a0d09c99ef166d59457d1e824a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
