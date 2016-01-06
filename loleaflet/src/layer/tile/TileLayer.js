@@ -102,6 +102,8 @@ L.TileLayer = L.GridLayer.extend({
 			'tilepixelheight=' + this.options.tileSize + ' ' +
 			'tiletwipwidth=' + this.options.tileWidthTwips + ' ' +
 			'tiletwipheight=' + this.options.tileHeightTwips;
+
+		this._searchResults = null;
 	},
 
     onAdd: function (map) {
@@ -109,6 +111,9 @@ L.TileLayer = L.GridLayer.extend({
 		this._getToolbarCommandsValues();
 		this._selections = new L.LayerGroup();
 		map.addLayer(this._selections);
+
+		this._searchResultsLayer = new L.LayerGroup();
+		map.addLayer(this._searchResultsLayer);
 
 		this._levels = {};
 		this._tiles = {};
@@ -473,10 +478,45 @@ L.TileLayer = L.GridLayer.extend({
 		for (var i = 0; i < obj.searchResultSelection.length; i++) {
 			results.push({
 				part: parseInt(obj.searchResultSelection[i].part),
-				rectangles: this._twipsRectanglesToPixelBounds(obj.searchResultSelection[i].rectangles)
+				rectangles: this._twipsRectanglesToPixelBounds(obj.searchResultSelection[i].rectangles),
+				twips_rectangles: obj.searchResultSelection[i].rectangles
 			});
 		}
+		this._searchResults = results;
+		this._clearSelections();
+		this._drawSearchResuls();
 		this._map.fire('search', {originalPhrase: originalPhrase, count: count, results: results});
+	},
+
+	_drawSearchResuls: function() {
+		this._searchResultsLayer.clearLayers();
+		for (var k=0; k < this._searchResults.length; k++)
+		{
+			var result = this._searchResults[k];
+			if (result.part == this._selectedPart)
+			{
+				var strTwips = result.twips_rectangles.match(/\d+/g);
+				var rectangles = [];
+				for (var i = 0; i < strTwips.length; i += 4) {
+					var topLeftTwips = new L.Point(parseInt(strTwips[i]), parseInt(strTwips[i + 1]));
+					var offset = new L.Point(parseInt(strTwips[i + 2]), parseInt(strTwips[i + 3]));
+					var topRightTwips = topLeftTwips.add(new L.Point(offset.x, 0));
+					var bottomLeftTwips = topLeftTwips.add(new L.Point(0, offset.y));
+					var bottomRightTwips = topLeftTwips.add(offset);
+					rectangles.push([bottomLeftTwips, bottomRightTwips, topLeftTwips, topRightTwips]);
+				}
+				var polygons = L.PolyUtil.rectanglesToPolygons(rectangles, this);
+				for (var j = 0; j < polygons.length; j++) {
+					var selection = new L.Polygon(polygons[j], {
+						pointerEvents: 'none',
+						fillColor: '#ff0000',
+						fillOpacity: 0.25,
+						weight: 2,
+						opacity: 0.25});
+					this._searchResultsLayer.addLayer(selection);
+				}
+			}
+		}
 	},
 
 	_onStateChangedMsg: function (textMsg) {
@@ -535,7 +575,6 @@ L.TileLayer = L.GridLayer.extend({
 				selectionCenter = selectionCenter.add(topLeftTwips);
 				selectionCenter = selectionCenter.add(offset.divideBy(2));
 			}
-
 			var polygons = L.PolyUtil.rectanglesToPolygons(rectangles, this);
 			for (i = 0; i < polygons.length; i++) {
 				var selection = new L.Polygon(polygons[i], {

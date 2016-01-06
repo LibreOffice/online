@@ -38,6 +38,7 @@ L.Map.include({
 		if (docLayer._invalidatePreview) {
 			docLayer._invalidatePreview();
 		}
+		docLayer._drawSearchResuls();
 	},
 
 	getPreview: function (id, index, maxWidth, maxHeight, options) {
