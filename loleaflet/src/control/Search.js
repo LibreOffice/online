@@ -43,6 +43,7 @@ L.Map.include({
 	},
 
 	resetSelection: function () {
+		this._docLayer._clearSearchResults();
 		this._socket.sendMessage('resetselection');
 	}
 });
