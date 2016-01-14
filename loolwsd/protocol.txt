@@ -72,6 +72,13 @@ load [part=<partNumber>] url=<url> [timestamp=<time>] [options=<options>]
 
     options are the whole rest of the line, not URL-encoded
 
+unload [save]
+
+    unloads the document.
+
+    if 'save' is specified, the document is saved before unloading,
+    otherwise, changes are discarded.
+
 mouse type=<type> x=<x> y=<y> count=<count>
 
     <type> is 'buttondown', 'buttonup' or 'move', others are numbers.
