@@ -566,7 +566,15 @@ public:
 
         for (auto it =_connections.cbegin(); it != _connections.cend(); )
         {
-            it = (!it->second->isRunning() ? _connections.erase(it) : ++it);
+            if (!it->second->isRunning())
+            {
+                onUnload(it->second->getSession()->getId());
+                it = _connections.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
         }
 
         return _connections.size();
@@ -675,19 +683,18 @@ private:
 
     void onUnload(const std::string& sessionId)
     {
-        Log::info("Session " + sessionId + " is unloading. " + std::to_string(_clientViews - 1) + " views left.");
-        const unsigned intSessionId = Util::decodeId(sessionId);
-
         std::unique_lock<std::recursive_mutex> lock(_mutex);
 
+        const unsigned intSessionId = Util::decodeId(sessionId);
         const auto it = _connections.find(intSessionId);
         if (it == _connections.end() || !it->second)
         {
-            Log::error("Cannot find session [" + sessionId + "] which decoded to " + std::to_string(intSessionId));
+            // Nothing to do.
             return;
         }
 
         --_clientViews;
+        Log::info("Session " + sessionId + " is unloading. " + std::to_string(_clientViews) + " views will remain.");
 
         if (_multiView && _loKitDocument)
         {
