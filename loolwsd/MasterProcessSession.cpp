@@ -297,6 +297,7 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
              tokens[0] != "key" &&
              tokens[0] != "mouse" &&
              tokens[0] != "partpagerectangles" &&
+             tokens[0] != "password" &&
              tokens[0] != "renderfont" &&
              tokens[0] != "requestloksession" &&
              tokens[0] != "resetselection" &&

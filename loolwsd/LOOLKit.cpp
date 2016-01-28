@@ -38,6 +38,7 @@
 
 #define LOK_USE_UNSTABLE_API
 #include <LibreOfficeKit/LibreOfficeKitInit.h>
+#include <LibreOfficeKit/LibreOfficeKitEnums.h>
 
 #include "Common.hpp"
 #include "QueueHandler.hpp"
@@ -168,6 +169,11 @@ public:
                             firstLine = getFirstLine(largeBuffer, n);
                             handle(queue, firstLine, largeBuffer, n);
                         }
+                    }
+                    else if (tokens[0] == "password")
+                    {
+                        // loadDocument is blocked in the queue until it receives a password
+                        _session->handleInput(firstLine.c_str(), firstLine.size());
                     }
                     else
                         handle(queue, firstLine, buffer, n);
@@ -310,7 +316,8 @@ public:
 
         auto session = std::make_shared<ChildProcessSession>(sessionId, ws, _loKit, _loKitDocument, _jailId,
                             [this](const std::string& id, const std::string& uri) { return onLoad(id, uri); },
-                            [this](const std::string& id) { onUnload(id); });
+                            [this](const std::string& id) { onUnload(id); },
+                            [this](const char* password)  { setDocumentPassword(password); });
         // child Jail TID PID
         std::string hello("child " + _jailId + " " +
                           sessionId + " " + std::to_string(Process::id()));
@@ -420,9 +427,16 @@ private:
         if (_loKitDocument == nullptr)
         {
             Log::info("Loading new document from URI: [" + uri + "] for session [" + sessionId + "].");
+            // Also save the jailed URL
+            _jailedUrl = uri;
 
             if ( LIBREOFFICEKIT_HAS(_loKit, registerCallback))
+            {
                 _loKit->pClass->registerCallback(_loKit, DocumentCallback, this);
+                _loKit->pClass->setOptionalFeatures(_loKit,
+                                                    LOK_FEATURE_DOCUMENT_PASSWORD |
+                                                    LOK_FEATURE_DOCUMENT_PASSWORD_TO_MODIFY);
+            }
 
             // documentLoad will trigger callback, which needs to take the lock.
             lock.unlock();
@@ -483,12 +497,18 @@ private:
         }
     }
 
+    void setDocumentPassword(const char* password)
+    {
+        _loKit->pClass->setDocumentPassword(_loKit, _jailedUrl.c_str(), password);
+    }
+
 private:
 
     const bool _multiView;
     LibreOfficeKit *_loKit;
     const std::string _jailId;
     const std::string _url;
+    std::string _jailedUrl;
 
     LibreOfficeKitDocument *_loKitDocument;
 

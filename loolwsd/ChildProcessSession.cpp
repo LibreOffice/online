@@ -116,6 +116,10 @@ public:
             return std::string("LOK_CALLBACK_DOCUMENT_SIZE_CHANGED");
         case LOK_CALLBACK_SET_PART:
             return std::string("LOK_CALLBACK_SET_PART");
+        case LOK_CALLBACK_DOCUMENT_PASSWORD:
+            return std::string("LOK_CALLBACK_DOCUMENT_PASSWORD");
+        case LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY:
+            return std::string("LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY");
         }
         return std::to_string(nType);
     }
@@ -123,6 +127,8 @@ public:
     void callback(const int nType, const std::string& rPayload)
     {
         auto lock = _session.getLock();
+        std::string passwordFrame = "passwordrequired ";
+        std::string passwordType = "to-modify";
 
         Log::trace() << "Callback [" << _session.getViewId() << "] "
                      << callbackTypeToString(nType)
@@ -243,8 +249,9 @@ public:
             _session.sendTextFrame("unocommandresult: " + rPayload);
             break;
         case LOK_CALLBACK_DOCUMENT_PASSWORD:
-            break;
+            passwordType = "to-view";
         case LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY:
+            _session.sendTextFrame((passwordFrame + passwordType).c_str());
             break;
         case LOK_CALLBACK_ERROR:
             {
@@ -321,7 +328,8 @@ ChildProcessSession::ChildProcessSession(const std::string& id,
                                          LibreOfficeKitDocument * loKitDocument,
                                          const std::string& jailId,
                                          std::function<LibreOfficeKitDocument*(const std::string&, const std::string&)> onLoad,
-                                         std::function<void(const std::string&)> onUnload) :
+                                         std::function<void(const std::string&)> onUnload,
+                                         std::function<void(const char* password)> setDocumentPassword) :
     LOOLSession(id, Kind::ToMaster, ws),
     _loKitDocument(loKitDocument),
     _multiView(getenv("LOK_VIEW_CALLBACK")),
@@ -330,6 +338,7 @@ ChildProcessSession::ChildProcessSession(const std::string& id,
     _clientPart(0),
     _onLoad(onLoad),
     _onUnload(onUnload),
+    _setDocumentPassword(setDocumentPassword),
     _callbackWorker(new CallbackWorker(_callbackQueue, *this))
 {
     Log::info("ChildProcessSession ctor [" + getName() + "].");
@@ -402,7 +411,14 @@ bool ChildProcessSession::_handleInput(const char *buffer, int length)
     const std::string firstLine = getFirstLine(buffer, length);
     StringTokenizer tokens(firstLine, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
 
-    if (tokens[0] == "canceltiles")
+    if (tokens[0] == "password")
+    {
+        if (tokens.count() > 1)
+            _setDocumentPassword(tokens[1].c_str());
+        else
+            _setDocumentPassword(nullptr);
+    }
+    else if (tokens[0] == "canceltiles")
     {
         // this command makes sense only on the command queue level, nothing
         // to do here
@@ -424,7 +440,13 @@ bool ChildProcessSession::_handleInput(const char *buffer, int length)
             return false;
         }
 
-        return loadDocument(buffer, length, tokens);
+        if( !loadDocument(buffer, length, tokens) )
+        {
+            sendTextFrame("error: cmd=password kind=nopasswordprovided");
+            return false;
+        }
+
+        return true;
     }
     else if (_docURL == "")
     {
@@ -579,6 +601,8 @@ bool ChildProcessSession::loadDocument(const char * /*buffer*/, int /*length*/, 
     assert(!_jailedFilePath.empty());
 
     _loKitDocument = _onLoad(getId(), _jailedFilePath);
+    if (!_loKitDocument)
+        return false;
 
     std::unique_lock<std::recursive_mutex> lock(Mutex);
 
