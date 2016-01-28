@@ -113,12 +113,14 @@ public:
     bool saveAs(const char *buffer, int length, Poco::StringTokenizer& tokens);
     bool setClientPart(const char *buffer, int length, Poco::StringTokenizer& tokens);
     bool setPage(const char *buffer, int length, Poco::StringTokenizer& tokens);
+    bool setDocumentPassword(const char *buffer, int length, Poco::StringTokenizer& tokens);
 
 private:
 
     virtual bool _handleInput(const char *buffer, int length) override;
 
 private:
+    LibreOfficeKit *_loKit;
     LibreOfficeKitDocument *_loKitDocument;
     std::string _docType;
     const bool _multiView;
