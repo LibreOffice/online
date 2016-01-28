@@ -36,6 +36,13 @@ gettextselection mimetype=<mimeType>
 
     Request selection's content
 
+password <password>
+
+    When asked for password to open a document, this is how client should tell the password of the document
+    to open. If <password> = '' (only one token in frame), then loading of document is aborted.
+
+    See `passwordrequird` frame (sent by server) to get more context.
+
 paste mimetype=<mimeType>
 <binaryPasteData>
 
@@ -183,6 +190,11 @@ nextmessage: size=<byteSize>
     arbitrarily large buffers from a WebSocket (like JavaScript), but
     must be handled by clients that cannot (like those using Poco
     1.6.0, like the "loadtest" program in the loolwsd sources).
+
+passwordrequired
+
+    Sent, if the requested document requires password to open. In case incorrect password is provided,
+    another `passwordrequired` frame is sent.
 
 status: type=<typeName> parts=<numberOfParts> current=<currentPartNumber> width=<width> height=<height> [partNames]
 
