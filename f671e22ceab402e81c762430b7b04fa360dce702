@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aa08908_d7397643",
+        "filename": "loolwsd/LOOLSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-01-28T13:21:42Z",
+      "side": 1,
+      "message": "const int length \u003d text.size();\nif (length \u003e 1000)\n\n// The above is easier to read and makes length a const, which signals its purpose better. Prefer simple statements like the above to complex ones (like assigning inside a comparison).",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 40
+      },
+      "revId": "f671e22ceab402e81c762430b7b04fa360dce702",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa08908_7749a2d0",
+        "filename": "loolwsd/LOOLSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-01-28T13:21:42Z",
+      "side": 1,
+      "message": "This will add significant overhead. We should do this only for multi-line or large messages. Perhaps it\u0027s ok fix for the short-term, but we really don\u0027t need it for simple few byte messages.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 63
+      },
+      "revId": "f671e22ceab402e81c762430b7b04fa360dce702",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa08908_373f1a27",
+        "filename": "loolwsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-01-28T13:21:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand why we need this moved. Shouldn\u0027t it be fine where it was (in else, after checking for single-line messages)?",
+      "range": {
+        "startLine": 269,
+        "startChar": 20,
+        "endLine": 270,
+        "endChar": 113
+      },
+      "revId": "f671e22ceab402e81c762430b7b04fa360dce702",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
