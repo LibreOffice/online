@@ -104,6 +104,18 @@ L.Socket = L.Class.extend({
 				this.fire('error', {msg: 'Unsupported server version.'});
 			}
 		}
+		else if (textMsg.startsWith('passwordrequired')) {
+			// Ask the user for password
+			console.log(textMsg);
+			vex.dialog.open({
+				message: 'Document requires password to open',
+				input: '<input name="password" type="password" required />',
+				callback: L.bind(function(data){
+					var password = typeof data.password !== 'undefined' ? data.password : '';
+					this.sendMessage('password ' + password);
+				}, this)
+			});
+		}
 		else if (!textMsg.startsWith('tile:') && !textMsg.startsWith('renderfont:')) {
 			// log the tile msg separately as we need the tile coordinates
 			L.Log.log(textMsg, L.INCOMING);
