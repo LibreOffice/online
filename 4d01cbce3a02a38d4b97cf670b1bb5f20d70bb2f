@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aa08908_a293c64e",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2016-01-29T12:00:08Z",
+      "side": 1,
+      "message": "Please pass the type of the password that is required to the client too :-)",
+      "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa08908_0299fa6e",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2016-01-29T12:00:08Z",
+      "side": 1,
+      "message": "Please don\u0027t add unnecessary whitespace :-) - always good to run git log -p before pushing.",
+      "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa08908_c2b532d1",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2016-01-29T12:00:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we send an error frame to the client here too?",
+      "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa08908_a2baa6be",
+        "filename": "loolwsd/LOOLKit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2016-01-29T12:00:08Z",
+      "side": 1,
+      "message": "Why handling this case here, please?",
+      "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
