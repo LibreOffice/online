@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a9d85d2_2dd18dfc",
+        "filename": "loolwsd/LOOLSession.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-01-30T18:55:22Z",
+      "side": 1,
+      "message": "Can we have a SMALL_MESSAGE_SIZE const in Common.hpp please instead of 1000? It should be defined as READ_BUFFER_SIZE / 2 (which is 1024).",
+      "range": {
+        "startLine": 116,
+        "startChar": 9,
+        "endLine": 116,
+        "endChar": 22
+      },
+      "revId": "d8a1a06cccebba11be893bf391ee49847fc0326c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
