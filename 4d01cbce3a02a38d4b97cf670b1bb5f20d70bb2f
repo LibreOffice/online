@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3aaa91ec_ece78baa",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2016-02-01T12:10:29Z",
+      "side": 1,
+      "message": "Since TO_MODIFY isn\u0027t working atm, I didn\u0027t include it yet. I suspect something might be wrong in password implementation. I will investigate it a bit with lokdocview, and after confirmed, will include it here.",
+      "parentUuid": "7aa08908_a293c64e",
+      "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7aa08908_0299fa6e",
         "filename": "loolwsd/ChildProcessSession.cpp",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-29T12:00:08Z",
       "side": 1,
       "message": "Please don\u0027t add unnecessary whitespace :-) - always good to run git log -p before pushing.",
+      "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_0cd817ef",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2016-02-01T12:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aa08908_0299fa6e",
       "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3aaa91ec_6ce55ba7",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2016-02-01T12:10:29Z",
+      "side": 1,
+      "message": "Child will already show a \u0027Socket connection closed\u0027 message. We can send the error frame here but that would just clutter up the screen with three messages now:\n1. SOcket connection closed\n2. Socket connection error\n3. Error frame",
+      "parentUuid": "7aa08908_c2b532d1",
+      "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7aa08908_a2baa6be",
         "filename": "loolwsd/LOOLKit.cpp",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-01-29T12:00:08Z",
       "side": 1,
       "message": "Why handling this case here, please?",
+      "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_2cdb53ef",
+        "filename": "loolwsd/LOOLKit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2016-02-01T12:10:29Z",
+      "side": 1,
+      "message": "Because queue is already locked with \u0027load\u0027 command. Whatever you push to queue won\u0027t be read. Hence, our only savior in this case is to directly ask the session to handle this input for us and unlock the queue.",
+      "parentUuid": "7aa08908_a2baa6be",
       "revId": "4d01cbce3a02a38d4b97cf670b1bb5f20d70bb2f",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
