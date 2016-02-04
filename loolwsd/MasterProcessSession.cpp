@@ -126,6 +126,37 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
 
         if (_kind == Kind::ToPrisoner)
         {
+            if (tokens[0] == "statusindicatorfinish:")
+            {
+                // We won't use ToPrisoner's _isDocLoaded, but lets set it while we have it
+                _isDocLoaded = peer->_isDocLoaded = true;
+                forwardToPeer(buffer, length);
+                return true;
+            }
+
+            if (tokens[0] == "error:")
+            {
+                std::string errorCommand;
+                std::string errorKind;
+                if (getTokenString(tokens[1], "cmd", errorCommand) &&
+                    getTokenString(tokens[2], "kind", errorKind) )
+                {
+                    if (errorCommand == "load")
+                    {
+                        if (errorKind == "passwordrequired:to-view" ||
+                            errorKind == "passwordrequired:to-modify" ||
+                            errorKind == "wrongpassword")
+                        {
+                            _isDocPasswordProtected = true;
+                            // disconnect 'ToPrisoner' after letting client know that password is required
+                            forwardToPeer(buffer, length);
+                            LOOLSession::disconnect();
+                            return true;
+                        }
+                    }
+                }
+            }
+
             if (tokens[0] == "curpart:" &&
                 tokens.count() == 2 &&
                 getTokenInteger(tokens[1], "part", _curPart))
@@ -158,7 +189,7 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
             }
         }
 
-        if (_kind == Kind::ToPrisoner && peer && peer->_tileCache)
+        if (_kind == Kind::ToPrisoner && peer && peer->_tileCache && _isDocLoaded && !_isDocPasswordProtected)
         {
             if (tokens[0] == "tile:")
             {
@@ -276,7 +307,7 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
     }
     else if (tokens[0] == "load")
     {
-        if (_docURL != "")
+        if (_isDocLoaded)
         {
             sendTextFrame("error: cmd=load kind=docalreadyloaded");
             return false;
@@ -314,7 +345,7 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
         sendTextFrame("error: cmd=" + tokens[0] + " kind=unknown");
         return false;
     }
-    else if (_docURL == "")
+    else if (!_isDocLoaded)
     {
         sendTextFrame("error: cmd=" + tokens[0] + " kind=nodocloaded");
         return false;
@@ -777,6 +808,9 @@ void MasterProcessSession::dispatchChild()
 
     if (_loadPart >= 0)
         oss << " part=" + std::to_string(_loadPart);
+
+    if (_isDocPasswordProvided)
+        oss << " password=" << _docPassword;
 
     if (!_docOptions.empty())
         oss << " options=" << _docOptions;
