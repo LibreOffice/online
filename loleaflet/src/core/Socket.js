@@ -62,6 +62,9 @@ L.Socket = L.Class.extend({
 		if (this._map.options.timestamp) {
 			msg += ' timestamp=' + this._map.options.timestamp;
 		}
+		if (this._map._docPassword) {
+			msg += ' password=' + this._map._docPassword;
+		}
 		if (this._map.options.renderingOptions) {
 			var options = {
 				'rendering': this._map.options.renderingOptions
@@ -69,13 +72,20 @@ L.Socket = L.Class.extend({
 			msg += ' options=' + JSON.stringify(options);
 		}
 		this.socket.send(msg);
-		this.socket.send('status');
-		this.socket.send('partpagerectangles');
-		for (var i = 0; i < this._msgQueue.length; i++) {
-			this.socket.send(this._msgQueue[i].msg);
-			L.Log.log(this._msgQueue[i].msg, this._msgQueue[i].coords);
+
+		this._map.on('statusindicator', L.bind(this._onLoadFinished));
+	},
+
+	_onLoadFinished: function(e) {
+		if (e.statusType === 'finish') {
+			this.socket.send('status');
+			this.socket.send('partpagerectangles');
+			for (var i = 0; i < this._msgQueue.length; i++) {
+				this.socket.send(this._msgQueue[i].msg);
+				L.Log.log(this._msgQueue[i].msg, this._msgQueue[i].coords);
+			}
+			this._msgQueue = [];
 		}
-		this._msgQueue = [];
 	},
 
 	_onMessage: function (e) {
@@ -94,14 +104,44 @@ L.Socket = L.Class.extend({
 			textMsg = String.fromCharCode.apply(null, imgBytes.subarray(0, index));
 		}
 
+		var command = this.parseServerCmd(textMsg);
 		if (textMsg.startsWith('loolserver ')) {
 			// This must be the first message.
 			if (this._map._docLayer) {
-				this.fire('error', {msg: 'Unexpected loolserver message.'});
+				this._map.fire('error', {msg: 'Unexpected loolserver message.'});
 			}
 			// TODO: For now we expect perfect match.
 			if (textMsg.substring(11) !== this.ProtocolVersionNumber) {
-				this.fire('error', {msg: 'Unsupported server version.'});
+				this._map.fire('error', {msg: 'Unsupported server version.'});
+			}
+		}
+		else if (textMsg.startsWith('error:') && command.errorCmd === 'load') {
+			var errorKind = command.errorKind;
+			var passwordNeeded = false;
+			if (errorKind.startsWith('passwordrequired')) {
+				passwordNeeded = true;
+				var msg = 'Document requires password ';
+				var passwordType = errorKind.split(':')[1];
+				if (passwordType === 'to-view')
+					msg += 'to view.';
+				else if (passwordType === 'to-modify')
+					msg += 'to modify. Hit cancel to open in view-only mode.';
+			} else if (errorKind.startsWith('wrongpassword')) {
+				passwordNeeded = true;
+				var msg = 'Wrong password provided. Please try again.';
+			}
+
+			if (passwordNeeded) {
+				// Ask the user for password
+				vex.dialog.open({
+					message: msg,
+					input: '<input name="password" type="password" required />',
+					callback: L.bind(function(data){
+						this._map._docPassword = data.password;
+						this._onOpen();
+					}, this)
+				});
+				return;
 			}
 		}
 		else if (!textMsg.startsWith('tile:') && !textMsg.startsWith('renderfont:')) {
@@ -134,7 +174,6 @@ L.Socket = L.Class.extend({
 				tileHeightTwips = Math.round(tileHeightTwips * scale);
 			}
 
-			var command = this.parseServerCmd(textMsg);
 			var docLayer = null;
 			if (command.type === 'text') {
 				docLayer = new L.WriterTileLayer('', {
