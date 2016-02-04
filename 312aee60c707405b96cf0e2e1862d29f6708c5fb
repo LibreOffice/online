@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aaa91ec_bb25b3af",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-02-04T00:26:09Z",
+      "side": 1,
+      "message": "Make const what is not, and cannot, be modified. It helps readers and maintainers track the variables easier.",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 56
+      },
+      "revId": "312aee60c707405b96cf0e2e1862d29f6708c5fb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_5b1acf6f",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-02-04T00:26:09Z",
+      "side": 1,
+      "message": "Please add a comment that the fall-through is intentional. For example:\n\n// Fall-through and send the frame.",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 253,
+        "endChar": 54
+      },
+      "revId": "312aee60c707405b96cf0e2e1862d29f6708c5fb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_9b2a777d",
+        "filename": "loolwsd/ChildProcessSession.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-02-04T00:26:09Z",
+      "side": 1,
+      "message": "Well, cmd is still \u0027load\u0027, no?",
+      "range": {
+        "startLine": 445,
+        "startChar": 34,
+        "endLine": 445,
+        "endChar": 70
+      },
+      "revId": "312aee60c707405b96cf0e2e1862d29f6708c5fb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_db24ffb0",
+        "filename": "loolwsd/LOOLKit.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-02-04T00:26:09Z",
+      "side": 1,
+      "message": "This is a problem, I\u0027m afraid.\n\nWhy don\u0027t we pass the password in the load command? We should avoid unnecessary queuing and state-machines where there are simple solutions.\n\nPlease modify the load command to take an optional password.",
+      "range": {
+        "startLine": 175,
+        "startChar": 24,
+        "endLine": 175,
+        "endChar": 92
+      },
+      "revId": "312aee60c707405b96cf0e2e1862d29f6708c5fb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
