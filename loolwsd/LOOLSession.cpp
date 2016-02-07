@@ -118,13 +118,22 @@ void LOOLSession::sendTextFrame(const std::string& text)
 
     std::unique_lock<std::mutex> lock(_mutex);
     const int length = text.size();
-    if ( length > SMALL_MESSAGE_SIZE )
+
+    try
     {
-        const std::string nextmessage = "nextmessage: size=" + std::to_string(length);
-        _ws->sendFrame(nextmessage.data(), nextmessage.size());
+        if ( length > SMALL_MESSAGE_SIZE )
+        {
+            const std::string nextmessage = "nextmessage: size=" + std::to_string(length);
+            _ws->sendFrame(nextmessage.data(), nextmessage.size());
+        }
+
+        _ws->sendFrame(text.data(), length);
+    }
+    catch (const Poco::IOException& exc)
+    {
+        Log::warn("IOException while sending text frame: " + exc.message());
     }
 
-    _ws->sendFrame(text.data(), length);
 }
 
 void LOOLSession::sendBinaryFrame(const char *buffer, int length)
@@ -139,13 +148,20 @@ void LOOLSession::sendBinaryFrame(const char *buffer, int length)
 
     std::unique_lock<std::mutex> lock(_mutex);
 
-    if ( length > SMALL_MESSAGE_SIZE )
+    try
     {
-        const std::string nextmessage = "nextmessage: size=" + std::to_string(length);
-        _ws->sendFrame(nextmessage.data(), nextmessage.size());
-    }
+        if ( length > SMALL_MESSAGE_SIZE )
+        {
+            const std::string nextmessage = "nextmessage: size=" + std::to_string(length);
+            _ws->sendFrame(nextmessage.data(), nextmessage.size());
+        }
 
-    _ws->sendFrame(buffer, length, WebSocket::FRAME_BINARY);
+        _ws->sendFrame(buffer, length, WebSocket::FRAME_BINARY);
+    }
+    catch (const Poco::IOException& exc)
+    {
+        Log::warn("IOException while sending binary frame: " + exc.message());
+    }
 }
 
 void LOOLSession::parseDocOptions(const StringTokenizer& tokens, int& part, std::string& timestamp)
