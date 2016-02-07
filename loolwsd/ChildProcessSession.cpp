@@ -104,12 +104,6 @@ public:
             return std::string("LOK_CALLBACK_HYPERLINK_CLICKED");
         case LOK_CALLBACK_STATE_CHANGED:
             return std::string("LOK_CALLBACK_STATE_CHANGED");
-        case LOK_CALLBACK_STATUS_INDICATOR_START:
-            return std::string("LOK_CALLBACK_STATUS_INDICATOR_START");
-        case LOK_CALLBACK_STATUS_INDICATOR_SET_VALUE:
-            return std::string("LOK_CALLBACK_STATUS_INDICATOR_SET_VALUE");
-        case LOK_CALLBACK_STATUS_INDICATOR_FINISH:
-            return std::string("LOK_CALLBACK_STATUS_INDICATOR_FINISH");
         case LOK_CALLBACK_SEARCH_NOT_FOUND:
             return std::string("LOK_CALLBACK_SEARCH_NOT_FOUND");
         case LOK_CALLBACK_DOCUMENT_SIZE_CHANGED:
@@ -142,7 +136,7 @@ public:
             return;
         }
 
-        switch (static_cast<LibreOfficeKitCallbackType>(nType))
+        switch (nType)
         {
         case LOK_CALLBACK_INVALIDATE_TILES:
             {
@@ -221,15 +215,6 @@ public:
         case LOK_CALLBACK_STATE_CHANGED:
             _session.sendTextFrame("statechanged: " + rPayload);
             break;
-        case LOK_CALLBACK_STATUS_INDICATOR_START:
-            _session.sendTextFrame("statusindicatorstart:");
-            break;
-        case LOK_CALLBACK_STATUS_INDICATOR_SET_VALUE:
-            _session.sendTextFrame("statusindicatorsetvalue: " + rPayload);
-            break;
-        case LOK_CALLBACK_STATUS_INDICATOR_FINISH:
-            _session.sendTextFrame("statusindicatorfinish:");
-            break;
         case LOK_CALLBACK_SEARCH_NOT_FOUND:
             _session.sendTextFrame("searchnotfound: " + rPayload);
             break;
@@ -245,10 +230,6 @@ public:
             break;
         case LOK_CALLBACK_UNO_COMMAND_RESULT:
             _session.sendTextFrame("unocommandresult: " + rPayload);
-            break;
-        case LOK_CALLBACK_DOCUMENT_PASSWORD:
-        case LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY:
-            _session.setDocumentPassword(nType);
             break;
         case LOK_CALLBACK_ERROR:
             {
