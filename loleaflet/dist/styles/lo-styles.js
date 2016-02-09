@@ -1,0 +1,330 @@
+/**
+ * This is dummy javascript file to create pot files for LibreOffice default styles.
+ * Strings prefixed with _ will be marked for translation.
+ * This is the output of .uno:StyleApply
+ */
+
+// For text documents
+var textDoc =
+      {
+        "commandName": ".uno:StyleApply",
+        "commandValues": {
+          _("CharacterStyles"): [
+            _("Default Style"),
+            _("Footnote Symbol"),
+            _("Page Number"),
+            _("Caption characters"),
+            _("Drop Caps"),
+            _("Numbering Symbols"),
+            _("Bullet Symbols"),
+            _("Internet link"),
+            _("Visited Internet Link"),
+            _("Placeholder"),
+            _("Index Link"),
+            _("Endnote Symbol"),
+            _("Line numbering"),
+            _("Main index entry"),
+            _("Footnote anchor"),
+            _("Endnote anchor"),
+            _("Rubies"),
+            _("Vertical Numbering Symbols"),
+            _("Emphasis"),
+            _("Citation"),
+            _("Strong Emphasis"),
+            _("Source Text"),
+            _("Example"),
+            _("User Entry"),
+            _("Variable"),
+            _("Definition"),
+            _("Teletype")
+          ],
+          _("ParagraphStyles"): [
+            _("Text Body"),
+            _("Quotations"),
+            _("Title"),
+            _("Subtitle"),
+            _("Heading 1"),
+            _("Heading 2"),
+            _("Heading 3"),
+            _("Standard"),
+            _("Heading"),
+            _("Text body"),
+            _("List"),
+            _("Caption"),
+            _("Index"),
+            _("First line indent"),
+            _("Hanging indent"),
+            _("Text body indent"),
+            _("Salutation"),
+            _("Signature"),
+            _("List Indent"),
+            _("Marginalia"),
+            _("Heading 4"),
+            _("Heading 5"),
+            _("Heading 6"),
+            _("Heading 7"),
+            _("Heading 8"),
+            _("Heading 9"),
+            _("Heading 10"),
+            _("Numbering 1 Start"),
+            _("Numbering 1"),
+            _("Numbering 1 End"),
+            _("Numbering 1 Cont."),
+            _("Numbering 2 Start"),
+            _("Numbering 2"),
+            _("Numbering 2 End"),
+            _("Numbering 2 Cont."),
+            _("Numbering 3 Start"),
+            _("Numbering 3"),
+            _("Numbering 3 End"),
+            _("Numbering 3 Cont."),
+            _("Numbering 4 Start"),
+            _("Numbering 4"),
+            _("Numbering 4 End"),
+            _("Numbering 4 Cont."),
+            _("Numbering 5 Start"),
+            _("Numbering 5"),
+            _("Numbering 5 End"),
+            _("Numbering 5 Cont."),
+            _("List 1 Start"),
+            _("List 1"),
+            _("List 1 End"),
+            _("List 1 Cont."),
+            _("List 2 Start"),
+            _("List 2"),
+            _("List 2 End"),
+            _("List 2 Cont."),
+            _("List 3 Start"),
+            _("List 3"),
+            _("List 3 End"),
+            _("List 3 Cont."),
+            _("List 4 Start"),
+            _("List 4"),
+            _("List 4 End"),
+            _("List 4 Cont."),
+            _("List 5 Start"),
+            _("List 5"),
+            _("List 5 End"),
+            _("List 5 Cont."),
+            _("Index Heading"),
+            _("Index 1"),
+            _("Index 2"),
+            _("Index 3"),
+            _("Index Separator"),
+            _("Contents Heading"),
+            _("Contents 1"),
+            _("Contents 2"),
+            _("Contents 3"),
+            _("Contents 4"),
+            _("Contents 5"),
+            _("User Index Heading"),
+            _("User Index 1"),
+            _("User Index 2"),
+            _("User Index 3"),
+            _("User Index 4"),
+            _("User Index 5"),
+            _("Contents 6"),
+            _("Contents 7"),
+            _("Contents 8"),
+            _("Contents 9"),
+            _("Contents 10"),
+            _("Illustration Index Heading"),
+            _("Illustration Index 1"),
+            _("Object index heading"),
+            _("Object index 1"),
+            _("Table index heading"),
+            _("Table index 1"),
+            _("Bibliography Heading"),
+            _("Bibliography 1"),
+            _("User Index 6"),
+            _("User Index 7"),
+            _("User Index 8"),
+            _("User Index 9"),
+            _("User Index 10"),
+            _("Header"),
+            _("Header left"),
+            _("Header right"),
+            _("Footer"),
+            _("Footer left"),
+            _("Footer right"),
+            _("Table Contents"),
+            _("Table Heading"),
+            _("Illustration"),
+            _("Table"),
+            _("Text"),
+            _("Frame contents"),
+            _("Footnote"),
+            _("Addressee"),
+            _("Sender"),
+            _("Endnote"),
+            _("Drawing"),
+            _("Preformatted Text"),
+            _("Horizontal Line"),
+            _("List Contents"),
+            _("List Heading")
+          ],
+          _("PageStyles"): [
+            _("Standard"),
+            _("First Page"),
+            _("Left Page"),
+            _("Right Page"),
+            _("Envelope"),
+            _("Index"),
+            _("HTML"),
+            _("Footnote"),
+            _("Endnote"),
+            _("Landscape")
+          ],
+          _("FrameStyles"): [
+            _("Frame"),
+            _("Graphics"),
+            _("OLE"),
+            _("Formula"),
+            _("Marginalia"),
+            _("Watermark"),
+            _("Labels")
+          ],
+          _("NumberingStyles"): [
+            _("Numbering 1"),
+            _("Numbering 2"),
+            _("Numbering 3"),
+            _("Numbering 4"),
+            _("Numbering 5"),
+            _("List 1"),
+            _("List 2"),
+            _("List 3"),
+            _("List 4"),
+            _("List 5")
+          ],
+          _("Commands"): [
+            {
+              _("text"): _("Clear formatting"),
+              _("id"): ".uno:ResetAttributes"
+            }
+          ]
+        }
+      };
+
+// For presentations
+var impressDoc =
+      {
+        "commandName": ".uno:StyleApply",
+        "commandValues": {
+          _("graphics"): [
+            _("standard"),
+            _("objectwitharrow"),
+            _("objectwithshadow"),
+            _("objectwithoutfill"),
+            _("Object with no fill and no line"),
+            _("text"),
+            _("textbody"),
+            _("textbodyjustfied"),
+            _("textbodyindent"),
+            _("title"),
+            _("title1"),
+            _("title2"),
+            _("headline"),
+            _("headline1"),
+            _("headline2"),
+            _("measure")
+          ],
+          _("cell"): [
+            _("default"),
+            _("gray1"),
+            _("gray2"),
+            _("gray3"),
+            _("bw1"),
+            _("bw2"),
+            _("bw3"),
+            _("orange1"),
+            _("orange2"),
+            _("orange3"),
+            _("turquoise1"),
+            _("turquoise2"),
+            _("turquoise3"),
+            _("blue1"),
+            _("blue2"),
+            _("blue3"),
+            _("sun1"),
+            _("sun2"),
+            _("sun3"),
+            _("earth1"),
+            _("earth2"),
+            _("earth3"),
+            _("green1"),
+            _("green2"),
+            _("green3"),
+            _("seetang1"),
+            _("seetang2"),
+            _("seetang3"),
+            _("lightblue1"),
+            _("lightblue2"),
+            _("lightblue3"),
+            _("yellow1"),
+            _("yellow2"),
+            _("yellow3")
+          ],
+          _("table"): [
+            _("default"),
+            _("bw"),
+            _("orange"),
+            _("turquoise"),
+            _("blue"),
+            _("sun"),
+            _("earth"),
+            _("green"),
+            _("seetang"),
+            _("lightblue"),
+            _("yellow")
+          ],
+          _("Default"): [
+            _("background"),
+            _("backgroundobjects"),
+            _("notes"),
+            _("outline1"),
+            _("outline2"),
+            _("outline3"),
+            _("outline4"),
+            _("outline5"),
+            _("outline6"),
+            _("outline7"),
+            _("outline8"),
+            _("outline9"),
+            _("subtitle"),
+            _("title")
+          ],
+          _("Commands"): [
+            {
+              _("text"): _("Clear formatting"),
+              _("id"): ".uno:ResetAttributes"
+            }
+          ]
+        }
+      };
+
+
+
+// For spreadsheets
+var calcDoc =
+      {
+        "commandName": ".uno:StyleApply",
+        "commandValues": {
+          _("CellStyles"): [
+            _("Default"),
+            _("Result"),
+            _("Result2"),
+            _("Heading"),
+            _("Heading1")
+          ],
+          _("PageStyles"): [
+            _("Default"),
+            _("Report")
+          ],
+          _("Commands"): [
+            {
+              _("text"): _("Clear formatting"),
+              _("id"): ".uno:ResetAttributes"
+            }
+          ]
+        }
+      };
