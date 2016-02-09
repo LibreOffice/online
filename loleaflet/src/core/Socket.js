@@ -19,6 +19,45 @@ L.Socket = L.Class.extend({
 		this.socket.onopen = L.bind(this._onOpen, this);
 		this.socket.onmessage = L.bind(this._onMessage, this);
 		this.socket.binaryType = 'arraybuffer';
+
+		// When all these conditions are met, fire statusindicator:initializationComplete
+		map.initConditions = {
+			'docLayer': false,
+			'statusindicatorfinish': false,
+			'StyleApply': false,
+			'CharFontName': false,
+			'updatepermission': false
+		};
+		map.initComplete = false;
+
+		map._fireInitComplete = L.bind(this._fireInitComplete, this);
+		map.on('updatepermission', function(e){
+			if (map.initComplete)
+				return;
+			map.initConditions['updatepermission'] = true;
+			map._fireInitComplete();
+		}).on('commandstatechanged', function(e){
+			if (map.initComplete)
+				return;
+			if (e.commandName === '.uno:StyleApply') {
+				map.initConditions['StyleApply'] = true;
+				map._fireInitComplete();
+			} else if (e.commandName === '.uno:CharFontName') {
+				map.initConditions['CharFontName'] = true;
+				map._fireInitComplete();
+			}
+		});
+	},
+
+	_fireInitComplete: function () {
+		if (this._map.initComplete)
+			return;
+		for (var key in this._map.initConditions) {
+			if (!this._map.initConditions[key])
+				return;
+		}
+		this._map.fire('statusindicator', {statusType: 'initializationComplete'});
+		this._map.initComplete = true;
 	},
 
 	close: function () {
@@ -170,6 +209,8 @@ L.Socket = L.Class.extend({
 			}
 
 			this._map._docLayer = docLayer;
+			this._map.initConditions['docLayer'] = true;
+			this._fireInitComplete();
 			this._map.addLayer(docLayer);
 		}
 
@@ -185,6 +226,8 @@ L.Socket = L.Class.extend({
 		}
 		else if (textMsg.startsWith('statusindicatorfinish:')) {
 			this._map.fire('statusindicator', {statusType : 'finish'});
+			this._map.initConditions['statusindicatorfinish'] = true;
+			this._map._fireInitComplete();
 			return;
 		}
 
