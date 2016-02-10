@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aaa91ec_2c098832",
+        "filename": "loolwsd/TileCache.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-02-10T23:13:40Z",
+      "side": 1,
+      "message": "Please use Util::removeFile() instead (everywhere file/directory is removed). See the comments there to understand why.",
+      "range": {
+        "startLine": 286,
+        "startChar": 1,
+        "endLine": 287,
+        "endChar": 32
+      },
+      "revId": "4969d92a47dd04eef7fc0308e907e5e01c240fc3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aaa91ec_8c06bc1e",
+        "filename": "loolwsd/TileCache.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-02-10T23:13:40Z",
+      "side": 1,
+      "message": "Any reason to include \"Text\" in the name if it \"removes the given file\"? Why not removeFile() ?",
+      "range": {
+        "startLine": 66,
+        "startChar": 9,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "4969d92a47dd04eef7fc0308e907e5e01c240fc3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
