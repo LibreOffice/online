@@ -340,6 +340,11 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
     {
         sendFontRendering(buffer, length, tokens);
     }
+    else if (tokens[0] == "setclientpart")
+    {
+        _tileCache->removeTextFile("status.txt");
+        forwardToPeer(buffer, length);
+    }
     else if (tokens[0] == "status")
     {
         return getStatus(buffer, length);
