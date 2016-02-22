@@ -395,7 +395,16 @@ function updateFontSizeList (font) {
 	data = data.concat(map.getToolbarCommandValues('.uno:CharFontName')[font]);
 	$(".fontsizes-select").select2({
 		data: data,
-		placeholder: _("Size")
+		placeholder: _("Size"),
+		//Allow manually entered font size.
+		createTag:function(query) {
+			return {
+				id: query.term,
+				text: query.term,
+				tag: true
+			}
+		},
+		tags: true,
 	});
 	$(".fontsizes-select option").each(function () {
 		value = this.value;
@@ -423,6 +432,7 @@ function onFontSelect (e) {
 
 function onFontSizeSelect (e) {
 	var size = e.target.value;
+	$(e.target).find('option[data-select2-tag]').removeAttr('data-select2-tag');
 	map.applyFontSize(size);
 		fontcolor = map.getDocType() === 'text' ? 'FontColor' : 'Color';
 		command[fontcolor] = {};
@@ -578,8 +588,8 @@ map.on('commandstatechanged', function (e) {
 		if (state === '0') {
 			state = '';
 		}
-		$(".fontsizes-select option").each(function () {
-			if (e == state) {
+		$(".fontsizes-select option").each(function (i, e) {
+			if (e.innerText == state) {
 				found = true;
 				return;
 			}
@@ -588,7 +598,7 @@ map.on('commandstatechanged', function (e) {
 			// we need to add the size
 			$('.fontsizes-select')
 				.append($("<option></option>")
-				.text(state));
+				.text(state).val(state));
 		}
 		$(".fontsizes-select").val(state).trigger('change');
 	}
