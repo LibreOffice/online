@@ -395,7 +395,16 @@ function updateFontSizeList (font) {
 	data = data.concat(map.getToolbarCommandValues('.uno:CharFontName')[font]);
 	$(".fontsizes-select").select2({
 		data: data,
-		placeholder: _("Size")
+		placeholder: _("Size"),
+		//Allow manually entered font size.
+		createTag:function(query) {
+			return {
+				id: query.term,
+				text: query.term,
+				tag: true
+			}
+		},
+		tags: true,
 	});
 	$(".fontsizes-select option").each(function () {
 		value = this.value;
