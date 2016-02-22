@@ -395,7 +395,16 @@ function updateFontSizeList (font) {
 	data = data.concat(map.getToolbarCommandValues('.uno:CharFontName')[font]);
 	$(".fontsizes-select").select2({
 		data: data,
-		placeholder: _("Size")
+		placeholder: _("Size"),
+		//Allow manually entered font size.
+		createTag:function(query) {
+			return {
+				id: query.term,
+				text: query.term,
+				tag: true
+			}
+		},
+		tags: true,
 	});
 	$(".fontsizes-select option").each(function () {
 		value = this.value;
@@ -577,18 +586,6 @@ map.on('commandstatechanged', function (e) {
 	else if (commandName === '.uno:FontHeight') {
 		if (state === '0') {
 			state = '';
-		}
-		$(".fontsizes-select option").each(function () {
-			if (e == state) {
-				found = true;
-				return;
-			}
-		});
-		if (!found) {
-			// we need to add the size
-			$('.fontsizes-select')
-				.append($("<option></option>")
-				.text(state));
 		}
 		$(".fontsizes-select").val(state).trigger('change');
 	}
