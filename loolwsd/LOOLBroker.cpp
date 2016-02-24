@@ -30,11 +30,13 @@ typedef int (LokHookPreInit)  ( const char *install_path, const char *user_profi
 using Poco::ProcessHandle;
 
 const std::string FIFO_LOOLWSD = "loolwsdfifo";
+const std::string FIFO_NOTIFY = "loolnotify.fifo";
 const std::string BROKER_SUFIX = ".fifo";
 const std::string BROKER_PREFIX = "lokit";
 
 static int readerChild = -1;
 static int readerBroker = -1;
+static int writerNotify = -1;
 
 static std::string loolkitPath;
 static std::atomic<unsigned> forkCounter;
@@ -774,6 +776,14 @@ int main(int argc, char** argv)
         exit(Application::EXIT_SOFTWARE);
     }
 
+    // Open notify pipe
+    const std::string pipeNotify = Path(pipePath, FIFO_NOTIFY).toString();
+    if ((writerNotify = open(pipeNotify.c_str(), O_WRONLY) ) < 0)
+    {
+        Log::error("Error: pipe opened for writing.");
+        exit(Application::EXIT_SOFTWARE);
+    }
+
     // Initialize LoKit and hope we can fork and save memory by sharing pages.
     const bool sharePages = std::getenv("LOK_PREINIT") != nullptr
                           ? globalPreinit(loTemplate)
@@ -944,6 +954,7 @@ int main(int argc, char** argv)
     pipeThread.join();
     close(readerChild);
     close(readerBroker);
+    close(writerNotify);
 
     Log::info("Process [loolbroker] finished.");
     return Application::EXIT_OK;
