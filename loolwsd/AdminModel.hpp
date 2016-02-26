@@ -45,14 +45,28 @@ public:
         Log::info("AdminModel dtor.");
     }
 
+    void addDocument(Poco::Process::PID pid, std::string url)
+    {
+        documents[pid] = url;
+    }
+
     unsigned int getUsers(std::string documentUrl);
 
-    unsigned int getDocuments();
+    std::string getDocuments()
+    {
+        std::string response;
+        for (const auto& it: documents)
+        {
+            response += std::to_string(it.first)  + " " + it.second + " <BR/>";
+        }
+        return response;
+    }
 
     unsigned int getMemory(std::string documentUrl);
 
 private:
     Poco::Process::PID getPID(std::string url);
+    std::map<Poco::Process::PID, std::string> documents;
 };
 
 #endif
