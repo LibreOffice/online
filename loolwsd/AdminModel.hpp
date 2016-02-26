@@ -12,6 +12,8 @@
 
 #include "config.h"
 
+#include <sstream>
+
 #include "Util.hpp"
 
 class AdminModel
@@ -26,6 +28,26 @@ public:
     {
         Log::info("AdminModel dtor.");
     }
+
+    void addDocument(Poco::Process::PID pid, std::string url)
+    {
+        _documents[pid] = url;
+    }
+
+    std::string getDocuments()
+    {
+        std::ostringstream oss;
+        for (const auto& it: _documents)
+        {
+            oss << it.first << " "
+                << it.second << " <BR/>";
+        }
+
+        return oss.str();
+    }
+
+private:
+    std::map<Poco::Process::PID, std::string> _documents;
 };
 
 #endif
