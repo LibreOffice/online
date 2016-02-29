@@ -77,6 +77,11 @@ public:
             Log::debug("Thread [" + thread_name + "] started.");
 
             auto ws = std::make_shared<WebSocket>(request, response);
+
+            // Subscribe the websocket of any AdminModel updates
+            AdminModel& model = admin->getModel();
+            model.subscribe(ws);
+
             const Poco::Timespan waitTime(POLL_TIMEOUT_MS * 1000);
             int flags = 0;
             int n = 0;
@@ -251,8 +256,12 @@ void Admin::handleInput(std::string& message)
         std::string pid = tokens[1];
         std::string url = tokens[2];
 
-        Log::info() << "adding document " << Log::end;
         model.addDocument(std::stoi(pid), url);
+    }
+    else if (tokens.count() == 3 && tokens[0] == "views")
+    {
+        // TODO: Update the model first and then notify elegantly
+        model.notify(message);
     }
 }
 
@@ -341,6 +350,11 @@ void Admin::run()
 void Admin::updateModel()
 {
 
+}
+
+AdminModel& Admin::getModel()
+{
+    return model;
 }
 
 //TODO: Clean up with something more elegant.

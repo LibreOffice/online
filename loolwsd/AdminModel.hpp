@@ -15,6 +15,7 @@
 #include <string>
 #include <sys/poll.h>
 
+#include <Poco/Net/WebSocket.h>
 #include <Poco/Util/OptionSet.h>
 #include <Poco/Random.h>
 #include <Poco/Path.h>
@@ -31,6 +32,7 @@ using Poco::Runnable;
 using Poco::StringTokenizer;
 using Poco::Process;
 using Poco::Thread;
+using Poco::Net::WebSocket;
 
 class AdminModel
 {
@@ -64,9 +66,32 @@ public:
 
     unsigned int getMemory(std::string documentUrl);
 
+    void subscribe(std::shared_ptr<WebSocket>& ws)
+    {
+        adminConsoles.push_back(ws);
+    }
+
+    void notify(std::string& message)
+    {
+        for ( unsigned i = 0; i < adminConsoles.size(); i++ )
+        {
+            auto adminConsole = adminConsoles[i].lock();
+            if (!adminConsole)
+            {
+                adminConsoles.erase(adminConsoles.begin() + i);
+            }
+            else
+            {
+                adminConsole->sendFrame(message.data(), message.length());
+            }
+        }
+    }
+
 private:
     Poco::Process::PID getPID(std::string url);
     std::map<Poco::Process::PID, std::string> documents;
+
+    std::vector<std::weak_ptr<WebSocket> > adminConsoles;
 };
 
 #endif

@@ -34,8 +34,10 @@ public:
     void handleInput(std::string& message);
 
     void run() override;
-    
+
     void updateModel();
+
+    AdminModel& getModel();
 
 private:
     Poco::Net::HTTPServer _srv;
