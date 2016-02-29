@@ -12,6 +12,12 @@
 
 #include "config.h"
 
+#include <memory>
+#include <string>
+
+#include <Poco/Net/WebSocket.h>
+#include <Poco/Process.h>
+
 #include "Util.hpp"
 
 class AdminModel
@@ -43,7 +49,29 @@ public:
         return response;
     }
 
+    void subscribe(std::shared_ptr<Poco::Net::WebSocket>& ws)
+    {
+        _adminConsoles.push_back(ws);
+    }
+
+    void notify(std::string& message)
+    {
+        for ( unsigned i = 0; i < _adminConsoles.size(); i++ )
+        {
+            auto adminConsole = _adminConsoles[i].lock();
+            if (!adminConsole)
+            {
+                _adminConsoles.erase(_adminConsoles.begin() + i);
+            }
+            else
+            {
+                adminConsole->sendFrame(message.data(), message.length());
+            }
+        }
+    }
+
 private:
+    std::vector<std::weak_ptr<Poco::Net::WebSocket> > _adminConsoles;
     std::map<Poco::Process::PID, std::string> _documents;
 };
 

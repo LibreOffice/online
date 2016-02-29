@@ -32,6 +32,8 @@ public:
 
     void run() override;
 
+    AdminModel& getModel();
+
 private:
     void handleInput(std::string& message);
 
