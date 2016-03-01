@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1aa78d24_b70943e0",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-01T20:57:23Z",
+      "side": 1,
+      "message": "Why not just \"admin\" ?  or maybe \"admin_thread\" ? It\u0027s unique anyway, so it\u0027s clear what \"admin\" thread is.",
+      "range": {
+        "startLine": 254,
+        "startChar": 8,
+        "endLine": 254,
+        "endChar": 63
+      },
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa78d24_94aa4518",
         "filename": "loolwsd/Admin.hpp",
         "patchSetId": 1
@@ -18,6 +41,29 @@
         "startChar": 7,
         "endLine": 255,
         "endChar": 14
+      },
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_d704cfc7",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-01T20:57:23Z",
+      "side": 1,
+      "message": "This complete loop is cloned too many times. We should be able to reuse it.",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 32
       },
       "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
@@ -59,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "1aa78d24_976c079e",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-01T20:57:23Z",
+      "side": 1,
+      "message": "Yes. This needs removed from other parts of the code as well. Including possibly leaflet.",
+      "parentUuid": "1aa78d24_d4620d16",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa78d24_b4678124",
         "filename": "loolwsd/Admin.hpp",
         "patchSetId": 1
@@ -70,6 +134,47 @@
       "writtenOn": "2016-03-01T13:20:05Z",
       "side": 1,
       "message": "Is it really necessary to use separate \"eof\" messages? Shouldn\u0027t it be enough if the writing end just closes the pipe? The code needs to be prepared to handle an end-of-file anyway.",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_77699b8b",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-01T20:57:23Z",
+      "side": 1,
+      "message": "eof could be useful to differentiate between graceful closing and error condition. But we probably overdue it and need to minimize its use where it makes sense.",
+      "parentUuid": "1aa78d24_b4678124",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_170f77e2",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-01T20:57:23Z",
+      "side": 1,
+      "message": "Admin class will probably be static/singleton anyway. No need to have static members. Let\u0027s minimize those statics where possible please.",
+      "range": {
+        "startLine": 320,
+        "startChar": 4,
+        "endLine": 320,
+        "endChar": 26
+      },
       "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -110,6 +215,52 @@
     },
     {
       "key": {
+        "uuid": "1aa78d24_77007bab",
+        "filename": "loolwsd/AdminModel.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-01T20:57:23Z",
+      "side": 1,
+      "message": "Any reason for not using \u0027const std::string\u0026\u0027 ? It should be the default to avoid unnecessary copies and unintentional modification (unless we need to modify a local copy).\n\nSame for other functions.",
+      "range": {
+        "startLine": 48,
+        "startChar": 26,
+        "endLine": 48,
+        "endChar": 49
+      },
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_d72b2f32",
+        "filename": "loolwsd/LOOLBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-01T20:57:23Z",
+      "side": 1,
+      "message": "Better to close in the opposite order of opening. In the same way as objects are destroyed.",
+      "range": {
+        "startLine": 961,
+        "startChar": 4,
+        "endLine": 961,
+        "endChar": 24
+      },
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aa78d24_54773dd4",
         "filename": "loolwsd/LOOLWSD.cpp",
         "patchSetId": 1
@@ -121,6 +272,29 @@
       "writtenOn": "2016-03-01T13:20:05Z",
       "side": 1,
       "message": "Don\u0027t use the same variable \u0027pipeFlags\u0027 for two wildly different purposes. Here, just pass O_RDONLY | O_NONBLOCK as such.",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_b73023a0",
+        "filename": "loolwsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-01T20:57:23Z",
+      "side": 1,
+      "message": "Not a good idea, in case someone uses pipeFlags later and becomes a mess when refactored.\n\nJust modify at the call site (or in a temp):\nif (fcntl(notifyPipe, F_SETFL, (pipeFlags \u0026 ~O_NONBLOCK)) \u003c 0)",
+      "range": {
+        "startLine": 996,
+        "startChar": 4,
+        "endLine": 996,
+        "endChar": 29
+      },
       "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
