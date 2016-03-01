@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa78d24_d4496d90",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "Don\u0027t just copy-paste a list of \u0027using\u0027 from somewhere else. Use only such that are actually used.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_b44e6194",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "Put the {} on a separate line please.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_14449572",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "No such ifdef needed.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_f448e989",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "I think this same (or nearly the same) code snippet is repeated in many places. Please factor it out.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_345b9156",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "I don\u0027t like the use of separate \"eof\" messages. Just closing the websocket gracefully (or even non-gracefully) should be enough, and needs to work the same anyway.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_7455191c",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "This \u0027TerminationFlag\u0027 is somewhat ugly... Global variables are always ugly.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_143bf5ec",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "Isn\u0027t the convention in this code-base to prefix private fields with an underscore?",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_54257dc0",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "Again this kind of alignment is not a convention here. Seeing such alignment arbitrarily here and there just is annoying to the reader.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_342271ba",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "No Linux ifdefs needed.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_b41ca178",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "As earlier. Somewhat dangerous and ugly to use the same global variable as a generic \"termination flag\" here and there. Or is that actually its meaning, to terminate everything?",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_942fe5a0",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "As I said elsewhere about using (and requiring) both CR and LF: Not necessary, and only complicates the logic. Besides. this code snippet looks familiar. Avoid copy-pasta.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_742cf9ab",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "Presumably \"BrokerData\" is misleading here? Or what does it mean?",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_d417ad52",
+        "filename": "loolwsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "As earlier.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_1412d562",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "No \u0027using\u0027 in include files please.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_f4162954",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "No superfluous whitespace please.",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_540c5d42",
+        "filename": "loolwsd/Auth.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:39:00Z",
+      "side": 1,
+      "message": "Why is a new include needed even if there is nothing else added to this file in this change?",
+      "revId": "ed60b7acdbb78230f5f3abd401bd6830a9cd360b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
