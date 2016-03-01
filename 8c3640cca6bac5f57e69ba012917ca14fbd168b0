@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa78d24_94aa4518",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:20:05Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to do any #ifdef __linux; this code is Linux-only. I dropped such ifdefs in the master branch already.",
+      "range": {
+        "startLine": 255,
+        "startChar": 7,
+        "endLine": 255,
+        "endChar": 14
+      },
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_74a7d94f",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:20:05Z",
+      "side": 1,
+      "message": "No need to align assignment \u003d signs; we don\u0027t do that elsewhere either anyway. Consistency.",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_d4620d16",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:20:05Z",
+      "side": 1,
+      "message": "As it is our own code that writes and reads the pipe, why bother with both \u0027\\r\u0027 and \u0027\\n\u0027? Just \u0027\\n\u0027 should be enough. Otherwise, you need to assert that they always come in pairs, wonder what to do if there is for some reason a stray \u0027\\r\u0027 or \u0027\\n\u0027, etc.",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_b4678124",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:20:05Z",
+      "side": 1,
+      "message": "Is it really necessary to use separate \"eof\" messages? Shouldn\u0027t it be enough if the writing end just closes the pipe? The code needs to be prepared to handle an end-of-file anyway.",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_146db504",
+        "filename": "loolwsd/Admin.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:20:05Z",
+      "side": 1,
+      "message": "Why the inconsistent naming style here?",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_f47109e2",
+        "filename": "loolwsd/AdminModel.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:20:05Z",
+      "side": 1,
+      "message": "Usually it is not considered correct to have \u0027using\u0027 statements in include files.",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_54773dd4",
+        "filename": "loolwsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-01T13:20:05Z",
+      "side": 1,
+      "message": "Don\u0027t use the same variable \u0027pipeFlags\u0027 for two wildly different purposes. Here, just pass O_RDONLY | O_NONBLOCK as such.",
+      "revId": "8c3640cca6bac5f57e69ba012917ca14fbd168b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
