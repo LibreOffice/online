@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa78d24_0a12ae62",
+        "filename": "loolwsd/AdminModel.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-03T14:04:53Z",
+      "side": 1,
+      "message": "ostringstream is better here.",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 79
+      },
+      "revId": "2ab78ba237d222a9e3032f7a703005749b2e46ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_ea164254",
+        "filename": "loolwsd/ChildProcessSession.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-03T14:04:53Z",
+      "side": 1,
+      "message": "If this header doesn\u0027t need anything from Common.hpp directly, please don\u0027t include it here... it should be included only by files that have dependency on it (to avoid pollution).",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "2ab78ba237d222a9e3032f7a703005749b2e46ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa78d24_4a0cb642",
+        "filename": "loolwsd/LOOLBroker.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-03-03T14:04:53Z",
+      "side": 1,
+      "message": "Let\u0027s start using \\n only please.",
+      "range": {
+        "startLine": 254,
+        "startChar": 93,
+        "endLine": 254,
+        "endChar": 97
+      },
+      "revId": "2ab78ba237d222a9e3032f7a703005749b2e46ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
