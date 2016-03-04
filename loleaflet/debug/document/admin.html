@@ -27,6 +27,20 @@
   </head>
 
   <body>
+    <script src="../../dist/admin-src.js"></script>
+    <script>
+
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		results = regex.exec(location.search);
+		return results === null ? "" : results[1].replace(/\+/g, " ");
+	}
+
+	var host = getParameterByName('host');
+	new AdminSocketOverview(host);
+
+    </script>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
