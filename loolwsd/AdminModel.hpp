@@ -37,7 +37,7 @@ public:
 
     bool isExpired()
     {
-        return _end != 0 && std::time(nullptr) > _end;
+        return _end != 0 && std::time(nullptr) >= _end;
     }
 
 private:
@@ -80,7 +80,7 @@ public:
 
     bool isExpired() const
     {
-        return _end != 0 && std::time(nullptr) > _end;
+        return _end != 0 && std::time(nullptr) >= _end;
     }
 
     void addView(int nSessionId)
@@ -93,7 +93,7 @@ public:
         }
         else
         {
-            _nViews++;
+            _nActiveViews++;
         }
     }
 
@@ -103,13 +103,13 @@ public:
         if (it != _views.end())
         {
             it->second.expire();
-            _nViews--;
+            _nActiveViews--;
         }
     }
 
-    unsigned getTotalViews() const
+    unsigned getActiveViews() const
     {
-        return _nViews;
+        return _nActiveViews;
     }
 
 private:
@@ -117,7 +117,7 @@ private:
     /// SessionId mapping to View object
     std::map<int, View> _views;
     /// Total number of active views
-    unsigned _nViews = 0;
+    unsigned _nActiveViews = 0;
     /// Hosted URL
     std::string _sUrl;
 
@@ -185,7 +185,7 @@ public:
         if (tokens[0] == "document")
         {
             addDocument(std::stoi(tokens[1]), tokens[2]);
-            unsigned mem = getMemoryUsage(std::stoi(tokens[1]));
+            unsigned mem = Util::getMemoryUsage(std::stoi(tokens[1]));
             std::string response = data + std::to_string(mem);
             notify(response);
             return;
@@ -224,39 +224,31 @@ public:
         {
             return getDocuments();
         }
+        else if (tokens[0] == "active_users_count")
+        {
+            return std::to_string(getTotalActiveViews());
+        }
+        else if (tokens[0] == "active_docs_count")
+        {
+            return std::to_string(_nActiveDocuments);
+        }
 
         return std::string("");
     }
 
-    unsigned getMemoryUsage(Poco::Process::PID nPid)
+    /// Returns memory consumed by all active loolkit processes
+    unsigned getTotalMemoryUsage()
     {
-        //TODO: Instead of RSS, show PSS
-        std::string sResponse;
-        const auto cmd = "ps o rss= -p " + std::to_string(nPid);
-        FILE* fp = popen(cmd.c_str(), "r");
-        if (fp == nullptr)
+        unsigned totalMem = 0;
+        for (auto& it: _documents)
         {
-            return 0;
+            if (it.second.isExpired())
+                continue;
+
+            totalMem += Util::getMemoryUsage(it.second.getPid());
         }
 
-        char cmdBuffer[1024];
-        while (fgets(cmdBuffer, sizeof(cmdBuffer) - 1, fp) != nullptr)
-        {
-            sResponse += cmdBuffer;
-        }
-        pclose(fp);
-
-        unsigned nMem = 0;
-        try
-        {
-            nMem = std::stoi(sResponse);
-        }
-        catch(std::exception& e)
-        {
-            Log::warn() << "Trying to find memory of invalid/dead PID" << Log::end;
-        }
-
-        return nMem;
+        return totalMem;
     }
 
     void subscribe(std::shared_ptr<Poco::Net::WebSocket>& ws)
@@ -277,17 +269,17 @@ private:
         }
         else
         {
-            _nDocuments++;
+            _nActiveDocuments++;
         }
     }
 
     void removeDocument(Poco::Process::PID pid)
     {
         auto it = _documents.find(pid);
-        if (it != _documents.end())
+        if (it != _documents.end() && !it->second.isExpired())
         {
             it->second.expire();
-            _nDocuments--;
+            _nActiveDocuments--;
         }
     }
 
@@ -307,6 +299,20 @@ private:
         }
     }
 
+    unsigned getTotalActiveViews()
+    {
+        unsigned nTotalViews = 0;
+        for (auto& it: _documents)
+        {
+            if (it.second.isExpired())
+                continue;
+
+            nTotalViews += it.second.getActiveViews();
+        }
+
+        return nTotalViews;
+    }
+
     std::string getDocuments()
     {
         std::ostringstream oss;
@@ -317,8 +323,8 @@ private:
 
             std::string sPid = std::to_string(it.second.getPid());
             std::string sUrl = it.second.getUrl();
-            std::string sViews = std::to_string(it.second.getTotalViews());
-            std::string sMem = std::to_string(getMemoryUsage(it.second.getPid()));
+            std::string sViews = std::to_string(it.second.getActiveViews());
+            std::string sMem = std::to_string(Util::getMemoryUsage(it.second.getPid()));
 
             oss << sPid << " "
                 << sUrl << " "
@@ -334,7 +340,7 @@ private:
     std::map<Poco::Process::PID, Document> _documents;
 
     /// Number of active documents
-    unsigned _nDocuments;
+    unsigned _nActiveDocuments = 0;
 };
 
 #endif

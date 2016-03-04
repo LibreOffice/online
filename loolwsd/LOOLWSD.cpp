@@ -1039,7 +1039,7 @@ int LOOLWSD::main(const std::vector<std::string>& /*args*/)
     }
 
     // Start the Admin manager.
-    Admin admin(BrokerWritePipe, notifyPipe);
+    Admin admin(brokerPid, BrokerWritePipe, notifyPipe);
     threadPool.start(admin);
 
     TestInput input(*this, svs, srv);
