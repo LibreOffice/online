@@ -169,6 +169,19 @@ public:
                             std::string response = tokens[0] + " " + model.query(tokens[0]);
                             ws->sendFrame(response.data(), response.size());
                         }
+                        else if (tokens[0] == "kill" && tokens.count() == 2)
+                        {
+                            try
+                            {
+                                if (std::stoi(tokens[1]))
+                                {
+                                    Util::writeFIFO(_admin->getBrokerPipe(), firstLine + " \r\n");
+                                }
+                            }
+                            catch(std::exception& e) {
+                                Log::warn() << "Could not kill given PID" << Log::end;
+                            }
+                        }
                     }
                 }
             }
