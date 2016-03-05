@@ -13,6 +13,7 @@
 #include "config.h"
 
 #include <memory>
+#include <set>
 #include <sstream>
 #include <string>
 
@@ -128,8 +129,10 @@ private:
 class Subscriber
 {
 public:
-    Subscriber(std::shared_ptr<Poco::Net::WebSocket>& ws)
-        : _ws(ws)
+    Subscriber(int nSessionId, std::shared_ptr<Poco::Net::WebSocket>& ws)
+        : _nSessionId(nSessionId),
+          _ws(ws),
+          _start(std::time(nullptr))
     {
         Log::info("Subscriber ctor.");
     }
@@ -141,6 +144,11 @@ public:
 
     bool notify(const std::string& message)
     {
+        Poco::StringTokenizer tokens(message, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+
+        if (_subscriptions.find(tokens[0]) == _subscriptions.end())
+            return true;
+
         auto webSocket = _ws.lock();
         if (webSocket)
         {
@@ -153,9 +161,37 @@ public:
         }
     }
 
+    bool subscribe(const std::string& command)
+    {
+        auto ret = _subscriptions.insert(command);
+        return ret.second;
+    }
+
+    void unsubscribe(const std::string& command)
+    {
+        _subscriptions.erase(command);
+    }
+
+    void expire()
+    {
+        _end = std::time(nullptr);
+    }
+
+    bool isExpired() const
+    {
+        return _end != 0 && std::time(nullptr) >= _end;
+    }
+
 private:
+    /// Admin session Id
+    int _nSessionId;
     /// WebSocket to use to send messages to session
     std::weak_ptr<Poco::Net::WebSocket> _ws;
+
+    std::set<std::string> _subscriptions;
+
+    std::time_t _start;
+    std::time_t _end = 0;
 
     /// In case of huge number of documents,
     /// client can tell us the specific page it is
@@ -251,9 +287,31 @@ public:
         return totalMem;
     }
 
-    void subscribe(std::shared_ptr<Poco::Net::WebSocket>& ws)
+    void subscribe(int nSessionId, std::shared_ptr<Poco::Net::WebSocket>& ws)
     {
-        _subscribers.push_back(ws);
+        auto ret = _subscribers.insert(std::pair<int, Subscriber>(nSessionId, Subscriber(nSessionId, ws)));
+        if (!ret.second)
+        {
+            Log::warn() << "Subscriber already exists" << Log::end;
+        }
+    }
+
+    void subscribe(int nSessionId, const std::string& command)
+    {
+        auto subscriber = _subscribers.find(nSessionId);
+        if (subscriber == _subscribers.end() )
+            return;
+
+        subscriber->second.subscribe(command);
+    }
+
+    void unsubscribe(int nSessionId, const std::string& command)
+    {
+        auto subscriber = _subscribers.find(nSessionId);
+        if (subscriber == _subscribers.end())
+            return;
+
+        subscriber->second.unsubscribe(command);
     }
 
 private:
@@ -288,7 +346,7 @@ private:
         auto it = std::begin(_subscribers);
         while (it != std::end(_subscribers))
         {
-            if (!it->notify(message))
+            if (!it->second.notify(message))
             {
                 it = _subscribers.erase(it);
             }
@@ -336,7 +394,7 @@ private:
     }
 
 private:
-    std::vector<Subscriber> _subscribers;
+    std::map<int, Subscriber> _subscribers;
     std::map<Poco::Process::PID, Document> _documents;
 
     /// Number of active documents
