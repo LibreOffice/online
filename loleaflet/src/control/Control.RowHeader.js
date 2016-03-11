@@ -2,6 +2,7 @@
  * L.Control.RowHeader
 */
 
+/* global $ */
 L.Control.RowHeader = L.Control.extend({
 	onAdd: function (map) {
 		map.on('updatepermission', this._onUpdatePermission, this);
@@ -62,6 +63,7 @@ L.Control.RowHeader = L.Control.extend({
 			text = L.DomUtil.create('div', 'spreadsheet-header-row', this._rows);
 			var content = rows[iterator].text;
 			text.setAttribute('rel', 'spreadsheet-row-' + content); // for easy addressing
+			text.setAttribute('id', 'spreadsheet-row-' + iterator);
 			text.innerHTML = content;
 			height = Math.round(converter.call(context, twip).y) - 1 + 'px';
 			if (height === '-1px') {
@@ -70,7 +72,34 @@ L.Control.RowHeader = L.Control.extend({
 				L.DomUtil.setStyle(text, 'line-height', height);
 				L.DomUtil.setStyle(text, 'height', height);
 			}
+
+			L.DomEvent.addListener(text, 'click', this._onRowHeaderClick, this);
 		}
+	},
+
+	_onRowHeaderClick: function (e) {
+		var row = e.srcElement.id.split('spreadsheet-row-')[1];
+
+		var modifier = 0;
+		if (e.shiftKey) {
+			modifier += this._map.keyboard.keyModifier.shift;
+		}
+		if (e.ctrlKey) {
+			modifier += this._map.keyboard.keyModifier.ctrl;
+		}
+
+		var command = {
+			Row: {
+				type: 'long',
+				value: parseInt(row)
+			},
+			Modifier: {
+				type: 'unsigned short',
+				value: modifier
+			}
+		};
+
+		this._map.sendUnoCommand('.uno:SelectRow ' + JSON.stringify(command));
 	},
 
 	_onUpdatePermission: function () {

@@ -2,6 +2,7 @@
 * Control.ColumnHeader
 */
 
+/* global $ */
 L.Control.ColumnHeader = L.Control.extend({
 	onAdd: function (map) {
 		map.on('updatepermission', this._onUpdatePermission, this);
@@ -15,7 +16,8 @@ L.Control.ColumnHeader = L.Control.extend({
 		this._map.on('updateviewport', this.setViewPort, this);
 		this._map.on('viewrowcolumnheaders', this.viewRowColumnHeaders, this);
 		var docContainer = this._map.options.documentContainer;
-		L.DomUtil.create('div', 'spreadsheet-header-corner', docContainer.parentElement);
+		var cornerHeader = L.DomUtil.create('div', 'spreadsheet-header-corner', docContainer.parentElement);
+		L.DomEvent.addListener(cornerHeader, 'click', this._onCornerHeaderClick, this);
 		var headersContainer = L.DomUtil.create('div', 'spreadsheet-header-columns-container', docContainer.parentElement);
 		this._columns = L.DomUtil.create('div', 'spreadsheet-header-columns', headersContainer);
 
@@ -63,6 +65,7 @@ L.Control.ColumnHeader = L.Control.extend({
 			text = L.DomUtil.create('div', 'spreadsheet-header-column', this._columns);
 			var content = columns[iterator].text;
 			text.setAttribute('rel', 'spreadsheet-column-' + content); // for easy addressing
+			text.setAttribute('id', 'spreadsheet-column-' + iterator);
 			text.innerHTML = content;
 			width = Math.round(converter.call(context, twip).x) - 1 + 'px';
 			if (width === '-1px') {
@@ -71,7 +74,38 @@ L.Control.ColumnHeader = L.Control.extend({
 			else {
 				L.DomUtil.setStyle(text, 'width', width);
 			}
+
+			L.DomEvent.addListener(text, 'click', this._onColumnHeaderClick, this);
 		}
+	},
+
+	_onColumnHeaderClick: function (e) {
+		var row = e.srcElement.id.split('spreadsheet-column-')[1];
+
+		var modifier = 0;
+		if (e.shiftKey) {
+			modifier += this._map.keyboard.keyModifier.shift;
+		}
+		if (e.ctrlKey) {
+			modifier += this._map.keyboard.keyModifier.ctrl;
+		}
+
+		var command = {
+			Col: {
+				type: 'unsigned short',
+				value: parseInt(row)
+			},
+			Modifier: {
+				type: 'unsigned short',
+				value: modifier
+			}
+		};
+
+		this._map.sendUnoCommand('.uno:SelectColumn ' + JSON.stringify(command));
+	},
+
+	_onCornerHeaderClick: function() {
+		this._map.sendUnoCommand('.uno:SelectAll');
 	},
 
 	_onUpdatePermission: function () {
