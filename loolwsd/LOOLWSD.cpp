@@ -218,7 +218,7 @@ void SocketProcessor(std::shared_ptr<WebSocket> ws,
                     // However Firefox (probably) or Node.js (possibly) doesn't
                     // like that and closes the socket when we do.
                     // Echoing the payload as a normal frame works with Firefox.
-                    ws->sendFrame(buffer, n /*, WebSocket::FRAME_OP_PONG*/);
+                    ws->sendFrame(buffer, n, WebSocket::FRAME_FLAG_FIN | WebSocket::FRAME_OP_PONG);
                 }
                 else if ((flags & WebSocket::FRAME_OP_BITMASK) == WebSocket::FRAME_OP_PONG)
                 {
