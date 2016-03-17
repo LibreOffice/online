@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad45d7e_bc4c9577",
+        "filename": "loleaflet/src/control/Control.ColumnHeader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2016-03-17T09:31:04Z",
+      "side": 1,
+      "message": "No need to add the id, we should use the \u0027rel\u0027, see the other comment.",
+      "range": {
+        "startLine": 68,
+        "startChar": 59,
+        "endLine": 68,
+        "endChar": 61
+      },
+      "revId": "fe076e633f4a50d63725e4ca98cfa3f3d0c4bfa2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad45d7e_9c51d111",
+        "filename": "loleaflet/src/control/Control.ColumnHeader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2016-03-17T09:31:04Z",
+      "side": 1,
+      "message": "Unfortunately using the iterator\u0027s index here is not good, the API is done so that that the columns / rows do not have to start with the leftmost / topmost.  (Getting the rows / columns heights / widths is an expensive operation.)\n\nSo we need to count the index from the content :-(",
+      "range": {
+        "startLine": 83,
+        "startChar": 58,
+        "endLine": 83,
+        "endChar": 60
+      },
+      "revId": "fe076e633f4a50d63725e4ca98cfa3f3d0c4bfa2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad45d7e_fc560d05",
+        "filename": "loleaflet/src/control/Control.ColumnHeader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2016-03-17T09:31:04Z",
+      "side": 1,
+      "message": "nitpick: I think there is a sendUnoCommand(command, json) variant out there, no need to do the strigify here (?)",
+      "range": {
+        "startLine": 104,
+        "startChar": 72,
+        "endLine": 104,
+        "endChar": 75
+      },
+      "revId": "fe076e633f4a50d63725e4ca98cfa3f3d0c4bfa2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
