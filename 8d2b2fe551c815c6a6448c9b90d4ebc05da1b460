@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad45d7e_6648cb5c",
+        "filename": "loolwsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-21T14:01:27Z",
+      "side": 1,
+      "message": "When packaging this for a distro this will not be acceptable, to have random app-specific data files in /usr/bin. If this data is supposed to be constant for all loolwsd installations (is it?), then why not have the data in-line in the source code? On the other hand, if this is supposed to be per-installation generated at installation time (or by a sysadmin), then it should not be in the source code.",
+      "revId": "8d2b2fe551c815c6a6448c9b90d4ebc05da1b460",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
