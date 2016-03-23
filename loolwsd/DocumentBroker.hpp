@@ -13,7 +13,9 @@
 #include <atomic>
 #include <mutex>
 #include <string>
+#include <map>
 
+#include "MasterProcessSession.hpp"
 #include "Storage.hpp"
 
 /// DocumentBroker is responsible for setting up a document
@@ -57,6 +59,20 @@ public:
     unsigned getSessionsCount() { return _sessionsCount; }
 
     std::string getJailRoot() const;
+
+    /// Ignore input events from all web socket sessions
+    /// except this one
+    void takeEditLock(const std::string id);
+
+    void addWSSession(const std::string id, std::shared_ptr<MasterProcessSession>& ws);
+
+    void removeWSSession(const std::string id);
+
+    unsigned getWSSessionsCount() { return _wsSessions.size(); }
+
+public:
+    std::map<std::string, std::shared_ptr<MasterProcessSession>> _wsSessions;
+    std::mutex _wsSessionsMutex;
 
 private:
     const Poco::URI _uriPublic;

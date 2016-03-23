@@ -177,9 +177,6 @@ using Poco::XML::NodeList;
 static std::map<std::string, std::shared_ptr<DocumentBroker>> docBrokers;
 static std::mutex docBrokersMutex;
 
-static std::unordered_set<std::shared_ptr<MasterProcessSession>> sessions;
-static std::mutex sessionsMutex;
-
 /// Handles the filename part of the convert-to POST request payload.
 class ConvertToPartHandler : public PartHandler
 {
@@ -586,10 +583,11 @@ private:
         docBroker->incSessions();
         docBrokersLock.unlock();
 
-        std::unique_lock<std::mutex> sessionsLock(sessionsMutex);
-        sessions.insert(session);
-        Log::debug("sessions++: " + std::to_string(sessions.size()));
-        sessionsLock.unlock();
+        docBroker->addWSSession(id, session);
+        unsigned wsSessionsCount = docBroker->getWSSessionsCount();
+        Log::warn(docKey + ", ws_sessions++: " + std::to_string(wsSessionsCount));
+        if (wsSessionsCount == 1)
+            session->setEditLock(true);
 
         // Request a kit process for this doc.
         const std::string aMessage = "request " + id + " " + docKey + "\r\n";
@@ -645,10 +643,9 @@ private:
             queue.clear();
         }
 
-        sessionsLock.lock();
-        sessions.erase(session);
-        Log::debug("sessions--: " + std::to_string(sessions.size()));
-        sessionsLock.unlock();
+        docBroker->removeWSSession(id);
+        wsSessionsCount = docBroker->getWSSessionsCount();
+        Log::warn(docKey + ", ws_sessions--: " + std::to_string(wsSessionsCount));
 
         Log::info("Finishing GET request handler for session [" + id + "]. Joining the queue.");
         queue.put("eof");
@@ -1436,16 +1433,20 @@ int LOOLWSD::main(const std::vector<std::string>& /*args*/)
                 Log::debug("30-second check");
                 last30SecCheck = now;
 
-                std::unique_lock<std::mutex> sessionsLock(sessionsMutex);
-                for (auto& it : sessions)
+                std::unique_lock<std::mutex> docBrokersLock(docBrokersMutex);
+                for (auto& brokerIt : docBrokers)
                 {
-                    if (it->lastMessageTime > it->idleSaveTime &&
-                        it->lastMessageTime < now - 30)
+                    std::unique_lock<std::mutex> sessionsLock(brokerIt.second->_wsSessionsMutex);
+                    for (auto& sessionIt: brokerIt.second->_wsSessions)
                     {
-                        // Trigger a .uno:Save
-                        Log::info("Idle save triggered for session " + it->getId());
+                        if (sessionIt.second->lastMessageTime > sessionIt.second->idleSaveTime &&
+                            sessionIt.second->lastMessageTime < now - 30)
+                        {
+                            // Trigger a .uno:Save
+                            Log::info("Idle save triggered for session " + sessionIt.second->getId());
 
-                        it->idleSaveTime = now;
+                            sessionIt.second->idleSaveTime = now;
+                        }
                     }
                 }
             }
@@ -1454,16 +1455,20 @@ int LOOLWSD::main(const std::vector<std::string>& /*args*/)
                 Log::debug("Five-minute check");
                 lastFiveMinuteCheck = now;
 
-                std::unique_lock<std::mutex> sessionsLock(sessionsMutex);
-                for (auto& it : sessions)
+                std::unique_lock<std::mutex> docBrokersLock(docBrokersMutex);
+                for (auto& brokerIt : docBrokers)
                 {
-                    if (it->lastMessageTime >= it->idleSaveTime &&
-                        it->lastMessageTime >= it->autoSaveTime)
+                    std::unique_lock<std::mutex> sessionsLock(brokerIt.second->_wsSessionsMutex);
+                    for (auto& sessionIt: brokerIt.second->_wsSessions)
                     {
-                        // Trigger a .uno:Save
-                        Log::info("Auto-save triggered for session " + it->getId());
+                        if (sessionIt.second->lastMessageTime >= sessionIt.second->idleSaveTime &&
+                            sessionIt.second->lastMessageTime >= sessionIt.second->autoSaveTime)
+                        {
+                            // Trigger a .uno:Save
+                            Log::info("Auto-save triggered for session " + sessionIt.second->getId());
 
-                        it->autoSaveTime = now;
+                            sessionIt.second->autoSaveTime = now;
+                        }
                     }
                 }
             }

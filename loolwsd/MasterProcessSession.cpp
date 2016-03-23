@@ -228,6 +228,10 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
             else if (tokens[0] == "status:")
             {
                 peer->_tileCache->saveTextFile(std::string(buffer, length), "status.txt");
+                // let clients know if they hold the edit lock
+                std::string message = "editlock ";
+                message += std::to_string(peer->isEditLocked());
+                forwardToPeer(message.c_str(), message.size());
             }
             else if (tokens[0] == "commandvalues:")
             {
@@ -289,6 +293,11 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
         // I think we should never get here
         Log::error(getName() + ": Unexpected request [" + tokens[0] + "].");
         assert(false);
+    }
+    else if (tokens[0] == "takeedit")
+    {
+        _docBroker->takeEditLock(getId());
+        return true;
     }
     else if (tokens[0] == "load")
     {
@@ -380,7 +389,12 @@ bool MasterProcessSession::_handleInput(const char *buffer, int length)
         if (tokens[0] == "setclientpart")
             _tileCache->removeFile("status.txt");
 
-        if (tokens[0] != "requestloksession")
+        if (_kind == Kind::ToClient && !isEditLocked())
+        {
+            std::string dummyFrame = "dummymsg";
+            forwardToPeer(dummyFrame.c_str(), dummyFrame.size());
+        }
+        else if (tokens[0] != "requestloksession")
         {
             forwardToPeer(buffer, length);
         }
@@ -456,6 +470,10 @@ bool MasterProcessSession::getStatus(const char *buffer, int length)
     if (status.size() > 0)
     {
         sendTextFrame(status);
+        // let clients know if they hold the edit lock
+        std::string message = "editlock ";
+        message += std::to_string(isEditLocked());
+        sendTextFrame(message);
         return true;
     }
 
@@ -809,6 +827,7 @@ void MasterProcessSession::forwardToPeer(const char *buffer, int length)
         Log::error(getName() + ": no peer to forward to.");
         return;
     }
+
     peer->sendBinaryFrame(buffer, length);
 }
 
