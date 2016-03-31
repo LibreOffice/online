@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad45d7e_9f17f9ec",
+        "filename": "loolwsd/MasterProcessSession.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-03-31T13:29:29Z",
+      "side": 1,
+      "message": "Why remove the include of DocumentBroker.hpp (and use a forward declaration instead)? In LibreOffice forward declarations are used a lot, to reduce compilation time, but there the code-base is *much* larger. No need to try to reduce compilation time here.\n\nIf there is some other reason why DocumentBroker.hpp can not be included, fix that. I think it is best to avoid forward declarations, they are a bit ugly. Matter of taste, sure.",
+      "revId": "651cf2ce07ccbb4e2caa54668c75e606b9febf3b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
