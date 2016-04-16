@@ -1092,6 +1092,8 @@ void LOOLWSD::initialize(Application& self)
     // which forces admins to set this flag on the command-line.
     config().setBool("storage.filesystem[@allow]", AllowLocalStorage);
 
+    StorageBase::initialize();
+
     ServerApplication::initialize(self);
 }
 
