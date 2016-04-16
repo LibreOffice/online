@@ -21,10 +21,17 @@ class UnitTimeout;
 class UnitHTTPServerRequest;
 class UnitHTTPServerResponse;
 
-namespace Poco { namespace Net {
+// Forward declaration to avoid pulling the world here.
+namespace Poco {
+    namespace Net {
         class HTTPServerRequest;
         class HTTPServerResponse;
-} }
+    }
+
+    namespace Util {
+        class LayeredConfiguration;
+    }
+}
 
 class StorageBase;
 
@@ -103,6 +110,8 @@ public:
 
     // ---------------- WSD hooks ----------------
 
+    /// Manipulate and modify the configuration before any usage.
+    virtual void configure(Poco::Util::LayeredConfiguration & /* config */) {}
     /// Main-loop reached, time for testing
     virtual void invokeTest() {}
     /// Tweak the count of pre-spawned kits.
@@ -121,6 +130,7 @@ public:
                      Poco::Net::HTTPServerRequest& /* request */,
                      Poco::Net::HTTPServerResponse& /* response */)
         { return false; }
+
 
 };
 
