@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ac06dbe_0393cea4",
+        "filename": "loolwsd/MasterProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-04-18T21:54:56Z",
+      "side": 1,
+      "message": "Rendered (with \u0027ed\u0027) surely :)",
+      "range": {
+        "startLine": 223,
+        "startChar": 52,
+        "endLine": 223,
+        "endChar": 76
+      },
+      "revId": "d5588065b5c6258fbaad8c5f03d31bdfd0002c4c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ac06dbe_6390c296",
+        "filename": "loolwsd/MasterProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-04-18T21:54:56Z",
+      "side": 1,
+      "message": "Can we return a unique_ptr from findTileBeingRendered so that it\u0027d automatically cleanup? Something automatic is better here, I think.",
+      "range": {
+        "startLine": 236,
+        "startChar": 44,
+        "endLine": 236,
+        "endChar": 67
+      },
+      "revId": "d5588065b5c6258fbaad8c5f03d31bdfd0002c4c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ac06dbe_438dc67a",
+        "filename": "loolwsd/MasterProcessSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-04-18T21:54:56Z",
+      "side": 1,
+      "message": "I suppose we don\u0027t need this really.",
+      "range": {
+        "startLine": 238,
+        "startChar": 16,
+        "endLine": 238,
+        "endChar": 30
+      },
+      "revId": "d5588065b5c6258fbaad8c5f03d31bdfd0002c4c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ac06dbe_e3f2f205",
+        "filename": "loolwsd/TileCache.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-04-18T21:54:56Z",
+      "side": 1,
+      "message": "No need to lock? Are we assuming the _tilesBeingRenderedMutex is taken here? Maybe assert(!_tilesBeingRenderedMutex.try_lock()); ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 36
+      },
+      "revId": "d5588065b5c6258fbaad8c5f03d31bdfd0002c4c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ac06dbe_a3e8fa17",
+        "filename": "loolwsd/TileCache.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-04-18T21:54:56Z",
+      "side": 1,
+      "message": "Probably not a bad idea to have a struct for all these values... something for a future refactoring I guess.",
+      "range": {
+        "startLine": 55,
+        "startChar": 37,
+        "endLine": 55,
+        "endChar": 127
+      },
+      "revId": "d5588065b5c6258fbaad8c5f03d31bdfd0002c4c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
