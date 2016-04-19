@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "1ac06dbe_63e562a7",
+        "filename": "loolwsd/TileCache.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-04-19T10:51:41Z",
+      "side": 1,
+      "message": "Right. So this class is assumed to be used from thread-safe context. Ok.",
+      "parentUuid": "1ac06dbe_6303a2b9",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 36
+      },
+      "revId": "d5588065b5c6258fbaad8c5f03d31bdfd0002c4c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ac06dbe_a3e8fa17",
         "filename": "loolwsd/TileCache.hpp",
         "patchSetId": 1
