@@ -131,7 +131,8 @@ bool DocumentBroker::load(const std::string& jailId)
     if (storage)
     {
         const auto fileInfo = storage->getFileInfo(_uriPublic);
-        _tileCache.reset(new TileCache(_uriPublic.toString(), fileInfo._modifiedTime, _cacheRoot));
+        _lastFileModifiedTime = fileInfo._modifiedTime;
+        _tileCache.reset(new TileCache(_uriPublic.toString(), _lastFileModifiedTime, _cacheRoot));
         _filename = fileInfo._filename;
         _storage = StorageBase::create(jailRoot, jailPath.toString(), _uriPublic);
 
@@ -148,6 +149,13 @@ bool DocumentBroker::save()
 {
     std::unique_lock<std::mutex> lock(_saveMutex);
 
+    const auto fileInfo = _storage->getFileInfo(_uriPublic);
+    if (fileInfo._modifiedTime == _lastFileModifiedTime)
+    {
+        // Nothing to do.
+        return true;
+    }
+
     const auto uri = _uriPublic.toString();
     Log::debug("Saving to URI [" + uri + "].");
 
@@ -155,12 +163,13 @@ bool DocumentBroker::save()
     if (_storage->saveLocalFileToStorage())
     {
         _isModified = false;
-        _lastSaveTime = std::chrono::steady_clock::now();
         _tileCache->setUnsavedChanges(false);
+        const auto fileInfo = _storage->getFileInfo(_uriPublic);
+        _lastFileModifiedTime = fileInfo._modifiedTime;
+        _tileCache->saveLastModified(_lastFileModifiedTime);
+        _lastSaveTime = std::chrono::steady_clock::now();
         Log::debug("Saved to URI [" + uri + "] and updated tile cache.");
         _saveCV.notify_all();
-        const auto fileInfo = _storage->getFileInfo(_uriPublic);
-        _tileCache->saveLastModified(fileInfo._modifiedTime);
         return true;
     }
 
