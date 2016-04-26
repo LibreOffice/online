@@ -233,7 +233,13 @@ L.Map.Keyboard = L.Handler.extend({
 		var ctrl = e.originalEvent.ctrlKey ? this.keyModifier.ctrl : 0;
 		var alt = e.originalEvent.altKey ? this.keyModifier.alt : 0;
 		var cmd = e.originalEvent.metaKey ? this.keyModifier.ctrl : 0;
+		var location = e.originalEvent.location;
 		this.modifier = shift | ctrl | alt | cmd;
+
+		// This is a composited character formed using AltGr
+		if (ctrl && alt && location === 0 && e.type === 'keypress') {
+			ctrl = alt = this.modifier = 0;
+		}
 
 		if (ctrl || cmd) {
 			if (this._handleCtrlCommand(e)) {
@@ -322,6 +328,11 @@ L.Map.Keyboard = L.Handler.extend({
 	},
 
 	_handleCtrlCommand: function (e) {
+		// Return without preventing default in case AltGr is pressed, so that characters can be composited
+		if (e.originalEvent.altKey && e.originalEvent.location !== 1 && e.originalEvent.type === 'keydown') {
+			return true;
+		}
+
 		if (e.type !== 'keydown' && e.originalEvent.key !== 'c' && e.originalEvent.key !== 'v' && e.originalEvent.key !== 'x' &&
 			/* Safari */ e.originalEvent.keyCode !== 99 && e.originalEvent.keyCode !== 118 && e.originalEvent.keyCode !== 120) {
 			e.originalEvent.preventDefault();
