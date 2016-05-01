@@ -241,3 +241,22 @@ button.leaflet-control-search-next
 	right:-10px;
 	cursor:pointer;
 }
+
+
+#tablePicker table {
+  border: 1px solid #808080;
+}
+
+#tablePicker td {
+  border: 1px solid #808080 !important;
+  width: 15px;
+  height: 15px;
+}
+
+#tablePicker td:hover {
+  background: #87CEFA;
+}
+
+#tablePicker div {
+    text-align:left;
+}
