@@ -22,7 +22,7 @@
 #include <Poco/Timestamp.h>
 #include <Poco/StringTokenizer.h>
 
-const int NumToPrefork = 20;
+const int NumToPrefork = 2;
 
 // Inside the WSD process
 class UnitPrefork : public UnitWSD
