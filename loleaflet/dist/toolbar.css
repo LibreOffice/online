@@ -230,6 +230,7 @@ button.leaflet-control-search-next
 .w2ui-icon.nextrecord{ background: url('/loleaflet/dist/images/sc_nextrecord.png') no-repeat center !important; }
 .w2ui-icon.prevrecord{ background: url('/loleaflet/dist/images/sc_prevrecord.png') no-repeat center !important; }
 .w2ui-icon.lastrecord{ background: url('/loleaflet/dist/images/sc_lastrecord.png') no-repeat center !important; }
+.w2ui-icon.specialcharacter{ background: url('/loleaflet/dist/images/sc_insertsymbol.png') no-repeat center !important; }
 
 #simplemodal-container a.modalCloseImg {
 	background:url('/loleaflet/dist/images/sc_closedoc.png') no-repeat;
@@ -241,4 +242,59 @@ button.leaflet-control-search-next
 	top:0px;
 	right:-10px;
 	cursor:pointer;
+}
+
+.w2ui-panel-content div {
+    width: 35px;
+    height: 35px;
+    float: left;
+}
+
+.w2ui-panel-content .ui-button { width: 35px;
+height: 35px;
+}
+
+.w2ui-panel-content .ui-button-text-only .ui-button-text {
+    padding:0;
+}
+
+#specialcharacter-showcase {
+    font-size: 11rem;
+    font-weight: 400;
+    letter-spacing: -.01em;
+    line-height: 11rem;
+    word-wrap: break-word;
+    text-align: center;
+    vertical-align: middle;
+    height: 80%;
+    width: 100%;
+}
+
+#specialcharacter-tooltip {
+    word-wrap: break-word;
+    text-align: center;
+    vertical-align: middle;
+    height: 20%;
+    width: 100%;
+}
+
+
+#specialcharacter-input-div {
+    height: 90%;
+    width: 70%;
+}
+
+#specialcharacter-input {
+    height: 100%;
+    width: 100%;
+}
+
+#specialcharacter-search-div {
+    height: 100%;
+    width: 30%;
+}
+
+#specialcharacter-search {
+    height: 90%;
+    width: 100%;
 }

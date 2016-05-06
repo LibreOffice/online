@@ -78,6 +78,8 @@ $(function () {
 			{ type: 'button',  id: 'decrementindent',  img: 'decrementindent', hint: _("Decrease Indent"), uno: 'DecrementIndent' },
 			{ type: 'break', id: 'incdecindent' },
 			{ type: 'button',  id: 'insertgraphic',  img: 'insertgraphic', hint: _("Insert Graphic") },
+			{ type: 'button',  id: 'specialcharacter',  img: 'specialcharacter', hint: _("Special Character") },
+			{ type: 'html',  id: 'specialcharacter-html', html: '<div id="specialcharacter-dialog"><div>'},
 			{ type: 'break' },
 			{ type: 'button',  id: 'help',  img: 'help', hint: _("Help") },
 			{ type: 'html', id: 'right' },
@@ -176,9 +178,9 @@ $(function () {
 });
 
 var formatButtons = ['undo', 'redo', 'save',
-                     'bold', 'italic', 'underline', 'strikeout',
-                     'fontcolor', 'backcolor', 'bullet', 'numbering', 'alignleft', 'alignhorizontal', 'alignright', 'alignblock',
-                     'incrementindent', 'decrementindent', 'insertgraphic'];
+					 'bold', 'italic', 'underline', 'strikeout',
+					 'fontcolor', 'backcolor', 'bullet', 'numbering', 'alignleft', 'alignhorizontal', 'alignright', 'alignblock',
+					 'incrementindent', 'decrementindent', 'insertgraphic', 'specialcharacter'];
 
 var takeEditPopupMessage = '<div>You are viewing now.<br/>Click here to take edit</div>';
 var takeEditPopupTimeout = null;
@@ -294,6 +296,14 @@ function onClick(id) {
 		toolbar.disable('searchprev');
 		toolbar.disable('searchnext');
 		L.DomUtil.get('search-input').value = '';
+	}
+	else if (id === 'specialcharacter') {
+		if ($('#specialcharacter-dialog').dialog('isOpen') === false){
+			$('#specialcharacter-dialog').dialog('open');
+		}
+		else {
+			$('#specialcharacter-dialog').dialog('close');
+		}
 	}
 	else if (id === 'print' || id === 'menu:file:print') {
 		map.print();
@@ -1017,6 +1027,7 @@ $(document).ready(function() {
 	if (closebutton) {
 		toolbar.show('close');
 	}
+	specialCharsDialog();
 });
 
 function resizeToolbar() {
@@ -1056,4 +1067,289 @@ function resizeToolbar() {
 		var toolbar = w2ui['toolbar-up'];
 		toolbar.uncheck('more');
 	}
+}
+
+function specialCharsDialog() {
+
+	var specialChars = {
+					'&#33;': 'Exclamation point',
+					'&#34;': 'Double quote',
+					'&#35;': 'Number sign',
+					'&#36;': 'Dollar sign',
+					'&#37;': 'Percent sign',
+					'&#38;': 'ampersand (also called sign)',
+					'&#39;': 'Single quote',
+					'&#40;': 'Left parenthesis',
+					'&#41;': 'Right parenthesis',
+					'&#42;': 'Asterisk (star)',
+					'&#43;': 'Plus',
+					'&#44;': 'Comma',
+					'&#45;': 'Minus (hyphen)',
+					'&#46;': 'Period',
+					'&#47;': 'Forward slash',
+					'&#48;': 'Zero',
+					'&#49;': 'One',
+					'&#50;': 'Two',
+					'&#51;': 'Three',
+					'&#52;': 'Four',
+					'&#53;': 'Five',
+					'&#54;': 'Six',
+					'&#55;': 'Seven',
+					'&#56;': 'Eight',
+					'&#57;': 'Nine',
+					'&#58;': 'Colon',
+					'&#59;': 'Semi-colon',
+					'&#60;': 'Less-than sign',
+					'&#61;': 'Equal sign',
+					'&#62;': 'Greater-than sign',
+					'&#63;': 'Question mark',
+					'&#64;': 'At-sign',
+					'&#65;': 'Capital a',
+					'&#66;': 'Capital b',
+					'&#67;': 'Capital c',
+					'&#68;': 'Capital d',
+					'&#69;': 'Capital e',
+					'&#70;': 'Capital f',
+					'&#71;': 'Capital g',
+					'&#72;': 'Capital h',
+					'&#73;': 'Capital i',
+					'&#74;': 'Capital j',
+					'&#75;': 'Capital k',
+					'&#76;': 'Capital l',
+					'&#77;': 'Capital m',
+					'&#78;': 'Capital n',
+					'&#79;': 'Capital o',
+					'&#80;': 'Capital p',
+					'&#81;': 'Capital q',
+					'&#82;': 'Capital r',
+					'&#83;': 'Capital s',
+					'&#84;': 'Capital t',
+					'&#85;': 'Capital u',
+					'&#86;': 'Capital v',
+					'&#87;': 'Capital w',
+					'&#88;': 'Capital x',
+					'&#89;': 'Capital y',
+					'&#90;': 'Capital z',
+					'&#91;': 'Left square bracket',
+					'&#92;': 'Back slash',
+					'&#93;': 'Right square bracket',
+					'&#94;': 'Caret',
+					'&#95;': 'Underscore',
+					'&#96;': 'Grave accent',
+					'&#97;': 'Lowercase a',
+					'&#98;': 'Lowercase b',
+					'&#99;': 'Lowercase c',
+					'&#100;': 'Lowercase d',
+					'&#101;': 'Lowercase e',
+					'&#102;': 'Lowercase f',
+					'&#103;': 'Lowercase g',
+					'&#104;': 'Lowercase h',
+					'&#105;': 'Lowercase i',
+					'&#106;': 'Lowercase j',
+					'&#107;': 'Lowercase k',
+					'&#108;': 'Lowercase l',
+					'&#109;': 'Lowercase m',
+					'&#110;': 'Lowercase n',
+					'&#111;': 'Lowercase o',
+					'&#112;': 'Lowercase p',
+					'&#113;': 'Lowercase q',
+					'&#114;': 'Lowercase r',
+					'&#115;': 'Lowercase s',
+					'&#116;': 'Lowercase t',
+					'&#117;': 'Lowercase u',
+					'&#118;': 'Lowercase v',
+					'&#119;': 'Lowercase w',
+					'&#120;': 'Lowercase x',
+					'&#121;': 'Lowercase y',
+					'&#122;': 'Lowercase z',
+					'&#123;': 'Left curly brace',
+					'&#124;': 'Vertical bar',
+					'&#125;': 'Right curly brace',
+					'&#126;': 'tilde',
+					'&#128;': 'Euro',
+					'&#130;': 'Single low-quote',
+					'&#131;': 'Function symbol (lowercase f with hook)',
+					'&#132;': 'Double low-quote',
+					'&#133;': 'Elipsis',
+					'&#134;': 'Dagger',
+					'&#135;': 'Double dagger',
+					'&#136;': 'Hatchek',
+					'&#137;': 'Per-thousand symbol',
+					'&#138;': 'Capital esh',
+					'&#139;': 'Left single angle quote',
+					'&#140;': 'OE ligature',
+					'&#142;': 'Capital ž',
+					'&#145;': 'Left single-quote',
+					'&#146;': 'Right single-quote',
+					'&#147;': 'Left double-quote',
+					'&#148;': 'Right double-quote',
+					'&#149;': 'Small bullet',
+					'&#150;': 'En dash',
+					'&#151;': 'Em dash',
+					'&#152;': 'Tilde',
+					'&#153;': 'Trademark',
+					'&#154;': 'Lowercase esh',
+					'&#155;': 'Right single angle quote',
+					'&#156;': 'oe ligature',
+					'&#158;': 'Lowercase ž',
+					'&#159;': 'Uppercase y-umlaut',
+					'&#161;': 'Inverted exclamation point',
+					'&#162;': 'Cent',
+					'&#163;': 'Pound currency sign',
+					'&#164;': 'Currency sign',
+					'&#165;': 'Yen currency sign',
+					'&#166;': 'Broken vertical bar',
+					'&#167;': 'Section symbol',
+					'&#168;': 'Umlaut (Diaeresis)',
+					'&#169;': 'Copyright',
+					'&#170;': 'Feminine ordinal indicator (superscript lowercase a)',
+					'&#171;': 'Left angle quote',
+					'&#173;': 'Soft hyphen',
+					'&#175;': 'Macron',
+					'&#176;': 'Degree sign',
+					'&#177;': 'Plus/minus sign',
+					'&#178;': 'Superscript 2',
+					'&#179;': 'Superscript 3',
+					'&#180;': 'Acute accent',
+					'&#181;': 'Micro sign',
+					'&#182;': 'Pilcrow sign (paragraph)',
+					'&#183;': 'Middle dot',
+					'&#184;': 'Cedilla',
+					'&#185;': 'Superscript 1',
+					'&#186;': 'Masculine ordinal indicator (superscript o)',
+					'&#187;': 'Right angle quote',
+					'&#188;': 'One quarter fraction',
+					'&#189;': 'One half fraction',
+					'&#190;': 'Three quarters fraction',
+					'&#191;': 'Inverted question mark',
+					'&#192;': 'A grave accent',
+					'&#193;': 'A accute accent',
+					'&#194;': 'A circumflex',
+					'&#195;': 'A tilde',
+					'&#196;': 'A umlaut',
+					'&#197;': 'A ring',
+					'&#198;': 'AE ligature',
+					'&#199;': 'C cedilla',
+					'&#200;': 'E grave',
+					'&#201;': 'E acute',
+					'&#202;': 'E circumflex',
+					'&#203;': 'E umlaut',
+					'&#204;': 'I grave',
+					'&#205;': 'I acute',
+					'&#206;': 'I circumflex',
+					'&#207;': 'I umlaut',
+					'&#208;': 'Eth',
+					'&#209;': 'N tilde (enye)',
+					'&#210;': 'O grave',
+					'&#211;': 'O acute',
+					'&#212;': 'O circumflex',
+					'&#213;': 'O tilde',
+					'&#214;': 'O umlaut',
+					'&#215;': 'Multiplication sign',
+					'&#216;': 'O slash',
+					'&#217;': 'U grave',
+					'&#218;': 'U acute',
+					'&#219;': 'U circumflex',
+					'&#220;': 'U umlaut',
+					'&#221;': 'Y acute',
+					'&#222;': 'Thorn',
+					'&#223;': 'SZ ligature',
+					'&#224;': 'a grave',
+					'&#225;': 'a acute',
+					'&#226;': 'a circumflex',
+					'&#227;': 'a tilde',
+					'&#228;': 'a umlaut',
+					'&#229;': 'a ring',
+					'&#230;': 'ae ligature',
+					'&#231;': 'c cedilla',
+					'&#232;': 'e grave',
+					'&#233;': 'e acute',
+					'&#234;': 'e circumflex',
+					'&#235;': 'e umlaut',
+					'&#236;': 'i grave',
+					'&#237;': 'i acute',
+					'&#238;': 'i circumflex',
+					'&#239;': 'i umlaut',
+					'&#240;': 'eth',
+					'&#241;': 'n tilde',
+					'&#242;': 'o grave',
+					'&#243;': 'o acute',
+					'&#244;': 'o circumflex',
+					'&#245;': 'o tilde',
+					'&#246;': 'o umlaut',
+					'&#247;': 'Division symbol',
+					'&#248;': 'o slash',
+					'&#249;': 'u grave',
+					'&#250;': 'u acute',
+					'&#251;': 'u circumflex',
+					'&#252;': 'u umlaut',
+					'&#253;': 'y acute',
+					'&#254;': 'thorn',
+					'&#255;': 'y umlaut'
+}
+
+	$('#specialcharacter-dialog').attr('title', _("Special Character"))
+								 .tooltip({
+									track: true
+								 })
+								 .dialog({
+									maxWidth:550,
+									maxHeight: 450,
+									width: 550,
+									height: 450,
+									autoOpen: false,
+									buttons: {
+												Insert: function() {
+													input = $('#specialcharacter-input').val()
+													if (input) {
+														for (var i=0;i<input.length;i++) {
+															msg = 'key type=input char=' + input.charCodeAt(i) + ' key=0';
+															map._socket.sendMessage(msg);
+														}
+													}
+												  $(this).dialog( "close" );
+												},
+												Cancel: function() {
+												  $(this).dialog( "close" );
+												}
+											  }
+								 }).append(
+									$('<div/>')
+										.attr('id', 'specialcharacter-layout')
+										.attr('style', 'width: 500px; height: 300px')
+										.addClass('specialcharchart')
+									);
+
+	$('#specialcharacter-layout').w2layout({
+									name: 'specialcharacter-layout',
+									panels: [
+											{ type: 'main', content:''},
+											{ type: 'right', size:150, content:''},
+											{ type: 'bottom', size:40, content:''}
+									]
+									});
+
+	for (var i =0; i<Object.keys(specialChars).length; i++) {
+		w2ui['specialcharacter-layout'].content('main', w2ui['specialcharacter-layout'].content('main')+'<div class="sc-button"><button>'+Object.keys(specialChars)[i]+'</button></div>' );
+	}
+
+	$('#specialcharacter-layout').buttonset();
+	w2ui['specialcharacter-layout'].content('right','<div id="specialcharacter-showcase"></div><div id="specialcharacter-tooltip"></div>')
+	w2ui['specialcharacter-layout'].content('bottom','<div id="specialcharacter-input-div"><input id="specialcharacter-input"></div><div id="specialcharacter-search-div"><input id="specialcharacter-search"></div>');
+
+	$('#specialcharacter-layout button').click(function () {
+		$('#specialcharacter-input').val($('#specialcharacter-input').val() + this.innerText);
+		return false;
+		});
+
+	$('#specialcharacter-layout button').mouseover(function () {
+		$('#specialcharacter-showcase').text(this.innerText);
+		$('#specialcharacter-tooltip').text(specialChars['&#'+this.innerText.charCodeAt(0)+';']);
+		return false;
+		});
+
+	$('#specialcharacter-search').attr('placeholder', 'Search...')
+								  .autocomplete({source: Object.keys(specialChars).map(function(key){return specialChars[key]})
+	});
+
 }
