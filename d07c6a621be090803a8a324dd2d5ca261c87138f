@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7fb54a_a3e4993b",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2016-05-10T17:42:27Z",
+      "side": 1,
+      "message": "Missing \u0027+\u0027 at end of the string",
+      "range": {
+        "startLine": 1074,
+        "startChar": 0,
+        "endLine": 1074,
+        "endChar": 4
+      },
+      "revId": "d07c6a621be090803a8a324dd2d5ca261c87138f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7fb54a_c3cfddb1",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2016-05-10T17:42:27Z",
+      "side": 1,
+      "message": "Missing \u0027+\u0027 at end of the string",
+      "revId": "d07c6a621be090803a8a324dd2d5ca261c87138f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
