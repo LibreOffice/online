@@ -315,6 +315,13 @@ var deps = {
 		desc: 'Context Menu'
 	},
 
+	ControlMenubar: {
+		src: ['control/Control.js',
+			'control/Control.Menubar.js'],
+		heading: 'Controls',
+		desc: 'Menu bar'
+	},
+
 	ControlTabs: {
 		src: ['control/Control.js',
 		      'control/Control.Tabs.js'],
