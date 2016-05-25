@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7fb54a_8c95f441",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-05-25T23:30:31Z",
+      "side": 1,
+      "message": "No specific to tiles or TileCache, they are best moved into helpers.hpp.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 43
+      },
+      "revId": "a512b796980803b1ef8cd5d9ec40d843a36a9b2b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7fb54a_ac92b855",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-05-25T23:30:31Z",
+      "side": 1,
+      "message": "Not necessarily true.\n\nEvents can be compressed together to remove redundant ones (see desktop/inc/lib/init.hxx in Core).\n\nBut as long as we wait for invalidatetile before issuing a new key press we must expect to get it.",
+      "range": {
+        "startLine": 349,
+        "startChar": 33,
+        "endLine": 349,
+        "endChar": 91
+      },
+      "revId": "a512b796980803b1ef8cd5d9ec40d843a36a9b2b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7fb54a_4cabec89",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-05-25T23:30:31Z",
+      "side": 1,
+      "message": "assertResponseLine does this in one step.",
+      "range": {
+        "startLine": 358,
+        "startChar": 0,
+        "endLine": 359,
+        "endChar": 109
+      },
+      "revId": "a512b796980803b1ef8cd5d9ec40d843a36a9b2b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7fb54a_0c880422",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-05-25T23:30:31Z",
+      "side": 1,
+      "message": "This looks like a different test that needs to move into own test function.",
+      "range": {
+        "startLine": 380,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 32
+      },
+      "revId": "a512b796980803b1ef8cd5d9ec40d843a36a9b2b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7fb54a_2c8dc831",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-05-25T23:30:31Z",
+      "side": 1,
+      "message": "But what are we testing??",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 449,
+        "endChar": 46
+      },
+      "revId": "a512b796980803b1ef8cd5d9ec40d843a36a9b2b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7fb54a_4c820c02",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-05-25T23:30:31Z",
+      "side": 1,
+      "message": "Why? :)",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 453,
+        "endChar": 12
+      },
+      "revId": "a512b796980803b1ef8cd5d9ec40d843a36a9b2b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7fb54a_6c87d00f",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-05-25T23:30:31Z",
+      "side": 1,
+      "message": "Unnecessary. WebSocket is shutdown on dtor.",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 22
+      },
+      "revId": "a512b796980803b1ef8cd5d9ec40d843a36a9b2b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7fb54a_6cb0b0f5",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-05-25T23:30:31Z",
+      "side": 1,
+      "message": "std::ostringstream is better here (only output).",
+      "revId": "a512b796980803b1ef8cd5d9ec40d843a36a9b2b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
