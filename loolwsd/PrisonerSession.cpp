@@ -253,10 +253,11 @@ bool PrisonerSession::_handleInput(const char *buffer, int length)
 bool PrisonerSession::shutdownPeer(Poco::UInt16 statusCode, const std::string& message)
 {
     auto peer = _peer.lock();
-    if (peer && !peer->isCloseFrame())
+    if (peer && !peer->isCloseFrame() && peer->_ws)
     {
         peer->shutdown(statusCode, message);
     }
+
     return peer != nullptr;
 }
 
