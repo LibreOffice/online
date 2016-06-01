@@ -397,7 +397,7 @@ $(function () {
 			{type: 'button',  id: 'function',  img: 'equal', hint: _('Function')},
 			{type: 'button', hidden: true, id: 'cancelformula',  img: 'cancel', hint: _('Cancel')},
 			{type: 'button', hidden: true, id: 'acceptformula',  img: 'accepttrackedchanges', hint: _('Accept')},
-			{type: 'html', id: 'formula', html: '<input id="formulaInput" onkeyup="onFormulaInput()"' +
+			{type: 'html', id: 'formula', html: '<input id="formulaInput" onkeyup="onFormulaInput(event)"' +
 			 'onblur="onFormulaBarBlur()" onfocus="onFormulaBarFocus()" type=text>'}
 		],
 		onClick: function (e) {
@@ -593,8 +593,20 @@ function onInsertFile() {
 	}
 }
 
-function onFormulaInput() {
-	map.cellEnterString(L.DomUtil.get('formulaInput').value);
+function onFormulaInput(e) {
+	// keycode = 13 is 'enter'
+	if (e.keyCode === 13) {
+		// formula bar should not have focus anymore
+		map.focus();
+
+		// forward the 'enter' keystroke to map to deal with the formula entered
+		var data = {
+			originalEvent: e
+		};
+		map.fire('keypress', data);
+	} else {
+		map.cellEnterString(L.DomUtil.get('formulaInput').value);
+	}
 }
 
 function onFormulaBarFocus() {
