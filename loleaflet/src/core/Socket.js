@@ -197,13 +197,7 @@ L.Socket = L.Class.extend({
 			textMsg = decodeURIComponent(window.escape(textMsg));
 		}
 		else {
-			var data = imgBytes.subarray(index + 1);
-			// read the tile data
-			var strBytes = '';
-			for (var i = 0; i < data.length; i++) {
-				strBytes += String.fromCharCode(data[i]);
-			}
-			var img = 'data:image/png;base64,' + window.btoa(strBytes);
+			img = imgBytes.subarray(index + 1);
 		}
 
 		if (textMsg.startsWith('status:') && !this._map._docLayer) {
