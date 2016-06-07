@@ -99,7 +99,7 @@ public:
             JWTAuth authAgent(sslKeyPath, "admin", "admin", "admin");
             const std::string jwtToken = authAgent.getAccessToken();
             Poco::Net::HTTPCookie cookie("jwt", jwtToken);
-            cookie.setPath("/adminws/");
+            cookie.setPath("/lool/adminws/");
             cookie.setSecure(true);
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
@@ -117,10 +117,11 @@ public:
         {
             Poco::URI requestUri(request.getURI());
             requestUri.normalize(); // avoid .'s and ..'s
-
             std::vector<std::string> requestSegments;
             requestUri.getPathSegments(requestSegments);
-            if (requestSegments.size() < 1)
+
+            // lool prefix in url is mandatory. ( /lool/loleaflet/...
+            if (requestSegments.size() < 2)
             {
                 throw Poco::FileNotFoundException("Invalid URI request: [" + requestUri.toString() + "].");
             }
@@ -206,6 +207,9 @@ private:
         requestUri.normalize();
 
         std::string path(requestUri.getPath());
+
+        // remove url prefix, lool, from path
+        Poco::replaceInPlace(path, std::string("lool/"), std::string(""));
 
         // convert version back to a real file name
         Poco::replaceInPlace(path, std::string("/loleaflet/" LOOLWSD_VERSION_HASH "/"), std::string("/loleaflet/dist/"));
