@@ -112,7 +112,7 @@ void HTTPServerTest::testLoleafletGet()
 {
     std::unique_ptr<Poco::Net::HTTPClientSession> session(helpers::createSession(_uri));
 
-    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, "/loleaflet/dist/loleaflet.html?access_token=111111111");
+    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, "/lool/loleaflet/dist/loleaflet.html?access_token=111111111");
     Poco::Net::HTMLForm param(request);
     session->sendRequest(request);
 
@@ -133,7 +133,7 @@ void HTTPServerTest::testLoleafletPost()
 {
     std::unique_ptr<Poco::Net::HTTPClientSession> session(helpers::createSession(_uri));
 
-    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, "/loleaflet/dist/loleaflet.html");
+    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, "/lool/loleaflet/dist/loleaflet.html");
     Poco::Net::HTMLForm form;
     form.set("access_token", "2222222222");
     form.prepareSubmit(request);
@@ -195,7 +195,7 @@ void HTTPServerTest::testScriptsAndLinksGet()
 {
     std::unique_ptr<Poco::Net::HTTPClientSession> session(helpers::createSession(_uri));
 
-    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, "/loleaflet/dist/loleaflet.html");
+    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, "/lool/loleaflet/dist/loleaflet.html");
     session->sendRequest(request);
 
     Poco::Net::HTTPResponse response;
@@ -216,7 +216,7 @@ void HTTPServerTest::testScriptsAndLinksPost()
 {
     std::unique_ptr<Poco::Net::HTTPClientSession> session(helpers::createSession(_uri));
 
-    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, "/loleaflet/dist/loleaflet.html");
+    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, "/lool/loleaflet/dist/loleaflet.html");
     std::string body;
     request.setContentLength((int) body.length());
     session->sendRequest(request) << body;

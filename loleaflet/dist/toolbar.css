@@ -213,52 +213,52 @@ button.leaflet-control-search-next
     border-style: solid;
 }
 
-.w2ui-icon.accepttrackedchanges{ background: url('/loleaflet/dist/images/lc_accepttrackedchanges.png') no-repeat center !important; }
-.w2ui-icon.alignblock{ background: url('/loleaflet/dist/images/lc_alignblock.png') no-repeat center !important; }
-.w2ui-icon.alignhorizontal{ background: url('/loleaflet/dist/images/lc_alignhorizontalcenter.png') no-repeat center !important; }
-.w2ui-icon.alignleft{ background: url('/loleaflet/dist/images/lc_alignleft.png') no-repeat center !important; }
-.w2ui-icon.alignright{ background: url('/loleaflet/dist/images/lc_alignright.png') no-repeat center !important; }
-.w2ui-icon.autosum{ background: url('/loleaflet/dist/images/lc_autosum.png') no-repeat center !important; }
-.w2ui-icon.backcolor{ background: url('/loleaflet/dist/images/lc_backcolor.png') no-repeat center !important; }
-.w2ui-icon.bold{ background: url('/loleaflet/dist/images/lc_bold.png') no-repeat center !important; }
-.w2ui-icon.annotation{ background: url('/loleaflet/dist/images/lc_showannotations.png') no-repeat center !important; }
-.w2ui-icon.bullet{ background: url('/loleaflet/dist/images/lc_defaultbullet.png') no-repeat center !important; }
-.w2ui-icon.cancel{ background: url('/loleaflet/dist/images/lc_cancel.png') no-repeat center !important; }
-.w2ui-icon.color{ background: url('/loleaflet/dist/images/lc_color.png') no-repeat center !important; }
-.w2ui-icon.closedoc{ background: url('/loleaflet/dist/images/lc_closedoc.png') no-repeat center !important; }
-.w2ui-icon.decrementindent{ background: url('/loleaflet/dist/images/lc_decrementindent.png') no-repeat center !important; }
-.w2ui-icon.deletepage{ background: url('/loleaflet/dist/images/lc_deletepage.png') no-repeat center !important; }
-.w2ui-icon.duplicatepage{ background: url('/loleaflet/dist/images/lc_duplicatepage.png') no-repeat center !important; }
-.w2ui-icon.edit{ background: url('/loleaflet/dist/images/lc_editdoc.png') no-repeat center !important; }
-.w2ui-icon.equal{ background: url('/loleaflet/dist/images/lc26049.png') no-repeat center !important; }
-.w2ui-icon.help{ background: url('/loleaflet/dist/images/lc_helpindex.png') no-repeat center !important; }
-.w2ui-icon.incrementindent{ background: url('/loleaflet/dist/images/lc_decrementlevel.png') no-repeat center !important; }
-.w2ui-icon.insertpage{ background: url('/loleaflet/dist/images/lc_insertpage.png') no-repeat center !important; }
-.w2ui-icon.italic{ background: url('/loleaflet/dist/images/lc_italic.png') no-repeat center !important; }
-.w2ui-icon.insertgraphic{ background: url('/loleaflet/dist/images/lc_gallery.png') no-repeat center !important; }
-.w2ui-icon.inserttable{ background: url('/loleaflet/dist/images/lc_inserttable.png') no-repeat center !important; }
-.w2ui-icon.next{ background: url('/loleaflet/dist/images/lc_downsearch.png') no-repeat center !important; }
-.w2ui-icon.numbering{ background: url('/loleaflet/dist/images/lc_defaultnumbering.png') no-repeat center !important; }
-.w2ui-icon.presentation{ background: url('/loleaflet/dist/images/lc_dia.png') no-repeat center !important; }
-.w2ui-icon.prev{ background: url('/loleaflet/dist/images/lc_upsearch.png') no-repeat center !important; }
-.w2ui-icon.print{ background: url('/loleaflet/dist/images/lc_print.png') no-repeat center !important; }
-.w2ui-icon.redo{ background: url('/loleaflet/dist/images/lc_redo.png') no-repeat center !important; }
-.w2ui-icon.save{ background: url('/loleaflet/dist/images/lc_save.png') no-repeat center !important; }
-.w2ui-icon.saveas{ background: url('/loleaflet/dist/images/lc_saveas.png') no-repeat center !important; }
-.w2ui-icon.strikeout{ background: url('/loleaflet/dist/images/lc_strikeout.png') no-repeat center !important; }
-.w2ui-icon.underline{ background: url('/loleaflet/dist/images/lc_underline.png') no-repeat center !important; }
-.w2ui-icon.undo{ background: url('/loleaflet/dist/images/lc_undo.png') no-repeat center !important; }
-.w2ui-icon.zoomin{ background: url('/loleaflet/dist/images/plus.png') no-repeat center !important; }
-.w2ui-icon.zoomout{ background: url('/loleaflet/dist/images/minus.png') no-repeat center !important; }
-.w2ui-icon.zoomreset{ background: url('/loleaflet/dist/images/lc_view100.png') no-repeat center !important; }
-.w2ui-icon.more{ background: url('/loleaflet/dist/images/lc_downsearch.png') no-repeat center !important; }
-.w2ui-icon.firstrecord{ background: url('/loleaflet/dist/images/lc_firstrecord.png') no-repeat center !important; }
-.w2ui-icon.nextrecord{ background: url('/loleaflet/dist/images/lc_nextrecord.png') no-repeat center !important; }
-.w2ui-icon.prevrecord{ background: url('/loleaflet/dist/images/lc_prevrecord.png') no-repeat center !important; }
-.w2ui-icon.lastrecord{ background: url('/loleaflet/dist/images/lc_lastrecord.png') no-repeat center !important; }
+.w2ui-icon.accepttrackedchanges{ background: url('/lool/loleaflet/dist/images/lc_accepttrackedchanges.png') no-repeat center !important; }
+.w2ui-icon.alignblock{ background: url('/lool/loleaflet/dist/images/lc_alignblock.png') no-repeat center !important; }
+.w2ui-icon.alignhorizontal{ background: url('/lool/loleaflet/dist/images/lc_alignhorizontalcenter.png') no-repeat center !important; }
+.w2ui-icon.alignleft{ background: url('/lool/loleaflet/dist/images/lc_alignleft.png') no-repeat center !important; }
+.w2ui-icon.alignright{ background: url('/lool/loleaflet/dist/images/lc_alignright.png') no-repeat center !important; }
+.w2ui-icon.autosum{ background: url('/lool/loleaflet/dist/images/lc_autosum.png') no-repeat center !important; }
+.w2ui-icon.backcolor{ background: url('/lool/loleaflet/dist/images/lc_backcolor.png') no-repeat center !important; }
+.w2ui-icon.bold{ background: url('/lool/loleaflet/dist/images/lc_bold.png') no-repeat center !important; }
+.w2ui-icon.annotation{ background: url('/lool/loleaflet/dist/images/lc_showannotations.png') no-repeat center !important; }
+.w2ui-icon.bullet{ background: url('/lool/loleaflet/dist/images/lc_defaultbullet.png') no-repeat center !important; }
+.w2ui-icon.cancel{ background: url('/lool/loleaflet/dist/images/lc_cancel.png') no-repeat center !important; }
+.w2ui-icon.color{ background: url('/lool/loleaflet/dist/images/lc_color.png') no-repeat center !important; }
+.w2ui-icon.closedoc{ background: url('/lool/loleaflet/dist/images/lc_closedoc.png') no-repeat center !important; }
+.w2ui-icon.decrementindent{ background: url('/lool/loleaflet/dist/images/lc_decrementindent.png') no-repeat center !important; }
+.w2ui-icon.deletepage{ background: url('/lool/loleaflet/dist/images/lc_deletepage.png') no-repeat center !important; }
+.w2ui-icon.duplicatepage{ background: url('/lool/loleaflet/dist/images/lc_duplicatepage.png') no-repeat center !important; }
+.w2ui-icon.edit{ background: url('/lool/loleaflet/dist/images/lc_editdoc.png') no-repeat center !important; }
+.w2ui-icon.equal{ background: url('/lool/loleaflet/dist/images/lc26049.png') no-repeat center !important; }
+.w2ui-icon.help{ background: url('/lool/loleaflet/dist/images/lc_helpindex.png') no-repeat center !important; }
+.w2ui-icon.incrementindent{ background: url('/lool/loleaflet/dist/images/lc_decrementlevel.png') no-repeat center !important; }
+.w2ui-icon.insertpage{ background: url('/lool/loleaflet/dist/images/lc_insertpage.png') no-repeat center !important; }
+.w2ui-icon.italic{ background: url('/lool/loleaflet/dist/images/lc_italic.png') no-repeat center !important; }
+.w2ui-icon.insertgraphic{ background: url('/lool/loleaflet/dist/images/lc_gallery.png') no-repeat center !important; }
+.w2ui-icon.inserttable{ background: url('/lool/loleaflet/dist/images/lc_inserttable.png') no-repeat center !important; }
+.w2ui-icon.next{ background: url('/lool/loleaflet/dist/images/lc_downsearch.png') no-repeat center !important; }
+.w2ui-icon.numbering{ background: url('/lool/loleaflet/dist/images/lc_defaultnumbering.png') no-repeat center !important; }
+.w2ui-icon.presentation{ background: url('/lool/loleaflet/dist/images/lc_dia.png') no-repeat center !important; }
+.w2ui-icon.prev{ background: url('/lool/loleaflet/dist/images/lc_upsearch.png') no-repeat center !important; }
+.w2ui-icon.print{ background: url('/lool/loleaflet/dist/images/lc_print.png') no-repeat center !important; }
+.w2ui-icon.redo{ background: url('/lool/loleaflet/dist/images/lc_redo.png') no-repeat center !important; }
+.w2ui-icon.save{ background: url('/lool/loleaflet/dist/images/lc_save.png') no-repeat center !important; }
+.w2ui-icon.saveas{ background: url('/lool/loleaflet/dist/images/lc_saveas.png') no-repeat center !important; }
+.w2ui-icon.strikeout{ background: url('/lool/loleaflet/dist/images/lc_strikeout.png') no-repeat center !important; }
+.w2ui-icon.underline{ background: url('/lool/loleaflet/dist/images/lc_underline.png') no-repeat center !important; }
+.w2ui-icon.undo{ background: url('/lool/loleaflet/dist/images/lc_undo.png') no-repeat center !important; }
+.w2ui-icon.zoomin{ background: url('/lool/loleaflet/dist/images/plus.png') no-repeat center !important; }
+.w2ui-icon.zoomout{ background: url('/lool/loleaflet/dist/images/minus.png') no-repeat center !important; }
+.w2ui-icon.zoomreset{ background: url('/lool/loleaflet/dist/images/lc_view100.png') no-repeat center !important; }
+.w2ui-icon.more{ background: url('/lool/loleaflet/dist/images/lc_downsearch.png') no-repeat center !important; }
+.w2ui-icon.firstrecord{ background: url('/lool/loleaflet/dist/images/lc_firstrecord.png') no-repeat center !important; }
+.w2ui-icon.nextrecord{ background: url('/lool/loleaflet/dist/images/lc_nextrecord.png') no-repeat center !important; }
+.w2ui-icon.prevrecord{ background: url('/lool/loleaflet/dist/images/lc_prevrecord.png') no-repeat center !important; }
+.w2ui-icon.lastrecord{ background: url('/lool/loleaflet/dist/images/lc_lastrecord.png') no-repeat center !important; }
 
 #simplemodal-container a.modalCloseImg {
-	background:url('/loleaflet/dist/images/lc_closedoc.png') no-repeat;
+	background:url('/lool/loleaflet/dist/images/lc_closedoc.png') no-repeat;
 	width:25px;
 	height:29px;
 	display:inline;

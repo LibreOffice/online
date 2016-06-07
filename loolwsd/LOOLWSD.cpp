@@ -349,7 +349,7 @@ private:
     {
         Log::info("Post request: [" + request.getURI() + "]");
         StringTokenizer tokens(request.getURI(), "/?");
-        if (tokens.count() >= 2 && tokens[1] == "convert-to")
+        if (tokens.count() >= 3 && tokens[2] == "convert-to")
         {
             std::string fromPath;
             ConvertToPartHandler handler(fromPath);
@@ -452,7 +452,7 @@ private:
 
             return true;
         }
-        else if (tokens.count() >= 2 && tokens[1] == "insertfile")
+        else if (tokens.count() >= 3 && tokens[2] == "insertfile")
         {
             Log::info("Insert file request.");
             response.set("Access-Control-Allow-Origin", "*");
@@ -486,10 +486,10 @@ private:
             Log::info("File download request.");
             // The user might request a file to download
             //TODO: Check that the user in question has access to this file!
-            const std::string dirPath = LOOLWSD::ChildRoot + tokens[1]
-                                      + JAILED_DOCUMENT_ROOT + tokens[2];
+            const std::string dirPath = LOOLWSD::ChildRoot + tokens[2]
+                                      + JAILED_DOCUMENT_ROOT + tokens[3];
             std::string fileName;
-            URI::decode(tokens[3], fileName);
+            URI::decode(tokens[4], fileName);
             const std::string filePath = dirPath + "/" + fileName;
             Log::info("HTTP request for: " + filePath);
             File file(filePath);
@@ -524,11 +524,11 @@ private:
         Log::trace("Sending to Client [" + status + "].");
         ws->sendFrame(status.data(), (int) status.size());
 
-        // Remove the leading '/' in the GET URL.
         std::string uri = request.getURI();
-        if (uri.size() > 0 && uri[0] == '/')
+        if (uri.size() > 0 && uri.compare(0, 6, "/lool/") == 0)
         {
-            uri.erase(0, 1);
+            // erasing url prefix, '/lool/', from url
+            uri.erase(0, 6);
         }
 
         const auto uriPublic = DocumentBroker::sanitizeURI(uri);
@@ -759,7 +759,7 @@ private:
         const std::string loleafletHtml = config.getString("loleaflet_html", "loleaflet.html");
         const std::string uriValue = (LOOLWSD::SSLEnabled ? "https://" : "http://") +
             (LOOLWSD::ServerName.empty() ? request.getHost() : LOOLWSD::ServerName) +
-            "/loleaflet/" LOOLWSD_VERSION_HASH "/" + loleafletHtml + "?";
+            "/lool/loleaflet/" LOOLWSD_VERSION_HASH "/" + loleafletHtml + "?";
 
         InputSource inputSrc(discoveryPath);
         DOMParser parser;
@@ -809,11 +809,25 @@ public:
         bool responded = false;
         try
         {
-            if (request.getMethod() == HTTPRequest::HTTP_GET && request.getURI() == "/hosting/discovery")
+            // reject requests not prefixed with 'lool' except WOPI discovery URL request
+            bool wopiDiscoveryRequest = false;
+            if (!(request.getMethod() == HTTPRequest::HTTP_GET && request.getURI() == "/hosting/discovery"))
+            {
+                Poco::URI requestUri(request.getURI());
+                std::vector<std::string> reqPathSegs;
+                requestUri.getPathSegments(reqPathSegs);
+                if (reqPathSegs[0] != "lool")
+                    throw BadRequestException("Invalid or unknown request.");
+            }
+            else
+                wopiDiscoveryRequest = true;
+
+            if (wopiDiscoveryRequest)
             {
                 // http://server/hosting/discovery
                 responded = handleGetWOPIDiscovery(request, response);
             }
+            // all other requests use 'lool/' as prefix;
             else if (!(request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0))
             {
                 responded = handlePostRequest(request, response, id);
@@ -1104,12 +1118,16 @@ public:
         HTTPRequestHandler* requestHandler;
 
         // File server
-        if (reqPathSegs.size() >= 1 && reqPathSegs[0] == "loleaflet")
+        if (reqPathSegs.size() >= 2 &&
+            reqPathSegs[0] == "lool" &&
+            reqPathSegs[1] == "loleaflet")
         {
             requestHandler = _fileServer.createRequestHandler();
         }
         // Admin WebSocket Connections
-        else if (reqPathSegs.size() >= 1 && reqPathSegs[0] == "adminws")
+        else if (reqPathSegs.size() >= 2 &&
+                 reqPathSegs[0] == "lool" &&
+                 reqPathSegs[1] == "adminws")
         {
             requestHandler = Admin::createRequestHandler();
         }

@@ -213,7 +213,7 @@ function onClick(id) {
 	else if (id === 'help') {
 		var w = window.innerWidth / 2;
 		var h = window.innerHeight / 2;
-		$.modal('<iframe src="/loleaflet/dist/loleaflet-help.html" width="' + w + '" height="' + h + '" style="border:0">', {
+		$.modal('<iframe src="/lool/loleaflet/dist/loleaflet-help.html" width="' + w + '" height="' + h + '" style="border:0">', {
 			overlayClose:true,
 			opacity: 80,
 			overlayCss: {
