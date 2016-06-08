@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7fb54a_b054bd54",
+        "filename": "loolwsd/LOOLWSD.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2016-06-08T12:11:53Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we just merge it with the previous condition (the check for the leading \u0027/\u0027), and return some 404 when the uri does not have the correct form?",
+      "range": {
+        "startLine": 533,
+        "startChar": 8,
+        "endLine": 533,
+        "endChar": 10
+      },
+      "revId": "f4e170e08b1c7fa975b6c0159752884118ffdb7e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
