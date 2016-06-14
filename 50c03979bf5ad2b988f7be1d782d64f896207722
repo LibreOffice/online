@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7fb54a_45c5683a",
+        "filename": "loolwsd/test/TileCacheTests.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-06-14T22:20:12Z",
+      "side": 1,
+      "message": "assertResponseMessage does the same.",
+      "revId": "50c03979bf5ad2b988f7be1d782d64f896207722",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
