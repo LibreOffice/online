@@ -42,6 +42,8 @@ constexpr auto LO_JAIL_SUBPATH = "lo";
 extern int ClientPortNumber;
 extern int MasterPortNumber;
 
+extern bool SSLEnabled;
+
 #endif
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
