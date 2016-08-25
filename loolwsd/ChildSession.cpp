@@ -322,14 +322,6 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, StringT
         return false;
     }
 
-    if (_multiView)
-    {
-        _viewId = _loKitDocument->getView();
-        const auto viewId = std::to_string(_viewId);
-        Log::info("Created new view: " + viewId);
-        sendTextFrame("addview: " + viewId);
-    }
-
     _docType = LOKitHelper::getDocumentTypeAsString(_loKitDocument->get());
     if (_docType != "text" && part != -1)
     {
@@ -346,6 +338,14 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, StringT
     }
 
     Log::info("Loaded session " + getId());
+
+    // Notify all other views
+    if (_multiView)
+    {
+        _viewId = _loKitDocument->getView();
+        _docManager.notifyOtherSessions(getId(), "addview: " + std::to_string(_viewId));
+    }
+
     return true;
 }
 
