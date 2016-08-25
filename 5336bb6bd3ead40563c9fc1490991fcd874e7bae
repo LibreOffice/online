@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa6399be_3511a7ad",
+        "filename": "loolwsd/ChildSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-08-25T18:11:40Z",
+      "side": 1,
+      "message": "Obviously this is uninitialized now that we moved it below.\n\nBut if we are not sending addview to THIS client, why does it matter that we send the status first? The status goes to THIS client, and addview goes to OTHER clients. So we can keep the old order, just remove sendTextFrame(\"addview: \" + viewId);",
+      "range": {
+        "startLine": 332,
+        "startChar": 69,
+        "endLine": 332,
+        "endChar": 76
+      },
+      "revId": "5336bb6bd3ead40563c9fc1490991fcd874e7bae",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
