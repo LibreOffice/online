@@ -302,6 +302,7 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, StringT
     parseDocOptions(tokens, part, timestamp);
 
     std::string renderOpts;
+    std::string userName;
     if (!_docOptions.empty())
     {
         Parser parser;
@@ -317,7 +318,7 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, StringT
 
     std::unique_lock<std::recursive_mutex> lock(Mutex);
 
-    _loKitDocument = _docManager.onLoad(getId(), _jailedFilePath, _docPassword, renderOpts, _haveDocPassword);
+    _loKitDocument = _docManager.onLoad(getId(), _jailedFilePath, _userName, _docPassword, renderOpts, _haveDocPassword);
     if (!_loKitDocument)
     {
         Log::error("Failed to get LoKitDocument instance.");
