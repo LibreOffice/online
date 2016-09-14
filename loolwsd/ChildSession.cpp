@@ -337,6 +337,7 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, StringT
 
         Log::info("Created new view with viewid: [" + viewId + "] for username: [" + _userName + "].");
         _docManager.notifyOtherSessions(getId(), "addview: " + ossViewInfo.str());
+        _loKitDocument->requestOtherViewCursors();
     }
 
     _docType = LOKitHelper::getDocumentTypeAsString(_loKitDocument->get());

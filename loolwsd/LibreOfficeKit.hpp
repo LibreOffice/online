@@ -464,6 +464,14 @@ public:
                                             nTileWidth, nTileHeight);
     }
 
+    /**
+     * Request cursor position to other views.
+     */
+    inline void requestOtherViewCursors()
+    {
+        return _pDoc->pClass->requestOtherViewCursors(_pDoc);
+    }
+
 #endif // defined LOK_USE_UNSTABLE_API || defined LIBO_INTERNAL_ONLY
 };
 
