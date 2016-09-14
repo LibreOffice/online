@@ -66,7 +66,8 @@ L.ImpressTileLayer = L.TileLayer.extend({
 				'tileposx=' + tilePositionsX + ' ' +
 				'tileposy=' + tilePositionsY + ' ' +
 				'tilewidth=' + this._tileWidthTwips + ' ' +
-				'tileheight=' + this._tileHeightTwips;
+				'tileheight=' + this._tileHeightTwips + ' ' +
+				'viewid=' + this._viewId;
 
 			this._map._socket.sendMessage(message, '');
 		}

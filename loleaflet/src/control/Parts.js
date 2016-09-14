@@ -52,6 +52,7 @@ L.Map.include({
 			this._docPreviews = {};
 		}
 		var autoUpdate = options ? options.autoUpdate : false;
+		var viewId = (options && options.viewId) ? options.viewId : -1;
 		this._docPreviews[id] = {id: id, index: index, maxWidth: maxWidth, maxHeight: maxHeight, autoUpdate: autoUpdate};
 
 		var docLayer = this._docLayer;
@@ -89,7 +90,8 @@ L.Map.include({
 							'tileposy=' + tilePosY + ' ' +
 							'tilewidth=' + tileWidth + ' ' +
 							'tileheight=' + tileHeight + ' ' +
-							'id=' + id);
+							'id=' + id + ' ' +
+							'viewid=' + viewId);
 	},
 
 	getCustomPreview: function (id, part, width, height, tilePosX, tilePosY, tileWidth, tileHeight, options) {

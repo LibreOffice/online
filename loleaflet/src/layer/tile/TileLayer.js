@@ -1673,7 +1673,7 @@ L.TileLayer = L.GridLayer.extend({
 				preview = this._map._docPreviews[key];
 				if (preview.autoUpdate) {
 					if (preview.index >= 0) {
-						this._map.getPreview(preview.id, preview.index, preview.maxWidth, preview.maxHeight, {autoUpdate: true});
+						this._map.getPreview(preview.id, preview.index, preview.maxWidth, preview.maxHeight, {autoUpdate: true, viewId: this._viewId});
 					}
 					else {
 						this._map.getCustomPreview(preview.id, preview.part, preview.width, preview.height, preview.tilePosX,
