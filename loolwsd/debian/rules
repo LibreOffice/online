@@ -27,3 +27,6 @@ override_dh_auto_install:
 
 override_dh_installinit:
 	# no init.d scripts here, assume systemd
+
+override_dh_gencontrol:
+	dh_gencontrol -- -Vbasisoffice=libobasis -Voffice=libreoffice
