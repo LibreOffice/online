@@ -95,9 +95,8 @@ bool ChildSession::_handleInput(const char *buffer, int length)
 
         _loKitDocument->setView(_viewId);
 
-        // Refresh the viewIds.
-        sendTextFrame("remallviews:");
-        _docManager.notifyCurrentViewOfOtherViews(getId());
+        // Notify all views about updated view info
+        _docManager.notifyViewInfo();
 
         const int curPart = _loKitDocument->getPart();
         sendTextFrame("curpart: part=" + std::to_string(curPart));
@@ -319,8 +318,6 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, StringT
     viewInfoObj->stringify(ossViewInfo);
 
     Log::info("Created new view with viewid: [" + viewId + "] for username: [" + _userName + "].");
-    _docManager.notifyOtherSessions(getId(), "addview: " + ossViewInfo.str());
-
     _docType = LOKitHelper::getDocumentTypeAsString(_loKitDocument->get());
     if (_docType != "text" && part != -1)
     {
@@ -336,8 +333,8 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, StringT
         return false;
     }
 
-    // Inform this view of other views
-    _docManager.notifyCurrentViewOfOtherViews(getId());
+    // Inform everyone (including this one) about updated view info
+    _docManager.notifyViewInfo();
 
     Log::info("Loaded session " + getId());
     return true;
