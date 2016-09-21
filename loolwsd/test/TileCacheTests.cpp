@@ -673,10 +673,10 @@ void TileCacheTests::testTileInvalidateCalc()
 void TileCacheTests::testTileQueuePriority()
 {
     const std::string reqHigh = "tile part=0 width=256 height=256 tileposx=0 tileposy=0 tilewidth=3840 tileheight=3840";
-    const std::string resHigh = "tile part=0 width=256 height=256 tileposx=0 tileposy=0 tilewidth=3840 tileheight=3840 ver=-1 imgsize=0";
+    const std::string resHigh = "tile part=0 width=256 height=256 tileposx=0 tileposy=0 tilewidth=3840 tileheight=3840 ver=-1";
     const TileQueue::Payload payloadHigh(resHigh.data(), resHigh.data() + resHigh.size());
     const std::string reqLow = "tile part=0 width=256 height=256 tileposx=0 tileposy=253440 tilewidth=3840 tileheight=3840";
-    const std::string resLow = "tile part=0 width=256 height=256 tileposx=0 tileposy=253440 tilewidth=3840 tileheight=3840 ver=-1 imgsize=0";
+    const std::string resLow = "tile part=0 width=256 height=256 tileposx=0 tileposy=253440 tilewidth=3840 tileheight=3840 ver=-1";
     const TileQueue::Payload payloadLow(resLow.data(), resLow.data() + resLow.size());
 
     TileQueue queue;
