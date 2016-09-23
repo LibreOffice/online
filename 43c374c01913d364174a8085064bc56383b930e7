@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba5da102_ce629c16",
+        "filename": "loolwsd/LOOLKit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-09-23T02:57:04Z",
+      "side": 1,
+      "message": "Why not do the broadcast as it was done previously? Why isn\u0027t this a good place to put the message is each view\u0027s callback queue?\n\nIs this to force everything through the same queue and therefore nothing happens in parallel?",
+      "range": {
+        "startLine": 874,
+        "startChar": 8,
+        "endLine": 874,
+        "endChar": 23
+      },
+      "revId": "43c374c01913d364174a8085064bc56383b930e7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
