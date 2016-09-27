@@ -33,12 +33,10 @@
 #include <Poco/Net/Socket.h>
 #include <Poco/Net/WebSocket.h>
 #include <Poco/Path.h>
-#include <Poco/RegularExpression.h>
 #include <Poco/StreamCopier.h>
 #include <Poco/StringTokenizer.h>
 #include <Poco/Thread.h>
 #include <Poco/URI.h>
-
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "Common.hpp"

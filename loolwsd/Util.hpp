@@ -10,20 +10,20 @@
 #ifndef INCLUDED_UTIL_HPP
 #define INCLUDED_UTIL_HPP
 
-#include <atomic>
 #include <cassert>
 #include <functional>
 #include <memory>
-#include <regex>
 #include <set>
 #include <sstream>
 #include <string>
+#include <atomic>
 
 #include <Poco/File.h>
 #include <Poco/Net/WebSocket.h>
 #include <Poco/Message.h>
 #include <Poco/Path.h>
 #include <Poco/Process.h>
+#include <Poco/RegularExpression.h>
 
 #define LOK_USE_UNSTABLE_API
 #include <LibreOfficeKit/LibreOfficeKitEnums.h>
@@ -187,18 +187,16 @@ namespace Util
             }
 
             // Not a perfect match, try regex.
-            const int length = subject.size();
             for (const auto& value : set)
             {
                 try
                 {
                     // Not performance critical to warrant caching.
-                    std::regex re(value, std::regex::icase);
-                    std::smatch smatch;
+                    Poco::RegularExpression re(value, Poco::RegularExpression::RE_CASELESS);
+                    Poco::RegularExpression::Match reMatch{};
 
                     // Must be a full match.
-                    if (std::regex_match(subject, smatch, re) &&
-                        smatch.position() == 0 && smatch.length() == length)
+                    if (re.match(subject, reMatch) && reMatch.offset == 0 && reMatch.length == subject.size())
                     {
                         return true;
                     }
