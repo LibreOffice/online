@@ -537,7 +537,17 @@ void DocumentBroker::handleTileRequest(TileDesc& tile,
         return;
     }
 
-    tileCache().subscribeToTileRendering(tile, session);
+    if (tile.getBroadcast())
+    {
+        for (auto& it: _sessions)
+        {
+            tileCache().subscribeToTileRendering(tile, it.second);
+        }
+    }
+    else
+    {
+        tileCache().subscribeToTileRendering(tile, session);
+    }
 
     // Forward to child to render.
     Log::debug() << "Sending render request for tile (" << tile.getPart() << ',' << tile.getTilePosX() << ',' << tile.getTilePosY() << ")." << Log::end;
