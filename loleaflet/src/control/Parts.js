@@ -48,7 +48,7 @@ L.Map.include({
 		docLayer._drawSearchResults();
 	},
 
-	getPreview: function (id, index, maxWidth, maxHeight, options) {
+	getPreview: function (id, index, maxWidth, maxHeight, options, forAllClients) {
 		if (!this._docPreviews) {
 			this._docPreviews = {};
 		}
@@ -90,7 +90,8 @@ L.Map.include({
 							'tileposy=' + tilePosY + ' ' +
 							'tilewidth=' + tileWidth + ' ' +
 							'tileheight=' + tileHeight + ' ' +
-							'id=' + id);
+							'id=' + id + ' ' +
+							'broadcast=' + (forAllClients ? 'yes' : 'no'));
 	},
 
 	getCustomPreview: function (id, part, width, height, tilePosX, tilePosY, tileWidth, tileHeight, options) {
@@ -108,7 +109,8 @@ L.Map.include({
 							'tileposy=' + tilePosY + ' ' +
 							'tilewidth=' + tileWidth + ' ' +
 							'tileheight=' + tileHeight + ' ' +
-							'id=' + id);
+							'id=' + id + ' ' +
+							'broadcast=no');
 	},
 
 	removePreviewUpdate: function (id) {
