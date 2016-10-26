@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a77a97e_59dbb1ed",
+        "filename": "loolwsd/Storage.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-10-26T12:38:26Z",
+      "side": 1,
+      "message": "This should be std::atomic\u003cunsigned\u003e to ensure writes are always visible to reads across threads. Otherwise, it\u0027s not thead-safe.",
+      "revId": "e5ae672f3c14302cb93ac79f7862046e12421df9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a77a97e_19d139ce",
+        "filename": "loolwsd/Storage.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-10-26T12:38:26Z",
+      "side": 1,
+      "message": "This should be useful for all Storage operations. Even \"local\" storage might be going out to slow secondary data store, or over network protocol. I think it\u0027s useful to have it for all Storage operations to give us troubleshooting stats if things are slow. Let\u0027s leave it in FileInfo please.",
+      "revId": "e5ae672f3c14302cb93ac79f7862046e12421df9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
