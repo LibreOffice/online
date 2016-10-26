@@ -33,6 +33,24 @@
       "revId": "e5ae672f3c14302cb93ac79f7862046e12421df9",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a77a97e_19e8597c",
+        "filename": "loolwsd/Storage.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2016-10-26T12:54:19Z",
+      "side": 1,
+      "message": "For now, the reason it is in Storage specific classes and not in FileInfo is because _fileInfo would be updated only once (during first load using storage object) in which \"basic\" file information (which is not supposed to get changed across various tokens) would be stored such as filename, size etc.\n\nCall duration is something which needs to be updated for each and every call to getLocalFileInfo/getWOPIFileInfo. \n\nYes, sure we can put it in LocalFileInfo if local storage might be going out to slow data store, but not the FileInfo.",
+      "parentUuid": "7a77a97e_19d139ce",
+      "revId": "e5ae672f3c14302cb93ac79f7862046e12421df9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
