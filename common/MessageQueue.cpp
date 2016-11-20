@@ -78,7 +78,7 @@ bool MessageQueue::wait_impl() const
 MessageQueue::Payload MessageQueue::get_impl()
 {
     Payload result = _queue.front();
-    _queue.pop_front();
+    _queue.erase(_queue.begin());
     return result;
 }
 
@@ -152,7 +152,7 @@ void TileQueue::put_impl(const Payload& value)
 
 void TileQueue::removeDuplicate(const std::string& tileMsg)
 {
-    assert(LOOLProtocol::getFirstToken(tileMsg) == "tile");
+    assert(LOOLProtocol::matchPrefix("tile", tileMsg, /*ignoreWhitespace*/ true));
 
     // Ver is always provided at this point and it is necessary to
     // return back to clients the last rendered version of a tile
@@ -200,13 +200,13 @@ void TileQueue::deprioritizePreviews()
 
         // stop at the first non-tile or non-'id' (preview) message
         std::string id;
-        if (LOOLProtocol::getFirstToken(message) != "tile" ||
+        if (!LOOLProtocol::matchPrefix("tile", message) ||
             !LOOLProtocol::getTokenStringFromMessage(message, "id", id))
         {
             break;
         }
 
-        _queue.pop_front();
+        _queue.erase(_queue.begin());
         _queue.push_back(front);
     }
 }
@@ -218,13 +218,13 @@ MessageQueue::Payload TileQueue::get_impl()
     auto msg = std::string(front.data(), front.size());
 
     std::string id;
-    bool isTile = (LOOLProtocol::getFirstToken(msg) == "tile");
+    bool isTile = LOOLProtocol::matchPrefix("tile", msg);
     bool isPreview = isTile && LOOLProtocol::getTokenStringFromMessage(msg, "id", id);
     if (!isTile || isPreview)
     {
         // Don't combine non-tiles or tiles with id.
         LOG_TRC("MessageQueue res: " << msg);
-        _queue.pop_front();
+        _queue.erase(_queue.begin());
 
         // de-prioritize the other tiles with id - usually the previews in
         // Impress
@@ -246,7 +246,7 @@ MessageQueue::Payload TileQueue::get_impl()
         // avoid starving - stop the search when we reach a non-tile,
         // otherwise we may keep growing the queue of unhandled stuff (both
         // tiles and non-tiles)
-        if (LOOLProtocol::getFirstToken(prio) != "tile" ||
+        if (!LOOLProtocol::matchPrefix("tile", prio) ||
             LOOLProtocol::getTokenStringFromMessage(prio, "id", id))
         {
             break;
@@ -277,7 +277,7 @@ MessageQueue::Payload TileQueue::get_impl()
     {
         auto& it = _queue[i];
         msg = std::string(it.data(), it.size());
-        if (LOOLProtocol::getFirstToken(msg) != "tile" ||
+        if (!LOOLProtocol::matchPrefix("tile", msg) ||
             LOOLProtocol::getTokenStringFromMessage(msg, "id", id))
         {
             // Don't combine non-tiles or tiles with id.

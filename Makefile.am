@@ -40,6 +40,7 @@ shared_sources = common/FileUtil.cpp \
                  common/Session.cpp \
                  common/MessageQueue.cpp \
                  common/SigUtil.cpp \
+                 common/SpookyV2.cpp \
                  common/Unit.cpp \
                  common/UnitHTTP.cpp \
                  common/Util.cpp
@@ -193,7 +194,7 @@ clean-cache cache-clean:
 	test -n "@LOOLWSD_CACHEDIR@" && rm -rf "@LOOLWSD_CACHEDIR@"/[0-9a-f]
 
 clang-tidy:
-	for i in *.cpp; do echo $$i; clang-tidy -header-filter=^$(PWD).* $$i || break; done
+	for i in {common,kit,tools,wsd}/*.cpp; do echo $$i; clang-tidy -header-filter=^$(PWD).* $$i || break; done
 
 # After building loolforkit, set its capabilities as required. Do it
 # already after a plain 'make' to allow for testing without

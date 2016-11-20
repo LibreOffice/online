@@ -271,39 +271,48 @@ class PngCache
         size_t    _hitCount;
         CacheData _data;
         CacheEntry(size_t defaultSize) :
-            _hitCount(0),
+            _hitCount(1),   // Every entry is used at least once; prevent removal at birth.
             _data( new std::vector< char >() )
         {
             _data->reserve( defaultSize );
         }
     } ;
     size_t _cacheSize;
+    static const size_t CacheSizeSoftLimit = (1024 * 4 * 32); // 128k of cache
+    static const size_t CacheSizeHardLimit = CacheSizeSoftLimit * 2;
+    size_t _cacheHits;
+    size_t _cacheTests;
     std::map< uint64_t, CacheEntry > _cache;
 
     void balanceCache()
     {
         // A normalish PNG image size for text in a writer document is
         // around 4k for a content tile, and sub 1k for a background one.
-        if (_cacheSize > (1024 * 4 * 32) /* 128k of cache */)
+        if (_cacheSize > CacheSizeHardLimit)
         {
             size_t avgHits = 0;
             for (auto it = _cache.begin(); it != _cache.end(); ++it)
                 avgHits += it->second._hitCount;
 
             LOG_DBG("cache " << _cache.size() << " items total size " <<
-                    _cacheSize << " total hits " << avgHits << " at balance start");
+                    _cacheSize << " current hits " << avgHits << ", total hit rate " <<
+                    (_cacheHits * 100. / _cacheTests) << "% at balance start");
             avgHits /= _cache.size();
 
             for (auto it = _cache.begin(); it != _cache.end();)
             {
-                if (it->second._hitCount <= avgHits)
+                if ((_cacheSize > CacheSizeSoftLimit && it->second._hitCount == 0) ||
+                    (_cacheSize > CacheSizeHardLimit && it->second._hitCount > 0 && it->second._hitCount <= avgHits))
                 {
+                    // Shrink cache when we exceed the size to maximize
+                    // the chance of hitting these entries in the future.
                     _cacheSize -= it->second._data->size();
-                    _cache.erase(it++);
+                    it = _cache.erase(it);
                 }
                 else
                 {
-                    it->second._hitCount /= 2;
+                    if (it->second._hitCount > 0)
+                        it->second._hitCount--;
                     ++it;
                 }
             }
@@ -313,17 +322,17 @@ class PngCache
         }
     }
 
-    bool cacheEncodeSubBufferToPNG(unsigned char* pixmap, size_t startX, size_t startY,
-                                   int width, int height,
-                                   int bufferWidth, int bufferHeight,
-                                   std::vector<char>& output, LibreOfficeKitTileMode mode)
+    /// Lookup an entry in the cache and store the data in output.
+    /// Returns true on success, otherwise false.
+    bool cacheTest(const uint64_t hash, std::vector<char>& output)
     {
-        uint64_t hash = png::hashSubBuffer(pixmap, startX, startY, width, height,
-                                           bufferWidth, bufferHeight);
-        if (hash) {
+        if (hash)
+        {
+            ++_cacheTests;
             auto it = _cache.find(hash);
             if (it != _cache.end())
             {
+                ++_cacheHits;
                 LOG_DBG("PNG cache with hash " << hash << " hit.");
                 output.insert(output.end(),
                               it->second._data->begin(),
@@ -332,6 +341,16 @@ class PngCache
                 return true;
             }
         }
+
+        return false;
+    }
+
+    bool cacheEncodeSubBufferToPNG(unsigned char* pixmap, size_t startX, size_t startY,
+                                   int width, int height,
+                                   int bufferWidth, int bufferHeight,
+                                   std::vector<char>& output, LibreOfficeKitTileMode mode,
+                                   const uint64_t hash)
+    {
         LOG_DBG("PNG cache with hash " << hash << " missed.");
         CacheEntry newEntry(bufferWidth * bufferHeight * 1);
         if (png::encodeSubBufferToPNG(pixmap, startX, startY, width, height,
@@ -340,9 +359,10 @@ class PngCache
         {
             if (hash)
             {
-                _cache.insert(std::pair< uint64_t, CacheEntry >( hash, newEntry ));
+                _cache.emplace(hash, newEntry);
                 _cacheSize += newEntry._data->size();
             }
+
             output.insert(output.end(),
                           newEntry._data->begin(),
                           newEntry._data->end());
@@ -354,22 +374,40 @@ class PngCache
     }
 
 public:
-    PngCache() : _cacheSize(0)
+    PngCache() :
+        _cacheSize(0),
+        _cacheHits(0),
+        _cacheTests(0)
     {
     }
+
     bool encodeBufferToPNG(unsigned char* pixmap, int width, int height,
                            std::vector<char>& output, LibreOfficeKitTileMode mode)
     {
+        const uint64_t hash = png::hashBuffer(pixmap, width, height);
+        if (cacheTest(hash, output))
+        {
+            return true;
+        }
+
         return cacheEncodeSubBufferToPNG(pixmap, 0, 0, width, height,
-                                         width, height, output, mode);
+                                         width, height, output, mode, hash);
     }
+
     bool encodeSubBufferToPNG(unsigned char* pixmap, size_t startX, size_t startY,
                               int width, int height,
                               int bufferWidth, int bufferHeight,
                               std::vector<char>& output, LibreOfficeKitTileMode mode)
     {
+        const uint64_t hash = png::hashSubBuffer(pixmap, startX, startY, width, height,
+                                                 bufferWidth, bufferHeight);
+        if (cacheTest(hash, output))
+        {
+            return true;
+        }
+
         return cacheEncodeSubBufferToPNG(pixmap, startX, startY, width, height,
-                                         bufferWidth, bufferHeight, output, mode);
+                                         bufferWidth, bufferHeight, output, mode, hash);
     }
 };
 
