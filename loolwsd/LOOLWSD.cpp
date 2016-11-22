@@ -814,7 +814,10 @@ private:
                 return;
             }
 #endif
-
+            // getNewChild doesn't need a docBrokers lock anyways
+            // If held before calling, it could lead to a deadlock when storage is low and
+            // we try to call Util::alertAllUsers() which takes DocBrokers lock again.
+            docBrokersLock.unlock();
             // Request a kit process for this doc.
             auto child = getNewChild();
             if (!child)
@@ -824,6 +827,7 @@ private:
                 throw WebSocketErrorMessageException(SERVICE_UNAVAILABLE_INTERNAL_ERROR);
             }
 
+            docBrokersLock.lock();
             // Set one we just created.
             LOG_DBG("New DocumentBroker for docKey [" << docKey << "].");
             docBroker = std::make_shared<DocumentBroker>(uriPublic, docKey, LOOLWSD::ChildRoot, child);
