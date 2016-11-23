@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a74a57a_7ec1452e",
+        "filename": "loolwsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2016-11-23T01:53:59Z",
+      "side": 1,
+      "message": "By unlocking here we can end up creating and loading a single document multiple times. This was an existing bug where multiple users could load the same document and end up in different child instances.\n\nWe need the lock at least until we insert the DocumentBroker into DocBrokers, so other clients loading the same document find the same instance and use the same child, rather than forking their own.",
+      "revId": "7533ab964fc098d029612f2444aa20cd242efdcf",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
