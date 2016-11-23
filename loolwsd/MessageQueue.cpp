@@ -160,15 +160,15 @@ void TileQueue::removeDuplicate(const std::string& tileMsg)
     // mean.
     // FIXME: also the ver=... is only for debugging from what I can see, so
     // double-check if we can actually avoid the 'ver' everywhere in the non-debug
-    // builds
-    const std::string newMsg = tileMsg.substr(0, tileMsg.find(" ver"));
+    // builds. Ver is necessary to return the last rendered version of a tile
+    // in case there are multiple invalidations and requests while rendering.
+    const auto newMsgPos = tileMsg.find(" ver");
 
     for (size_t i = 0; i < _queue.size(); ++i)
     {
         auto& it = _queue[i];
         const std::string old(it.data(), it.size());
-        const std::string oldMsg = old.substr(0, old.find(" ver"));
-        if (newMsg == oldMsg)
+        if (tileMsg.compare(0, newMsgPos, old, 0, old.find(" ver")) == 0)
         {
             LOG_DBG("Remove duplicate message: " << old << " -> " << tileMsg);
             _queue.erase(_queue.begin() + i);
