@@ -81,7 +81,6 @@ public:
         }
         catch (const std::exception&)
         {
-            LOG_ERR("Failed to send 'exit' command to child [" << _pid << "].");
         }
     }
 
