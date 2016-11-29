@@ -184,6 +184,12 @@ L.Socket = L.Class.extend({
 			this._map.fire('wopiprops', wopiInfo);
 			return;
 		}
+		else if (textMsg.startsWith('sessionexpiry: ')) {
+			var seconds = parseInt(textMsg.substring('sessionexpiry: '.length));
+
+			var timerepr = $.timeago(Date.now() + seconds * 1000).replace(' ago', '');
+			this._map.fire('warn', {msg: errorMessages.sessionexpiry.replace('%time', timerepr)});
+		}
 		else if (textMsg.startsWith('close: ')) {
 			textMsg = textMsg.substring('close: '.length);
 			msg = '';

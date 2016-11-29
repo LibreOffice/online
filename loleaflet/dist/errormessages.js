@@ -4,6 +4,7 @@ exports.limitreached = _('This development build is limited to %0 documents, and
 exports.serviceunavailable = _('Service is unavailable. Please try again later and report to your administrator if the issue persists.');
 exports.unauthorized = _('Unauthorized WOPI host. Please try again later and report to your administrator if the issue persists.');
 exports.wrongwopisrc = _('Wrong WOPISrc, usage: WOPISrc=valid encoded URI, or file_path, usage: file_path=/path/to/doc/');
+exports.sessionexpiry = _('Your session will expire in %time. Please save your work and refresh the web page to continue.');
 
 exports.storage = {
 	savediskfull: _('Save failed due to no disk space left on storage server. Document will now be read-only. Please contact the server administrator to continue editing.'),
