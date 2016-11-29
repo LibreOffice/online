@@ -64,6 +64,9 @@ public:
     /// client made the request to us
     const Poco::URI& getPublicUri() const { return _uriPublic; }
 
+    /// Retrieve access_token_ttl value from query params provided in uriPublic
+    unsigned long getAccessTokenTtl();
+
 private:
     virtual bool _handleInput(const char* buffer, int length) override;
 

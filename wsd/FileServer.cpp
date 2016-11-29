@@ -236,8 +236,23 @@ void FileServerRequestHandler::preprocessFile(HTTPServerRequest& request, HTTPSe
     std::string escapedAccessToken;
     Poco::URI::encode(accessToken, "'", escapedAccessToken);
 
+    unsigned long tokenTtl = 0;
+    try
+    {
+        tokenTtl = std::stoul(accessTokenTtl);
+    }
+    catch(const std::exception& exc)
+    {
+        LOG_ERR("access_token_ttl must be a unix timestamp of when token will expire");
+    }
+    if (std::chrono::system_clock::time_point(std::chrono::milliseconds(tokenTtl)) <= std::chrono::system_clock::now())
+    {
+        tokenTtl = 0;
+        LOG_ERR("access_token_ttl must be a unix timestamp greater than present time. Token expiry is now set to infinite.");
+    }
+
     Poco::replaceInPlace(preprocess, std::string("%ACCESS_TOKEN%"), escapedAccessToken);
-    Poco::replaceInPlace(preprocess, std::string("%ACCESS_TOKEN_TTL%"), accessTokenTtl);
+    Poco::replaceInPlace(preprocess, std::string("%ACCESS_TOKEN_TTL%"), std::to_string(tokenTtl));
     Poco::replaceInPlace(preprocess, std::string("%HOST%"), host);
     Poco::replaceInPlace(preprocess, std::string("%VERSION%"), std::string(LOOLWSD_VERSION_HASH));
 

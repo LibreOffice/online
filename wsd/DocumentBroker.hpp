@@ -301,6 +301,10 @@ public:
 
     std::unique_lock<std::mutex> getLock() { return std::unique_lock<std::mutex>(_mutex); }
 
+    /// Checks all the access token associated with sessions of this document,
+    /// and try to renew them if they are close to expiry
+    void checkAccessTokens();
+
 private:
     /// Sends the .uno:Save command to LoKit.
     bool sendUnoSave(const bool dontSaveIfUnmodified);

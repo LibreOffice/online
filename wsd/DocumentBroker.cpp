@@ -1029,4 +1029,31 @@ void DocumentBroker::closeDocument(const std::string& reason)
     terminateChild(lock, reason);
 }
 
+void DocumentBroker::checkAccessTokens()
+{
+    std::lock_guard<std::mutex> lock(_mutex);
+
+    for (auto& pair : _sessions)
+    {
+        LOG_DBG("Checking token expiry in Session [" << pair.first << "].");
+        const unsigned long tokenTtl = pair.second->getAccessTokenTtl();
+        if (tokenTtl == 0)
+        {
+            LOG_DBG("Session expiry set to infinite. Skipping");
+            continue;
+        }
+
+        const auto tokenExpiryTimepoint = std::chrono::system_clock::time_point(std::chrono::milliseconds(tokenTtl));
+        const auto currentTime = std::chrono::system_clock::now();
+        if (tokenExpiryTimepoint <= currentTime + LOOLWSD::TokenExpiryCheckSecs)
+        {
+            LOG_DBG("Session [" << pair.first << "] is about to expire. "
+                    << "Expiry was set to ["   << std::chrono::duration_cast<std::chrono::milliseconds>(tokenExpiryTimepoint.time_since_epoch()).count() << "]. "
+                    << "Current system time [" << std::chrono::duration_cast<std::chrono::milliseconds>(currentTime.time_since_epoch()).count() << "].");
+            const auto diffSecs = std::chrono::duration_cast<std::chrono::seconds>(tokenExpiryTimepoint - currentTime);
+            pair.second->sendTextFrame("sessionexpiry: " + std::to_string(diffSecs.count()));
+        }
+    }
+}
+
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

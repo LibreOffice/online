@@ -1462,6 +1462,7 @@ std::string LOOLWSD::FileServerRoot;
 std::string LOOLWSD::LOKitVersion;
 Util::RuntimeConstant<bool> LOOLWSD::SSLEnabled;
 Util::RuntimeConstant<bool> LOOLWSD::SSLTermination;
+std::chrono::seconds LOOLWSD::TokenExpiryCheckSecs(900);
 
 static std::string UnitTestLibrary;
 
@@ -2016,6 +2017,7 @@ int LOOLWSD::main(const std::vector<std::string>& /*args*/)
 #endif
 
     time_t last30SecCheck = time(nullptr);
+    auto lastTokenExpiryCheck = std::chrono::steady_clock::now();
     int status = 0;
     while (!TerminationFlag && !SigUtil::isShuttingDown())
     {
@@ -2108,6 +2110,18 @@ int LOOLWSD::main(const std::vector<std::string>& /*args*/)
             {
                 // Don't wait if we had been saving, which takes a while anyway.
                 std::this_thread::sleep_for(std::chrono::milliseconds(CHILD_REBALANCE_INTERVAL_MS));
+            }
+
+            // Check if any of the sessions' access token is about to expire
+            if (std::chrono::steady_clock::now() > lastTokenExpiryCheck + 0.9 * LOOLWSD::TokenExpiryCheckSecs)
+            {
+                std::unique_lock<std::mutex> DocBrokersLock(DocBrokersMutex);
+                for (auto& pair : DocBrokers)
+                {
+                    pair.second->checkAccessTokens();
+                }
+
+                lastTokenExpiryCheck = std::chrono::steady_clock::now();
             }
 
             // Make sure we have sufficient reserves.

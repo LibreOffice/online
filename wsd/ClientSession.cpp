@@ -397,4 +397,25 @@ void ClientSession::setReadOnly()
     sendTextFrame("perm: readonly");
 }
 
+unsigned long ClientSession::getAccessTokenTtl()
+{
+    unsigned long tokenTtl = 0;
+    for (const auto& param : _uriPublic.getQueryParameters())
+    {
+        if (param.first == "access_token_ttl")
+        {
+            try
+            {
+                tokenTtl = std::stoul(param.second);
+            }
+            catch(const std::exception& exc)
+            {
+                LOG_ERR("Invalid access_token_ttl value in URI [" << _uriPublic.toString() << "]. Token expiry now set to infinite.");
+            }
+        }
+    }
+
+    return tokenTtl;
+}
+
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

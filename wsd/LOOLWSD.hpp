@@ -11,6 +11,7 @@
 #define INCLUDED_LOOLWSD_HPP
 
 #include <atomic>
+#include <chrono>
 #include <mutex>
 #include <string>
 
@@ -50,6 +51,7 @@ public:
     static std::string LOKitVersion;
     static std::atomic<unsigned> NumConnections;
     static std::unique_ptr<TraceFileWriter> TraceDumper;
+    static std::chrono::seconds TokenExpiryCheckSecs;
 
     static std::string GenSessionId()
     {

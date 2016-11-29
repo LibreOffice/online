@@ -390,6 +390,11 @@ wopi: <JSON>
      + HideExportOption: (boolean): If loleaflet should hide the export options
        this implies 'Download as' options in file menu
 
+sessionexpiry: <time (in seconds) to expire>
+
+    Session will expire after given time. Currently, applicable for WOPI when
+    access token given during document load is about to expire.
+
 child -> parent
 ===============
 
