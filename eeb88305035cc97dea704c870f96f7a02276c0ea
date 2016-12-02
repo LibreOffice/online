@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a71b18c_3e72667d",
+        "filename": "loleaflet/src/map/Map.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2016-12-02T12:08:03Z",
+      "side": 1,
+      "message": "Yes, I agree with you too. I think for our purposes, where we show real documents, and not maps, this ceil and floor stuff  should not be there.",
+      "revId": "eeb88305035cc97dea704c870f96f7a02276c0ea",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
