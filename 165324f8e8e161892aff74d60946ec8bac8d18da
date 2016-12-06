@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3a71b18c_8a76d43c",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2016-12-06T15:21:08Z",
+      "side": 1,
+      "message": "Just an arbitrary choice really. I guess one could come up with some rationale like \"not sending it over the wire too often is an implementation detail so should be done here at at the lowest level\"...",
+      "parentUuid": "3a71b18c_0ab484f0",
+      "revId": "165324f8e8e161892aff74d60946ec8bac8d18da",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a71b18c_cab9acee",
         "filename": "wsd/AdminModel.hpp",
         "patchSetId": 1
