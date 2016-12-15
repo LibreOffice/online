@@ -1,3 +1,12 @@
+// If not debug, don't print anything on the console
+enable_debug  = !!parseInt(enable_debug);
+if (!enable_debug) {
+	var methods = ['warn', 'info', 'debug', 'trace', 'log', 'assert', 'time', 'timeEnd'];
+	for (var i = 0; i < methods.length; i++) {
+		console[methods[i]] = function() {};
+	}
+}
+
 // Include our main css file
 require('./main.css');
 

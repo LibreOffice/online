@@ -260,6 +260,7 @@ void FileServerRequestHandler::preprocessFile(HTTPServerRequest& request, HTTPSe
     Poco::replaceInPlace(preprocess, std::string("%ACCESS_TOKEN_TTL%"), std::to_string(tokenTtl));
     Poco::replaceInPlace(preprocess, std::string("%HOST%"), host);
     Poco::replaceInPlace(preprocess, std::string("%VERSION%"), std::string(LOOLWSD_VERSION_HASH));
+    Poco::replaceInPlace(preprocess, std::string("%ENABLE_DEBUG%"), std::to_string(ENABLE_DEBUG));
 
     response.setContentType("text/html");
     response.setContentLength(preprocess.length());
