@@ -1132,6 +1132,7 @@ map.on('search', function (e) {
 		toolbar.disable('searchnext');
 		toolbar.hide('cancelsearch');
 		L.DomUtil.addClass(searchInput, 'search-not-found');
+		map.resetSelection();
 		setTimeout(function () {
 			L.DomUtil.removeClass(searchInput, 'search-not-found');
 		}, 500);
