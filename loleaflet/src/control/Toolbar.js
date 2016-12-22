@@ -208,6 +208,8 @@ L.Map.include({
 						translatableContent[i].firstChild.nodeValue = translatableContent[i].firstChild.nodeValue.toLocaleString();
 					}
 
+					$('.vex-content').attr('tabindex', -1);
+					$('.vex-content').focus();
 					// workaround for https://github.com/HubSpot/vex/issues/43
 					$('.vex-overlay').css({ 'pointer-events': 'none'});
 					$('.vex').click(function() {
@@ -216,6 +218,9 @@ L.Map.include({
 					$('.vex-content').click(function(e) {
 						e.stopPropagation();
 					});
+				},
+				beforeClose: function () {
+					map.focus();
 				}
 			});
 		});
@@ -238,6 +243,7 @@ L.Map.include({
 			contentCSS: { width: w + 'px'},
 			buttons: {},
 			afterOpen: function($vexContent) {
+				map.enable(false);
 				// workaround for https://github.com/HubSpot/vex/issues/43
 				$('.vex-overlay').css({ 'pointer-events': 'none'});
 				$('.vex').click(function() {
@@ -246,6 +252,9 @@ L.Map.include({
 				$('.vex-content').click(function(e) {
 					e.stopPropagation();
 				});
+			},
+			beforeClose: function () {
+				map.enable(true);
 			}
 		});
 	}
