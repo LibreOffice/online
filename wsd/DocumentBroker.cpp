@@ -741,7 +741,7 @@ void DocumentBroker::handleTileRequest(TileDesc& tile,
 
     tile.setVersion(++_tileVersion);
     const auto tileMsg = tile.serialize();
-    LOG_TRC("Tile request for " << tile.serialize());
+    LOG_TRC("Tile request for " << tileMsg);
 
     std::unique_ptr<std::fstream> cachedTile = _tileCache->lookupTile(tile);
     if (cachedTile)
@@ -785,7 +785,7 @@ void DocumentBroker::handleTileRequest(TileDesc& tile,
     // Forward to child to render.
     LOG_DBG("Sending render request for tile (" << tile.getPart() << ',' <<
             tile.getTilePosX() << ',' << tile.getTilePosY() << ").");
-    const std::string request = "tile " + tile.serialize();
+    const std::string request = "tile " + tileMsg;
     _childProcess->sendTextFrame(request);
     _debugRenderedTileCount++;
 }
@@ -840,7 +840,6 @@ void DocumentBroker::handleTileCombinedRequest(TileCombined& tileCombined,
     if (!tiles.empty())
     {
         auto newTileCombined = TileCombined::create(tiles);
-        newTileCombined.setVersion(++_tileVersion);
 
         // Forward to child to render.
         const auto req = newTileCombined.serialize("tilecombine");
