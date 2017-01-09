@@ -1134,7 +1134,7 @@ private:
 
             // Only save the options on opening the document.
             // No support for changing them after opening a document.
-            _renderOpts = renderOpts;
+            _renderOpts = makeRenderParams(userName, renderOpts);
         }
         else
         {
@@ -1165,13 +1165,12 @@ private:
             LOG_TRC("View to url [" << uri << "] created.");
         }
 
-        const std::string renderParams = makeRenderParams(userName);
         LOG_INF("Initializing for rendering session [" << sessionId << "] on document url [" <<
-                _url << "] with: [" << renderParams << "].");
+                _url << "] with: [" << _renderOpts << "].");
 
         // initializeForRendering() should be called before
         // registerCallback(), as the previous creates a new view in Impress.
-        _loKitDocument->initializeForRendering(renderParams.c_str());
+        _loKitDocument->initializeForRendering(_renderOpts.c_str());
 
         const int viewId = _loKitDocument->getView();
         session->setViewId(viewId);
@@ -1252,15 +1251,15 @@ private:
         return false;
     }
 
-    std::string makeRenderParams(const std::string& userName)
+    static std::string makeRenderParams(const std::string& userName, const std::string& options)
     {
         Object::Ptr renderOptsObj;
 
         // Fill the object with renderoptions, if any
-        if (!_renderOpts.empty())
+        if (!options.empty())
         {
             Parser parser;
-            Poco::Dynamic::Var var = parser.parse(_renderOpts);
+            Poco::Dynamic::Var var = parser.parse(options);
             renderOptsObj = var.extract<Object::Ptr>();
         }
         else if (!userName.empty())
@@ -1279,15 +1278,14 @@ private:
             renderOptsObj->set(".uno:Author", authorObj);
         }
 
-        std::string renderParams;
         if (renderOptsObj)
         {
             std::ostringstream ossRenderOpts;
             renderOptsObj->stringify(ossRenderOpts);
-            renderParams = ossRenderOpts.str();
+            return ossRenderOpts.str();
         }
 
-        return renderParams;
+        return std::string();
     }
 
     void run() override
