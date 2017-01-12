@@ -1231,12 +1231,7 @@ map.on('updateparts pagenumberchanged', function (e) {
 		toolbar.hide('deletepage');
 	}
 
-	if (e.docType === 'spreadsheet') {
-		toolbar.hide('prev');
-		toolbar.hide('next');
-		toolbar.hide('prevnextbreak');
-	}
-	else {
+	if (e.docType !== 'spreadsheet') {
 		if (current === 0) {
 			toolbar.disable('prev');
 		}
