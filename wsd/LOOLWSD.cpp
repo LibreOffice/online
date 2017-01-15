@@ -383,20 +383,13 @@ static bool rebalanceChildren(int balance)
 
     if (balance > 0 && (rebalance || OutstandingForks == 0))
     {
-        // Check if forkit is alive.
-        if (LOOLWSD::ForKitWritePipe == -1)
-        {
-            LOG_ERR("No forkit while rebalancing children.");
-            return false;
-        }
-
         LOG_DBG("prespawnChildren: Have " << available << " spare " <<
                 (available == 1 ? "child" : "children") << ", and " <<
                 OutstandingForks << " outstanding, forking " << balance << " more.");
         return forkChildren(balance);
     }
 
-    return false;
+    return true;
 }
 
 /// Called on startup only.
