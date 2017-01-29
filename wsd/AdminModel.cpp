@@ -129,17 +129,26 @@ std::string AdminModel::query(const std::string& command)
 }
 
 /// Returns memory consumed by all active loolkit processes
-unsigned AdminModel::getTotalMemoryUsage()
+unsigned AdminModel::getKitsMemoryUsage()
 {
+    Poco::Timestamp ts;
     unsigned totalMem = 0;
+    unsigned docs = 0;
     for (const auto& it : _documents)
     {
         if (!it.second.isExpired())
         {
-            totalMem += Util::getMemoryUsage(it.second.getPid());
+            const auto bytes = Util::getMemoryUsage(it.second.getPid());
+            if (bytes > 0)
+            {
+                totalMem += bytes;
+                ++docs;
+            }
         }
     }
 
+    LOG_INF("Got total Kits memory in " << ts.elapsed()/1001. << " ms for " <<
+            docs << " docs, avg: " << ts.elapsed() / 1000. / docs);
     return totalMem;
 }
 
