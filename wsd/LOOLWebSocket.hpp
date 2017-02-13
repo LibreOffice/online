@@ -31,7 +31,8 @@
 class LOOLWebSocket : public Poco::Net::WebSocket
 {
 private:
-    std::mutex _mutex;
+    std::mutex _mutexRead;
+    std::mutex _mutexWrite;
 
 #if ENABLE_DEBUG
     static std::chrono::milliseconds getWebSocketDelay()
@@ -110,7 +111,7 @@ public:
         // Timeout is in microseconds. We don't need this, except to yield the cpu.
         static const Poco::Timespan waitTime(POLL_TIMEOUT_MS * 1000 / 10);
         static const Poco::Timespan waitZero(0);
-        std::unique_lock<std::mutex> lock(_mutex);
+        std::unique_lock<std::mutex> lock(_mutexRead);
 
         while (poll(waitTime, Poco::Net::Socket::SELECT_READ))
         {
@@ -158,7 +159,7 @@ public:
         std::this_thread::sleep_for(getWebSocketDelay());
 #endif
         static const Poco::Timespan waitZero(0);
-        std::unique_lock<std::mutex> lock(_mutex);
+        std::unique_lock<std::mutex> lock(_mutexWrite);
 
         if (length >= LARGE_MESSAGE_SIZE)
         {
@@ -204,7 +205,8 @@ public:
     /// or, otherwise, close the socket without sending close frame, if it is.
     void shutdown(Poco::UInt16 statusCode, const std::string& statusMessage = "")
     {
-        std::unique_lock<std::mutex> lock(_mutex);
+        std::unique_lock<std::mutex> lockWrite(_mutexWrite);
+        std::unique_lock<std::mutex> lockRead(_mutexRead);
         try
         {
             // Calling shutdown, in case of error, would try to send a 'close' frame
