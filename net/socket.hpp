@@ -293,6 +293,7 @@ private:
 class BufferingSocket : public Socket
 {
 public:
+
     HandleResult handlePoll(const int events) override
     {
         bool closeSocket = false;
@@ -387,9 +388,21 @@ public:
 
 protected:
     BufferingSocket(const int fd) :
-        Socket(fd)
+        Socket(fd),
+        _wouldBlock(WouldBlock::Neither)
     {
     }
+
+    /// The operation that would block, so we need to poll for.
+    enum class WouldBlock
+    {
+        Neither,
+        Read,
+        Write
+    };
+
+    /// The operation that would block that we need to poll for.
+    WouldBlock _wouldBlock;
 
     std::vector< char > _inBuffer;
     std::vector< char > _outBuffer;
@@ -454,12 +467,12 @@ public:
 
     int getPollEvents() override
     {
-        if (_sslWantsTo == SslWantsTo::Read)
+        if (_wouldBlock == WouldBlock::Read)
         {
             // Must read next before attempting to write.
             return POLLIN;
         }
-        else if (_sslWantsTo == SslWantsTo::Write)
+        else if (_wouldBlock == WouldBlock::Write)
         {
             // Must write next before attempting to read.
             return POLLOUT;
@@ -473,7 +486,6 @@ protected:
     SslStreamSocket(const int fd) :
         BufferingSocket(fd),
         _ssl(nullptr),
-        _sslWantsTo(SslWantsTo::ReadOrWrite),
         _doHandshake(true)
     {
         BIO* bio = BIO_new(BIO_s_socket());
@@ -543,7 +555,7 @@ private:
         if (rc > 0)
         {
             // Success: Reset so we can do either.
-            _sslWantsTo = SslWantsTo::ReadOrWrite;
+            _wouldBlock = WouldBlock::Neither;
             return rc;
         }
 
@@ -557,11 +569,11 @@ private:
             return 0;
 
         case SSL_ERROR_WANT_READ:
-            _sslWantsTo = SslWantsTo::Read;
+            _wouldBlock = WouldBlock::Read;
             return rc;
 
         case SSL_ERROR_WANT_WRITE:
-            _sslWantsTo = SslWantsTo::Write;
+            _wouldBlock = WouldBlock::Write;
             return rc;
 
         case SSL_ERROR_WANT_CONNECT:
@@ -613,9 +625,7 @@ private:
 
 private:
     SSL* _ssl;
-    /// During handshake SSL might want to read
-    /// on write, or write on read.
-    SslWantsTo _sslWantsTo;
+
     /// We must do the handshake during the first
     /// read or write in non-blocking.
     bool _doHandshake;
