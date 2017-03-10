@@ -732,8 +732,6 @@ function unoCmdToToolbarId(commandname)
 		case 'alignright':
 			id = 'rightpara';
 			break;
-		default:
-			id = null;
 		}
 	}
 	return id;
