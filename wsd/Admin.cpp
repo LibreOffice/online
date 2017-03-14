@@ -101,6 +101,19 @@ bool AdminRequestHandler::adminCommandHandler(const std::vector<char>& payload)
             sendTextFrame(tokens[0] + ' ' + result);
         }
     }
+    else if (tokens[0] == "version")
+    {
+        // Send LOOL version information
+        std::string version, hash;
+        Util::getVersionInfo(version, hash);
+        std::string versionStr =
+            "{ \"Version\":  \"" + version + "\", " +
+            "\"Hash\":     \"" + hash + "\", " +
+            "\"Protocol\": \"" + GetProtocolVersion() + "\" }";
+        sendTextFrame("loolserver " + versionStr);
+        // Send LOKit version information
+        sendTextFrame("lokitversion " + LOOLWSD::LOKitVersion);
+    }
     else if (tokens[0] == "subscribe" && tokens.count() > 1)
     {
         for (std::size_t i = 0; i < tokens.count() - 1; i++)
