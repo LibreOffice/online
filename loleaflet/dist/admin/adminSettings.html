@@ -59,25 +59,46 @@
             <li><a href="admin.html"><script>document.write(l10nstrings.strOverview)</script> <span class="sr-only"><script>document.write(l10nstrings.strCurrent)</script></span></a></li>
             <li><a href="adminAnalytics.html"><script>document.write(l10nstrings.strAnalytics)</script></a></li>
           </ul>
+          <hr />
+          <div style="position:absolute; bottom:0px">
+            <h3>About</h3>
+            <p>
+              <h5><b>LOOLWSD</b></h5>
+              <div id="loolwsd-version"></div>
+            </p>
+            <p>
+              <h5><b>LOKit</b></h5>
+              <div id="lokit-version"></div>
+            </p>
+          </div>
         </div>
+
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header"><script>document.write(l10nstrings.strSettings)</script></h1>
-	  <form id="admin_settings">
-	    <label for="mem_stats_size"><script>document.write(l10nstrings.strMemoryStatsCachesize)</script></label>
-	    <input type="text" id="mem_stats_size" name="Memory Stats Size"><br/>
-	    <label for="mem_stats_interval"><script>document.write(l10nstrings.strMemoryStatsInterval)</script></label>
-	    <input type="text" id="mem_stats_interval" name="Memory Stats Interval"><br/>
-	    <label for="cpu_stats_size"><script>document.write(l10nstrings.strCpuStatsCachesize)</script></label>
-	    <input type="text" id="cpu_stats_size" name="Cpu Stats Size"><br/>
-	    <label for="cpu_stats_interval"><script>document.write(l10nstrings.strCpuStatsInterval)</script></label>
-	    <input type="text" id="cpu_stats_interval" name="Cpu Stats Interval"><br/>
-	    <script>document.write('<input type="submit" value="' + l10nstrings.strSave + '"/><br/>')</script>
-	  </form>
-	  <br />
-	  <input id="btnShutdown" type="submit" value="Shutdown"/>
-	</div>
+      	  <p>
+            <h5>LOOLWSD</h5>
+            <div id="loolwsd-version"></div>
+          </p>
+          <p>
+            <h5>LOKit</h5>
+            <div id="lokit-version"></div>
+          </p>
+          <form id="admin_settings">
+      	    <label for="mem_stats_size"><script>document.write(l10nstrings.strMemoryStatsCachesize)</script></label>
+      	    <input type="text" id="mem_stats_size" name="Memory Stats Size"><br/>
+      	    <label for="mem_stats_interval"><script>document.write(l10nstrings.strMemoryStatsInterval)</script></label>
+      	    <input type="text" id="mem_stats_interval" name="Memory Stats Interval"><br/>
+      	    <label for="cpu_stats_size"><script>document.write(l10nstrings.strCpuStatsCachesize)</script></label>
+      	    <input type="text" id="cpu_stats_size" name="Cpu Stats Size"><br/>
+      	    <label for="cpu_stats_interval"><script>document.write(l10nstrings.strCpuStatsInterval)</script></label>
+      	    <input type="text" id="cpu_stats_interval" name="Cpu Stats Interval"><br/>
+      	    <script>document.write('<input type="submit" value="' + l10nstrings.strSave + '"/><br/>')</script>
+      	  </form>
+      	  <br />
+      	  <input id="btnShutdown" type="submit" value="Shutdown"/>
+      	</div>
       </div>
-      </div>
+    </div>
     </div>
   </body>
 </html>
