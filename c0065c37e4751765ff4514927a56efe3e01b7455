@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a57fde8_34eefa8b",
+        "filename": "loleaflet/dist/admin/adminSettings.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-15T06:24:27Z",
+      "side": 1,
+      "message": "Lets not touch other blocks while you are working on this patch. Please don\u0027t commit this in your patch.",
+      "revId": "c0065c37e4751765ff4514927a56efe3e01b7455",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_54f37e73",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-15T06:24:27Z",
+      "side": 1,
+      "message": "Lets not put such empty lines in the patch unnecesarily",
+      "revId": "c0065c37e4751765ff4514927a56efe3e01b7455",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
