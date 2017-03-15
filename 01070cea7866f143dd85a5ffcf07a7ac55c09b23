@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a57fde8_df6f8790",
+        "filename": "loleaflet/dist/admin/adminSettings.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-15T12:36:46Z",
+      "side": 1,
+      "message": "While you are at fixing other nitpicks, can you also please not make any modification to this block - the \u003cform\u003e element. I don\u0027t think you changed anything in this element.",
+      "revId": "01070cea7866f143dd85a5ffcf07a7ac55c09b23",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_5f6397b1",
+        "filename": "loleaflet/src/admin/AdminSocketSettings.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-15T12:36:46Z",
+      "side": 1,
+      "message": "Please don\u0027t add unnecessarily extra line in the patch.",
+      "revId": "01070cea7866f143dd85a5ffcf07a7ac55c09b23",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_1f53cfe2",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-15T12:36:46Z",
+      "side": 1,
+      "message": "We don\u0027t need this Protocol field since we are not using it in frontend",
+      "revId": "01070cea7866f143dd85a5ffcf07a7ac55c09b23",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_3f37b3b1",
+        "filename": "wsd/protocol.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-15T12:36:46Z",
+      "side": 1,
+      "message": "Remove these trailing whitespaces, please",
+      "revId": "01070cea7866f143dd85a5ffcf07a7ac55c09b23",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_5f3c7793",
+        "filename": "wsd/protocol.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-15T12:36:46Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "01070cea7866f143dd85a5ffcf07a7ac55c09b23",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_3f5ed3e9",
+        "filename": "wsd/protocol.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-15T12:36:46Z",
+      "side": 1,
+      "message": "Again, we agreed to remove the protocol information and afaics, this major.minor-patch stuff is the protocol information. Remove all of this from the documentation. And it seems that \u0027loolserver\u0027 protocol documentation in this file is incorrect for \u0027server -\u003e client\u0027 section too and you seem to have simply copied the documentation from that section. We will fix the incorrect thing in server-\u003eclient section later, but for now just document it correctly i.e mention that we send JSON string with Version, Hash fields in the JSON.",
+      "revId": "01070cea7866f143dd85a5ffcf07a7ac55c09b23",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
