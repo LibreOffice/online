@@ -93,6 +93,35 @@ void Subscriber::unsubscribe(const std::string& command)
     _subscriptions.erase(command);
 }
 
+AdminModel::AdminModel()
+{
+    this->_history = new WsdStats::WsdHistory();
+    Log::info("AdminModel ctor.");
+}
+
+AdminModel::~AdminModel()
+{
+    std::ostringstream oss;
+    oss << "WsdHistory:\n\nEvents:\n";
+    for (auto elem : *(_history->_events) )
+    {
+        oss << "   " << ctime(&elem.first) << "\t" << elem.second.get_action() << "\t" << elem.second.get_pid()<< "\t" <<elem.second.get_filename()<< "\t" << elem.second.get_sessionId()<< "\n";
+    }
+    oss << "\nDocuments:\n";
+    for (auto snapshot : *(_history->_documents) )
+    {
+        oss << " @ " << ctime(&snapshot.first) << "\n";
+        for (auto docs : snapshot.second)
+        {
+            oss << "\t" << *docs << "\t(" << docs << ")\n";
+        }
+        oss << "\n";
+    }
+    Log::debug(oss.str());
+    this->_history->~WsdHistory();
+    Log::info("AdminModel dtor.");
+}
+
 std::string AdminModel::query(const std::string& command)
 {
     const auto token = LOOLProtocol::getFirstToken(command);
@@ -237,6 +266,7 @@ void AdminModel::notify(const std::string& message)
             }
         }
     }
+    this->_history->collect(message, _documents);
 }
 
 void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,

@@ -48,6 +48,7 @@ shared_sources = common/FileUtil.cpp \
                  common/Util.cpp
 
 loolwsd_SOURCES = wsd/Admin.cpp \
+                  wsd/WsdHistory.cpp \
                   wsd/AdminModel.cpp \
                   wsd/Auth.cpp \
                   wsd/DocumentBroker.cpp \
@@ -94,6 +95,7 @@ loolstress_SOURCES = tools/Stress.cpp \
                      common/Log.cpp
 
 wsd_headers = wsd/Admin.hpp \
+              wsd/WsdHistory.h \
               wsd/AdminModel.hpp \
               wsd/Auth.hpp \
               wsd/ClientSession.hpp \

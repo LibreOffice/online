@@ -19,6 +19,7 @@
 #include "Log.hpp"
 #include <LOOLWebSocket.hpp>
 #include "Util.hpp"
+#include "WsdHistory.h"
 
 /// A client view in Admin controller.
 class View
@@ -133,15 +134,9 @@ private:
 class AdminModel
 {
 public:
-    AdminModel()
-    {
-        Log::info("AdminModel ctor.");
-    }
+    AdminModel();
 
-    ~AdminModel()
-    {
-        Log::info("AdminModel dtor.");
-    }
+    ~AdminModel();
 
     std::string query(const std::string& command);
 
@@ -186,6 +181,7 @@ private:
 private:
     std::map<int, Subscriber> _subscribers;
     std::map<std::string, Document> _documents;
+    WsdStats::WsdHistory* _history;
 
     std::list<unsigned> _memStats;
     unsigned _memStatsSize = 100;
