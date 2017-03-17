@@ -93,6 +93,47 @@ void Subscriber::unsubscribe(const std::string& command)
     _subscriptions.erase(command);
 }
 
+AdminModel::AdminModel() :
+    _history(std::make_shared<WsdStats::WsdHistory>())
+{
+    Log::info("AdminModel ctor.");
+}
+
+AdminModel::~AdminModel()
+{
+    std::ostringstream oss;
+    oss << "WsdHistory:\n\nEvents:\n";
+    for (std::pair<const long int, WsdStats::MsgEventPtr> elem : *(_history->_events) )
+    {
+        oss << "   " << ctime(&elem.first) << "\t" << elem.second->get_action() << "\t" << elem.second->get_pid()<< "\t" <<elem.second->get_filename()<< "\t" << elem.second->get_sessionId()<< "\n";
+        elem.second.reset();
+    }
+    _history->_events.reset();
+    
+    oss << "\nDocuments:\n";
+    for (std::pair<const long int, WsdStats::SnapshotListPtr> snapshot : *(_history->_documents) )
+    {
+        oss << " @ " << ctime(&snapshot.first) << "\n";
+        for (WsdStats::MsgDocumentPtr docs : *(snapshot.second) )
+        {
+            oss << "\t" << *docs << "\n";
+            docs.reset();
+        }
+        oss << "\n";
+        snapshot.second.reset();
+    }
+    _history->_documents.reset();
+    
+    for (WsdStats::MsgDocumentPtr elem : *(_history->_messages) )
+    {
+        elem.reset();
+    }
+    _history->_messages.reset();
+    
+    Log::debug(oss.str());
+    Log::info("AdminModel dtor.");
+}
+
 std::string AdminModel::query(const std::string& command)
 {
     const auto token = LOOLProtocol::getFirstToken(command);
@@ -237,6 +278,7 @@ void AdminModel::notify(const std::string& message)
             }
         }
     }
+    this->_history->collect(message, _documents);
 }
 
 void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
