@@ -22,6 +22,30 @@
       "revId": "7ac15f18db61ed42724d18c289c07a67bcd6ef3c",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_45790afc",
+        "filename": "loleaflet/src/map/handler/Map.Scroll.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-17T07:26:24Z",
+      "side": 1,
+      "message": "Also, no need to equate it to true, btw",
+      "parentUuid": "9a57fde8_0521c2fb",
+      "range": {
+        "startLine": 41,
+        "startChar": 16,
+        "endLine": 41,
+        "endChar": 18
+      },
+      "revId": "7ac15f18db61ed42724d18c289c07a67bcd6ef3c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
