@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a57fde8_1fd90f22",
+        "filename": "wsd/WsdHistory.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-17T15:36:37Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "ec12852fe071d1cc321b375c59ef0e4dc3e9e746",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_3f04137d",
+        "filename": "wsd/WsdHistory.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-17T15:36:37Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "ec12852fe071d1cc321b375c59ef0e4dc3e9e746",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
