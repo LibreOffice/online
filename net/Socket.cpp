@@ -15,10 +15,14 @@
 #include <Poco/DateTime.h>
 #include <Poco/DateTimeFormat.h>
 #include <Poco/DateTimeFormatter.h>
+#include <Poco/DeflatingStream.h>
 
 #include "SigUtil.hpp"
 #include "Socket.hpp"
 #include "ServerSocket.hpp"
+
+using Poco::DeflatingOutputStream;
+using Poco::DeflatingStreamBuf;
 
 int SocketPoll::DefaultPollTimeoutMs = 5000;
 
@@ -154,7 +158,7 @@ void SocketPoll::dumpState(std::ostream& os)
 namespace HttpHelper
 {
     void sendFile(const std::shared_ptr<StreamSocket>& socket, const std::string& path,
-                  Poco::Net::HTTPResponse& response, bool noCache)
+                  Poco::Net::HTTPResponse& response, bool noCache, bool gzipAllowed)
     {
         struct stat st;
         if (stat(path.c_str(), &st) != 0)
@@ -164,14 +168,6 @@ namespace HttpHelper
             return;
         }
 
-        int bufferSize = std::min(st.st_size, (off_t)Socket::MaximumSendBufferSize);
-        if (st.st_size >= socket->getSendBufferSize())
-        {
-            socket->setSocketBufferSize(bufferSize);
-            bufferSize = socket->getSendBufferSize();
-        }
-
-        response.setContentLength(st.st_size);
         response.set("User-Agent", HTTP_AGENT_STRING);
         response.set("Date", Poco::DateTimeFormatter::format(Poco::Timestamp(), Poco::DateTimeFormat::HTTP_FORMAT));
         if (!noCache)
@@ -181,26 +177,90 @@ namespace HttpHelper
             response.set("ETag", "\"" LOOLWSD_VERSION_HASH "\"");
         }
 
-        std::ostringstream oss;
-        response.write(oss);
-        const std::string header = oss.str();
-        LOG_TRC("#" << socket->getFD() << ": Sending file [" << path << "]: " << header);
-        socket->send(header);
-
-        std::ifstream file(path, std::ios::binary);
-        bool flush = true;
-        do
+        if(!gzipAllowed)
         {
-            char buf[bufferSize];
-            file.read(buf, sizeof(buf));
-            const int size = file.gcount();
-            if (size > 0)
-                socket->send(buf, size, flush);
-            else
-                break;
-            flush = false;
+            int bufferSize = std::min(st.st_size, (off_t)Socket::MaximumSendBufferSize);
+            if (st.st_size >= socket->getSendBufferSize())
+            {
+                socket->setSocketBufferSize(bufferSize);
+                bufferSize = socket->getSendBufferSize();
+            }
+
+            response.setContentLength(st.st_size);
+            std::ostringstream oss;
+            response.write(oss);
+            const std::string header = oss.str();
+            LOG_TRC("#" << socket->getFD() << ": Sending file [" << path << "]: " << header);
+            socket->send(header);
+
+            std::ifstream file(path, std::ios::binary);
+            bool flush = true;
+            do
+            {
+                char buf[bufferSize];
+                file.read(buf, sizeof(buf));
+                const int size = file.gcount();
+                if (size > 0)
+                    socket->send(buf, size, flush);
+                else
+                    break;
+                flush = false;
+            }
+            while (file);
         }
-        while (file);
+        else
+        {
+            std::string compPath;
+            compPath = path + ".gz";
+
+            std::ofstream ostr(compPath, std::ios::binary);
+            DeflatingOutputStream deflater(ostr, DeflatingStreamBuf::STREAM_GZIP);
+            std::ifstream file(path, std::ios::binary);
+
+            struct stat compSt;
+
+            LOG_INF("#" << socket->getFD() << ": Compressing File [" << path << "]");
+            char bufr[st.st_size];
+            do
+            {
+                file.read(bufr, sizeof(bufr));
+                deflater << bufr;
+            }
+            while(file);
+            deflater.close();
+            ostr.close();
+            stat(compPath.c_str(), &compSt);
+
+            response.set("Content-Encoding", "gzip");
+            response.setContentLength(compSt.st_size);
+            std::ostringstream oss;
+            response.write(oss);
+            const std::string header = oss.str();
+            LOG_TRC("#" << socket->getFD() << ": Sending file [" << compPath << "]: " << header);
+            socket->send(header);
+
+            int bufferSize = std::min(compSt.st_size, (off_t)Socket::MaximumSendBufferSize);
+            if (compSt.st_size >= socket->getSendBufferSize())
+            {
+                socket->setSocketBufferSize(bufferSize);
+                bufferSize = socket->getSendBufferSize();
+            }
+
+            std::ifstream compFile(compPath, std::ios::binary);
+            bool flush = true;
+            do
+            {
+                char buf[bufferSize];
+                compFile.read(buf, sizeof(buf));
+                const int size = compFile.gcount();
+                if (size > 0)
+                    socket->send(buf, size, flush);
+                else
+                    break;
+                flush = false;
+            }
+            while (compFile);
+        }
     }
 }
 

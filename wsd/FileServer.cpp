@@ -194,7 +194,8 @@ void FileServerRequestHandler::handleRequest(const HTTPRequest& request, Poco::M
             }
 
             response.setContentType(mimeType);
-            HttpHelper::sendFile(socket, filepath, response, noCache);
+            bool gzipAllowed = request.hasToken("Accept-Encoding", "gzip");
+            HttpHelper::sendFile(socket, filepath, response, noCache, gzipAllowed);
         }
     }
     catch (const Poco::Net::NotAuthenticatedException& exc)
