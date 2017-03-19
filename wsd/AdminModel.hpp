@@ -19,6 +19,7 @@
 #include "Log.hpp"
 #include "net/WebSocketHandler.hpp"
 #include "Util.hpp"
+#include "WsdHistory.h"
 
 /// A client view in Admin controller.
 class View
@@ -138,15 +139,9 @@ private:
 class AdminModel
 {
 public:
-    AdminModel()
-    {
-        LOG_INF("AdminModel ctor.");
-    }
+    AdminModel();
 
-    ~AdminModel()
-    {
-        LOG_INF("AdminModel dtor.");
-    }
+    ~AdminModel();
 
     std::string query(const std::string& command);
 
@@ -192,6 +187,7 @@ private:
 private:
     std::map<int, Subscriber> _subscribers;
     std::map<std::string, Document> _documents;
+    std::shared_ptr<WsdStats::WsdHistory> _history;
 
     /// The last N total memory Dirty size.
     std::list<unsigned> _memStats;
