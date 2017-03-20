@@ -54,6 +54,30 @@ int Document::expireView(const std::string& sessionId)
     return _activeViews;
 }
 
+std::string Document::getSnapshot() const
+{
+    std::ostringstream oss;
+    std::string encodedFilename;
+    Poco::URI::encode(this->getFilename(), " ", encodedFilename);
+    oss << this->getPid() << ' '
+        << encodedFilename << ' '
+        << this->getActiveViews() << ' '
+        << this->getMemoryDirty() << ' '
+        << this->getElapsedTime() << ' '
+        << this->getIdleTime() << ' ';
+    return oss.str();
+}
+
+void Document::takeaSnapshot(const std::time_t& ts)
+{
+    this->_snapshots->emplace(std::make_pair(ts, this->getSnapshot()));
+}
+
+WsdStats::DocSnapshots_MapPtr Document::getHistory()
+{
+    return std::make_shared<WsdStats::TimeString_MapType>(*_snapshots);
+}
+
 bool Subscriber::notify(const std::string& message)
 {
     // If there is no socket, then return false to
@@ -102,36 +126,31 @@ AdminModel::AdminModel() :
 
 AdminModel::~AdminModel()
 {
-    std::ostringstream oss;
-    oss << "WsdHistory:\n\nEvents:\n";
-    for (std::pair<const long int, WsdStats::MsgEventPtr> elem : *(_history->_events) )
+    std::ostringstream ossE;
+    ossE << "WsdHistory:\n\nEvents:\n";
+    for (auto elem : *(_history->_events) )
     {
-        oss << "   " << ctime(&elem.first) << "\t" << elem.second->get_action() << "\t" << elem.second->get_pid()<< "\t" <<elem.second->get_filename()<< "\t" << elem.second->get_sessionId()<< "\n";
-        elem.second.reset();
+        std::string theTime = ctime(&elem.first);
+        theTime.erase(theTime.find('\n', 0), 1);
+        ossE << "   " << theTime << "\t" << elem.second << "\n";
     }
-    _history->_events.reset();
-    
-    oss << "\nDocuments:\n";
-    for (std::pair<const long int, WsdStats::SnapshotListPtr> snapshot : *(_history->_documents) )
+
+    std::ostringstream ossD;
+    ossD << "\nDocuments:\n";
+    for (auto mapIt : *(_history->_allSnapshotsMap) )
     {
-        oss << " @ " << ctime(&snapshot.first) << "\n";
-        for (WsdStats::MsgDocumentPtr docs : *(snapshot.second) )
+        ossD << "   " << mapIt.first << ":\n";
+        for (auto snapIt : *(mapIt.second) )
         {
-            oss << "\t" << *docs << "\n";
-            docs.reset();
+            std::string t = ctime(&snapIt.first);
+            t.erase(t.find('\n', 0), 1);            
+            ossD << " @ " << t << "\t" << snapIt.second << "\n";
         }
-        oss << "\n";
-        snapshot.second.reset();
+        ossD << "\n";
     }
-    _history->_documents.reset();
-    
-    for (WsdStats::MsgDocumentPtr elem : *(_history->_messages) )
-    {
-        elem.reset();
-    }
-    _history->_messages.reset();
-    
-    Log::debug(oss.str());
+
+    ossE << "\n" << ossD.str();
+    Log::debug(ossE.str());
     Log::info("AdminModel dtor.");
 }
 
@@ -287,7 +306,6 @@ void AdminModel::notify(const std::string& message)
             }
         }
     }
-    this->_history->collect(message, _documents);
 }
 
 void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
@@ -326,6 +344,12 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
         oss << _documents.begin()->second.getMemoryDirty();
     }
 
+    const std::time_t now = _history->collectEvent(oss.str());
+    if(now!=0)
+    {
+        ret.first->second.takeaSnapshot(now);
+    }
+
     notify(oss.str());
 }
 
@@ -339,6 +363,13 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
         oss << "rmdoc "
             << docIt->second.getPid() << ' '
             << sessionId;
+
+        const std::time_t now = _history->collectEvent(oss.str());
+        if(now!=0)
+        {
+            docIt->second.takeaSnapshot(now);
+        }
+
         notify(oss.str());
 
         // TODO: The idea is to only expire the document and keep the history
@@ -346,6 +377,7 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
         // to the admin console with views. For now, just remove the document.
         if (docIt->second.expireView(sessionId) == 0)
         {
+            this->_history->_allSnapshotsMap->emplace(std::make_pair( docKey,docIt->second.getHistory() ));
             _documents.erase(docIt);
         }
     }
@@ -363,11 +395,18 @@ void AdminModel::removeDocument(const std::string& docKey)
 
         for (const auto& pair : docIt->second.getViews())
         {
+            const std::time_t now = _history->collectEvent(msg + pair.first);
+            if(now!=0)
+            {
+                docIt->second.takeaSnapshot(now);
+            }
+
             // Notify the subscribers
             notify(msg + pair.first);
         }
 
         LOG_DBG("Removed admin document [" << docKey << "].");
+        this->_history->_allSnapshotsMap->emplace(std::make_pair(docKey,docIt->second.getHistory()));
         _documents.erase(docIt);
     }
 }
@@ -415,17 +454,9 @@ std::string AdminModel::getDocuments() const
     {
         if (!it.second.isExpired())
         {
-            std::string encodedFilename;
-            Poco::URI::encode(it.second.getFilename(), " ", encodedFilename);
-            oss << it.second.getPid() << ' '
-                << encodedFilename << ' '
-                << it.second.getActiveViews() << ' '
-                << it.second.getMemoryDirty() << ' '
-                << it.second.getElapsedTime() << ' '
-                << it.second.getIdleTime() << " \n ";
+            oss << it.second.getSnapshot() << "\n";
         }
     }
-
     return oss.str();
 }
 
