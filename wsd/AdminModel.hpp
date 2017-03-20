@@ -52,7 +52,8 @@ public:
           _filename(filename),
           _memoryDirty(0),
           _start(std::time(nullptr)),
-          _lastActivity(_start)
+          _lastActivity(_start),
+          _snapshots(std::make_shared<WsdStats::TimeString_MapType>())
     {
     }
 
@@ -78,6 +79,10 @@ public:
     bool updateMemoryDirty(int dirty);
     int getMemoryDirty() const { return _memoryDirty; }
 
+    void takeaSnapshot(const std::time_t& ts);
+    std::string getSnapshot() const;
+    WsdStats::DocSnapshots_MapPtr getHistory();
+
 private:
     const std::string _docKey;
     const Poco::Process::PID _pid;
@@ -93,6 +98,8 @@ private:
     std::time_t _start;
     std::time_t _lastActivity;
     std::time_t _end = 0;
+
+    WsdStats::DocSnapshots_MapPtr _snapshots;
 };
 
 /// An Admin session subscriber.
