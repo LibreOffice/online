@@ -19,6 +19,7 @@
 #include "Log.hpp"
 #include "net/WebSocketHandler.hpp"
 #include "Util.hpp"
+#include "WsdHistory.h"
 
 /// A client view in Admin controller.
 class View
@@ -51,7 +52,8 @@ public:
           _filename(filename),
           _memoryDirty(0),
           _start(std::time(nullptr)),
-          _lastActivity(_start)
+          _lastActivity(_start),
+          _snapshots(std::make_shared<WsdStats::TimeString_MapType>())
     {
     }
 
@@ -77,6 +79,10 @@ public:
     bool updateMemoryDirty(int dirty);
     int getMemoryDirty() const { return _memoryDirty; }
 
+    void takeaSnapshot(const std::time_t& ts);
+    std::string getSnapshot() const;
+    WsdStats::DocSnapshots_MapPtr getHistory();
+
 private:
     const std::string _docKey;
     const Poco::Process::PID _pid;
@@ -92,6 +98,8 @@ private:
     std::time_t _start;
     std::time_t _lastActivity;
     std::time_t _end = 0;
+
+    WsdStats::DocSnapshots_MapPtr _snapshots;
 };
 
 /// An Admin session subscriber.
@@ -138,15 +146,9 @@ private:
 class AdminModel
 {
 public:
-    AdminModel()
-    {
-        LOG_INF("AdminModel ctor.");
-    }
+    AdminModel();
 
-    ~AdminModel()
-    {
-        LOG_INF("AdminModel dtor.");
-    }
+    ~AdminModel();
 
     std::string query(const std::string& command);
 
@@ -192,6 +194,7 @@ private:
 private:
     std::map<int, Subscriber> _subscribers;
     std::map<std::string, Document> _documents;
+    std::shared_ptr<WsdStats::WsdHistory> _history;
 
     /// The last N total memory Dirty size.
     std::list<unsigned> _memStats;

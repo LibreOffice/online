@@ -54,6 +54,30 @@ int Document::expireView(const std::string& sessionId)
     return _activeViews;
 }
 
+std::string Document::getSnapshot() const
+{
+    std::ostringstream oss;
+    std::string encodedFilename;
+    Poco::URI::encode(this->getFilename(), " ", encodedFilename);
+    oss << this->getPid() << ' '
+        << encodedFilename << ' '
+        << this->getActiveViews() << ' '
+        << this->getMemoryDirty() << ' '
+        << this->getElapsedTime() << ' '
+        << this->getIdleTime() << ' ';
+    return oss.str();
+}
+
+void Document::takeaSnapshot(const std::time_t& ts)
+{
+    this->_snapshots->emplace(std::make_pair(ts, this->getSnapshot()));
+}
+
+WsdStats::DocSnapshots_MapPtr Document::getHistory()
+{
+    return std::make_shared<WsdStats::TimeString_MapType>(*_snapshots);
+}
+
 bool Subscriber::notify(const std::string& message)
 {
     // If there is no socket, then return false to
@@ -94,6 +118,18 @@ void Subscriber::unsubscribe(const std::string& command)
     _subscriptions.erase(command);
 }
 
+AdminModel::AdminModel() :
+    _history(std::make_shared<WsdStats::WsdHistory>())
+{
+    Log::info("AdminModel ctor.");
+}
+
+AdminModel::~AdminModel()
+{
+    Log::debug(_history->getAllHistory());
+    Log::info("AdminModel dtor.");
+}
+
 std::string AdminModel::query(const std::string& command)
 {
     const auto token = LOOLProtocol::getFirstToken(command);
@@ -124,6 +160,10 @@ std::string AdminModel::query(const std::string& command)
     else if (token == "cpu_stats_size")
     {
         return std::to_string(_cpuStatsSize);
+    }
+    else if (token == "history")
+    {
+        return _history->getAllHistoryAsJSON();
     }
 
     return std::string("");
@@ -284,6 +324,12 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
         oss << _documents.begin()->second.getMemoryDirty();
     }
 
+    const std::time_t now = _history->collectEvent(oss.str());
+    if(now!=0)
+    {
+        ret.first->second.takeaSnapshot(now);
+    }
+
     notify(oss.str());
 }
 
@@ -297,6 +343,13 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
         oss << "rmdoc "
             << docIt->second.getPid() << ' '
             << sessionId;
+
+        const std::time_t now = _history->collectEvent(oss.str());
+        if(now!=0)
+        {
+            docIt->second.takeaSnapshot(now);
+        }
+
         notify(oss.str());
 
         // TODO: The idea is to only expire the document and keep the history
@@ -304,6 +357,7 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
         // to the admin console with views. For now, just remove the document.
         if (docIt->second.expireView(sessionId) == 0)
         {
+            this->_history->_allSnapshotsMap->emplace(std::make_pair( docKey,docIt->second.getHistory() ));
             _documents.erase(docIt);
         }
     }
@@ -321,11 +375,18 @@ void AdminModel::removeDocument(const std::string& docKey)
 
         for (const auto& pair : docIt->second.getViews())
         {
+            const std::time_t now = _history->collectEvent(msg + pair.first);
+            if(now!=0)
+            {
+                docIt->second.takeaSnapshot(now);
+            }
+
             // Notify the subscribers
             notify(msg + pair.first);
         }
 
         LOG_DBG("Removed admin document [" << docKey << "].");
+        this->_history->_allSnapshotsMap->emplace(std::make_pair(docKey,docIt->second.getHistory()));
         _documents.erase(docIt);
     }
 }
@@ -373,17 +434,9 @@ std::string AdminModel::getDocuments() const
     {
         if (!it.second.isExpired())
         {
-            std::string encodedFilename;
-            Poco::URI::encode(it.second.getFilename(), " ", encodedFilename);
-            oss << it.second.getPid() << ' '
-                << encodedFilename << ' '
-                << it.second.getActiveViews() << ' '
-                << it.second.getMemoryDirty() << ' '
-                << it.second.getElapsedTime() << ' '
-                << it.second.getIdleTime() << " \n ";
+            oss << it.second.getSnapshot() << "\n";
         }
     }
-
     return oss.str();
 }
 
