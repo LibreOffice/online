@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a57fde8_63d1a1cd",
+        "filename": "wsd/AdminModel.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-23T16:26:18Z",
+      "side": 1,
+      "message": "Why create a shared_ptr here unnecessarily. I don\u0027t think there is any need of a pointer here. Can\u0027t you just declare this std::map as member variable of the Document class, just like _documents in AdminModel class.",
+      "revId": "0942be5d22c7987401119020f7ceb3859050edb3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_a3b0e98c",
+        "filename": "wsd/AdminModel.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-23T16:26:18Z",
+      "side": 1,
+      "message": "Ditto. I think you can do here without a pointer too.",
+      "revId": "0942be5d22c7987401119020f7ceb3859050edb3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a57fde8_83d685c3",
+        "filename": "wsd/WsdHistory.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-03-23T16:26:18Z",
+      "side": 1,
+      "message": "Similarly here. Why can\u0027t we do without creating pointers here, and simply have std::map as member variable of this class ?",
+      "revId": "0942be5d22c7987401119020f7ceb3859050edb3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
