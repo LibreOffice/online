@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a57fde8_9e72587b",
+        "filename": "wsd/AdminModel.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001580
+      },
+      "writtenOn": "2017-03-24T07:34:49Z",
+      "side": 1,
+      "message": "For things that need snapshoting at regular intervals (or when adddoc, rmdoc, resetidle happens), you can have the snapshots and store them in the Document class itself just like you are doing it now also, but only for content that require snapshoting (such as memory).\n\n\nI may change Document::_snapshots member variable to std::map\u003cstd::time_t, [SOMETHING]  \u003e _snapshots where SOMETHING will be data we need to keep - only memory? or also idle time? What do you think about (idle time / total time) index, may it be interesting for an administrator? If yes then SOMETHING can be a std::tuple... were you thinking in something else?\n\n\n(Why create a shared_ptr here unnecessarily... You are right,  it is a mistake. For some reason I thought this way may prevent leak of memory after destructor called. I will fix it.)",
+      "parentUuid": "9a57fde8_63d1a1cd",
+      "revId": "0942be5d22c7987401119020f7ceb3859050edb3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a57fde8_a3b0e98c",
         "filename": "wsd/AdminModel.hpp",
         "patchSetId": 3
