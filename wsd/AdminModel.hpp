@@ -39,9 +39,12 @@ private:
     std::time_t _end = 0;
 };
 
+class DocumentSnapshot;
+
 /// A document in Admin controller.
 class Document
 {
+    friend class DocumentSnapshot;
 public:
     Document(const std::string& docKey,
              Poco::Process::PID pid,
@@ -51,7 +54,8 @@ public:
           _filename(filename),
           _memoryDirty(0),
           _start(std::time(nullptr)),
-          _lastActivity(_start)
+          _lastActivity(_start),
+          _snapshots(std::map<std::time_t,std::shared_ptr<DocumentSnapshot>>())
     {
     }
 
@@ -77,6 +81,11 @@ public:
     bool updateMemoryDirty(int dirty);
     int getMemoryDirty() const { return _memoryDirty; }
 
+    void takeSnapshot();
+    const std::map<std::time_t,std::shared_ptr<DocumentSnapshot>> getHistory() const;
+
+    std::string to_string() const;
+
 private:
     const std::string _docKey;
     const Poco::Process::PID _pid;
@@ -92,6 +101,32 @@ private:
     std::time_t _start;
     std::time_t _lastActivity;
     std::time_t _end = 0;
+
+    std::map<std::time_t,std::shared_ptr<DocumentSnapshot>> _snapshots;
+};
+
+
+class DocumentSnapshot : Document
+{
+public:
+    DocumentSnapshot(const Document& doc) : Document(doc)
+    {
+        Document::_snapshots.clear();
+    }
+
+    using Document::getPid;
+    using Document::getFilename;
+    using Document::isExpired;
+    std::time_t getElapsedTime() const { return Document::_end - Document::_start; } //I'm not sure..
+    std::time_t getIdleTime() const {return Document::_end - Document::_lastActivity; } //ditto
+    using Document::getActiveViews;
+    //const std::map<std::string, View>& getViews() const;
+    using Document::getMemoryDirty;
+    using Document::to_string;
+
+private:
+    using Document::getElapsedTime;
+    using Document::getIdleTime;
 };
 
 /// An Admin session subscriber.
@@ -138,15 +173,9 @@ private:
 class AdminModel
 {
 public:
-    AdminModel()
-    {
-        LOG_INF("AdminModel ctor.");
-    }
+    AdminModel();
 
-    ~AdminModel()
-    {
-        LOG_INF("AdminModel dtor.");
-    }
+    ~AdminModel();
 
     std::string query(const std::string& command);
 
@@ -191,7 +220,8 @@ private:
 
 private:
     std::map<int, Subscriber> _subscribers;
-    std::map<std::string, Document> _documents;
+    std::map<std::string,Document> _documents;
+    std::map<std::string,std::map<std::time_t,std::shared_ptr<DocumentSnapshot>>> _expiredDocuments;
 
     /// The last N total memory Dirty size.
     std::list<unsigned> _memStats;
