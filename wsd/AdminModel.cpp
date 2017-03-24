@@ -54,6 +54,35 @@ int Document::expireView(const std::string& sessionId)
     return _activeViews;
 }
 
+std::string Document::to_string() const
+{
+    std::ostringstream oss;
+    std::string encodedFilename;
+    Poco::URI::encode(this->getFilename(), " ", encodedFilename);
+    oss << this->getPid() << ' '
+        << encodedFilename << ' '
+        << this->getActiveViews() << ' '
+        << this->getMemoryDirty() << ' '
+        << this->getElapsedTime() << ' '
+        << this->getIdleTime() << ' ';
+    return oss.str();
+}
+
+// It is useful for debug purposes
+std::string DocumentSnapshot::to_string() const
+{
+    std::ostringstream oss;
+    std::string encodedFilename;
+    Poco::URI::encode(this->getFilename(), " ", encodedFilename);
+    oss << this->getPid() << ' '
+        << encodedFilename << ' '
+        << this->getActiveViews() << ' '
+        << this->getMemoryDirty() << ' '
+        << this->getElapsedTime() << ' '
+        << this->getIdleTime() << ' ';
+    return oss.str();
+}
+
 bool Subscriber::notify(const std::string& message)
 {
     // If there is no socket, then return false to
@@ -94,6 +123,38 @@ void Subscriber::unsubscribe(const std::string& command)
     _subscriptions.erase(command);
 }
 
+AdminModel::AdminModel()
+{
+    Log::info("AdminModel ctor.");
+}
+
+AdminModel::~AdminModel()
+{
+    std::ostringstream oss;
+    oss << "History of documents:\n\n";
+    for (auto ed : _expiredDocuments)
+    {
+        oss << ed.first << ":\n";
+        for (auto s : ed.second.getHistory() )
+        {
+            std::string theTime = ctime( s->getCreationTime() );
+            theTime.erase(theTime.find('\n', 0), 1);
+            oss << " @ " << theTime << " -> " << s->to_string() << "\t<Views:";
+            for (auto v : s->getViews() )
+            {
+                if(!v.second.isExpired())
+                {
+                    oss << ' ' << v.first;
+                }
+            }
+            oss << ">\n";
+        }
+        oss << "\n";
+    }
+    Log::debug(oss.str());
+    Log::info("AdminModel dtor.");
+}
+
 std::string AdminModel::query(const std::string& command)
 {
     const auto token = LOOLProtocol::getFirstToken(command);
@@ -125,6 +186,10 @@ std::string AdminModel::query(const std::string& command)
     {
         return std::to_string(_cpuStatsSize);
     }
+    //else if (token == "history")
+    //{
+    //    return this->getAllHistoryAsJSON();
+    //}
 
     return std::string("");
 }
@@ -253,6 +318,8 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
 {
     const auto ret = _documents.emplace(docKey, Document(docKey, pid, filename));
     ret.first->second.addView(sessionId);
+    ret.first->second.takeSnapshot();
+
     LOG_DBG("Added admin document [" << docKey << "].");
 
     std::string encodedFilename;
@@ -301,9 +368,11 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
 
         // TODO: The idea is to only expire the document and keep the history
         // of documents open and close, to be able to give a detailed summary
-        // to the admin console with views. For now, just remove the document.
+        // to the admin console with views.
+        docIt->second.takeSnapshot();
         if (docIt->second.expireView(sessionId) == 0)
         {
+            _expiredDocuments.emplace(*docIt);
             _documents.erase(docIt);
         }
     }
@@ -323,9 +392,11 @@ void AdminModel::removeDocument(const std::string& docKey)
         {
             // Notify the subscribers
             notify(msg + pair.first);
+            docIt->second.takeSnapshot();
         }
 
         LOG_DBG("Removed admin document [" << docKey << "].");
+        _expiredDocuments.emplace(*docIt);
         _documents.erase(docIt);
     }
 }
@@ -373,17 +444,9 @@ std::string AdminModel::getDocuments() const
     {
         if (!it.second.isExpired())
         {
-            std::string encodedFilename;
-            Poco::URI::encode(it.second.getFilename(), " ", encodedFilename);
-            oss << it.second.getPid() << ' '
-                << encodedFilename << ' '
-                << it.second.getActiveViews() << ' '
-                << it.second.getMemoryDirty() << ' '
-                << it.second.getElapsedTime() << ' '
-                << it.second.getIdleTime() << " \n ";
+            oss << it.second.to_string() << "\n";
         }
     }
-
     return oss.str();
 }
 
@@ -394,6 +457,7 @@ void AdminModel::updateLastActivityTime(const std::string& docKey)
     {
         if (docIt->second.getIdleTime() >= 10)
         {
+            docIt->second.takeSnapshot(); // I would like to keep the idle time
             docIt->second.updateLastActivityTime();
             notify("resetidle " + std::to_string(docIt->second.getPid()));
         }

@@ -13,12 +13,15 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <ctime>
 
 #include <Poco/Process.h>
 
 #include "Log.hpp"
 #include "net/WebSocketHandler.hpp"
 #include "Util.hpp"
+
+class DocumentSnapshot;
 
 /// A client view in Admin controller.
 class View
@@ -42,6 +45,8 @@ private:
 /// A document in Admin controller.
 class Document
 {
+    friend class DocumentSnapshot;
+
 public:
     Document(const std::string& docKey,
              Poco::Process::PID pid,
@@ -51,7 +56,8 @@ public:
           _filename(filename),
           _memoryDirty(0),
           _start(std::time(nullptr)),
-          _lastActivity(_start)
+          _lastActivity(_start),
+          _snapshots(std::set<std::shared_ptr<DocumentSnapshot>>())
     {
     }
 
@@ -77,6 +83,12 @@ public:
     bool updateMemoryDirty(int dirty);
     int getMemoryDirty() const { return _memoryDirty; }
 
+    const std::shared_ptr<DocumentSnapshot> getSnapshot() const { return std::make_shared<DocumentSnapshot>(*this); }
+    const std::set<std::shared_ptr<DocumentSnapshot>>& getHistory() const{ return _snapshots; }
+    void takeSnapshot() { _snapshots.emplace(this->getSnapshot()); }
+
+    std::string to_string() const;
+
 private:
     const std::string _docKey;
     const Poco::Process::PID _pid;
@@ -92,6 +104,46 @@ private:
     std::time_t _start;
     std::time_t _lastActivity;
     std::time_t _end = 0;
+
+    std::set<std::shared_ptr<DocumentSnapshot>> _snapshots;
+};
+
+class DocumentSnapshot : Document
+{
+public:
+    DocumentSnapshot(const Document& doc) :
+        Document(doc),
+        _timestamp(std::time(nullptr))
+    {
+        Document::_snapshots.clear();
+    }
+
+    const std::time_t* getCreationTime() const { return &_timestamp; }
+
+    using Document::getPid;
+    using Document::getFilename;
+    using Document::isExpired;
+    std::time_t getElapsedTime() const { return (_timestamp - _start); }
+    std::time_t getIdleTime() const {return (_timestamp - _lastActivity); }
+    using Document::getActiveViews;
+    using Document::getViews;
+    using Document::getMemoryDirty;
+    std::string to_string() const;
+
+private:
+    // I want to inhibit someone calls these methods on superclass
+    using Document::getElapsedTime;
+    using Document::getIdleTime;
+    using Document::addView;
+    using Document::expireView;
+    using Document::updateLastActivityTime;
+    using Document::updateMemoryDirty;
+    using Document::getSnapshot;
+    using Document::getHistory;
+    using Document::takeSnapshot;
+    using Document::to_string;
+
+    const std::time_t _timestamp;
 };
 
 /// An Admin session subscriber.
@@ -138,15 +190,9 @@ private:
 class AdminModel
 {
 public:
-    AdminModel()
-    {
-        LOG_INF("AdminModel ctor.");
-    }
+    AdminModel();
 
-    ~AdminModel()
-    {
-        LOG_INF("AdminModel dtor.");
-    }
+    ~AdminModel();
 
     std::string query(const std::string& command);
 
@@ -191,7 +237,8 @@ private:
 
 private:
     std::map<int, Subscriber> _subscribers;
-    std::map<std::string, Document> _documents;
+    std::map<std::string,Document> _documents;
+    std::map<std::string,Document> _expiredDocuments;
 
     /// The last N total memory Dirty size.
     std::list<unsigned> _memStats;
