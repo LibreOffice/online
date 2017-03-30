@@ -1688,8 +1688,9 @@ L.TileLayer = L.GridLayer.extend({
 
 			// remember the copied text, for rich copy/paste inside a document
 			this._selectionTextHash = this._selectionTextContent;
-			this._map._socket.sendMessage('uno .uno:Copy');
 		}
+
+		this._map._socket.sendMessage('uno .uno:Copy');
 	},
 
 	_onCut: function (e) {
@@ -1700,23 +1701,24 @@ L.TileLayer = L.GridLayer.extend({
 
 			// remember the copied text, for rich copy/paste inside a document
 			this._selectionTextHash = this._selectionTextContent;
-			this._map._socket.sendMessage('uno .uno:Cut');
 		}
+
+		this._map._socket.sendMessage('uno .uno:Cut');
 	},
 
 	_onPaste: function (e) {
 		e = e.originalEvent;
 		e.preventDefault();
 		var pasteString = L.Compatibility.clipboardGet(e);
-		if (pasteString) {
-			if (pasteString === this._selectionTextHash) {
-				// content of the clipboard did not change, we can do rich
-				// paste
-				this._map._socket.sendMessage('uno .uno:Paste');
-			}
-			else {
-				this._map._socket.sendMessage('paste mimetype=text/plain;charset=utf-8\n' + pasteString);
-			}
+		if (pasteString === 'false' || !!pasteString || pasteString === this._selectionTextHash) {
+			// If there is nothing to paste in clipboard, no harm in
+			// issuing a .uno:Paste in case there is something internally copied in the document
+			// or if the content of the clipboard did not change, we surely must do a rich paste
+			// instead of a normal paste
+			this._map._socket.sendMessage('uno .uno:Paste');
+		}
+		else {
+			this._map._socket.sendMessage('paste mimetype=text/plain;charset=utf-8\n' + pasteString);
 		}
 	},
 
