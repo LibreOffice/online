@@ -15,6 +15,8 @@
 #include <string>
 
 #include <Poco/Process.h>
+#include <Poco/JSON/Object.h>
+#include <Poco/JSON/Parser.h>
 
 #include "Log.hpp"
 #include "net/WebSocketHandler.hpp"
@@ -51,7 +53,8 @@ public:
           _filename(filename),
           _memoryDirty(0),
           _start(std::time(nullptr)),
-          _lastActivity(_start)
+          _lastActivity(_start),
+          _snapshots(std::map<std::time_t,std::shared_ptr<Poco::JSON::Object>>())
     {
     }
 
@@ -77,6 +80,12 @@ public:
     bool updateMemoryDirty(int dirty);
     int getMemoryDirty() const { return _memoryDirty; }
 
+    const std::shared_ptr<Poco::JSON::Object> getSnapshot() const;
+    const std::map<std::time_t,std::shared_ptr<Poco::JSON::Object>>& getHistory() const{ return _snapshots; }
+    void takeSnapshot();
+
+    std::string to_string() const;
+
 private:
     const std::string _docKey;
     const Poco::Process::PID _pid;
@@ -92,6 +101,8 @@ private:
     std::time_t _start;
     std::time_t _lastActivity;
     std::time_t _end = 0;
+
+    std::map<std::time_t,std::shared_ptr<Poco::JSON::Object>> _snapshots;
 };
 
 /// An Admin session subscriber.
@@ -143,12 +154,11 @@ public:
         LOG_INF("AdminModel ctor.");
     }
 
-    ~AdminModel()
-    {
-        LOG_INF("AdminModel dtor.");
-    }
+    ~AdminModel();
 
     std::string query(const std::string& command);
+
+    std::shared_ptr<const std::string> getAllHistory() const;
 
     /// Returns memory consumed by all active loolkit processes
     unsigned getKitsMemoryUsage();
@@ -192,6 +202,7 @@ private:
 private:
     std::map<int, Subscriber> _subscribers;
     std::map<std::string, Document> _documents;
+    std::map<std::string, Document> _expiredDocuments;
 
     /// The last N total memory Dirty size.
     std::list<unsigned> _memStats;
