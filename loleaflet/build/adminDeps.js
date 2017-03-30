@@ -26,7 +26,13 @@ var adminDeps = {
 
 	AdminSocketSettings: {
 		src: ['admin/AdminSocketSettings.js'],
-		desc: 'Socket to handle settings from server',
+		desc: 'Socket to handle settings from server.',
+		deps: ['AdminCore']
+	},
+
+	AdminSocketHistory: {
+		src: ['admin/AdminSocketHistory.js'],
+		desc: 'Socket to query document history.',
 		deps: ['AdminCore']
 	}
 };

@@ -490,6 +490,33 @@ documents
     Queries the server for list of opened documents. See `documents` command
     in admin -> client section for format of the response message
 
+history
+
+    Queries the server for list of opened and expired documents with their
+    snapshots. Returns a json object and it looks like:
+
+    { "History" :
+            {
+                "documents": [
+                    {
+                        "docKey" : "/opt/libreoffice/online/test/data/hello-world.odt",
+                        "snapshots" : [
+                            {
+                                "creationTime" : 1490647236,
+                                "document" : {...}
+                            },
+                            {
+                            ...
+                            }]
+                    },
+                    {
+                    ...
+                    }],
+
+                "expiredDocuments" : [...]
+            }
+    }
+
 total_mem
 
     Queries for total memory being consumed by the server in kilobytes.
