@@ -35,11 +35,11 @@ wsd_sources = \
             ../common/Log.cpp \
             ../common/Protocol.cpp \
             ../common/Session.cpp \
+            ../common/Util.cpp \
 	    ../common/MessageQueue.cpp \
             ../kit/Kit.cpp \
             ../wsd/TileCache.cpp \
-            ../common/Unit.cpp \
-            ../common/Util.cpp
+            ../common/Unit.cpp
 
 test_CPPFLAGS = -I$(top_srcdir) -DBUILDING_TESTS
 test_SOURCES = TileCacheTests.cpp integration-http-server.cpp \

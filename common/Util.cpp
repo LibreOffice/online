@@ -17,6 +17,7 @@
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <sys/vfs.h>
+#include <sys/syscall.h>
 #include <unistd.h>
 
 #include <atomic>
@@ -184,12 +185,39 @@ namespace Util
         return replace(r, "\n", " / ");
     }
 
+    static __thread char ThreadName[32];
+
     void setThreadName(const std::string& s)
     {
+        strncpy(ThreadName, s.c_str(), 31);
+        ThreadName[31] = '\0';
         if (prctl(PR_SET_NAME, reinterpret_cast<unsigned long>(s.c_str()), 0, 0, 0) != 0)
         {
             LOG_SYS("Cannot set thread name to " << s << ".");
         }
+    }
+
+    const char *getThreadName()
+    {
+        // Main process and/or not set yet.
+        if (ThreadName[0] == '\0')
+        {
+            if (prctl(PR_GET_NAME, reinterpret_cast<unsigned long>(ThreadName), 0, 0, 0) != 0)
+                ThreadName[0] = '\0';
+        }
+
+        // Avoid so many redundant system calls
+        return ThreadName;
+    }
+
+    static __thread pid_t ThreadTid;
+
+    pid_t getThreadId()
+    {
+        // Avoid so many redundant system calls
+        if (!ThreadTid)
+            ThreadTid = syscall(SYS_gettid);
+        return ThreadTid;
     }
 
     void getVersionInfo(std::string& version, std::string& hash)

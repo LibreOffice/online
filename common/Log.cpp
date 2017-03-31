@@ -15,7 +15,6 @@
 #include <sstream>
 #include <string>
 
-#include <sys/syscall.h>
 #include <unistd.h>
 
 #include <Poco/ConsoleChannel.h>
@@ -29,6 +28,7 @@
 #include <Poco/Timestamp.h>
 
 #include "Log.hpp"
+#include "Util.hpp"
 
 static char LogPrefix[256] = { '\0' };
 
@@ -82,19 +82,14 @@ namespace Log
 
         std::string time = DateTimeFormatter::format(Poco::Timestamp(), "%H:%M:%s");
 
-        char procName[32]; // we really need only 16
-        if (prctl(PR_GET_NAME, reinterpret_cast<unsigned long>(procName), 0, 0, 0) != 0)
-        {
-            strncpy(procName, "<noid>", sizeof(procName) - 1);
-        }
+        long osTid = Util::getThreadId();
+        const char *threadName = Util::getThreadName();
 
         const char* appName = (Source.inited ? Source.id.c_str() : "<shutdown>");
         assert(strlen(appName) + 32 + 28 < 1024 - 1);
 
         snprintf(buffer, 4095, "%s-%.04lu %s [ %s ] %s  ", appName,
-                 syscall(SYS_gettid),
-                 time.c_str(),
-                 procName, level);
+                 osTid, time.c_str(), threadName, level);
     }
 
     std::string prefix(const char* level)
