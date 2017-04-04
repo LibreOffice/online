@@ -205,15 +205,15 @@ namespace HttpHelper
             response.set("ETag", "\"" LOOLWSD_VERSION_HASH "\"");
         }
 
-        if(!deflate)
+        int bufferSize = std::min(st.st_size, (off_t)Socket::MaximumSendBufferSize);
+        if (st.st_size >= socket->getSendBufferSize())
         {
-            int bufferSize = std::min(st.st_size, (off_t)Socket::MaximumSendBufferSize);
-            if (st.st_size >= socket->getSendBufferSize())
-            {
-                socket->setSocketBufferSize(bufferSize);
-                bufferSize = socket->getSendBufferSize();
-            }
+            socket->setSocketBufferSize(bufferSize);
+            bufferSize = socket->getSendBufferSize();
+        }
 
+        if (!deflate)
+        {
             response.setContentLength(st.st_size);
             std::ostringstream oss;
             response.write(oss);
@@ -246,18 +246,16 @@ namespace HttpHelper
             socket->send(header);
 
             std::ifstream file(path, std::ios::binary);
-            uLong bufferSize;
-            bufferSize = st.st_size;
-            char buf[bufferSize];
             bool flush = true;
             do
             {
-                unsigned int a = 9;
-                file.read(buf, sizeof(buf));
-                long unsigned int size = file.gcount();
+                static const unsigned int level = 9;
+                char buf[st.st_size]; // All file bytes.
+                file.read(buf, st.st_size);
+                const long unsigned int size = file.gcount();
                 long unsigned int compSize = compressBound(size);
                 char cbuf[compSize];
-                compress2((Bytef *)&cbuf, &compSize, (Bytef *)&buf, size, a) ;
+                compress2((Bytef *)&cbuf, &compSize, (Bytef *)&buf, size, level);
                 if (size > 0)
                     socket->send(cbuf, compSize, flush);
                 else
