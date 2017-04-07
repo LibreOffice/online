@@ -275,7 +275,8 @@ void AdminModel::notify(const std::string& message)
 }
 
 void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
-                             const std::string& filename, const std::string& sessionId)
+                             const std::string& filename, const std::string& sessionId,
+                             const std::string& userName)
 {
     assertCorrectThread();
 
@@ -291,7 +292,8 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
     oss << "adddoc "
         << pid << ' '
         << encodedFilename << ' '
-        << sessionId << ' ';
+        << sessionId << ' '
+        << userName << ' ';
 
     // We have to wait until the kit sends us its PSS.
     // Here we guestimate until we get an update.
