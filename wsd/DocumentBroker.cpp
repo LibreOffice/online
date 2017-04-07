@@ -788,7 +788,9 @@ size_t DocumentBroker::addSession(const std::shared_ptr<ClientSession>& session)
     _childProcess->sendTextFrame(aMessage);
 
     // Tell the admin console about this new doc
-    Admin::instance().addDoc(_docKey, getPid(), getFilename(), id);
+    std::string username;
+    username = session->getUserName();
+    Admin::instance().addDoc(_docKey, getPid(), getFilename(), id, username);
 
     LOG_TRC("Added " << (session->isReadOnly() ? "readonly" : "non-readonly") <<
             " session [" << id << "] to docKey [" <<
