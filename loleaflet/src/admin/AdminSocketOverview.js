@@ -99,11 +99,25 @@ var AdminSocketOverview = AdminSocketBase.extend({
 				sMem = docProps[3];
 				sDocTime = docProps[4];
 				sDocIdle = docProps[5];
+				userList = documents[i].trim().split('"')[1].split(',');
 
 				$doc = $('#doc' + sPid);
 				$rowContainer = $(document.createElement('tr')).attr('id', 'doc' + sPid);
 
 				$pid = $(document.createElement('td')).text(sPid);
+				$userContainer = $(document.createElement('div')).attr('id', 'ucontainer' + sPid)
+										  .addClass('userContainer');
+				for (var j = 0; j < userList.length; j++) {
+					if (userList[j].length === 0)
+						break;
+					username = userList[j].split(':')[0];
+					sessionid = userList[j].split(':')[1];
+					$user = $(document.createElement('div')).addClass('userpointer')
+										.text(username)
+										.attr('id', 'user' + sessionid);
+					$userContainer.append($user);
+				}
+				$pid.append($userContainer);
 				$rowContainer.append($pid);
 
 				$name = $(document.createElement('td')).text(sName);
@@ -142,14 +156,21 @@ var AdminSocketOverview = AdminSocketBase.extend({
 			docProps = textMsg.trim().split(' ');
 			sPid = docProps[0];
 			sName = decodeURI(docProps[1]);
-			// docProps[2] == sessionid
-			sMem = docProps[3];
+			sessionid = docProps[2];
+			uName = ''
+			for (var i = 3; i <= docProps.length - 2; i++) {
+				uName += docProps[i] + ' ';
+			}
+			sMem = docProps[docProps.length - 1];
 
 			$doc = $('#doc' + sPid);
 			if ($doc.length === 0) {
 				$rowContainer = $(document.createElement('tr')).attr('id', 'doc' + sPid);
 
 				$pid = $(document.createElement('td')).text(sPid);
+				$userContainer = $(document.createElement('div')).attr('id', 'ucontainer' + sPid)
+										  .addClass('userContainer');
+				$pid.append($userContainer);
 				$rowContainer.append($pid);
 
 				$name = $(document.createElement('td')).text(sName);
@@ -183,6 +204,12 @@ var AdminSocketOverview = AdminSocketBase.extend({
 			nViews = parseInt($views.text());
 			$views.text(nViews + 1);
 
+			$userContainer = $(document.getElementById('ucontainer' + sPid));
+			$user = $(document.createElement('div')).addClass('userpointer')
+													.text(uName)
+													.attr('id', 'user' + sessionid);
+			$userContainer.append($user);
+
 			$a = $(document.getElementById('active_users_count'));
 			nTotalViews = parseInt($a.text());
 			$a.text(nTotalViews + 1);
@@ -204,22 +231,24 @@ var AdminSocketOverview = AdminSocketBase.extend({
 			textMsg = textMsg.substring('rmdoc'.length);
 			docProps = textMsg.trim().split(' ');
 			sPid = docProps[0];
-			// docProps[1] == sessionid
+			sessionid = docProps[1];
 
 			$doc = $('#doc' + sPid);
 			if ($doc.length !== 0) {
+				$user = $(document.getElementById('user' + sessionid));
+				$user.remove();
 				$views = $('#docview' + sPid);
 				nViews = parseInt($views.text()) - 1;
 				$views.text(nViews);
 				if (nViews === 0) {
 					$doc.remove();
 				}
-
 				$a = $(document.getElementById('active_users_count'));
 				nTotalViews = parseInt($a.text());
 				$a.text(nTotalViews - 1);
 			}
-		} else if (textMsg.startsWith('propchange')) {
+		}
+		else if (textMsg.startsWith('propchange')) {
 			textMsg = textMsg.substring('propchange'.length);
 			docProps = textMsg.trim().split(' ');
 			sPid = docProps[0];
