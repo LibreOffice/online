@@ -26,9 +26,9 @@
 #include "Unit.hpp"
 #include "Util.hpp"
 
-void Document::addView(const std::string& sessionId)
+void Document::addView(const std::string& sessionId, const std::string& userName)
 {
-    const auto ret = _views.emplace(sessionId, View(sessionId));
+    const auto ret = _views.emplace(sessionId, View(sessionId, userName));
     if (!ret.second)
     {
         LOG_WRN("View with SessionID [" << sessionId << "] already exists.");
@@ -275,23 +275,27 @@ void AdminModel::notify(const std::string& message)
 }
 
 void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
-                             const std::string& filename, const std::string& sessionId)
+                             const std::string& filename, const std::string& sessionId,
+                             const std::string& userName)
 {
     assertCorrectThread();
 
     const auto ret = _documents.emplace(docKey, Document(docKey, pid, filename));
-    ret.first->second.addView(sessionId);
+    ret.first->second.addView(sessionId, userName);
     LOG_DBG("Added admin document [" << docKey << "].");
 
+    std::string encodedUsername;
     std::string encodedFilename;
     Poco::URI::encode(filename, " ", encodedFilename);
+    Poco::URI::encode(userName, " ", encodedUsername);
 
     // Notify the subscribers
     std::ostringstream oss;
     oss << "adddoc "
         << pid << ' '
         << encodedFilename << ' '
-        << sessionId << ' ';
+        << sessionId << ' '
+        << encodedUsername << ' ';
 
     // We have to wait until the kit sends us its PSS.
     // Here we guestimate until we get an update.
@@ -409,6 +413,7 @@ std::string AdminModel::getDocuments() const
     assertCorrectThread();
 
     std::ostringstream oss;
+    std::map<std::string, View> viewers;
     for (const auto& it: _documents)
     {
         if (!it.second.isExpired())
@@ -420,7 +425,17 @@ std::string AdminModel::getDocuments() const
                 << it.second.getActiveViews() << ' '
                 << it.second.getMemoryDirty() << ' '
                 << it.second.getElapsedTime() << ' '
-                << it.second.getIdleTime() << " \n ";
+                << it.second.getIdleTime() << ' '
+                << '{';
+            viewers = it.second.getViews();
+            for(auto& viewIt: viewers)
+            {
+                oss << '"' << viewIt.second.getUserName() << '"' << ':'
+                    << '"' << viewIt.second.getSessionId() << '"';
+                    if(viewIt.second.getSessionId() != (--viewers.end())->second.getSessionId())
+                        oss << ',';
+            }
+            oss << '}' << " \n ";
         }
     }
 
