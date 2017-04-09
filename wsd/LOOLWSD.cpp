@@ -1529,6 +1529,7 @@ private:
     {
         auto socket = _socket.lock();
         std::vector<char>& in = socket->_inBuffer;
+        LOG_TRC("#" << socket->getFD() << " handling incoming " << in.size() << " bytes.");
 
         // Find the end of the header, if any.
         static const std::string marker("\r\n\r\n");
@@ -1536,7 +1537,7 @@ private:
                                   marker.begin(), marker.end());
         if (itBody == in.end())
         {
-            LOG_TRC("#" << socket->getFD() << " doesn't have enough data yet.");
+            LOG_DBG("#" << socket->getFD() << " doesn't have enough data yet.");
             return SocketHandlerInterface::SocketOwnership::UNCHANGED;
         }
 
@@ -1574,6 +1575,10 @@ private:
                 LOG_DBG("Not enough content yet: ContentLength: " << contentLength << ", available: " << available);
                 return SocketHandlerInterface::SocketOwnership::UNCHANGED;
             }
+
+            // if we succeeded - remove the request from our input buffer
+            // we expect one request per socket
+            in.erase(in.begin(), itBody);
         }
         catch (const std::exception& exc)
         {
@@ -1630,7 +1635,8 @@ private:
                     // All post requests have url prefix 'lool'.
                     socketOwnership = handlePostRequest(request, message);
                 }
-                else if (reqPathTokens.count() > 2 && reqPathTokens[0] == "lool" && reqPathTokens[2] == "ws")
+                else if (reqPathTokens.count() > 2 && reqPathTokens[0] == "lool" && reqPathTokens[2] == "ws" &&
+                         request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0)
                 {
                     socketOwnership = handleClientWsUpgrade(request, reqPathTokens[1]);
                 }
@@ -1649,15 +1655,12 @@ private:
                     socket->shutdown();
                 }
             }
-
-            // if we succeeded - remove the request from our input buffer
-            // we expect one request per socket
-            in.clear();
         }
         catch (const std::exception& exc)
         {
             // TODO: Send back failure.
             // NOTE: Check _wsState to choose between HTTP response or WebSocket (app-level) error.
+            LOG_ERR("#" << socket->getFD() << " Exception while processing incoming request: [" << LOOLProtocol::getAbbreviatedMessage(in) << "]");
         }
 
         return socketOwnership;
