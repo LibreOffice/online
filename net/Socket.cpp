@@ -188,7 +188,7 @@ void SocketPoll::dumpState(std::ostream& os)
 namespace HttpHelper
 {
     void sendFile(const std::shared_ptr<StreamSocket>& socket, const std::string& path, const std::string& mediaType,
-                  Poco::Net::HTTPResponse& response, bool noCache, bool deflate)
+                  Poco::Net::HTTPResponse& response, bool noCache, bool gzip)
     {
         struct stat st;
         if (stat(path.c_str(), &st) != 0)
@@ -220,7 +220,7 @@ namespace HttpHelper
         // Disable deflate for now - until we can cache deflated data.
         // FIXME: IE/Edge doesn't work well with deflate, so check with
         // IE/Edge before enabling the deflate again
-        if (!deflate || true)
+        if (!gzip)
         {
             response.setContentLength(st.st_size);
             std::ostringstream oss;
@@ -246,36 +246,49 @@ namespace HttpHelper
         }
         else
         {
-            response.set("Content-Encoding", "deflate");
+            response.set("Content-Encoding", "gzip");
             std::ostringstream oss;
             response.write(oss);
             const std::string header = oss.str();
             LOG_TRC("#" << socket->getFD() << ": Sending file [" << path << "]: " << header);
             socket->send(header);
 
-            std::ifstream file(path, std::ios::binary);
-            bool flush = true;
-
             // FIXME: Should compress once ahead of time
             // compression of bundle.js takes significant time:
             //   200's ms for level 9 (468k), 72ms for level 1(587k)
             //   down from 2Mb.
-            std::unique_ptr<char[]> buf(new char[st.st_size]);
+
+            std::ifstream file(path, std::ios::binary);
+            bool flush = true;
+
+            z_stream strm;
+            strm.zalloc = Z_NULL;
+            strm.zfree = Z_NULL;
+            strm.opaque = Z_NULL;
+
+
+            deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, 31, 8, Z_DEFAULT_STRATEGY);
+            char buf[st.st_size];
             do
             {
-                static const unsigned int level = 1;
                 file.read(&buf[0], st.st_size);
                 const long unsigned int size = file.gcount();
+                long unsigned int haveComp;
                 long unsigned int compSize = compressBound(size);
-                std::unique_ptr<char[]> cbuf(new char[compSize]);
-                compress2((Bytef *)&cbuf[0], &compSize, (Bytef *)&buf[0], size, level);
+                char cbuf[size];
+                strm.next_in = (unsigned char *)&buf[0];
+                strm.avail_in = size;
+                strm.avail_out = compSize;
+                strm.next_out = (unsigned char *)&cbuf[0];
+                deflate(&strm, Z_FINISH);
+                haveComp = compSize - strm.avail_out;
                 if (size > 0)
-                    socket->send(&cbuf[0], compSize, flush);
+                    socket->send(&cbuf[0], haveComp, flush);
                 else
                     break;
                 flush = false;
             }
-            while(file);
+            while(true);
         }
     }
 }

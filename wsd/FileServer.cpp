@@ -198,8 +198,8 @@ void FileServerRequestHandler::handleRequest(const HTTPRequest& request, Poco::M
                 }
             }
 
-            bool deflate = request.hasToken("Accept-Encoding", "deflate");
-            HttpHelper::sendFile(socket, filepath, mimeType, response, noCache, deflate);
+            bool gzip = request.hasToken("Accept-Encoding", "gzip");
+            HttpHelper::sendFile(socket, filepath, mimeType, response, noCache, gzip);
         }
     }
     catch (const Poco::Net::NotAuthenticatedException& exc)
