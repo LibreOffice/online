@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_1c96a194",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-13T04:23:36Z",
+      "side": 1,
+      "message": "Store the username here too.",
+      "revId": "51e28ca48f90c16e66214910223297dee675419d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_bc866d63",
         "filename": "wsd/AdminModel.cpp",
         "patchSetId": 3
