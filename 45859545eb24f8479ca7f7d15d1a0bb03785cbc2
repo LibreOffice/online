@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_932a84e6",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-13T03:51:36Z",
+      "side": 1,
+      "message": "I don\u0027t see any need to stringify with indent, step etc. here. This is meant to be sent to the js client anyways which will parse the JSON until it is valid anyways. So lets just do -\u003estringify(oss) and be done with it.",
+      "revId": "45859545eb24f8479ca7f7d15d1a0bb03785cbc2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_33ce305b",
         "filename": "wsd/AdminModel.cpp",
         "patchSetId": 2
