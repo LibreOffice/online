@@ -175,6 +175,8 @@ if test -n "$with_lo_path"; then
    LO_PATH="$with_lo_path"
    version_file="$with_lo_path/program/versionrc"
    if test -f $version_file; then
+     # strip trailing '/' from LO_PATH, 'ln -s' with such path will otherwise fail
+     LO_PATH="${with_lo_path%/}"
      JAILS_PATH="\${abs_top_builddir}/jails"
      SYSTEMPLATE_PATH="\${abs_top_builddir}/systemplate"
      have_lo_path=true
