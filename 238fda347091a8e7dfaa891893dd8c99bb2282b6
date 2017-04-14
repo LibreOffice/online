@@ -16,6 +16,24 @@
       "revId": "238fda347091a8e7dfaa891893dd8c99bb2282b6",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_07ec8ac6",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001580
+      },
+      "writtenOn": "2017-04-14T07:53:19Z",
+      "side": 1,
+      "message": "I kept use of shared pointers here because without them I got a runtime error just during the killing of the process. I am not sure about cause. I read on stacktrace something related to DocumentBroker so I believe there is an issue with its disposing. I will send you stacktrace and log file via email.",
+      "parentUuid": "5a3905b3_07b9eae9",
+      "revId": "238fda347091a8e7dfaa891893dd8c99bb2282b6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
