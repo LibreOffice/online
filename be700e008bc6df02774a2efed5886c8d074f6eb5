@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_87c5da5c",
+        "filename": "loleaflet/dist/admin/bootstrap/dashboard.css",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-14T00:52:41Z",
+      "side": 1,
+      "message": "nitpick: trailing space",
+      "revId": "be700e008bc6df02774a2efed5886c8d074f6eb5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_67c8ee75",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-14T00:52:41Z",
+      "side": 1,
+      "message": "I think its high-time we convert this message to JSON format to avoid any confusion. Please can you create a JSON string structure here and then send it to the client, preferrably in a separate patch that will be merged before this one. Don\u0027t forget to handle the same in JS and make changes there accordingly. Really don\u0027t want this use of arbitrary separators left and right. Using the JSON structure will provide us with more flexibility to add more data in future.",
+      "revId": "be700e008bc6df02774a2efed5886c8d074f6eb5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
