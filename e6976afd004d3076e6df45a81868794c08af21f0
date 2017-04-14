@@ -33,6 +33,24 @@
       "revId": "e6976afd004d3076e6df45a81868794c08af21f0",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_67aaae1b",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-14T18:47:05Z",
+      "side": 1,
+      "message": "converted whole structure to JSON, let me know if any thing else needs to be changed.",
+      "parentUuid": "5a3905b3_c7cb621d",
+      "revId": "e6976afd004d3076e6df45a81868794c08af21f0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
