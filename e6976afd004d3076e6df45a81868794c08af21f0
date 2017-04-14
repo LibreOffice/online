@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_e7d05ecc",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-14T12:50:36Z",
+      "side": 1,
+      "message": "Fair, makes sense. I overlooked. Thanks",
+      "revId": "e6976afd004d3076e6df45a81868794c08af21f0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_c7cb621d",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-14T12:50:36Z",
+      "side": 1,
+      "message": "Hmm. I meant converting the whole structure here to JSON string, not just this \u0027views\u0027 part. So like :\n{\u0027documents\u0027: [ {file: \u0027abc\u0027, activeViews: 3, .... views: [{username: \u0027XYZ\u0027, sessionid: \u0027123\u0027}, {} , ...] }, { ... } ] }\n\nMy reason behind it is that it reduces the chances of parsing errors on the client side. Currently we use \u0027 \u0027 as a separator on the client side, which works well when number of tokens are less and the data we want to transmit is plain, not too complex. But as this command is evolving, a JSON string here would be more suitable and less error-prone, and allows to express complex relation between data easily.\n\nIn your case, if you insert a \u0027 \u0027 in this JSON string, the JSON would still be valid but client will break as it will parse it as separate token. Sure, one can then look up for \u0027{\u0027 character to find out where the JSON has started, but it adds more complexity and is not the ideal solution. Converting the response to JSON, in my opinion, would be better here.",
+      "revId": "e6976afd004d3076e6df45a81868794c08af21f0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
