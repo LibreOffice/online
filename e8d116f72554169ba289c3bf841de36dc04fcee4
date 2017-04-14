@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_87e23a9e",
+        "filename": "net/Socket.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2017-04-14T14:16:14Z",
+      "side": 1,
+      "message": "Enabling this code again without testing / working around the IE/Edge bugs using the request headers will cause problems I think. We should not enable before that is addressed.",
+      "revId": "e8d116f72554169ba289c3bf841de36dc04fcee4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_a7ed7690",
+        "filename": "net/Socket.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2017-04-14T14:16:14Z",
+      "side": 1,
+      "message": "I would like this piece taken care of before we re-enable this. ie. reading the whole directory hierarchy that we are able to serve, and also compressing it ahead of time (on startup) would be by far the best. There is a punitive cost of doing the compression when file serving: it makes LOOLWSD significantly slower I\u0027m afraid.",
+      "revId": "e8d116f72554169ba289c3bf841de36dc04fcee4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_67e54ea7",
+        "filename": "net/Socket.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2017-04-14T14:16:14Z",
+      "side": 1,
+      "message": "We want to allocate this on the heap (as the previous code did) and not on the stack - this could be large.",
+      "revId": "e8d116f72554169ba289c3bf841de36dc04fcee4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
