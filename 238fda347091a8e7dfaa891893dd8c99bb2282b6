@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_07b9eae9",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-14T00:41:36Z",
+      "side": 1,
+      "message": "Again, why return shared_ptr here at all when you can do with a std::string ?\n\nIf you have some solid reason, we can keep it here like this but otherwise it looks absolutely superfluous to me. If you are worried about std::string being copied, an optimizing compiler should already take care of that and RVO[1] would kick in.",
+      "revId": "238fda347091a8e7dfaa891893dd8c99bb2282b6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
