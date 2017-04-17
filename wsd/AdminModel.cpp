@@ -54,6 +54,90 @@ int Document::expireView(const std::string& sessionId)
     return _activeViews;
 }
 
+std::string Document::getSnapshot() const
+{
+    std::ostringstream oss;
+    oss << "{";
+    oss << "\"creationTime\"" << ":" << std::time(nullptr) << ",";
+    oss << "\"memoryDirty\"" << ":" << this->getMemoryDirty() << ",";
+    oss << "\"activeViews\"" << ":" << this->getActiveViews() << ",";
+
+    oss << "\"views\"" << ":[";
+    std::string separator = "";
+    for (auto view : this->getViews())
+    {
+        oss << separator << "\"";
+        if(view.second.isExpired())
+        {
+            oss << "-";
+        }
+        oss << view.first << "\"";
+        separator = ",";
+    }
+    oss << "],";
+
+    oss << "\"lastActivity\"" << ":" << this->_lastActivity;
+    oss << "}";
+    return oss.str();
+}
+
+const std::string Document::getHistory() const
+{
+    std::ostringstream oss;
+    oss << "{";
+    //oss << "\"docKey\"" << ":\"" << this->_docKey << "\",";
+    oss << "\"filename\"" << ":\"" << this->getFilename() << "\",";
+    oss << "\"start\"" << ":" << this->_start << ",";
+    oss << "\"end\"" << ":" << this->_end << ",";
+    oss << "\"pid\"" << ":" << this->getPid() << ",";
+    oss << "\"snapshots\"" << ":[";
+    std::string separator = "";
+    for (auto s : _snapshots)
+    {
+        oss << separator << s.second;
+        separator = ",";
+    }
+    oss << "]}";
+    return oss.str();
+}
+
+void Document::takeSnapshot()
+{
+    std::time_t creationTime = 0;
+    std::string s = this->getSnapshot();
+
+    std::string::size_type start_pos = 0;
+    std::string::size_type end_pos = 0;
+
+    start_pos = s.find(":");
+    if (start_pos != std::string::npos)
+    {
+      ++start_pos;
+      end_pos = s.find(",");
+      if (end_pos != std::string::npos)
+      {
+          creationTime = std::stol(s.substr(start_pos, end_pos - start_pos));
+      }
+    }
+
+    auto insPoint = _snapshots.upper_bound(creationTime);
+    _snapshots.insert(insPoint, std::make_pair(creationTime,s));
+}
+
+std::string Document::to_string() const
+{
+    std::ostringstream oss;
+    std::string encodedFilename;
+    Poco::URI::encode(this->getFilename(), " ", encodedFilename);
+    oss << this->getPid() << ' '
+        << encodedFilename << ' '
+        << this->getActiveViews() << ' '
+        << this->getMemoryDirty() << ' '
+        << this->getElapsedTime() << ' '
+        << this->getIdleTime() << ' ';
+    return oss.str();
+}
+
 bool Subscriber::notify(const std::string& message)
 {
     // If there is no socket, then return false to
@@ -104,6 +188,35 @@ void AdminModel::assertCorrectThread() const
         std::dec << Util::getThreadId() << ").");
 
     assert(sameThread);
+}
+
+AdminModel::~AdminModel()
+{
+    Log::debug("History:\n\n" + getAllHistory() + "\n");
+    Log::info("AdminModel dtor.");
+}
+
+std::string AdminModel::getAllHistory() const
+{
+    std::ostringstream oss;
+    oss << "{ \"documents\" : [";
+    std::string separator1 = "";
+    for (auto d : _documents)
+    {
+        oss << separator1;
+        oss << d.second.getHistory();
+        separator1 = ",";
+    }
+    oss << "], \"expiredDocuments\" : [";
+    separator1 = "";
+    for (auto ed : _expiredDocuments)
+    {
+        oss << separator1;
+        oss << ed.second.getHistory();
+        separator1 = ",";
+    }
+    oss << "]}";
+    return oss.str();
 }
 
 std::string AdminModel::query(const std::string& command)
@@ -281,6 +394,7 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
 
     const auto ret = _documents.emplace(docKey, Document(docKey, pid, filename));
     ret.first->second.addView(sessionId);
+    ret.first->second.takeSnapshot();
     LOG_DBG("Added admin document [" << docKey << "].");
 
     std::string encodedFilename;
@@ -329,11 +443,13 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
             << sessionId;
         notify(oss.str());
 
-        // TODO: The idea is to only expire the document and keep the history
+        // The idea is to only expire the document and keep the history
         // of documents open and close, to be able to give a detailed summary
-        // to the admin console with views. For now, just remove the document.
+        // to the admin console with views.
+        docIt->second.takeSnapshot();
         if (docIt->second.expireView(sessionId) == 0)
         {
+            _expiredDocuments.emplace(*docIt);
             _documents.erase(docIt);
         }
     }
@@ -355,9 +471,11 @@ void AdminModel::removeDocument(const std::string& docKey)
         {
             // Notify the subscribers
             notify(msg + pair.first);
+            docIt->second.takeSnapshot();
         }
 
         LOG_DBG("Removed admin document [" << docKey << "].");
+        _expiredDocuments.emplace(*docIt);
         _documents.erase(docIt);
     }
 }
@@ -413,14 +531,7 @@ std::string AdminModel::getDocuments() const
     {
         if (!it.second.isExpired())
         {
-            std::string encodedFilename;
-            Poco::URI::encode(it.second.getFilename(), " ", encodedFilename);
-            oss << it.second.getPid() << ' '
-                << encodedFilename << ' '
-                << it.second.getActiveViews() << ' '
-                << it.second.getMemoryDirty() << ' '
-                << it.second.getElapsedTime() << ' '
-                << it.second.getIdleTime() << " \n ";
+            oss << it.second.to_string() << "\n ";
         }
     }
 
@@ -436,6 +547,7 @@ void AdminModel::updateLastActivityTime(const std::string& docKey)
     {
         if (docIt->second.getIdleTime() >= 10)
         {
+            docIt->second.takeSnapshot(); // I would like to keep the idle time
             docIt->second.updateLastActivityTime();
             notify("resetidle " + std::to_string(docIt->second.getPid()));
         }
