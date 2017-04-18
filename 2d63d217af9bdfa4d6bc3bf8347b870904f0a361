@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_59a03691",
+        "filename": "loleaflet/dist/admin/admin.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T16:42:26Z",
+      "side": 1,
+      "message": "nitpick: trailing stuff",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_79adf287",
+        "filename": "loleaflet/src/admin/AdminSocketHistory.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T16:42:26Z",
+      "side": 1,
+      "message": "Ah, so we don\u0027t handle InvalidAuthToken/not authenticated case it seems. Good you pointed it out. Can you file a bug for this on tdf bugzilla ?",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_f9af227b",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T16:42:26Z",
+      "side": 1,
+      "message": "I think it can be really useful sometimes. Lets not comment it out.",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_b9b59ad1",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T16:42:26Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be more simple to just return a pair\u003ctime_t, std::string\u003e from the getSnapshot itself ?",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_79c41240",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T16:42:26Z",
+      "side": 1,
+      "message": "The problem is you are taking a \"snapshot\" here _before_ expiring the view, so your snapshot _does_ contain the view that is going to be expired which results in a snapshot that is not intended to be like what it is here.",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_b9dcba19",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T16:42:26Z",
+      "side": 1,
+      "message": "Similarly this I guess. It takes a snapshot before removing a document. I think ideally you want to take a snapshot after removing one, no ?",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_d9e186d2",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T16:42:26Z",
+      "side": 1,
+      "message": "One problem here is that if a document with same docKey is again expired i.e user opens a document test.odt then closes it (which moves it to _expiredDocuments) and then open test.odt again and closes it again \u003d\u003e the next time you will try to put the data for this document here, the new data will be ignored because there is already a document with same docKey inside.\n\nYou can choose to address this issue in a separate follow-up patch alongwith other issues, we can focus on merging this one for now.",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
