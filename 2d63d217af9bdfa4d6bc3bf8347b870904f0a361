@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_f982c2c7",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T18:14:16Z",
+      "side": 1,
+      "message": "Yes, I think that would be better choice, but then you have to make sure that expireView is called _everytime_ a view is expired which is actually a good thing.\n\nWrt line 474 issue, it seems are not calling expireView there. So, if you move this takeSnapshot call to expireView, make sure we call expireView there in the loop just after notifying to all admin subscribers.",
+      "parentUuid": "5a3905b3_d916e6a6",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_b9dcba19",
         "filename": "wsd/AdminModel.cpp",
         "patchSetId": 7
@@ -205,6 +223,24 @@
       "side": 1,
       "message": "Ok, it is a mistake. I prefer to address it in a separate patch",
       "parentUuid": "5a3905b3_d9e186d2",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_991d3ec0",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T18:14:16Z",
+      "side": 1,
+      "message": "Yes, sure. I\u0027d prefer that too.",
+      "parentUuid": "5a3905b3_f90ba27b",
       "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
