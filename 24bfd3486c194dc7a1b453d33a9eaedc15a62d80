@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_f9fd626f",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-18T17:39:38Z",
+      "side": 1,
+      "message": "ok, changed that.",
+      "parentUuid": "5a3905b3_47093231",
+      "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_b98e7a25",
         "filename": "loleaflet/src/admin/AdminSocketOverview.js",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-18T15:52:11Z",
       "side": 1,
       "message": "What is this userpointer class, do you intend to use it in future ? I can\u0027t see any css rule.",
+      "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_d908a694",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-18T17:39:38Z",
+      "side": 1,
+      "message": "userpointer class is for styling each user entry in the user container, currently this isn\u0027t being used, but could be used in future.\nBut, i\u0027ll just remove it for now. If necessary we could add it later on.",
+      "parentUuid": "5a3905b3_b98e7a25",
       "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_39f8ca7c",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-18T17:39:38Z",
+      "side": 1,
+      "message": "Yes, we are not changing the values, so added const.",
+      "parentUuid": "5a3905b3_199eae56",
+      "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_f998026d",
         "filename": "wsd/AdminModel.hpp",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2017-04-18T15:52:11Z",
       "side": 1,
       "message": "These can be const member functions returning a const.",
+      "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_794972d0",
+        "filename": "wsd/AdminModel.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-18T17:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_f998026d",
       "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
