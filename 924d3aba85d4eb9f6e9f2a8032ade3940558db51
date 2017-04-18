@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_9900deac",
+        "filename": "configure.ac",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T13:29:59Z",
+      "side": 1,
+      "message": "I wonder if we should only warn or throw error.",
+      "revId": "924d3aba85d4eb9f6e9f2a8032ade3940558db51",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
