@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_47093231",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T15:52:11Z",
+      "side": 1,
+      "message": "\u003cspace\u003e is not the only thing that wsd would have encoded to %20. What if the name includes non-ascii characters. They would be encoded too and you need to decode them here. So better use decodeURI here rather than handling everything manually.",
+      "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_b98e7a25",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T15:52:11Z",
+      "side": 1,
+      "message": "What is this userpointer class, do you intend to use it in future ? I can\u0027t see any css rule.",
+      "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_199eae56",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T15:52:11Z",
+      "side": 1,
+      "message": "This can be const auto\u0026 ... too, you don\u0027t need to and shouldn\u0027t modify the container here anyways.",
+      "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_f998026d",
+        "filename": "wsd/AdminModel.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-18T15:52:11Z",
+      "side": 1,
+      "message": "These can be const member functions returning a const.",
+      "revId": "24bfd3486c194dc7a1b453d33a9eaedc15a62d80",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
