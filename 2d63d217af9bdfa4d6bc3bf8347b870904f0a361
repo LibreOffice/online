@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_d92fc6f4",
+        "filename": "loleaflet/src/admin/AdminSocketHistory.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001580
+      },
+      "writtenOn": "2017-04-18T18:03:41Z",
+      "side": 1,
+      "message": "Ok I will do it. I had a quick look and tried to fix it but I focused more on server side.",
+      "parentUuid": "5a3905b3_79adf287",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_f9af227b",
         "filename": "wsd/AdminModel.cpp",
         "patchSetId": 7
@@ -47,6 +65,24 @@
       "writtenOn": "2017-04-18T16:42:26Z",
       "side": 1,
       "message": "I think it can be really useful sometimes. Lets not comment it out.",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_f934824b",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001580
+      },
+      "writtenOn": "2017-04-18T18:03:41Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "5a3905b3_f9af227b",
       "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_193a2e37",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001580
+      },
+      "writtenOn": "2017-04-18T18:03:41Z",
+      "side": 1,
+      "message": "Ohh you are right! I will fix with next patch set",
+      "parentUuid": "5a3905b3_b9b59ad1",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_79c41240",
         "filename": "wsd/AdminModel.cpp",
         "patchSetId": 7
@@ -81,6 +135,24 @@
       "writtenOn": "2017-04-18T16:42:26Z",
       "side": 1,
       "message": "The problem is you are taking a \"snapshot\" here _before_ expiring the view, so your snapshot _does_ contain the view that is going to be expired which results in a snapshot that is not intended to be like what it is here.",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_d916e6a6",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1001580
+      },
+      "writtenOn": "2017-04-18T18:03:41Z",
+      "side": 1,
+      "message": "Yeah, it is a mistake. Maybe I have to move it in the Document::expireView method (https://gerrit.libreoffice.org/#/c/35926/7/wsd/AdminModel.cpp@53) but I didn\u0027t try it yet so I am not sure. Idem with the next issue (line 474). What do you think about?",
+      "parentUuid": "5a3905b3_79c41240",
       "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -115,6 +187,24 @@
       "writtenOn": "2017-04-18T16:42:26Z",
       "side": 1,
       "message": "One problem here is that if a document with same docKey is again expired i.e user opens a document test.odt then closes it (which moves it to _expiredDocuments) and then open test.odt again and closes it again \u003d\u003e the next time you will try to put the data for this document here, the new data will be ignored because there is already a document with same docKey inside.\n\nYou can choose to address this issue in a separate follow-up patch alongwith other issues, we can focus on merging this one for now.",
+      "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_f90ba27b",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1001580
+      },
+      "writtenOn": "2017-04-18T18:03:41Z",
+      "side": 1,
+      "message": "Ok, it is a mistake. I prefer to address it in a separate patch",
+      "parentUuid": "5a3905b3_d9e186d2",
       "revId": "2d63d217af9bdfa4d6bc3bf8347b870904f0a361",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
