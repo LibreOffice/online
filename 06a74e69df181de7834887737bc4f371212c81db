@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_ac9ab6c3",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-04-19T04:39:10Z",
+      "side": 1,
+      "message": "This looks very wrong usage to me; don\u0027t think it would be a valid JSON in case this loop is executed multiple times \u003d\u003e breaking the client",
+      "revId": "06a74e69df181de7834887737bc4f371212c81db",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
