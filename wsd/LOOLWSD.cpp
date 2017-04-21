@@ -1533,6 +1533,7 @@ private:
     {
         auto socket = _socket.lock();
         std::vector<char>& in = socket->_inBuffer;
+        LOG_TRC("#" << socket->getFD() << " handling incoming " << in.size() << " bytes.");
 
         // Find the end of the header, if any.
         static const std::string marker("\r\n\r\n");
@@ -1540,7 +1541,7 @@ private:
                                   marker.begin(), marker.end());
         if (itBody == in.end())
         {
-            LOG_TRC("#" << socket->getFD() << " doesn't have enough data yet.");
+            LOG_DBG("#" << socket->getFD() << " doesn't have enough data yet.");
             return SocketHandlerInterface::SocketOwnership::UNCHANGED;
         }
 
@@ -1634,7 +1635,8 @@ private:
                     // All post requests have url prefix 'lool'.
                     socketOwnership = handlePostRequest(request, message);
                 }
-                else if (reqPathTokens.count() > 2 && reqPathTokens[0] == "lool" && reqPathTokens[2] == "ws")
+                else if (reqPathTokens.count() > 2 && reqPathTokens[0] == "lool" && reqPathTokens[2] == "ws" &&
+                         request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0)
                 {
                     socketOwnership = handleClientWsUpgrade(request, reqPathTokens[1]);
                 }
@@ -1653,10 +1655,6 @@ private:
                     socket->shutdown();
                 }
             }
-
-            // if we succeeded - remove the request from our input buffer
-            // we expect one request per socket
-            in.clear();
         }
         catch (const std::exception& exc)
         {
@@ -1666,6 +1664,9 @@ private:
                     LOOLProtocol::getAbbreviatedMessage(in) << "]: " << exc.what());
         }
 
+        // if we succeeded - remove the request from our input buffer
+        // we expect one request per socket
+        in.erase(in.begin(), itBody);
         return socketOwnership;
     }
 
