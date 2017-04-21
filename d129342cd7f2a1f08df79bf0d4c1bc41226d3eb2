@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_a58d697d",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2017-04-21T12:02:47Z",
+      "side": 1,
+      "message": "Is this not rather late - if we have added this socket to another poll - we don\u0027t really own it at this point (surely) and there is a threading / race here.",
+      "revId": "d129342cd7f2a1f08df79bf0d4c1bc41226d3eb2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
