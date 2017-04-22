@@ -19,12 +19,14 @@
 #include <Poco/DateTimeFormatter.h>
 
 #include "SigUtil.hpp"
-#include "Socket.hpp"
 #include "ServerSocket.hpp"
 #include "WebSocketHandler.hpp"
+#include "FileServer.hpp"
+#include "Socket.hpp"
 
 int SocketPoll::DefaultPollTimeoutMs = 5000;
 std::atomic<bool> Socket::InhibitThreadChecks(false);
+std::map<std::string, std::string> FileServerRequestHandler::compressedFiles;
 
 // help with initialization order
 namespace {
@@ -188,7 +190,7 @@ void SocketPoll::dumpState(std::ostream& os)
 namespace HttpHelper
 {
     void sendFile(const std::shared_ptr<StreamSocket>& socket, const std::string& path, const std::string& mediaType,
-                  Poco::Net::HTTPResponse& response, bool noCache, bool deflate)
+                  Poco::Net::HTTPResponse& response, bool noCache)
     {
         struct stat st;
         if (stat(path.c_str(), &st) != 0)
@@ -220,63 +222,29 @@ namespace HttpHelper
         // Disable deflate for now - until we can cache deflated data.
         // FIXME: IE/Edge doesn't work well with deflate, so check with
         // IE/Edge before enabling the deflate again
-        if (!deflate || true)
+
+        response.setContentLength(st.st_size);
+        std::ostringstream oss;
+        response.write(oss);
+        const std::string header = oss.str();
+        LOG_TRC("#" << socket->getFD() << ": Sending file [" << path << "]: " << header);
+        socket->send(header);
+
+        std::ifstream file(path, std::ios::binary);
+        bool flush = true;
+        std::unique_ptr<char[]> buf(new char[bufferSize]);
+        do
         {
-            response.setContentLength(st.st_size);
-            std::ostringstream oss;
-            response.write(oss);
-            const std::string header = oss.str();
-            LOG_TRC("#" << socket->getFD() << ": Sending file [" << path << "]: " << header);
-            socket->send(header);
-
-            std::ifstream file(path, std::ios::binary);
-            bool flush = true;
-            std::unique_ptr<char[]> buf(new char[bufferSize]);
-            do
-            {
-                file.read(&buf[0], bufferSize);
-                const int size = file.gcount();
-                if (size > 0)
-                    socket->send(&buf[0], size, flush);
-                else
-                    break;
-                flush = false;
-            }
-            while (file);
+            file.read(&buf[0], bufferSize);
+            const int size = file.gcount();
+            if (size > 0)
+                socket->send(&buf[0], size, flush);
+            else
+                break;
+            flush = false;
         }
-        else
-        {
-            response.set("Content-Encoding", "deflate");
-            std::ostringstream oss;
-            response.write(oss);
-            const std::string header = oss.str();
-            LOG_TRC("#" << socket->getFD() << ": Sending file [" << path << "]: " << header);
-            socket->send(header);
+        while (file);
 
-            std::ifstream file(path, std::ios::binary);
-            bool flush = true;
-
-            // FIXME: Should compress once ahead of time
-            // compression of bundle.js takes significant time:
-            //   200's ms for level 9 (468k), 72ms for level 1(587k)
-            //   down from 2Mb.
-            std::unique_ptr<char[]> buf(new char[st.st_size]);
-            do
-            {
-                static const unsigned int level = 1;
-                file.read(&buf[0], st.st_size);
-                const long unsigned int size = file.gcount();
-                long unsigned int compSize = compressBound(size);
-                std::unique_ptr<char[]> cbuf(new char[compSize]);
-                compress2((Bytef *)&cbuf[0], &compSize, (Bytef *)&buf[0], size, level);
-                if (size > 0)
-                    socket->send(&cbuf[0], compSize, flush);
-                else
-                    break;
-                flush = false;
-            }
-            while(file);
-        }
     }
 }
 

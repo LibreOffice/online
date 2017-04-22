@@ -789,6 +789,7 @@ void LOOLWSD::initialize(Application& self)
         TraceDumper.reset(new TraceFileWriter(path, recordOutgoing, compress, takeSnapshot, filters));
         LOG_INF("Command trace dumping enabled to file: " << path);
     }
+    FileServerRequestHandler::initializeCompression();
 
     StorageBase::initialize();
 
