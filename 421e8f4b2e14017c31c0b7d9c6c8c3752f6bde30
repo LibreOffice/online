@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_a0ee37ea",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-22T14:12:48Z",
+      "side": 1,
+      "message": "I tried to put this part of the code in HttpHelper::sendFile, but got linkage issues, as in \"undefined references to functions\" even though i included appropriate header files.\nSpent quite some time trying to resolve it.\nCan you please help about that.",
+      "range": {
+        "startLine": 210,
+        "startChar": 12,
+        "endLine": 233,
+        "endChar": 13
+      },
+      "revId": "421e8f4b2e14017c31c0b7d9c6c8c3752f6bde30",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
