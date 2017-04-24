@@ -182,7 +182,7 @@ L.Annotation = L.Layer.extend({
 			this._captionNode = L.DomUtil.create(tagDiv, 'loleaflet-annotation-caption', wrapper);
 			this._captionText = L.DomUtil.create(tagDiv, empty, this._captionNode);
 		}
-		this._contentNode = L.DomUtil.create(tagDiv, 'loleaflet-annotation-content', wrapper);
+		this._contentNode = L.DomUtil.create(tagDiv, 'loleaflet-annotation-content loleaflet-dont-break', wrapper);
 		this._nodeModify = L.DomUtil.create(tagDiv, classEdit, wrapper);
 		this._nodeModifyText = L.DomUtil.create(tagTextArea, classTextArea, this._nodeModify);
 		this._contentText = L.DomUtil.create(tagDiv, empty, this._contentNode);
@@ -275,7 +275,8 @@ L.Annotation = L.Layer.extend({
 		if (!(this._data.dateTime instanceof Date)) {
 			this._data.dateTime = new Date(this._data.dateTime.replace(/,.*/, 'Z'));
 		}
-		this._contentText.innerHTML = this._nodeModifyText.innerHTML = this._data.text;
+		var linkedText = Autolinker.link(this._data.text);
+		this._contentText.innerHTML = this._nodeModifyText.innerHTML = linkedText;
 		this._contentAuthor.innerHTML = this._data.author;
 		this._contentDate.innerHTML = this._data.dateTime.toDateString();
 		if (this._data.trackchange) {
