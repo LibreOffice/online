@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_fbe1d1d1",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2017-04-24T13:13:57Z",
+      "side": 0,
+      "message": "I\u0027m pretty scared to see a load of security headers disappear. That sounds like a bad idea \u003d) Please justify or re-instate ...",
+      "revId": "9c7cbab615d57ee4aa4538d1bf2d211533407bf3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}

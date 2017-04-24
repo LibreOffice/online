@@ -22,6 +22,40 @@
       "revId": "421e8f4b2e14017c31c0b7d9c6c8c3752f6bde30",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_bbc10931",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2017-04-24T13:13:57Z",
+      "side": 1,
+      "message": "Generally I would expect this to take the form of a recursive function - that is passed in a map; something like:\n\nreadDirToHash(MapType map, const std::string \u0026path);\n\nThis will call itself for sub-directories.\n\nIn the hash/map - I would expect to see:\n\n\u003cstd::string, FileData\u003e\n\nWhere FileData is: std::string _unCompressed; std::string _gzipCompressed;\n\nie. we store both of these in memory as strings, to avoid having to read them ever again.",
+      "revId": "421e8f4b2e14017c31c0b7d9c6c8c3752f6bde30",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_dbdc151b",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2017-04-24T13:13:57Z",
+      "side": 1,
+      "message": "Where does 33204 come from ? that\u0027s \u0027orrible. Very fragile - you\u0027re checking permissions left \u0026 right. You want to do:\n\nif (fileStat.st_mode \u0026 S_IFDIR)\n\nto detect directories - in this case build a sub-path and: recurse. I\u0027d also check S_IFREG - to select only regular files to read before reading / compressing.",
+      "revId": "421e8f4b2e14017c31c0b7d9c6c8c3752f6bde30",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
