@@ -11,6 +11,10 @@
 
 #include <string>
 #include <vector>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <zlib.h>
 
 #include <Poco/DateTime.h>
 #include <Poco/DateTimeFormat.h>
@@ -44,6 +48,8 @@ using Poco::Net::NameValueCollection;
 using Poco::Net::HTTPBasicCredentials;
 using Poco::StreamCopier;
 using Poco::Util::Application;
+
+std::map<std::string, std::pair<std::string, std::string>> FileServerRequestHandler::FileHash;
 
 bool FileServerRequestHandler::isAdminLoggedIn(const HTTPRequest& request,
                                                HTTPResponse &response)
@@ -200,8 +206,44 @@ void FileServerRequestHandler::handleRequest(const HTTPRequest& request, Poco::M
                 }
             }
 
-            bool deflate = request.hasToken("Accept-Encoding", "deflate");
-            HttpHelper::sendFile(socket, filepath, mimeType, response, noCache, deflate);
+            bool gzip = request.hasToken("Accept-Encoding", "gzip");
+
+            if(!isRead(filepath))
+                HttpHelper::sendFile(socket, filepath, mimeType, response, noCache);
+            else
+            {
+                response.set("User-Agent", HTTP_AGENT_STRING);
+                response.set("Date", Poco::DateTimeFormatter::format(Poco::Timestamp(), Poco::DateTimeFormat::HTTP_FORMAT));
+                if (!noCache)
+                {
+                    // 60 * 60 * 24 * 128 (days) = 11059200
+                    response.set("Cache-Control", "max-age=11059200");
+                    response.set("ETag", "\"" LOOLWSD_VERSION_HASH "\"");
+                }
+
+                response.setContentType(mimeType);
+                response.add("X-Content-Type-Options", "nosniff");
+
+                if(gzip)
+                {
+                    response.set("Content-Encoding", "gzip");
+                    std::ostringstream oss;
+                    response.write(oss);
+                    const std::string header = oss.str();
+                    LOG_TRC("#" << socket->getFD() << ": Sending compressed file [" << filepath << "]: " << header);
+                    socket->send(header);
+                    socket->send(getCompressedFile(filepath));
+                }
+                else
+                {
+                    std::ostringstream oss;
+                    response.write(oss);
+                    const std::string header = oss.str();
+                    LOG_TRC("#" << socket->getFD() << ": Sending file [" << filepath << "]: " << header);
+                    socket->send(header);
+                    socket->send(getUncompressedFile(filepath));
+                }
+            }
         }
     }
     catch (const Poco::Net::NotAuthenticatedException& exc)
@@ -244,6 +286,104 @@ void FileServerRequestHandler::handleRequest(const HTTPRequest& request, Poco::M
             << "\r\n";
         socket->send(oss.str());
     }
+}
+
+void FileServerRequestHandler::readDirToHash(std::string path)
+{
+
+    struct dirent *currentFile;
+    struct stat fileStat;
+    DIR *workingdir;
+
+    workingdir = opendir(path.c_str());
+
+    while((currentFile = readdir(workingdir)) != NULL)
+    {
+        if(currentFile->d_name[0] == '.')
+            continue;
+
+        std::string filePath = path + "/" + currentFile->d_name;
+        stat(filePath.c_str(), &fileStat);
+
+        // recursively call readDirToHash if current parth is of a directory
+        if(S_ISDIR(fileStat.st_mode))
+            readDirToHash(filePath);
+        else if(S_ISREG(fileStat.st_mode))
+        {
+            std::ifstream file(filePath, std::ios::binary);
+
+            z_stream strm;
+            strm.zalloc = Z_NULL;
+            strm.zfree = Z_NULL;
+            strm.opaque = Z_NULL;
+            deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, 31, 8, Z_DEFAULT_STRATEGY);
+
+            auto buf = std::unique_ptr<char[]>(new char[fileStat.st_size]);
+            std::string compressedFile = "";
+            std::string uncompressedFile = "";
+            do{
+
+                file.read(&buf[0], fileStat.st_size);
+                const long unsigned int size = file.gcount();
+                long unsigned int haveComp;
+                long unsigned int compSize = compressBound(size);
+                char *cbuf;
+                cbuf = (char *)calloc(compSize, sizeof(char));
+
+                strm.next_in = (unsigned char *)&buf[0];
+                strm.avail_in = size;
+                strm.avail_out = compSize;
+                strm.next_out = (unsigned char *)&cbuf[0];
+
+                deflate(&strm, Z_FINISH);
+
+                haveComp = compSize - strm.avail_out;
+                std::string partialcompFile(cbuf, haveComp);
+                std::string partialuncompFile(buf.get(), size);
+                compressedFile = compressedFile + partialcompFile;
+                uncompressedFile = uncompressedFile + partialuncompFile;
+
+                if(size == 0)
+                    break;
+
+            }while(true);
+            std::pair<std::string, std::string> FilePair(uncompressedFile, compressedFile);
+            FileHash.emplace(filePath, FilePair);
+        }
+    }
+    closedir(workingdir);
+}
+
+void FileServerRequestHandler::initializeCompression()
+{
+    std::string rootPath(get_current_dir_name());
+    static const std::vector<std::string> extensionArray
+        = {"/loleaflet/dist"};
+    // we should let this be a vector, would be benificial
+    // if we decide to serve files from different folders in future.
+    for(const auto& extension: extensionArray)
+    {
+        std::string extensionPath;
+        extensionPath = rootPath + extension;
+        readDirToHash(extensionPath);
+    }
+}
+
+bool FileServerRequestHandler::isRead (const std::string path)
+{
+    if(FileHash.find(path) == FileHash.end())
+        return false;
+    return true;
+}
+
+std::string FileServerRequestHandler::getCompressedFile(std::string path)
+{
+    return FileHash[path].second;
+}
+
+std::string FileServerRequestHandler::getUncompressedFile(std::string path)
+{
+    return FileHash[path].first;
 }
 
 std::string FileServerRequestHandler::getRequestPathname(const HTTPRequest& request)
