@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_0f5ad383",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-26T18:19:11Z",
+      "side": 1,
+      "message": "This line is specifically for the admin page.\nEarlier, the path name for all requests from the admin page were something like \"file1/file2/libre/online//loleaflet/dist/admin/admin.html\"",
+      "range": {
+        "startLine": 386,
+        "startChar": 0,
+        "endLine": 386,
+        "endChar": 86
+      },
+      "revId": "c69c4ad3d90c0ee505c6cae32dc751a8e59a8d22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
