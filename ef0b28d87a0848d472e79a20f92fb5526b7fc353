@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_6f6a771c",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-26T18:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_2fb06ff4",
+      "revId": "ef0b28d87a0848d472e79a20f92fb5526b7fc353",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_6f927759",
         "filename": "wsd/FileServer.cpp",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-26T14:34:47Z",
       "side": 1,
       "message": "I\u0027d prefer to read out the data we want to send into a const std::string - and add the response header - and then share all of this std::ostringstream and -\u003esend() stuff if we can - could you split that to make it beautiful \u003d)",
+      "revId": "ef0b28d87a0848d472e79a20f92fb5526b7fc353",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_8f77a301",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-26T18:18:55Z",
+      "side": 1,
+      "message": "sorry, but i did not understand what exactly you wanted me to do here.",
+      "parentUuid": "5a3905b3_6f927759",
       "revId": "ef0b28d87a0848d472e79a20f92fb5526b7fc353",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_af745ffd",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-26T18:18:55Z",
+      "side": 1,
+      "message": "removed comment.\nadded braces",
+      "parentUuid": "5a3905b3_8fc88376",
+      "revId": "ef0b28d87a0848d472e79a20f92fb5526b7fc353",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_6fcb5773",
         "filename": "wsd/FileServer.cpp",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_cf5feb73",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-26T18:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_6fcb5773",
+      "revId": "ef0b28d87a0848d472e79a20f92fb5526b7fc353",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_efa587b5",
         "filename": "wsd/FileServer.cpp",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2017-04-26T14:34:47Z",
       "side": 1,
       "message": "we can return the result of the comparison surely ? \u003d) no need for the if / false / true thing \u003d)",
+      "revId": "ef0b28d87a0848d472e79a20f92fb5526b7fc353",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_ef64a74a",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-04-26T18:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_efa587b5",
       "revId": "ef0b28d87a0848d472e79a20f92fb5526b7fc353",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
