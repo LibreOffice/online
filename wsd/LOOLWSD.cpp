@@ -1810,11 +1810,15 @@ private:
         InputSource input(discPath);
         DOMParser domParser;
         AutoPtr<Poco::XML::Document> doc = domParser.parse(&input);
-        // TODO. discovery.xml missing application/pdf
-        Node* node = doc->getNodeByPath(nodePath);
-        if (node && (node = node->parentNode()) && node->hasAttributes())
+        if (doc)
         {
-            return dynamic_cast<Element*>(node)->getAttribute("name");
+            Node* node = doc->getNodeByPath(nodePath);
+            if (node && node->parentNode())
+            {
+                Element* elem = dynamic_cast<Element*>(node->parentNode());
+                if (elem && elem->hasAttributes())
+                    return elem->getAttribute("name");
+            }
         }
 
         return "application/octet-stream";
