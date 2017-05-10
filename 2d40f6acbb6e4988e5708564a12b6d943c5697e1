@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_94edee8d",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2017-05-10T11:41:40Z",
+      "side": 1,
+      "message": "I\u0027d prefer to have a temporary var. of the URI type to avoid porsing the URL twice I guess?\n\nAlso - I think we should have an \u0027else frameAncestor \u003d \"\" if the condition fails, so that later we don\u0027t add some nonsense to the Content-Security-Policy...",
+      "revId": "2d40f6acbb6e4988e5708564a12b6d943c5697e1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
