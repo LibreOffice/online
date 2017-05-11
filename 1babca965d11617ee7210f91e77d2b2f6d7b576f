@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_37dd1c15",
+        "filename": "discovery.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-05-11T04:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_91ed008e",
+      "revId": "1babca965d11617ee7210f91e77d2b2f6d7b576f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_b102fc3c",
         "filename": "discovery.xml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-09T15:21:15Z",
       "side": 1,
       "message": "Since we have this entry for pdf files now in discovery.xml file we can do away with the special handling of application/pdf mimetype in getContentType method in LOOLWSD.cpp",
+      "revId": "1babca965d11617ee7210f91e77d2b2f6d7b576f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_57e2a8d6",
+        "filename": "discovery.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-05-11T04:11:07Z",
+      "side": 1,
+      "message": "There is special handling for pdf in FileServer.cpp, but only to set the Content-Disposition, which I left it alone (though I\u0027m not sure why we don\u0027t set that for all other download/export files).\n\nCan you please check if I missed anything?",
+      "parentUuid": "5a3905b3_b102fc3c",
       "revId": "1babca965d11617ee7210f91e77d2b2f6d7b576f",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
