@@ -69,6 +69,24 @@
       "revId": "1babca965d11617ee7210f91e77d2b2f6d7b576f",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_f7f2b499",
+        "filename": "discovery.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-11T05:55:13Z",
+      "side": 1,
+      "message": "I guess you mean LOOLWSD.cpp, and not FileServer.cpp. I think the reason to set it only for pdf files is because most browsers have inbuilt pdf viewing support but not inbuilt odf/ooxml viewing support. Setting Content-Disposition instructs the browsers to just download the file and not use their plugins to view the file which is what we want for pdfs. Since they can\u0027t view odf/ooxml anyway, Content-Disposition is not needed for others.\n\nAnd I just Diff-ed this patch with \u0027Base\u0027 in gerrit and it doesn\u0027t remove that special handling of pdf files in getContentTypes, however it does show it removed when I diff-ed with patch set 1. It seems there are two or more commits on your local and you didn\u0027t squash them with same Change-Id before uploading this patch ?",
+      "parentUuid": "5a3905b3_57e2a8d6",
+      "revId": "1babca965d11617ee7210f91e77d2b2f6d7b576f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
