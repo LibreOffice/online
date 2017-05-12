@@ -175,6 +175,8 @@ public:
 
     void unsubscribe(int sessionId, const std::string& command);
 
+    void modificationAlert(Poco::Process::PID pid, const std::string& userName);
+
     void clearMemStats() { _memStats.clear(); }
 
     void clearCpuStats() { _cpuStats.clear(); }

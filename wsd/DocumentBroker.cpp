@@ -624,8 +624,7 @@ bool DocumentBroker::saveToStorageInternal(const std::string& sessionId,
     StorageBase::SaveResult storageSaveResult = _storage->saveLocalFileToStorage(uriPublic);
     if (storageSaveResult == StorageBase::SaveResult::OK)
     {
-        _isModified = false;
-        _tileCache->setUnsavedChanges(false);
+        setModified(false, sessionId);
         _lastFileModifiedTime = newFileModifiedTime;
         _tileCache->saveLastModified(_lastFileModifiedTime);
         _lastSaveTime = std::chrono::steady_clock::now();
@@ -1236,6 +1235,18 @@ void DocumentBroker::setModified(const bool value)
 {
     _tileCache->setUnsavedChanges(value);
     _isModified = value;
+}
+
+void DocumentBroker::setModified(const bool value, const std::string& sessionid)
+{
+    _tileCache->setUnsavedChanges(value);
+    _isModified = value;
+
+    auto session = _sessions.find(sessionid);
+    if(!value && session != _sessions.end())
+    {
+        Admin::instance().modificationAlert(getPid(), session->second->getUserName());
+    }
 }
 
 bool DocumentBroker::forwardToChild(const std::string& viewId, const std::string& message)
