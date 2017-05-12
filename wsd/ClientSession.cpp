@@ -622,7 +622,7 @@ bool ClientSession::handleKitToClientMessage(const char* buffer, const int lengt
         StringTokenizer stateTokens(tokens[1], "=", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
         if (stateTokens.count() == 2 && stateTokens[0] == ".uno:ModifiedStatus")
         {
-            docBroker->setModified(stateTokens[1] == "true");
+            docBroker->setModified(stateTokens[1] == "true", getId());
         }
     }
 

@@ -373,6 +373,21 @@ void AdminModel::notify(const std::string& message)
     }
 }
 
+void AdminModel::modificationAlert(Poco::Process::PID pid, const std::string& userName)
+{
+    assertCorrectThread();
+
+    std::string encodedUsername;
+    Poco::URI::encode(userName, " ", encodedUsername);
+
+    std::ostringstream oss;
+    oss << "modifications "
+        << pid << ' '
+        << encodedUsername;
+
+    notify(oss.str());
+}
+
 void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
                              const std::string& filename, const std::string& sessionId,
                              const std::string& userName)

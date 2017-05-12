@@ -350,6 +350,10 @@ void Admin::pollingThread()
     }
 }
 
+void Admin::modificationAlert(Poco::Process::PID pid, const std::string& userName){
+    addCallback([this, pid, userName]{_model.modificationAlert(pid, userName); });
+}
+
 void Admin::addDoc(const std::string& docKey, Poco::Process::PID pid, const std::string& filename, const std::string& sessionId, const std::string& userName)
 {
     addCallback([this, docKey, pid, filename, sessionId, userName]
