@@ -241,7 +241,7 @@ public:
     bool saveToStorage(const std::string& sesionId, bool success, const std::string& result = "");
     bool isModified() const { return _isModified; }
     void setModified(const bool value);
-
+    const std::string& getLastModifier() const { return _lastModifiedBy; }
     /// Save the document if the document is modified.
     /// @param force when true, will force saving if there
     /// has been any recent activity after the last save.
@@ -369,6 +369,7 @@ private:
     Poco::URI _uriJailed;
     std::string _jailId;
     std::string _filename;
+    std::string _lastModifiedBy;
 
     /// The last time we tried saving, regardless of whether the
     /// document was modified and saved or not.

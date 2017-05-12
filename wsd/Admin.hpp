@@ -71,6 +71,7 @@ public:
 
     unsigned getTotalMemoryUsage();
 
+    void modificationAlert(const std::string& dockey, Poco::Process::PID pid, const std::string& userName, const std::string& timestamp);
     /// Update the Admin Model.
     void update(const std::string& message);
 

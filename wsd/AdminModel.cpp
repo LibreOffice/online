@@ -373,6 +373,28 @@ void AdminModel::notify(const std::string& message)
     }
 }
 
+void AdminModel::modificationAlert(const std::string dockey, Poco::Process::PID pid, const std::string& userName, const std::string& timestamp)
+{
+    assertCorrectThread();
+
+    std::string encodedUsername;
+    Poco::URI::encode(userName, " ", encodedUsername);
+
+    auto doc = _documents.find(dockey);
+    if(doc != _documents.end())
+    {
+        doc->second.setLastModifier(encodedUsername, timestamp);
+    }
+
+    std::ostringstream oss;
+    oss << "modifications "
+        << pid << ' '
+        << encodedUsername << ' '
+        << timestamp;
+
+    notify(oss.str());
+}
+
 void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
                              const std::string& filename, const std::string& sessionId,
                              const std::string& userName)
@@ -532,6 +554,8 @@ std::string AdminModel::getDocuments() const
                 << "\"memory\"" << ':' << it.second.getMemoryDirty() << ','
                 << "\"elapsedTime\"" << ':' << it.second.getElapsedTime() << ','
                 << "\"idleTime\"" << ':' << it.second.getIdleTime() << ','
+                << "\"modifier\"" << ':' << '"' << it.second.getLastModifier() << '"' << ','
+                << "\"modificationTime\"" << ':' << '"' << it.second.getModificaitonTime() << '"' << ','
                 << "\"views\"" << ':' << '[';
             viewers = it.second.getViews();
             std::string separator;

@@ -624,11 +624,11 @@ bool DocumentBroker::saveToStorageInternal(const std::string& sessionId,
     StorageBase::SaveResult storageSaveResult = _storage->saveLocalFileToStorage(uriPublic);
     if (storageSaveResult == StorageBase::SaveResult::OK)
     {
-        _isModified = false;
-        _tileCache->setUnsavedChanges(false);
+        _lastSaveTime = std::chrono::steady_clock::now();
+        _lastModifiedBy = it->second->getUserName();
+        setModified(false);
         _lastFileModifiedTime = newFileModifiedTime;
         _tileCache->saveLastModified(_lastFileModifiedTime);
-        _lastSaveTime = std::chrono::steady_clock::now();
         _poll->wakeup();
 
         // Calling getWOPIFileInfo() or getLocalFileInfo() has the side-effect of updating
@@ -1236,6 +1236,12 @@ void DocumentBroker::setModified(const bool value)
 {
     _tileCache->setUnsavedChanges(value);
     _isModified = value;
+
+    if(_lastModifiedBy.length() != 0 && !value)
+    {
+        Admin::instance().modificationAlert(_docKey, getPid(), _lastModifiedBy, Poco::DateTimeFormatter::format(Poco::DateTime(_documentLastModifiedTime),
+                                                                          Poco::DateTimeFormat::ISO8601_FORMAT));
+    }
 }
 
 bool DocumentBroker::forwardToChild(const std::string& viewId, const std::string& message)

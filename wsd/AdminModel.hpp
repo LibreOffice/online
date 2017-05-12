@@ -85,9 +85,15 @@ public:
     const std::string getHistory() const;
     void takeSnapshot();
 
+    void setLastModifier(std::string uname, std::string timestamp) { _lastModifiedBy = uname; _lastModifiedAt = timestamp; }
+    const std::string getLastModifier() const { return _lastModifiedBy; }
+    const std::string getModificaitonTime() const { return _lastModifiedAt; }
+
     std::string to_string() const;
 
 private:
+    std::string _lastModifiedBy;
+    std::string _lastModifiedAt;
     const std::string _docKey;
     const Poco::Process::PID _pid;
     /// SessionId mapping to View object
@@ -174,6 +180,8 @@ public:
     void subscribe(int sessionId, const std::string& command);
 
     void unsubscribe(int sessionId, const std::string& command);
+
+    void modificationAlert(const std::string dockey, Poco::Process::PID pid, const std::string& userName, const std::string& timestamp);
 
     void clearMemStats() { _memStats.clear(); }
 

@@ -23,7 +23,7 @@ var AdminSocketOverview = AdminSocketBase.extend({
 		this.base.call(this);
 
 		this.socket.send('documents');
-		this.socket.send('subscribe adddoc rmdoc resetidle propchange');
+		this.socket.send('subscribe adddoc rmdoc resetidle propchange modifications');
 
 		this._getBasicStats();
 		var socketOverview = this;
@@ -101,6 +101,8 @@ var AdminSocketOverview = AdminSocketBase.extend({
 				sMem = docProps['memory'];
 				sDocTime = docProps['elapsedTime'];
 				sDocIdle = docProps['idleTime'];
+				lastModifier = decodeURI(docProps['modifier']);
+				timestamp = docProps['modificationTime'];
 				userListJson = docProps['views']
 
 				$doc = $('#doc' + sPid);
@@ -137,6 +139,14 @@ var AdminSocketOverview = AdminSocketBase.extend({
 									      .val(parseInt(sDocIdle))
 									      .text(Util.humanizeSecs(sDocIdle));
 				$rowContainer.append($docIdle);
+
+				if (lastModifier.length == 0)
+					lastModifier = 'unmodified';
+				$mod = $(document.createElement('td')).attr('id', 'mod' + sPid)
+										  .attr('title', timestamp)
+										  .text(lastModifier);
+				$rowContainer.append($mod);
+
 				$('#doclist').append($rowContainer);
 			}
 		}
@@ -186,6 +196,10 @@ var AdminSocketOverview = AdminSocketBase.extend({
 					                                      .val(0)
 					                                      .text(Util.humanizeSecs(0));
 				$rowContainer.append($docIdle);
+
+				$mod = $(document.createElement('td')).attr('id', 'mod' + sPid)
+										  .text('unmodified');
+				$rowContainer.append($mod);
 
 				$('#doclist').append($rowContainer);
 
@@ -254,6 +268,17 @@ var AdminSocketOverview = AdminSocketBase.extend({
 					$mem.text(Util.humanizeMem(parseInt(sValue)));
 				}
 			}
+		}
+		else if (textMsg.startsWith('modifications')) {
+			textMsg = textMsg.substring('modifications'.length);
+			docProps = textMsg.trim().split(' ');
+			sPid = docProps[0];
+			uName = decodeURI(docProps[1]);
+			datetime = docProps[2];
+
+			$mod = $(document.getElementById('mod' + sPid));
+			$mod.text(uName)
+				.attr('title', datetime);
 		}
 	},
 
