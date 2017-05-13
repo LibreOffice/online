@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_20ef90e9",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-05-13T10:16:40Z",
+      "side": 1,
+      "message": "my bad!\nrectified",
+      "parentUuid": "5a3905b3_2018701d",
+      "revId": "677a5241edc45186f9f06b21f3587dad12a53f87",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_001b741c",
         "filename": "wsd/DocumentBroker.cpp",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_a0b9c0eb",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1237,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-05-13T10:16:40Z",
+      "side": 1,
+      "message": "whenever a new document was added, it implicitly called the setmodified function from clientsession.cpp. \nBecause of this we were not able to keep track of modifications(if it has been actually modified or if this was because a new user opened the document).\n\nso, i added this, and call this from clientsession, so that the  values are set but no notifications are sent.",
+      "parentUuid": "5a3905b3_001b741c",
+      "revId": "677a5241edc45186f9f06b21f3587dad12a53f87",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_40d3bc38",
         "filename": "wsd/DocumentBroker.cpp",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2017-05-13T02:26:21Z",
       "side": 1,
       "message": "Why only alert the admin-console only when document goes in unmodified state. Wouldn\u0027t we need to know also when document is modified ?",
+      "revId": "677a5241edc45186f9f06b21f3587dad12a53f87",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_40a1fca8",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1248,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-05-13T10:16:40Z",
+      "side": 1,
+      "message": "we want to tell the admin, if any file has been modified(and saved).\nIn that context, this function is only called when we save a modified document and we want to reset the associated variables.\n\n(if we don\u0027t check value)\nlets say a user modifies a document and doesn\u0027t save it, then also a notification would get sent, indicating that the file has been changed but on the memory it would be the same",
+      "parentUuid": "5a3905b3_40d3bc38",
       "revId": "677a5241edc45186f9f06b21f3587dad12a53f87",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
