@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_2018701d",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-13T02:26:21Z",
+      "side": 1,
+      "message": "this block looks copy/pasta to me without necessary modifications.",
+      "revId": "677a5241edc45186f9f06b21f3587dad12a53f87",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_001b741c",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1237,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-13T02:26:21Z",
+      "side": 1,
+      "message": "Is there a reason to keep this version of setModified where you don\u0027t alert admin-console ?\n\nIf there is no reason, I would change the existing setModified signature and change all the usages of it.",
+      "revId": "677a5241edc45186f9f06b21f3587dad12a53f87",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_40d3bc38",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1248,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-13T02:26:21Z",
+      "side": 1,
+      "message": "Why only alert the admin-console only when document goes in unmodified state. Wouldn\u0027t we need to know also when document is modified ?",
+      "revId": "677a5241edc45186f9f06b21f3587dad12a53f87",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
