@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_8b8305cc",
+        "filename": "wsd/AdminModel.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-15T06:35:52Z",
+      "side": 1,
+      "message": "spelling",
+      "revId": "47454d9a0d2a5f40bfef0ff9b76416127f86a3ac",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_2b4cd1c6",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-15T06:35:52Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it rather be called _lastSavedBy instead of _lastModifiedBy ?\n\nThere is no easy way, I think, to know who \"modified\" the document i.e who made changes to the currently opened document out of (say x) sessions opened. We can only know  the person who saved the document.",
+      "revId": "47454d9a0d2a5f40bfef0ff9b76416127f86a3ac",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_0b4f15be",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-15T06:35:52Z",
+      "side": 1,
+      "message": "Yes, you are right that setModified will be called everytime a new session (of same document) is opened. But this is just to tell the new session about the current \u0027modified\u0027 state of the document and if there are no modifications in the document then setModified() would be called with \u0027false\u0027 everytime a new session is opened. If you want to prevent a modificationAlert issued to admin, you can guard this function in \u0027if (_isModified !\u003d value)\u0027 and that would do the trick.",
+      "revId": "47454d9a0d2a5f40bfef0ff9b76416127f86a3ac",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_eb51e963",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-15T06:35:52Z",
+      "side": 1,
+      "message": "nitpick: More succinct way would be !_lastModifiedBy.empty() :-)",
+      "revId": "47454d9a0d2a5f40bfef0ff9b76416127f86a3ac",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
