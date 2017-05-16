@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_3aa6dcc1",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-16T11:02:12Z",
+      "side": 1,
+      "message": "Wouldn\u0027t the problem that we discussed in earlier review still be here ? i.e when a new document is opened it will alert the admin console unnecessarily.",
+      "revId": "dd987f820afb04c3df89bf58ac6fa1c229307d37",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
