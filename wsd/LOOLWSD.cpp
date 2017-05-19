@@ -1869,7 +1869,7 @@ private:
 
                         docBroker->addCallback([docBroker, moveSocket, clientSession, format]()
                         {
-			    auto streamSocket = std::static_pointer_cast<StreamSocket>(moveSocket);
+                            auto streamSocket = std::static_pointer_cast<StreamSocket>(moveSocket);
                             clientSession->setSaveAsSocket(streamSocket);
 
                             // Move the socket into DocBroker.
@@ -2115,13 +2115,19 @@ private:
                                 clientSession->sendMessage(msg);
                                 docBroker->stop();
                             }
-                            catch (const std::exception& exc)
+                            catch (const StorageConnectionException& exc)
                             {
-                                LOG_ERR("Error while handling loading : " << exc.what());
-                                const std::string msg = "error: cmd=internal kind=unauthorized";
+                                // Alert user about failed load
+                                const std::string msg = "error: cmd=storage kind=loadfailed";
                                 clientSession->sendMessage(msg);
                                 docBroker->stop();
                             }
+                            catch (const std::exception& exc)
+                            {
+                                LOG_ERR("Error while loading : " << exc.what());
+                                docBroker->stop();
+                            }
+
                         });
                     });
                 }
