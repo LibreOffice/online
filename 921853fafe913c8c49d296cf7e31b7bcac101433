@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_7fbbee72",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2123,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-05-22T19:40:07Z",
+      "side": 1,
+      "message": "This is a bug that is fixed in https://gerrit.libreoffice.org/#/c/37918/ for the other cases. I guess we need to remove it _after_ merging that patch.",
+      "range": {
+        "startLine": 2123,
+        "startChar": 32,
+        "endLine": 2123,
+        "endChar": 49
+      },
+      "revId": "921853fafe913c8c49d296cf7e31b7bcac101433",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
