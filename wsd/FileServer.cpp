@@ -44,6 +44,15 @@ using Poco::Net::HTTPBasicCredentials;
 using Poco::StreamCopier;
 using Poco::Util::Application;
 
+static const std::string ABOUT_DIALOG =
+    "<div id=\"about-dialog\" style=\"display:none; text-align: center;\">"
+    "<h1 id=\"product-name\">LibreOffice Online</h1>"
+    "<hr/>"
+    "<h3 id=\"product-string\"></h3>"
+    "<p><h3>LOOLWSD</h3><div id=\"loolwsd-version\"></div></p>"
+    "<p><h3>LOKit</h3><div id=\"lokit-version\"></div></p>"
+    "</div>";
+
 bool FileServerRequestHandler::isAdminLoggedIn(const HTTPRequest& request,
                                                HTTPResponse &response)
 {
@@ -316,6 +325,17 @@ void FileServerRequestHandler::preprocessFile(const HTTPRequest& request, Poco::
         {
             LOG_WRN("WOPI host did not pass optional access_token_ttl");
         }
+    }
+
+    if (std::find_if(params.begin(), params.end(),
+        [](const std::pair<std::string, std::string>& query)
+        { return query.first == "disableabout" && !query.second.empty(); }) != params.end())
+    {
+        Poco::replaceInPlace(preprocess, std::string("%ABOUT_DIALOG%"), std::string());
+    }
+    else
+    {
+        Poco::replaceInPlace(preprocess, std::string("%ABOUT_DIALOG%"), ABOUT_DIALOG);
     }
 
     Poco::replaceInPlace(preprocess, std::string("%ACCESS_TOKEN%"), escapedAccessToken);
