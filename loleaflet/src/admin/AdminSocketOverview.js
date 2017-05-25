@@ -73,6 +73,15 @@ var AdminSocketOverview = AdminSocketBase.extend({
 				}
 			});
 		});
+
+		$('#userview').hide();
+
+		$('.view-opt-button').on('click', function() {
+			$('#docview-btn').toggleClass('selected-view-opt');
+			$('#userview-btn').toggleClass('selected-view-opt');
+			$('#docview').toggle();
+			$('#userview').toggle();
+		});
 	},
 
 	onSocketMessage: function(e) {
@@ -113,6 +122,51 @@ var AdminSocketOverview = AdminSocketBase.extend({
 					$user = $(document.createElement('div')).text(userListJson[j]['userName'])
 													.attr('id', 'user' + userListJson[j]['sessionid']);
 					$userContainer.append($user);
+
+					sessionid = userListJson[j]['sessionid'];
+					encodedUName = userListJson[j]['userName'].replace(/ /g, '');
+					// this isn't the right way to do this, but we can't also use encode here. what should we do then.
+
+					$userListRow = $('#usr' + encodedUName);
+
+					if ($userListRow.length == 0) {
+
+						$userListRow = $(document.createElement('tr')).attr('id', 'usr' + encodedUName);
+
+						$uName = $(document.createElement('td')).text(userListJson[j]['userName']);
+						$userListRow.append($uName);
+
+						$noOfDocuments = $(document.createElement('td')).addClass('doc_number')
+																	.text('1');
+						$userListRow.append($noOfDocuments);
+
+						$docList = $(document.createElement('td')).addClass('doc_list');
+						$docLabel = $(document.createElement('div')).addClass('doc_list_label');
+						$docentry = $(document.createElement('div')).addClass('docentry')
+																.attr('id', sessionid + '_' + sPid)
+																.text(sName);
+						$docList.append($docLabel);
+						$docList.append($docentry);
+						$userListRow.append($docList);
+
+						$('#userlist').append($userListRow);
+					}
+					else {
+						userListChildren = $userListRow[0].childNodes;
+
+						docCount = parseInt($(userListChildren[1]).text())
+						$(userListChildren[1]).text(docCount + 1);
+
+						$docLabel = $(userListChildren[2].getElementsByClassName('doc_list_label')[0]);
+						$docLabel.text(sName + ' and ' + String(docCount) + ' other docs');
+
+						$docentry = $(document.createElement('div')).addClass('docentry')
+																.attr('id', sessionid + '_' + sPid)
+																.text(sName);
+
+						$(userListChildren[2]).append($docentry);
+						$('.docentry', $userListRow).css('display', 'none');
+					}
 				}
 				$pid.append($userContainer);
 				$rowContainer.append($pid);
@@ -215,6 +269,48 @@ var AdminSocketOverview = AdminSocketBase.extend({
 			$a = $(document.getElementById('active_users_count'));
 			nTotalViews = parseInt($a.text());
 			$a.text(nTotalViews + 1);
+
+
+			encodedUName = uName.replace(/ /g, '');
+			$user = $('#usr' + encodedUName);
+			if ($user.length === 0) {
+
+				$userListRow = $(document.createElement('tr')).attr('id', 'usr' + encodedUName);
+
+				$uName = $(document.createElement('td')).text(uName);
+				$userListRow.append($uName);
+
+				$noOfDocuments = $(document.createElement('td')).addClass('doc_number')
+															.text('1');
+				$userListRow.append($noOfDocuments);
+
+				$docList = $(document.createElement('td')).addClass('doc_list');
+				$docLabel = $(document.createElement('div')).addClass('doc_list_label');
+				$docentry = $(document.createElement('div')).addClass('docentry')
+														.attr('id', sessionid + '_' + sPid)
+														.text(sName);
+				$docList.append($docLabel);
+				$docList.append($docentry);
+				$userListRow.append($docList);
+
+				$('#userlist').append($userListRow);
+			}
+			else {
+				userListChildren = $user[0].childNodes;
+
+				docCount = parseInt($(userListChildren[1]).text())
+				$(userListChildren[1]).text(docCount + 1);
+
+				$docLabel = $(userListChildren[2].getElementsByClassName('doc_list_label')[0]);
+				$docLabel.text(sName + ' and ' + String(docCount) + ' other docs');
+
+				$docentry = $(document.createElement('div')).addClass('docentry')
+														.attr('id', sessionid + '_' + sPid)
+														.text(sName);
+
+				$(userListChildren[2]).append($docentry);
+				$('.docentry', $(userListChildren[2])).css('display', 'none');
+			}
 		}
 		else if (textMsg.startsWith('total_mem') ||
 			textMsg.startsWith('active_docs_count') ||
@@ -248,6 +344,27 @@ var AdminSocketOverview = AdminSocketBase.extend({
 				$a = $(document.getElementById('active_users_count'));
 				nTotalViews = parseInt($a.text());
 				$a.text(nTotalViews - 1);
+			}
+
+			$docEntry = $('#' + sessionid + '_' + sPid);
+			$user = $docEntry.parent().parent();
+			$nDocs = $('.doc_number', $user);
+			docCount = parseInt($nDocs.text());
+			if (docCount == 1) {
+				$user.remove();
+			}
+			else if (docCount == 2) {
+				$('.doc_list_label', $user).text('').css('display', 'block');
+				$('.docentry', $user).css('display', 'block');
+				$nDocs.text(docCount - 1);
+				$docEntry.remove();
+			}
+			else {
+				$parent = $docentry.parent()
+				$docentry.remove();
+				$child = $('.docentry', $parent);
+				$('.doc_list_label', $user).text($($child[0]).text() + ' and ' + String(docCount - 2) + ' other docs')
+				$nDocs.text(docCount - 1);
 			}
 		}
 		else if (textMsg.startsWith('propchange')) {

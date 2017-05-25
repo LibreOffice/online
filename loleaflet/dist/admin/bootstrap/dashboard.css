@@ -113,7 +113,6 @@ body {
   position: absolute;
   display: none;
 }
-
 .userContainer{
   display: none;
   position: absolute;
@@ -124,4 +123,21 @@ body {
 }
 tr:hover .userContainer{
   display: block;
+}
+
+/*
+ * User list view
+ */
+.view-opt-button{
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 4px 5px;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+.view-opt-button:hover{
+  background-color: #f5f5f5;
+}
+.selected-view-opt{
+  background-color: #f5f5f5;
 }
