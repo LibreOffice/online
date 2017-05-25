@@ -79,9 +79,17 @@
 	    </div>
 	  </div>
 
-	  <h2 class="sub-header"><script>document.write(l10nstrings.strDocumentsOpened)</script></h2>
+	  <h2 class="sub-header">
+      <span id="docview-btn" class="selected-view-opt view-opt-button">
+        <script>document.write(l10nstrings.strDocumentsOpened)</script>
+      </span>
+      &nbsp;
+      <span id="userview-btn" class="view-opt-button">
+        <script>document.write(l10nstrings.strUsersOnline)</script>
+      </span>
+    </h2>
 	  <div class="table-responsive">
-	    <table class="table table-striped">
+	    <table id="docview" class="table table-striped">
 	      <thead>
 		<tr>
 		  <th><script>document.write(l10nstrings.strPid)</script></th>
@@ -96,6 +104,18 @@
 	      <tbody id="doclist">
 	      </tbody>
 	    </table>
+
+      <table id="userview" class="table table-striped">
+        <thead>
+          <tr>
+            <th><script>document.write(l10nstrings.strUserName)</script></th>
+            <th><script>document.write(l10nstrings.strDocumentNumber)</script></th>
+            <th><script>document.write(l10nstrings.strDocumentsOpened)</script></th>
+          </tr>
+        </thead>
+          <tbody id="userlist">
+          </tbody>
+        </table>
 	  </div>
 	</div>
       </div>
