@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_7331660b",
+        "filename": "loleaflet/admin.strings.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-27T05:08:20Z",
+      "side": 1,
+      "message": "Can we convert it to \u0027User Name\u0027 please ? Its translatable string, so need to be cautious that strings are correct - they will be translated by translators to other languages. I think \u0027User Name\u0027 makes more sense here.",
+      "revId": "5844bed720d472cefbf3c6a453fe13b90c10f32c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_d3405a59",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-05-27T05:08:20Z",
+      "side": 1,
+      "message": "I am in favor of converting it to hover-on. This list thing has a disadvantage that it also changes width of columns when its clicked on/off which doesn\u0027t look from UX POV.",
+      "revId": "5844bed720d472cefbf3c6a453fe13b90c10f32c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
