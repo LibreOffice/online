@@ -332,7 +332,6 @@ tr.useritem > td {
 
 tr.useritem > td.usercolor {
     display: inline-block;
-    top: 5px;
     left: 3px;
     position: relative;
 }
