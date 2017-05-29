@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_d91159ae",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1557,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2017-05-29T13:19:57Z",
+      "side": 1,
+      "message": "Couldn\u0027t we do this via css some way instead of constructing html here? :-)",
+      "range": {
+        "startLine": 1557,
+        "startChar": 10,
+        "endLine": 1557,
+        "endChar": 98
+      },
+      "revId": "0abdbdccd88c1d8a23c04889cdb6d08ec62a77c2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
