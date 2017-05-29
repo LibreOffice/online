@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_594729bb",
+        "filename": "common/Session.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2017-05-29T13:12:52Z",
+      "side": 1,
+      "message": "Do we need to document this in the protocol.txt somewhere, or something?",
+      "range": {
+        "startLine": 114,
+        "startChar": 69,
+        "endLine": 114,
+        "endChar": 87
+      },
+      "revId": "24069edbf6b250266d0a7c70a22529c9cd78808a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_394a5dc6",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2017-05-29T13:12:52Z",
+      "side": 1,
+      "message": "I guess it would be more consistent if the second.UserExtraInfo was just the set of the properties, like\n\n{ \u0027avatar\u0027 : \u0027...\u0027, \u0027something\u0027 : \u0027...\u0027, ... }\n\nand did not include the \u0027\\\"userextrainfo\\\":[\" + userExtraInfo + \u0027]\u0027 wrapper (see the UserInfo constructor)",
+      "range": {
+        "startLine": 1080,
+        "startChar": 35,
+        "endLine": 1080,
+        "endChar": 55
+      },
+      "revId": "24069edbf6b250266d0a7c70a22529c9cd78808a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
