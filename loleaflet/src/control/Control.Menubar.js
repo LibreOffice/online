@@ -28,6 +28,8 @@ L.Control.Menubar = L.Control.extend({
 				{type: 'separator'},
 				{name: _('Select all'), type: 'unocommand', uno: '.uno:SelectAll'},
 				{type: 'separator'},
+				{name: _('Find & Replace'), id: 'findandreplace', type: 'action'},
+				{type: 'separator'},
 				{name: _('Track Changes'), type: 'menu', menu: [
 					{name: _('Record'), type: 'unocommand', uno: '.uno:TrackChanges'},
 					{name: _('Show'), type: 'unocommand', uno: '.uno:ShowTrackedChanges'},
@@ -428,6 +430,112 @@ L.Control.Menubar = L.Control.extend({
 			// check if it is empty
 			fileName = fileName === '' ? 'document' : fileName;
 			map.downloadAs(fileName + '.' + format, format);
+		} else if (id === 'findandreplace') {
+			findReplaceStyle =
+			'\
+			<style>\
+			.findreplacetable {\
+				width: 100%;\
+			}\
+			.findreplacetable label, .findreplacetable input {\
+				font-size: .9em;\
+				width: 95%;\
+			}\
+			.vex-content{\
+				width: 650px !important;\
+			}\
+			.btnArrow {\
+				float: left !important;\
+				margin-right: 6px !important;\
+			}\
+			</style>\
+			';
+			findReplaceContent =
+			'\
+			<table class="findreplacetable">\
+				<tr>\
+					<td>\
+						<label for="findthis">Find</label>\
+					</td>\
+					<td>\
+						<input id="findthis" name="findthis">\
+					</td>\
+				</tr>\
+				<tr>\
+					<td>\
+						<label for="replacewith">Replace With</label>\
+					</td>\
+					<td>\
+						<input name="replacewith">\
+					</td>\
+				</tr>\
+			</table>\
+			'
+			vex.dialog.open({
+				showCloseButton: true,
+				escapeButtonCloses: true,
+				addClassName: 'findReplaceVex',
+				message: _('Find and Replace'),
+				input: [
+					findReplaceStyle,
+					findReplaceContent
+				].join(''),
+				buttons: [
+					$.extend({}, vex.dialog.buttons.replace, {
+						text: 'Replace',
+						click: function($vexContent, e) {
+							$vexContent.data().vex.option = 'replace'
+						}}),
+					$.extend({}, vex.dialog.buttons.replaceAll, {
+						text: 'Replace All',
+						click: function($vexContent, e) {
+							$vexContent.data().vex.option = 'replaceAll';
+						}}),
+					$.extend({}, vex.dialog.buttons.findPrev, {
+						text: '⯇ Prev',
+						className: 'btnArrow',
+						click: function($vexContent, e) {
+							$vexContent.data().vex.option = 'previous';
+						}}),
+					$.extend({}, vex.dialog.buttons.findNext, {
+						text: 'Next ⯈',
+						className: 'btnArrow',
+						click: function($vexContent, e) {
+							$vexContent.data().vex.option = 'next';
+						}})
+				],
+				afterOpen: function(e) {
+					$('#findthis').on('input', function() {
+						if (this.value.length != 0) {
+							map.search(this.value, false, '', 1);
+						}
+					});
+				},
+				onSubmit: function(event) {
+					$vexContent = $(this).parent();
+					event.preventDefault();
+					event.stopPropagation();
+
+					opt = $vexContent.data().vex.option;
+					findText = this.findthis.value;
+					replaceText = this.replacewith.value;
+
+					if (findText.length != 0) {
+						if (opt === 'next') {
+							map.search(findText);
+						}
+						else if (opt === 'previous') {
+							map.search(findText, true);
+						}
+						else if (opt === 'replace') {
+							map.search(findText, false, replaceText, 2);
+						}
+						else if (opt === 'replaceAll') {
+							map.search(findText, false, replaceText, 3);
+						}
+					}
+				}
+			}, this);
 		} else if (id === 'insertcomment') {
 			map.insertComment();
 		} else if (id === 'insertgraphic') {
@@ -559,7 +667,7 @@ L.Control.Menubar = L.Control.extend({
 
 			if (menu[i].type === 'action') {
 				if ((menu[i].id === 'rev-history' && !revHistoryEnabled) ||
-				    (menu[i].id === 'closedocument' && !closebutton)) {
+					(menu[i].id === 'closedocument' && !closebutton)) {
 					continue;
 				}
 			}
