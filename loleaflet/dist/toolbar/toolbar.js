@@ -753,7 +753,7 @@ function selectItem(item, func)
 }
 function onSearch(e) {
 	var toolbar = w2ui['toolbar-down'];
-	map.search(L.DomUtil.get('search-input').value, false, 0, true /* expand search */);
+	map.search(L.DomUtil.get('search-input').value, false, '', 0, true /* expand search */);
 	toolbar.enable('searchprev');
 	toolbar.enable('searchnext');
 	toolbar.show('cancelsearch');
