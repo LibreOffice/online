@@ -22,6 +22,30 @@
       "revId": "0abdbdccd88c1d8a23c04889cdb6d08ec62a77c2",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_3e1ebeba",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1557,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-05-31T23:58:43Z",
+      "side": 1,
+      "message": "This is for backwards compatibility when no avatar is provided.\nNotice that this css is under the conditional that checks for avatar in the json. So when it\u0027s not provided, the color box (that we have now) will show in the same place.\n\nBut I\u0027m not happy with this approach either, so if there are other ideas, happy to adopt them.",
+      "parentUuid": "5a3905b3_d91159ae",
+      "range": {
+        "startLine": 1557,
+        "startChar": 10,
+        "endLine": 1557,
+        "endChar": 98
+      },
+      "revId": "0abdbdccd88c1d8a23c04889cdb6d08ec62a77c2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
