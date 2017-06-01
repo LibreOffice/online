@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_017a8324",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2017-06-01T13:43:58Z",
+      "side": 1,
+      "message": "Are you sure this code does what it is supposed to do?\n\n1) The this.clear() always does this._items \u003d [], ie. empties the list (so there is no chance the \u0027ordered\u0027 might be true; but:\n\n2) The priority of operators is that negation is first - what gets actually evaluated here is var ordered \u003d (!this._items.length) \u003e 0;\n\nSo 2) causes that \u0027ordered\u0027 is always true; so it works somehow, but - can you please fix the stuff here? :-)\n\nThank you!",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 39
+      },
+      "revId": "7addcf3add3b4ec12127b4cda9282df3972b787d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_41748b34",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2017-06-01T13:43:58Z",
+      "side": 1,
+      "message": "The same problem with the priority of operators here...",
+      "range": {
+        "startLine": 145,
+        "startChar": 16,
+        "endLine": 145,
+        "endChar": 39
+      },
+      "revId": "7addcf3add3b4ec12127b4cda9282df3972b787d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
