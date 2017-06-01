@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_7ef3e673",
+        "filename": "common/Session.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-06-01T05:41:21Z",
+      "side": 1,
+      "message": "This is internal (between wsd and kit), so not documented in protocol.txt.",
+      "parentUuid": "5a3905b3_594729bb",
+      "range": {
+        "startLine": 114,
+        "startChar": 69,
+        "endLine": 114,
+        "endChar": 87
+      },
+      "revId": "24069edbf6b250266d0a7c70a22529c9cd78808a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_394a5dc6",
         "filename": "kit/Kit.cpp",
         "patchSetId": 1
@@ -83,6 +107,30 @@
       "writtenOn": "2017-06-01T00:01:45Z",
       "side": 1,
       "message": "Sure, can do. I left it as-is since it was exactly as we need it, so didn\u0027t unpack it and repack it here. Will follow up with another patch.",
+      "parentUuid": "5a3905b3_394a5dc6",
+      "range": {
+        "startLine": 1080,
+        "startChar": 35,
+        "endLine": 1080,
+        "endChar": 55
+      },
+      "revId": "24069edbf6b250266d0a7c70a22529c9cd78808a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_5eee2a8c",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-06-01T05:41:21Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "5a3905b3_394a5dc6",
       "range": {
         "startLine": 1080,
