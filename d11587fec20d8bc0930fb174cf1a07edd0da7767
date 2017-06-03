@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_b7e2d101",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-03T02:24:48Z",
+      "side": 1,
+      "message": "Any reason why this is here in the .js file instead of html in the loleaflet.html and styles in loleaflet.css ? One can make them display: none by default and then show them when user clicks the find and replace button. If no reason, I\u0027d prefer putting style and html there to keep it consistent.",
+      "revId": "d11587fec20d8bc0930fb174cf1a07edd0da7767",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_97ddd544",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-03T02:24:48Z",
+      "side": 1,
+      "message": "This can be translatable. Similar with others around.",
+      "revId": "d11587fec20d8bc0930fb174cf1a07edd0da7767",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
