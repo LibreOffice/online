@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_57044d7d",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-03T15:04:48Z",
+      "side": 1,
+      "message": "I\u0027ve placed the css in the apt css file, but i think that the html should stay here. If we add this HTML in the HTML doc, when the button is clicked, we would have to clone it and place it here, creating multiple instances of elements with same ids which is not a good practice, and might create problems further.",
+      "parentUuid": "5a3905b3_b7e2d101",
+      "revId": "d11587fec20d8bc0930fb174cf1a07edd0da7767",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_d7e75d10",
         "filename": "loleaflet/src/control/Control.Menubar.js",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_17dc8511",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-03T15:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_d7e75d10",
+      "revId": "d11587fec20d8bc0930fb174cf1a07edd0da7767",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_97ddd544",
         "filename": "loleaflet/src/control/Control.Menubar.js",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2017-06-03T02:24:48Z",
       "side": 1,
       "message": "This can be translatable. Similar with others around.",
+      "revId": "d11587fec20d8bc0930fb174cf1a07edd0da7767",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_37d98122",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-03T15:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_97ddd544",
       "revId": "d11587fec20d8bc0930fb174cf1a07edd0da7767",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
