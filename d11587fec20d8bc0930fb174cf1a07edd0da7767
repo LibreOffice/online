@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_d7e75d10",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-03T03:22:49Z",
+      "side": 1,
+      "message": "Lets call this Find \u0026 Replace too only. One less thing for translators to translate :)",
+      "revId": "d11587fec20d8bc0930fb174cf1a07edd0da7767",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_97ddd544",
         "filename": "loleaflet/src/control/Control.Menubar.js",
         "patchSetId": 6
