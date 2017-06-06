@@ -22,14 +22,22 @@ L.Compatibility = {
 		else if (window.clipboardData) { // IE 11
 			text = window.clipboardData.getData('Text');
 		}
+
 		return text;
 	},
-	clipboardSet: function (event, text) {
+	clipboardSet: function (event, text, map, action) {
 		if (event.clipboardData) { // Standard
 			event.clipboardData.setData('text/plain', text);
 		}
 		else if (window.clipboardData) { // IE 11
 			window.clipboardData.setData('Text', text);
+		}
+		else {
+			map._clipArea.value = text;
+			map._clipArea.select();
+			map._clipArea.setSelectionRange(0, map._clipArea.value.length);
+			document.execCommand(action);
+			map._textArea.focus();
 		}
 	}
 };
@@ -1723,7 +1731,7 @@ L.TileLayer = L.GridLayer.extend({
 		e = e.originalEvent;
 		e.preventDefault();
 		if (this._selectionTextContent) {
-			L.Compatibility.clipboardSet(e, this._selectionTextContent);
+			L.Compatibility.clipboardSet(e, this._selectionTextContent, this._map, 'copy');
 
 			// remember the copied text, for rich copy/paste inside a document
 			this._selectionTextHash = this._selectionTextContent;
@@ -1736,7 +1744,7 @@ L.TileLayer = L.GridLayer.extend({
 		e = e.originalEvent;
 		e.preventDefault();
 		if (this._selectionTextContent) {
-			L.Compatibility.clipboardSet(e, this._selectionTextContent);
+			L.Compatibility.clipboardSet(e, this._selectionTextContent, this._map, 'cut');
 
 			// remember the copied text, for rich copy/paste inside a document
 			this._selectionTextHash = this._selectionTextContent;
