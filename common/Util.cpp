@@ -266,6 +266,43 @@ namespace Util
         return 0;
     }
 
+    size_t getCpuUsage(const Poco::Process::PID pid)
+    {
+        if (pid > 0)
+        {
+            const auto cmd = "/proc/" + std::to_string(pid) + "/stat";
+            FILE* fp = fopen(cmd.c_str(), "r");
+            if (fp != nullptr)
+            {
+                size_t totalJiffies = 0;
+                char line[4096] = { 0 };
+                if (fgets(line, sizeof (line), fp))
+                {
+                    const std::string s(line);
+                    int index = 1;
+                    auto pos = s.find(+' ');
+                    while (pos != std::string::npos)
+                    {
+                        if (index == 13)
+                        {
+                            totalJiffies += strtol(&s[pos], nullptr, 10);
+                            pos = s.find(' ', pos + 1);
+                            totalJiffies += strtol(&s[pos], nullptr, 10);
+                            break;
+                        }
+
+                        ++index;
+                        pos = s.find(' ', pos + 1);
+                    }
+                }
+
+                fclose(fp);
+                return totalJiffies;
+            }
+        }
+        return 0;
+    }
+
     std::string replace(std::string result, const std::string& a, const std::string& b)
     {
         const size_t aSize = a.size();
