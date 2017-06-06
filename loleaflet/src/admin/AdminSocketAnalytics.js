@@ -31,9 +31,15 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 		}
 	},
 
-	_initCpuStatsData: function() {
-		for (var i = 0; i < this._cpuStatsSize; i++) {
-			this._cpuStatsData.push({time: -((this._cpuStatsSize - i - 1) * this._cpuStatsInterval), value: 0});
+	_initCpuStatsData: function(cpuStatsSize, cpuStatsInterval, reset) {
+		if (reset) {
+			this._cpuStatsData = [];
+		}
+
+		var offset = this._cpuStatsData.length * cpuStatsInterval;
+		for (var i = 0; i < cpuStatsSize; i++) {
+			this._cpuStatsData.unshift({time: -(offset), value: 0});
+			offset += cpuStatsInterval;
 		}
 	},
 
@@ -44,19 +50,20 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 		this.socket.send('subscribe mem_stats cpu_stats settings');
 		this.socket.send('settings');
 		this.socket.send('mem_stats');
+		this.socket.send('cpu_stats');
 	},
 
-	_createMemData: function() {
-		for (var i = this._memStatsRawData.length - 1, j = this._memStatsData.length - 1; i >= 0 && j >= 0; i--, j--) {
-			this._memStatsData[j].value = parseInt(this._memStatsRawData[i]);
-		}
-	},
+	_d3MemXAxis: null,
+	_d3MemYAxis: null,
+	_d3MemLine: null,
+	_xMemScale: null,
+	_yMemScale: null,
 
-	_d3xAxis: null,
-	_d3yAxis: null,
-	_d3line: null,
-	_xScale: null,
-	_yScale: null,
+	_d3CpuXAxis: null,
+	_d3CpuYAxis: null,
+	_d3CpuLine: null,
+	_xCpuScale: null,
+	_yCpuScale: null,
 
 	_graphWidth: 1000,
 	_graphHeight: 500,
@@ -67,22 +74,22 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 		left: 100
 	},
 
-	_setUpAxis: function() {
-		this._xScale = d3.scale.linear().range([this._graphMargins.left, this._graphWidth - this._graphMargins.right]).domain([d3.min(this._memStatsData, function(d) {
+	_setUpMemAxis: function() {
+		this._xMemScale = d3.scale.linear().range([this._graphMargins.left, this._graphWidth - this._graphMargins.right]).domain([d3.min(this._memStatsData, function(d) {
 			return d.time;
 		}), d3.max(this._memStatsData, function(d) {
 			return d.time;
 		})]);
 
 
-		this._yScale = d3.scale.linear().range([this._graphHeight - this._graphMargins.bottom, this._graphMargins.top]).domain([d3.min(this._memStatsData, function(d) {
+		this._yMemScale = d3.scale.linear().range([this._graphHeight - this._graphMargins.bottom, this._graphMargins.top]).domain([d3.min(this._memStatsData, function(d) {
 			return d.value;
 		}), d3.max(this._memStatsData, function(d) {
 			return d.value;
 		})]);
 
-		this._d3xAxis = d3.svg.axis()
-			.scale(this._xScale)
+		this._d3MemXAxis = d3.svg.axis()
+			.scale(this._xMemScale)
 			.tickFormat(function(d) {
 				d = Math.abs(d / 1000);
 				var units = ['s', 'min', 'hr'];
@@ -92,42 +99,115 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 				return parseInt(d) + units[i] + ' ago';
 			});
 
-		this._d3yAxis = d3.svg.axis()
-			.scale(this._yScale)
+		this._d3MemYAxis = d3.svg.axis()
+			.scale(this._yMemScale)
 			.tickFormat(function (d) {
 				return Util.humanizeMem(d);
 			})
 			.orient('left');
 
-		var xScale = this._xScale;
-		var yScale = this._yScale;
+		var xScale = this._xMemScale;
+		var yScale = this._yMemScale;
 
-		this._d3line = d3.svg.line()
+		this._d3MemLine = d3.svg.line()
 			.x(function(d) {
 				return xScale(d.time);
 			})
 			.y(function(d) {
 				return yScale(d.value);
+			})
+			.interpolate('basis');
+	},
+
+	_setUpCpuAxis: function() {
+		this._xCpuScale = d3.scale.linear().range([this._graphMargins.left, this._graphWidth - this._graphMargins.right]).domain([d3.min(this._cpuStatsData, function(d) {
+			return d.time;
+		}), d3.max(this._cpuStatsData, function(d) {
+			return d.time;
+		})]);
+
+
+		this._yCpuScale = d3.scale.linear().range([this._graphHeight - this._graphMargins.bottom, this._graphMargins.top]).domain([d3.min(this._cpuStatsData, function(d) {
+			if (d == undefined)
+				return 0;
+			return d.value;
+		}), d3.max(this._cpuStatsData, function(d) {
+			if (d == undefined)
+				return 100;
+			return d.value;
+		})]);
+
+		this._d3CpuXAxis = d3.svg.axis()
+			.scale(this._xCpuScale)
+			.tickFormat(function(d) {
+				d = Math.abs(d / 1000);
+				var units = ['s', 'min', 'hr'];
+				for (var i = 0; i < units.length && Math.abs(d) >= 60; i++) {
+					d = parseInt(d / 60);
+				}
+				return parseInt(d) + units[i] + ' ago';
 			});
+
+		this._d3CpuYAxis = d3.svg.axis()
+			.scale(this._yCpuScale)
+			.tickFormat(function (d) {
+				return d + '%';
+			})
+			.orient('left');
+
+		var xScale = this._xCpuScale;
+		var yScale = this._yCpuScale;
+
+		this._d3CpuLine = d3.svg.line()
+			.x(function(d) {
+				return xScale(d.time);
+			})
+			.y(function(d) {
+				return yScale(d.value);
+			})
+			.interpolate('basis');
 	},
 
 	_createMemGraph: function() {
-		var vis = d3.select('#visualisation');
+		var vis = d3.select('#MemVisualisation');
 
-		this._setUpAxis();
+		this._setUpMemAxis();
 
 		vis.append('svg:g')
 		.attr('class', 'x-axis')
 		.attr('transform', 'translate(0,' + (this._graphHeight - this._graphMargins.bottom) + ')')
-		.call(this._d3xAxis);
+		.call(this._d3MemXAxis);
 
 		vis.append('svg:g')
 		.attr('class', 'y-axis')
 		.attr('transform', 'translate(' + this._graphMargins.left + ',0)')
-		.call(this._d3yAxis);
+		.call(this._d3MemYAxis);
 
 		vis.append('svg:path')
-			.attr('d', this._d3line(this._memStatsData))
+			.attr('d', this._d3MemLine(this._memStatsData))
+			.attr('class', 'line')
+			.attr('stroke', 'blue')
+			.attr('stroke-width', 2)
+			.attr('fill', 'none');
+	},
+
+	_createCpuGraph: function() {
+		var vis = d3.select('#CpuVisualisation');
+
+		this._setUpCpuAxis();
+
+		vis.append('svg:g')
+		.attr('class', 'x-axis')
+		.attr('transform', 'translate(0,' + (this._graphHeight - this._graphMargins.bottom) + ')')
+		.call(this._d3CpuXAxis);
+
+		vis.append('svg:g')
+		.attr('class', 'y-axis')
+		.attr('transform', 'translate(' + this._graphMargins.left + ',0)')
+		.call(this._d3CpuYAxis);
+
+		vis.append('svg:path')
+			.attr('d', this._d3CpuLine(this._cpuStatsData))
 			.attr('class', 'line')
 			.attr('stroke', 'blue')
 			.attr('stroke-width', 2)
@@ -149,19 +229,49 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 		}
 	},
 
-	_updateMemGraph: function() {
-		var svg = d3.select('#visualisation');
+	_addNewCpuData: function(data) {
+		// make a space for new data
+		for (var i = this._cpuStatsData.length - 1; i > 0; i--) {
+			this._cpuStatsData[i].time = this._cpuStatsData[i - 1].time;
+		}
 
-		this._setUpAxis();
+		// push new data at time '0'
+		this._cpuStatsData.push({time: 0, value: parseInt(data)});
+
+		// remove extra items
+		if (this._cpuStatsData.length > this._cpuStatsSize) {
+			this._cpuStatsData.shift();
+		}
+	},
+
+	_updateMemGraph: function() {
+		svg = d3.select('#MemVisualisation');
+
+		this._setUpMemAxis();
 
 		svg.select('.line')
-		.attr('d', this._d3line(this._memStatsData));
+		.attr('d', this._d3MemLine(this._memStatsData));
 
 		svg.select('.x-axis')
-		.call(this._d3xAxis);
+		.call(this._d3MemXAxis);
 
 		svg.select('.y-axis')
-		.call(this._d3yAxis);
+		.call(this._d3MemYAxis);
+	},
+
+	_updateCpuGraph: function() {
+		svg = d3.select('#CpuVisualisation');
+
+		this._setUpCpuAxis();
+
+		svg.select('.line')
+		.attr('d', this._d3CpuLine(this._cpuStatsData));
+
+		svg.select('.x-axis')
+		.call(this._d3CpuXAxis);
+
+		svg.select('.y-axis')
+		.call(this._d3CpuYAxis);
 	},
 
 	onSocketMessage: function(e) {
@@ -173,12 +283,10 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 			textMsg = '';
 		}
 
-
 		if (textMsg.startsWith('settings')) {
 			textMsg = textMsg.substring('settings '.length);
 			textMsg = textMsg.split(' ');
 
-			//TODO: Add CPU statistics
 			var memStatsSize, memStatsInterval, cpuStatsSize, cpuStatsInterval;
 			var i, j, data;
 			memStatsSize = this._memStatsSize;
@@ -218,11 +326,24 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 
 			this._memStatsSize = memStatsSize;
 			this._memStatsInterval = memStatsInterval;
+
+			// Similar Logic as above for CPU stats
+			if (cpuStatsInterval !== this._cpuStatsInterval) {
+				this._initCpuStatsData(cpuStatsSize, cpuStatsInterval, true);
+			}
+			else if (cpuStatsSize > this._cpuStatsSize) {
+				this._initCpuStatsData(cpuStatsSize - this._cpuStatsSize, cpuStatsInterval, false);
+			}
+			else {
+				for (i = 0; i < this._cpuStatsSize - cpuStatsSize; i++) {
+					this._cpuStatsData.shift();
+				}
+			}
+
 			this._cpuStatsSize = cpuStatsSize;
 			this._cpuStatsInterval = cpuStatsInterval;
 		}
-		else if (textMsg.startsWith('mem_stats') ||
-			textMsg.startsWith('cpu_stats')) {
+		else if (textMsg.startsWith('mem_stats')) {
 			textMsg = textMsg.split(' ')[1];
 			if (textMsg.endsWith(',')) {
 				// This is the result of query, not notification
@@ -231,7 +352,6 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 					this._memStatsData[i].value = parseInt(data[j]);
 				}
 
-				//this._createMemData(data);
 				this._createMemGraph();
 			}
 			else {
@@ -239,6 +359,24 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 				data = textMsg.trim();
 				this._addNewMemData(data);
 				this._updateMemGraph();
+			}
+		}
+		else if (textMsg.startsWith('cpu_stats')) {
+			textMsg = textMsg.split(' ')[1];
+			if (textMsg.endsWith(',')) {
+				// This is the result of query, not notification
+				data = textMsg.substring(0, textMsg.length - 1).split(',');
+				for (i = this._cpuStatsData.length - 1, j = data.length - 1; i >= 0 && j >= 0; i--, j--) {
+					this._cpuStatsData[i].value = parseInt(data[j]);
+				}
+
+				this._createCpuGraph();
+			}
+			else {
+				// this is a notification data; append to _cpuStatsData
+				data = textMsg.trim();
+				this._addNewCpuData(data);
+				this._updateCpuGraph();
 			}
 		}
 	},
