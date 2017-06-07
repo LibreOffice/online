@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_c826d7b9",
+        "filename": "common/Util.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-07T03:43:10Z",
+      "side": 1,
+      "message": "This function has a lot in common with an existing function getMemoryUsageRSS. I\u0027d prefer to factor out the common code into a separate function. This would allow someone else reading some other stuff from /proc/pid/stat easy too without copy/pasting the common part.",
+      "revId": "64abcce7920b3efa191c5004a1be78a415abd0ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_a8198b7b",
+        "filename": "common/Util.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-07T03:43:10Z",
+      "side": 1,
+      "message": "Hmm, no idea what\u0027s the role of this + sign here really :-) If you may elaborate.",
+      "revId": "64abcce7920b3efa191c5004a1be78a415abd0ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_0821bf9f",
+        "filename": "common/Util.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-07T03:43:10Z",
+      "side": 1,
+      "message": "This seems to be the core of the function and only different part related to getting the CPU usage. So everything else apart from this can be factored out in a separate function while this does its as it is doing now.",
+      "range": {
+        "startLine": 286,
+        "startChar": 21,
+        "endLine": 292,
+        "endChar": 25
+      },
+      "revId": "64abcce7920b3efa191c5004a1be78a415abd0ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_2824bbad",
+        "filename": "loleaflet/src/admin/AdminSocketAnalytics.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-07T03:43:10Z",
+      "side": 1,
+      "message": "Again a lot of duplicate code here. Factoring out to a common function would be great.\n\nI can see other methods like this as well. Can you please check if we factor out wherever possible and reduce the redundant code ?",
+      "range": {
+        "startLine": 126,
+        "startChar": 1,
+        "endLine": 168,
+        "endChar": 25
+      },
+      "revId": "64abcce7920b3efa191c5004a1be78a415abd0ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
