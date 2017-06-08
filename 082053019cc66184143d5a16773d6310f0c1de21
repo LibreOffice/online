@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_6e224b03",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-08T10:50:52Z",
+      "side": 1,
+      "message": "nitpick: start braces from next line like rest of the source code.",
+      "revId": "082053019cc66184143d5a16773d6310f0c1de21",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
