@@ -207,6 +207,10 @@ public:
 
     void addCpuStats(unsigned cpuUsage);
 
+    void addSentStats(uint64_t sent);
+
+    void addRecvStats(uint64_t recv);
+
     void setCpuStatsSize(unsigned size);
 
     void setMemStatsSize(unsigned size);
@@ -229,6 +233,10 @@ public:
 private:
     std::string getMemStats();
 
+    std::string getSentActivity();
+
+    std::string getRecvActivity();
+
     std::string getCpuStats();
 
     unsigned getTotalActiveViews();
@@ -246,6 +254,12 @@ private:
 
     std::list<unsigned> _cpuStats;
     unsigned _cpuStatsSize = 100;
+
+    std::list<unsigned> _sentStats;
+    unsigned _sentStatsSize = 100;
+
+    std::list<unsigned> _recvStats;
+    unsigned _recvStatsSize = 100;
 
     uint64_t _sentBytesTotal;
     uint64_t _recvBytesTotal;
