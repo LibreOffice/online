@@ -111,9 +111,12 @@ private:
     int _forKitPid;
     size_t _lastTotalMemory;
     size_t _lastJiffies;
+    uint64_t _lastSentCount;
+    uint64_t _lastRecvCount;
 
     std::atomic<int> _memStatsTaskIntervalMs;
     std::atomic<int> _cpuStatsTaskIntervalMs;
+    std::atomic<int> _networkStatsIntervalMs;
 };
 
 #endif

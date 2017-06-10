@@ -42,8 +42,10 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 		// Base class' onSocketOpen handles authentication
 		this.base.call(this);
 
-		this.socket.send('subscribe mem_stats cpu_stats settings');
+		this.socket.send('subscribe mem_stats cpu_stats sent_activity recv_activity settings');
 		this.socket.send('settings');
+		this.socket.send('sent_activity');
+		this.socket.send('recv_activity');
 		this.socket.send('mem_stats');
 		this.socket.send('cpu_stats');
 	},
@@ -225,6 +227,7 @@ var AdminSocketAnalytics = AdminSocketBase.extend({
 			textMsg = '';
 		}
 
+		console.log(textMsg);
 		if (textMsg.startsWith('settings')) {
 			textMsg = textMsg.substring('settings '.length);
 			textMsg = textMsg.split(' ');

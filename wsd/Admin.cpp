@@ -104,7 +104,9 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
              tokens[0] == "active_users_count" ||
              tokens[0] == "active_docs_count" ||
              tokens[0] == "mem_stats" ||
-             tokens[0] == "cpu_stats")
+             tokens[0] == "cpu_stats" ||
+             tokens[0] == "sent_activity" ||
+             tokens[0] == "recv_activity")
     {
         const std::string result = model.query(tokens[0]);
         if (!result.empty())
@@ -301,7 +303,8 @@ Admin::Admin() :
     _lastTotalMemory(0),
     _lastJiffies(0),
     _memStatsTaskIntervalMs(5000),
-    _cpuStatsTaskIntervalMs(2000)
+    _cpuStatsTaskIntervalMs(2000),
+    _networkStatsIntervalMs(5000)
 {
     LOG_INF("Admin ctor.");
 
@@ -317,28 +320,30 @@ Admin::~Admin()
 
 void Admin::pollingThread()
 {
-    std::chrono::steady_clock::time_point lastCPU, lastMem;
+    std::chrono::steady_clock::time_point lastCPU, lastMem, lastNet;
 
     _model.setThreadOwner(std::this_thread::get_id());
 
     lastCPU = std::chrono::steady_clock::now();
     lastMem = lastCPU;
+    lastNet = lastCPU;
 
     while (!_stop && !TerminationFlag && !ShutdownRequestFlag)
     {
         std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
         int cpuWait = _cpuStatsTaskIntervalMs -
             std::chrono::duration_cast<std::chrono::milliseconds>(now - lastCPU).count();
-
-        size_t currentJiffies = getTotalCpuUsage();
         if (cpuWait <= 0)
         {
+            size_t currentJiffies = getTotalCpuUsage();
             auto cpuPercent = 100 * 1000 * currentJiffies / (sysconf (_SC_CLK_TCK) * _cpuStatsTaskIntervalMs);
             _model.addCpuStats(cpuPercent);
 
             lastCPU = now;
             cpuWait += _cpuStatsTaskIntervalMs;
         }
+
         int memWait = _memStatsTaskIntervalMs -
             std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMem).count();
         if (memWait <= 0)
@@ -356,6 +361,28 @@ void Admin::pollingThread()
             memWait += _memStatsTaskIntervalMs;
         }
 
+        int netWait = _networkStatsIntervalMs -
+            std::chrono::duration_cast<std::chrono::milliseconds>(now - lastNet).count();
+        if(netWait <= 0)
+        {
+            uint64_t sentCount = _model.getSentBytesTotal();
+            uint64_t recvCount = _model.getRecvBytesTotal();
+
+            std::cout << "sent" << sentCount << " " << _lastSentCount << std::flush << std::endl;
+            std::cout << "recv" << recvCount << " " << _lastRecvCount << std::flush << std::endl;
+            _model.addSentStats(sentCount - _lastSentCount);
+            _model.addRecvStats(recvCount - _lastRecvCount);
+
+            if(sentCount != _lastSentCount || recvCount != _lastRecvCount)
+            {
+                LOG_TRC("Total Data sent: " << sentCount << ", recv: " << recvCount);
+                _lastRecvCount = recvCount;
+                _lastSentCount = sentCount;
+            }
+
+            lastNet = now;
+            netWait += _networkStatsIntervalMs;
+        }
         // Handle websockets & other work.
         int timeout = std::min(cpuWait, memWait);
         LOG_TRC("Admin poll for " << timeout << "ms");
