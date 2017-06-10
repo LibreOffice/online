@@ -238,6 +238,14 @@ std::string AdminModel::query(const std::string& command)
     {
         return std::to_string(_cpuStatsSize);
     }
+    else if (token == "sent_activity")
+    {
+        return getSentActivity();
+    }
+    else if (token == "recv_activity")
+    {
+        return getRecvActivity();
+    }
 
     return std::string("");
 }
@@ -347,6 +355,28 @@ void AdminModel::addCpuStats(unsigned cpuUsage)
         _cpuStats.pop_front();
 
     notify("cpu_stats " + std::to_string(cpuUsage));
+}
+
+void AdminModel::addSentStats(uint64_t sent)
+{
+    assertCorrectThread();
+
+    _sentStats.push_back(sent);
+    if (_sentStats.size() > _sentStatsSize)
+        _sentStats.pop_front();
+
+    notify("sent_activity " + std::to_string(sent));
+}
+
+void AdminModel::addRecvStats(uint64_t recv)
+{
+    assertCorrectThread();
+
+    _recvStats.push_back(recv);
+    if (_recvStats.size() > _recvStatsSize)
+        _recvStats.pop_front();
+
+    notify("recv_activity " + std::to_string(recv));
 }
 
 void AdminModel::setCpuStatsSize(unsigned size)
@@ -543,6 +573,32 @@ std::string AdminModel::getCpuStats()
 
     std::ostringstream oss;
     for (const auto& i: _cpuStats)
+    {
+        oss << i << ',';
+    }
+
+    return oss.str();
+}
+
+std::string AdminModel::getSentActivity()
+{
+    assertCorrectThread();
+
+    std::ostringstream oss;
+    for (const auto& i: _sentStats)
+    {
+        oss << i << ',';
+    }
+
+    return oss.str();
+}
+
+std::string AdminModel::getRecvActivity()
+{
+    assertCorrectThread();
+
+    std::ostringstream oss;
+    for (const auto& i: _recvStats)
     {
         oss << i << ',';
     }
