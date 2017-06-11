@@ -97,20 +97,38 @@ public:
         }
 
         LOG_INF("ForKit command: [" << message << "].");
-        StringTokenizer tokens(message, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-
-        if (tokens[0] == "spawn" && tokens.count() == 2)
+        try
         {
-            const auto count = std::stoi(tokens[1]);
-            if (count > 0)
+            std::vector<std::string> tokens = LOOLProtocol::tokenize(message);
+            if (tokens.size() == 2 && tokens[0] == "spawn")
             {
-                LOG_INF("Setting to spawn " << tokens[1] << " child" << (count == 1 ? "" : "ren") << " per request.");
-                ForkCounter = count;
+                const auto count = std::stoi(tokens[1]);
+                if (count > 0)
+                {
+                    LOG_INF("Setting to spawn " << tokens[1] << " child" << (count == 1 ? "" : "ren") << " per request.");
+                    ForkCounter = count;
+                }
+                else
+                {
+                    LOG_WRN("Cannot spawn " << tokens[1] << " children as requested.");
+                }
+            }
+            else if (tokens.size() == 3 && tokens[0] == "setconfig")
+            {
+                // Currently onlly rlimit entries are supported.
+                if (!Seccomp::handleSetrlimitCommand(tokens))
+                {
+                    LOG_ERR("Unknown setconfig command: " << message);
+                }
             }
             else
             {
-                LOG_WRN("Cannot spawn " << tokens[1] << " children as requested.");
+                LOG_ERR("Unknown command: " << message);
             }
+        }
+        catch (const std::exception& exc)
+        {
+            LOG_ERR("Error while processing forkit request [" << message << "]: " << exc.what());
         }
 
         return true;
