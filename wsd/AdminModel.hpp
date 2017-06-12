@@ -39,6 +39,14 @@ private:
     std::time_t _end = 0;
 };
 
+struct DocProcSettings
+{
+    size_t LimitVirtMemMb;
+    size_t LimitDataMemKb;
+    size_t LimitStackMemKb;
+    size_t LimitFileSizeMb;
+};
+
 /// A document in Admin controller.
 class Document
 {
@@ -77,6 +85,9 @@ public:
     bool updateMemoryDirty(int dirty);
     int getMemoryDirty() const { return _memoryDirty; }
 
+    const DocProcSettings& getDocProcSettings() const { return _docProcSettings; }
+    void setDocProcSettings(const DocProcSettings& docProcSettings) { _docProcSettings = docProcSettings; }
+
 private:
     const std::string _docKey;
     const Poco::Process::PID _pid;
@@ -92,6 +103,9 @@ private:
     std::time_t _start;
     std::time_t _lastActivity;
     std::time_t _end = 0;
+
+    /// Per-doc kit process settings.
+    DocProcSettings _docProcSettings;
 };
 
 /// An Admin session subscriber.
