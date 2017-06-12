@@ -435,8 +435,8 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
     assertCorrectThread();
 
     const auto ret = _documents.emplace(docKey, Document(docKey, pid, filename));
-    ret.first->second.takeSnapshot();
     ret.first->second.addView(sessionId, userName);
+    ret.first->second.takeSnapshot();
     LOG_DBG("Added admin document [" << docKey << "].");
 
     std::string encodedUsername;
@@ -472,6 +472,7 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
     }
 
     notify(oss.str());
+    notify("{\"history\": " + getAllHistory() + "}");
 }
 
 void AdminModel::removeDocument(const std::string& docKey, const std::string& sessionId)
@@ -496,6 +497,7 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
             _expiredDocuments.emplace(*docIt);
             _documents.erase(docIt);
         }
+        notify("{\"history\": " + getAllHistory() + "}");
     }
 }
 
@@ -516,6 +518,7 @@ void AdminModel::removeDocument(const std::string& docKey)
             // Notify the subscribers
             notify(msg + pair.first);
             docIt->second.expireView(pair.first);
+            notify("{\"history\": " + getAllHistory() + "}");
         }
 
         LOG_DBG("Removed admin document [" << docKey << "].");
@@ -620,6 +623,7 @@ void AdminModel::updateLastActivityTime(const std::string& docKey)
         if (docIt->second.getIdleTime() >= 10)
         {
             docIt->second.takeSnapshot(); // I would like to keep the idle time
+            notify("{\"history\": " + getAllHistory() + "}");
             docIt->second.updateLastActivityTime();
             notify("resetidle " + std::to_string(docIt->second.getPid()));
         }

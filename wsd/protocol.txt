@@ -524,7 +524,7 @@ history
     Queries the server for list of opened and expired documents with their
     snapshots. Returns a json object and it looks like:
 
-    { "History" :
+    { "history" :
             {
                 "documents": [
                     {
