@@ -112,7 +112,7 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
     }
     else if (tokens[0] == "history")
     {
-        sendTextFrame("{ \"History\": " + model.getAllHistory() + "}");
+        sendTextFrame("{\"History\": " + model.getAllHistory() + "}");
     }
     else if (tokens[0] == "version")
     {
