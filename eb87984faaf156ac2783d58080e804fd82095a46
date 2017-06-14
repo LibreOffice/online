@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a3905b3_31134368",
+        "filename": "loleaflet/src/admin/AdminSocketAnalytics.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-14T08:17:45Z",
+      "side": 1,
+      "message": "A micro-optimization ;) but I guess one can just reuse the sum calculated in previous step to calculate subsequent sums",
+      "revId": "eb87984faaf156ac2783d58080e804fd82095a46",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_b19493e2",
         "filename": "loleaflet/src/admin/AdminSocketAnalytics.js",
         "patchSetId": 6
