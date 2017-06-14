@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_b19493e2",
+        "filename": "loleaflet/src/admin/AdminSocketAnalytics.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-14T07:14:19Z",
+      "side": 1,
+      "message": "Lots of undeclared variables here too. Please \u0027var\u0027 them and any other such occurrences in the patch.",
+      "range": {
+        "startLine": 346,
+        "startChar": 2,
+        "endLine": 373,
+        "endChar": 3
+      },
+      "revId": "eb87984faaf156ac2783d58080e804fd82095a46",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
