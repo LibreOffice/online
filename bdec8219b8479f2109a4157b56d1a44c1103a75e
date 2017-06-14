@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_31b7c387",
+        "filename": "loleaflet/src/admin/AdminSocketAnalytics.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-14T07:20:15Z",
+      "side": 1,
+      "message": "yes, that\u0027s what i wanted to do here.",
+      "parentUuid": "5a3905b3_b1fd733c",
+      "revId": "bdec8219b8479f2109a4157b56d1a44c1103a75e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_51ec4f8f",
         "filename": "wsd/Admin.cpp",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2017-06-14T06:36:41Z",
       "side": 1,
       "message": "These (_lastSentCount and _lastRecvCount) are uninitialized member variables.",
+      "revId": "bdec8219b8479f2109a4157b56d1a44c1103a75e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_51ba8f6f",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-14T07:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_51ec4f8f",
       "revId": "bdec8219b8479f2109a4157b56d1a44c1103a75e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_91acf736",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-14T07:20:15Z",
+      "side": 1,
+      "message": "i thought, that just like the rest of the places this will reduce unnecessary assigning and logging.\nbut anyway, remove this condition now.",
+      "parentUuid": "5a3905b3_11f2c76f",
+      "revId": "bdec8219b8479f2109a4157b56d1a44c1103a75e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_31e98381",
         "filename": "wsd/Admin.cpp",
         "patchSetId": 5
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "5a3905b3_71b14b8f",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-14T07:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3905b3_31e98381",
+      "revId": "bdec8219b8479f2109a4157b56d1a44c1103a75e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3905b3_71030b43",
         "filename": "wsd/DocumentBroker.cpp",
         "patchSetId": 5
@@ -98,6 +170,24 @@
       "writtenOn": "2017-06-14T06:36:41Z",
       "side": 1,
       "message": "I wonder why you decided to change it. It looks all the same to me. No ?",
+      "revId": "bdec8219b8479f2109a4157b56d1a44c1103a75e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_51a36f4f",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-14T07:20:15Z",
+      "side": 1,
+      "message": "not really.\nhere, sent and adminSent are both unsigned so the resulting subtracted value is also always unsigned, so most of the times this expression was returning some unusually large values, further creating problems.",
+      "parentUuid": "5a3905b3_71030b43",
       "revId": "bdec8219b8479f2109a4157b56d1a44c1103a75e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
