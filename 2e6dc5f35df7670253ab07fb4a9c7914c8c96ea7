@@ -16,6 +16,24 @@
       "revId": "2e6dc5f35df7670253ab07fb4a9c7914c8c96ea7",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3905b3_18866465",
+        "filename": "loleaflet/src/admin/AdminSocketHistory.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001580
+      },
+      "writtenOn": "2017-06-16T20:21:19Z",
+      "side": 1,
+      "message": "Yeah you are right. I will change this command in \u0027subscribe history\u0027 on client side but do you think I can keep the curly braces on server side? IMHO in this way the implementation of subscription logic seems more simple :)\nPlease let me know if you have some hints about it or if you like my proposal.",
+      "parentUuid": "5a3905b3_bd4c6271",
+      "revId": "2e6dc5f35df7670253ab07fb4a9c7914c8c96ea7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
