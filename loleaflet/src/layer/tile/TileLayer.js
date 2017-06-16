@@ -709,10 +709,12 @@ L.TileLayer = L.GridLayer.extend({
 						this._twipsToLatLng(bottomRightTwips, this._map.getZoom()));
 		this._visibleCursorOnLostFocus = this._visibleCursor;
 		this._isCursorOverlayVisible = true;
+		this._map._docLayer._followEditor = false;
 		this._onUpdateCursor();
 	},
 
 	_onInvalidateViewCursorMsg: function (textMsg) {
+		var docLayer = this._map._docLayer;
 		textMsg = textMsg.substring('invalidateviewcursor:'.length + 1);
 		var obj = JSON.parse(textMsg);
 		var viewId = parseInt(obj.viewId);
@@ -739,6 +741,14 @@ L.TileLayer = L.GridLayer.extend({
 		}
 
 		this._onUpdateViewCursor(viewId);
+
+		if (docLayer._followEditor && docLayer._editorId === viewId) {
+			if (this._map.getDocType() === 'spreadsheet') {
+				docLayer.goToCellViewCursor(viewId);
+			} else if (this._map.getDocType() === 'text') {
+				docLayer.goToViewCursor(viewId);
+			}
+		}
 	},
 
 	_onCellViewCursorMsg: function (textMsg) {

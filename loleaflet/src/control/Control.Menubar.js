@@ -39,6 +39,7 @@ L.Control.Menubar = L.Control.extend({
 			]},
 			{name: _('View'), id: 'view', type: 'menu', menu: [
 				{name: _('Full screen'), id: 'fullscreen', type: 'action'},
+				{name: _('Follow editor'), id: 'followeditor', type: 'action'},
 				{type: 'separator'},
 				{name: _('Zoom in'), id: 'zoomin', type: 'action'},
 				{name: _('Zoom out'), id: 'zoomout', type: 'action'},
@@ -195,6 +196,7 @@ L.Control.Menubar = L.Control.extend({
 			},
 			{name: _('View'), id: 'view', type: 'menu', menu: [
 				{name: _('Full screen'), id: 'fullscreen', type: 'action'},
+				{name: _('Follow editor'), id: 'followeditor', type: 'action'},
 				{type: 'separator'},
 				{name: _('Zoom in'), id: 'zoomin', type: 'action'},
 				{name: _('Zoom out'), id: 'zoomout', type: 'action'},
@@ -255,6 +257,7 @@ L.Control.Menubar = L.Control.extend({
 				{name: _('Find & Replace'), id: 'findandreplace', type: 'action'}]
 			},
 			{name: _('View'), id: 'view', type: 'menu', menu: [
+				{name: _('Follow editor'), id: 'followeditor', type: 'action'},
 				{name: _('Full screen'), id: 'fullscreen', type: 'action'}]
 			},
 			{name: _('Insert'), type: 'menu', menu: [
@@ -590,6 +593,8 @@ L.Control.Menubar = L.Control.extend({
 			}
 		} else if (id === 'fullscreen-presentation' && map.getDocType() === 'presentation') {
 			map.fire('fullscreen');
+		} else if (id === 'followeditor') {
+			map.showEditorList();
 		} else if (id === 'insertpage') {
 			map.insertPage();
 		} else if (id === 'duplicatepage') {

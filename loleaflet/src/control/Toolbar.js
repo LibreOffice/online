@@ -260,5 +260,62 @@ L.Map.include({
 				map.enable(true);
 			}
 		});
+	},
+
+	showEditorList: function() {
+		usersInfo = this._viewInfo;
+
+		$content = $(document.createElement('table')).addClass('follow-editor-table');
+		$heading = $(document.createElement('h3')).text('Choose Editor to follow')
+												.addClass('follow-editor-heading');
+
+		for (i in usersInfo) {
+			user = usersInfo[i];
+			$child = $(document.createElement('tr')).addClass('editor-child')
+										.attr('data-uid', user.id)
+										.attr('id', 'editor-child' + user.id);
+			$name = $(document.createElement('td')).addClass('child-name')
+										.text(user.username);
+			$color = $(document.createElement('td')).addClass('child-color')
+										.css({'background-color': '#' + user.color});
+			$child.append($name);
+			$child.append($color);
+			$content.append($child);
+		}
+
+		vex.open({
+			content: $heading[0].outerHTML + $content[0].outerHTML,
+			showCloseButton: true,
+			escapeButtonCloses: true,
+			overlayClosesOnClick: true,
+			buttons: {},
+			className: 'vex-theme-plain',
+			afterOpen: function($vexContent) {
+				$('.follow-editor-table').on('click', 'tr', function() {
+					console.log(this, $(this).data());
+					console.log(typeof($(this).data('uid')))
+					map.setEditor($(this).data('uid'));
+					vex.close($vexContent.data().vex.id);
+				});
+			}
+		});
+	},
+
+	setEditor: function(editorId) {
+		var currentId = map._docLayer._viewId;
+
+		if (editorId !== currentId) {
+			if (map._docLayer._followEditor && typeof editorId === 'number') {
+				if (map._docLayer._editorId !== editorId) {
+					map._docLayer._editorId = editorId;
+				}
+				else
+					map._docLayer._followEditor = false;
+			}
+			else {
+				map._docLayer._followEditor = true;
+				map._docLayer._editorId = editorId;
+			}
+		}
 	}
 });
