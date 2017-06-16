@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3905b3_bd4c6271",
+        "filename": "loleaflet/src/admin/AdminSocketHistory.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-16T08:02:30Z",
+      "side": 1,
+      "message": "Can we just call it \u0027subscribe history\u0027 rather than using the curly braces there. It looks quite ugly to me :)",
+      "revId": "2e6dc5f35df7670253ab07fb4a9c7914c8c96ea7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
