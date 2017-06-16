@@ -1,0 +1,27 @@
+.follow-editor-table {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;;
+}
+
+.follow-editor-heading {
+	margin: 15px;
+}
+
+.follow-editor-table .editor-child {
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+	cursor: pointer !important;
+}
+
+.follow-editor-table tr .disabled-child{
+	cursor: not-allowed !important;
+}
+
+.follow-editor-table tr:nth-child(even) {
+	background-color: #f9f9f9; 
+}
+
+.follow-editor-table td {
+	padding: 6px;
+}
