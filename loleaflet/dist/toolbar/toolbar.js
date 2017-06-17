@@ -757,10 +757,18 @@ function selectItem(item, func)
 }
 function onSearch(e) {
 	var toolbar = w2ui['toolbar-down'];
-	map.search(L.DomUtil.get('search-input').value, false, '', 0, true /* expand search */);
-	toolbar.enable('searchprev');
-	toolbar.enable('searchnext');
-	toolbar.show('cancelsearch');
+	// disabling until, we find a solution for tdf#108577
+	// map.search(L.DomUtil.get('search-input').value, false, '', 0, true /* expand search */);
+	if (L.DomUtil.get('search-input').value === '') {
+		toolbar.disable('searchprev');
+		toolbar.disable('searchnext');
+		toolbar.hide('cancelsearch');
+	}
+	else {
+		toolbar.enable('searchprev');
+		toolbar.enable('searchnext');
+		toolbar.show('cancelsearch');
+	}
 }
 
 function onSearchKeyPress(e) {
