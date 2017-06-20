@@ -455,6 +455,9 @@ L.TileLayer = L.GridLayer.extend({
 		else if (textMsg.startsWith('graphicviewselection:')) {
 			this._onGraphicViewSelectionMsg(textMsg);
 		}
+		else if (textMsg.startsWith('editor:')) {
+			this._updateEditor(textMsg);
+		}
 	},
 
 	toggleTileDebugMode: function() {
@@ -709,10 +712,33 @@ L.TileLayer = L.GridLayer.extend({
 						this._twipsToLatLng(bottomRightTwips, this._map.getZoom()));
 		this._visibleCursorOnLostFocus = this._visibleCursor;
 		this._isCursorOverlayVisible = true;
+		this._map._followEditor = false;
 		this._onUpdateCursor();
 	},
 
+	_updateEditor: function(textMsg) {
+		textMsg = textMsg.substring('editor:'.length + 1);
+		var editorId = parseInt(textMsg);
+		var docLayer = this._map._docLayer;
+
+		if (editorId === -1 || this._map._editorId === editorId)
+			return;
+		else {
+			if (this._map._followEditor) {
+				if (this._map.getDocType() === 'spreadsheet') {
+					docLayer.goToCellViewCursor(editorId);
+				} else if (this._map.getDocType() === 'text') {
+					docLayer.goToViewCursor(editorId);
+				}
+			}
+			var username = this._map._viewInfo[editorId].username
+			this._map.fire('editorUpdate', {editorId: editorId, username: username, prevEditorId: this._map._editorId});
+			this._map._editorId = editorId;
+		}
+	},
+
 	_onInvalidateViewCursorMsg: function (textMsg) {
+		var docLayer = this._map._docLayer;
 		textMsg = textMsg.substring('invalidateviewcursor:'.length + 1);
 		var obj = JSON.parse(textMsg);
 		var viewId = parseInt(obj.viewId);
@@ -739,9 +765,13 @@ L.TileLayer = L.GridLayer.extend({
 		}
 
 		this._onUpdateViewCursor(viewId);
+		if (this._map._followEditor && this._map._editorId === viewId) {
+			docLayer.goToViewCursor(viewId);
+		}
 	},
 
 	_onCellViewCursorMsg: function (textMsg) {
+		var docLayer = this._map._docLayer;
 		textMsg = textMsg.substring('cellviewcursor:'.length + 1);
 		var obj = JSON.parse(textMsg);
 		var viewId = parseInt(obj.viewId);
@@ -770,6 +800,9 @@ L.TileLayer = L.GridLayer.extend({
 
 		this._cellViewCursors[viewId].part = parseInt(obj.part);
 		this._onUpdateCellViewCursor(viewId);
+		if (this._map._followEditor && this._map._editorId === viewId) {
+			docLayer.goToCellViewCursor(viewId);
+		}
 	},
 
 	_onUpdateCellViewCursor: function (viewId) {

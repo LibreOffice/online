@@ -684,7 +684,12 @@ $(function () {
 			{type: 'html',  id: 'right'},
 			{type: 'html',    id: 'modifiedstatuslabel', html: '<div id="modifiedstatuslabel" class="loleaflet-font"></div>'},
 			{type: 'break', id: 'modifiedstatuslabelbreak'},
-			{type: 'drop', id: 'userlist', text: _('No users'), html: '<div id="userlist_container"><table id="userlist_table"><tbody></tbody></table></div>' },
+			{type: 'drop', id: 'userlist', text: _('No users'), html: '<div id="userlist_container"><table id="userlist_table"><tbody></tbody></table>' +
+				'<div id="editor" class="loleaflet-font" style="display:none;padding:7px;text-align:center;cursor:pointer" onclick="followEditorOn(event)">' +
+				_('Follow editor') +
+				'</div>' +
+				'</div>'
+			},
 			{type: 'break', id: 'userlistbreak'},
 			{type: 'button',  id: 'prev', img: 'prev', hint: _('Previous page')},
 			{type: 'button',  id: 'next', img: 'next', hint: _('Next page')},
@@ -710,6 +715,7 @@ $(function () {
 
 var userJoinedPopupMessage = '<div>' + _('%user has joined') + '</div>';
 var userLeftPopupMessage = '<div>' + _('%user has left') + '</div>';
+var editorChangeMessage = '<div>' + _('%user the editor now') + '</div>';
 var userPopupTimeout = null;
 
 function toLocalePattern (pattern, regex, text, sub1, sub2) {
@@ -1579,6 +1585,15 @@ function onUseritemClicked(e) {
 	}
 }
 
+function followEditorOn(e) {
+	var editorId = $(e.currentTarget).data('uid');
+
+	if (editorId !== map._docLayer._viewId) {
+		map._followEditor = true;
+		map._editorId = $(e.currentTarget).data('uid');
+	}
+}
+
 function getUserItem(viewId, userName, extraInfo, color) {
 	var className = 'useritem';
 	if (extraInfo !== undefined && extraInfo.avatar !== undefined) {
@@ -1604,8 +1619,10 @@ function updateUserListCount() {
 	var count = $(userlistItem.html).find('#userlist_table tbody tr').length;
 	if (count > 1) {
 		userlistItem.text = nUsers.replace('%n', count);
+		userlistItem.html = $(userlistItem.html).find('#editor').css('display', 'block').parent()[0].outerHTML;
 	} else if (count === 1) {
 		userlistItem.text = oneUser;
+		userlistItem.html = $(userlistItem.html).find('#editor').css('display', 'none').parent()[0].outerHTML;
 	} else {
 		userlistItem.text = noUser;
 	}
@@ -1664,6 +1681,38 @@ map.on('removeview', function(e) {
 	var userlistItem = w2ui['toolbar-down'].get('userlist');
 	userlistItem.html = $(userlistItem.html).find('#user-' + e.viewId).remove().end()[0].outerHTML;
 	updateUserListCount();
+});
+
+map.on('editorUpdate', function(e) {
+
+	var username;
+	if (e.editorId === map._docLayer._viewId)
+		username = _('You') + ' ' + _('are');
+	else
+		username = e.username + ' ' + _('is');
+
+	$('#tb_toolbar-down_item_userlist')
+		.w2overlay({
+			class: 'loleaflet-font',
+			html: editorChangeMessage.replace('%user', username),
+			style: 'padding: 5px'
+		});
+	clearTimeout(userPopupTimeout);
+	userPopupTimeout = setTimeout(function() {
+		$('#tb_toolbar-down_item_userlist').w2overlay('');
+		clearTimeout(userPopupTimeout);
+		userPopupTimeout = null;
+	}, 3000);
+
+	var userlistItem = w2ui['toolbar-down'].get('userlist');
+	userlistItem.html = $(userlistItem.html).find('#editor').attr('data-uid', e.editorId).parent()[0].outerHTML;
+	userlistItem.html = $(userlistItem.html).find('#user-' + e.editorId).css('background-color', 'darkgrey')
+																			.attr('title', 'Editor')
+																			.parent().parent().parent()[0].outerHTML;
+	if (e.prevEditorId !== -1)
+		userlistItem.html = $(userlistItem.html).find('#user-' + e.prevEditorId).css('background-color', 'initial')
+																			.attr('title', '')
+																			.parent().parent().parent()[0].outerHTML;
 });
 
 $(window).resize(function() {

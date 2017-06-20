@@ -465,7 +465,8 @@ public:
         _isDocPasswordProtected(false),
         _docPasswordType(PasswordType::ToView),
         _stop(false),
-        _isLoading(0)
+        _isLoading(0),
+        _editorId(-1)
     {
         LOG_INF("Document ctor for [" << _docKey <<
                 "] url [" << _url << "] on child [" << _jailId <<
@@ -1379,9 +1380,14 @@ private:
 
         LOG_DBG("Thread started.");
 
-        // Update memory stats every 5 seconds.
+        bool warning = false;
+        unsigned numberOfUsers = 0;
+        int fastestUser = -1, maxSpeed = -1;
+        // Update memory stats and editor every 5 seconds.
         const auto memStatsPeriodMs = 5000;
+        const auto speedUpdatePeriodMs = 5000;
         auto lastMemStatsTime = std::chrono::steady_clock::now();
+        auto lastSpeedUpdateTime = std::chrono::steady_clock::now();
         sendTextFrame(Util::getMemoryStats(ProcSMapsFile));
 
         try
@@ -1391,14 +1397,66 @@ private:
                 const TileQueue::Payload input = _tileQueue->get(POLL_TIMEOUT_MS * 2);
                 if (input.empty())
                 {
-                    const auto duration = (std::chrono::steady_clock::now() - lastMemStatsTime);
-                    const auto durationMs = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+                    auto duration = (std::chrono::steady_clock::now() - lastMemStatsTime);
+                    auto durationMs = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
                     if (durationMs > memStatsPeriodMs)
                     {
                         sendTextFrame(Util::getMemoryStats(ProcSMapsFile));
                         lastMemStatsTime = std::chrono::steady_clock::now();
                     }
 
+                    duration = std::chrono::steady_clock::now() - lastSpeedUpdateTime;
+                    durationMs = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+                    if (durationMs > speedUpdatePeriodMs)
+                    {
+                        std::vector<int> speedCount;
+                        maxSpeed = -1;
+                        for (const auto& it : _sessions)
+                        {
+                            const auto session = it.second;
+                            const int speed = session->getSpeed();
+                            if(speed > maxSpeed)
+                            {
+                                maxSpeed = speed;
+                                fastestUser = session->getViewId();
+                            }
+                        }
+                        if (maxSpeed == 0)
+                        {
+                            continue;
+                        }
+                        if (fastestUser == _editorId)
+                        {
+                            warning = false;
+                        }
+                        else
+                        {
+                            if (!warning)
+                            {
+                                warning = true;
+                            }
+                            else if (warning)
+                            {
+                                warning = false;
+                                _editorId = fastestUser;
+                                for (const auto& it : _sessions)
+                                {
+                                    it.second->sendTextFrame("editor: " + std::to_string(_editorId));
+                                }
+                            }
+                        }
+                        if (numberOfUsers != _sessions.size())
+                        {
+                            std::cout << "sent" << _editorId;
+
+                            numberOfUsers = _sessions.size();
+                            for (const auto& it : _sessions)
+                            {
+                                it.second->sendTextFrame("editor: " + std::to_string(_editorId));
+                            }
+                        }
+                        lastSpeedUpdateTime = std::chrono::steady_clock::now();
+                    }
                     continue;
                 }
 
@@ -1564,6 +1622,7 @@ private:
 
     std::condition_variable _cvLoading;
     std::atomic_size_t _isLoading;
+    int _editorId;
     std::map<int, std::unique_ptr<CallbackDescriptor>> _viewIdToCallbackDescr;
     std::map<std::string, std::shared_ptr<ChildSession>> _sessions;
 
