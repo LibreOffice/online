@@ -12,6 +12,7 @@
 
 #include <mutex>
 #include <unordered_map>
+#include <queue>
 
 #define LOK_USE_UNSTABLE_API
 #include <LibreOfficeKit/LibreOfficeKit.hxx>
@@ -139,6 +140,8 @@ public:
     const std::string& getViewUserId() const { return _userId; }
     const std::string& getViewUserName() const { return _userName; }
     const std::string& getViewUserExtraInfo() const { return _userExtraInfo; }
+    void updateSpeed();
+    int getSpeed();
 
     void loKitCallback(const int type, const std::string& payload);
 
@@ -189,6 +192,9 @@ private:
 private:
     const std::string _jailId;
     IDocumentManager& _docManager;
+
+    std::queue<std::chrono::steady_clock::time_point> _cursorInvalidatedEvent;
+    const unsigned _eventStorageIntervalMs = 20*1000;
 
     /// View ID, returned by createView() or 0 by default.
     int _viewId;
