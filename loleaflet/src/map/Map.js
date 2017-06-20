@@ -143,6 +143,9 @@ L.Map = L.Evented.extend({
 		// This becomes true if document was ever modified by the user
 		this._everModified = false;
 
+		this._followEditor = false;
+		this._editorId = -1;
+
 		this.on('commandstatechanged', function(e) {
 			if (e.commandName === '.uno:ModifiedStatus')
 				this._everModified = this._everModified || (e.state === 'true');

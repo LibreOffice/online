@@ -684,7 +684,12 @@ $(function () {
 			{type: 'html',  id: 'right'},
 			{type: 'html',    id: 'modifiedstatuslabel', html: '<div id="modifiedstatuslabel" class="loleaflet-font"></div>'},
 			{type: 'break', id: 'modifiedstatuslabelbreak'},
-			{type: 'drop', id: 'userlist', text: _('No users'), html: '<div id="userlist_container"><table id="userlist_table"><tbody></tbody></table></div>' },
+			{type: 'drop', id: 'userlist', text: _('No users'), html: '<div id="userlist_container"><table id="userlist_table"><tbody></tbody></table>' +
+				'<div id="editor" class="loleaflet-font" style="display:none;padding:7px;text-align:center;cursor:pointer" onclick="followEditorOn(event)">' +
+				_('Follow editor') +
+				'</div>' +
+				'</div>'
+			},
 			{type: 'break', id: 'userlistbreak'},
 			{type: 'button',  id: 'prev', img: 'prev', hint: _('Previous page')},
 			{type: 'button',  id: 'next', img: 'next', hint: _('Next page')},
@@ -710,6 +715,8 @@ $(function () {
 
 var userJoinedPopupMessage = '<div>' + _('%user has joined') + '</div>';
 var userLeftPopupMessage = '<div>' + _('%user has left') + '</div>';
+var editorChangeMessage = '<div>' + _('%user the editor now') + '</div>';
+var nowFollowingMessage = '<div>' + _('You are now following: %user') + '</div>';
 var userPopupTimeout = null;
 
 function toLocalePattern (pattern, regex, text, sub1, sub2) {
@@ -1573,10 +1580,41 @@ function onUseritemClicked(e) {
 	if (map._docLayer) {
 		if (map.getDocType() === 'spreadsheet') {
 			map._docLayer.goToCellViewCursor(viewId);
-		} else if (map.getDocType() === 'text') {
+		} else if (map.getDocType() === 'text' || map.getDocType() === 'presentation') {
 			map._docLayer.goToViewCursor(viewId);
 		}
 	}
+}
+
+function followEditorOn(e) {
+
+	var docLayer = map._docLayer;
+	var editorId = $(e.currentTarget).data('uid');
+	if (editorId === docLayer._viewId)
+		return;
+	else if (editorId === -1 || !docLayer._map._viewInfo[editorId]) {
+		map._followEditor = true;
+		return;
+	}
+
+	var username = $(w2ui['toolbar-down'].get('userlist').html).find('#user-' + editorId + ' .username')[0].innerText;
+
+	$('#tb_toolbar-down_item_userlist').w2overlay('');
+	$('#tb_toolbar-down_item_userlist')
+	.w2overlay({
+		class: 'loleaflet-font',
+		html: nowFollowingMessage.replace('%user', username),
+		style: 'padding: 5px'
+	});
+	clearTimeout(userPopupTimeout);
+	userPopupTimeout = setTimeout(function() {
+		$('#tb_toolbar-down_item_userlist').w2overlay('');
+		clearTimeout(userPopupTimeout);
+		userPopupTimeout = null;
+	}, 3000);
+
+	map._followEditor = true;
+	map._editorId = $(e.currentTarget).data('uid');
 }
 
 function getUserItem(viewId, userName, extraInfo, color) {
@@ -1604,8 +1642,16 @@ function updateUserListCount() {
 	var count = $(userlistItem.html).find('#userlist_table tbody tr').length;
 	if (count > 1) {
 		userlistItem.text = nUsers.replace('%n', count);
+		userlistItem.html = $(userlistItem.html).find('#editor')
+							.css({'display': 'block','cursor': 'not-allowed'})
+							.attr('data-uid', -1)
+							.attr('title', _('No identified editor'))
+							.parent()[0].outerHTML;
 	} else if (count === 1) {
 		userlistItem.text = oneUser;
+		userlistItem.html = $(userlistItem.html).find('#editor')
+							.css('display', 'none')
+							.parent()[0].outerHTML;
 	} else {
 		userlistItem.text = noUser;
 	}
@@ -1664,6 +1710,62 @@ map.on('removeview', function(e) {
 	var userlistItem = w2ui['toolbar-down'].get('userlist');
 	userlistItem.html = $(userlistItem.html).find('#user-' + e.viewId).remove().end()[0].outerHTML;
 	updateUserListCount();
+
+	if (e.viewId === map._docLayer._editorId) {
+		userlistItem.html = $(userlistItem.html).find('#editor').css('cursor', 'not-allowed')
+									.attr('data-uid', -1)
+									.attr('title', _('No identified editor'))
+									.parent()[0].outerHTML;
+	}
+
+});
+
+map.on('editorUpdate', function(e) {
+
+	if (e.editorId === map._docLayer._editorId)
+		return;
+
+	var username, cursorType, titleMsg;
+	if (e.editorId === map._docLayer._viewId) {
+		username = _('You') + ' ' + _('are');
+		titleMsg = _('You are the Editor');
+		cursorType = 'not-allowed';
+	}
+	else {
+		username = e.username + ' ' + _('is');
+		titleMsg = e.username;
+		cursorType = 'pointer';
+	}
+
+	$('#tb_toolbar-down_item_userlist')
+		.w2overlay({
+			class: 'loleaflet-font',
+			html: editorChangeMessage.replace('%user', username),
+			style: 'padding: 5px'
+		});
+	clearTimeout(userPopupTimeout);
+	userPopupTimeout = setTimeout(function() {
+		$('#tb_toolbar-down_item_userlist').w2overlay('');
+		clearTimeout(userPopupTimeout);
+		userPopupTimeout = null;
+	}, 3000);
+
+	var userlistItem = w2ui['toolbar-down'].get('userlist');
+	userlistItem.html = $(userlistItem.html).find('#editor').css('cursor', cursorType)
+								.attr('data-uid', e.editorId)
+								.attr('title', titleMsg)
+								.parent()[0].outerHTML;
+
+	userlistItem.html = $(userlistItem.html).find('#user-' + e.editorId).css('background-color', 'darkgrey')
+									.attr('title', 'Editor')
+									.parent().parent().parent()[0].outerHTML;
+
+	if (e.prevEditorId !== -1 && $(userlistItem.html).find('#user-' + e.prevEditorId).length !== 0) {
+
+		userlistItem.html = $(userlistItem.html).find('#user-' + e.prevEditorId).css('background-color', 'initial')
+											.attr('title', '')
+											.parent().parent().parent()[0].outerHTML;
+	}
 });
 
 $(window).resize(function() {
