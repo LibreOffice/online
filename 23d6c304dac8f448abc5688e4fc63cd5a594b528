@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_c0a50eb6",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-21T07:10:51Z",
+      "side": 1,
+      "message": "We are supposed to *conditionally* disable it for calc and impress, not for writer. This would disable it for all, no ?",
+      "revId": "23d6c304dac8f448abc5688e4fc63cd5a594b528",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
