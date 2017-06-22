@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_4679362f",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:44:34Z",
+      "side": 1,
+      "message": "nitpick: { on the next line please. Just to keep the code base consistent.",
+      "range": {
+        "startLine": 136,
+        "startChar": 19,
+        "endLine": 136,
+        "endChar": 20
+      },
+      "revId": "70fb0ea14011036961abb00b76e554ac15fcefc3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_66763240",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:44:34Z",
+      "side": 1,
+      "message": "ditto.",
+      "range": {
+        "startLine": 148,
+        "startChar": 19,
+        "endLine": 148,
+        "endChar": 20
+      },
+      "revId": "70fb0ea14011036961abb00b76e554ac15fcefc3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_06b56ecc",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:44:34Z",
+      "side": 1,
+      "message": "Is it possible we move this \u0027history\u0027 notification logic to where we are taking the snapshot etc. ? I would prefer keeping all of it in one place rather than sprinkling all over.",
+      "range": {
+        "startLine": 500,
+        "startChar": 19,
+        "endLine": 500,
+        "endChar": 39
+      },
+      "revId": "70fb0ea14011036961abb00b76e554ac15fcefc3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
