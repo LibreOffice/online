@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a461143_a6dc9a19",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "yes, wrongly stated in the comment here.\n\nAs per the discussion at the bug thread, I initially tried with 5 second, but because of the other conditions in the poll function, it made the response very slow. So changed it to 2 seconds then.\n\nwill correct the comment in the next patch set.",
+      "parentUuid": "3a461143_66f1d2cd",
+      "range": {
+        "startLine": 1386,
+        "startChar": 48,
+        "endLine": 1386,
+        "endChar": 58
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a461143_e6aa2285",
         "filename": "kit/Kit.cpp",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-22T06:27:46Z",
       "side": 1,
       "message": "I am skeptical about the use of this warning variable here.\n\nFirstly, this seems to prevent the \u0027editor\u0027 message being sent out when the the fastest User changes because warning would be set to false and it will execute the first if block. Only after the second execution of this \u0027speed check\u0027 block executes after 2 seconds, it will finally send the \u0027editor:\u0027 message out. Is that intentional for some reason ? If yes, why so ?",
+      "range": {
+        "startLine": 1434,
+        "startChar": 25,
+        "endLine": 1437,
+        "endChar": 29
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_66f2b29c",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "yes, this was intentional.\n\nMy point in keeping was that we should not transfer the editor title very quickly and easily.\nto elaborate that, we should ensure that the probable next editor has been typing repetitively faster than the current editor.\n\nEg.\nA user(not the editor), wants to make only a small change in the document and makes some fast keystrokes. This might assign the \u0027fastestUser\u0027 to its id but I think that only a single instance of such edit should not be enough for changing the editor.",
+      "parentUuid": "3a461143_e6aa2285",
       "range": {
         "startLine": 1434,
         "startChar": 25,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3a461143_86ef9eaf",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "earlier there were other conditions as well hence was using else if.\nRemoved them but didn\u0027t change here.\nmy bad, i will rectify it.",
+      "parentUuid": "3a461143_e6b30209",
+      "range": {
+        "startLine": 1438,
+        "startChar": 33,
+        "endLine": 1438,
+        "endChar": 45
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a461143_86c5de5c",
         "filename": "kit/Kit.cpp",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2017-06-22T06:27:46Z",
       "side": 1,
       "message": "Can you explain what you are trying to do here by sending the \u0027editor:\u0027 message again ? What exactly is the situation you are trying to handle ? This seems to be sending the \u0027editor:\u0027 message to all the sessions whenever a new session is added or removed. Is it possible to handle this more gracefully avoiding the need to send the message again to all the sessions ?",
+      "range": {
+        "startLine": 1447,
+        "startChar": 20,
+        "endLine": 1448,
+        "endChar": 62
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_4623f605",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "I was handling the addition or removal of new sessions here.\nWasn\u0027t sure about if it would be a good idea to place this under \u0027createSession\u0027.\nI will try to do this appropriately in the next update.",
+      "parentUuid": "3a461143_86c5de5c",
       "range": {
         "startLine": 1447,
         "startChar": 20,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "3a461143_a62adae5",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1450,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a461143_c6be06d4",
+      "range": {
+        "startLine": 1450,
+        "startChar": 21,
+        "endLine": 1450,
+        "endChar": 61
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a461143_a6873a11",
         "filename": "loleaflet/dist/toolbar/toolbar.js",
         "patchSetId": 4
@@ -134,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "3a461143_a6781afa",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "ok, i will see to it.",
+      "parentUuid": "3a461143_a6873a11",
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a461143_669f1260",
         "filename": "loleaflet/dist/toolbar/toolbar.js",
         "patchSetId": 4
@@ -145,6 +283,30 @@
       "writtenOn": "2017-06-22T06:27:46Z",
       "side": 1,
       "message": "Too much of unnecessary tabs here. Can we squeeze them to some sensible numbers while keeping the code readable.",
+      "range": {
+        "startLine": 1741,
+        "startChar": 4,
+        "endLine": 1742,
+        "endChar": 15
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_c67d26e9",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1742,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a461143_669f1260",
       "range": {
         "startLine": 1741,
         "startChar": 4,
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "3a461143_e68222c8",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1748,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a461143_869cfe6a",
+      "range": {
+        "startLine": 1747,
+        "startChar": 2,
+        "endLine": 1748,
+        "endChar": 14
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a461143_46921659",
         "filename": "loleaflet/src/layer/tile/TileLayer.js",
         "patchSetId": 4
@@ -191,6 +377,30 @@
       "writtenOn": "2017-06-22T06:27:46Z",
       "side": 1,
       "message": "What about presentations ? They don\u0027t need any special handling ?",
+      "range": {
+        "startLine": 730,
+        "startChar": 24,
+        "endLine": 731,
+        "endChar": 39
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_06880ee7",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-22T08:07:25Z",
+      "side": 1,
+      "message": "they would be handled by goToViewCursor, i think.",
+      "parentUuid": "3a461143_46921659",
       "range": {
         "startLine": 730,
         "startChar": 24,
