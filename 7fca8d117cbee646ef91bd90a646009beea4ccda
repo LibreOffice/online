@@ -410,6 +410,30 @@
       "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_a65f3a74",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T08:14:51Z",
+      "side": 1,
+      "message": "But you are calling goToViewCursor only for writer here. Presentations will return map.getDocType() \u003d \u0027presentation\u0027 and will not be doing anything here, no ?\n\nMaybe you need a getDocType() \u003d\u003d\u003d \u0027text\u0027 || getDocType() \u003d\u003d \u0027presentation\u0027 here ?",
+      "parentUuid": "3a461143_06880ee7",
+      "range": {
+        "startLine": 730,
+        "startChar": 24,
+        "endLine": 731,
+        "endChar": 39
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
