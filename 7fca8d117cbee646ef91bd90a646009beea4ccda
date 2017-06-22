@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_66f1d2cd",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "Speed is being updated every 2 seconds, so isn\u0027t this comment saying the wrong thing now ?",
+      "range": {
+        "startLine": 1386,
+        "startChar": 48,
+        "endLine": 1386,
+        "endChar": 58
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_e6aa2285",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "I am skeptical about the use of this warning variable here.\n\nFirstly, this seems to prevent the \u0027editor\u0027 message being sent out when the the fastest User changes because warning would be set to false and it will execute the first if block. Only after the second execution of this \u0027speed check\u0027 block executes after 2 seconds, it will finally send the \u0027editor:\u0027 message out. Is that intentional for some reason ? If yes, why so ?",
+      "range": {
+        "startLine": 1434,
+        "startChar": 25,
+        "endLine": 1437,
+        "endChar": 29
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_e6b30209",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "Isn\u0027t this really superfluous ? If the first if condition fails, then else will get executed surely. Why mention the opposite condition again in the \u0027else if\u0027 block which will always be true if the first condition didn\u0027t pass.",
+      "range": {
+        "startLine": 1438,
+        "startChar": 33,
+        "endLine": 1438,
+        "endChar": 45
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_86c5de5c",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "Can you explain what you are trying to do here by sending the \u0027editor:\u0027 message again ? What exactly is the situation you are trying to handle ? This seems to be sending the \u0027editor:\u0027 message to all the sessions whenever a new session is added or removed. Is it possible to handle this more gracefully avoiding the need to send the message again to all the sessions ?",
+      "range": {
+        "startLine": 1447,
+        "startChar": 20,
+        "endLine": 1448,
+        "endChar": 62
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_c6be06d4",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1450,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "No std::cout please. Use LOG_DBG or LOG_TRC if you want to have some debugging output in the logs.",
+      "range": {
+        "startLine": 1450,
+        "startChar": 21,
+        "endLine": 1450,
+        "endChar": 61
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_a6873a11",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "Can we get some visual feedback also when user hovers over the \u0027Follow editor\u0027 thing, so that she knows that this is a button meant to be clicked. And when clicked, do something with its appearance so that it looks pressed. In current patch, its quite confusing.\n\nAlso the userlist popup should go away when follow editor is clicked, currently it just sticks there until user clicks in the document.",
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_669f1260",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1742,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "Too much of unnecessary tabs here. Can we squeeze them to some sensible numbers while keeping the code readable.",
+      "range": {
+        "startLine": 1741,
+        "startChar": 4,
+        "endLine": 1742,
+        "endChar": 15
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_869cfe6a",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1748,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "Same. Too much tabs.",
+      "range": {
+        "startLine": 1747,
+        "startChar": 2,
+        "endLine": 1748,
+        "endChar": 14
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_46921659",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-22T06:27:46Z",
+      "side": 1,
+      "message": "What about presentations ? They don\u0027t need any special handling ?",
+      "range": {
+        "startLine": 730,
+        "startChar": 24,
+        "endLine": 731,
+        "endChar": 39
+      },
+      "revId": "7fca8d117cbee646ef91bd90a646009beea4ccda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
