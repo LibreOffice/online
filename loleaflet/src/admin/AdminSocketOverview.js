@@ -82,18 +82,6 @@ var AdminSocketOverview = AdminSocketBase.extend({
 			$('#docview').toggle();
 			$('#userview').toggle();
 		});
-
-		$('body').on('click', '#userlist .doc_list_label', function() {
-			if ($(this).text() === '🢃 list') {
-				docName = $($('.docentry', $(this).parent())[0]).text();
-				$user = $(this).parent().parent();
-				docCount = parseInt($('.doc_number', $user).text()) - 1 ;
-				$(this).text('🡺 ' + docName + ' and ' + String(docCount) + ' other docs');
-			}
-			else
-				$(this).text('🢃 list');
-			$('.docentry', $(this).parent()).toggle();
-		});
 	},
 
 	onSocketMessage: function(e) {
@@ -155,16 +143,25 @@ var AdminSocketOverview = AdminSocketBase.extend({
 						$userListRow.append($uName);
 
 						$noOfDocuments = $(document.createElement('td')).addClass('doc_number')
-																	.text('1');
+												.text('1');
 						$userListRow.append($noOfDocuments);
 
 						$docList = $(document.createElement('td')).addClass('doc_list');
-						$docLabel = $(document.createElement('div')).addClass('doc_list_label');
-						$docentry = $(document.createElement('div')).addClass('docentry')
-																.attr('id', sessionid + '_' + sPid)
-																.text(sName);
+						$docLabel = $(document.createElement('div')).addClass('doc_list_label').text(sName);
+						$docListContainer = $(document.createElement('div')).addClass('dropdown docContainer').hide();
+						$docDropDown = $(document.createElement('ul')).addClass('dropdown-menu')
+												.attr('id', 'docListContainer_' + encodedUName);
+						$docListHeader = $(document.createElement('li')).addClass('dropdown-header')
+												.text('Documents');
+						$name = $(document.createElement('a')).text(sName);
+						$docentry = $(document.createElement('li')).addClass('docentry')
+												.attr('id', sessionid + '_' + sPid)
+												.append($name);
+						$docDropDown.append($docListHeader);
+						$docDropDown.append($docentry);
+						$docListContainer.append($docDropDown);
 						$docList.append($docLabel);
-						$docList.append($docentry);
+						$docList.append($docListContainer);
 						$userListRow.append($docList);
 
 						$('#userlist').append($userListRow);
@@ -175,17 +172,18 @@ var AdminSocketOverview = AdminSocketBase.extend({
 						docCount = parseInt($(userListChildren[1]).text())
 						$(userListChildren[1]).text(docCount + 1);
 
+						$docParent = $(userListChildren[2]);
 						$docLabel = $(userListChildren[2].getElementsByClassName('doc_list_label')[0]);
-						$docLabel.text('🡺 ' + sName + ' and ' + String(docCount) + ' other docs');
+						$docLabel.text(sName + ' and ' + String(docCount) + ' other docs');
 
-						$('.docentry', $('userListChildren[2]').hide());
+						$('.docContainer', $docParent).show();
 
-						$docentry = $(document.createElement('div')).addClass('docentry')
-																.attr('id', sessionid + '_' + sPid)
-																.text(sName);
+						$name = $(document.createElement('a')).text(sName);
+						$docentry = $(document.createElement('li')).addClass('docentry')
+												.attr('id', sessionid + '_' + sPid)
+												.append($name);
 
-						$(userListChildren[2]).append($docentry);
-						$('.docentry', $userListRow).css('display', 'none');
+						$('#docListContainer_' + encodedUName, $docParent).append($docentry);
 					}
 				}
 				$userContainer.append($listContainer);
@@ -246,7 +244,7 @@ var AdminSocketOverview = AdminSocketBase.extend({
 										  .addClass('userContainer dropdown');
 				$listContainer = $(document.createElement('ul')).addClass('dropdown-menu');
 				$listLabel = $(document.createElement('li')).addClass('dropdown-header')
-															.text('Users');
+													.text('Users');
 				$listContainer.append($listLabel);
 				$userContainer.append($listContainer);
 				$pid.append($userContainer);
@@ -301,8 +299,8 @@ var AdminSocketOverview = AdminSocketBase.extend({
 
 
 			encodedUName = uName.replace(/ /g, '');
-			$user = $('#usr' + encodedUName);
-			if ($user.length === 0) {
+			$userListRow = $('#usr' + encodedUName);
+			if ($userListRow.length === 0) {
 
 				$userListRow = $(document.createElement('tr')).attr('id', 'usr' + encodedUName);
 
@@ -310,35 +308,47 @@ var AdminSocketOverview = AdminSocketBase.extend({
 				$userListRow.append($uName);
 
 				$noOfDocuments = $(document.createElement('td')).addClass('doc_number')
-															.text('1');
+										.text('1');
 				$userListRow.append($noOfDocuments);
 
 				$docList = $(document.createElement('td')).addClass('doc_list');
-				$docLabel = $(document.createElement('div')).addClass('doc_list_label');
-				$docentry = $(document.createElement('div')).addClass('docentry')
-														.attr('id', sessionid + '_' + sPid)
-														.text(sName);
+				$docLabel = $(document.createElement('div')).addClass('doc_list_label').text(sName);
+				$docListContainer = $(document.createElement('div')).addClass('dropdown docContainer').hide();
+				$docDropDown = $(document.createElement('ul')).addClass('dropdown-menu')
+										.attr('id', 'docListContainer_' + encodedUName);
+				$docListHeader = $(document.createElement('li')).addClass('dropdown-header')
+										.text('Users');
+				$name = $(document.createElement('a')).text(uName);
+				$docentry = $(document.createElement('li')).addClass('docentry')
+										.attr('id', sessionid + '_' + sPid)
+										.append($name);
+				$docDropDown.append($docListHeader);
+				$docDropDown.append($docentry);
+				$docListContainer.append($docDropDown);
 				$docList.append($docLabel);
-				$docList.append($docentry);
+				$docList.append($docListContainer);
 				$userListRow.append($docList);
 
 				$('#userlist').append($userListRow);
 			}
 			else {
-				userListChildren = $user[0].childNodes;
+				userListChildren = $userListRow[0].childNodes;
 
 				docCount = parseInt($(userListChildren[1]).text())
 				$(userListChildren[1]).text(docCount + 1);
 
+				$docParent = $(userListChildren[2]);
 				$docLabel = $(userListChildren[2].getElementsByClassName('doc_list_label')[0]);
-				$docLabel.text('🡺 ' + sName + ' and ' + String(docCount) + ' other docs');
+				$docLabel.text(sName + ' and ' + String(docCount) + ' other docs');
 
-				$docentry = $(document.createElement('div')).addClass('docentry')
-														.attr('id', sessionid + '_' + sPid)
-														.text(sName);
+				$('.docContainer', $docParent).show();
 
-				$(userListChildren[2]).append($docentry);
-				$('.docentry', $(userListChildren[2])).hide();
+				$name = $(document.createElement('a')).text(sName);
+				$docentry = $(document.createElement('li')).addClass('docentry')
+									.attr('id', sessionid + '_' + sPid)
+									.append($name);
+
+				$('#docListContainer_' + encodedUName, $docParent).append($docentry);
 			}
 		}
 		else if (textMsg.startsWith('total_mem') ||
@@ -380,24 +390,23 @@ var AdminSocketOverview = AdminSocketBase.extend({
 			}
 
 			$docEntry = $('#' + sessionid + '_' + sPid);
-			$user = $docEntry.parent().parent();
-			$nDocs = $('.doc_number', $user);
+			$user = $docEntry.parent().parent().parent();
+			$nDocs = $('.doc_number', $user.parent());
 			docCount = parseInt($nDocs.text());
 			if (docCount == 1) {
-				$user.remove();
+				$user.parent().remove();
 			}
 			else if (docCount == 2) {
-				$('.doc_list_label', $user).text('');
-				$('.docentry', $user).show();
-				$nDocs.text(docCount - 1);
 				$docEntry.remove();
+				$child = $('.docentry', $user);
+				$('.docContainer', $docParent).hide();
+				$('.doc_list_label', $user).text($($child[0]).text());
+				$nDocs.text(docCount - 1);
 			}
 			else {
-				$parent = $docEntry.parent()
 				$docEntry.remove();
-				$child = $('.docentry', $parent);
-				$('.doc_list_label', $user).text('🡺 ' + $($child[0]).text() + ' and ' + String(docCount - 2) + ' other docs')
-				$('.docentry', $user).hide();
+				$child = $('.docentry', $user);
+				$('.doc_list_label', $user).text($($child[0]).text() + ' and ' + String(docCount - 2) + ' other docs')
 				$nDocs.text(docCount - 1);
 			}
 		}
