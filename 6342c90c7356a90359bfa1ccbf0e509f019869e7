@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_b8782efa",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1762,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-28T19:50:53Z",
+      "side": 1,
+      "message": "nitpick: Lets do away with such unnecessary variables, you can surely use e.username directly instead of creating a new variable.",
+      "revId": "6342c90c7356a90359bfa1ccbf0e509f019869e7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
