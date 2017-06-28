@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_f882b6c7",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-28T20:22:25Z",
+      "side": 1,
+      "message": "Isn\u0027t _followThis variable enough ? If it is -1 it means we are not following any user, why there is a need for an additional variable ?",
+      "revId": "efa6e68aa3f1a11af29bcfffcb6b27e27d883cda",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
