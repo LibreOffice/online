@@ -1275,6 +1275,13 @@ map.on('commandstatechanged', function (e) {
 		state = toLocalePattern('Slide %1 of %2', 'Slide (\\d+) of (\\d+)', state, '%1', '%2');
 		updateToolbarItem(statusbar, 'PageStatus', $('#PageStatus').html(state ? state : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp').html());
 	}
+	else if (commandName === '.uno:DocumentRepair') {
+		if (state === 'true') {
+			toolbar.enable('repair');
+		} else {
+			toolbar.disable('repair');
+		}
+	}
 
 	var id = unoCmdToToolbarId(commandName);
 	if (state === 'true') {
@@ -1299,12 +1306,6 @@ map.on('commandstatechanged', function (e) {
 			toolbar.uncheck(id);
 			toolbar.disable(id);
 			toolbarUpMore.disable(id);
-		}
-	}
-
-	if (id === 'undo' || id === 'redo') {
-		if (!toolbar.get('undo').disabled || !toolbar.get('redo').disabled) {
-			toolbar.enable('repair');
 		}
 	}
 });
