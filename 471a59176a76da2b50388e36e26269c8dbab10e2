@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_1d3a1437",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-06-28T05:30:36Z",
+      "side": 1,
+      "message": "Can you help me here.\nIn order to notify any new session, i am trying to send this.\nBut this doesn\u0027t seem to work. perhaps because the socket hasn\u0027t been established yet.\nCan you suggest any other alternative.",
+      "range": {
+        "startLine": 567,
+        "startChar": 0,
+        "endLine": 567,
+        "endChar": 63
+      },
+      "revId": "471a59176a76da2b50388e36e26269c8dbab10e2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
