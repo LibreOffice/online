@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3a461143_185f8273",
+        "filename": "loleaflet/dist/editor.css",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-28T20:21:38Z",
+      "side": 1,
+      "message": "Would really prefer if you can use the specificity here, *if* it is possible, instead of overriding it with !important. That is much cleaner option, IMHO.",
+      "revId": "6342c90c7356a90359bfa1ccbf0e509f019869e7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a461143_b8782efa",
         "filename": "loleaflet/dist/toolbar/toolbar.js",
         "patchSetId": 5
