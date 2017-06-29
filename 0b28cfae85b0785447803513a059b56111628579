@@ -22,6 +22,30 @@
       "revId": "0b28cfae85b0785447803513a059b56111628579",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_3e034775",
+        "filename": "loleaflet/src/admin/AdminSocketOverview.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-06-29T17:58:56Z",
+      "side": 1,
+      "message": "What problems ? You can use sessionId to uniquely identify a user ?",
+      "parentUuid": "3a461143_982c52ad",
+      "range": {
+        "startLine": 133,
+        "startChar": 5,
+        "endLine": 133,
+        "endChar": 17
+      },
+      "revId": "0b28cfae85b0785447803513a059b56111628579",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
