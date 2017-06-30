@@ -13,6 +13,8 @@
 
 #include "config.h"
 
+#if DISABLE_SECCOMP == 0
+
 #include <dlfcn.h>
 #include <ftw.h>
 #include <linux/audit.h>
@@ -277,5 +279,7 @@ bool handleSetrlimitCommand(const std::vector<std::string>& tokens)
 }
 
 } // namespace Seccomp
+
+#endif
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

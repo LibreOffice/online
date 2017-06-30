@@ -67,7 +67,9 @@
 #include "Util.hpp"
 
 #include "common/SigUtil.hpp"
+#if DISABLE_SECCOMP == 0
 #include "common/Seccomp.hpp"
+#endif
 
 #ifdef FUZZER
 #include <kit/DummyLibreOfficeKit.hpp>
@@ -1811,12 +1813,14 @@ void lokit_main(const std::string& childRoot,
             }
         }
 
+#if DISABLE_SECCOMP == 0
         // Lock down the syscalls that can be used
         if (!Seccomp::lockdown(Seccomp::Type::KIT))
         {
             LOG_ERR("LibreOfficeKit security lockdown failed. Exiting.");
             std::_Exit(Application::EXIT_SOFTWARE);
         }
+#endif
 
         rlimit rlim = { 0, 0 };
         if (getrlimit(RLIMIT_AS, &rlim) == 0)
@@ -1924,6 +1928,7 @@ void lokit_main(const std::string& childRoot,
                             LOG_WRN("No document while processing " << tokens[0] << " request.");
                         }
                     }
+#if DISABLE_SECCOMP == 0
                     else if (tokens.size() == 3 && tokens[0] == "setconfig")
                     {
                         // Currently onlly rlimit entries are supported.
@@ -1932,6 +1937,7 @@ void lokit_main(const std::string& childRoot,
                             LOG_ERR("Unknown setconfig command: " << message);
                         }
                     }
+#endif
                     else
                     {
                         LOG_ERR("Bad or unknown token [" << tokens[0] << "]");

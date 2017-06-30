@@ -37,7 +37,9 @@
 #include "Util.hpp"
 
 #include "common/FileUtil.hpp"
+#if DISABLE_SECCOMP == 0
 #include "common/Seccomp.hpp"
+#endif
 #include "common/SigUtil.hpp"
 #include "security.h"
 
@@ -111,14 +113,16 @@ public:
                     LOG_WRN("Cannot spawn " << tokens[1] << " children as requested.");
                 }
             }
+#if DISABLE_SECCOMP == 0
             else if (tokens.size() == 3 && tokens[0] == "setconfig")
             {
-                // Currently onlly rlimit entries are supported.
+                // Currently only rlimit entries are supported.
                 if (!Seccomp::handleSetrlimitCommand(tokens))
                 {
                     LOG_ERR("Unknown setconfig command: " << message);
                 }
             }
+#endif
             else
             {
                 LOG_ERR("Unknown command: " << message);
@@ -432,6 +436,7 @@ int main(int argc, char** argv)
             std::cout << "loolforkit version details: " << version << " - " << hash << std::endl;
             DisplayVersion = true;
         }
+#if DISABLE_SECCOMP == 0
         else if (std::strstr(cmd, "--rlimits") == cmd)
         {
             eq = std::strchr(cmd, '=');
@@ -447,6 +452,7 @@ int main(int argc, char** argv)
                 }
             }
         }
+#endif
 #if ENABLE_DEBUG
         // this process has various privileges - don't run arbitrary code.
         else if (std::strstr(cmd, "--unitlib=") == cmd)
