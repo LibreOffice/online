@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_537c8420",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-07-06T07:46:44Z",
+      "side": 1,
+      "message": "This looks like too much computation to me on every invalidate cursor event. Maybe we can optimize it somehow. Since invlaidatecursor is such a frequent callback, it is important that we make best possible optimization here.\n\nBut we will see it later, merging it for now.",
+      "revId": "8d7b0d0b018e2c211ae6ac73aa57e74139832da3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
