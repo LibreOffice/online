@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_65b0d7f5",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-07-06T15:18:50Z",
+      "side": 1,
+      "message": "Isn\u0027t the second condition here redundant, always evaluating to true ?\n\nOriginally it was (a || b), and now you complemented it, so it must be (!a \u0026\u0026 !b) to make it mean the same, no ?",
+      "revId": "3a43f691167c6ad08ffc5670384ca3ab8cadcbe2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
