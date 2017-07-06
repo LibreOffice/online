@@ -8,31 +8,22 @@ var AdminSocketHistory = AdminSocketBase.extend({
 		this.base(host);
 	},
 
-	refreshHistory: function() {
-		this.socket.send('history');
-	},
-
 	onSocketOpen: function() {
 		// Base class' onSocketOpen handles authentication
 		this.base.call(this);
-
-		var socketHistory = this;
-		$('#refreshHistory').on('click', function () {
-			return socketHistory.refreshHistory();
-		});
-		this.refreshHistory();
+		this.socket.send('history');
+		this.socket.send('subscribe history');
 	},
 
 	onSocketMessage: function(e) {
 		//if (e.data == 'InvalidAuthToken' || e.data == 'NotAuthenticated') {
-		//	this.base.call(this);
-		//	this.refreshHistory();
+		//	this.onSocketOpen();
 		//} else {
 		var jsonObj;
 		try {
 			jsonObj = JSON.parse(e.data);
-			var doc = jsonObj['History']['documents'];
-			var exdoc = jsonObj['History']['expiredDocuments'];
+			var doc = jsonObj['history']['documents'];
+			var exdoc = jsonObj['history']['expiredDocuments'];
 			$('#json-doc').find('textarea').html(JSON.stringify(doc));
 			$('#json-ex-doc').find('textarea').html(JSON.stringify(exdoc));
 		} catch (e) {
@@ -41,7 +32,7 @@ var AdminSocketHistory = AdminSocketBase.extend({
 	},
 
 	onSocketClose: function() {
-
+		this.socket.send('unsubscribe history');
 	}
 });
 

@@ -50,7 +50,6 @@ int Document::expireView(const std::string& sessionId)
         if (--_activeViews == 0)
             _end = std::time(nullptr);
     }
-    this->takeSnapshot();
 
     return _activeViews;
 }
@@ -432,6 +431,12 @@ void AdminModel::notify(const std::string& message)
     }
 }
 
+void AdminModel::takeSnapshot(Document& doc) {
+    doc.takeSnapshot();
+    notify("{\"history\": " + getAllHistory() + "}");
+}
+
+
 void AdminModel::addBytes(const std::string& docKey, uint64_t sent, uint64_t recv)
 {
     assertCorrectThread();
@@ -469,7 +474,6 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
     assertCorrectThread();
 
     const auto ret = _documents.emplace(docKey, Document(docKey, pid, filename));
-    ret.first->second.takeSnapshot();
     ret.first->second.addView(sessionId, userName, userId);
     LOG_DBG("Added admin document [" << docKey << "].");
 
@@ -509,6 +513,7 @@ void AdminModel::addDocument(const std::string& docKey, Poco::Process::PID pid,
     }
 
     notify(oss.str());
+    this->takeSnapshot(ret.first->second);
 }
 
 void AdminModel::removeDocument(const std::string& docKey, const std::string& sessionId)
@@ -530,8 +535,13 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
         // to the admin console with views.
         if (docIt->second.expireView(sessionId) == 0)
         {
-            _expiredDocuments.emplace(*docIt);
+            auto pair = _expiredDocuments.emplace(*docIt);
             _documents.erase(docIt);
+            this->takeSnapshot(pair.first->second);
+        }
+        else
+        {
+            this->takeSnapshot(docIt->second);
         }
     }
 }
@@ -553,10 +563,12 @@ void AdminModel::removeDocument(const std::string& docKey)
             // Notify the subscribers
             notify(msg + pair.first);
             docIt->second.expireView(pair.first);
+            docIt->second.takeSnapshot(); // I just want to take a snapshot without notify here
         }
 
         LOG_DBG("Removed admin document [" << docKey << "].");
         _expiredDocuments.emplace(*docIt);
+        this->takeSnapshot(docIt->second);
         _documents.erase(docIt);
     }
 }
@@ -683,7 +695,7 @@ void AdminModel::updateLastActivityTime(const std::string& docKey)
     {
         if (docIt->second.getIdleTime() >= 10)
         {
-            docIt->second.takeSnapshot(); // I would like to keep the idle time
+            this->takeSnapshot(docIt->second); // I would like to keep the idle time
             docIt->second.updateLastActivityTime();
             notify("resetidle " + std::to_string(docIt->second.getPid()));
         }

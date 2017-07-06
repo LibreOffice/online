@@ -234,6 +234,8 @@ public:
 
     void notify(const std::string& message);
 
+    void takeSnapshot(Document& doc);
+
     void addDocument(const std::string& docKey, Poco::Process::PID pid, const std::string& filename, const std::string& sessionId, const std::string& userName, const std::string& userId);
 
     void removeDocument(const std::string& docKey, const std::string& sessionId);

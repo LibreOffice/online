@@ -114,7 +114,7 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
     }
     else if (tokens[0] == "history")
     {
-        sendTextFrame("{ \"History\": " + model.getAllHistory() + "}");
+        sendTextFrame("{\"history\": " + model.getAllHistory() + "}");
     }
     else if (tokens[0] == "version")
     {
@@ -132,14 +132,24 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
     {
         for (std::size_t i = 0; i < tokens.count() - 1; i++)
         {
-            model.subscribe(_sessionId, tokens[i + 1]);
+            if(tokens[i + 1] == "history")
+            {
+                model.subscribe(_sessionId, "{\"history\":");
+            } else {
+                model.subscribe(_sessionId, tokens[i + 1]);
+            }
         }
     }
     else if (tokens[0] == "unsubscribe" && tokens.count() > 1)
     {
         for (std::size_t i = 0; i < tokens.count() - 1; i++)
         {
-            model.unsubscribe(_sessionId, tokens[i + 1]);
+            if(tokens[i + 1] == "history")
+            {
+                model.unsubscribe(_sessionId, "{\"history\":");
+            } else {
+                model.unsubscribe(_sessionId, tokens[i + 1]);
+            }
         }
     }
     else if (tokens[0] == "total_mem")
