@@ -8,6 +8,7 @@ exports.wrongwopisrc = _('Wrong WOPISrc, usage: WOPISrc=valid encoded URI, or fi
 exports.sessionexpiry = _('Your session will expire in %time. Please save your work and refresh the session (or webpage) to continue.');
 exports.sessionexpired = _('Your session has been expired. Further changes to document might not be saved. Please refresh the session (or webpage) to continue.');
 exports.faileddocloading = _('Failed to load the document. Please ensure the file type is supported and not corrupted, and try again.');
+exports.oom = _('Server out of memory. Please contact the server administrator to continue.');
 
 exports.storage = {
 	loadfailed: _('Failed to read document from storage. Please contact your storage server (%storageserver) administrator.'),

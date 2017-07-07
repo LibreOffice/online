@@ -302,6 +302,18 @@ L.Socket = L.Class.extend({
 					}
 				}, 3000);
 			}
+			else if (textMsg.startsWith('oom')) {
+				// Out of memory; don't try to connect
+				msg = errorMessages.oom;
+
+				if (this._map._docLayer) {
+					this._map._docLayer.removeAllViews();
+				}
+				// Detach all the handlers from current socket, otherwise _onSocketClose tries to reconnect again
+				// However, we want don't want to reconnect here
+				this.close();
+				this._map.remove();
+			}
 
 			// Close any open dialogs first.
 			if (vex.dialogID > 0) {
