@@ -49,7 +49,7 @@ find etc/fonts \
 
 # Go through the LO shared objects and check what system libraries
 # they link to.
-find $INSTDIR -name '*.so' -o -name '*.so.[0-9]*' |
+find $INSTDIR -name '*.so' -o -name '*.so.[0-9]*' -o -name 'xpdfimport' |
 while read file; do
     ldd $file 2>/dev/null
 done |
