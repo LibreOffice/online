@@ -653,9 +653,12 @@ bool ChildSession::getTextSelection(const char* /*buffer*/, int /*length*/, cons
 
 bool ChildSession::paste(const char* buffer, int length, const std::vector<std::string>& tokens)
 {
-    std::string mimeType;
-    if (tokens.size() < 2 || !getTokenString(tokens[1], "mimetype", mimeType) ||
-        mimeType.empty())
+    std::string mimeType, type, fileName;
+    if (tokens.size() < 3 ||
+        !getTokenString(tokens[1], "mimetype", mimeType) ||
+        !getTokenString(tokens[2], "type", type) ||
+        mimeType.empty() ||
+        type.empty())
     {
         sendTextFrame("error: cmd=paste kind=syntax");
         return false;
@@ -663,7 +666,17 @@ bool ChildSession::paste(const char* buffer, int length, const std::vector<std::
 
     const std::string firstLine = getFirstLine(buffer, length);
     const char* data = buffer + firstLine.size() + 1;
-    const int size = length - firstLine.size() - 1;
+    int size = length - firstLine.size() - 1;
+    if (type == "file")
+    {
+        std::ostringstream oss;
+        oss << "file://" << std::string(JAILED_DOCUMENT_ROOT) << "insertfile/" <<
+            std::string(data, size);
+        fileName = oss.str();
+        data = fileName.data();
+        size = fileName.size();
+    }
+
     if (size > 0)
     {
         std::unique_lock<std::mutex> lock(_docManager.getDocumentMutex());
