@@ -15,14 +15,14 @@ if (typeof String.prototype.startsWith !== 'function') {
 
 L.Compatibility = {
 	clipboardGet: function (event) {
-		var text = null;
+		var clipboardData = null;
 		if (event.clipboardData) { // Standard
-			text = event.clipboardData.getData('text/plain');
+			clipboardData = event.clipboardData;
 		}
-		else if (window.clipboardData) { // IE 11
-			text = window.clipboardData.getData('Text');
+		else if (event.dataTransfer) { // IE 11
+			clipboardData = event.dataTransfer;
 		}
-		return text;
+		return clipboardData;
 	},
 	clipboardSet: function (event, text) {
 		if (event.clipboardData) { // Standard
@@ -1788,18 +1788,33 @@ L.TileLayer = L.GridLayer.extend({
 	},
 
 	_onPaste: function (e) {
+		var mimeType;
+		var pasteString;
 		e = e.originalEvent;
 		e.preventDefault();
-		var pasteString = L.Compatibility.clipboardGet(e);
-		if (pasteString === 'false' || !pasteString || pasteString === this._selectionTextHash) {
-			// If there is nothing to paste in clipboard, no harm in
-			// issuing a .uno:Paste in case there is something internally copied in the document
-			// or if the content of the clipboard did not change, we surely must do a rich paste
-			// instead of a normal paste
-			this._map._socket.sendMessage('uno .uno:Paste');
+		var clipboard = L.Compatibility.clipboardGet(e);
+		if (clipboard) {
+			var files = clipboard.files || [];
+			var types = clipboard.types || [];
+			var items = clipboard.items || [];
+			var textRtf = 'text/rtf', textPlain = 'text/plain';
+			if (files.length > 0) {
+				for (var it = 0; it < items.length; ++it) {
+					if (items[it].kind === 'file') {
+						this._map.fire('insertfile', {file: items[it].getAsFile(), command:'paste', mimetype:items[it].type});
+						break;
+					}
+				}
+			} else if (types.indexOf(textRtf)>=0) {
+				pasteString = clipboard.getData(textRtf);
+				mimeType = textRtf;
+			} else {
+				pasteString = clipboard.getData(textPlain);
+				mimeType = textPlain;
+			}
 		}
-		else {
-			this._map._socket.sendMessage('paste mimetype=text/plain;charset=utf-8\n' + pasteString);
+		if (pasteString) {
+			this._map._socket.sendMessage('paste mimetype=' + mimeType +';charset=utf-8 type=text\n' + pasteString);
 		}
 	},
 

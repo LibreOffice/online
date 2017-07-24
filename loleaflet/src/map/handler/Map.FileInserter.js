@@ -31,10 +31,10 @@ L.Map.FileInserter = L.Handler.extend({
 	_onInsertFile: function (e) {
 		if (!this._childId) {
 			this._map._socket.sendMessage('getchildid');
-			this._toInsert[Date.now()] = e.file;
+			this._toInsert[Date.now()] = e;
 		}
 		else {
-			this._sendFile(Date.now(), e.file);
+			this._sendFile(Date.now(), e);
 		}
 	},
 
@@ -46,7 +46,7 @@ L.Map.FileInserter = L.Handler.extend({
 		this._toInsert = {};
 	},
 
-	_sendFile: function (name, file) {
+	_sendFile: function (name, e) {
 		var url = this._url;
 		var xmlHttp = new XMLHttpRequest();
 		var socket = this._map._socket;
@@ -55,14 +55,18 @@ L.Map.FileInserter = L.Handler.extend({
 		xmlHttp.onreadystatechange = function () {
 			if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
 				map.hideBusy();
-				socket.sendMessage('insertfile name=' + name + ' type=graphic');
+				if (e.command) {
+					socket.sendMessage('paste mimetype=' + e.mimetype + ' type=file\n' + name);
+				} else {
+					socket.sendMessage('insertfile name=' + name + ' type=graphic');
+				}
 			}
 		};
 		xmlHttp.open('POST', url, true);
 		var formData = new FormData();
 		formData.append('name', name);
 		formData.append('childid', this._childId);
-		formData.append('file', file);
+		formData.append('file', e.file);
 		xmlHttp.send(formData);
 	}
 });
