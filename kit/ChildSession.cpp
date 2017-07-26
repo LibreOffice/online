@@ -1250,6 +1250,9 @@ void ChildSession::loKitCallback(const int type, const std::string& payload)
     case LOK_CALLBACK_CELL_ADDRESS:
         sendTextFrame("celladdress: " + payload);
         break;
+    case LOK_CALLBACK_RULER_UPDATE:
+        sendTextFrame("rulerupdate: " + payload);
+        break;
     default:
         LOG_ERR("Unknown callback event (" << type << "): " << payload);
     }
