@@ -84,6 +84,7 @@ L.Map = L.Evented.extend({
 		this._addLayers(this.options.layers);
 		this._socket = L.socket(this);
 		this._progressBar = L.progressOverlay(this.getCenter(), L.point(150, 25));
+		L.control.ruler({position:'topleft'}).addTo(this);
 
 		// Inhibit the context menu - the browser thinks that the document
 		// is just a bunch of images, hence the context menu is useless (tdf#94599)

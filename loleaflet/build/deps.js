@@ -457,6 +457,11 @@ var deps = {
 		desc: 'Annotation to put on the map.'
 	},
 
+	Ruler: {
+		src: ['layer/marker/Ruler.js'],
+		desc: 'Ruler to be displayed on the map.'
+	},
+
 	DivOverlay: {
 		src: ['layer/marker/DivOverlay.js'],
 		desc: 'Div overlay to put on the map.'
