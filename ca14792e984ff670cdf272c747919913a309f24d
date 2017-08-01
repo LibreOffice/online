@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a461143_9c17bfa2",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-08-01T10:34:33Z",
+      "side": 1,
+      "message": "in case the command fails then it would be a problem.\n\nThe point of doing this, was that i was trying to place the indicators(placed at some unit distance from each other), and for that we need to know the actual width and height of the page. In case of any page format change the width would also change, so this event.\nbut later when i thought about it, this isn\u0027t the best way of doing this, rather i\u0027ll try to send this information as part of the ruler update callback.",
+      "parentUuid": "3a461143_dc2b072f",
+      "revId": "ca14792e984ff670cdf272c747919913a309f24d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a461143_5c18f71d",
         "filename": "loleaflet/src/layer/marker/Ruler.js",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-08-01T07:04:27Z",
       "side": 1,
       "message": "Why some of these like pageOffset and pageWidth are hardcoded ? Shouldn\u0027t be use the values as broadcasted to us by the core ?",
+      "revId": "ca14792e984ff670cdf272c747919913a309f24d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_bc0c7b95",
+        "filename": "loleaflet/src/layer/marker/Ruler.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-08-01T10:34:33Z",
+      "side": 1,
+      "message": "when i wasn\u0027t using the callbacks, i hardcoded the values for testing. They aren\u0027t supposed to be here, i\u0027ll remove them in the next update.",
+      "parentUuid": "3a461143_5c18f71d",
       "revId": "ca14792e984ff670cdf272c747919913a309f24d",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3a461143_dc1147ae",
+        "filename": "loleaflet/src/layer/marker/Ruler.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-08-01T10:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a461143_7cd3f338",
+      "revId": "ca14792e984ff670cdf272c747919913a309f24d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a461143_9cd89f55",
         "filename": "loleaflet/src/layer/marker/Ruler.js",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2017-08-01T07:04:27Z",
       "side": 1,
       "message": "ditto.",
+      "revId": "ca14792e984ff670cdf272c747919913a309f24d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_fc260315",
+        "filename": "loleaflet/src/layer/marker/Ruler.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-08-01T10:34:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a461143_9cd89f55",
       "revId": "ca14792e984ff670cdf272c747919913a309f24d",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
