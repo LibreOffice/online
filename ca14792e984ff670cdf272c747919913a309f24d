@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a461143_dc2b072f",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-01T07:04:27Z",
+      "side": 1,
+      "message": "Hm, can you please explain this thing a bit ? Why you are doing it like this ?\n\nI think it is better to use the values of page size that you receive from core rather than just firing an event in the UI. What if the uno command that you are sending before (AttributepageSize) fails for some reason -- in that case, it would be wrong to emit a pageSizeChange event here.",
+      "revId": "ca14792e984ff670cdf272c747919913a309f24d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_5c18f71d",
+        "filename": "loleaflet/src/layer/marker/Ruler.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-01T07:04:27Z",
+      "side": 1,
+      "message": "Why some of these like pageOffset and pageWidth are hardcoded ? Shouldn\u0027t be use the values as broadcasted to us by the core ?",
+      "revId": "ca14792e984ff670cdf272c747919913a309f24d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_7cd3f338",
+        "filename": "loleaflet/src/layer/marker/Ruler.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-01T07:04:27Z",
+      "side": 1,
+      "message": "If you want to keep such logging statements, please use console.debug that doesn\u0027t print anything on the console in production builds.\n\nConsole.log aren\u0027t, I think.",
+      "revId": "ca14792e984ff670cdf272c747919913a309f24d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a461143_9cd89f55",
+        "filename": "loleaflet/src/layer/marker/Ruler.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-01T07:04:27Z",
+      "side": 1,
+      "message": "ditto.",
+      "revId": "ca14792e984ff670cdf272c747919913a309f24d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
