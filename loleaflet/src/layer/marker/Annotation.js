@@ -217,6 +217,7 @@ L.Annotation = L.Layer.extend({
 	_onCancelClick: function (e) {
 		L.DomEvent.stopPropagation(e);
 		this._nodeModifyText.value = this._contentText.origText;
+		this._nodeReplyText.value = '';
 		this.show();
 		this._map.fire('AnnotationCancel', {annotation: this});
 	},
