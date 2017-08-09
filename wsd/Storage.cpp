@@ -587,6 +587,74 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const st
 }
 
 /// uri format: http://server/<...>/wopi*/files/<id>/content
+void WopiStorage::createCopyFile(const std::string& accessToken)
+{
+    Poco::URI uriObject(_uri);
+    uriObject.setPath(uriObject.getPath() + "/contents");
+    setQueryParameter(uriObject, "access_token", accessToken);
+    LOG_DBG("Wopi create new request for : " << uriObject.toString());
+
+    std::string resMsg;
+    try
+    {
+        std::unique_ptr<Poco::Net::HTTPClientSession> psession(getHTTPClientSession(uriObject));
+
+        Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, uriObject.getPathAndQuery(), Poco::Net::HTTPMessage::HTTP_1_1);
+        request.set("User-Agent", WOPI_AGENT_STRING);
+        request.set("X-WOPI-Override", "PUT_RELATIVE");
+        request.set("X-WOPI-SuggestedTarget", "test.odt");
+        request.set("X-WOPI-Size", std::to_string((int)getFileSize(_jailedFilePath)));
+
+        addStorageDebugCookie(request);
+        psession->sendRequest(request);
+
+        Poco::Net::HTTPResponse response;
+        std::istream& rs = psession->receiveResponse(response);
+
+        auto logger = Log::trace();
+        if (logger.enabled())
+        {
+            logger << "WOPI::createCopyFIle header for URI [" << uriObject.toString() << "]:\n";
+            for (const auto& pair : response)
+            {
+                logger << '\t' << pair.first << ": " << pair.second << " / ";
+            }
+
+            LOG_END(logger);
+        }
+
+        if (response.getStatus() != Poco::Net::HTTPResponse::HTTP_OK)
+        {
+            LOG_ERR("WOPI::createCopyFile failed with " << response.getStatus() << ' ' << response.getReason());
+            throw StorageConnectionException("WOPI::createCopyFile failed");
+        }
+
+        Poco::StreamCopier::copyToString(rs, resMsg);
+    }
+    catch(const Poco::Exception& pexc)
+    {
+        LOG_ERR("createCopyFile cannot create file with WOPI storage uri [" << uriObject.toString() << "]. Error: " << pexc.displayText() <<
+                (pexc.nested() ? " (" + pexc.nested()->displayText() + ")" : ""));
+        throw;
+    }
+
+    std::string filename;
+    std::string url;
+    std::string hostEditUrl;
+    std::string hostViewUrl;
+
+    LOG_DBG("WOPI::createCopyFile returned: " << resMsg );
+    Poco::JSON::Object::Ptr object;
+    if (parseJSON(resMsg, object))
+    {
+        getWOPIValue(object, "Name", filename);
+        getWOPIValue(object, "Url", url);
+        getWOPIValue(object, "HostViewUrl", hostViewUrl);
+        getWOPIValue(object, "HostEditUrl", hostEditUrl);
+    }
+}
+
+/// uri format: http://server/<...>/wopi*/files/<id>/content
 std::string WopiStorage::loadStorageFileToLocal(const std::string& accessToken)
 {
     // WOPI URI to download files ends in '/contents'.

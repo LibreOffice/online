@@ -9,6 +9,7 @@ L.Control.Menubar = L.Control.extend({
 		text:  [
 			{name: _('File'), id: 'file', type: 'menu', menu: [
 				{name: _('Save'), id: 'save', type: 'action'},
+				{name: _('Save As'), id: 'saveas', type: 'action'},
 				{name: _('Print'), id: 'print', type: 'action'},
 				{name: _('See revision history'), id: 'rev-history', type: 'action'},
 				{name: _('Download as'), id: 'downloadas', type: 'menu', menu: [
