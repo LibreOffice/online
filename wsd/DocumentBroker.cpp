@@ -718,6 +718,21 @@ bool DocumentBroker::saveToStorageInternal(const std::string& sessionId,
     return false;
 }
 
+void DocumentBroker::saveFileAs(const std::string& sessionId, const std::string& newFileName)
+{
+    const auto it = _sessions.find(sessionId);
+    if(it == _sessions.end())
+    {
+        return;
+    }
+
+    WopiStorage* wopiStorage = dynamic_cast<WopiStorage*>(_storage.get());
+    if (wopiStorage != nullptr)
+    {
+        wopiStorage->createCopyFile(it->second->getAccessToken(), newFileName);
+    }
+}
+
 void DocumentBroker::setLoaded()
 {
     if (!_isLoaded)

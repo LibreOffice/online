@@ -84,7 +84,7 @@ L.Map.include({
 		this.downloadAs('print.pdf', 'pdf', null, 'print');
 	},
 
-	saveAs: function (url, format, options) {
+	saveAs: function (newName, format, options) {
 		if (format === undefined || format === null) {
 			format = '';
 		}
@@ -92,12 +92,12 @@ L.Map.include({
 			options = '';
 		}
 
-		this.showBusy(_('Saving...'), false);
+		// this.showBusy(_('Saving...'), false);
 		// TakeOwnership: we are performing a 'real' save-as, the document
 		// is just getting a new place, ie. it will get the
 		// '.uno:ModifiedStatus' upon completion.
 		this._socket.sendMessage('saveas ' +
-			'url=' + url + ' ' +
+			'fileName=' + newName + ' ' +
 			'format=' + format + ' ' +
 			'options=TakeOwnership,' + options);
 	},

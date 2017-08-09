@@ -214,6 +214,12 @@ bool ClientSession::_handleInput(const char *buffer, int length)
     {
         return sendCombinedTiles(buffer, length, tokens, docBroker);
     }
+    else if (tokens[0] == "saveas")
+    {
+        std::string newFileName;
+        getTokenString(tokens[1], "fileName", newFileName);
+        docBroker->saveFileAs(getId(), newFileName);
+    }
     else if (tokens[0] == "save")
     {
         int dontTerminateEdit = 1;
