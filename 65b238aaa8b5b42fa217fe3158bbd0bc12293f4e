@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_77909b96",
+        "filename": "loleaflet/src/layer/marker/Annotation.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-10T10:41:10Z",
+      "side": 1,
+      "message": "The comment in _onReplyClick function says that assigning null to such elements is problematic in \u0027some\u0027 browsers. I think by \u0027some\u0027, it means IE, Edge etc. If that is true, then this patch will be convert it to \u0027null\u0027 (string type) which when checked in _onLostFocusReply method will pass the condition : \"if (this._nodeReplyText.value !\u003d\u003d \u0027\u0027) {\" leading to a reply comment with a \u0027null\u0027 string even after one hits cancel.\n\nThe ideal solution, hence, it seems, is to do :\nthis._nodeReplyText.value \u003d \u0027\u0027;",
+      "revId": "65b238aaa8b5b42fa217fe3158bbd0bc12293f4e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
