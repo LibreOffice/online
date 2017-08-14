@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_1e2bec31",
+        "filename": "loleaflet/src/map/handler/Map.WOPI.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-08-14T14:09:17Z",
+      "side": 1,
+      "message": "No need to reset this._appLoadedConditions[e.type] \u003d false; ?",
+      "revId": "c020c6a1df46d82850ea83a817dd5bdeeca7da10",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
