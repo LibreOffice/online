@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_c0b6e23c",
+        "filename": "wsd/Auth.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2017-08-16T14:50:32Z",
+      "side": 1,
+      "message": "Nitpick: this \"{\" goes to a new line in surrounding code.",
+      "revId": "e11d95894dd7f1528cbdef06558dc49bc2f82a89",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
