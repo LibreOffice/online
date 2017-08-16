@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_bd749dfd",
+        "filename": "loleaflet/reference.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 2853,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-16T10:39:19Z",
+      "side": 1,
+      "message": "First, why put this in the getter response section here. It doesn\u0027t really give the response to any query like others in this section. Let\u0027s move this to Miscelleaneous and put it there.\n\nSecond, can we call it UI_SaveAs, to be in accordance with other names like this[1]. (Yeah, I know rev-history should be renamed to UI_FileVersions, but ignore that for now).\n\n[1] https://wopi.readthedocs.io/en/latest/scenarios/postmessage.html#listening-to-messages-from-the-office-online-iframe",
+      "range": {
+        "startLine": 2853,
+        "startChar": 14,
+        "endLine": 2853,
+        "endChar": 39
+      },
+      "revId": "d2f85c7f7361e8ab29ef579a5a9d02ac41a7027b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_dd5fa973",
+        "filename": "loleaflet/reference.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 2925,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-16T10:39:19Z",
+      "side": 1,
+      "message": "Let\u0027s call it just Action_SaveAs",
+      "range": {
+        "startLine": 2925,
+        "startChar": 20,
+        "endLine": 2925,
+        "endChar": 30
+      },
+      "revId": "d2f85c7f7361e8ab29ef579a5a9d02ac41a7027b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_fd64654a",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-16T10:39:19Z",
+      "side": 1,
+      "message": "nitpick: can be const.",
+      "range": {
+        "startLine": 732,
+        "startChar": 6,
+        "endLine": 732,
+        "endChar": 14
+      },
+      "revId": "d2f85c7f7361e8ab29ef579a5a9d02ac41a7027b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_1d5a1184",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-16T10:39:19Z",
+      "side": 1,
+      "message": "nitpick: no need for this extra bracket. no idea what you\u0027re trying to do here :)",
+      "range": {
+        "startLine": 733,
+        "startChar": 20,
+        "endLine": 733,
+        "endChar": 22
+      },
+      "revId": "d2f85c7f7361e8ab29ef579a5a9d02ac41a7027b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_7d515562",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-16T10:39:19Z",
+      "side": 1,
+      "message": "nitpick: eeek, please put it on new line or remove it entirely (since it\u0027s a single line conditional)",
+      "range": {
+        "startLine": 734,
+        "startChar": 86,
+        "endLine": 734,
+        "endChar": 88
+      },
+      "revId": "d2f85c7f7361e8ab29ef579a5a9d02ac41a7027b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_7dd875f0",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-16T10:39:19Z",
+      "side": 1,
+      "message": "I think better if we don\u0027t keep it in \u0027Suggested mode\u0027, but rather the \u0027Specific Mode\u0027[1]. It would be the responsibility of our WOPI hosts to make sure that they are giving us a unique file name with in that path. Can you check if it\u0027s currently possible in OwnCloud ?\n\n[1] http://wopi.readthedocs.io/projects/wopirest/en/latest/files/PutRelativeFile.html?highlight\u003dPutRelative#putrelativefile",
+      "range": {
+        "startLine": 606,
+        "startChar": 12,
+        "endLine": 606,
+        "endChar": 46
+      },
+      "revId": "d2f85c7f7361e8ab29ef579a5a9d02ac41a7027b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
