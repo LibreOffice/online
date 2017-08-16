@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_5d02d93f",
+        "filename": "loleaflet/src/layer/marker/Ruler.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-16T10:44:48Z",
+      "side": 1,
+      "message": ":)",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 2,
+        "endChar": 15
+      },
+      "revId": "ff36862b2123df24e6a0888459116bbe65107228",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
