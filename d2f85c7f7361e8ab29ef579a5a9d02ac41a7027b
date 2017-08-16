@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "1a430d35_5db0198c",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-08-16T11:50:46Z",
+      "side": 1,
+      "message": "here, i am checking if the complete putrelative operation has succeeded or not. If it has, then it would return a url that we could use to start editing the newly created file and in this case we\u0027ll have to probably redirect to that url.",
+      "parentUuid": "1a430d35_1d5a1184",
+      "range": {
+        "startLine": 733,
+        "startChar": 20,
+        "endLine": 733,
+        "endChar": 22
+      },
+      "revId": "d2f85c7f7361e8ab29ef579a5a9d02ac41a7027b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a430d35_7d515562",
         "filename": "wsd/DocumentBroker.cpp",
         "patchSetId": 4
