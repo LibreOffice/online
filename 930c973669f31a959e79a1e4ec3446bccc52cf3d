@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_80093a34",
+        "filename": "test/UnitOAuth.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2017-08-17T10:34:05Z",
+      "side": 1,
+      "message": "Maybe name this LoadToken and LoadHeader instead?",
+      "revId": "930c973669f31a959e79a1e4ec3446bccc52cf3d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
