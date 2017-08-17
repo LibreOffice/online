@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_c31a6c6e",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-08-17T11:15:57Z",
+      "side": 1,
+      "message": "No ! This looks dangerous to me. Please remove it. We don\u0027t want host to overwrite anything.",
+      "revId": "6f0a0f3e734599c72cd4c8dbb8acea87eb51fb11",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
