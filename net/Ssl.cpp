@@ -42,13 +42,18 @@ SslContext::SslContext(const std::string& certFilePath,
         _mutexes.emplace_back(new std::mutex);
     }
 
-#if OPENSSL_VERSION_NUMBER >= 0x0907000L
+#if OPENSSL_VERSION_NUMBER >= 0x0907000L && OPENSSL_VERSION_NUMBER < 0x10100003L
     OPENSSL_config(nullptr);
 #endif
 
+#if OPENSSL_VERSION_NUMBER >= 0x10100003L
+    SSL_CTX_set_options(nullptr, 0);
+    OPENSSL_init_ssl(OPENSSL_INIT_LOAD_CONFIG, NULL);
+#else
     SSL_library_init();
     SSL_load_error_strings();
     OpenSSL_add_all_algorithms();
+#endif
 
     CRYPTO_set_locking_callback(&SslContext::lock);
     CRYPTO_set_id_callback(&SslContext::id);
@@ -124,7 +129,9 @@ SslContext::SslContext(const std::string& certFilePath,
 SslContext::~SslContext()
 {
     SSL_CTX_free(_ctx);
+#if OPENSSL_VERSION_NUMBER < 0x10100003L
     EVP_cleanup();
+#endif
     ERR_free_strings();
     CRYPTO_set_locking_callback(0);
     CRYPTO_set_id_callback(0);
@@ -234,18 +241,39 @@ void SslContext::initDH()
         throw std::runtime_error("Error creating Diffie-Hellman parameters: " + msg);
     }
 
+#if OPENSSL_VERSION_NUMBER >= 0x10100003L
+    BIGNUM *p = BN_new();
+    BIGNUM *g = BN_new();
+    p = BN_bin2bn(dh1024_p, sizeof(dh1024_p), 0);
+    g = BN_bin2bn(dh1024_g, sizeof(dh1024_g), 0);
+    DH_set0_pqg(dh, p, NULL, g);
+    DH_set_length(dh, 160);
+    const BIGNUM *p_test;
+    const BIGNUM *g_test;
+    DH_get0_pqg(dh, &p_test, NULL, &g_test);
+    if (p_test == NULL || g_test == NULL)
+    {
+        DH_free(dh);
+        BN_free(p);
+        BN_free(g);
+#else
     dh->p = BN_bin2bn(dh1024_p, sizeof(dh1024_p), 0);
     dh->g = BN_bin2bn(dh1024_g, sizeof(dh1024_g), 0);
     dh->length = 160;
     if ((!dh->p) || (!dh->g))
     {
         DH_free(dh);
+#endif
         throw std::runtime_error("Error creating Diffie-Hellman parameters");
     }
 
     SSL_CTX_set_tmp_dh(_ctx, dh);
     SSL_CTX_set_options(_ctx, SSL_OP_SINGLE_DH_USE);
     DH_free(dh);
+#if OPENSSL_VERSION_NUMBER >= 0x10100003L
+    BN_free(p);
+    BN_free(g);
+#endif
 #endif
 }
 
