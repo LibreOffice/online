@@ -235,7 +235,7 @@ L.Socket = L.Class.extend({
 				msg = _('Session terminated by document owner');
 			}
 			else if (textMsg === 'idle' || textMsg === 'oom') {
-				msg = _('Session was terminated due to idleness - please click to reload');
+				msg = _('Idle document - please click to reload and resume editing');
 				this._map._documentIdle = true;
 			}
 			else if (textMsg === 'shuttingdown') {
@@ -280,12 +280,17 @@ L.Socket = L.Class.extend({
 				vex.close(id);
 			}
 
+			var message = '';
+			if (!this._map['wopi'].DisableInactiveMessages) {
+				message = msg;
+			}
+
 			var options = $.extend({}, vex.defaultOptions, {
 				contentCSS: {'background':'rgba(0, 0, 0, 0)',
 				             'font-size': 'xx-large',
 				             'color': '#fff',
 				             'text-align': 'center'},
-				content: msg
+				content: message
 			});
 			options.id = vex.globalID;
 			vex.dialogID = options.id;
