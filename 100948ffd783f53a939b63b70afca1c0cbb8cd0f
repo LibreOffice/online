@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_e35bd652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2017-09-02T23:31:53Z",
+      "side": 1,
+      "message": "could you please add a SHA or date from when you took that from core?",
+      "revId": "100948ffd783f53a939b63b70afca1c0cbb8cd0f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
