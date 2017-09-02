@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_237f9eab",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2017-09-02T23:28:43Z",
+      "side": 1,
+      "message": "a little summary of what the below is doing appreciated ;)",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
