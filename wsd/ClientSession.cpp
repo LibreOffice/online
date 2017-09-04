@@ -316,6 +316,11 @@ bool ClientSession::loadDocument(const char* /*buffer*/, int /*length*/,
             oss << " lang=" << _lang;
         }
 
+        if (!_watermarkText.empty())
+        {
+            oss << " watermarkText=" << _watermarkText;
+        }
+
         if (!_docOptions.empty())
         {
             oss << " options=" << _docOptions;
