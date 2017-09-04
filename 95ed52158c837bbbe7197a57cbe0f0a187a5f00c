@@ -16,6 +16,41 @@
       "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_296a1d81",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001690
+      },
+      "writtenOn": "2017-09-04T06:39:11Z",
+      "side": 1,
+      "message": "As the public API in OpenSSL has changed, dh-\u003ep and dh-\u003eg cannot be set directly. Thats why I create BIGNUMs to store them in, and then set the values using DH_set0_pqg. I also use the new API to set the length.\n\nI am not overly happy with the \u0027test\u0027 part myself, see next comment below",
+      "parentUuid": "1a430d35_237f9eab",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_4905a9c0",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001690
+      },
+      "writtenOn": "2017-09-04T06:39:11Z",
+      "side": 1,
+      "message": "starting from this line, In order to keep the current structure and throw when the error below occurs, I introduce const BIGNUM* p_test and g_test to allow for DH_get0_pqg to get the values of p and g and write them to p_test and g_test. This would not work with p and g directly as the implicit type conversion to CONST would fail.\n\nI\u0027m really not sure if this an elegant solution, but it got my build going...",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
