@@ -136,6 +136,11 @@ void Session::parseDocOptions(const std::vector<std::string>& tokens, int& part,
             _lang = tokens[i].substr(strlen("lang="));
             ++offset;
         }
+        else if (tokens[i].find("watermarkText=") == 0)
+        {
+            _watermarkText = tokens[i].substr(strlen("watermarkText="));
+            ++offset;
+        }
     }
 
     if (tokens.size() > offset)
