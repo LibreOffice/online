@@ -51,6 +51,23 @@
       "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_3bd5fe42",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1001690
+      },
+      "writtenOn": "2017-09-06T02:35:23Z",
+      "side": 1,
+      "message": "prolly could\u0027ve moved this to after the if and just free the BNs here.",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
