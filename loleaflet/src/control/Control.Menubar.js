@@ -738,6 +738,9 @@ L.Control.Menubar = L.Control.extend({
 			if (menu[i].id === 'save' && this._map['wopi'].HideSaveOption)
 				continue;
 
+			if (menu[i].id === 'fullscreen-presentation' && this._map['wopi'].HideExportOption)
+				continue;
+
 			// Keep track of all 'downloadas-' options and register them as
 			// export formats with docLayer which can then be publicly accessed unlike
 			// this Menubar control for which there doesn't seem to be any easy way

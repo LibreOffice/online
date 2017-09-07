@@ -981,6 +981,9 @@ map.on('wopiprops', function(e) {
 	if (e.HideSaveOption) {
 		w2ui['toolbar-up'].hide('save');
 	}
+	if (e.HideExportOption) {
+		w2ui['presentation-toolbar'].hide('presentation');
+	}
 	if (e.DisableCopy) {
 		$('input#formulaInput').bind('copy', function(evt) {
 			evt.preventDefault();
