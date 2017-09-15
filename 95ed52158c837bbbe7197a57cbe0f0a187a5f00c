@@ -37,6 +37,41 @@
     },
     {
       "key": {
+        "uuid": "1a430d35_4aae6d86",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-09-15T00:29:33Z",
+      "side": 1,
+      "message": "Sounds sensible. Best to add this rationale and explanation as a comment for the benefit of others and posterity.",
+      "parentUuid": "1a430d35_296a1d81",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_ca997d70",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-09-15T00:29:33Z",
+      "side": 1,
+      "message": "p and g will leak here. They must be either passed as the last argument to BN_bin2bn (called ret), or simply initialize with the return value of BN_bin2bn, like so:\n\nBIGNUM* p \u003d BN_bin2bn(dh1024_p, sizeof(dh1024_p), 0); // Better\n\nOR\n\nBIGNUM *p \u003d BN_new();\nBN_bin2bn(dh1024_p, sizeof(dh1024_p), p); // Not elegant, but correct\n\nSame for g, of course.",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a430d35_4905a9c0",
         "filename": "net/Ssl.cpp",
         "patchSetId": 1
@@ -65,6 +100,75 @@
       "writtenOn": "2017-09-06T02:35:23Z",
       "side": 1,
       "message": "prolly could\u0027ve moved this to after the if and just free the BNs here.",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_0aa465a4",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-09-15T00:29:33Z",
+      "side": 1,
+      "message": "Might be better to move the #endif such that the *complete* error handling is common to both versions.",
+      "parentUuid": "1a430d35_3bd5fe42",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_2aa12195",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-09-15T00:29:33Z",
+      "side": 1,
+      "message": "Per my understanding of DH_set0_pqg, once p and g are set to DH, memory ownership is transferred to DH and we shouldn\u0027t free. Both of these BN_free calls will free invalid memory. See below for more on double freeing.",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_aa943137",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-09-15T00:29:33Z",
+      "side": 1,
+      "message": "This might avoid duplicating the throw, but it is unreasonably difficult to follow/read and trivial to break unintentionally. Let\u0027s find a better structure please for the two versions such that it\u0027d be readable and linear.",
+      "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_ea9e3955",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-09-15T00:29:33Z",
+      "side": 1,
+      "message": "These two can (and probably will) delete the internet. Per the documentation (https://www.openssl.org/docs/man1.1.0/crypto/DH_get0_pqg.html):\n\n\"Calling this function [DH_set0_pqg] transfers the memory management of the values [p and g] to the DH object, and therefore the values that have been passed in should not be freed directly after this function has been called.\"\n\nIndeed, the old code only frees dh and there are no leaks there (per valgrind), because p and g are freed by DH_free.",
       "revId": "95ed52158c837bbbe7197a57cbe0f0a187a5f00c",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
