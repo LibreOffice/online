@@ -42,13 +42,18 @@ SslContext::SslContext(const std::string& certFilePath,
         _mutexes.emplace_back(new std::mutex);
     }
 
-#if OPENSSL_VERSION_NUMBER >= 0x0907000L
+#if OPENSSL_VERSION_NUMBER >= 0x0907000L && OPENSSL_VERSION_NUMBER < 0x10100003L
     OPENSSL_config(nullptr);
 #endif
 
+#if OPENSSL_VERSION_NUMBER >= 0x10100003L
+    SSL_CTX_set_options(nullptr, 0);
+    OPENSSL_init_ssl(OPENSSL_INIT_LOAD_CONFIG, NULL);
+#else
     SSL_library_init();
     SSL_load_error_strings();
     OpenSSL_add_all_algorithms();
+#endif
 
     CRYPTO_set_locking_callback(&SslContext::lock);
     CRYPTO_set_id_callback(&SslContext::id);
@@ -124,7 +129,9 @@ SslContext::SslContext(const std::string& certFilePath,
 SslContext::~SslContext()
 {
     SSL_CTX_free(_ctx);
+#if OPENSSL_VERSION_NUMBER < 0x10100003L
     EVP_cleanup();
+#endif
     ERR_free_strings();
     CRYPTO_set_locking_callback(0);
     CRYPTO_set_id_callback(0);
@@ -234,10 +241,24 @@ void SslContext::initDH()
         throw std::runtime_error("Error creating Diffie-Hellman parameters: " + msg);
     }
 
+#if OPENSSL_VERSION_NUMBER >= 0x10100003L
+    // OpenSSL v1.1.0 has public API changes
+    // p, g and length of the Diffie-Hellman param can't be set directly anymore,
+    // instead DH_set0_pqg and DH_set_length are used
+    BIGNUM* p = BN_bin2bn(dh1024_p, sizeof(dh1024_p), 0);
+    BIGNUM* g = BN_bin2bn(dh1024_g, sizeof(dh1024_g), 0);
+    DH_set0_pqg(dh, p, NULL, g);
+    DH_set_length(dh, 160);
+    const BIGNUM *p_test;
+    const BIGNUM *g_test;
+    DH_get0_pqg(dh, &p_test, NULL, &g_test);
+    if (p_test == NULL || g_test == NULL)
+#else
     dh->p = BN_bin2bn(dh1024_p, sizeof(dh1024_p), 0);
     dh->g = BN_bin2bn(dh1024_g, sizeof(dh1024_g), 0);
     dh->length = 160;
     if ((!dh->p) || (!dh->g))
+#endif
     {
         DH_free(dh);
         throw std::runtime_error("Error creating Diffie-Hellman parameters");
