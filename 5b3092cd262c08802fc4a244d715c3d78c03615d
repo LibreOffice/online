@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_0d7aba24",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-09-19T23:13:27Z",
+      "side": 1,
+      "message": "This isn\u0027t really necessary as EVP_cleanup() is supported in newer version, just doesn\u0027t do much.",
+      "revId": "5b3092cd262c08802fc4a244d715c3d78c03615d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_ed7c8e22",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2017-09-19T23:13:27Z",
+      "side": 1,
+      "message": "\"DH_set0_pqg() and DH_set0_key() return 1 on success or 0 on failure.\"\n\nWhy not check the return value of DH_set0_pqg instead of trying to get these values?",
+      "revId": "5b3092cd262c08802fc4a244d715c3d78c03615d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
