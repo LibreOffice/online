@@ -22,6 +22,30 @@
       "revId": "9c96ee035eb879bc3d9e2d5c361b43dfd41fe1f9",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_118c7f34",
+        "filename": "loleaflet/po/styles/es.po",
+        "patchSetId": 1
+      },
+      "lineNbr": 2956,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2017-10-06T08:23:19Z",
+      "side": 1,
+      "message": "Translations are from 5.3.",
+      "parentUuid": "1a430d35_71dea36e",
+      "range": {
+        "startLine": 2956,
+        "startChar": 15,
+        "endLine": 2956,
+        "endChar": 23
+      },
+      "revId": "9c96ee035eb879bc3d9e2d5c361b43dfd41fe1f9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
