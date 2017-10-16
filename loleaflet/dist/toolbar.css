@@ -237,6 +237,7 @@ button.leaflet-control-search-next
 .w2ui-icon.backcolor{ background: url('../images/lc_backcolor.svg') no-repeat center !important; }
 .w2ui-icon.bold{ background: url('../images/lc_bold.svg') no-repeat center !important; }
 .w2ui-icon.annotation{ background: url('../images/lc_showannotations.svg') no-repeat center !important; }
+.w2ui-icon.shadow{ background: url('../images/lc_shadowed.svg') no-repeat center !important; }
 .w2ui-icon.bullet{ background: url('../images/lc_defaultbullet.svg') no-repeat center !important; }
 .w2ui-icon.cancel{ background: url('../images/lc_cancel.svg') no-repeat center !important; }
 .w2ui-icon.color{ background: url('../images/lc_color.svg') no-repeat center !important; }
