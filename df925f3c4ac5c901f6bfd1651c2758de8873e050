@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_0d00bfa9",
+        "filename": "kit/ChildSession.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-11-07T16:20:22Z",
+      "side": 1,
+      "message": "So instead of first saving and then assuming that the case of the failure might be \u0027no extension\u0027 thing, what if we always make sure that extension is always there, and then save?",
+      "range": {
+        "startLine": 951,
+        "startChar": 6,
+        "endLine": 970,
+        "endChar": 9
+      },
+      "revId": "df925f3c4ac5c901f6bfd1651c2758de8873e050",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
