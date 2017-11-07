@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_02316e05",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-11-07T10:20:38Z",
+      "side": 1,
+      "message": "Even though it does the job as well, there\u0027s str.localeCompare function to do exactly this kind of this.\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare",
+      "range": {
+        "startLine": 375,
+        "startChar": 4,
+        "endLine": 375,
+        "endChar": 82
+      },
+      "revId": "f9ca7bc0d2850b05f358d1783a1bd224b8baf22f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
