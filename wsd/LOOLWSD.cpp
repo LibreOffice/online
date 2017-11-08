@@ -2720,7 +2720,7 @@ int LOOLWSD::innerMain()
         }
         else
         {
-            const auto timeoutMs = CHILD_TIMEOUT_MS * (LOOLWSD::NoCapsForKit ? 150 : 10);
+            const auto timeoutMs = 5 * CHILD_TIMEOUT_MS * (LOOLWSD::NoCapsForKit ? 150 : 10);
             const auto timeout = std::chrono::milliseconds(timeoutMs);
             LOG_TRC("Waiting for a new child for a max of " << timeoutMs << " ms.");
             if (!NewChildrenCV.wait_for(lock, timeout, []() { return !NewChildren.empty(); }))
