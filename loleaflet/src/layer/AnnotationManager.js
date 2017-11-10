@@ -71,6 +71,7 @@ L.AnnotationManager = L.Class.extend({
 				weight: 2,
 				opacity: 0.25
 			});
+			L.DomEvent.on(comment.textSelected, 'contextmenu', L.DomEvent.preventDefault);
 			comment.textSelected.on('click', function(e) {
 				// Simulate a click at this position in the document
 				var latlng = this._map.mouseEventToLatLng(e.originalEvent);
@@ -108,6 +109,7 @@ L.AnnotationManager = L.Class.extend({
 				fillOpacity: 0,
 				opacity: 0
 			});
+			L.DomEvent.on(redline.textSelected, 'contextmenu', L.DomEvent.preventDefault);
 			redline.textSelected.on('click', function(e) {
 				// Simulate a click at this position in the document
 				var latlng = this._map.mouseEventToLatLng(e.originalEvent);
