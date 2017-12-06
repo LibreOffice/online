@@ -43,6 +43,8 @@ L.Control.Ruler = L.Control.extend({
 		this._rBPWrapper = L.DomUtil.create('div', 'loleaflet-ruler-breakwrapper', this._rFace);
 		this._rBPContainer = L.DomUtil.create('div', 'loleaflet-ruler-breakcontainer', this._rBPWrapper);
 
+		this.options.interactive = this._map._permission == 'edit' ? true : false;
+
 		return this._rWrapper;
 	},
 
@@ -112,28 +114,28 @@ L.Control.Ruler = L.Control.extend({
 			this._lMarginMarker = L.DomUtil.create('div', classMargin + ' ' + leftComp, this._rFace);
 			this._rMarginMarker =  L.DomUtil.create('div', classMargin + ' ' + rightComp, this._rFace);
 
+			this._lMarginDrag = L.DomUtil.create('div', classDraggable + ' ' + leftComp, this._rMarginWrapper);
+			this._lToolTip = L.DomUtil.create('div', lToolTip, this._lMarginDrag)
+			this._rMarginDrag = L.DomUtil.create('div', classDraggable + ' ' + rightComp, this._rMarginWrapper);
+			this._rToolTip = L.DomUtil.create('div', rToolTip, this._rMarginDrag)
+			this._lMarginDrag.title = leftMarginStr;
+			this._rMarginDrag.title = rightMarginStr;
+
 			if (this.options.interactive) {
-				this._lMarginDrag = L.DomUtil.create('div', classDraggable + ' ' + leftComp, this._rMarginWrapper);
-				this._lToolTip = L.DomUtil.create('div', lToolTip, this._lMarginDrag)
-				this._rMarginDrag = L.DomUtil.create('div', classDraggable + ' ' + rightComp, this._rMarginWrapper);
-				this._rToolTip = L.DomUtil.create('div', rToolTip, this._rMarginDrag)
 				this._lMarginDrag.style.cursor = 'e-resize';
 				this._rMarginDrag.style.cursor = 'w-resize';
-				this._lMarginDrag.title = leftMarginStr;
-				this._rMarginDrag.title = rightMarginStr;
 			}
 		}
 
 		this._lMarginMarker.style.width = (DraggableConvertRatio*lMargin) + 'px';
 		this._rMarginMarker.style.width = (DraggableConvertRatio*rMargin) + 'px';
+		this._lMarginDrag.style.width = (DraggableConvertRatio*lMargin) + 'px';
+		this._rMarginDrag.style.width = (DraggableConvertRatio*rMargin) + 'px';
 
 		if (this.options.interactive) {
-			this._lMarginDrag.style.width = (DraggableConvertRatio*lMargin) + 'px';
-			this._rMarginDrag.style.width = (DraggableConvertRatio*rMargin) + 'px';
+			L.DomEvent.on(this._rMarginDrag, 'mousedown', this._initiateDrag, this);
+			L.DomEvent.on(this._lMarginDrag, 'mousedown', this._initiateDrag, this);
 		}
-
-		L.DomEvent.on(this._rMarginDrag, 'mousedown', this._initiateDrag, this);
-		L.DomEvent.on(this._lMarginDrag, 'mousedown', this._initiateDrag, this);
 	},
 
 	_fixOffset: function() {
