@@ -67,6 +67,8 @@ def extractCommands(path):
 
 # Create mapping between the commands and appropriate strings
 def printCommandsFromXCU(xcu, commands):
+    usedCommands = []
+
     root = etree.parse(xcu)
     nodes = root.xpath("/oor:component-data/node/node/node", namespaces = {
         'oor': 'http://openoffice.org/2001/registry',
@@ -85,6 +87,10 @@ def printCommandsFromXCU(xcu, commands):
                 text = ''.join(textElement[0].itertext())
                 print ('    ' + unoCommand[5:] + ": _('" + text + "'),").encode('utf-8')
 
+		usedCommands += [ unoCommand ]
+
+    return usedCommands
+
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         usage()
@@ -97,9 +103,14 @@ if __name__ == "__main__":
 var unoCommandsArray = {'''
 
     # try all xcu files
+    usedCommands = []
     dir = sys.argv[1] + '/officecfg/registry/data/org/openoffice/Office/UI'
     for file in os.listdir(dir):
         if file.endswith(".xcu"):
-            printCommandsFromXCU(os.path.join(dir, file), commands)
+            usedCommands += printCommandsFromXCU(os.path.join(dir, file), commands)
 
     print '};'
+
+    dif = commands - set(usedCommands)
+    if len(dif) > 0:
+	sys.stderr.write("ERROR: The following commands are not covered:\n\n" + '\n'.join(dif) + "\n")
