@@ -109,7 +109,13 @@ var unoCommandsArray = {'''
         if file.endswith(".xcu"):
             usedCommands += printCommandsFromXCU(os.path.join(dir, file), commands)
 
-    print '};'
+    print '''};
+
+global.UNO_COMMAND_TEXT = function(string) {
+	var text = unoCommandsArray[string.substr(5)];
+	text = text.replace('~', '');
+	return text;
+}'''
 
     dif = commands - set(usedCommands)
     if len(dif) > 0:
