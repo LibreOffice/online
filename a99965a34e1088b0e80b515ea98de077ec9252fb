@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_22a2bc4b",
+        "filename": "loleaflet/src/control/Ruler.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-12-07T11:06:23Z",
+      "side": 1,
+      "message": "nitpick: console.log :)\n\nI wonder why loleaflet\u0027s make is not able to warn about such things. I remember it used to.",
+      "revId": "a99965a34e1088b0e80b515ea98de077ec9252fb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_628844c6",
+        "filename": "loleaflet/src/control/Ruler.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-12-07T11:06:23Z",
+      "side": 1,
+      "message": "shouldn\u0027t it be possible to reduce code duplication here by just calling this._changeInteraction({perm: \u0027edit\u0027}) ?",
+      "range": {
+        "startLine": 151,
+        "startChar": 10,
+        "endLine": 154,
+        "endChar": 3
+      },
+      "revId": "a99965a34e1088b0e80b515ea98de077ec9252fb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
