@@ -26,26 +26,26 @@ L.Control.Menubar = L.Control.extend({
 					{name: _('Microsoft Word (.docx)'), id: 'downloadas-docx', type: 'action'}]}]
 			},
 			{name: _('Edit'), type: 'menu', menu: [
-				{type: 'unocommand', uno: '.uno:Undo'},
-				{type: 'unocommand', uno: '.uno:Redo'},
+				{uno: '.uno:Undo'},
+				{uno: '.uno:Redo'},
 				{name: _('Repair'), id: 'repair',  type: 'action'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:Cut'},
-				{type: 'unocommand', uno: '.uno:Copy'},
-				{type: 'unocommand', uno: '.uno:Paste'},
-				{type: 'unocommand', uno: '.uno:SelectAll'},
+				{uno: '.uno:Cut'},
+				{uno: '.uno:Copy'},
+				{uno: '.uno:Paste'},
+				{uno: '.uno:SelectAll'},
 				{type: 'separator'},
 				{name: _('Find & Replace'), id: '.uno:SearchDialog', type: 'dialog'},
 				{type: 'separator'},
 				{name: _('Track Changes'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:TrackChanges'},
-					{type: 'unocommand', uno: '.uno:ShowTrackedChanges'},
+					{uno: '.uno:TrackChanges'},
+					{uno: '.uno:ShowTrackedChanges'},
 					{type: 'separator'},
 					{name: _('Manage Changes...'), id: '.uno:AcceptTrackedChanges', type: 'dialog'},
-					{type: 'unocommand', uno: '.uno:AcceptAllTrackedChanges'},
-					{type: 'unocommand', uno: '.uno:RejectAllTrackedChanges'},
-					{type: 'unocommand', uno: '.uno:PreviousTrackedChange'},
-					{type: 'unocommand', uno: '.uno:NextTrackedChange'}
+					{uno: '.uno:AcceptAllTrackedChanges'},
+					{uno: '.uno:RejectAllTrackedChanges'},
+					{uno: '.uno:PreviousTrackedChange'},
+					{uno: '.uno:NextTrackedChange'}
 				]},
 				{name: _('Edit Style...'), id: '.uno:EditStyle', type: 'dialog'},
 			]},
@@ -56,106 +56,106 @@ L.Control.Menubar = L.Control.extend({
 				{name: _('Zoom out'), id: 'zoomout', type: 'action'},
 				{name: _('Reset zoom'), id: 'zoomreset', type: 'action'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:ControlCodes'},
+				{uno: '.uno:ControlCodes'},
 			]
 			},
 			{name: _('Insert'), type: 'menu', menu: [
 				{name: _('Image'), id: 'insertgraphic', type: 'action'},
 				{name: _('Comment...'), id: 'insertcomment', type: 'action'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:InsertFootnote'},
-				{type: 'unocommand', uno: '.uno:InsertEndnote'},
+				{uno: '.uno:InsertFootnote'},
+				{uno: '.uno:InsertEndnote'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:InsertPageBreak'},
-				{type: 'unocommand', uno: '.uno:InsertColumnBreak'},
+				{uno: '.uno:InsertPageBreak'},
+				{uno: '.uno:InsertColumnBreak'},
 				{type: 'separator'},
 				{name: _('Hyperlink'), id: '.uno:HyperlinkDialog', type: 'dialog'},
 				{name: _('Special character...'), id: 'specialcharacter', type: 'action'},
 				{name: _('Formatting mark'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:InsertNonBreakingSpace'},
-					{type: 'unocommand', uno: '.uno:InsertHardHyphen'},
-					{type: 'unocommand', uno: '.uno:InsertSoftHyphen'},
-					{type: 'unocommand', uno: '.uno:InsertZWSP'},
-					{type: 'unocommand', uno: '.uno:InsertZWNBSP'},
-					{type: 'unocommand', uno: '.uno:InsertLRM'},
-					{type: 'unocommand', uno: '.uno:InsertRLM'}]},
+					{uno: '.uno:InsertNonBreakingSpace'},
+					{uno: '.uno:InsertHardHyphen'},
+					{uno: '.uno:InsertSoftHyphen'},
+					{uno: '.uno:InsertZWSP'},
+					{uno: '.uno:InsertZWNBSP'},
+					{uno: '.uno:InsertLRM'},
+					{uno: '.uno:InsertRLM'}]},
 				{name: _('Index Entry...'), id: '.uno:InsertIndexesEntry', type: 'dialog'}
 			]
 			},
 			{name: _('Format'), type: 'menu', menu: [
 				{name: _('Text'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:Bold'},
-					{type: 'unocommand', uno: '.uno:Italic'},
-					{type: 'unocommand', uno: '.uno:Underline'},
-					{type: 'unocommand', uno: '.uno:UnderlineDouble'},
-					{type: 'unocommand', uno: '.uno:Strikeout'},
-					{type: 'unocommand', uno: '.uno:Overline'},
+					{uno: '.uno:Bold'},
+					{uno: '.uno:Italic'},
+					{uno: '.uno:Underline'},
+					{uno: '.uno:UnderlineDouble'},
+					{uno: '.uno:Strikeout'},
+					{uno: '.uno:Overline'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:SuperScript'},
-					{type: 'unocommand', uno: '.uno:SubScript'},
-					{type: 'unocommand', uno: '.uno:SmallCaps'},
+					{uno: '.uno:SuperScript'},
+					{uno: '.uno:SubScript'},
+					{uno: '.uno:SmallCaps'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:Shadowed'},
-					{type: 'unocommand', uno: '.uno:OutlineFont'},
+					{uno: '.uno:Shadowed'},
+					{uno: '.uno:OutlineFont'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:Grow'},
-					{type: 'unocommand', uno: '.uno:Shrink'},
+					{uno: '.uno:Grow'},
+					{uno: '.uno:Shrink'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:ChangeCaseToUpper'},
-					{type: 'unocommand', uno: '.uno:ChangeCaseToLower'},
-					{type: 'unocommand', uno: '.uno:ChangeCaseRotateCase'},
+					{uno: '.uno:ChangeCaseToUpper'},
+					{uno: '.uno:ChangeCaseToLower'},
+					{uno: '.uno:ChangeCaseRotateCase'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:ChangeCaseToSentenceCase'},
-					{type: 'unocommand', uno: '.uno:ChangeCaseToTitleCase'},
-					{type: 'unocommand', uno: '.uno:ChangeCaseToToggleCase'}]},
+					{uno: '.uno:ChangeCaseToSentenceCase'},
+					{uno: '.uno:ChangeCaseToTitleCase'},
+					{uno: '.uno:ChangeCaseToToggleCase'}]},
 				{name: _('Text orientation'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:ParaLeftToRight'},
-					{type: 'unocommand', uno: '.uno:ParaRightToLeft'}]},
+					{uno: '.uno:ParaLeftToRight'},
+					{uno: '.uno:ParaRightToLeft'}]},
 				{name: _('Spacing'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:SpacePara1'},
-					{type: 'unocommand', uno: '.uno:SpacePara15'},
-					{type: 'unocommand', uno: '.uno:SpacePara2'},
+					{uno: '.uno:SpacePara1'},
+					{uno: '.uno:SpacePara15'},
+					{uno: '.uno:SpacePara2'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:ParaspaceIncrease'},
-					{type: 'unocommand', uno: '.uno:ParaspaceDecrease'},
+					{uno: '.uno:ParaspaceIncrease'},
+					{uno: '.uno:ParaspaceDecrease'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:IncrementIndent'},
-					{type: 'unocommand', uno: '.uno:DecrementIndent'}]},
+					{uno: '.uno:IncrementIndent'},
+					{uno: '.uno:DecrementIndent'}]},
 				{name: _('Align'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:CommonAlignLeft'},
-					{type: 'unocommand', uno: '.uno:CommonAlignHorizontalCenter'},
-					{type: 'unocommand', uno: '.uno:CommonAlignRight'},
-					{type: 'unocommand', uno: '.uno:CommonAlignJustified'},
+					{uno: '.uno:CommonAlignLeft'},
+					{uno: '.uno:CommonAlignHorizontalCenter'},
+					{uno: '.uno:CommonAlignRight'},
+					{uno: '.uno:CommonAlignJustified'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:CommonAlignTop'},
-					{type: 'unocommand', uno: '.uno:CommonAlignVerticalcenter'},
-					{type: 'unocommand', uno: '.uno:CommonAlignBottom'}]},
+					{uno: '.uno:CommonAlignTop'},
+					{uno: '.uno:CommonAlignVerticalcenter'},
+					{uno: '.uno:CommonAlignBottom'}]},
 				{name: _('Lists'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:DefaultBullet'},
-					{type: 'unocommand', uno: '.uno:DefaultNumbering'},
+					{uno: '.uno:DefaultBullet'},
+					{uno: '.uno:DefaultNumbering'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:DecrementLevel'},
-					{type: 'unocommand', uno: '.uno:IncrementLevel'},
-					{type: 'unocommand', uno: '.uno:DecrementSublevels'},
-					{type: 'unocommand', uno: '.uno:IncrementSubLevels'},
+					{uno: '.uno:DecrementLevel'},
+					{uno: '.uno:IncrementLevel'},
+					{uno: '.uno:DecrementSublevels'},
+					{uno: '.uno:IncrementSubLevels'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:MoveDown'},
-					{type: 'unocommand', uno: '.uno:MoveUp'},
-					{type: 'unocommand', uno: '.uno:MoveDownSubItems'},
-					{type: 'unocommand', uno: '.uno:MoveUpSubItems'},
+					{uno: '.uno:MoveDown'},
+					{uno: '.uno:MoveUp'},
+					{uno: '.uno:MoveDownSubItems'},
+					{uno: '.uno:MoveUpSubItems'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:InsertNeutralParagraph'},
-					{type: 'unocommand', uno: '.uno:NumberingStart'},
+					{uno: '.uno:InsertNeutralParagraph'},
+					{uno: '.uno:NumberingStart'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:JumpDownThisLevel'},
-					{type: 'unocommand', uno: '.uno:JumpUpThisLevel'},
-					{type: 'unocommand', uno: '.uno:ContinueNumbering'}]},
+					{uno: '.uno:JumpDownThisLevel'},
+					{uno: '.uno:JumpUpThisLevel'},
+					{uno: '.uno:ContinueNumbering'}]},
 				{type: 'separator'},
 				{name: _('Character...'), id: '.uno:FontDialog', type: 'dialog'},
 				{name: _('Paragraph...'), id: '.uno:ParagraphDialog', type: 'dialog'},
 				{name: _('Bullets and Numbering...'), id: '.uno:OutlineBullet', type: 'dialog'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:ResetAttributes'},
+				{uno: '.uno:ResetAttributes'},
 				{name: _('Page'), type: 'menu', menu: [
 					{name: 'A4, ' + _('Portrait'), type: 'action', id: 'a4portrait'},
 					{name: 'A4, ' + _('Landscape'), type: 'action', id: 'a4landscape'},
@@ -168,33 +168,33 @@ L.Control.Menubar = L.Control.extend({
 			},
 			{name: _('Tables'), type: 'menu', menu: [
 				{name: _('Insert'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:InsertRowsBefore'},
-					{type: 'unocommand', uno: '.uno:InsertRowsAfter'},
+					{uno: '.uno:InsertRowsBefore'},
+					{uno: '.uno:InsertRowsAfter'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:InsertColumnsBefore'},
-					{type: 'unocommand', uno: '.uno:InsertColumnsAfter'}]},
+					{uno: '.uno:InsertColumnsBefore'},
+					{uno: '.uno:InsertColumnsAfter'}]},
 				{name: _('Delete'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:DeleteRows'},
-					{type: 'unocommand', uno: '.uno:DeleteColumns'},
-					{type: 'unocommand', uno: '.uno:DeleteTable'}]},
+					{uno: '.uno:DeleteRows'},
+					{uno: '.uno:DeleteColumns'},
+					{uno: '.uno:DeleteTable'}]},
 				{name: _('Select'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:SelectTable'},
-					{type: 'unocommand', uno: '.uno:EntireRow'},
-					{type: 'unocommand', uno: '.uno:EntireColumn'},
-					{type: 'unocommand', uno: '.uno:EntireCell'}]},
-				{type: 'unocommand', uno: '.uno:MergeCells'},
+					{uno: '.uno:SelectTable'},
+					{uno: '.uno:EntireRow'},
+					{uno: '.uno:EntireColumn'},
+					{uno: '.uno:EntireCell'}]},
+				{uno: '.uno:MergeCells'},
 				{type: 'separator'},
 				{name: _('Properties'), id: '.uno:TableDialog', type: 'dialog'}
 			]},
 			{name: _('Tools'), id: 'tools', type: 'menu', menu: [
 				{name: _('Spelling and Grammar'), id: '.uno:SpellingAndGrammarDialog', type: 'dialog'},
-				{type: 'unocommand', uno: '.uno:SpellOnline'},
+				{uno: '.uno:SpellOnline'},
 				{name: _('Language for selection'), type: 'menu', menu: [
-					{name: _('None (Do not check spelling)'), id: 'noneselection', type: 'unocommand', uno: '.uno:LanguageStatus?Language:string=Current_LANGUAGE_NONE'}]},
+					{name: _('None (Do not check spelling)'), id: 'noneselection', uno: '.uno:LanguageStatus?Language:string=Current_LANGUAGE_NONE'}]},
 				{name: _('Language for paragraph'), type: 'menu', menu: [
-					{name: _('None (Do not check spelling)'), id: 'noneparagraph', type: 'unocommand', uno: '.uno:LanguageStatus?Language:string=Paragraph_LANGUAGE_NONE'}]},
+					{name: _('None (Do not check spelling)'), id: 'noneparagraph', uno: '.uno:LanguageStatus?Language:string=Paragraph_LANGUAGE_NONE'}]},
 				{name: _('Language for entire document'), type: 'menu', menu: [
-					{name: _('None (Do not check spelling)'), id: 'nonelanguage', type: 'unocommand', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]},
+					{name: _('None (Do not check spelling)'), id: 'nonelanguage', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]},
 				{name: _('Word count'), id: '.uno:WordCountDialog', type: 'dialog'}
 			]},
 			{name: _('Help'), id: 'help', type: 'menu', menu: [
@@ -217,14 +217,14 @@ L.Control.Menubar = L.Control.extend({
 					{name: _('Microsoft Powerpoint (.pptx)'), id: 'downloadas-pptx', type: 'action'}]}]
 			},
 			{name: _('Edit'), type: 'menu', menu: [
-				{type: 'unocommand', uno: '.uno:Undo'},
-				{type: 'unocommand', uno: '.uno:Redo'},
+				{uno: '.uno:Undo'},
+				{uno: '.uno:Redo'},
 				{name: _('Repair'), id: 'repair',  type: 'action'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:Cut'},
-				{type: 'unocommand', uno: '.uno:Copy'},
-				{type: 'unocommand', uno: '.uno:Paste'},
-				{type: 'unocommand', uno: '.uno:SelectAll'},
+				{uno: '.uno:Cut'},
+				{uno: '.uno:Copy'},
+				{uno: '.uno:Paste'},
+				{uno: '.uno:SelectAll'},
 				{type: 'separator'},
 				{name: _('Find & Replace'), id: '.uno:SearchDialog', id: 'dialog'}
 			]},
@@ -246,15 +246,15 @@ L.Control.Menubar = L.Control.extend({
 			]},
 			{name: _('Tables'), type: 'menu', menu: [
 				{name: _('Insert'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:InsertRowsBefore'},
-					{type: 'unocommand', uno: '.uno:InsertRowsAfter'},
+					{uno: '.uno:InsertRowsBefore'},
+					{uno: '.uno:InsertRowsAfter'},
 					{type: 'separator'},
-					{type: 'unocommand', uno: '.uno:InsertColumnsBefore'},
-					{type: 'unocommand', uno: '.uno:InsertColumnsAfter'}]},
+					{uno: '.uno:InsertColumnsBefore'},
+					{uno: '.uno:InsertColumnsAfter'}]},
 				{name: _('Delete'), type: 'menu', menu: [
-					{type: 'unocommand', uno: '.uno:DeleteRows'},
-					{type: 'unocommand', uno: '.uno:DeleteColumns'}]},
-				{type: 'unocommand', uno: '.uno:MergeCells'}]
+					{uno: '.uno:DeleteRows'},
+					{uno: '.uno:DeleteColumns'}]},
+				{uno: '.uno:MergeCells'}]
 			},
 			{name: _('Slide'), type: 'menu', menu: [
 				{name: _('New slide'), id: 'insertpage', type: 'action'},
@@ -264,9 +264,9 @@ L.Control.Menubar = L.Control.extend({
 				{name: _('Fullscreen presentation'), id: 'fullscreen-presentation', type: 'action'}]
 			},
 			{name: _('Tools'), id: 'tools', type: 'menu', menu: [
-				{type: 'unocommand', uno: '.uno:SpellOnline'},
+				{uno: '.uno:SpellOnline'},
 				{name: _('Language'), type: 'menu', menu: [
-					{name: _('None (Do not check spelling)'), id: 'nonelanguage', type: 'unocommand', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]}
+					{name: _('None (Do not check spelling)'), id: 'nonelanguage', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]}
 			]},
 			{name: _('Help'), id: 'help', type: 'menu', menu: [
 				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action'},
@@ -288,14 +288,14 @@ L.Control.Menubar = L.Control.extend({
 					{name: _('Microsoft Excel (.xlsx)'), id: 'downloadas-xlsx', type: 'action'}]}
 			]},
 			{name: _('Edit'), type: 'menu', menu: [
-				{type: 'unocommand', uno: '.uno:Undo'},
-				{type: 'unocommand', uno: '.uno:Redo'},
+				{uno: '.uno:Undo'},
+				{uno: '.uno:Redo'},
 				{name: _('Repair'), id: 'repair',  type: 'action'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:Cut'},
-				{type: 'unocommand', uno: '.uno:Copy'},
-				{type: 'unocommand', uno: '.uno:Paste'},
-				{type: 'unocommand', uno: '.uno:SelectAll'},
+				{uno: '.uno:Cut'},
+				{uno: '.uno:Copy'},
+				{uno: '.uno:Paste'},
+				{uno: '.uno:SelectAll'},
 				{type: 'separator'},
 				{name: _('Find & Replace'), id: '.uno:SearchDialog', type: 'dialog'}
 			]},
@@ -306,35 +306,35 @@ L.Control.Menubar = L.Control.extend({
 				{name: _('Image'), id: 'insertgraphic', type: 'action'},
 				{name: _('Comment...'), id: 'insertcomment', type: 'action'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:InsertRows'},
-				{type: 'unocommand', uno: '.uno:InsertColumns'},
+				{uno: '.uno:InsertRows'},
+				{uno: '.uno:InsertColumns'},
 				{type: 'separator'},
 				{name: _('Special character...'), id: 'specialcharacter', type: 'action'}
 			]},
 			{name: _('Format'), type: 'menu', menu: [
-				{type: 'unocommand', uno: '.uno:ResetAttributes'},
+				{uno: '.uno:ResetAttributes'},
 				{name: _('Cells...'), type: 'dialog', id: '.uno:FormatCellDialog'}
 			]},
 			{name: _('Sheet'), type: 'menu', menu: [
-				{type: 'unocommand', uno: '.uno:InsertRows'},
-				{type: 'unocommand', uno: '.uno:InsertColumns'},
+				{uno: '.uno:InsertRows'},
+				{uno: '.uno:InsertColumns'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:DeleteRows'},
-				{type: 'unocommand', uno: '.uno:DeleteColumns'}
+				{uno: '.uno:DeleteRows'},
+				{uno: '.uno:DeleteColumns'}
 			]},
 			{name: _('Data'), type: 'menu', menu: [
-				{type: 'unocommand', uno: '.uno:Group'},
-				{type: 'unocommand', uno: '.uno:Ungroup'},
+				{uno: '.uno:Group'},
+				{uno: '.uno:Ungroup'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:ClearOutline'},
+				{uno: '.uno:ClearOutline'},
 				{type: 'separator'},
-				{type: 'unocommand', uno: '.uno:ShowDetail'},
-				{type: 'unocommand', uno: '.uno:HideDetail'}
+				{uno: '.uno:ShowDetail'},
+				{uno: '.uno:HideDetail'}
 			]},
 			{name: _('Tools'), id: 'tools', type: 'menu', menu: [
-				{type: 'unocommand', uno: '.uno:SpellOnline'},
+				{uno: '.uno:SpellOnline'},
 				{name: _('Language'), type: 'menu', menu: [
-					{name: _('None (Do not check spelling)'), id: 'nonelanguage', type: 'unocommand', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]}
+					{name: _('None (Do not check spelling)'), id: 'nonelanguage', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]}
 			]},
 			{name: _('Help'), id: 'help', type: 'menu', menu: [
 				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action'},
@@ -506,11 +506,6 @@ L.Control.Menubar = L.Control.extend({
 			if (map._permission === 'edit') {
 				if (type === 'unocommand') { // enable all depending on stored commandStates
 					var unoCommand = $(aItem).data('uno');
-					if ($(aItem).data('name') === undefined) {
-						var text = _UNO(unoCommand);
-						$(aItem).data('name', text);
-						aItem.innerHTML = text;
-					}
 					var itemState = map['stateChangeHandler'].getItemValue(unoCommand);
 					if (itemState === 'disabled') {
 						$(aItem).addClass('disabled');
@@ -754,7 +749,13 @@ L.Control.Menubar = L.Control.extend({
 				}
 			}
 			var aItem = L.DomUtil.create('a', menu[i].disabled ? 'disabled' : '', liItem);
-			aItem.innerHTML = menu[i].name;
+			if (menu[i].name !== undefined) {
+				aItem.innerHTML = menu[i].name;
+			} else if (menu[i].uno !== undefined) {
+				aItem.innerHTML = _UNO(menu[i].uno);
+			} else {
+				aItem.innerHTML = '';
+			}
 
 			if (menu[i].type === 'menu') {
 				var ulItem = L.DomUtil.create('ul', '', liItem);
@@ -765,7 +766,7 @@ L.Control.Menubar = L.Control.extend({
 				for (var j in subitemList) {
 					ulItem.appendChild(subitemList[j]);
 				}
-			} else if (menu[i].type === 'unocommand') {
+			} else if (menu[i].type === 'unocommand' || menu[i].uno !== undefined) {
 				$(aItem).data('type', 'unocommand');
 				$(aItem).data('uno', menu[i].uno);
 			} else if (menu[i].type === 'dialog') {
