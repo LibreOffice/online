@@ -48,7 +48,6 @@ pot:
 	xgettext --from-code=UTF-8 --keyword=_ --output=po/templates/loleaflet-ui.pot \
 		admin.strings.js \
 		evol.colorpicker.strings.js \
-		unocommands.js \
 		dist/errormessages.js \
 		dist/toolbar/toolbar.js \
 		src/admin/AdminSocketBase.js \
@@ -71,6 +70,9 @@ pot:
 		src/layer/tile/TileLayer.js \
 		src/map/Map.js \
 		src/map/handler/Map.FileInserter.js
+
+	xgettext --from-code=UTF-8 --keyword=_ --output=po/templates/loleaflet-unocommands.pot \
+		unocommands.js
 
 	html2po --pot --input=dist/loleaflet-help.html --output=po/templates/loleaflet-help.pot --duplicates=merge
 
