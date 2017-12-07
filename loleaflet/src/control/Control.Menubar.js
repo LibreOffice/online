@@ -2,7 +2,7 @@
 * Control.Menubar
 */
 
-/* global $ _ UNO_COMMAND_TEXT map vex revHistoryEnabled closebutton L */
+/* global $ _ _UNO map vex revHistoryEnabled closebutton L */
 L.Control.Menubar = L.Control.extend({
 	// TODO: Some mechanism to stop the need to copy duplicate menus (eg. Help)
 	options: {
@@ -507,7 +507,7 @@ L.Control.Menubar = L.Control.extend({
 				if (type === 'unocommand') { // enable all depending on stored commandStates
 					var unoCommand = $(aItem).data('uno');
 					if ($(aItem).data('name') === undefined) {
-						var text = UNO_COMMAND_TEXT(unoCommand);
+						var text = _UNO(unoCommand);
 						$(aItem).data('name', text);
 						aItem.innerHTML = text;
 					}
