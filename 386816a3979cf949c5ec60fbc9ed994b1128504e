@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_829d3068",
+        "filename": "loleaflet/src/control/Ruler.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-12-07T07:03:05Z",
+      "side": 1,
+      "message": "This thing is same as passing the \u0027interactive\u0027 flag to the L.ruler object (called from Map.js), right? So, we can get rid of this line and instead mention the interactive flag when we create the ruler.\n\nOther than that, I wonder what happens if we get to know that the document is not-editable *after* we create the ruler in edit mode. I mean, the perm: message received from the backend says that the document is readonly *after* the ruler has been created. In that case we will still have ruler interactions.",
+      "revId": "386816a3979cf949c5ec60fbc9ed994b1128504e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
