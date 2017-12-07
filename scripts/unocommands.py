@@ -56,6 +56,10 @@ def commandFromMenuLine(line):
     if m:
         return [ m.group(1) ]
 
+    m = re.search(r"\bdialog: *'\.uno:([^']*)'", line)
+    if m:
+        return [ m.group(1) ]
+
     return []
 
 # Extract all the uno commands we are using in the Online
@@ -81,6 +85,8 @@ def extractCommands(path):
     f = open(path + '/loleaflet/src/control/Control.Menubar.js', 'r')
     for line in f:
         if line.find("uno:") >= 0 and line.find("name:") < 0:
+            commands += commandFromMenuLine(line)
+        if line.find("dialog:") >= 0 and line.find("name:") < 0:
             commands += commandFromMenuLine(line)
         elif line.find("_UNO(") >= 0:
             commands += commandFromMenuLine(line)
