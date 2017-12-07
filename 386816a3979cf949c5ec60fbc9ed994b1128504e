@@ -16,6 +16,24 @@
       "revId": "386816a3979cf949c5ec60fbc9ed994b1128504e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a430d35_c2de5810",
+        "filename": "loleaflet/src/control/Ruler.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001578
+      },
+      "writtenOn": "2017-12-07T08:15:30Z",
+      "side": 1,
+      "message": "ok, shifted it to map.js\n\nfor the second part i have attached a listener for the \u0027updatepermission\u0027 event and done changes according to that. Can you tell me how i can simulate changing permissions once the doc is loaded; only for making sure that things work fine.",
+      "parentUuid": "1a430d35_829d3068",
+      "revId": "386816a3979cf949c5ec60fbc9ed994b1128504e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
