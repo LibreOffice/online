@@ -128,7 +128,7 @@ def printCommandsFromXCU(xcu, commands):
 def writeUnocommandsJS(onlineDir, lofficeDir, commands):
     descriptions = {}
     dir = lofficeDir + '/officecfg/registry/data/org/openoffice/Office/UI'
-    for file in os.listdir(dir):
+    for file in sorted(os.listdir(dir)):
         if file.endswith(".xcu"):
             descriptions.update(printCommandsFromXCU(os.path.join(dir, file), commands))
 
