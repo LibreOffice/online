@@ -139,11 +139,18 @@ L.Control.Ruler = L.Control.extend({
 	_fixOffset: function() {
 		var scale = this._map.getZoomScale(this._map.getZoom(), 10);
 		var mapPane = this._map._mapPane;
-		var fTile = mapPane.getElementsByClassName('leaflet-tile')[0];
+
+		/// The mapPaneOffset depends on the leftmost tile's position
+		/// sometimes the leftmost tile is not available and we need to calculate
+		/// from the tiles that we have already.
+		var tiles = this._map._docLayer._tiles;
+		var firstTileKey = Object.keys(tiles)[0];
+		var columnNumber = firstTileKey.match(/(\d*):/)[1];
+		var fTile = tiles[firstTileKey].el;
+
 		var tileContainer = mapPane.getElementsByClassName('leaflet-tile-container');
 		tileContainer = tileContainer[tileContainer.length - 1];
-		var mapPaneOffset = parseInt(mapPane.style.transform.match(/\(([-0-9]*)/)[1]) + parseInt(fTile.style.left) + parseInt(tileContainer.style.transform.match(/\(([-0-9]*)/)[1]) + 18 * scale;
-
+		var mapPaneOffset = parseInt(mapPane.style.transform.match(/\(([-0-9]*)/)[1]) + parseInt(fTile.style.left) - this._map._docLayer._tileWidthPx * parseInt(columnNumber) + parseInt(tileContainer.style.transform.match(/\(([-0-9]*)/)[1]) + 18 * scale;
 		this._rFace.style.marginLeft = mapPaneOffset + 'px';
 	},
 
