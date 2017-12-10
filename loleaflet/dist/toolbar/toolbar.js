@@ -1727,6 +1727,7 @@ function editorUpdate(e) {
 	else {
 		docLayer._followEditor = false;
 		docLayer._followThis = -1;
+		$('#tb_toolbar-down_item_userlist').w2overlay('');
 	}
 }
 
