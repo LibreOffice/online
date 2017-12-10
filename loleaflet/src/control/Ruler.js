@@ -139,12 +139,24 @@ L.Control.Ruler = L.Control.extend({
 	_fixOffset: function() {
 		var scale = this._map.getZoomScale(this._map.getZoom(), 10);
 		var mapPane = this._map._mapPane;
-		var fTile = mapPane.getElementsByClassName('leaflet-tile')[0];
+
+		/// The rulerOffset depends on the leftmost tile's position
+		/// sometimes the leftmost tile is not available and we need to calculate
+		/// from the tiles that we have already.
+		var tiles = this._map._docLayer._tiles;
+		var firstTileKey = Object.keys(tiles)[0];
+		var columnNumber = parseInt(firstTileKey.match(/(\d*):/)[1]);
+		var firstTile = tiles[firstTileKey].el;
+		var firstTileXTranslate = parseInt(firstTile.style.left) - this._map._docLayer._tileWidthPx * columnNumber;
+
 		var tileContainer = mapPane.getElementsByClassName('leaflet-tile-container');
 		tileContainer = tileContainer[tileContainer.length - 1];
-		var mapPaneOffset = parseInt(mapPane.style.transform.match(/\(([-0-9]*)/)[1]) + parseInt(fTile.style.left) + parseInt(tileContainer.style.transform.match(/\(([-0-9]*)/)[1]) + 18 * scale;
+		var tileContainerXTranslate = parseInt(tileContainer.style.transform.match(/\(([-0-9]*)/)[1]);
+		var mapPaneXTranslate = parseInt(mapPane.style.transform.match(/\(([-0-9]*)/)[1]);
 
-		this._rFace.style.marginLeft = mapPaneOffset + 'px';
+		var rulerOffset = mapPaneXTranslate + firstTileXTranslate + tileContainerXTranslate + (this.options.tileMargin * scale);
+
+		this._rFace.style.marginLeft = rulerOffset + 'px';
 	},
 
 	_initiateDrag: function(e) {
