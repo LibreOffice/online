@@ -436,7 +436,7 @@ public:
         , _width(0)
         , _height(0)
         , _color{64, 64, 64}
-        , _alphaLevel(0.2)
+        , _alphaLevel(0.1)
         , _pixmap(nullptr)
     {
     }
@@ -461,9 +461,9 @@ public:
 
         if (pixmap && tilePixmap)
         {
-            unsigned int pixmapSize = tilesPixmapWidth * tilesPixmapHeight * 4;
-            int maxX = std::min(tileWidth, _width);
-            int maxY = std::min(tileHeight, _height);
+            const unsigned int pixmapSize = tilesPixmapWidth * tilesPixmapHeight * 4;
+            const int maxX = std::min(tileWidth, _width);
+            const int maxY = std::min(tileHeight, _height);
 
             // center watermark
             offsetX += (tileWidth - maxX) / 2;
@@ -473,22 +473,17 @@ public:
             {
                 for (int x = 0; x < maxX; ++x)
                 {
-                    unsigned int i = (y * _width + x) * 4;
-                    unsigned int alpha = pixmap[i + 3];
-                    if (alpha)
+                    const unsigned int overlay = pixmap[y * _width + x];
+                    if (overlay)
                     {
-                        for (int h = 0; h < 3; ++h)
+                        unsigned int j = ((y + offsetY) * tilesPixmapWidth + (x + offsetX)) * 4;
+                        for (int h = 0; h < 3; ++h, ++j)
                         {
-                            unsigned int j = ((y + offsetY) * tilesPixmapWidth  + (x + offsetX)) * 4 + h;
                             if (j < pixmapSize)
                             {
-                                unsigned int color = (mode == LOK_TILEMODE_BGRA) ? _color[2 - h] : _color[h];
-
-                                // original alpha blending for smoothing text edges
-                                color = ((color * alpha) + tilePixmap[j] * (255 - alpha)) / 255;
-                                // blending between document tile and watermark
-                                tilePixmap[j] = color * _alphaLevel + tilePixmap[j] * (1 - _alphaLevel);
-                           }
+                                const double alphaLevel = _alphaLevel + (0.30 * (255 - tilePixmap[j]) / 255.0);
+                                tilePixmap[j] = overlay * alphaLevel + tilePixmap[j] * (1 - alphaLevel);
+                            }
                         }
                     }
                 }
@@ -518,13 +513,75 @@ private:
         // are always set to 0 (black) and the alpha level is 0 everywhere
         // except on the text area; the alpha level take into account of
         // performing anti-aliasing over the text edges.
-        _pixmap = _loKitDoc->renderFont(_font.c_str(), _text.c_str(), &_width, &_height);
+        unsigned char* pixmap = _loKitDoc->renderFont(_font.c_str(), _text.c_str(), &_width, &_height);
 
-        if (!_pixmap)
+        if (!pixmap)
         {
             LOG_ERR("Watermark: rendering failed.");
         }
 
+        const unsigned int pixel_count = width * height;
+
+        // Copy text into greyscale bitmap.
+        unsigned char* text = static_cast<unsigned char*>(malloc(pixel_count));
+        for (int y = 0; y < height; ++y)
+        {
+            unsigned int j = y * width;
+            unsigned int i = j * 4;
+            for (int x = 0; x < width; ++x)
+            {
+                const unsigned int alpha = pixmap[i + 3];
+                text[j++] = (alpha ? 0 : 0xff);
+                i += 4;
+            }
+        }
+
+        // No longer needed.
+        std::free(pixmap);
+
+        // Invert the text.
+        unsigned char* inv = static_cast<unsigned char*>(malloc(pixel_count));
+        for (unsigned int i = 0; i < pixel_count; ++i)
+        {
+            inv[i] = ~text[i];
+        }
+
+        unsigned char* blur = static_cast<unsigned char*>(malloc(pixel_count));
+
+        // Process the pixmap to make it more visible on all backgrounds,
+        // including dark and grey.
+        const int r = 4;
+        const int weight = (r+r+1) * (r+r+1);
+        for (int y = r; y < height - r; ++y)
+        {
+            for (int x = r; x < width - r; ++x)
+            {
+                unsigned int t = 0;
+                for (int ky = y - r; ky <= y + r; ++ky)
+                {
+                    for (int kx = x - r; kx <= x + r; ++kx)
+                    {
+                        const unsigned int i = ky * width + kx;
+                        t += inv[i];
+                    }
+                }
+
+                const unsigned int j = y * width + x;
+                blur[j] = t / weight;
+            }
+        }
+
+        std::free(inv);
+
+        // Copy the original text back over the blur.
+        for (unsigned int i = 0; i < pixel_count; ++i)
+        {
+            if (text[i] == 0)
+                blur[i] = _color[0];
+        }
+
+        std::free(text);
+        _pixmap = blur;
         return _pixmap;
     }
 
@@ -534,7 +591,7 @@ private:
     std::string _font;
     int _width;
     int _height;
-    unsigned char _color[3];
+    const unsigned char _color[3];
     double _alphaLevel;
     unsigned char* _pixmap;
 };
@@ -857,7 +914,10 @@ public:
             const auto pixelWidth = tileCombined.getWidth();
             const auto pixelHeight = tileCombined.getHeight();
 
-            const uint64_t hash = Png::hashSubBuffer(pixmap.data(), positionX * pixelWidth, positionY * pixelHeight,
+            const int offsetX = positionX * pixelWidth;
+            const int offsetY = positionY * pixelHeight;
+
+            const uint64_t hash = Png::hashSubBuffer(pixmap.data(), offsetX, offsetY,
                                                      pixelWidth, pixelHeight, pixmapWidth, pixmapHeight);
 
             if (hash != 0 && tiles[tileIndex].getOldHash() == hash)
@@ -869,16 +929,13 @@ public:
                 continue;
             }
 
-            int offsetX = positionX  * pixelWidth;
-            int offsetY = positionY * pixelHeight;
-
             if (_docWatermark)
                 _docWatermark->blending(pixmap.data(), offsetX, offsetY,
                                         pixmapWidth, pixmapHeight,
-                                        tileCombined.getWidth(), tileCombined.getHeight(),
+                                        pixelWidth, pixelHeight,
                                         mode);
 
-            if (!_pngCache.encodeSubBufferToPNG(pixmap.data(), positionX * pixelWidth, positionY * pixelHeight,
+            if (!_pngCache.encodeSubBufferToPNG(pixmap.data(), offsetX, offsetY,
                                                 pixelWidth, pixelHeight, pixmapWidth, pixmapHeight, output, mode, hash))
             {
                 //FIXME: Return error.
