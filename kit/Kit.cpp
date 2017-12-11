@@ -461,9 +461,9 @@ public:
 
         if (pixmap && tilePixmap)
         {
-            unsigned int pixmapSize = tilesPixmapWidth * tilesPixmapHeight * 4;
-            int maxX = std::min(tileWidth, _width);
-            int maxY = std::min(tileHeight, _height);
+            const unsigned int pixmapSize = tilesPixmapWidth * tilesPixmapHeight * 4;
+            const int maxX = std::min(tileWidth, _width);
+            const int maxY = std::min(tileHeight, _height);
 
             // center watermark
             offsetX += (tileWidth - maxX) / 2;
@@ -473,13 +473,13 @@ public:
             {
                 for (int x = 0; x < maxX; ++x)
                 {
-                    unsigned int i = (y * _width + x) * 4;
-                    unsigned int alpha = pixmap[i + 3];
+                    const unsigned int i = (y * _width + x) * 4;
+                    const unsigned int alpha = pixmap[i + 3];
                     if (alpha)
                     {
-                        for (int h = 0; h < 3; ++h)
+                        unsigned int j = ((y + offsetY) * tilesPixmapWidth + (x + offsetX)) * 4;
+                        for (int h = 0; h < 3; ++h, ++j)
                         {
-                            unsigned int j = ((y + offsetY) * tilesPixmapWidth  + (x + offsetX)) * 4 + h;
                             if (j < pixmapSize)
                             {
                                 unsigned int color = (mode == LOK_TILEMODE_BGRA) ? _color[2 - h] : _color[h];
@@ -487,7 +487,9 @@ public:
                                 // original alpha blending for smoothing text edges
                                 color = ((color * alpha) + tilePixmap[j] * (255 - alpha)) / 255;
                                 // blending between document tile and watermark
-                                tilePixmap[j] = color * _alphaLevel + tilePixmap[j] * (1 - _alphaLevel);
+                                // using a dynamic alpha to blend the watermark more with dark colors
+                                const double alphaLevel = _alphaLevel + (0.55 * (255 - tilePixmap[j]) / 255.0);
+                                tilePixmap[j] = color * alphaLevel + tilePixmap[j] * (1 - alphaLevel);
                            }
                         }
                     }
@@ -534,7 +536,7 @@ private:
     std::string _font;
     int _width;
     int _height;
-    unsigned char _color[3];
+    const unsigned char _color[3];
     double _alphaLevel;
     unsigned char* _pixmap;
 };
@@ -857,7 +859,10 @@ public:
             const auto pixelWidth = tileCombined.getWidth();
             const auto pixelHeight = tileCombined.getHeight();
 
-            const uint64_t hash = Png::hashSubBuffer(pixmap.data(), positionX * pixelWidth, positionY * pixelHeight,
+            const int offsetX = positionX * pixelWidth;
+            const int offsetY = positionY * pixelHeight;
+
+            const uint64_t hash = Png::hashSubBuffer(pixmap.data(), offsetX, offsetY,
                                                      pixelWidth, pixelHeight, pixmapWidth, pixmapHeight);
 
             if (hash != 0 && tiles[tileIndex].getOldHash() == hash)
@@ -869,16 +874,13 @@ public:
                 continue;
             }
 
-            int offsetX = positionX  * pixelWidth;
-            int offsetY = positionY * pixelHeight;
-
             if (_docWatermark)
                 _docWatermark->blending(pixmap.data(), offsetX, offsetY,
                                         pixmapWidth, pixmapHeight,
-                                        tileCombined.getWidth(), tileCombined.getHeight(),
+                                        pixelWidth, pixelHeight,
                                         mode);
 
-            if (!_pngCache.encodeSubBufferToPNG(pixmap.data(), positionX * pixelWidth, positionY * pixelHeight,
+            if (!_pngCache.encodeSubBufferToPNG(pixmap.data(), offsetX, offsetY,
                                                 pixelWidth, pixelHeight, pixmapWidth, pixmapHeight, output, mode, hash))
             {
                 //FIXME: Return error.
