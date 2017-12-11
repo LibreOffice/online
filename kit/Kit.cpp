@@ -435,8 +435,8 @@ public:
         , _font("Liberation Sans")
         , _width(0)
         , _height(0)
-        , _color{64, 64, 64}
-        , _alphaLevel(0.2)
+        , _alphaLevel(0.10)
+        , _blur(nullptr)
         , _pixmap(nullptr)
     {
     }
@@ -451,7 +451,7 @@ public:
                    int offsetX, int offsetY,
                    int tilesPixmapWidth, int tilesPixmapHeight,
                    int tileWidth, int tileHeight,
-                   LibreOfficeKitTileMode mode)
+                   LibreOfficeKitTileMode /*mode*/)
     {
         // set requested watermark size a little bit smaller than tile size
         int width = tileWidth * 0.9;
@@ -461,34 +461,58 @@ public:
 
         if (pixmap && tilePixmap)
         {
-            unsigned int pixmapSize = tilesPixmapWidth * tilesPixmapHeight * 4;
-            int maxX = std::min(tileWidth, _width);
-            int maxY = std::min(tileHeight, _height);
+            const unsigned int pixmapSize = tilesPixmapWidth * tilesPixmapHeight * 4;
+            const int maxX = std::min(tileWidth, _width);
+            const int maxY = std::min(tileHeight, _height);
 
             // center watermark
             offsetX += (tileWidth - maxX) / 2;
             offsetY += (tileHeight - maxY) / 2;
 
+            // Apply the blur first, in white.
             for (int y = 0; y < maxY; ++y)
             {
                 for (int x = 0; x < maxX; ++x)
                 {
-                    unsigned int i = (y * _width + x) * 4;
-                    unsigned int alpha = pixmap[i + 3];
-                    if (alpha)
+                    const unsigned int overlay = _blur[y * _width + x];
+                    if (overlay)
                     {
-                        for (int h = 0; h < 3; ++h)
+                        unsigned int j = ((y + offsetY) * tilesPixmapWidth + (x + offsetX)) * 4;
+                        for (int h = 0; h < 3; ++h, ++j)
                         {
-                            unsigned int j = ((y + offsetY) * tilesPixmapWidth  + (x + offsetX)) * 4 + h;
                             if (j < pixmapSize)
                             {
-                                unsigned int color = (mode == LOK_TILEMODE_BGRA) ? _color[2 - h] : _color[h];
+                                // Dynamically increase the overlay if on dark background.
+                                const double alphaLevel = _alphaLevel + (0.30 * (255 - tilePixmap[j]) / 255.0);
+                                // Black in the overlay is completely transparent, white is opaque.
+                                const double alpha = alphaLevel * overlay / 255.0;
+                                // Merge the overlay with background based on the alpha ratio.
+                                tilePixmap[j] = overlay * alpha + tilePixmap[j] * (1 - alpha);
+                            }
+                        }
+                    }
+                }
+            }
 
-                                // original alpha blending for smoothing text edges
-                                color = ((color * alpha) + tilePixmap[j] * (255 - alpha)) / 255;
-                                // blending between document tile and watermark
-                                tilePixmap[j] = color * _alphaLevel + tilePixmap[j] * (1 - _alphaLevel);
-                           }
+            // Now apply the text, in grey.
+            for (int y = 0; y < maxY; ++y)
+            {
+                for (int x = 0; x < maxX; ++x)
+                {
+                    // White is transparent, text is in black.
+                    const unsigned int overlay = pixmap[y * _width + x];
+                    if (overlay < 255)
+                    {
+                        unsigned int j = ((y + offsetY) * tilesPixmapWidth + (x + offsetX)) * 4;
+                        for (int h = 0; h < 3; ++h, ++j)
+                        {
+                            if (j < pixmapSize)
+                            {
+                                // White in the overlay is completely transparent, black is opaque.
+                                const double alpha = _alphaLevel * (255 - overlay) / 255.0;
+                                // Merge the overlay with background based on the alpha ratio.
+                                tilePixmap[j] = overlay * alpha + tilePixmap[j] * (1 - alpha);
+                            }
                         }
                     }
                 }
@@ -502,6 +526,8 @@ private:
         if (_pixmap && width == _width && height == _height)
             return _pixmap;
 
+        if (_blur)
+            std::free(_blur);
         if (_pixmap)
             std::free(_pixmap);
 
@@ -518,12 +544,91 @@ private:
         // are always set to 0 (black) and the alpha level is 0 everywhere
         // except on the text area; the alpha level take into account of
         // performing anti-aliasing over the text edges.
-        _pixmap = _loKitDoc->renderFont(_font.c_str(), _text.c_str(), &_width, &_height);
+        unsigned char* pixmap = _loKitDoc->renderFont(_font.c_str(), _text.c_str(), &_width, &_height);
 
-        if (!_pixmap)
+        if (!pixmap)
         {
             LOG_ERR("Watermark: rendering failed.");
         }
+
+        // Process the pixmap to make it more visible on all backgrounds,
+        // including dark and grey, by rendering a blurred version
+        // of the text in inverted color behind it.
+        const unsigned int pixel_count = width * height;
+
+        // Copy text into greyscale bitmap from the alpha channel of the source.
+        unsigned char* text = static_cast<unsigned char*>(malloc(pixel_count));
+        for (int y = 0; y < height; ++y)
+        {
+            unsigned int j = y * width;
+            unsigned int i = j * 4;
+            for (int x = 0; x < width; ++x)
+            {
+                const unsigned int alpha = pixmap[i + 3];
+                text[j++] = ~alpha;
+                i += 4;
+            }
+        }
+        _pixmap = text;
+
+        // No longer needed.
+        std::free(pixmap);
+
+        // Invert the text.
+        unsigned char* inv = static_cast<unsigned char*>(malloc(pixel_count));
+        for (unsigned int i = 0; i < pixel_count; ++i)
+        {
+            inv[i] = ~text[i];
+        }
+
+        // Use box blur, which is fast, though crude.
+        _blur = static_cast<unsigned char*>(malloc(pixel_count));
+        memcpy(_blur, inv, pixel_count);
+
+        // Repeat an even number of times to smooth out.
+        const int r = 2;
+        const double weight = (r+r+1) * (r+r+1);
+        for (int repeat = 0; repeat < 4; ++repeat)
+        {
+            for (int y = r; y < height - r; ++y)
+            {
+                for (int x = r; x < width - r; ++x)
+                {
+                    double t = 0;
+                    for (int ky = y - r; ky <= y + r; ++ky)
+                    {
+                        for (int kx = x - r; kx <= x + r; ++kx)
+                        {
+                            t += inv[ky * width + kx];
+                        }
+                    }
+
+                    // Clamp the result.
+                    const double avg = t / weight;
+                    _blur[y * width + x] = static_cast<unsigned char>(avg <= 255.0 ? avg : 255);
+                }
+            }
+
+            std::swap(_blur, inv);
+        }
+
+        // Renormalize to make the brightest pixel white again.
+        unsigned char max_value = 0;
+        for (unsigned int i = 0; i < pixel_count; ++i)
+        {
+            if (_blur[i] > max_value)
+                max_value = _blur[i];
+        }
+
+        const double renorm = 255.0 / max_value;
+        for (unsigned int i = 0; i < pixel_count; ++i)
+        {
+            const double pixel = _blur[i] * renorm;
+            _blur[i] = static_cast<unsigned char>(pixel <= 255.0 ? pixel : 255);
+        }
+
+        // No longer needed.
+        std::free(inv);
 
         return _pixmap;
     }
@@ -534,8 +639,8 @@ private:
     std::string _font;
     int _width;
     int _height;
-    unsigned char _color[3];
     double _alphaLevel;
+    unsigned char* _blur;
     unsigned char* _pixmap;
 };
 
@@ -857,7 +962,10 @@ public:
             const auto pixelWidth = tileCombined.getWidth();
             const auto pixelHeight = tileCombined.getHeight();
 
-            const uint64_t hash = Png::hashSubBuffer(pixmap.data(), positionX * pixelWidth, positionY * pixelHeight,
+            const int offsetX = positionX * pixelWidth;
+            const int offsetY = positionY * pixelHeight;
+
+            const uint64_t hash = Png::hashSubBuffer(pixmap.data(), offsetX, offsetY,
                                                      pixelWidth, pixelHeight, pixmapWidth, pixmapHeight);
 
             if (hash != 0 && tiles[tileIndex].getOldHash() == hash)
@@ -869,16 +977,13 @@ public:
                 continue;
             }
 
-            int offsetX = positionX  * pixelWidth;
-            int offsetY = positionY * pixelHeight;
-
             if (_docWatermark)
                 _docWatermark->blending(pixmap.data(), offsetX, offsetY,
                                         pixmapWidth, pixmapHeight,
-                                        tileCombined.getWidth(), tileCombined.getHeight(),
+                                        pixelWidth, pixelHeight,
                                         mode);
 
-            if (!_pngCache.encodeSubBufferToPNG(pixmap.data(), positionX * pixelWidth, positionY * pixelHeight,
+            if (!_pngCache.encodeSubBufferToPNG(pixmap.data(), offsetX, offsetY,
                                                 pixelWidth, pixelHeight, pixmapWidth, pixmapHeight, output, mode, hash))
             {
                 //FIXME: Return error.
