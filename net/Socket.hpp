@@ -95,6 +95,7 @@ public:
     static const int DefaultSendBufferSize = 16 * 1024;
     static const int MaximumSendBufferSize = 128 * 1024;
     static std::atomic<bool> InhibitThreadChecks;
+    std::string _clientAddress;
 
     Socket() :
         _fd(socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0)),
@@ -827,6 +828,11 @@ public:
     {
         sent = _bytesSent;
         recv = _bytesRecvd;
+    }
+
+    const std::string clientAddress()
+    {
+        return _clientAddress;
     }
 
 protected:
