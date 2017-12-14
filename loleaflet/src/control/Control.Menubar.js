@@ -70,7 +70,7 @@ L.Control.Menubar = L.Control.extend({
 				{uno: '.uno:InsertColumnBreak'},
 				{type: 'separator'},
 				{uno: '.uno:HyperlinkDialog'},
-				{name: _UNO('.uno:InsertSymbol', 'text'), id: 'specialcharacter', type: 'action'},
+				{name: _UNO('.uno:InsertSymbol', 'text')},
 				{name: _UNO('.uno:FormattingMarkMenu', 'text'), type: 'menu', menu: [
 					{uno: '.uno:InsertNonBreakingSpace'},
 					{uno: '.uno:InsertHardHyphen'},
@@ -241,7 +241,7 @@ L.Control.Menubar = L.Control.extend({
 				{name: _UNO('.uno:InsertGraphic', 'presentation'), id: 'insertgraphic', type: 'action'},
 				{name: _UNO('.uno:InsertAnnotation', 'presentation'), id: 'insertcomment', type: 'action'},
 				{type: 'separator'},
-				{name: _UNO('.uno:InsertSymbol', 'presentation'), id: 'specialcharacter', type: 'action'}]
+				{name: _UNO('.uno:InsertSymbol', 'presentation')}]
 			},
 			{name: _UNO('.uno:FormatMenu', 'presentation'), type: 'menu', menu: [
 				{name: _UNO('.uno:FormatObjectMenu'), type: 'menu', menu: [
@@ -315,7 +315,7 @@ L.Control.Menubar = L.Control.extend({
 				{uno: '.uno:InsertRows'},
 				{uno: '.uno:InsertColumns'},
 				{type: 'separator'},
-				{name: _UNO('.uno:InsertSymbol', 'spreadsheet'), id: 'specialcharacter', type: 'action'}
+				{uno: _UNO('.uno:InsertSymbol', 'spreadsheet')}
 			]},
 			{name: _UNO('.uno:FormatMenu', 'spreadsheet'), type: 'menu', menu: [
 				{uno: '.uno:ResetAttributes'},
