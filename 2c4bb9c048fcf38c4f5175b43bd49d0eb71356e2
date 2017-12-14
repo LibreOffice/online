@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_d7d9ab58",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2017-12-14T20:31:56Z",
+      "side": 1,
+      "message": "If you delete , \u0027\u0027, true then the menu command will be taken, not the button tooltip text.",
+      "range": {
+        "startLine": 499,
+        "startChar": 0,
+        "endLine": 499,
+        "endChar": 129
+      },
+      "revId": "2c4bb9c048fcf38c4f5175b43bd49d0eb71356e2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
