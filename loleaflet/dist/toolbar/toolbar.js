@@ -5,6 +5,7 @@
 /* global $ map closebutton w2ui w2utils vex _ */
 
 var mobileWidth = 768;
+var fileNameShowLimit = 860;
 
 function onDelete(e) {
 	if (e !== false) {
@@ -116,6 +117,12 @@ function resizeToolbar() {
 		_mobilify();
 	} else {
 		_unmobilify();
+	}
+
+	if ($(window).width() < fileNameShowLimit) {
+		$('#document-name-input').hide();
+	} else {
+		$('#document-name-input').show();
 	}
 
 	// move items from toolbar-up-more -> toolbar-up
