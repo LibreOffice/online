@@ -29,7 +29,9 @@ L.Control.Ruler = L.Control.extend({
 		return this._initLayout();
 	},
 
-	_updatePaintTimer: function() {
+	_updatePaintTimer: function(e) {
+		if (e.extraSize)
+			this.options.extraSize = e.extraSize.x;
 		clearTimeout(this.options.timer);
 		this.options.timer = setTimeout(L.bind(this._updateBreakPoints, this), 300);
 	},
@@ -62,11 +64,8 @@ L.Control.Ruler = L.Control.extend({
 		if (this.options.margin1 == null || this.options.margin2 == null)
 			return;
 
-		if (this._map._docLayer._annotations._items.length === 0)
+		if (this._map._docLayer._annotations._items.length === 0 || !this.options.marginSet)
 			this.options.extraSize = 0;
-		else
-			this.options.extraSize = 290;
-		/// as used for the size of actual comments
 
 		var classMajorSep = 'loleaflet-ruler-maj',
 		classMargin = 'loleaflet-ruler-margin',
