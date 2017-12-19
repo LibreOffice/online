@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_c0e55e38",
+        "filename": "loleaflet/dist/toolbar/toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-12-19T10:35:25Z",
+      "side": 1,
+      "message": "why not factor it out of the if else block?",
+      "revId": "8367fb1f94ce66347d6fda92c9f55bc7cdecdf76",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
