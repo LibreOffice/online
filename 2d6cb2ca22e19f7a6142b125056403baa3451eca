@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a430d35_90247fc5",
+        "filename": "loleaflet/src/control/Ruler.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2017-12-22T14:56:43Z",
+      "side": 1,
+      "message": "It would be really great if we could avoid using such hardcoded values in the code. Just use a variable with descriptive name so that it\u0027s easy to the reader what\u0027s going on. Eg:  I have no idea from where this 18 comes from. Can you please fix this? Maybe also use another variable for tileContainer.style.transform.match(/\\(([-0-9]*)/)[1] with a descriptive name and then pass.",
+      "range": {
+        "startLine": 153,
+        "startChar": 233,
+        "endLine": 153,
+        "endChar": 240
+      },
+      "revId": "2d6cb2ca22e19f7a6142b125056403baa3451eca",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
