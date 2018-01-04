@@ -926,7 +926,6 @@ bool DocumentBroker::sendUnoSave(const std::string& sessionId, bool dontTerminat
         oss << "}";
 
         assert(_storage);
-        _storage->setUserModified(_isModified);
         _storage->setIsAutosave(isAutosave || UnitWSD::get().isAutosave());
 
         const auto saveArgs = oss.str();
@@ -1403,12 +1402,13 @@ void DocumentBroker::destroyIfLastEditor(const std::string& id)
 
 void DocumentBroker::setModified(const bool value)
 {
-    if(_isModified != value)
+    if (_isModified != value)
     {
         _isModified = value;
         Admin::instance().modificationAlert(_docKey, getPid(), value);
     }
 
+    _storage->setUserModified(value);
     _tileCache->setUnsavedChanges(value);
 }
 
