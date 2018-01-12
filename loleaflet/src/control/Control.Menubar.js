@@ -65,6 +65,9 @@ L.Control.Menubar = L.Control.extend({
 				{name: _UNO('.uno:InsertGraphic', 'text'), id: 'insertgraphic', type: 'action'},
 				{name: _UNO('.uno:InsertAnnotation', 'text'), id: 'insertcomment', type: 'action'},
 				{type: 'separator'},
+				{name: _UNO('.uno:InsertHeaderFooterMenu', 'text'), type: 'menu', menu: [
+					{uno: '.uno:InsertPageHeader'},
+					{uno: '.uno:InsertPageFooter'}]},
 				{uno: '.uno:InsertFootnote'},
 				{uno: '.uno:InsertEndnote'},
 				{type: 'separator'},
@@ -689,6 +692,27 @@ L.Control.Menubar = L.Control.extend({
 		}
 	},
 
+	_sendCommand: function (item) {
+		var unoCommand = $(item).data('uno');
+		if (unoCommand == '.uno:InsertPageHeader' || unoCommand == '.uno:InsertPageFooter') {
+			if (map['stateChangeHandler'].getItemValue(unoCommand) === 'true') {
+				vex.dialog.confirm({
+					message: (unoCommand.endsWith('Header') ? _('Are you sure you want to delete the header?') :
+						_('Are you sure you want to delete the footer?')),
+					callback: function(value) {
+						if (value) {
+							map.sendUnoCommand(unoCommand + '?On:bool=false');
+						}
+					}
+				});
+			} else {
+				map.sendUnoCommand(unoCommand + '?On:bool=true');
+			}
+		} else {
+			map.sendUnoCommand(unoCommand);
+		}
+	},
+
 	_onDeleteSlide: function(e) {
 		if (e) {
 			map.deletePage();
@@ -699,8 +723,7 @@ L.Control.Menubar = L.Control.extend({
 		var self = e.data.self;
 		var type = $(item).data('type');
 		if (type === 'unocommand') {
-			var unoCommand = $(item).data('uno');
-			map.sendUnoCommand(unoCommand);
+			self._sendCommand(item);
 		} else if (type === 'action') {
 			self._executeAction(item);
 		}
