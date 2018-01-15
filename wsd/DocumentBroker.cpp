@@ -151,7 +151,6 @@ DocumentBroker::DocumentBroker(const std::string& uri,
     _documentChangedInStorage(false),
     _lastSaveTime(std::chrono::steady_clock::now()),
     _lastSaveRequestTime(std::chrono::steady_clock::now() - std::chrono::milliseconds(COMMAND_TIMEOUT_MS)),
-    _markToDestroy(false),
     _isLoaded(false),
     _isModified(false),
     _cursorPosX(0),
@@ -302,7 +301,7 @@ void DocumentBroker::pollThread()
                 stop("idle");
             }
         }
-        else if (_sessions.empty() && (isLoaded() || _markToDestroy))
+        else if (_sessions.empty() && isLoaded())
         {
             // If all sessions have been removed, no reason to linger.
             LOG_INF("Terminating dead DocumentBroker for docKey [" << getDocKey() << "].");
@@ -413,7 +412,7 @@ bool DocumentBroker::load(const std::shared_ptr<ClientSession>& session, const s
             return result;
     }
 
-    if (_markToDestroy)
+    if (isMarkedToDestroy())
     {
         // Tearing down.
         LOG_WRN("Will not load document marked to destroy. DocKey: [" << _docKey << "].");
@@ -692,15 +691,8 @@ bool DocumentBroker::saveToStorage(const std::string& sessionId,
 
     // If marked to destroy, or session is disconnected, remove.
     const auto it = _sessions.find(sessionId);
-    if (_markToDestroy || (it != _sessions.end() && it->second->isCloseFrame()))
+    if (it != _sessions.end() && it->second->isCloseFrame())
         removeSessionInternal(sessionId);
-
-    // If marked to destroy, then this was the last session.
-    if (_markToDestroy || _sessions.empty())
-    {
-        // Stop so we get cleaned up and removed.
-        _stop = true;
-    }
 
     return res;
 }
@@ -992,8 +984,8 @@ size_t DocumentBroker::addSession(const std::shared_ptr<ClientSession>& session)
         LOG_ERR("Failed to add session to [" << _docKey << "] with URI [" << session->getPublicUri().toString() << "]: " << exc.what());
         if (_sessions.empty())
         {
-            LOG_INF("Doc [" << _docKey << "] has no more sessions. Marking to destroy.");
-            _markToDestroy = true;
+            LOG_INF("Doc [" << _docKey << "] failed to add first session. Marking to destroy.");
+            stop("Failed to add first session.");
         }
 
         throw;
@@ -1060,14 +1052,10 @@ size_t DocumentBroker::removeSession(const std::string& id)
             return _sessions.size();
         }
 
-        // Last view going away, can destroy.
-        _markToDestroy = (_sessions.size() <= 1);
-
         const bool lastEditableSession = !it->second->isReadOnly() && !haveAnotherEditableSession(id);
 
         LOG_INF("Removing session [" << id << "] on docKey [" << _docKey <<
-                "]. Have " << _sessions.size() << " sessions. markToDestroy: " << _markToDestroy <<
-                ", LastEditableSession: " << lastEditableSession);
+                "]. Have " << _sessions.size() << " sessions. LastEditableSession: " << lastEditableSession);
 
         // If last editable, save and don't remove until after uploading to storage.
         if (!lastEditableSession || !autoSave(isPossiblyModified()))
@@ -1635,7 +1623,7 @@ void DocumentBroker::dumpState(std::ostream& os)
     getIOStats(sent, recv);
 
     os << " Broker: " << _filename << " pid: " << getPid();
-    if (_markToDestroy)
+    if (isMarkedToDestroy())
         os << " *** Marked to destroy ***";
     else
         os << " has live sessions";

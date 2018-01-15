@@ -312,7 +312,7 @@ public:
     void handleDialogPaintResponse(const std::vector<char>& payload, bool child);
     void handleTileCombinedResponse(const std::vector<char>& payload);
 
-    bool isMarkedToDestroy() const { return _markToDestroy || _stop; }
+    bool isMarkedToDestroy() const { return _stop; }
 
     bool handleInput(const std::vector<char>& payload);
 
@@ -433,7 +433,6 @@ private:
 
     std::unique_ptr<StorageBase> _storage;
     std::unique_ptr<TileCache> _tileCache;
-    std::atomic<bool> _markToDestroy;
     std::atomic<bool> _isLoaded;
     std::atomic<bool> _isModified;
     int _cursorPosX;
