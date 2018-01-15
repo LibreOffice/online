@@ -681,13 +681,21 @@ bool DocumentBroker::saveToStorage(const std::string& sessionId,
 {
     assertCorrectThread();
 
-    if (force)
+    bool res = false;
+    try
     {
-        LOG_TRC("Document will be saved forcefully to storage.");
-        _storage->forceSave();
-    }
+        if (force)
+        {
+            LOG_TRC("Document will be saved forcefully to storage.");
+            _storage->forceSave();
+        }
 
-    const bool res = saveToStorageInternal(sessionId, success, result);
+       res = saveToStorageInternal(sessionId, success, result);
+    }
+    catch (const std::exception& ex)
+    {
+        LOG_ERR("Failed to save docKey [" << _docKey << "] to storage: " << ex.what());
+    }
 
     // If marked to destroy, or session is disconnected, remove.
     const auto it = _sessions.find(sessionId);
