@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa31d9ce_520c7642",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-01-15T14:02:25Z",
+      "side": 1,
+      "message": "Just reading through - if we skip removing the session at this point - since we\u0027re auto-saving or whatever: do we really come back and remove it later ?\n\nI\u0027m not so convinced. I would like to tag such sessions as needing removal - and have a cleanup phase in the main polling loop that removes them as/when the save is done (I guess). What if we remove two or more sessions in the same loop here ? - could be more robust.\n\nStill its no worse than before -\u003e merge.",
+      "revId": "656c4788404aad6fa284a8a46b4eddeb60338f41",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa31d9ce_cdfe0705",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-01-15T14:02:25Z",
+      "side": 1,
+      "message": "like it - much simpler.",
+      "revId": "656c4788404aad6fa284a8a46b4eddeb60338f41",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
