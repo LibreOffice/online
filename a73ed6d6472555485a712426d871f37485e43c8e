@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa31d9ce_bff1facf",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-01-16T09:08:26Z",
+      "side": 1,
+      "message": "I\u0027m not a big fan of force-saving eg. read-only and/or non-modified documents - that looks like more potential for data-loss than not doing it \u003d) or did I miss something ?",
+      "revId": "a73ed6d6472555485a712426d871f37485e43c8e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
