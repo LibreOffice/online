@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa31d9ce_4663ceb1",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2018-01-20T17:59:33Z",
+      "side": 1,
+      "message": "name: _UNO(\u0027 etc. should be used here",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 10
+      },
+      "revId": "b809e52136f52b082cbde29536369e9b975716ae",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
