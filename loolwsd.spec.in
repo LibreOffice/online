@@ -77,6 +77,7 @@ env BUILDING_FROM_RPMBUILD=yes make %{?_smp_mflags}
 %install
 env BUILDING_FROM_RPMBUILD=yes make install DESTDIR=%{buildroot}
 %__install -D -m 444 loolwsd.service %{buildroot}%{_unitdir}/loolwsd.service
+install -D -m 644 loolwsd.pam %{buildroot}/etc/pam.d/loolwsd
 install -d -m 755 %{buildroot}/var/adm/fillup-templates
 %if 0%{?fedora} || 0%{?rhel} >= 7
 install -D -m 644 sysconfig.loolwsd %{buildroot}/etc/sysconfig/loolwsd
