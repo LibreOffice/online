@@ -5,8 +5,8 @@
 
 L.CalcTileLayer = L.TileLayer.extend({
 	STD_EXTRA_WIDTH: 113, /* 2mm extra for optimal width,
-                              * 0.1986cm with TeX points,
-                              * 0.1993cm with PS points. */
+							  * 0.1986cm with TeX points,
+							  * 0.1993cm with PS points. */
 
 	twipsToHMM: function (twips) {
 		return (twips * 127 + 36) / 72;
@@ -106,6 +106,23 @@ L.CalcTileLayer = L.TileLayer.extend({
 		}
 	},
 
+	isHiddenPart: function (part) {
+		if (!this._hiddenParts)
+			return false;
+		return this._hiddenParts.indexOf(part) !== -1;
+	},
+
+	hiddenParts: function () {
+		if (!this._hiddenParts)
+			return 0;
+		return this._hiddenParts.length;
+	},
+
+	hasAnyHiddenPart: function () {
+		if (!this._hiddenParts)
+			return false;
+		return this.hiddenParts() !== 0;
+	},
 	_onAnnotationCancel: function (e) {
 		if (e.annotation._data.id === 'new') {
 			this.hideAnnotation(e.annotation._tag);
@@ -336,7 +353,7 @@ L.CalcTileLayer = L.TileLayer.extend({
 
 	_onSetPartMsg: function (textMsg) {
 		var part = parseInt(textMsg.match(/\d+/g)[0]);
-		if (part !== this._selectedPart) {
+		if (part !== this._selectedPart && !this.isHiddenPart(part)) {
 			this._map.setPart(part, true);
 			this._map.fire('setpart', {selectedPart: this._selectedPart});
 			// TODO: test it!
@@ -404,6 +421,7 @@ L.CalcTileLayer = L.TileLayer.extend({
 			else {
 				this._updateMaxBounds(true);
 			}
+			this._hiddenParts = command.hiddenparts || [];
 			this._documentInfo = textMsg;
 			var partNames = textMsg.match(/[^\r\n]+/g);
 			// only get the last matches
@@ -413,6 +431,7 @@ L.CalcTileLayer = L.TileLayer.extend({
 				parts: this._parts,
 				docType: this._docType,
 				partNames: this._partNames,
+				hiddenParts: this._hiddenParts,
 				source: 'status'
 			});
 			this._resetPreFetching(true);
