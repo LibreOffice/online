@@ -140,6 +140,24 @@ namespace LOKitHelper
 
         if (type == LOK_DOCTYPE_SPREADSHEET || type == LOK_DOCTYPE_PRESENTATION)
         {
+            if (type == LOK_DOCTYPE_SPREADSHEET)
+            {
+                std::ostringstream hposs;
+                for (auto i = 0; i < parts; ++i)
+                {
+                    if (loKitDocument->pClass->isHiddenPart(loKitDocument, i))
+                    {
+                        hposs << i << ",";
+                    }
+                }
+                std::string hiddenparts = hposs.str();
+                if (!hiddenparts.empty())
+                {
+                    hiddenparts.pop_back();
+                    oss << " hiddenparts=" << hiddenparts;
+                }
+            }
+
             for (auto i = 0; i < parts; ++i)
             {
                 oss << "\n";
