@@ -231,6 +231,11 @@ L.Map.WOPI = L.Handler.extend({
 				}
 			}
 		}
+		else if (msg.MessageId === 'Host_VersionRestore') {
+			if (msg.Values.Status === 'Pre_Restore') {
+				this._map._socket.sendMessage('versionrestore prerestore');
+			}
+		}
 	},
 
 	_postMessage: function(e) {

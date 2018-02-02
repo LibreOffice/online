@@ -33,7 +33,7 @@
 <h2>API Reference</h2>
 
 <div id="toc" class="clearfix">
-	<div class="toc-col map-col">
+    <div class="toc-col map-col">
 		<h4>Map</h4>
 		<ul>
 			<li><a href="#map-usage">Usage example</a></li>
@@ -2984,6 +2984,48 @@ Actions response
 		is mentioned by <code>Action_Save</code> PostMessage API.
 		</td>
 	</tr>
+</table>
+
+<h3 id="loleaflet-postmessage-versioning">Version Restore</h3>
+WOPI host to editor
+<table data-id="postmessage-versioning-to-editor">
+    <tr>
+	<th>MessageId</th>
+	<th>Values</th>
+	<th>Description</th>
+    </tr>
+    <tr>
+	<td><code><b>Host_VersionRestore</b></code></td>
+	<td><code>
+	    <nobr>Status: &lt;string&gt;</nobr>
+	</code></td>
+	<td>
+	    Only possible value of Status (for now) is <code>Pre_Restore</code>.
+	    This message is sent by the host <b>before</b> actually restoring the document
+	    and <b>after</b> user showed the intent to restore the document. This is so such
+	    that if there are any unsaved changes, Online can save them to storage before
+	    document is restored.
+	</td>
+    </tr>
+</table>
+Editor to WOPI host
+<table data-id="postmessage-versioning-to-host">
+    <tr>
+	<th>MessageId</th>
+	<th>Values</th>
+	<th>Description</th>
+    </tr>
+    <tr>
+	<td><code><b>App_VersionRestore</b></code></td>
+	<td><code>
+	    <nobr>Status: &lt;string&gt;</nobr>
+	</code></td>
+	<td>
+	    This is the reply for the Host_VersionRestore message. Possible values for <code>Status</code>
+	    (for now) is: <code>Pre_Restore_Ack</code>. It means that host can go ahead with restoring the
+	    document to an earlier revision.
+	</td>
+    </tr>
 </table>
 
 <h3 id='loleaflet-postmessage-misc'>Miscellaneous</h3>
