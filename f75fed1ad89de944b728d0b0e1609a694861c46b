@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa31d9ce_128c8934",
+        "filename": "loleaflet/dist/errormessages.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2018-02-15T10:50:57Z",
+      "side": 1,
+      "message": "Added that phrase back.\nThe URL is still configurable, I just moved the html stuff out of the translatable string.",
+      "parentUuid": "fa31d9ce_b2049dc0",
+      "revId": "f75fed1ad89de944b728d0b0e1609a694861c46b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa31d9ce_d2ff51a8",
         "filename": "loleaflet/src/core/Socket.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fa31d9ce_32834d06",
+        "filename": "loleaflet/src/core/Socket.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2018-02-15T10:50:57Z",
+      "side": 1,
+      "message": "So I requested a new hub link: https://redmine.documentfoundation.org/issues/2527\n\nI don\u0027t think the wiki page is a better place for now. It doesn\u0027t even mention professional support, and is quite technical.\n\nSure it would be better to have a dedicated page later, but for now I think our support page is fine, as users can see whom they can contact for professional support.\n\nAnyway, now we have a dedicated hub link for this and can change it afterwards.",
+      "parentUuid": "fa31d9ce_d2ff51a8",
+      "revId": "f75fed1ad89de944b728d0b0e1609a694861c46b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa31d9ce_1230099e",
         "filename": "wsd/LOOLWSD.cpp",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-02-15T09:51:40Z",
       "side": 1,
       "message": "Presumably we warn on the connection limit too - even in the non-support-key case.",
+      "revId": "f75fed1ad89de944b728d0b0e1609a694861c46b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa31d9ce_52860114",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 2260,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2018-02-15T10:50:57Z",
+      "side": 1,
+      "message": "See line 1512, the soft warning goes for both in the non-support-key case, connection limit and document limit.",
+      "parentUuid": "fa31d9ce_1230099e",
       "revId": "f75fed1ad89de944b728d0b0e1609a694861c46b",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
