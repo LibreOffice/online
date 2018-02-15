@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa31d9ce_b2049dc0",
+        "filename": "loleaflet/dist/errormessages.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-02-15T09:51:40Z",
+      "side": 1,
+      "message": "Well I\u0027d like to keep the text: \"To avoid the impression that it is suitable for deployment in enterprises\" - and I would like to keep that URL configurable.",
+      "revId": "f75fed1ad89de944b728d0b0e1609a694861c46b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa31d9ce_d2ff51a8",
+        "filename": "loleaflet/src/core/Socket.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-02-15T09:51:40Z",
+      "side": 1,
+      "message": "Would like a custom URL for LibreOffice Online to describe the issues specific to Online, rather than linking to a generic support page. ie. something that re-directs to the wiki link is better for now so we can tweak that.",
+      "revId": "f75fed1ad89de944b728d0b0e1609a694861c46b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa31d9ce_1230099e",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 2260,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-02-15T09:51:40Z",
+      "side": 1,
+      "message": "Presumably we warn on the connection limit too - even in the non-support-key case.",
+      "revId": "f75fed1ad89de944b728d0b0e1609a694861c46b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
