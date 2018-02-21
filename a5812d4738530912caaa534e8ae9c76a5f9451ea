@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa31d9ce_3478922b",
+        "filename": "loleaflet/dist/errormessages.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-02-21T14:17:49Z",
+      "side": 1,
+      "message": "I suggest instead of saying \"For enterprise use\" we say:\n\n\"For more information and support please see ...\"\n\nSince there is quite a chunk of explanation on that page as well as professional support.",
+      "revId": "a5812d4738530912caaa534e8ae9c76a5f9451ea",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa31d9ce_147d4e1c",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-02-21T14:17:49Z",
+      "side": 1,
+      "message": "Do we need to do this sendMessage ? surely - the alertAllUsers will do this ?",
+      "revId": "a5812d4738530912caaa534e8ae9c76a5f9451ea",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
