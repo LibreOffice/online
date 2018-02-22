@@ -244,6 +244,7 @@ bool ClientSession::_handleInput(const char *buffer, int length)
         if (tokens.size() > 2)
             getTokenInteger(tokens[2], "dontSaveIfUnmodified", dontSaveIfUnmodified);
 
+        dontSaveIfUnmodified = isReadOnly();
         docBroker->sendUnoSave(getId(), dontTerminateEdit != 0, dontSaveIfUnmodified != 0);
     }
     else if (tokens[0] == "savetostorage")
