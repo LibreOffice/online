@@ -119,6 +119,8 @@ namespace LOKitHelper
             return "WINDOW";
         case LOK_CALLBACK_VALIDITY_LIST_BUTTON:
             return "VALIDITY_LIST_BUTTON";
+        case LOK_CALLBACK_CLIPBOARD_CHANGED:
+            return "CLIPBOARD_CHANGED";
        }
 
         return std::to_string(type);
