@@ -157,16 +157,16 @@ AS_IF([test "$enable_debug" = yes -a -n "$with_poco_libs"],
 
 ENABLE_DEBUG=
 LOOLWSD_LOGLEVEL="warning"
-LOOLWSD_LOG_TO_FILE="false"
+LOOLWSD_LOG_TO_FILE="true"
 LOOLWSD_LOGFILE="/var/log/loolwsd.log"
-LOLEAFLET_LOGGING="false"
+LOLEAFLET_LOGGING="true"
 debug_msg="secure mode: product build"
 if test "$enable_debug" = "yes"; then
    AC_DEFINE([ENABLE_DEBUG],1,[Whether to compile in some extra debugging support code and disable some security pieces])
    ENABLE_DEBUG=true
    LOOLWSD_LOGLEVEL="trace"
    LOOLWSD_LOG_TO_FILE="true"
-   LOOLWSD_LOGFILE="/tmp/loolwsd.log"
+   LOOLWSD_LOGFILE="/var/log/loolwsd.log"
    LOLEAFLET_LOGGING="true"
    debug_msg="low security debugging mode"
 else
@@ -248,7 +248,7 @@ AS_IF([test -n "$with_lokit_path"],
       [CPPFLAGS="$CPPFLAGS -I${with_lokit_path}"])
 lokit_msg="$with_lokit_path"
 
-LO_PATH="/usr/lib64/libreoffice"
+LO_PATH="/usr/lib/libreoffice"
 JAIL_PATH=not-set
 SYSTEMPLATE_PATH=not-set
 have_lo_path=false
@@ -341,6 +341,11 @@ fi
 
 AC_SUBST(ENABLE_SSL)
 
+AC_CHECK_HEADERS([security/pam_appl.h],
+                 [],
+                 [AC_MSG_ERROR([header security/pam_appl.h not found, install PAM development package])])
+AC_CHECK_LIB(pam, pam_start, [], [AC_MSG_ERROR([No. Install PAM development package])])
+
 if test "x$with_support_public_key" != "x"; then
     AC_DEFINE([ENABLE_SUPPORT_KEY],1,[Whether to enable support key])
 
@@ -410,16 +415,6 @@ int main(int argc, char **argv)
                [AC_MSG_RESULT([Yes])
                 LIBS="$LIBS -lpcre"])
 
-AC_PATH_PROG(NPM, npm, no)
-if test "$NPM" = "no"; then
-    AC_MSG_ERROR([npm required to build loleaflet, but not installed])
-else
-    NPM_VER=`npm -v | awk -F. '{ print (($1 * 100) + $2) * 100 + $3;}'`
-    if test "$NPM_VER" -ge 30900 -a "$NPM_VER" -lt 31004; then
-        AC_MSG_ERROR([This npm version is buggy, either upgrade to >= 3.10.4 or downgrade to < 3.9.0])
-    fi
-fi
-
 test "$prefix" = NONE && prefix=$ac_default_prefix
 LOOLWSD_CACHEDIR=${localstatedir}/cache/${PACKAGE}
 while :; do
@@ -461,8 +456,7 @@ AC_CONFIG_FILES([Makefile
                  test/Makefile
                  loleaflet/Makefile
                  loolwsd.spec
-                 loolwsd.xml
-                 debian/loolwsd.postinst])
+                 loolwsd.xml])
 AC_CONFIG_FILES([test/run_unit.sh],[chmod +x test/run_unit.sh])
 
 AC_OUTPUT
