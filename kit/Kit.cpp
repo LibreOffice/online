@@ -148,11 +148,6 @@ namespace
 
     bool shouldLinkFile(const char *path)
     {
-        static bool avoidCode = getenv("LINK_NO_CODE");
-
-        if (!avoidCode)
-            return true;
-
         switch (linkOrCopyType)
         {
         case LinkOrCopyType::LO:
