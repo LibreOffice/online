@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba2be162_c11df367",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2018-03-14T04:00:48Z",
+      "side": 1,
+      "message": "Can call .clear() without checking for empty here.",
+      "revId": "339937f684364943379c61e42674c7b83ee64329",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
