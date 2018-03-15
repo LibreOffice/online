@@ -39,6 +39,7 @@ find etc/passwd etc/group etc/hosts \
      usr/share/hyphen \
      usr/lib/libpng* usr/lib64/libpng* lib/*-linux-gnu/libpng* \
      usr/lib/*-linux-gnu/liblcms2* \
+     usr/lib64/python* \
 	 -type f
 
 find etc/fonts \
