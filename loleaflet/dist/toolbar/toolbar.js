@@ -40,7 +40,10 @@ var statusbarMobileItems = [
 	'userlist',
 	'userlistbreak',
 	'prev',
-	'next'
+	'next',
+	'zoomreset',
+	'zoomout',
+	'zoomin'
 ];
 
 var nUsers, oneUser, noUser;
