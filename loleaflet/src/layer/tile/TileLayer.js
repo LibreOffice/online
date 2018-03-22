@@ -1455,14 +1455,25 @@ L.TileLayer = L.GridLayer.extend({
 			}
 			this._map.addLayer(this._cursorMarker);
 
-			// move the hidden input field with the cursor
-			var clipContainer = L.DomUtil.get('doc-clipboard-container');
-			var pos = this._map.latLngToContainerPoint(L.latLng(this._visibleCursor.getCenter())).round();
-			L.DomUtil.setPosition(clipContainer, pos);
+			this._updateContainerElements();
 		}
 		else if (this._cursorMarker) {
 			this._map.removeLayer(this._cursorMarker);
 			this._isCursorOverlayVisible = false;
+		}
+	},
+
+	_updateContainerElements: function() {
+		var clipContainer = L.DomUtil.get('doc-clipboard-container');
+		if (!this._visibleCursor ||
+		    !clipContainer)
+			return;
+
+		var oldPos = L.DomUtil.getPosition(clipContainer);
+		var newPos = this._map.latLngToContainerPoint(L.latLng(this._visibleCursor.getNorthWest())).round();
+		if (!oldPos || oldPos.x !== newPos.x || oldPos.y !== newPos.y) {
+			// move the hidden input field with the cursor
+			L.DomUtil.setPosition(clipContainer, newPos);
 		}
 	},
 
