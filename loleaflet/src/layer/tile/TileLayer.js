@@ -286,8 +286,8 @@ L.TileLayer = L.GridLayer.extend({
 		for (var key in this._selectionHandles) {
 			this._selectionHandles[key].on('drag dragend', this._onSelectionHandleDrag, this);
 		}
-		this._textArea = map._textArea;
-		this._textArea.focus();
+		//this._textArea = map._textArea;
+		//this._textArea.focus();
 
 		map.setPermission(this.options.permission);
 
@@ -1455,15 +1455,18 @@ L.TileLayer = L.GridLayer.extend({
 			}
 			this._map.addLayer(this._cursorMarker);
 
+			this._textArea = this._cursorMarker._textArea;
+
 			// move the hidden input field with the cursor
-			var clipContainer = L.DomUtil.get('doc-clipboard-container');
+			/*var clipContainer = L.DomUtil.get('doc-clipboard-container');
 			var pos = this._map.latLngToContainerPoint(L.latLng(this._visibleCursor.getCenter())).round();
 			L.DomUtil.setPosition(clipContainer, pos);
+			*/
 		}
-		else if (this._cursorMarker) {
+		/*else if (this._cursorMarker) {
 			this._map.removeLayer(this._cursorMarker);
 			this._isCursorOverlayVisible = false;
-		}
+		}*/
 	},
 
 	// Update colored non-blinking view cursor

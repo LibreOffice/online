@@ -661,11 +661,11 @@ L.Map = L.Evented.extend({
 	},
 
 	focus: function () {
-		console.debug('focus:');
+		/*console.debug('focus:');
 		if (this._docLayer && document.activeElement !== this._docLayer._textArea) {
 			console.debug('focus: focussing');
 			this._docLayer._textArea.focus();
-		}
+		}*/
 	},
 
 	_fireInitComplete: function (condition) {
@@ -692,14 +692,14 @@ L.Map = L.Evented.extend({
 			throw new Error('Map container is already initialized.');
 		}
 
-		var textAreaContainer = L.DomUtil.create('div', 'clipboard-container', container.parentElement);
-		textAreaContainer.id = 'doc-clipboard-container';
+		/*var textAreaContainer = L.DomUtil.get('leaflet-cursor-container');
 		this._textArea = L.DomUtil.create('input', 'clipboard', textAreaContainer);
 		this._textArea.setAttribute('type', 'text');
 		this._textArea.setAttribute('autocorrect', 'off');
 		this._textArea.setAttribute('autocapitalize', 'off');
 		this._textArea.setAttribute('autocomplete', 'off');
 		this._textArea.setAttribute('spellcheck', 'false');
+		*/
 		this._resizeDetector = L.DomUtil.create('iframe', 'resize-detector', container);
 		this._fileDownloader = L.DomUtil.create('iframe', '', container);
 		L.DomUtil.setStyle(this._fileDownloader, 'display', 'none');
@@ -824,7 +824,7 @@ L.Map = L.Evented.extend({
 		L.DomEvent[onOff](this._container, 'click dblclick mousedown mouseup ' +
 			'mouseover mouseout mousemove contextmenu dragover drop ' +
 			'keydown keypress keyup trplclick qdrplclick', this._handleDOMEvent, this);
-		L.DomEvent[onOff](this._textArea, 'copy cut paste keydown keypress keyup compositionstart compositionupdate compositionend textInput', this._handleDOMEvent, this);
+		//L.DomEvent[onOff](this._textArea, 'copy cut paste keydown keypress keyup compositionstart compositionupdate compositionend textInput', this._handleDOMEvent, this);
 
 		if (this.options.trackResize && this._resizeDetector.contentWindow) {
 			L.DomEvent[onOff](this._resizeDetector.contentWindow, 'resize', this._onResize, this);
@@ -1065,10 +1065,10 @@ L.Map = L.Evented.extend({
 		// .focus() method on hidden input within actual 'click' event here
 		// Calling from some other place with no real 'click' event doesn't work
 		if (type === 'click') {
-			if (this._permission === 'edit') {
+			/*if (this._permission === 'edit') {
 				this._textArea.blur();
 				this._textArea.focus();
-			}
+			}*/
 
 			// unselect if anything is selected already
 			if (this._docLayer && this._docLayer._annotations && this._docLayer._annotations.unselect) {
