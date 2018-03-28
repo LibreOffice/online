@@ -1,3 +1,4 @@
+changequote([,])dnl
 <!DOCTYPE html>
 <!-- saved from url=(0054)http://leafletjs.com/examples/quick-start-example.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -19,6 +20,7 @@
   window.addEventListener('message', PostMessageReadyListener, false);
 </script>
 <link rel="stylesheet" href="/loleaflet/%VERSION%/branding.css"> <!-- add your logo here -->
+ifelse(debug,[true],[<link rel="stylesheet" href="/loleaflet/%VERSION%/w2ui-1.5.rc1.css">],[dnl])
 <link rel="localizations" href="/loleaflet/%VERSION%/l10n/localizations.json" type="application/vnd.oftn.l10n+json"/>
 <link rel="localizations" href="/loleaflet/%VERSION%/l10n/locore-localizations.json" type="application/vnd.oftn.l10n+json" />
 <link rel="localizations" href="/loleaflet/%VERSION%/l10n/uno-localizations.json" type="application/vnd.oftn.l10n+json" />
@@ -45,11 +47,16 @@
 	</label>
 	<ul id="main-menu" class="sm sm-simple lo-menu"></ul>
       </nav>
-      <div id="toolbar-wrapper">
-	<div id="toolbar-up"></div>
-	<div id="formulabar"></div>
-	<div id="toolbar-up-more"></div>
-      </div>
+      <table id="toolbar-wrapper">
+	<tr>
+	  <td id="toolbar-logo"></td>
+	  <td id="toolbar-up"</td>
+	  <td id="toolbar-hamburger"></td>
+	</tr>
+	<tr>
+	  <td colspan="3" id="formulabar"></td>
+	</tr>
+      </table>
       <input id="insertgraphic" type="file" style="position: fixed; top: -100em">
     </div>
 
@@ -100,6 +107,8 @@
     </script>
     <script src="/loleaflet/%VERSION%/branding.js"></script> <!-- logo onclick handler -->
     <script src="/loleaflet/%VERSION%/bundle.js"></script>
-    <script src="/loleaflet/%VERSION%/toolbar/w2ui.min.js"></script>
+ifelse(debug,[true],
+[    <script src="/loleaflet/%VERSION%/toolbar/w2ui-1.5.rc1.js"></script>],
+[    <script src="/loleaflet/%VERSION%/toolbar/w2ui-1.5.rc1.min.js"></script>])
     <script src="/loleaflet/%VERSION%/toolbar/toolbar.js"></script>
 </body></html>
