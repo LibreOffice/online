@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a30ddce_2c307656",
+        "filename": "loolwsd.xml.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2018-04-09T13:34:20Z",
+      "side": 1,
+      "message": "I think it would be better if we put this into the existing \u003cnet\u003e tag?",
+      "range": {
+        "startLine": 84,
+        "startChar": 3,
+        "endLine": 86,
+        "endChar": 17
+      },
+      "revId": "4cfaef3c9dbb35e4e46ff9b8b20248a35f93c91c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a30ddce_0c2bb2ec",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1893,
+      "author": {
+        "id": 1000897
+      },
+      "writtenOn": "2018-04-09T13:34:20Z",
+      "side": 1,
+      "message": "Can we please factor out this code somewhere (preferrably in Util::)?\n\nStorage.cpp is using the same code too.",
+      "range": {
+        "startLine": 1880,
+        "startChar": 16,
+        "endLine": 1893,
+        "endChar": 21
+      },
+      "revId": "4cfaef3c9dbb35e4e46ff9b8b20248a35f93c91c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
