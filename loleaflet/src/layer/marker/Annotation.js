@@ -72,6 +72,13 @@ L.Annotation = L.Layer.extend({
 		return L.bounds(point, point.add(L.point(this._container.offsetWidth, this._container.offsetHeight)));
 	},
 
+	getLatLngBounds: function() {
+		var topLeft = this._map.project(this._latlng);
+		var bottomRight = topLeft.add(L.point(this._container.offsetWidth, this._container.offsetHeight));
+		var sw = this._map.unproject(L.point(topLeft.x, bottomRight.y));
+		var ne = this._map.unproject(L.point(bottomRight.x, topLeft.y));
+		return new L.LatLngBounds(sw, ne);
+	},
 
 	show: function () {
 		this._container.style.visibility = '';
@@ -117,6 +124,7 @@ L.Annotation = L.Layer.extend({
 	focus: function () {
 		this._nodeModifyText.focus();
 		this._nodeReplyText.focus();
+		this._updateScroll();
 	},
 
 	parentOf: function(comment) {
@@ -232,9 +240,10 @@ L.Annotation = L.Layer.extend({
 		this._nodeModify.style.display = 'none';
 		this._nodeReply.style.display = 'none';
 
-		var events = [click, 'dblclick', 'mousedown', 'mouseup', 'mouseover', 'mouseout', 'keydown', 'keypress', 'keyup'];
+		var events = [click, 'dblclick', 'mousedown', 'mouseup', 'mouseover', 'mouseout', 'keypress', 'keyup'];
 		L.DomEvent.on(container, click, this._onMouseClick, this);
 		L.DomEvent.on(container, 'mouseleave', this._onMouseLeave, this);
+		L.DomEvent.on(container, 'keydown', this._onKeyDown, this);
 		for (var it = 0; it < events.length; it++) {
 			L.DomEvent.on(container, events[it], L.DomEvent.stopPropagation, this);
 		}
@@ -298,6 +307,11 @@ L.Annotation = L.Layer.extend({
 		});
 	},
 
+	_onKeyDown: function (e) {
+		L.DomEvent.stopPropagation(e);
+		this._updateScroll();
+	},
+
 	_onReplyClick: function (e) {
 		L.DomEvent.stopPropagation(e);
 		this._data.reply = this._nodeReplyText.value;
@@ -347,6 +361,39 @@ L.Annotation = L.Layer.extend({
 			L.DomUtil.setPosition(this._container, pos);
 		}
 		this._checkBounds();
+	},
+
+	_updateScroll: function () {
+		if (this._map._docLayer._docType !== 'spreadsheet')
+			return;
+
+		var thisBounds = this.getLatLngBounds();
+		var mapBounds = this._map.getBounds();
+
+		if (!mapBounds.contains(thisBounds)) {
+			var spacingX = Math.abs(mapBounds.getEast() - mapBounds.getWest()) / 40.0;
+			var spacingY = Math.abs((mapBounds.getSouth() - mapBounds.getNorth())) / 20.0;
+
+			var scrollX = 0, scrollY = 0;
+			if (thisBounds.getEast() > mapBounds.getEast())
+				scrollX = thisBounds.getEast() - mapBounds.getEast() + spacingX;
+			else if (thisBounds.getWest() < mapBounds.getWest())
+				scrollX = thisBounds.getWest() - mapBounds.getWest() - spacingX;
+			if (thisBounds.getNorth() > mapBounds.getNorth())
+				scrollY = thisBounds.getNorth() - mapBounds.getNorth() + spacingY;
+			else if (thisBounds.getSouth() < mapBounds.getSouth())
+				scrollY = thisBounds.getSouth() - mapBounds.getSouth() - spacingY;
+			if (scrollX !== 0 || scrollY !== 0) {
+				var newCenter = mapBounds.getCenter();
+				newCenter.lng += scrollX;
+				newCenter.lat += scrollY;
+				var center = this._map.project(newCenter);
+				center = center.subtract(this._map.getSize().divideBy(2));
+				center.x = Math.round(center.x < 0 ? 0 : center.x);
+				center.y = Math.round(center.y < 0 ? 0 : center.y);
+				this._map.fire('scrollto', {x: center.x, y: center.y});
+			}
+		}
 	}
 });
 
