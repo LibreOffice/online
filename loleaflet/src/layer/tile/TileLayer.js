@@ -50,7 +50,8 @@ L.TileLayer = L.GridLayer.extend({
 		crossOrigin: false,
 		previewInvalidationTimeout: 1000,
 		marginX: 10,
-		marginY: 10
+		marginY: 10,
+		mobileWidth: 768
 	},
 
 	initialize: function (url, options) {
@@ -2042,8 +2043,14 @@ L.TileLayer = L.GridLayer.extend({
 	_fitWidthZoom: function (e, maxZoom) {
 		var size = e ? e.newSize : this._map.getSize();
 		var widthTwips = size.x * this._map.options.tileWidthTwips / this._tileSize;
-		maxZoom = maxZoom ? maxZoom : this._map.getZoom();
+		if (size.x < this.options.mobileWidth) {
+			if (this._map.options.zoom !== this._map.getZoom()) {
+				this._map.setZoom(this._map.options.zoom, {animate: false});
+			}
+			return;
+		}
 
+		maxZoom = maxZoom ? maxZoom : this._map.getZoom();
 		// 'fit width zoom' has no use in spreadsheets, ignore it there
 		if (this._docType !== 'spreadsheet') {
 			var crsScale = this._map.options.crs.scale(1);
