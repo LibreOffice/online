@@ -508,6 +508,8 @@ bool DocumentBroker::load(const std::shared_ptr<ClientSession>& session, const s
         wopiInfo->set("DisableCopy", wopifileinfo->_disableCopy);
         wopiInfo->set("DisableInactiveMessages", wopifileinfo->_disableInactiveMessages);
         wopiInfo->set("UserCanNotWriteRelative", wopifileinfo->_userCanNotWriteRelative);
+        if (wopifileinfo->_hideChangeTrackingControls != WopiStorage::WOPIFileInfo::TriState::Unset)
+            wopiInfo->set("HideChangeTrackingControls", wopifileinfo->_hideChangeTrackingControls == WopiStorage::WOPIFileInfo::TriState::True);
 
         std::ostringstream ossWopiInfo;
         wopiInfo->stringify(ossWopiInfo);
@@ -1445,6 +1447,16 @@ void DocumentBroker::setModified(const bool value)
 
     _storage->setUserModified(value);
     _tileCache->setUnsavedChanges(value);
+}
+
+bool DocumentBroker::isInitialSettingSet(const std::string& name) const
+{
+    return _isInitialStateSet.find(name) != _isInitialStateSet.end();
+}
+
+void DocumentBroker::setInitialSetting(const std::string& name)
+{
+    _isInitialStateSet.emplace(name);
 }
 
 bool DocumentBroker::forwardToChild(const std::string& viewId, const std::string& message)
