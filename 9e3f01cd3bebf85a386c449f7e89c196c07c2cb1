@@ -22,6 +22,30 @@
       "revId": "9e3f01cd3bebf85a386c449f7e89c196c07c2cb1",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a30ddce_f8635d3f",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2018-04-24T23:34:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a30ddce_381095a8",
+      "range": {
+        "startLine": 505,
+        "startChar": 8,
+        "endLine": 505,
+        "endChar": 95
+      },
+      "revId": "9e3f01cd3bebf85a386c449f7e89c196c07c2cb1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
