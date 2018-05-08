@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a30ddce_1678f0c3",
+        "filename": "loolwsd.xml.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2018-05-08T12:00:47Z",
+      "side": 1,
+      "message": "Probably a good idea to remove /tmp/ from the path to discourage from exposing sensitive data in /tmp, which is accessible by all.",
+      "revId": "e88844474db51c3b0f6dca05bad908beff9e19f4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
