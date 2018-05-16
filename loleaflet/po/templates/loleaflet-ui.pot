@@ -625,11 +625,11 @@ msgid "ODF text document (.odt)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:25
-msgid "Microsoft Word 2003 (.doc)"
+msgid "Word 2003 (.doc)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:26
-msgid "Microsoft Word (.docx)"
+msgid "Word (.docx)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:27
@@ -675,11 +675,11 @@ msgid "ODF presentation (.odp)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:235
-msgid "Microsoft Powerpoint 2003 (.ppt)"
+msgid "PowerPoint 2003 (.ppt)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:236
-msgid "Microsoft Powerpoint (.pptx)"
+msgid "PowerPoint (.pptx)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:314
@@ -687,11 +687,11 @@ msgid "ODF spreadsheet (.ods)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:315
-msgid "Microsoft Excel 2003 (.xls)"
+msgid "Excel 2003 (.xls)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:316
-msgid "Microsoft Excel (.xlsx)"
+msgid "Excel (.xlsx)"
 msgstr ""
 
 #: src/control/Control.Menubar.js:460
