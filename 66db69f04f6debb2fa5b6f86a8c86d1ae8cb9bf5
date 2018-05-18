@@ -16,6 +16,24 @@
       "revId": "66db69f04f6debb2fa5b6f86a8c86d1ae8cb9bf5",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a30ddce_b4af0d93",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2018-05-18T11:43:19Z",
+      "side": 1,
+      "message": "Yes, the gitHash is like /12345abcd/",
+      "parentUuid": "9a30ddce_b4b8ede6",
+      "revId": "66db69f04f6debb2fa5b6f86a8c86d1ae8cb9bf5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
