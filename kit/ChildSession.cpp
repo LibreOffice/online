@@ -207,7 +207,7 @@ bool ChildSession::_handleInput(const char *buffer, int length)
     }
     else if (tokens[0] == "paintwindow")
     {
-        return renderWindow(buffer, length, tokens);
+        return renderWindow(tokens);
     }
     else if (tokens[0] == "tile" || tokens[0] == "tilecombine")
     {
@@ -985,7 +985,7 @@ bool ChildSession::selectText(const char* /*buffer*/, int /*length*/, const std:
     return true;
 }
 
-bool ChildSession::renderWindow(const char* /*buffer*/, int /*length*/, const std::vector<std::string>& tokens)
+bool ChildSession::renderWindow(const std::vector<std::string>& tokens)
 {
     std::unique_lock<std::mutex> lock(_docManager.getDocumentMutex());
     getLOKitDocument()->setView(_viewId);
@@ -1531,8 +1531,28 @@ void ChildSession::loKitCallback(const int type, const std::string& payload)
         sendTextFrame("rulerupdate: " + payload);
         break;
     case LOK_CALLBACK_WINDOW:
-        sendTextFrame("window: " + payload);
+    {
+        std::vector<std::string> tokens;
+        Poco::JSON::Parser parser;
+        Poco::Dynamic::Var var = parser.parse(payload);
+        Object::Ptr object = var.extract<Object::Ptr>();
+        if(object->get("action").toString() == "invalidate")
+        {
+            tokens.push_back("");
+            tokens.push_back(object->get("id").toString());
+
+            if (object->has("rectangle"))
+            {
+                std::string sRectangle = object->get("rectangle").toString();
+                sRectangle.erase(std::remove(sRectangle.begin(), sRectangle.end(), ' '), sRectangle.end());
+                tokens.push_back("rectangle=" + sRectangle);
+            }
+            renderWindow(tokens);
+        }
+        else
+            sendTextFrame("window: " + payload);
         break;
+    }
     case LOK_CALLBACK_VALIDITY_LIST_BUTTON:
         sendTextFrame("validitylistbutton: " + payload);
         break;

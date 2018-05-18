@@ -124,20 +124,7 @@ L.Control.LokDialog = L.Control.extend({
 		if (!(this._isOpen(e.id) || this._getParentDialog(e.id)))
 			return;
 
-		if (e.action === 'invalidate') {
-			var parent = this._getParentDialog(e.id);
-			var rectangle = e.rectangle;
-			if (parent) { // this is a floating window
-				rectangle = '0,0,' + this._dialogs[parent].childwidth + ',' + this._dialogs[parent].childheight;
-			} else { // this is the actual dialog
-				if (rectangle && !this._isRectangleValid(rectangle))
-					return;
-
-				if (!rectangle)
-					rectangle = '0,0,' + this._dialogs[e.id].width + ',' + this._dialogs[e.id].height;
-			}
-			this._sendPaintWindow(e.id, rectangle);
-		} else if (e.action === 'size_changed') {
+		if (e.action === 'size_changed') {
 			width = parseInt(e.size.split(',')[0]);
 			height = parseInt(e.size.split(',')[1]);
 			// FIXME: we don't really have to destroy and launch the dialog again but do it for
@@ -147,7 +134,7 @@ L.Control.LokDialog = L.Control.extend({
 			this._sendPaintWindow(e.id, this._createRectStr(e.id));
 		} else if (e.action === 'cursor_invalidate') {
 			if (this._isOpen(e.id) && !!e.rectangle) {
-				rectangle = e.rectangle.split(',');
+				var rectangle = e.rectangle.split(',');
 				var x = parseInt(rectangle[0]);
 				var y = parseInt(rectangle[1]);
 				height = parseInt(rectangle[3]);
@@ -171,7 +158,10 @@ L.Control.LokDialog = L.Control.extend({
 				this._onDialogChildClose(this._toDlgPrefix(parent));
 			else
 				this._onDialogClose(e.id, false);
+		} else if (e.action === 'invalidate') {
+			console.log('Invalidate message should be handled on server side');
 		}
+
 	},
 
 	_openDialog: function(e) {

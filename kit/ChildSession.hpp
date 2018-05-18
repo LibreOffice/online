@@ -194,7 +194,7 @@ private:
     bool unoCommand(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool selectText(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool selectGraphic(const char* buffer, int length, const std::vector<std::string>& tokens);
-    bool renderWindow(const char* buffer, int length, const std::vector<std::string>& tokens);
+    bool renderWindow(const std::vector<std::string>& tokens);
     bool resetSelection(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool saveAs(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool setClientPart(const char* buffer, int length, const std::vector<std::string>& tokens);
