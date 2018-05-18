@@ -34,6 +34,24 @@
       "revId": "66db69f04f6debb2fa5b6f86a8c86d1ae8cb9bf5",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a30ddce_14aff981",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2018-05-18T12:17:53Z",
+      "side": 1,
+      "message": "It is necessary to configure with --enable-debug for unit tests to pass. But in that case cache is disabled unconditionally. It is limited what we can test here. We can test the new FileServerRequestHandler::getRequestPathname().",
+      "parentUuid": "9a30ddce_b4b8ede6",
+      "revId": "66db69f04f6debb2fa5b6f86a8c86d1ae8cb9bf5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
