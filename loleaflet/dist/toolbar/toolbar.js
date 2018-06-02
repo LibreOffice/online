@@ -325,7 +325,8 @@ var fontsSelectValue;
 var fontsizesSelectValue;
 
 $(function () {
-	$('#toolbar-up').w2toolbar({
+	var toolbar = $('#toolbar-up');
+	toolbar.w2toolbar({
 		name: 'toolbar-up',
 		items: [
 			{type: 'html', id: 'left'},
@@ -406,8 +407,10 @@ $(function () {
 			insertTable();
 		}
 	});
+	toolbar.contextmenu(function() { return false; });
 
-	$('#formulabar').w2toolbar({
+	toolbar = $('#formulabar');
+	toolbar.w2toolbar({
 		name: 'formulabar',
 		items: [
 			{type: 'html',  id: 'left'},
@@ -429,7 +432,10 @@ $(function () {
 			$('#formulaInput').off('focus', onFormulaBarFocus).on('focus', onFormulaBarFocus);
 		}
 	});
-	$('#spreadsheet-toolbar').w2toolbar({
+	toolbar.contextmenu(function() { return false; });
+
+	toolbar = $('#spreadsheet-toolbar')
+	toolbar.w2toolbar({
 		name: 'spreadsheet-toolbar',
 		items: [
 			{type: 'button',  id: 'firstrecord',  img: 'firstrecord', hidden: true, hint: _('First sheet')},
@@ -442,7 +448,10 @@ $(function () {
 			onClick(e, e.target);
 		}
 	});
-	$('#presentation-toolbar').w2toolbar({
+	toolbar.contextmenu(function() { return false; });
+
+	toolbar = $('#presentation-toolbar');
+	toolbar.w2toolbar({
 		name: 'presentation-toolbar',
 		items: [
 			{type: 'html',  id: 'left'},
@@ -457,8 +466,10 @@ $(function () {
 			onClick(e, e.target);
 		}
 	});
+	toolbar.contextmenu(function() { return false; });
 
-	$('#toolbar-down').w2toolbar({
+	toolbar = $('#toolbar-down');
+	toolbar.w2toolbar({
 		name: 'toolbar-down',
 		items: [
 			{type: 'html',  id: 'search',
@@ -519,6 +530,7 @@ $(function () {
 			$('#search-input').off('keydown', onSearchKeyDown).on('keydown', onSearchKeyDown);
 		}
 	});
+	toolbar.contextmenu(function() { return false; });
 });
 
 var userJoinedPopupMessage = '<div>' + _('%user has joined') + '</div>';
