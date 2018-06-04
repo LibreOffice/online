@@ -2141,7 +2141,7 @@ void lokit_main(const std::string& childRoot,
     Log::initialize("kit", bTraceStartup ? "trace" : logLevel, logColor != nullptr, logToFile, logProperties);
     if (bTraceStartup && LogLevel != "trace")
     {
-        LOG_INF("Setting log-level to [trace] and delaying setting to requested [" << LogLevel << "].");
+        LOG_INF("Setting log-level to [trace] and delaying setting to configured [" << LogLevel << "] until after Kit initialization.");
     }
 
     assert(!childRoot.empty());
@@ -2359,6 +2359,12 @@ void lokit_main(const std::string& childRoot,
 
         mainKit.insertNewWebSocketSync(uri, std::make_shared<KitWebSocketHandler>("child_ws_" + pid, loKit, jailId, mainKit));
         LOG_INF("New kit client websocket inserted.");
+
+        if (bTraceStartup && LogLevel != "trace")
+        {
+            LOG_INF("Kit initialization complete: setting log-level to [" << LogLevel << "] as configured.");
+            Log::logger().setLevel(LogLevel);
+        }
 
         while (!TerminationFlag)
         {
