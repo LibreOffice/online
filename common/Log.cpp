@@ -9,12 +9,11 @@
 
 #include <config.h>
 
-#include <sys/prctl.h>
-#include <sys/syscall.h>
-#include <unistd.h>
+#include "Log.hpp"
 
 #include <atomic>
 #include <cassert>
+#include <cstring>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -30,7 +29,6 @@
 #include <Poco/Thread.h>
 #include <Poco/Timestamp.h>
 
-#include "Log.hpp"
 #include "Util.hpp"
 
 namespace Log
@@ -60,7 +58,7 @@ namespace Log
     {
         while (true)
         {
-            const int length = strlen(message);
+            const int length = std::strlen(message);
             const int written = write (STDERR_FILENO, message, length);
             if (written < 0)
             {
@@ -78,7 +76,7 @@ namespace Log
 
     // We need a signal safe means of writing messages
     //   $ man 7 signal
-    void signalLogNumber(size_t num)
+    void signalLogNumber(std::size_t num)
     {
         int i;
         char buf[22];
@@ -91,26 +89,13 @@ namespace Log
         signalLog(buf + i + 1);
     }
 
-    char* prefix(char* buffer, const char* level, bool sigSafe)
+    char* prefix(char* buffer, const std::size_t len, const char* level)
     {
-        long osTid;
-        char procName[32];
-        const char *threadName = procName;
-        if (sigSafe)
-        {
-            osTid = syscall(SYS_gettid);
-
-            if (prctl(PR_GET_NAME, reinterpret_cast<unsigned long>(procName), 0, 0, 0) != 0)
-                strncpy(procName, "<noid>", sizeof(procName) - 1);
-        }
-        else
-        {
-            osTid = Util::getThreadId();
-            threadName = Util::getThreadName();
-        }
+        const long osTid = Util::getThreadId();
+        const char *threadName = Util::getThreadName();
 
         Poco::DateTime time;
-        snprintf(buffer, 1023, "%s-%.05lu %.4u-%.2u-%.2u %.2u:%.2u:%.2u.%.6u [ %s ] %s  ",
+        snprintf(buffer, len, "%s-%.05lu %.4u-%.2u-%.2u %.2u:%.2u:%.2u.%.6u [ %s ] %s  ",
                     (Source.inited ? Source.id.c_str() : "<shutdown>"),
                     osTid,
                     time.year(), time.month(), time.day(),
@@ -123,7 +108,7 @@ namespace Log
     void signalLogPrefix()
     {
         char buffer[1024];
-        prefix(buffer, "SIG", true);
+        prefix(buffer, sizeof(buffer) - 1, "SIG");
         signalLog(buffer);
     }
 
