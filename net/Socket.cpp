@@ -9,9 +9,13 @@
 
 #include <config.h>
 
-#include <stdio.h>
+#include "Socket.hpp"
+
+#include <cstring>
 #include <ctype.h>
 #include <iomanip>
+#include <stdio.h>
+#include <unistd.h>
 #include <zlib.h>
 
 #include <Poco/DateTime.h>
@@ -23,7 +27,6 @@
 #include <Poco/URI.h>
 
 #include <SigUtil.hpp>
-#include "Socket.hpp"
 #include "ServerSocket.hpp"
 #include "SslSocket.hpp"
 #include "WebSocketHandler.hpp"
@@ -165,7 +168,7 @@ void SocketPoll::insertNewWebSocketSync(const Poco::URI &uri, const std::shared_
                 if (fd < 0 || (res < 0 && errno != EINPROGRESS))
                 {
                     LOG_ERR("Failed to connect to " << uri.getHost());
-                    close(fd);
+                    ::close(fd);
                 }
                 else
                 {
@@ -206,7 +209,7 @@ void SocketPoll::insertNewWebSocketSync(const Poco::URI &uri, const std::shared_
                     else
                     {
                         LOG_ERR("Failed to allocate socket for client websocket " << uri.getHost());
-                        close(fd);
+                        ::close(fd);
                     }
 
                     break;

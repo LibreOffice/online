@@ -12,6 +12,9 @@
  */
 
 #include <config.h>
+
+#include "Seccomp.hpp"
+
 #include <dlfcn.h>
 #include <ftw.h>
 #include <linux/audit.h>
@@ -24,13 +27,13 @@
 #include <sys/capability.h>
 #include <sys/prctl.h>
 #include <sys/resource.h>
+#include <sys/syscall.h>
 #include <sys/time.h>
 #include <unistd.h>
 #include <utime.h>
 
 #include <common/Log.hpp>
 #include <common/SigUtil.hpp>
-#include "Seccomp.hpp"
 
 #if DISABLE_SECCOMP == 0
 #ifndef SYS_SECCOMP
