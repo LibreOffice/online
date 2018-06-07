@@ -2353,6 +2353,7 @@ void lokit_main(const std::string& childRoot,
         }
 
         SocketPoll mainKit("kit");
+        mainKit.runOnClientThread(); // We will do the polling on this thread.
 
         mainKit.insertNewWebSocketSync(uri, std::make_shared<KitWebSocketHandler>("child_ws_" + pid, loKit, jailId, mainKit));
         LOG_INF("New kit client websocket inserted.");
