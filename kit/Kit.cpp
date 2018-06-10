@@ -99,11 +99,16 @@ using Poco::Process;
 #endif
 
 using namespace LOOLProtocol;
+using std::size_t;
 
 // We only host a single document in our lifetime.
 class Document;
 static std::shared_ptr<Document> document;
 static LokHookFunction2* initFunction = nullptr;
+#ifndef BUILDING_TESTS
+static bool AnonymizeFilenames = false;
+static bool AnonymizeUsernames = false;
+#endif
 
 #if ENABLE_DEBUG
 #  define ADD_DEBUG_RENDERID(s) ((s)+ " renderid=" + Util::UniqueId())
@@ -1219,7 +1224,9 @@ private:
     /// Load a document (or view) and register callbacks.
     bool onLoad(const std::string& sessionId,
                 const std::string& uri,
+                const std::string& uriAnonym,
                 const std::string& userName,
+                const std::string& userNameAnonym,
                 const std::string& docPassword,
                 const std::string& renderOpts,
                 const bool haveDocPassword,
@@ -1228,7 +1235,7 @@ private:
     {
         std::unique_lock<std::mutex> lock(_mutex);
 
-        LOG_INF("Loading url [" << uri << "] for session [" << sessionId <<
+        LOG_INF("Loading url [" << uriAnonym << "] for session [" << sessionId <<
                 "] which has " << (_sessions.size() - 1) <<
                 " sessions. Another load in progress: " << _isLoading);
 
@@ -1253,14 +1260,14 @@ private:
 
         try
         {
-            if (!load(session, uri, userName, docPassword, renderOpts, haveDocPassword, lang, watermarkText))
+            if (!load(session, uri, uriAnonym, userName, userNameAnonym, docPassword, renderOpts, haveDocPassword, lang, watermarkText))
             {
                 return false;
             }
         }
         catch (const std::exception& exc)
         {
-            LOG_ERR("Exception while loading url [" << uri <<
+            LOG_ERR("Exception while loading url [" << uriAnonym <<
                     "] for session [" << sessionId << "]: " << exc.what());
             return false;
         }
@@ -1491,7 +1498,9 @@ private:
 
     std::shared_ptr<lok::Document> load(const std::shared_ptr<ChildSession>& session,
                                         const std::string& uri,
+                                        const std::string& uriAnonym,
                                         const std::string& userName,
+                                        const std::string& userNameAnonym,
                                         const std::string& docPassword,
                                         const std::string& renderOpts,
                                         const bool haveDocPassword,
@@ -1505,7 +1514,7 @@ private:
         if (!_loKitDocument)
         {
             // This is the first time we are loading the document
-            LOG_INF("Loading new document from URI: [" << uri << "] for session [" << sessionId << "].");
+            LOG_INF("Loading new document from URI: [" << uriAnonym << "] for session [" << sessionId << "].");
 
             _loKit->registerCallback(GlobalCallback, this);
 
@@ -1527,22 +1536,22 @@ private:
             if (!lang.empty())
                 options = "Language=" + lang;
 
-            LOG_DBG("Calling lokit::documentLoad(" << uri << ", \"" << options << "\").");
+            LOG_DBG("Calling lokit::documentLoad(" << uriAnonym << ", \"" << options << "\").");
             Timestamp timestamp;
             _loKitDocument.reset(_loKit->documentLoad(uri.c_str(), options.c_str()));
-            LOG_DBG("Returned lokit::documentLoad(" << uri << ") in " << (timestamp.elapsed() / 1000.) << "ms.");
+            LOG_DBG("Returned lokit::documentLoad(" << uriAnonym << ") in " << (timestamp.elapsed() / 1000.) << "ms.");
 
             if (!_loKitDocument || !_loKitDocument->get())
             {
-                LOG_ERR("Failed to load: " << uri << ", error: " << _loKit->getError());
+                LOG_ERR("Failed to load: " << uriAnonym << ", error: " << _loKit->getError());
 
                 // Checking if wrong password or no password was reason for failure.
                 if (_isDocPasswordProtected)
                 {
-                    LOG_INF("Document [" << uri << "] is password protected.");
+                    LOG_INF("Document [" << uriAnonym << "] is password protected.");
                     if (!_haveDocPassword)
                     {
-                        LOG_INF("No password provided for password-protected document [" << uri << "].");
+                        LOG_INF("No password provided for password-protected document [" << uriAnonym << "].");
                         std::string passwordFrame = "passwordrequired:";
                         if (_docPasswordType == PasswordType::ToView)
                             passwordFrame += "to-view";
@@ -1552,7 +1561,7 @@ private:
                     }
                     else
                     {
-                        LOG_INF("Wrong password for password-protected document [" << uri << "].");
+                        LOG_INF("Wrong password for password-protected document [" << uriAnonym << "].");
                         session->sendTextFrame("error: cmd=load kind=wrongpassword");
                     }
                 }
@@ -1569,7 +1578,7 @@ private:
         }
         else
         {
-            LOG_INF("Document with url [" << uri << "] already loaded. Need to create new view for session [" << sessionId << "].");
+            LOG_INF("Document with url [" << uriAnonym << "] already loaded. Need to create new view for session [" << sessionId << "].");
 
             // Check if this document requires password
             if (_isDocPasswordProtected)
@@ -1591,17 +1600,17 @@ private:
                 }
             }
 
-            LOG_INF("Creating view to url [" << uri << "] for session [" << sessionId << "].");
+            LOG_INF("Creating view to url [" << uriAnonym << "] for session [" << sessionId << "].");
             _loKitDocument->createView();
-            LOG_TRC("View to url [" << uri << "] created.");
+            LOG_TRC("View to url [" << uriAnonym << "] created.");
         }
 
-        const std::string renderParams = makeRenderParams(_renderOpts, userName);
         LOG_INF("Initializing for rendering session [" << sessionId << "] on document url [" <<
-                _url << "] with: [" << renderParams << "].");
+                _url << "] with: [" << makeRenderParams(_renderOpts, userNameAnonym) << "].");
 
         // initializeForRendering() should be called before
         // registerCallback(), as the previous creates a new view in Impress.
+        const std::string renderParams = makeRenderParams(_renderOpts, userName);
         _loKitDocument->initializeForRendering(renderParams.c_str());
 
         const int viewId = _loKitDocument->getView();
@@ -2083,6 +2092,11 @@ void lokit_main(const std::string& childRoot,
     {
         LOG_INF("Setting log-level to [trace] and delaying setting to configured [" << LogLevel << "] until after Kit initialization.");
     }
+
+    AnonymizeFilenames = std::getenv("LOOL_ANONYMIZE_FILENAMES") != nullptr;
+    LOG_INF("Filename anonymization is " << (AnonymizeFilenames ? "enabled." : "disabled."));
+    AnonymizeUsernames = std::getenv("LOOL_ANONYMIZE_USERNAMES") != nullptr;
+    LOG_INF("Username anonymization is " << (AnonymizeUsernames ? "enabled." : "disabled."));
 
     assert(!childRoot.empty());
     assert(!sysTemplate.empty());
