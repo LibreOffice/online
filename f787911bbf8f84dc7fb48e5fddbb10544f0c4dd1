@@ -16,6 +16,24 @@
       "revId": "f787911bbf8f84dc7fb48e5fddbb10544f0c4dd1",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a22e58a_58090431",
+        "filename": "common/FileUtil.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2018-06-11T23:41:36Z",
+      "side": 1,
+      "message": "Was feeling conservative I guess :) Should do it though. Thanks.",
+      "parentUuid": "5a22e58a_98461cbe",
+      "revId": "f787911bbf8f84dc7fb48e5fddbb10544f0c4dd1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
