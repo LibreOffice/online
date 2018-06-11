@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a22e58a_98461cbe",
+        "filename": "common/FileUtil.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2018-06-11T20:15:53Z",
+      "side": 1,
+      "message": "why not scoped around the filesystems.insert instead ? \u003d) saves a potentially slow lock-hold over the stat (10ms+ perhaps) \u003d)",
+      "revId": "f787911bbf8f84dc7fb48e5fddbb10544f0c4dd1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
