@@ -1140,6 +1140,8 @@ bool ChildSession::saveAs(const char* /*buffer*/, int /*length*/, const std::vec
         return false;
     }
 
+    const std::string urlAnonym = anonymizeUrl(url);
+
     // if the url is a 'wopi:///something/blah.odt', then save to a temporary
     Poco::URI wopiURL(url);
     if (wopiURL.getScheme() == "wopi")
@@ -1181,13 +1183,13 @@ bool ChildSession::saveAs(const char* /*buffer*/, int /*length*/, const std::vec
             filterOptions = "EmbedImages";
         }
 
-        LOG_DBG("Calling LOK's saveAs with: '" << url.c_str() << "', '" <<
-                (format.size() == 0 ? "(nullptr)" : format.c_str()) << "', '" <<
-                (filterOptions.size() == 0 ? "(nullptr)" : filterOptions.c_str()) << "'.");
+        LOG_DBG("Calling LOK's saveAs with: url='" << urlAnonym << "', format='" <<
+                (format.empty() ? "(nullptr)" : format.c_str()) << "', filterOptions='" <<
+                (filterOptions.empty() ? "(nullptr)" : filterOptions.c_str()) << "'.");
 
         success = getLOKitDocument()->saveAs(url.c_str(),
-                format.size() == 0 ? nullptr :format.c_str(),
-                filterOptions.size() == 0 ? nullptr : filterOptions.c_str());
+                                             format.empty() ? nullptr : format.c_str(),
+                                             filterOptions.empty() ? nullptr : filterOptions.c_str());
 
         if (!success)
         {
