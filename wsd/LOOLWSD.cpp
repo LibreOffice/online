@@ -2310,11 +2310,12 @@ private:
             docBrokersLock.unlock();
 
             std::string fileName;
-            bool responded = false;
             URI::decode(tokens[5], fileName);
             const Path filePath(LOOLWSD::ChildRoot + tokens[3]
                                 + JAILED_DOCUMENT_ROOT + tokens[4] + "/" + fileName);
-            LOG_INF("HTTP request for: " << filePath.toString());
+            const std::string filePathAnonym = LOOLWSD::anonymizeUrl(filePath.toString());
+            LOG_INF("HTTP request for: " << filePathAnonym);
+            bool responded = false;
             if (filePath.isAbsolute() && File(filePath).exists())
             {
                 const Poco::URI postRequestUri(request.getURI());
@@ -2351,7 +2352,7 @@ private:
             }
             else
             {
-                LOG_ERR("Download file [" << filePath.toString() << "] not found.");
+                LOG_ERR("Download file [" << filePathAnonym << "] not found.");
             }
             (void)responded;
             return;
