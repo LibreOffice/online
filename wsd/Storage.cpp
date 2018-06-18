@@ -472,11 +472,11 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
             // Set anonymized version of the above fields before logging.
             // Note: anonymization caches the result, so we don't need to store here.
             if (LOOLWSD::AnonymizeFilenames)
-                object->set("basefilename", LOOLWSD::anonymizeUrl(filename));
+                object->set("BaseFileName", LOOLWSD::anonymizeUrl(filename));
 
             if (LOOLWSD::AnonymizeUsernames)
             {
-                object->set("ownerid", LOOLWSD::anonymizeUsername(ownerId));
+                object->set("OwnerId", LOOLWSD::anonymizeUsername(ownerId));
                 object->set("UserId", LOOLWSD::anonymizeUsername(userId));
                 object->set("UserFriendlyName", LOOLWSD::anonymizeUsername(userName));
             }
