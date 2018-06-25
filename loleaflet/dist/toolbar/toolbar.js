@@ -378,6 +378,15 @@ function onColorPick(id, color) {
 	map.focus();
 }
 
+function hideTooltip(toolbar, id) {
+	if (toolbar.touchStarted) {
+		setTimeout(function() {
+			toolbar.tooltipHide(id, {});
+		}, 5000)
+		toolbar.touchStarted = false;
+	}
+}
+
 var stylesSelectValue;
 var fontsSelectValue;
 var fontsizesSelectValue;
@@ -447,6 +456,7 @@ $(function () {
 		],
 		onClick: function (e) {
 			onClick(e, e.target);
+			hideTooltip(this, e.target);
 		},
 		onRefresh: function() {
 			if (map.getDocType() === 'presentation') {
@@ -474,6 +484,9 @@ $(function () {
 		}
 	});
 	toolbar.contextmenu(function() { return false; });
+	toolbar.bind('touchstart', function() {
+		w2ui['toolbar-up'].touchStarted = true;
+	});
 
 	toolbar = $('#formulabar');
 	toolbar.w2toolbar({
@@ -490,6 +503,7 @@ $(function () {
 		],
 		onClick: function (e) {
 			onClick(e, e.target);
+			hideTooltip(this, e.target);
 		},
 		onRefresh: function(e) {
 			$('#addressInput').off('keyup', onAddressInput).on('keyup', onAddressInput);
@@ -499,6 +513,10 @@ $(function () {
 		}
 	});
 	toolbar.contextmenu(function() { return false; });
+	toolbar.bind('touchstart', function() {
+		w2ui['formulabar'].touchStarted = true;
+	});
+
 	$(w2ui.formulabar.box).find('.w2ui-scroll-left, .w2ui-scroll-right').hide();
 	w2ui.formulabar.on('resize', function(target, e) {
 		e.isCancelled = true;
@@ -516,9 +534,13 @@ $(function () {
 		],
 		onClick: function (e) {
 			onClick(e, e.target);
+			hideTooltip(this, e.target);
 		}
 	});
 	toolbar.contextmenu(function() { return false; });
+	toolbar.bind('touchstart', function() {
+		w2ui['spreadsheet-toolbar'].touchStarted = true;
+	});
 
 	toolbar = $('#presentation-toolbar');
 	toolbar.w2toolbar({
@@ -534,9 +556,13 @@ $(function () {
 		],
 		onClick: function (e) {
 			onClick(e, e.target);
+			hideTooltip(this, e.target);
 		}
 	});
 	toolbar.contextmenu(function() { return false; });
+	toolbar.bind('touchstart', function() {
+		w2ui['presentation-toolbar'].touchStarted = true;
+	});
 
 	toolbar = $('#toolbar-down');
 	toolbar.w2toolbar({
@@ -576,6 +602,7 @@ $(function () {
 			{type: 'button',  id: 'zoomin', img: 'zoomin', hint: _UNO('.uno:ZoomPlus')}
 		],
 		onClick: function (e) {
+			hideTooltip(this, e.target);
 			if (e.item.id === 'userlist') {
 				setTimeout(function() {
 					var cBox = $('#follow-checkbox')[0];
@@ -601,6 +628,9 @@ $(function () {
 		}
 	});
 	toolbar.contextmenu(function() { return false; });
+	toolbar.bind('touchstart', function() {
+		w2ui['toolbar-down'].touchStarted = true;
+	});
 });
 
 var userJoinedPopupMessage = '<div>' + _('%user has joined') + '</div>';
