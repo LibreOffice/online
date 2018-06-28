@@ -13,4 +13,7 @@
 <!-- Set a work path which is valid in chroot -->
 <item oor:path="/org.openoffice.Office.Paths/Variables"><prop oor:name="Work" oor:op="fuse"><value>file:///tmp</value></prop></item>
 
+<!-- LOOL doesn't use ruler, so diable it -->
+<item oor:path="/org.openoffice.Office.Writer/Layout/Window"><prop oor:name="ShowRulers" oor:op="fuse"><value>false</value></prop></item>
+
 </oor:items>
