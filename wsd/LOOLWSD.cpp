@@ -776,21 +776,6 @@ void LOOLWSD::initialize(Application& self)
 #endif
     setenv("LOOL_ANONYMIZE_FILENAMES", AnonymizeFilenames ? "1" : "0", true);
 
-    if (AnonymizeFilenames || AnonymizeUsernames)
-    {
-        if (LogLevel == "trace")
-        {
-            const char failure[] = "Anonymization and trace-level logging are incompatible. "
-                "Please reduce logging level to debug or lower in loolwsd.xml to prevent leaking sensitive user data.";
-            LOG_FTL(failure);
-            std::cerr << '\n' << failure << std::endl;
-#if ENABLE_DEBUG
-            std::cerr << "\nIf you have used 'make run', edit loolwsd.xml and make sure you have removed '--o:logging.level=trace' from the command line in Makefile.am.\n" << std::endl;
-#endif
-            _exit(Application::EXIT_SOFTWARE);
-        }
-    }
-
     const auto logToFile = getConfigValue<bool>(conf, "logging.file[@enable]", false);
     std::map<std::string, std::string> logProperties;
     for (size_t i = 0; ; ++i)
