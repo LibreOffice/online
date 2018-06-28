@@ -10,6 +10,8 @@
 #ifndef INCLUDED_LOG_HPP
 #define INCLUDED_LOG_HPP
 
+#include "config.h"
+
 #include <functional>
 #include <sstream>
 #include <string>
@@ -202,6 +204,10 @@ namespace Log
     m_.setText(oss_.str());                                                                 \
     LOG.log(m_);
 
+// Trace logging is disabled when anonymization is enabled.
+#if LOOLWSD_ANONYMIZE_USERNAMES || LOOLWSD_ANONYMIZE_FILENAMES
+#define LOG_TRC(X) (void);
+#else
 #define LOG_TRC(X)                            \
     do                                        \
     {                                         \
@@ -211,6 +217,7 @@ namespace Log
             LOG_BODY_(log_, TRACE, "TRC", X); \
         }                                     \
     } while (false)
+#endif
 
 #define LOG_DBG(X)                            \
     do                                        \
