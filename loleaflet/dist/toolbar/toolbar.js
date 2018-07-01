@@ -513,7 +513,6 @@ $(function () {
 			insertTable();
 		}
 	});
-	toolbar.contextmenu(function() { return false; });
 	toolbar.bind('touchstart', function() {
 		w2ui['toolbar-up'].touchStarted = true;
 	});
@@ -543,7 +542,6 @@ $(function () {
 			$('#formulaInput').off('focus', onFormulaBarFocus).on('focus', onFormulaBarFocus);
 		}
 	});
-	toolbar.contextmenu(function() { return false; });
 	toolbar.bind('touchstart', function() {
 		w2ui['formulabar'].touchStarted = true;
 	});
@@ -569,7 +567,6 @@ $(function () {
 			hideTooltip(this, e.target);
 		}
 	});
-	toolbar.contextmenu(function() { return false; });
 	toolbar.bind('touchstart', function() {
 		w2ui['spreadsheet-toolbar'].touchStarted = true;
 	});
@@ -592,7 +589,6 @@ $(function () {
 			hideTooltip(this, e.target);
 		}
 	});
-	toolbar.contextmenu(function() { return false; });
 	toolbar.bind('touchstart', function() {
 		w2ui['presentation-toolbar'].touchStarted = true;
 	});
@@ -661,7 +657,6 @@ $(function () {
 			$('#search-input').off('keydown', onSearchKeyDown).on('keydown', onSearchKeyDown);
 		}
 	});
-	toolbar.contextmenu(function() { return false; });
 	toolbar.bind('touchstart', function() {
 		w2ui['toolbar-down'].touchStarted = true;
 	});
