@@ -118,7 +118,8 @@ L.Map = L.Evented.extend({
 			if (!this.initComplete) {
 				this._fireInitComplete('doclayerinit');
 			}
-			if (this._docLayer._docType == 'text') {
+			// Don't show the ruler if the window is small
+			if ($(window).width() >= 768 && this._docLayer._docType == 'text') {
 				var interactiveRuler = this._permission === 'edit' ? true : false;
 				L.control.ruler({position:'topleft', interactive:interactiveRuler}).addTo(this);
 			}
