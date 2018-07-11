@@ -589,6 +589,7 @@ std::string LOOLWSD::ConfigDir = LOOLWSD_CONFIGDIR "/conf.d";
 std::string LOOLWSD::LogLevel = "trace";
 bool LOOLWSD::AnonymizeFilenames = false;
 bool LOOLWSD::AnonymizeUsernames = false;
+std::string LOOLWSD::ObfuscatedFileId;
 std::string LOOLWSD::ObfuscatedUserId;
 Util::RuntimeConstant<bool> LOOLWSD::SSLEnabled;
 Util::RuntimeConstant<bool> LOOLWSD::SSLTermination;
@@ -2352,6 +2353,7 @@ private:
 
             const auto uriPublic = DocumentBroker::sanitizeURI(url);
             const auto docKey = DocumentBroker::getDocKey(uriPublic);
+            LOOLWSD::ObfuscatedFileId = Util::getFilenameFromPath(docKey);
             LOG_INF("Sanitized URI [" << LOOLWSD::anonymizeUrl(url) << "] to [" << LOOLWSD::anonymizeUrl(uriPublic.toString()) <<
                     "] and mapped to docKey [" << LOOLWSD::anonymizeUrl(docKey) << "] for session [" << _id << "].");
 

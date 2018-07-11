@@ -109,6 +109,7 @@ static LokHookFunction2* initFunction = nullptr;
 #ifndef BUILDING_TESTS
 static bool AnonymizeFilenames = false;
 static bool AnonymizeUsernames = false;
+static std::string ObfuscatedFileId;
 static std::string ObfuscatedUserId;
 #endif
 
@@ -2418,7 +2419,7 @@ bool globalPreinit(const std::string &loTemplate)
 std::string anonymizeUrl(const std::string& url)
 {
 #ifndef BUILDING_TESTS
-    return AnonymizeFilenames ? Util::anonymizeUrl(url) : url;
+    return AnonymizeFilenames ? Util::anonymizeUrl(url, ObfuscatedFileId) : url;
 #else
     return url;
 #endif

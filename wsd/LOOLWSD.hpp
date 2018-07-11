@@ -61,6 +61,7 @@ public:
     static std::string LogLevel;
     static bool AnonymizeFilenames;
     static bool AnonymizeUsernames;
+    static std::string ObfuscatedFileId;
     static std::string ObfuscatedUserId;
     static std::atomic<unsigned> NumConnections;
     static bool TileCachePersistent;
@@ -148,7 +149,7 @@ public:
     /// Anonymize the basename of filenames, preserving the path and extension.
     static std::string anonymizeUrl(const std::string& url)
     {
-        return AnonymizeFilenames ? Util::anonymizeUrl(url) : url;
+        return AnonymizeFilenames ? Util::anonymizeUrl(url, ObfuscatedFileId) : url;
     }
 
     /// Anonymize user names and IDs.

@@ -565,7 +565,7 @@ namespace Util
         return res;
     }
 
-    static std::string anonymizeFilename(const std::string& filename)
+    static std::string anonymizeFilename(const std::string& filename, const std::string& fileId = std::string())
     {
         // Preserve the extension.
         std::string basename;
@@ -579,21 +579,34 @@ namespace Util
         else
             basename = filename;
 
+        if (!fileId.empty())
+            return fileId + ext;
+
         return Util::anonymize(basename) + ext;
     }
 
-    std::string anonymizeUrl(const std::string& url)
+    std::string getFilenameFromPath(const std::string& path)
+    {
+        const std::size_t mid = path.find_last_of('/');
+        if (mid != std::string::npos)
+            return path.substr(mid + 1);
+
+        // No path, treat as filename only.
+        return path;
+    }
+
+    std::string anonymizeUrl(const std::string& url, const std::string& fileId = std::string())
     {
         const std::size_t mid = url.find_last_of('/');
         if (mid != std::string::npos)
         {
             const std::string path = url.substr(0, mid + 1);
             const std::string filename = url.substr(mid + 1);
-            return path + Util::anonymizeFilename(filename);
+            return path + Util::anonymizeFilename(filename, fileId);
         }
 
         // No path, treat as filename only.
-        return Util::anonymizeFilename(url);
+        return Util::anonymizeFilename(url, fileId);
     }
 }
 

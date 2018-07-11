@@ -255,7 +255,10 @@ namespace Util
     std::string anonymize(const std::string& text);
 
     /// Anonymize the basename of filenames only, preserving the path and extension.
-    std::string anonymizeUrl(const std::string& url);
+    std::string anonymizeUrl(const std::string& url, const std::string& fileId);
+
+    /// Extract and return the filename given a path (i.e. the token after last '/').
+    std::string getFilenameFromPath(const std::string& path);
 
     /// Given one or more patterns to allow, and one or more to deny,
     /// the match member will return true if, and only if, the subject
