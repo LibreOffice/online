@@ -277,8 +277,15 @@ namespace Util
     inline
     std::pair<std::string, std::string> split(const char* s, const int length, const char delimeter = ' ', bool removeDelim = true)
     {
-        const auto size = getDelimiterPosition(s, length, delimeter);
-        return std::make_pair(std::string(s, size), std::string(s+size+removeDelim));
+        if (s != nullptr && length > 0)
+        {
+            const int pos = getDelimiterPosition(s, length, delimeter);
+            if (pos < length - 1)
+                return std::make_pair(std::string(s, pos), std::string(s + pos + removeDelim));
+        }
+
+        // Not found; return in first.
+        return std::make_pair(std::string(s, length), std::string());
     }
 
     /// Split a string in two at the delimeter, removing it.
@@ -292,8 +299,15 @@ namespace Util
     inline
     std::pair<std::string, std::string> splitLast(const char* s, const int length, const char delimeter = ' ', bool removeDelim = true)
     {
-        const auto size = getLastDelimiterPosition(s, length, delimeter);
-        return std::make_pair(std::string(s, size), std::string(s+size+removeDelim));
+        if (s != nullptr && length > 0)
+        {
+            const int pos = getLastDelimiterPosition(s, length, delimeter);
+            if (pos < length - 1)
+                return std::make_pair(std::string(s, pos), std::string(s + pos + removeDelim));
+        }
+
+        // Not found; return in first.
+        return std::make_pair(std::string(s, length), std::string());
     }
 
     /// Split a string in two at the delimeter, removing it.
