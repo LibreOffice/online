@@ -2859,6 +2859,8 @@ int LOOLWSD::innerMain()
         Log::logger().setLevel(LogLevel);
     }
 
+    Util::mapAnonymized("contents", "contents");
+
     // Start the server.
     srv.start(ClientPortNumber);
 
