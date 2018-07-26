@@ -77,6 +77,7 @@ NODE_MODULES_JS =\
 	node_modules/jquery-contextmenu/dist/jquery.contextMenu.js \
 	node_modules/jquery-ui/jquery-ui.js \
 	node_modules/smartmenus/dist/jquery.smartmenus.js \
+	node_modules/smartmenus/src/addons/keyboard/jquery.smartmenus.keyboard.js \
 	node_modules/timeago/jquery.timeago.js \
 	node_modules/autolinker/dist/Autolinker.js \
 	node_modules/json-js/json2.js \

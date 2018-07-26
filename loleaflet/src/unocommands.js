@@ -1,4 +1,3 @@
-/* -*- js-indent-level: 8 -*- */
 // Don't modify, generated using unocommands.py
 
 var unoCommandsArray = {
@@ -277,12 +276,6 @@ window._UNO = function(string, component, isContext) {
 			return command;
 		}
 	}
-
-	// Remove access key markers from translated strings
-	// 1. access key in parenthesis in case of non-latin scripts
-	text = text.replace(/\(~[A-Za-z]\)/, '');
-	// 2. remove normal access key
-	text = text.replace('~', '');
 
 	return text;
 }

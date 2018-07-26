@@ -243,12 +243,6 @@ window._UNO = function(string, component, isContext) {
 \t\t}
 \t}
 
-\t// Remove access key markers from translated strings
-\t// 1. access key in parenthesis in case of non-latin scripts
-\ttext = text.replace(/\(~[A-Za-z]\)/, '');
-\t// 2. remove normal access key
-\ttext = text.replace('~', '');
-
 \treturn text;
 }\n''')
 

@@ -3,6 +3,8 @@
  * L.Map.Keyboard is handling keyboard interaction with the map, enabled by default.
  */
 
+/* global $  */
+
 L.Map.mergeOptions({
 	keyboard: true,
 	keyboardPanOffset: 20,
@@ -295,6 +297,22 @@ L.Map.Keyboard = L.Handler.extend({
 
 		var charCode = e.originalEvent.charCode;
 		var keyCode = e.originalEvent.keyCode;
+
+		if (alt) {
+			// handle keyboard accelerators
+			console.log(keyCode);
+			var codes = [];
+			$('#main-menu > li > a').each(function() {
+				console.log($(this))
+				codes.push($(this).attr('code'));
+			});
+			if (codes.includes(String.fromCharCode(keyCode))) {
+				$('#main-menu > li > a[code='
+				  + String.fromCharCode(keyCode) + ']').focus();
+				$('#main-menu > li > a[code='
+				  + String.fromCharCode(keyCode) + ']').click();
+			}
+		}
 
 		if (!this._isComposing && e.type === 'keyup') {
 			// not compositing and keyup, clear the input so it is ready

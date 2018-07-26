@@ -410,6 +410,34 @@ L.Control.Menubar = L.Control.extend({
 		]
 	},
 
+	keyboardSetHotkey: function(keyCode, modifiers) {
+		$(document).on('keydown.smartmenus', function(e) {
+			var self = $('#main-menu');
+			if (keyCode == e.keyCode) {
+				var procede = true;
+				if (modifiers) {
+					if (typeof modifiers == 'string') {
+						modifiers = [modifiers];
+					}
+					$.each(['ctrlKey', 'shiftKey', 'altKey', 'metaKey'], function(index, value) {
+						if ($.inArray(value, modifiers) >= 0 && !e[value] || $.inArray(value, modifiers) < 0 && e[value]) {
+							procede = false;
+							return false;
+						}
+					});
+				}
+				if (procede) {
+					console.log('a')
+					self.find('> li > a:not(.disabled), > li > :not(ul) a:not(.disabled)').eq(0).focusSM();
+					console.log('a')
+					e.stopPropagation();
+					e.preventDefault();
+				}
+			}
+		});
+
+	},
+
 	onAdd: function (map) {
 		this._initialized = false;
 		this._menubarCont = L.DomUtil.get('main-menu');
@@ -532,11 +560,17 @@ L.Control.Menubar = L.Control.extend({
 			subIndicatorsPos: 'append',
 			subIndicatorsText: '&#8250;'
 		});
+
+		// Restore the hook we need ...
+		$(document).delegate('ul.sm, ul.navbar-nav:not([data-sm-skip])', 'keydown.smartmenus', $.SmartMenus.Keyboard.docKeydown);
+
 		$('#main-menu').attr('tabindex', 0);
 
 		$('#main-menu').bind('select.smapi', {self: this}, this._onItemSelected);
 		$('#main-menu').bind('beforeshow.smapi', {self: this}, this._beforeShow);
 		$('#main-menu').bind('click.smapi', {self: this}, this._onClicked);
+
+		this.keyboardSetHotkey(123, 'shiftKey');
 
 		// SmartMenus mobile menu toggle button
 		$(function() {
@@ -795,7 +829,8 @@ L.Control.Menubar = L.Control.extend({
 
 			if (menu[i].type === 'action') {
 				if ((menu[i].id === 'rev-history' && !revHistoryEnabled) ||
-					(menu[i].id === 'closedocument' && !closebutton)) {
+
+				    (menu[i].id === 'closedocument' && !closebutton)) {
 					continue;
 				}
 			}
@@ -836,12 +871,22 @@ L.Control.Menubar = L.Control.extend({
 				}
 			}
 			var aItem = L.DomUtil.create('a', menu[i].disabled ? 'disabled' : '', liItem);
+			$(aItem).attr('tabindex', '0');
 			if (menu[i].name !== undefined) {
 				aItem.innerHTML = menu[i].name;
 			} else if (menu[i].uno !== undefined) {
 				aItem.innerHTML = _UNO(menu[i].uno, docType);
 			} else {
 				aItem.innerHTML = '';
+			}
+
+			if (aItem.innerHTML.includes('~')) {
+				var strings = aItem.innerHTML.split('~');
+				strings.splice(1, 1, strings[1].charAt(0), strings[1].slice(1));
+				strings.splice(1, 0, '<span style="text-decoration: underline;">');
+				strings.splice(3, 0, '</span>');
+				aItem.innerHTML = strings.join().replace(/,/g, '');
+				$(aItem).attr('code', strings[2].toLocaleUpperCase())
 			}
 
 			if (menu[i].type === 'menu') {
@@ -859,6 +904,7 @@ L.Control.Menubar = L.Control.extend({
 				$(aItem).data('tag', menu[i].tag);
 			} else if (menu[i].type === 'separator') {
 				$(aItem).addClass('separator');
+				$(aItem).addClass('disabled');
 			} else if (menu[i].type === 'action') {
 				$(aItem).data('type', 'action');
 				$(aItem).data('id', menu[i].id);
