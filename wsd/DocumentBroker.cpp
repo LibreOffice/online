@@ -661,9 +661,9 @@ bool DocumentBroker::load(const std::shared_ptr<ClientSession>& session, const s
         LOG_INF("SHA1 for DocKey [" << _docKey << "] of [" << localPath << "]: " <<
                 Poco::DigestEngine::digestToHex(sha1.digest()));
 
-        // LibreOffice can't open files with '#' in the name
+        // LibreOffice can't open files with '#' or '%' in the name
         std::string localPathEncoded;
-        Poco::URI::encode(localPath,"#",localPathEncoded);
+        Poco::URI::encode(localPath,"#%",localPathEncoded);
         _uriJailed = Poco::URI(Poco::URI("file://"), localPathEncoded);
 
         _filename = fileInfo._filename;
