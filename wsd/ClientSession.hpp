@@ -18,7 +18,7 @@
 #include <Poco/URI.h>
 #include <Rectangle.hpp>
 #include <deque>
-#include <map>
+#include <unordered_map>
 #include <unordered_set>
 
 class DocumentBroker;
@@ -252,7 +252,7 @@ private:
     std::deque<TileDesc> _requestedTiles;
 
     /// Store wireID's of the sent tiles inside the actual visible area
-    std::map<std::string, TileWireId> _oldWireIds;
+    std::unordered_map<std::string, TileWireId> _oldWireIds;
 };
 
 
