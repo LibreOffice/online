@@ -155,6 +155,10 @@ L.Map.include({
 		this.fire('insertfile', {file: file});
 	},
 
+	insertURL: function (url) {
+		this.fire('inserturl', {url: url});
+	},
+
 	cellEnterString: function (string) {
 		var command = {
 			'StringName': {
