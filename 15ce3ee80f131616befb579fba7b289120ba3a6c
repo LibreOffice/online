@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfeb2761_583ef329",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1389,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2018-08-20T11:37:55Z",
+      "side": 0,
+      "message": "I think this empty() check is still needed here. In the loop we drops elements and the loop should exit when all tiles are dropped.",
+      "range": {
+        "startLine": 1389,
+        "startChar": 18,
+        "endLine": 1389,
+        "endChar": 32
+      },
+      "revId": "15ce3ee80f131616befb579fba7b289120ba3a6c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
