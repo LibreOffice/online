@@ -22,6 +22,30 @@
       "revId": "15ce3ee80f131616befb579fba7b289120ba3a6c",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfeb2761_de69cb8b",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1389,
+      "author": {
+        "id": 1000154
+      },
+      "writtenOn": "2018-08-20T16:23:10Z",
+      "side": 0,
+      "message": "Yes.. I missed that. I assumed it is already checked in the first if",
+      "parentUuid": "dfeb2761_583ef329",
+      "range": {
+        "startLine": 1389,
+        "startChar": 18,
+        "endLine": 1389,
+        "endChar": 32
+      },
+      "revId": "15ce3ee80f131616befb579fba7b289120ba3a6c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
