@@ -436,7 +436,7 @@ public:
     /**
      * Returns a json mapping of the possible values for the given command
      * e.g. {commandName: ".uno:StyleApply", commandValues: {"familyName1" : ["list of style names in the family1"], etc.}}
-     * @param pCommand a UNO command for which the possible values are requested
+     * @param pCommand a uno command for which the possible values are requested
      * @return {commandName: unoCmd, commandValues: {possible_values}}
      */
     char* getCommandValues(const char* pCommand)
@@ -676,7 +676,7 @@ public:
     /**
      * Gets an image of the selected shapes.
      * @param pOutput contains the result; use free to deallocate.
-     * @return the size of *pOutput in bytes.
+     * @return the size ouf *pOutput in bytes.
      */
     size_t renderShapeSelection(char** pOutput)
     {
@@ -749,7 +749,7 @@ public:
     }
 
     /**
-     * Loads a document from a URL.
+     * Loads a document from an URL.
      *
      * @param pUrl the URL of the document to load
      * @param pFilterOptions options for the import filter, e.g. SkipImages.
