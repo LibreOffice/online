@@ -2463,11 +2463,11 @@ private:
                 // protect against attempts to inject something funny here
                 if (formChildid.find('/') == std::string::npos && formName.find('/') == std::string::npos)
                 {
-                    LOG_INF("Perform insertfile: " << formChildid << ", " << formName);
                     const std::string dirPath = LOOLWSD::ChildRoot + formChildid
                                               + JAILED_DOCUMENT_ROOT + "insertfile";
+                    const std::string fileName = dirPath + "/" + form.get("name");
+                    LOG_INF("Perform insertfile: " << formChildid << ", " << formName << ", filename: " << fileName);
                     File(dirPath).createDirectories();
-                    std::string fileName = dirPath + "/" + form.get("name");
                     File(tmpPath).moveTo(fileName);
                     response.setContentLength(0);
                     socket->send(response);

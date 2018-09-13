@@ -16,6 +16,7 @@ L.Map.FileInserter = L.Handler.extend({
 		this._childId = null;
 		this._toInsert = {};
 		this._toInsertURL = {};
+		this._toInsertBackground = {};
 		var parser = document.createElement('a');
 		parser.href = map.options.server;
 		var wopiSrc = '';
@@ -30,12 +31,14 @@ L.Map.FileInserter = L.Handler.extend({
 		this._map.on('insertfile', this._onInsertFile, this);
 		this._map.on('inserturl', this._onInsertURL, this);
 		this._map.on('childid', this._onChildIdMsg, this);
+		this._map.on('selectbackground', this._onSelectBackground, this);
 	},
 
 	removeHooks: function () {
 		this._map.off('insertfile', this._onInsertFile, this);
 		this._map.off('inserturl', this._onInsertURL, this);
 		this._map.off('childid', this._onChildIdMsg, this);
+		this._map.off('selectbackground', this._onSelectBackground, this);
 	},
 
 	_onInsertFile: function (e) {
@@ -44,7 +47,7 @@ L.Map.FileInserter = L.Handler.extend({
 			this._toInsert[Date.now()] = e.file;
 		}
 		else {
-			this._sendFile(Date.now(), e.file);
+			this._sendFile(Date.now(), e.file, 'graphic');
 		}
 	},
 
@@ -58,10 +61,20 @@ L.Map.FileInserter = L.Handler.extend({
 		}
 	},
 
+	_onSelectBackground: function (e) {
+		if (!this._childId) {
+			this._map._socket.sendMessage('getchildid');
+			this._toInsertBackground[Date.now()] = e.file;
+		}
+		else {
+			this._sendFile(Date.now(), e.file, 'selectbackground');
+		}
+	},
+
 	_onChildIdMsg: function (e) {
 		this._childId = e.id;
 		for (var name in this._toInsert) {
-			this._sendFile(name, this._toInsert[name]);
+			this._sendFile(name, this._toInsert[name], 'graphic');
 		}
 		this._toInsert = {};
 
@@ -69,9 +82,14 @@ L.Map.FileInserter = L.Handler.extend({
 			this._sendURL(name, this._toInsertURL[name]);
 		}
 		this._toInsertURL = {};
+
+		for (name in this._toInsertBackground) {
+			this._sendFile(name, this._toInsertBackground[name], 'selectbackground');
+		}
+		this._toInsertBackground = {};
 	},
 
-	_sendFile: function (name, file) {
+	_sendFile: function (name, file, type) {
 		var url = this._url;
 		var socket = this._map._socket;
 		var map = this._map;
@@ -85,7 +103,7 @@ L.Map.FileInserter = L.Handler.extend({
 					for (var i = 0; i < byteBuffer.length; i++) {
 						strBytes += String.fromCharCode(byteBuffer[i]);
 					}
-					window.webkit.messageHandlers.lool.postMessage('insertfile name=' + aFile.name + ' type=graphic' +
+					window.webkit.messageHandlers.lool.postMessage('insertfile name=' + aFile.name + ' type=' + type +
 										       ' data=' + window.btoa(strBytes));
 				};
 			})(file);
@@ -102,7 +120,7 @@ L.Map.FileInserter = L.Handler.extend({
 			xmlHttp.onreadystatechange = function () {
 				if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
 					map.hideBusy();
-					socket.sendMessage('insertfile name=' + name + ' type=graphic');
+					socket.sendMessage('insertfile name=' + name + ' type=' + type);
 				}
 			};
 			xmlHttp.open('POST', url, true);
