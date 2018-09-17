@@ -1589,6 +1589,15 @@ private:
         return _editorId;
     }
 
+    /// Notify all views with the given message
+    bool notifyAll(const std::string& msg) override
+    {
+        Util::assertIsLocked(_documentMutex);
+
+        // Broadcast updated viewinfo to all clients.
+        return sendTextFrame("client-all " + msg);
+    }
+
     /// Notify all views of viewId and their associated usernames
     void notifyViewInfo() override
     {
@@ -1636,10 +1645,9 @@ private:
 
         oss.seekp(-1, std::ios_base::cur); // Remove last comma.
         oss << "]";
-        const std::string msg = oss.str();
 
         // Broadcast updated viewinfo to all clients.
-        sendTextFrame("client-all " + msg);
+        notifyAll(oss.str());
     }
 
     void updateEditorSpeeds(int id, int speed) override
