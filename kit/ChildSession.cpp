@@ -1958,6 +1958,11 @@ bool ChildSession::selectClientPart(const char* /*buffer*/, int /*length*/, cons
     if (getLOKitDocument()->getDocumentType() != LOK_DOCTYPE_TEXT && nPart != getLOKitDocument()->getPart())
     {
         getLOKitDocument()->selectPart(nPart, nSelect);
+
+        // Notify the client of the selection update.
+        const std::string status = LOKitHelper::documentStatus(getLOKitDocument()->get());
+        if (!status.empty())
+            return sendTextFrame("statusupdate: " + status);
     }
     else
     {
@@ -1985,10 +1990,10 @@ bool ChildSession::moveSelectedClientParts(const char* /*buffer*/, int /*length*
     {
         getLOKitDocument()->moveSelectedParts(nPosition, false); // Move, don't duplicate.
 
-        // Get the status to recreate the previews and correctly order parts.
+        // Get the status to notify clients of the reordering and selection change.
         const std::string status = LOKitHelper::documentStatus(getLOKitDocument()->get());
         if (!status.empty())
-            return sendTextFrame("statusupdate: " + status);
+            return _docManager.notifyAll("statusupdate: " + status);
     }
     else
     {
