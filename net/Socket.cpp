@@ -260,7 +260,6 @@ void SocketPoll::insertNewWebSocketSync(
                             "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
                             "\r\n";
                         socket->send(oss.str());
-                        websocketHandler->onConnect(socket);
                         insertNewSocket(socket);
                     }
                     else
