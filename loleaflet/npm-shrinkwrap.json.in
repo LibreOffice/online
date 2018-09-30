@@ -231,9 +231,9 @@
       "dev": true
     },
     "bootstrap": {
-      "version": "3.3.6",
-      "resolved": "file:node_shrinkwrap/bootstrap-3.3.6.tgz",
-      "integrity": "sha1-jej3SdyKdD8qxbUQ2Yg3Hj2qZYk=",
+      "version": "4.1.3",
+      "resolved": "file:node_shrinkwrap/bootstrap-4.1.3.tgz",
+      "integrity": "sha512-rDFIzgXcof0jDyjNosjv4Sno77X4KuPeFxG2XZZv1/Kc8DRVGVADdoQyyOVDwPqL36DDmtCQbrpMCqvpPLJQ0w==",
       "dev": true
     },
     "brace-expansion": {
@@ -2344,6 +2344,12 @@
       "version": "1.2.1",
       "resolved": "file:node_shrinkwrap/pluralize-1.2.1.tgz",
       "integrity": "sha1-0aIUg/0iu0HlihL6NCGCMUCJfEU=",
+      "dev": true
+    },
+    "popper.js": {
+      "version": "1.14.3",
+      "resolved": "file:node_shrinkwrap/popper.js-1.14.3.tgz",
+      "integrity": "sha1-FDj5jQRqz3tNeM1QK/QYrGTU8JU=",
       "dev": true
     },
     "prelude-ls": {
