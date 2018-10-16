@@ -377,7 +377,7 @@ body {
 
 .lokdialog.ui-dialog-content.ui-widget-content {
 	padding: 0px;
-	overflow: visible;
+	overflow: auto;
 }
 
 .lokdialog_canvas {
