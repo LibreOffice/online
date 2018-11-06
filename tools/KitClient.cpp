@@ -82,6 +82,7 @@ extern "C"
             CASE(WINDOW);
             CASE(VALIDITY_LIST_BUTTON);
             CASE(CLIPBOARD_CHANGED);
+            CASE(CONTEXT_CHANGED);
 #undef CASE
         }
         std::cout << " payload: " << payload << std::endl;
