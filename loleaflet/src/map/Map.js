@@ -270,6 +270,9 @@ L.Map = L.Evented.extend({
 			// we want it to be glued to the row/column headers instead of being centered
 			this._docLayer._checkSpreadSheetBounds(zoom);
 		}
+		if (this._docLayer && this._docLayer._visibleCursor) {
+			return this.setView(this._docLayer._visibleCursor.getCenter(), zoom, {zoom: options});
+		}
 		return this.setView(this.getCenter(), zoom, {zoom: options});
 	},
 
