@@ -63,7 +63,8 @@ L.WriterTileLayer = L.TileLayer.extend({
 			this._annotations.fill(values.comments);
 		}
 		else if (values.redlines) {
-			this._annotations.fillChanges(values.redlines);
+			// Don't show the change markers as comments.
+			// this._annotations.fillChanges(values.redlines);
 		}
 		else {
 			L.TileLayer.prototype._onCommandValuesMsg.call(this, textMsg);
@@ -76,12 +77,14 @@ L.WriterTileLayer = L.TileLayer.extend({
 			this._annotations.onACKComment(obj);
 		}
 		else if (textMsg.startsWith('redlinetablemodified:')) {
-			obj = JSON.parse(textMsg.substring('redlinetablemodified:'.length + 1));
-			this._annotations.onACKComment(obj);
+			// Don't show the change markers as comments.
+			// obj = JSON.parse(textMsg.substring('redlinetablemodified:'.length + 1));
+			// this._annotations.onACKComment(obj);
 		}
 		else if (textMsg.startsWith('redlinetablechanged:')) {
-			obj = JSON.parse(textMsg.substring('redlinetablechanged:'.length + 1));
-			this._annotations.onACKComment(obj);
+			// Don't show the change markers as comments.
+			// obj = JSON.parse(textMsg.substring('redlinetablechanged:'.length + 1));
+			// this._annotations.onACKComment(obj);
 		}
 		else {
 			L.TileLayer.prototype._onMessage.call(this, textMsg, img);
