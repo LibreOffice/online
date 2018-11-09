@@ -32,7 +32,13 @@ global._ = function (string) {
 	// In the mobile app case we can't use the stuff from l10n-for-node, as that assumes HTTP.
 	// So bail out for now.
 	if (window.ThisIsAMobileApp) {
-		return string;
+		if (window.LOCALIZATIONS.hasOwnProperty(string)) {
+			// window.webkit.messageHandlers.debug.postMessage('_(' + string + '): YES: ' + window.LOCALIZATIONS[string]);
+			return window.LOCALIZATIONS[string];
+		} else {
+			// window.webkit.messageHandlers.debug.postMessage('_(' + string + '): NO');
+			return string;
+		}
 	} else {
 		return string.toLocaleString();
 	}
