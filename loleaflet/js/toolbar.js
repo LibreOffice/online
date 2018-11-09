@@ -231,6 +231,9 @@ function onClick(e, id, item, subItem) {
 			map.sendUnoCommand('.uno:StatusBarFunc', command);
 		});
 	}
+	else if (id === 'login') {
+		map.signingLogin();
+	}
 	else if (id === 'logout') {
 		map.signingLogout();
 	}
@@ -776,6 +779,7 @@ function createToolbar() {
 			{type: 'html', id: 'user', html: '<none>'},
 			{type: 'break' },
 			{type: 'button',  id: 'logout',  caption: 'Logout', img: '', hint: _('Logout')},
+			{type: 'button',  id: 'login',  caption: 'Login', img: '', hint: _('Login')},
 		],
 		onClick: function (e) {
 			onClick(e, e.target);
@@ -787,6 +791,7 @@ function createToolbar() {
 	toolbar.bind('touchstart', function() {
 		w2ui['document-signing-bar'].touchStarted = true;
 	});
+
 
 	toolbar = $('#spreadsheet-toolbar')
 	toolbar.w2toolbar({
@@ -1275,6 +1280,8 @@ function onDocLayerInit() {
 		$('#formulabar').hide();
 		$('#spreadsheet-toolbar').hide();
 		$('#presentation-toolbar').hide();
+
+		w2ui['document-signing-bar'].hide('logout');
 
 		break;
 	case 'presentation':
