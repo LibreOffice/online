@@ -175,9 +175,6 @@ L.Map.include({
 		this._socket.sendMessage('renderfont font=' + window.encodeURIComponent(fontName));
 	},
 
-	showSignDocument: function() {
-	},
-
 	showLOKeyboardHelp: function() {
 		var w = window.innerWidth / 2;
 		var map = this;
