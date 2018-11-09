@@ -228,6 +228,9 @@ function onClick(e, id, item, subItem) {
 			map.sendUnoCommand('.uno:StatusBarFunc', command);
 		});
 	}
+	else if (id === 'logout') {
+		map.signingLogout();
+	}
 }
 
 function setBorders(left, right, bottom, top, horiz, vert) {
