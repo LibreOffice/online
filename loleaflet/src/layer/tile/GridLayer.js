@@ -883,17 +883,18 @@ L.GridLayer = L.Layer.extend({
 	},
 
 	_addTiles: function (coordsQueue, fragment) {
-		var coords, key;
+		var coords, key, tile;
 		// first take care of the DOM
 		for (var i = 0; i < coordsQueue.length; i++) {
 			coords = coordsQueue[i];
 
 			var tilePos = this._getTilePos(coords);
 			key = this._tileCoordsToKey(coords);
+			tile = undefined;
 
 			if (coords.part === this._selectedPart) {
 				if (!this._tiles[key]) {
-					var tile = this.createTile(this._wrapCoords(coords), L.bind(this._tileReady, this, coords));
+					tile = this.createTile(this._wrapCoords(coords), L.bind(this._tileReady, this, coords));
 
 					this._initTile(tile);
 
@@ -921,10 +922,12 @@ L.GridLayer = L.Layer.extend({
 						tile: tile,
 						coords: coords
 					});
+				} else {
+					tile = this._tiles[key].el;
 				}
 			}
 
-			if (this._tileCache[key]) {
+			if (this._tileCache[key] && typeof tile !== 'undefined') {
 				tile.src = this._tileCache[key];
 			}
 		}
