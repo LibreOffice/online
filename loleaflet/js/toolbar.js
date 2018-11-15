@@ -240,6 +240,9 @@ function onClick(e, id, item, subItem) {
 	else if (id === 'sign') {
 		map.signDocument();
 	}
+	else if (id.startsWith('passport:')) {
+		map.setCurrentPassport(item.value, item.text);
+	}
 }
 
 function setBorders(left, right, bottom, top, horiz, vert) {
@@ -777,6 +780,9 @@ function createToolbar() {
 			{type: 'break' },
 			{type: 'html', id: 'identity-label', html: '<b>Identity:</b>'},
 			{type: 'html', id: 'identity', html: 'N/A'},
+			{type: 'break' },
+			{type: 'menu', id: 'passport', caption: _('Select passport'), items: []},
+			{type: 'html', id: 'current-passport', html: 'Passport: N/A'},
 			{type: 'break' },
 			{type: 'button',  id: 'logout',  caption: 'Logout', img: '', hint: _('Logout')},
 			{type: 'button',  id: 'login',  caption: 'Login', img: '', hint: _('Login')},
