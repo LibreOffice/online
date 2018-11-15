@@ -775,8 +775,8 @@ function createToolbar() {
 			{type: 'html', id: 'logo', html: '<p><b>Vereign</b></p>'},
 			{type: 'button',  id: 'sign',  caption: 'Sign', img: '', hint: _('Sign document')},
 			{type: 'break' },
-			{type: 'html', id: 'user-label', html: '<p>User:</p>'},
-			{type: 'html', id: 'user', html: '<none>'},
+			{type: 'html', id: 'identity-label', html: '<b>Identity:</b>'},
+			{type: 'html', id: 'identity', html: 'N/A'},
 			{type: 'break' },
 			{type: 'button',  id: 'logout',  caption: 'Logout', img: '', hint: _('Logout')},
 			{type: 'button',  id: 'login',  caption: 'Login', img: '', hint: _('Login')},
@@ -1281,8 +1281,6 @@ function onDocLayerInit() {
 		$('#spreadsheet-toolbar').hide();
 		$('#presentation-toolbar').hide();
 
-		w2ui['document-signing-bar'].hide('logout');
-
 		break;
 	case 'presentation':
 		var presentationToolbar = w2ui['presentation-toolbar'];
@@ -1314,6 +1312,8 @@ function onDocLayerInit() {
 
 		break;
 	}
+
+	map.signingInitializeBar();
 
 	if (L.Browser.mobile) {
 		_mobilify();
