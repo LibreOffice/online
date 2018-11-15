@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff5d4b2f_bf628bd7",
+        "filename": "loleaflet/src/layer/tile/GridLayer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2018-11-15T15:51:02Z",
+      "side": 1,
+      "message": "Move this code inside the first if with the (coords.part \u003d\u003d\u003d this._selectedPart) condition and so you don\u0027t need to bother with the undefined stuff.",
+      "range": {
+        "startLine": 930,
+        "startChar": 22,
+        "endLine": 930,
+        "endChar": 23
+      },
+      "revId": "4851bc9d4996be35f12cdfb6b219dae9cc03e8a8",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
