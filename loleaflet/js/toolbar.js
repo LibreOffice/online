@@ -255,6 +255,9 @@ function onClick(e, id, item, subItem) {
 		}
 		L.toggleFullScreen();
 	}
+	else if (id === 'upload') {
+		map.uploadToVereign();
+	}
 	else if (id.startsWith('passport:')) {
 		map.setCurrentPassport(item.value, item.text);
 	}
@@ -964,6 +967,7 @@ function initNormalToolbar(toolItems) {
 				{type: 'html',  id: 'left'},
 				{type: 'html', id: 'logo', html: '<p><b>Vereign</b></p>'},
 				{type: 'button',  id: 'sign',  caption: 'Sign', img: '', hint: _('Sign document')},
+				{type: 'button',  id: 'upload',  caption: 'Upload', img: '', hint: _('Upload document')},
 				{type: 'break' },
 				{type: 'html', id: 'identity-label', html: '<b>Identity:</b>'},
 				{type: 'html', id: 'identity', html: 'N/A'},

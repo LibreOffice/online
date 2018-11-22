@@ -613,6 +613,12 @@ L.TileLayer = L.GridLayer.extend({
 		else if (command.id === 'export') {
 			this._map._fileDownloader.src = url;
 		}
+		else if (command.id === 'uploadSignedDocument') {
+			$.get(url, function(data, status) {
+				if (status == 'success')
+					console.log(data);
+			});
+		}
 	},
 
 	_onErrorMsg: function (textMsg) {
