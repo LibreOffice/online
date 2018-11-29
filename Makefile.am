@@ -35,7 +35,8 @@ dist_doc_DATA = wsd/README \
 
 loolwsddatadir = @LOOLWSD_DATADIR@
 
-loolwsddata_DATA = discovery.xml \
+loolwsddata_DATA = capabilities.json \
+                   discovery.xml \
                    favicon.ico
 
 loolwsdconfigdir = @LOOLWSD_CONFIGDIR@
@@ -234,7 +235,8 @@ noinst_HEADERS = $(wsd_headers) $(shared_headers) $(kit_headers) \
 dist-hook:
 	git log -1 --format=%h > $(distdir)/dist_git_hash 2> /dev/null || rm $(distdir)/dist_git_hash
 
-EXTRA_DIST = discovery.xml \
+EXTRA_DIST = capabilities.json \
+             discovery.xml \
              favicon.ico \
              loolkitconfig.xcu \
              loolwsd.spec \

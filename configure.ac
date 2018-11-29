@@ -595,6 +595,7 @@ fi
 
 AC_SUBST(ENABLE_SETCAP)
 
+AC_CONFIG_LINKS([capabilities.json:capabilities.json])
 AC_CONFIG_LINKS([discovery.xml:discovery.xml])
 AC_CONFIG_LINKS([loolkitconfig.xcu:loolkitconfig.xcu])
 AC_CONFIG_LINKS([loleaflet/package.json:loleaflet/package.json])
