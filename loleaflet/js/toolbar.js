@@ -2128,6 +2128,12 @@ function updateUserListCount() {
 	var zoomlevel = $('#zoomlevel').html();
 	w2ui['toolbar-down'].refresh();
 	$('#zoomlevel').html(zoomlevel);
+
+	if (count > 1) {
+		$('#tb_toolbar-down_item_userlist').show();
+	} else {
+		$('#tb_toolbar-down_item_userlist').hide();
+	}
 }
 
 function onAddView(e) {
