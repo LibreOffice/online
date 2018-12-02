@@ -24,7 +24,7 @@ cd / || exit 1
 find etc/hosts etc/nsswitch.conf etc/resolv.conf \
      etc/ld.so.* \
      lib/ld-* lib64/ld-* \
-     lib64/libnss_* \
+     lib/libnss_* lib64/libnss_* lib/*/libnss_* \
      var/cache/fontconfig \
      etc/fonts \
      etc/localtime \
@@ -41,7 +41,7 @@ find etc/hosts etc/nsswitch.conf etc/resolv.conf \
 find etc/fonts \
      etc/resolv.conf \
      lib/ld-* lib64/ld-* \
-     lib64/libnss_* \
+     lib/libnss_* lib64/libnss_* lib/*/libnss_* \
      usr/lib/*/libsqlite* \
 	-type l 2>/dev/null
 
