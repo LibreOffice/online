@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f485f77_42d057ca",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2019-01-19T13:32:11Z",
+      "side": 1,
+      "message": "seperator -\u003e separator",
+      "revId": "f61cf00bfe4d27cb47b54e6e1642e1f18ab85026",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
