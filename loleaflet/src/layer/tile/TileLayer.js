@@ -1963,6 +1963,7 @@ L.TileLayer = L.GridLayer.extend({
 	// Update dragged text selection.
 	_onSelectionHandleDrag: function (e) {
 		if (e.type === 'drag') {
+			e.preventDefault();
 			e.target.isDragged = true;
 
 			// This is rather hacky, but it seems to be the only way to make the
