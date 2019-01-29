@@ -37,7 +37,7 @@
 #include <Util.hpp>
 
 /// Simple command-line tool for file format conversion.
-class Tool: public Poco::Util::Application
+class Tool : public Poco::Util::Application
 {
     // Display help information on the console
     void displayHelp();
@@ -50,7 +50,7 @@ public:
     const std::string& getDestinationDir() const { return _destinationDir; }
 
 private:
-    unsigned    _numWorkers;
+    unsigned _numWorkers;
     std::string _serverURI;
     std::string _destinationFormat;
     std::string _destinationDir;
@@ -58,29 +58,30 @@ private:
 protected:
     void defineOptions(Poco::Util::OptionSet& options) override;
     void handleOption(const std::string& name, const std::string& value) override;
-    int  main(const std::vector<std::string>& args) override;
+    int main(const std::vector<std::string>& args) override;
 };
-
 
 using namespace LOOLProtocol;
 
-using Poco::Net::HTTPClientSession;
-using Poco::Net::HTTPRequest;
-using Poco::Net::HTTPResponse;
 using Poco::Runnable;
 using Poco::Thread;
 using Poco::URI;
+using Poco::Net::HTTPClientSession;
+using Poco::Net::HTTPRequest;
+using Poco::Net::HTTPResponse;
 using Poco::Util::Application;
 using Poco::Util::OptionSet;
 
 /// Thread class which performs the conversion.
-class Worker: public Runnable
+class Worker : public Runnable
 {
     Tool& _app;
-    std::vector< std::string > _files;
+    std::vector<std::string> _files;
+
 public:
-    Worker(Tool& app, const std::vector< std::string > & files) :
-        _app(app), _files(files)
+    Worker(Tool& app, const std::vector<std::string>& files)
+        : _app(app)
+        , _files(files)
     {
     }
 
@@ -94,7 +95,7 @@ public:
     {
         Poco::URI uri(_app.getServerURI());
 
-        Poco::Net::HTTPClientSession *session;
+        Poco::Net::HTTPClientSession* session;
         if (_app.getServerURI().compare(0, 5, "https") == 0)
             session = new Poco::Net::HTTPSClientSession(uri.getHost(), uri.getPort());
         else
@@ -102,7 +103,8 @@ public:
 
         Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, "/lool/convert-to");
 
-        try {
+        try
+        {
             Poco::Net::HTMLForm form;
             form.setEncoding(Poco::Net::HTMLForm::ENCODING_MULTIPART);
             form.set("format", _app.getDestinationFormat());
@@ -112,29 +114,29 @@ public:
             // If this results in a Poco::Net::ConnectionRefusedException, loolwsd is not running.
             form.write(session->sendRequest(request));
         }
-        catch (const Poco::Exception &e)
+        catch (const Poco::Exception& e)
         {
-            std::cerr << "Failed to write data: " << e.name() <<
-                  " " << e.message() << "\n";
+            std::cerr << "Failed to write data: " << e.name() << " " << e.message() << "\n";
             return;
         }
 
         Poco::Net::HTTPResponse response;
 
-        try {
+        try
+        {
             // receiveResponse() resulted in a Poco::Net::NoMessageException.
             std::istream& responseStream = session->receiveResponse(response);
 
             Poco::Path path(document);
-            std::string outPath = _app.getDestinationDir() + "/" + path.getBaseName() + "." + _app.getDestinationFormat();
+            std::string outPath = _app.getDestinationDir() + "/" + path.getBaseName() + "."
+                                  + _app.getDestinationFormat();
             std::ofstream fileStream(outPath);
 
             Poco::StreamCopier::copyStream(responseStream, fileStream);
         }
-        catch (const Poco::Exception &e)
+        catch (const Poco::Exception& e)
         {
-            std::cerr << "Exception converting: " << e.name() <<
-                  " " << e.message() << "\n";
+            std::cerr << "Exception converting: " << e.name() << " " << e.message() << "\n";
             return;
         }
 
@@ -142,12 +144,15 @@ public:
     }
 };
 
-Tool::Tool() :
-    _numWorkers(4),
+Tool::Tool()
+    : _numWorkers(4)
+    ,
 #if ENABLE_SSL
-    _serverURI("https://127.0.0.1:" + std::to_string(DEFAULT_CLIENT_PORT_NUMBER)),
+    _serverURI("https://127.0.0.1:" + std::to_string(DEFAULT_CLIENT_PORT_NUMBER))
+    ,
 #else
-    _serverURI("http://127.0.0.1:" + std::to_string(DEFAULT_CLIENT_PORT_NUMBER)),
+    _serverURI("http://127.0.0.1:" + std::to_string(DEFAULT_CLIENT_PORT_NUMBER))
+    ,
 #endif
     _destinationFormat("txt")
 {
@@ -165,24 +170,20 @@ void Tool::displayHelp()
               << "  --server=uri                URI of LOOL server\n"
               << "  --no-check-certificate      Disable checking of SSL certificate\n"
               << "In addition, the options taken by the libreoffice command for its --convert-to\n"
-              << "functionality can be used (but are ignored if irrelevant to this command)." << std::endl;
+              << "functionality can be used (but are ignored if irrelevant to this command)."
+              << std::endl;
 }
 
-void Tool::defineOptions(OptionSet&)
-{
-    stopOptionsProcessing();
-}
+void Tool::defineOptions(OptionSet&) { stopOptionsProcessing(); }
 
-void Tool::handleOption(const std::string& optionName,
-                        const std::string& value)
+void Tool::handleOption(const std::string& optionName, const std::string& value)
 {
     if (optionName == "help")
     {
         displayHelp();
         std::exit(Application::EXIT_OK);
     }
-    else if (optionName == "extension"
-             || optionName == "convert-to")
+    else if (optionName == "extension" || optionName == "convert-to")
         _destinationFormat = value;
     else if (optionName == "outdir")
         _destinationDir = value;
@@ -192,10 +193,14 @@ void Tool::handleOption(const std::string& optionName,
         _serverURI = value;
     else if (optionName == "no-check-certificate")
     {
-        Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> consoleClientHandler = new Poco::Net::KeyConsoleHandler(false);
-        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidClientCertHandler = new Poco::Net::AcceptCertificateHandler(false);
-        Poco::Net::Context::Ptr sslClientContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, "");
-        Poco::Net::SSLManager::instance().initializeClient(consoleClientHandler, invalidClientCertHandler, sslClientContext);
+        Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> consoleClientHandler
+            = new Poco::Net::KeyConsoleHandler(false);
+        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidClientCertHandler
+            = new Poco::Net::AcceptCertificateHandler(false);
+        Poco::Net::Context::Ptr sslClientContext
+            = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, "");
+        Poco::Net::SSLManager::instance().initializeClient(
+            consoleClientHandler, invalidClientCertHandler, sslClientContext);
     }
 }
 
@@ -225,18 +230,16 @@ int Tool::main(const std::vector<std::string>& origArgs)
 
         // Handle LibreOffice-compatible options that don't have their value separated with an equals,
         // but as the next argument.
-        if (equals == std::string::npos
-            && (optionName == "convert-to"
-                || optionName == "outdir")
-            && i < origArgs.size()-1)
+        if (equals == std::string::npos && (optionName == "convert-to" || optionName == "outdir")
+            && i < origArgs.size() - 1)
         {
-            value = origArgs[i+1];
+            value = origArgs[i + 1];
             args.erase(args.begin());
             ++i;
         }
         else if (equals != std::string::npos)
         {
-            value = optionName.substr(equals+1);
+            value = optionName.substr(equals + 1);
             optionName = optionName.substr(0, equals);
         }
         handleOption(optionName, value);
@@ -259,8 +262,8 @@ int Tool::main(const std::vector<std::string>& origArgs)
         size_t toCopy = std::min(args.size() - offset, chunk);
         if (toCopy > 0)
         {
-            std::vector< std::string > files( toCopy );
-            std::copy( args.begin() + offset, args.begin() + offset + toCopy, files.begin() );
+            std::vector<std::string> files(toCopy);
+            std::copy(args.begin() + offset, args.begin() + offset + toCopy, files.begin());
             offset += toCopy;
             clients[i]->start(*(new Worker(*this, files)));
         }

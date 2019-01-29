@@ -27,14 +27,10 @@
 #include "TileDesc.hpp"
 
 /// A queue of data to send to certain Session's WS.
-template <typename Item>
-class SenderQueue final
+template <typename Item> class SenderQueue final
 {
 public:
-
-    SenderQueue()
-    {
-    }
+    SenderQueue() {}
 
     size_t enqueue(const Item& item)
     {
@@ -75,7 +71,7 @@ public:
     {
         os << "\n\t\tqueue size " << _queue.size() << "\n";
         std::lock_guard<std::mutex> lock(_mutex);
-        for (const Item &item : _queue)
+        for (const Item& item : _queue)
         {
             os << "\t\t\ttype: " << (item->isBinary() ? "binary" : "text") << "\n";
             os << "\t\t\t" << item->abbr() << "\n";
@@ -94,27 +90,24 @@ private:
         {
             // Remove previous identical tile, if any, and use most recent (incoming).
             const TileDesc newTile = TileDesc::parse(item->firstLine());
-            const auto& pos = std::find_if(_queue.begin(), _queue.end(),
-                [&newTile](const queue_item_t& cur)
-                {
-                    return cur->firstToken() == "tile:" &&
-                           newTile == TileDesc::parse(cur->firstLine());
-                });
+            const auto& pos
+                = std::find_if(_queue.begin(), _queue.end(), [&newTile](const queue_item_t& cur) {
+                      return cur->firstToken() == "tile:"
+                             && newTile == TileDesc::parse(cur->firstLine());
+                  });
 
             if (pos != _queue.end())
                 _queue.erase(pos);
         }
-        else if (command == "statusindicatorsetvalue:" ||
-                 command == "invalidatecursor:" ||
-                 command == "setpart:")
+        else if (command == "statusindicatorsetvalue:" || command == "invalidatecursor:"
+                 || command == "setpart:")
         {
             // Remove previous identical enties of this command,
             // if any, and use most recent (incoming).
-            const auto& pos = std::find_if(_queue.begin(), _queue.end(),
-                [&command](const queue_item_t& cur)
-                {
-                    return cur->firstToken() == command;
-                });
+            const auto& pos
+                = std::find_if(_queue.begin(), _queue.end(), [&command](const queue_item_t& cur) {
+                      return cur->firstToken() == command;
+                  });
 
             if (pos != _queue.end())
                 _queue.erase(pos);
@@ -128,9 +121,8 @@ private:
             const Poco::Dynamic::Var newResult = newParser.parse(newMsg);
             const auto& newJson = newResult.extract<Poco::JSON::Object::Ptr>();
             const std::string viewId = newJson->get("viewId").toString();
-            const auto& pos = std::find_if(_queue.begin(), _queue.end(),
-                [command, viewId](const queue_item_t& cur)
-                {
+            const auto& pos = std::find_if(
+                _queue.begin(), _queue.end(), [command, viewId](const queue_item_t& cur) {
                     if (cur->firstToken() == command)
                     {
                         const std::string msg = cur->jsonString();

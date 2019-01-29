@@ -30,9 +30,9 @@ class DocumentBroker;
 
 std::shared_ptr<ChildProcess> getNewChild_Blocks(
 #ifdef MOBILEAPP
-                                                 const std::string& uri
+    const std::string& uri
 #endif
-                                                 );
+);
 
 /// The Server class which is responsible for all
 /// external interactions.
@@ -61,7 +61,8 @@ public:
     static std::string ChildRoot;
     static std::string ServerName;
     static std::string FileServerRoot;
-    static std::string ServiceRoot; ///< There are installations that need prefixing every page with some path.
+    static std::string
+        ServiceRoot; ///< There are installations that need prefixing every page with some path.
     static std::string LOKitVersion;
     static std::string LogLevel;
     static bool AnonymizeFilenames;
@@ -77,49 +78,44 @@ public:
 
     static std::vector<int> getKitPids();
 
-    static std::string GenSessionId()
-    {
-        return Util::encodeId(++NextSessionId, 4);
-    }
+    static std::string GenSessionId() { return Util::encodeId(++NextSessionId, 4); }
 
-    static bool isSSLEnabled()
-    {
-        return LOOLWSD::SSLEnabled.get();
-    }
+    static bool isSSLEnabled() { return LOOLWSD::SSLEnabled.get(); }
 
-    static bool isSSLTermination()
-    {
-        return LOOLWSD::SSLTermination.get();
-    }
+    static bool isSSLTermination() { return LOOLWSD::SSLTermination.get(); }
 
     /// Return true iff extension is marked as view action in discovery.xml.
     static bool IsViewFileExtension(const std::string& extension)
     {
         std::string lowerCaseExtension = extension;
-        std::transform(lowerCaseExtension.begin(), lowerCaseExtension.end(), lowerCaseExtension.begin(), ::tolower);
+        std::transform(lowerCaseExtension.begin(), lowerCaseExtension.end(),
+                       lowerCaseExtension.begin(), ::tolower);
         return EditFileExtensions.find(lowerCaseExtension) == EditFileExtensions.end();
     }
 
     /// Returns the value of the specified application configuration,
     /// of the default, if one doesn't exist.
-    template<typename T>
-    static
-    T getConfigValue(const std::string& name, const T def)
+    template <typename T> static T getConfigValue(const std::string& name, const T def)
     {
         return getConfigValue(Application::instance().config(), name, def);
     }
 
     /// Trace a new session and take a snapshot of the file.
-    static void dumpNewSessionTrace(const std::string& id, const std::string& sessionId, const std::string& uri, const std::string& path);
+    static void dumpNewSessionTrace(const std::string& id, const std::string& sessionId,
+                                    const std::string& uri, const std::string& path);
 
     /// Trace the end of a session.
-    static void dumpEndSessionTrace(const std::string& id, const std::string& sessionId, const std::string& uri);
+    static void dumpEndSessionTrace(const std::string& id, const std::string& sessionId,
+                                    const std::string& uri);
 
-    static void dumpEventTrace(const std::string& id, const std::string& sessionId, const std::string& data);
+    static void dumpEventTrace(const std::string& id, const std::string& sessionId,
+                               const std::string& data);
 
-    static void dumpIncomingTrace(const std::string& id, const std::string& sessionId, const std::string& data);
+    static void dumpIncomingTrace(const std::string& id, const std::string& sessionId,
+                                  const std::string& data);
 
-    static void dumpOutgoingTrace(const std::string& id, const std::string& sessionId, const std::string& data);
+    static void dumpOutgoingTrace(const std::string& id, const std::string& sessionId,
+                                  const std::string& data);
 
     /// Waits on Forkit and reaps if it dies, then restores.
     /// Return true if wait succeeds.
@@ -176,8 +172,7 @@ private:
         const std::string& _name;
 
     public:
-        ConfigValueGetter(Poco::Util::LayeredConfiguration& config,
-                          const std::string& name)
+        ConfigValueGetter(Poco::Util::LayeredConfiguration& config, const std::string& name)
             : _config(config)
             , _name(name)
         {
@@ -191,8 +186,8 @@ private:
     };
 
     template <typename T>
-    static bool getSafeConfig(Poco::Util::LayeredConfiguration& config,
-                              const std::string& name, T& value)
+    static bool getSafeConfig(Poco::Util::LayeredConfiguration& config, const std::string& name,
+                              T& value)
     {
         try
         {
@@ -206,14 +201,12 @@ private:
         return false;
     }
 
-    template<typename T>
-    static
-    T getConfigValue(Poco::Util::LayeredConfiguration& config,
-                     const std::string& name, const T def)
+    template <typename T>
+    static T getConfigValue(Poco::Util::LayeredConfiguration& config, const std::string& name,
+                            const T def)
     {
         T value = def;
-        if (getSafeConfig(config, name, value) ||
-            getSafeConfig(config, name + "[@default]", value))
+        if (getSafeConfig(config, name, value) || getSafeConfig(config, name + "[@default]", value))
         {
             return value;
         }
@@ -234,11 +227,13 @@ private:
         }
 
         // Reconstruct absolute path if relative.
-        if (!Poco::Path(path).isAbsolute() &&
-            config().hasProperty(property + "[@relative]") &&
-            config().getBool(property + "[@relative]"))
+        if (!Poco::Path(path).isAbsolute() && config().hasProperty(property + "[@relative]")
+            && config().getBool(property + "[@relative]"))
         {
-            path = Poco::Path(Application::instance().commandPath()).parent().append(path).toString();
+            path = Poco::Path(Application::instance().commandPath())
+                       .parent()
+                       .append(path)
+                       .toString();
         }
 
         return path;

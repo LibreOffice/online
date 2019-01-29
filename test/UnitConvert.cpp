@@ -36,8 +36,8 @@ class UnitConvert : public UnitWSD
     std::thread _worker;
 
 public:
-    UnitConvert() :
-        _workerStarted(false)
+    UnitConvert()
+        : _workerStarted(false)
     {
         setHasKitHooks();
         setTimeout(3600 * 1000); /* one hour */
@@ -62,31 +62,37 @@ public:
             return;
         _workerStarted = true;
         std::cerr << "Starting thread ...\n";
-        _worker = std::thread([this]{
-                std::cerr << "Now started thread ...\n";
-                std::unique_ptr<Poco::Net::HTTPClientSession> session(helpers::createSession(Poco::URI(helpers::getTestServerURI())));
-                session->setTimeout(Poco::Timespan(10, 0)); // 10 seconds.
+        _worker = std::thread([this] {
+            std::cerr << "Now started thread ...\n";
+            std::unique_ptr<Poco::Net::HTTPClientSession> session(
+                helpers::createSession(Poco::URI(helpers::getTestServerURI())));
+            session->setTimeout(Poco::Timespan(10, 0)); // 10 seconds.
 
-                Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, "/lool/convert-to/pdf");
-                Poco::Net::HTMLForm form;
-                form.setEncoding(Poco::Net::HTMLForm::ENCODING_MULTIPART);
-                form.set("format", "txt");
-                form.addPart("data", new Poco::Net::StringPartSource("Hello World Content", "text/plain", "foo.txt"));
-                form.prepareSubmit(request);
-                form.write(session->sendRequest(request));
+            Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST,
+                                           "/lool/convert-to/pdf");
+            Poco::Net::HTMLForm form;
+            form.setEncoding(Poco::Net::HTMLForm::ENCODING_MULTIPART);
+            form.set("format", "txt");
+            form.addPart("data", new Poco::Net::StringPartSource("Hello World Content",
+                                                                 "text/plain", "foo.txt"));
+            form.prepareSubmit(request);
+            form.write(session->sendRequest(request));
 
-                Poco::Net::HTTPResponse response;
-                std::stringstream actualStream;
-                try {
-                    session->receiveResponse(response);
-                } catch (Poco::Net::NoMessageException &) {
-                    std::cerr << "No response as expected.\n";
-                    exitTest(TestResult::Ok); // child should have timed out and been killed.
-                    return;
-                } // else
-                std::cerr << "Failed to terminate the sleeping kit\n";
-                exitTest(TestResult::Failed);
-            });
+            Poco::Net::HTTPResponse response;
+            std::stringstream actualStream;
+            try
+            {
+                session->receiveResponse(response);
+            }
+            catch (Poco::Net::NoMessageException&)
+            {
+                std::cerr << "No response as expected.\n";
+                exitTest(TestResult::Ok); // child should have timed out and been killed.
+                return;
+            } // else
+            std::cerr << "Failed to terminate the sleeping kit\n";
+            exitTest(TestResult::Failed);
+        });
     }
 };
 
@@ -94,11 +100,8 @@ public:
 class UnitKitConvert : public UnitKit
 {
 public:
-    UnitKitConvert()
-    {
-        setTimeout(3600 * 1000); /* one hour */
-    }
-    bool filterKitMessage(WebSocketHandler *, std::string &message) override
+    UnitKitConvert() { setTimeout(3600 * 1000); /* one hour */ }
+    bool filterKitMessage(WebSocketHandler*, std::string& message) override
     {
         std::cerr << "kit message " << message << "\n";
         if (message.find("load") != std::string::npos)
@@ -110,14 +113,8 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitConvert();
-}
+UnitBase* unit_create_wsd(void) { return new UnitConvert(); }
 
-UnitBase *unit_create_kit(void)
-{
-    return new UnitKitConvert();
-}
+UnitBase* unit_create_kit(void) { return new UnitKitConvert(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

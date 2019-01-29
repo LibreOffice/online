@@ -14,7 +14,6 @@
 #include "Unit.hpp"
 #include "UnitHTTP.hpp"
 
-
 #include <Poco/DateTimeFormat.h>
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/JSON/Object.h>
@@ -76,32 +75,27 @@ public:
         assert(_ws.get());
     }
 
-    virtual void assertCheckFileInfoRequest(const Poco::Net::HTTPRequest& /*request*/)
-    {
-    }
+    virtual void assertCheckFileInfoRequest(const Poco::Net::HTTPRequest& /*request*/) {}
 
-    virtual void assertGetFileRequest(const Poco::Net::HTTPRequest& /*request*/)
-    {
-    }
+    virtual void assertGetFileRequest(const Poco::Net::HTTPRequest& /*request*/) {}
 
-    virtual void assertPutFileRequest(const Poco::Net::HTTPRequest& /*request*/)
-    {
-    }
+    virtual void assertPutFileRequest(const Poco::Net::HTTPRequest& /*request*/) {}
 
-    virtual void assertPutRelativeFileRequest(const Poco::Net::HTTPRequest& /*request*/)
-    {
-    }
+    virtual void assertPutRelativeFileRequest(const Poco::Net::HTTPRequest& /*request*/) {}
 
 protected:
     /// Here we act as a WOPI server, so that we have a server that responds to
     /// the wopi requests without additional expensive setup.
-    virtual bool handleHttpRequest(const Poco::Net::HTTPRequest& request, Poco::MemoryInputStream& message, std::shared_ptr<StreamSocket>& socket) override
+    virtual bool handleHttpRequest(const Poco::Net::HTTPRequest& request,
+                                   Poco::MemoryInputStream& message,
+                                   std::shared_ptr<StreamSocket>& socket) override
     {
         Poco::URI uriReq(request.getURI());
         LOG_INF("Fake wopi host request: " << uriReq.toString());
 
         // CheckFileInfo
-        if (request.getMethod() == "GET" && (uriReq.getPath() == "/wopi/files/0" || uriReq.getPath() == "/wopi/files/1"))
+        if (request.getMethod() == "GET"
+            && (uriReq.getPath() == "/wopi/files/0" || uriReq.getPath() == "/wopi/files/1"))
         {
             LOG_INF("Fake wopi host request, handling CheckFileInfo: " << uriReq.getPath());
 
@@ -117,7 +111,9 @@ protected:
             fileInfo->set("UserFriendlyName", "test");
             fileInfo->set("UserCanWrite", "true");
             fileInfo->set("PostMessageOrigin", "localhost");
-            fileInfo->set("LastModifiedTime", Poco::DateTimeFormatter::format(Poco::DateTime(_fileLastModifiedTime), Poco::DateTimeFormat::ISO8601_FRAC_FORMAT));
+            fileInfo->set("LastModifiedTime", Poco::DateTimeFormatter::format(
+                                                  Poco::DateTime(_fileLastModifiedTime),
+                                                  Poco::DateTimeFormat::ISO8601_FRAC_FORMAT));
             fileInfo->set("EnableOwnerTermination", "true");
 
             std::ostringstream jsonStream;
@@ -128,7 +124,10 @@ protected:
 
             std::ostringstream oss;
             oss << "HTTP/1.1 200 OK\r\n"
-                << "Last-Modified: " << Poco::DateTimeFormatter::format(_fileLastModifiedTime, Poco::DateTimeFormat::HTTP_FORMAT) << "\r\n"
+                << "Last-Modified: "
+                << Poco::DateTimeFormatter::format(_fileLastModifiedTime,
+                                                   Poco::DateTimeFormat::HTTP_FORMAT)
+                << "\r\n"
                 << "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
                 << "Content-Length: " << responseString.size() << "\r\n"
                 << "Content-Type: " << mimeType << "\r\n"
@@ -141,7 +140,9 @@ protected:
             return true;
         }
         // GetFile
-        else if (request.getMethod() == "GET" && (uriReq.getPath() == "/wopi/files/0/contents" || uriReq.getPath() == "/wopi/files/1/contents"))
+        else if (request.getMethod() == "GET"
+                 && (uriReq.getPath() == "/wopi/files/0/contents"
+                     || uriReq.getPath() == "/wopi/files/1/contents"))
         {
             LOG_INF("Fake wopi host request, handling GetFile: " << uriReq.getPath());
 
@@ -151,7 +152,10 @@ protected:
 
             std::ostringstream oss;
             oss << "HTTP/1.1 200 OK\r\n"
-                << "Last-Modified: " << Poco::DateTimeFormatter::format(_fileLastModifiedTime, Poco::DateTimeFormat::HTTP_FORMAT) << "\r\n"
+                << "Last-Modified: "
+                << Poco::DateTimeFormatter::format(_fileLastModifiedTime,
+                                                   Poco::DateTimeFormat::HTTP_FORMAT)
+                << "\r\n"
                 << "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
                 << "Content-Length: " << _fileContent.size() << "\r\n"
                 << "Content-Type: " << mimeType << "\r\n"
@@ -163,7 +167,8 @@ protected:
 
             return true;
         }
-        else if (request.getMethod() == "POST" && (uriReq.getPath() == "/wopi/files/0" || uriReq.getPath() == "/wopi/files/1"))
+        else if (request.getMethod() == "POST"
+                 && (uriReq.getPath() == "/wopi/files/0" || uriReq.getPath() == "/wopi/files/1"))
         {
             LOG_INF("Fake wopi host request, handling PutRelativeFile: " << uriReq.getPath());
 
@@ -171,12 +176,16 @@ protected:
 
             assertPutRelativeFileRequest(request);
 
-            std::string wopiURL = helpers::getTestServerURI() + "/something wopi/files/1?access_token=anything";
+            std::string wopiURL
+                = helpers::getTestServerURI() + "/something wopi/files/1?access_token=anything";
             std::string content = "{ \"Name\":\"hello world.pdf\", \"Url\":\"" + wopiURL + "\" }";
 
             std::ostringstream oss;
             oss << "HTTP/1.1 200 OK\r\n"
-                << "Last-Modified: " << Poco::DateTimeFormatter::format(_fileLastModifiedTime, Poco::DateTimeFormat::HTTP_FORMAT) << "\r\n"
+                << "Last-Modified: "
+                << Poco::DateTimeFormatter::format(_fileLastModifiedTime,
+                                                   Poco::DateTimeFormat::HTTP_FORMAT)
+                << "\r\n"
                 << "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
                 << "Content-Length: " << content.size() << "\r\n"
                 << "Content-Type: application/json\r\n"
@@ -188,24 +197,26 @@ protected:
 
             return true;
         }
-        else if (request.getMethod() == "POST" && (uriReq.getPath() == "/wopi/files/0/contents" || uriReq.getPath() == "/wopi/files/1/contents"))
+        else if (request.getMethod() == "POST"
+                 && (uriReq.getPath() == "/wopi/files/0/contents"
+                     || uriReq.getPath() == "/wopi/files/1/contents"))
         {
             LOG_INF("Fake wopi host request, handling PutFile: " << uriReq.getPath());
 
             std::string wopiTimestamp = request.get("X-LOOL-WOPI-Timestamp");
             if (!wopiTimestamp.empty())
             {
-
-                const std::string fileModifiedTime =
-                    Poco::DateTimeFormatter::format(Poco::DateTime(_fileLastModifiedTime),
-                                                    Poco::DateTimeFormat::ISO8601_FRAC_FORMAT);
+                const std::string fileModifiedTime
+                    = Poco::DateTimeFormatter::format(Poco::DateTime(_fileLastModifiedTime),
+                                                      Poco::DateTimeFormat::ISO8601_FRAC_FORMAT);
                 if (wopiTimestamp != fileModifiedTime)
                 {
                     std::ostringstream oss;
                     oss << "HTTP/1.1 409 Conflict\r\n"
                         << "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
                         << "\r\n"
-                        << "{\"LOOLStatusCode\":" << static_cast<int>(LOOLStatusCode::DocChanged) << "}";
+                        << "{\"LOOLStatusCode\":" << static_cast<int>(LOOLStatusCode::DocChanged)
+                        << "}";
 
                     socket->send(oss.str());
                     socket->shutdown();
@@ -224,7 +235,10 @@ protected:
             oss << "HTTP/1.1 200 OK\r\n"
                 << "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
                 << "\r\n"
-                << "{\"LastModifiedTime\": \"" << Poco::DateTimeFormatter::format(_fileLastModifiedTime, Poco::DateTimeFormat::ISO8601_FRAC_FORMAT) << "\" }";
+                << "{\"LastModifiedTime\": \""
+                << Poco::DateTimeFormatter::format(_fileLastModifiedTime,
+                                                   Poco::DateTimeFormat::ISO8601_FRAC_FORMAT)
+                << "\" }";
 
             socket->send(oss.str());
             socket->shutdown();
@@ -234,7 +248,6 @@ protected:
 
         return false;
     }
-
 };
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

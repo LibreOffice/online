@@ -18,9 +18,9 @@
 /// delayFd lifecycle.
 namespace Delay
 {
-    int create(int delayMs, int physicalFd);
-    void dumpState(std::ostream &os);
-};
+int create(int delayMs, int physicalFd);
+void dumpState(std::ostream& os);
+}; // namespace Delay
 
 #endif
 

@@ -29,27 +29,36 @@ class WebSocketHandler;
 // Forward declaration to avoid pulling the world here.
 namespace Poco
 {
-    class MemoryInputStream;
+class MemoryInputStream;
 
-    namespace Net
-    {
-        class HTTPServerRequest;
-        class HTTPServerResponse;
-    }
+namespace Net
+{
+class HTTPServerRequest;
+class HTTPServerResponse;
+} // namespace Net
 
-    namespace Util
-    {
-        class LayeredConfiguration;
-    }
+namespace Util
+{
+class LayeredConfiguration;
 }
+} // namespace Poco
 
 class Session;
 class StorageBase;
 
-typedef UnitBase *(CreateUnitHooksFunction)();
-extern "C" { UnitBase *unit_create_wsd(void); }
-extern "C" { UnitBase *unit_create_kit(void); }
-extern "C" { typedef struct _LibreOfficeKit LibreOfficeKit; }
+typedef UnitBase*(CreateUnitHooksFunction)();
+extern "C"
+{
+    UnitBase* unit_create_wsd(void);
+}
+extern "C"
+{
+    UnitBase* unit_create_kit(void);
+}
+extern "C"
+{
+    typedef struct _LibreOfficeKit LibreOfficeKit;
+}
 
 /// Derive your WSD unit test / hooks from me.
 class UnitBase
@@ -92,34 +101,33 @@ public:
     virtual void returnValue(int& /* retValue */);
 
     /// Input message either for WSD or Kit
-    virtual bool filterSessionInput(Session *, const char */* buffer */,
-                                    int /* length */,
-                                    std::unique_ptr< std::vector<char> > & /* replace */)
+    virtual bool filterSessionInput(Session*, const char* /* buffer */, int /* length */,
+                                    std::unique_ptr<std::vector<char>>& /* replace */)
     {
         return false;
     }
 
     /// Message that is about to be sent via the websocket.
-    virtual bool filterSendMessage(const char* /* data */, const size_t /* len */, const WSOpCode /* code */, const bool /* flush */, int& /*unitReturn*/)
+    virtual bool filterSendMessage(const char* /* data */, const size_t /* len */,
+                                   const WSOpCode /* code */, const bool /* flush */,
+                                   int& /*unitReturn*/)
     {
         return false;
     }
 
     /// Hook the disk space check
-    virtual bool filterCheckDiskSpace(const std::string & /* path */,
-                                      bool & /* newResult */)
+    virtual bool filterCheckDiskSpace(const std::string& /* path */, bool& /* newResult */)
     {
         return false;
     }
 
     /// Trap and filter alerting all users
-    virtual bool filterAlertAllusers(const std::string & /* msg */)
-    {
-        return false;
-    }
+    virtual bool filterAlertAllusers(const std::string& /* msg */) { return false; }
 
     /// Custom response to a http request.
-    virtual bool handleHttpRequest(const Poco::Net::HTTPRequest& /*request*/, Poco::MemoryInputStream& /*message*/,std::shared_ptr<StreamSocket>& /*socket*/)
+    virtual bool handleHttpRequest(const Poco::Net::HTTPRequest& /*request*/,
+                                   Poco::MemoryInputStream& /*message*/,
+                                   std::shared_ptr<StreamSocket>& /*socket*/)
     {
         return false;
     }
@@ -127,10 +135,7 @@ public:
     /// If the test times out this gets invoked, the default just exits.
     virtual void timeout();
 
-    int getTimeoutMilliSeconds() const
-    {
-        return _timeoutMilliSeconds;
-    }
+    int getTimeoutMilliSeconds() const { return _timeoutMilliSeconds; }
 
     static UnitBase& get()
     {
@@ -139,15 +144,15 @@ public:
     }
 
 private:
-    void setHandle(void *dlHandle) { _dlHandle = dlHandle; }
-    static UnitBase *linkAndCreateUnit(UnitType type, const std::string& unitLibPath);
+    void setHandle(void* dlHandle) { _dlHandle = dlHandle; }
+    static UnitBase* linkAndCreateUnit(UnitType type, const std::string& unitLibPath);
 
-    void *_dlHandle;
+    void* _dlHandle;
     bool _setRetValue;
     int _retValue;
     int _timeoutMilliSeconds;
     std::atomic<bool> _timeoutShutdown;
-    static UnitBase *Global;
+    static UnitBase* Global;
     UnitType _type;
 };
 
@@ -163,7 +168,7 @@ public:
     static UnitWSD& get()
     {
         assert(Global && Global->_type == UnitType::Wsd);
-        return *static_cast<UnitWSD *>(Global);
+        return *static_cast<UnitWSD*>(Global);
     }
 
     enum class TestRequest
@@ -172,8 +177,7 @@ public:
         Prisoner
     };
     /// Simulate an incoming request
-    static void testHandleRequest(TestRequest type,
-                                  UnitHTTPServerRequest& request,
+    static void testHandleRequest(TestRequest type, UnitHTTPServerRequest& request,
                                   UnitHTTPServerResponse& response);
     /// Do we have hooks for the Kit too
     bool hasKitHooks() { return _hasKitHooks; }
@@ -187,48 +191,39 @@ public:
     /// Main-loop reached, time for testing
     virtual void invokeTest() {}
     /// When a new child kit process reports
-    virtual void newChild(WebSocketHandler &/* socket */) {}
+    virtual void newChild(WebSocketHandler& /* socket */) {}
     /// Intercept createStorage
-    virtual bool createStorage(const Poco::URI& /* uri */,
-                               const std::string& /* jailRoot */,
+    virtual bool createStorage(const Poco::URI& /* uri */, const std::string& /* jailRoot */,
                                const std::string& /* jailPath */,
                                std::unique_ptr<StorageBase>& /* storage */)
     {
         return false;
     }
     /// Intercept incoming requests, so unit tests can silently communicate
-    virtual bool filterHandleRequest(
-        TestRequest /* type */,
-        SocketDisposition & /* disposition */,
-        WebSocketHandler & /* handler */)
+    virtual bool filterHandleRequest(TestRequest /* type */, SocketDisposition& /* disposition */,
+                                     WebSocketHandler& /* handler */)
     {
         return false;
     }
 
     /// Child sent a message
-    virtual bool filterChildMessage(const std::vector<char>& /* payload */)
-    {
-        return false;
-    }
+    virtual bool filterChildMessage(const std::vector<char>& /* payload */) { return false; }
 
     // ---------------- TileCache hooks ----------------
     /// Called before the lookupTile call returns. Should always be called to fire events.
     virtual void lookupTile(int part, int width, int height, int tilePosX, int tilePosY,
-                            int tileWidth, int tileHeight, std::unique_ptr<std::fstream>& cacheFile);
+                            int tileWidth, int tileHeight,
+                            std::unique_ptr<std::fstream>& cacheFile);
 
     // ---------------- DocumentBroker hooks ----------------
-    virtual bool filterLoad(const std::string& /* sessionId */,
-                            const std::string& /* jailId */,
+    virtual bool filterLoad(const std::string& /* sessionId */, const std::string& /* jailId */,
                             bool& /* result */)
     {
         return false;
     }
 
     /// To force the save operation being handled as auto-save from a unit test.
-    virtual bool isAutosave()
-    {
-        return false;
-    }
+    virtual bool isAutosave() { return false; }
 
     // ---------------- WSD events ----------------
     virtual void onChildConnected(const int /* pid */, const std::string& /* sessionId */) {}
@@ -238,15 +233,18 @@ public:
     virtual void onAdminQueryMessage(const std::string& /* message */) {}
 
     // ---------------- TileCache events ----------------
-    virtual void onTileCacheHit(int /*part*/, int /*width*/, int /*height*/,
-                                int /*tilePosX*/, int /*tilePosY*/,
-                                int /*tileWidth*/, int /*tileHeight*/) {}
-    virtual void onTileCacheMiss(int /*part*/, int /*width*/, int /*height*/,
-                                 int /*tilePosX*/, int /*tilePosY*/,
-                                 int /*tileWidth*/, int /*tileHeight*/) {}
-    virtual void onTileCacheSubscribe(int /*part*/, int /*width*/, int /*height*/,
-                                      int /*tilePosX*/, int /*tilePosY*/,
-                                      int /*tileWidth*/, int /*tileHeight*/) {}
+    virtual void onTileCacheHit(int /*part*/, int /*width*/, int /*height*/, int /*tilePosX*/,
+                                int /*tilePosY*/, int /*tileWidth*/, int /*tileHeight*/)
+    {
+    }
+    virtual void onTileCacheMiss(int /*part*/, int /*width*/, int /*height*/, int /*tilePosX*/,
+                                 int /*tilePosY*/, int /*tileWidth*/, int /*tileHeight*/)
+    {
+    }
+    virtual void onTileCacheSubscribe(int /*part*/, int /*width*/, int /*height*/, int /*tilePosX*/,
+                                      int /*tilePosY*/, int /*tileWidth*/, int /*tileHeight*/)
+    {
+    }
 };
 
 /// Derive your Kit unit test / hooks from me.
@@ -258,7 +256,7 @@ public:
     static UnitKit& get()
     {
         assert(Global && Global->_type == UnitType::Kit);
-        return *static_cast<UnitKit *>(Global);
+        return *static_cast<UnitKit*>(Global);
     }
 
     // ---------------- ForKit hooks ----------------
@@ -275,14 +273,10 @@ public:
     virtual void postFork() {}
 
     /// Kit got a message
-    virtual bool filterKitMessage(WebSocketHandler *, std::string &/* message */ )
-    {
-        return false;
-    }
+    virtual bool filterKitMessage(WebSocketHandler*, std::string& /* message */) { return false; }
 
     /// Allow a custom LibreOfficeKit wrapper
-    virtual LibreOfficeKit *lok_init(const char * /* instdir */,
-                                     const char * /* userdir */)
+    virtual LibreOfficeKit* lok_init(const char* /* instdir */, const char* /* userdir */)
     {
         return nullptr;
     }

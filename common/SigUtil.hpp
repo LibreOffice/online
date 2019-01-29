@@ -34,36 +34,36 @@ extern std::mutex SigHandlerTrap;
 
 namespace SigUtil
 {
-    /// Returns the name of the signal.
-    const char* signalName(int signo);
+/// Returns the name of the signal.
+const char* signalName(int signo);
 
-    /// Register a wakeup function when changing
+/// Register a wakeup function when changing
 
-    /// Trap signals to cleanup and exit the process gracefully.
-    void setTerminationSignals();
+/// Trap signals to cleanup and exit the process gracefully.
+void setTerminationSignals();
 
-    /// Trap all fatal signals to assist debugging.
-    void setFatalSignals();
+/// Trap all fatal signals to assist debugging.
+void setFatalSignals();
 
-    /// Trap generally useful signals
-    void setUserSignals();
+/// Trap generally useful signals
+void setUserSignals();
 
-    /// Requests the server to initiate graceful shutdown.
-    /// Shutting down is a multi-stage process, because
-    /// it can be requested via signals.
-    /// Since we need to notify clients, we can't
-    /// invoke the sockets while in a signal handler.
-    /// This flags the server to notify clients first
-    /// then flags for shutdown.
-    void requestShutdown();
+/// Requests the server to initiate graceful shutdown.
+/// Shutting down is a multi-stage process, because
+/// it can be requested via signals.
+/// Since we need to notify clients, we can't
+/// invoke the sockets while in a signal handler.
+/// This flags the server to notify clients first
+/// then flags for shutdown.
+void requestShutdown();
 
-    /// Kills a child process and returns true when
-    /// child pid is removed from the process table
-    /// after a certain (short) timeout.
-    bool killChild(const int pid);
+/// Kills a child process and returns true when
+/// child pid is removed from the process table
+/// after a certain (short) timeout.
+bool killChild(const int pid);
 
-    /// Dump a signal-safe back-trace
-    void dumpBacktrace();
+/// Dump a signal-safe back-trace
+void dumpBacktrace();
 
 } // end namespace SigUtil
 

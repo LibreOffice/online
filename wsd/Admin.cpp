@@ -42,8 +42,8 @@
 
 using namespace LOOLProtocol;
 
-using Poco::Net::HTTPResponse;
 using Poco::StringTokenizer;
+using Poco::Net::HTTPResponse;
 using Poco::Util::Application;
 
 const int Admin::MinStatsIntervalMs = 50;
@@ -51,11 +51,12 @@ const int Admin::DefStatsIntervalMs = 2500;
 
 /// Process incoming websocket messages
 void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
-                                       std::vector<char> &payload)
+                                       std::vector<char>& payload)
 {
     // FIXME: check fin, code etc.
     const std::string firstLine = getFirstLine(payload.data(), payload.size());
-    StringTokenizer tokens(firstLine, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+    StringTokenizer tokens(firstLine, " ",
+                           StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
     LOG_TRC("Recv: " << firstLine << " tokens " << tokens.count());
 
     if (tokens.count() < 1)
@@ -97,19 +98,16 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
 
     if (!_isAuthenticated)
     {
-        LOG_DBG("Not authenticated - message is '" << firstLine << "' " <<
-                tokens.count() << " first: '" << tokens[0] << "'");
+        LOG_DBG("Not authenticated - message is '" << firstLine << "' " << tokens.count()
+                                                   << " first: '" << tokens[0] << "'");
         sendMessage("NotAuthenticated");
         shutdown();
         return;
     }
-    else if (tokens[0] == "documents" ||
-             tokens[0] == "active_users_count" ||
-             tokens[0] == "active_docs_count" ||
-             tokens[0] == "mem_stats" ||
-             tokens[0] == "cpu_stats" ||
-             tokens[0] == "sent_activity" ||
-             tokens[0] == "recv_activity")
+    else if (tokens[0] == "documents" || tokens[0] == "active_users_count"
+             || tokens[0] == "active_docs_count" || tokens[0] == "mem_stats"
+             || tokens[0] == "cpu_stats" || tokens[0] == "sent_activity"
+             || tokens[0] == "recv_activity")
     {
         const std::string result = model.query(tokens[0]);
         if (!result.empty())
@@ -124,9 +122,8 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
         // Send LOOL version information
         std::string version, hash;
         Util::getVersionInfo(version, hash);
-        std::string versionStr =
-            "{ \"Version\":  \"" + version + "\", " +
-            "\"Hash\":  \"" + hash  + "\" }";
+        std::string versionStr
+            = "{ \"Version\":  \"" + version + "\", " + "\"Hash\":  \"" + hash + "\" }";
         sendTextFrame("loolserver " + versionStr);
         // Send LOKit version information
         sendTextFrame("lokitversion " + LOOLWSD::LOKitVersion);
@@ -177,7 +174,7 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
         oss << "settings "
             << "mem_stats_size=" << model.query("mem_stats_size") << ' '
             << "mem_stats_interval=" << std::to_string(_admin->getMemStatsInterval()) << ' '
-            << "cpu_stats_size="  << model.query("cpu_stats_size") << ' '
+            << "cpu_stats_size=" << model.query("cpu_stats_size") << ' '
             << "cpu_stats_interval=" << std::to_string(_admin->getCpuStatsInterval()) << ' '
             << "net_stats_size=" << model.query("net_stats_size") << ' '
             << "net_stats_interval=" << std::to_string(_admin->getNetStatsInterval()) << ' ';
@@ -201,7 +198,8 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
     {
         for (size_t i = 1; i < tokens.count(); i++)
         {
-            StringTokenizer setting(tokens[i], "=", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+            StringTokenizer setting(tokens[i], "=",
+                                    StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
             int settingVal = 0;
             try
             {
@@ -209,8 +207,7 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
             }
             catch (const std::exception& exc)
             {
-                LOG_WRN("Invalid setting value: " << setting[1] <<
-                        " for " << setting[0]);
+                LOG_WRN("Invalid setting value: " << setting[1] << " for " << setting[0]);
                 return;
             }
 
@@ -228,7 +225,8 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
                 {
                     _admin->rescheduleMemTimer(settingVal);
                     model.clearMemStats();
-                    model.notify("settings mem_stats_interval=" + std::to_string(_admin->getMemStatsInterval()));
+                    model.notify("settings mem_stats_interval="
+                                 + std::to_string(_admin->getMemStatsInterval()));
                 }
             }
             else if (settingName == "cpu_stats_size")
@@ -244,7 +242,8 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
                 {
                     _admin->rescheduleCpuTimer(settingVal);
                     model.clearCpuStats();
-                    model.notify("settings cpu_stats_interval=" + std::to_string(_admin->getCpuStatsInterval()));
+                    model.notify("settings cpu_stats_interval="
+                                 + std::to_string(_admin->getCpuStatsInterval()));
                 }
             }
             else if (LOOLProtocol::matchPrefix("limit_", settingName))
@@ -271,18 +270,18 @@ void AdminSocketHandler::handleMessage(bool /* fin */, WSOpCode /* code */,
 AdminSocketHandler::AdminSocketHandler(Admin* adminManager,
                                        const std::weak_ptr<StreamSocket>& socket,
                                        const Poco::Net::HTTPRequest& request)
-    : WebSocketHandler(socket, request),
-      _admin(adminManager),
-      _isAuthenticated(false)
+    : WebSocketHandler(socket, request)
+    , _admin(adminManager)
+    , _isAuthenticated(false)
 {
     // Different session id pool for admin sessions (?)
     _sessionId = Util::decodeId(LOOLWSD::GenSessionId());
 }
 
 AdminSocketHandler::AdminSocketHandler(Admin* adminManager)
-    : WebSocketHandler(true),
-      _admin(adminManager),
-      _isAuthenticated(true)
+    : WebSocketHandler(true)
+    , _admin(adminManager)
+    , _isAuthenticated(true)
 {
     _sessionId = Util::decodeId(LOOLWSD::GenSessionId());
 }
@@ -301,18 +300,16 @@ void AdminSocketHandler::sendTextFrame(const std::string& message)
 
 void AdminSocketHandler::subscribeAsync(const std::shared_ptr<AdminSocketHandler>& handler)
 {
-    Admin &admin = Admin::instance();
+    Admin& admin = Admin::instance();
 
-    admin.addCallback([handler]
-        {
-            Admin &adminIn = Admin::instance();
-            adminIn.getModel().subscribe(handler->_sessionId, handler);
-        });
+    admin.addCallback([handler] {
+        Admin& adminIn = Admin::instance();
+        adminIn.getModel().subscribe(handler->_sessionId, handler);
+    });
 }
 
-bool AdminSocketHandler::handleInitialRequest(
-    const std::weak_ptr<StreamSocket> &socketWeak,
-    const Poco::Net::HTTPRequest& request)
+bool AdminSocketHandler::handleInitialRequest(const std::weak_ptr<StreamSocket>& socketWeak,
+                                              const Poco::Net::HTTPRequest& request)
 {
     if (!LOOLWSD::AdminEnabled)
     {
@@ -323,11 +320,13 @@ bool AdminSocketHandler::handleInitialRequest(
     std::shared_ptr<StreamSocket> socket = socketWeak.lock();
 
     const std::string& requestURI = request.getURI();
-    StringTokenizer pathTokens(requestURI, "/", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+    StringTokenizer pathTokens(requestURI, "/",
+                               StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
 
-    if (request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0)
+    if (request.find("Upgrade") != request.end()
+        && Poco::icompare(request["Upgrade"], "websocket") == 0)
     {
-        Admin &admin = Admin::instance();
+        Admin& admin = Admin::instance();
         auto handler = std::make_shared<AdminSocketHandler>(&admin, socketWeak, request);
         socket->setHandler(handler);
 
@@ -346,18 +345,18 @@ bool AdminSocketHandler::handleInitialRequest(
 }
 
 /// An admin command processor.
-Admin::Admin() :
-    SocketPoll("admin"),
-    _model(AdminModel()),
-    _forKitPid(-1),
-    _forKitWritePipe(-1),
-    _lastTotalMemory(0),
-    _lastJiffies(0),
-    _lastSentCount(0),
-    _lastRecvCount(0),
-    _cpuStatsTaskIntervalMs(DefStatsIntervalMs),
-    _memStatsTaskIntervalMs(DefStatsIntervalMs * 2),
-    _netStatsTaskIntervalMs(DefStatsIntervalMs * 2)
+Admin::Admin()
+    : SocketPoll("admin")
+    , _model(AdminModel())
+    , _forKitPid(-1)
+    , _forKitWritePipe(-1)
+    , _lastTotalMemory(0)
+    , _lastJiffies(0)
+    , _lastSentCount(0)
+    , _lastRecvCount(0)
+    , _cpuStatsTaskIntervalMs(DefStatsIntervalMs)
+    , _memStatsTaskIntervalMs(DefStatsIntervalMs * 2)
+    , _netStatsTaskIntervalMs(DefStatsIntervalMs * 2)
 {
     LOG_INF("Admin ctor.");
 
@@ -369,17 +368,15 @@ Admin::Admin() :
     if (memLimit != 0.0)
         _totalAvailMemKb = _totalSysMemKb * memLimit / 100.;
 
-    LOG_TRC("Total available memory: " << _totalAvailMemKb << " KB (memproportion: " << memLimit << "%).");
+    LOG_TRC("Total available memory: " << _totalAvailMemKb << " KB (memproportion: " << memLimit
+                                       << "%).");
 
     const size_t totalMem = getTotalMemoryUsage();
     LOG_TRC("Total memory used: " << totalMem << " KB.");
     _model.addMemStats(totalMem);
 }
 
-Admin::~Admin()
-{
-    LOG_INF("~Admin dtor.");
-}
+Admin::~Admin() { LOG_INF("~Admin dtor."); }
 
 void Admin::pollingThread()
 {
@@ -395,20 +392,23 @@ void Admin::pollingThread()
     {
         const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
 
-        int cpuWait = _cpuStatsTaskIntervalMs -
-            std::chrono::duration_cast<std::chrono::milliseconds>(now - lastCPU).count();
+        int cpuWait
+            = _cpuStatsTaskIntervalMs
+              - std::chrono::duration_cast<std::chrono::milliseconds>(now - lastCPU).count();
         if (cpuWait <= MinStatsIntervalMs / 2) // Close enough
         {
             const size_t currentJiffies = getTotalCpuUsage();
-            const size_t cpuPercent = 100 * 1000 * currentJiffies / (sysconf (_SC_CLK_TCK) * _cpuStatsTaskIntervalMs);
+            const size_t cpuPercent
+                = 100 * 1000 * currentJiffies / (sysconf(_SC_CLK_TCK) * _cpuStatsTaskIntervalMs);
             _model.addCpuStats(cpuPercent);
 
             cpuWait += _cpuStatsTaskIntervalMs;
             lastCPU = now;
         }
 
-        int memWait = _memStatsTaskIntervalMs -
-            std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMem).count();
+        int memWait
+            = _memStatsTaskIntervalMs
+              - std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMem).count();
         if (memWait <= MinStatsIntervalMs / 2) // Close enough
         {
             const size_t totalMem = getTotalMemoryUsage();
@@ -426,8 +426,9 @@ void Admin::pollingThread()
             lastMem = now;
         }
 
-        int netWait = _netStatsTaskIntervalMs -
-            std::chrono::duration_cast<std::chrono::milliseconds>(now - lastNet).count();
+        int netWait
+            = _netStatsTaskIntervalMs
+              - std::chrono::duration_cast<std::chrono::milliseconds>(now - lastNet).count();
         if (netWait <= MinStatsIntervalMs / 2) // Close enough
         {
             const uint64_t sentCount = _model.getSentBytesTotal();
@@ -465,12 +466,14 @@ void Admin::pollingThread()
     }
 }
 
-void Admin::modificationAlert(const std::string& dockey, Poco::Process::PID pid, bool value){
+void Admin::modificationAlert(const std::string& dockey, Poco::Process::PID pid, bool value)
+{
     addCallback([=] { _model.modificationAlert(dockey, pid, value); });
 }
 
 void Admin::addDoc(const std::string& docKey, Poco::Process::PID pid, const std::string& filename,
-        const std::string& sessionId, const std::string& userName, const std::string& userId)
+                   const std::string& sessionId, const std::string& userName,
+                   const std::string& userId)
 {
     addCallback([=] { _model.addDocument(docKey, pid, filename, sessionId, userName, userId); });
 }
@@ -483,7 +486,7 @@ void Admin::rmDoc(const std::string& docKey, const std::string& sessionId)
 void Admin::rmDoc(const std::string& docKey)
 {
     LOG_INF("Removing complete doc [" << docKey << "] from Admin.");
-    addCallback([=]{ _model.removeDocument(docKey); });
+    addCallback([=] { _model.removeDocument(docKey); });
 }
 
 void Admin::rescheduleMemTimer(unsigned interval)
@@ -534,29 +537,17 @@ size_t Admin::getTotalCpuUsage()
     return totalJ;
 }
 
-unsigned Admin::getMemStatsInterval()
-{
-    return _memStatsTaskIntervalMs;
-}
+unsigned Admin::getMemStatsInterval() { return _memStatsTaskIntervalMs; }
 
-unsigned Admin::getCpuStatsInterval()
-{
-    return _cpuStatsTaskIntervalMs;
-}
+unsigned Admin::getCpuStatsInterval() { return _cpuStatsTaskIntervalMs; }
 
-unsigned Admin::getNetStatsInterval()
-{
-    return _netStatsTaskIntervalMs;
-}
+unsigned Admin::getNetStatsInterval() { return _netStatsTaskIntervalMs; }
 
-AdminModel& Admin::getModel()
-{
-    return _model;
-}
+AdminModel& Admin::getModel() { return _model; }
 
 void Admin::updateLastActivityTime(const std::string& docKey)
 {
-    addCallback([=]{ _model.updateLastActivityTime(docKey); });
+    addCallback([=] { _model.updateLastActivityTime(docKey); });
 }
 
 void Admin::updateMemoryDirty(const std::string& docKey, int dirty)
@@ -575,7 +566,8 @@ void Admin::notifyForkit()
     oss << "setconfig limit_virt_mem_mb " << _defDocProcSettings.getLimitVirtMemMb() << '\n'
         << "setconfig limit_stack_mem_kb " << _defDocProcSettings.getLimitStackMemKb() << '\n'
         << "setconfig limit_file_size_mb " << _defDocProcSettings.getLimitFileSizeMb() << '\n'
-        << "setconfig limit_num_open_files " << _defDocProcSettings.getLimitNumberOpenFiles() << '\n';
+        << "setconfig limit_num_open_files " << _defDocProcSettings.getLimitNumberOpenFiles()
+        << '\n';
 
     if (_forKitWritePipe != -1)
         IoUtil::writeToPipe(_forKitWritePipe, oss.str());
@@ -589,33 +581,39 @@ void Admin::triggerMemoryCleanup(const size_t totalMem)
     const auto memLimit = LOOLWSD::getConfigValue<double>("memproportion", 0.0);
     if (memLimit == 0.0 || _totalSysMemKb == 0)
     {
-        LOG_TRC("Total memory consumed: " << totalMem <<
-                " KB. Not configured to do memory cleanup. Skipping memory cleanup.");
+        LOG_TRC("Total memory consumed: "
+                << totalMem
+                << " KB. Not configured to do memory cleanup. Skipping memory cleanup.");
         return;
     }
 
-    LOG_TRC("Total memory consumed: " << totalMem << " KB. Configured LOOL memory proportion: " <<
-            memLimit << "% (" << static_cast<size_t>(_totalSysMemKb * memLimit / 100.) << " KB).");
+    LOG_TRC("Total memory consumed: "
+            << totalMem << " KB. Configured LOOL memory proportion: " << memLimit << "% ("
+            << static_cast<size_t>(_totalSysMemKb * memLimit / 100.) << " KB).");
 
-    const double memToFreePercentage = (totalMem / static_cast<double>(_totalSysMemKb)) - memLimit / 100.;
-    int memToFreeKb = static_cast<int>(memToFreePercentage > 0.0 ? memToFreePercentage * _totalSysMemKb : 0);
+    const double memToFreePercentage
+        = (totalMem / static_cast<double>(_totalSysMemKb)) - memLimit / 100.;
+    int memToFreeKb
+        = static_cast<int>(memToFreePercentage > 0.0 ? memToFreePercentage * _totalSysMemKb : 0);
     // Don't kill documents to save a KB or two.
     if (memToFreeKb > 1024)
     {
         // prepare document list sorted by most idle times
         const std::vector<DocBasicInfo> docList = _model.getDocumentsSortedByIdle();
 
-        LOG_TRC("OOM: Memory to free: " << memToFreePercentage << "% (" <<
-                memToFreeKb << " KB) from " << docList.size() << " docs.");
+        LOG_TRC("OOM: Memory to free: " << memToFreePercentage << "% (" << memToFreeKb
+                                        << " KB) from " << docList.size() << " docs.");
 
         for (const auto& doc : docList)
         {
-            LOG_TRC("OOM Document: DocKey: [" << doc.getDocKey() << "], Idletime: [" << doc.getIdleTime() << "]," <<
-                    " Saved: [" << doc.getSaved() << "], Mem: [" << doc.getMem() << "].");
+            LOG_TRC("OOM Document: DocKey: ["
+                    << doc.getDocKey() << "], Idletime: [" << doc.getIdleTime() << "],"
+                    << " Saved: [" << doc.getSaved() << "], Mem: [" << doc.getMem() << "].");
             if (doc.getSaved())
             {
                 // Kill the saved documents first.
-                LOG_DBG("OOM: Killing saved document with DocKey [" << doc.getDocKey() << "] with " << doc.getMem() << " KB.");
+                LOG_DBG("OOM: Killing saved document with DocKey [" << doc.getDocKey() << "] with "
+                                                                    << doc.getMem() << " KB.");
                 LOOLWSD::closeDocument(doc.getDocKey(), "oom");
                 memToFreeKb -= doc.getMem();
                 if (memToFreeKb <= 1024)
@@ -641,16 +639,15 @@ class MonitorSocketHandler : public AdminSocketHandler
 {
     bool _connecting;
     std::string _uri;
-public:
 
-    MonitorSocketHandler(Admin *admin, const std::string &uri) :
-        AdminSocketHandler(admin),
-        _connecting(true),
-        _uri(uri)
+public:
+    MonitorSocketHandler(Admin* admin, const std::string& uri)
+        : AdminSocketHandler(admin)
+        , _connecting(true)
+        , _uri(uri)
     {
     }
-    int getPollEvents(std::chrono::steady_clock::time_point now,
-                      int &timeoutMaxMs) override
+    int getPollEvents(std::chrono::steady_clock::time_point now, int& timeoutMaxMs) override
     {
         if (_connecting)
         {
@@ -671,11 +668,12 @@ public:
     void onDisconnect() override
     {
         LOG_WRN("Monitor " << _uri << " dis-connected, re-trying in 20 seconds");
-        Admin::instance().scheduleMonitorConnect(_uri, std::chrono::steady_clock::now() + std::chrono::seconds(20));
+        Admin::instance().scheduleMonitorConnect(_uri, std::chrono::steady_clock::now()
+                                                           + std::chrono::seconds(20));
     }
 };
 
-void Admin::connectToMonitorSync(const std::string &uri)
+void Admin::connectToMonitorSync(const std::string& uri)
 {
     LOG_TRC("Add monitor " << uri);
     auto handler = std::make_shared<MonitorSocketHandler>(this, uri);
@@ -683,7 +681,8 @@ void Admin::connectToMonitorSync(const std::string &uri)
     AdminSocketHandler::subscribeAsync(handler);
 }
 
-void Admin::scheduleMonitorConnect(const std::string &uri, std::chrono::steady_clock::time_point when)
+void Admin::scheduleMonitorConnect(const std::string& uri,
+                                   std::chrono::steady_clock::time_point when)
 {
     assertCorrectThread();
 
@@ -698,7 +697,7 @@ void Admin::start()
     bool haveMonitors = false;
     const auto& config = Application::instance().config();
 
-    for (size_t i = 0; ; ++i)
+    for (size_t i = 0;; ++i)
     {
         const std::string path = "monitors.monitor[" + std::to_string(i) + "]";
         const std::string uri = config.getString(path, "");

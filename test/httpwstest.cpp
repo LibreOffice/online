@@ -91,8 +91,8 @@ class HTTPWSTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testInactiveClient);
     CPPUNIT_TEST(testMaxColumn);
     CPPUNIT_TEST(testMaxRow);
-//    CPPUNIT_TEST(testInsertAnnotationWriter);
-//    CPPUNIT_TEST(testEditAnnotationWriter);
+    //    CPPUNIT_TEST(testInsertAnnotationWriter);
+    //    CPPUNIT_TEST(testEditAnnotationWriter);
     // FIXME CPPUNIT_TEST(testInsertAnnotationCalc);
     CPPUNIT_TEST(testCalcEditRendering);
     CPPUNIT_TEST(testCalcRenderAfterNewView51);
@@ -180,34 +180,30 @@ class HTTPWSTest : public CPPUNIT_NS::TestFixture
 
     void loadDoc(const std::string& documentURL, const std::string& testname);
 
-    int loadTorture(const std::string& testname,
-                     const std::string& docName,
-                     const size_t thread_count,
-                     const size_t max_jitter_ms);
+    int loadTorture(const std::string& testname, const std::string& docName,
+                    const size_t thread_count, const size_t max_jitter_ms);
 
-    void getPartHashCodes(const std::string& testname,
-                          const std::string& response,
+    void getPartHashCodes(const std::string& testname, const std::string& response,
                           std::vector<std::string>& parts);
 
-    void getCursor(const std::string& message,
-                   int& cursorX,
-                   int& cursorY,
-                   int& cursorWidth,
+    void getCursor(const std::string& message, int& cursorX, int& cursorY, int& cursorWidth,
                    int& cursorHeight);
 
-    void limitCursor(const std::function<void(const std::shared_ptr<LOOLWebSocket>& socket,
-                                        int cursorX, int cursorY,
-                                        int cursorWidth, int cursorHeight,
-                                        int docWidth, int docHeight)>& keyhandler,
-                     const std::function<void(int docWidth, int docHeight,
-                                        int newWidth, int newHeight)>& checkhandler,
-                     const std::string& testname);
+    void
+    limitCursor(const std::function<void(const std::shared_ptr<LOOLWebSocket>& socket, int cursorX,
+                                         int cursorY, int cursorWidth, int cursorHeight,
+                                         int docWidth, int docHeight)>& keyhandler,
+                const std::function<void(int docWidth, int docHeight, int newWidth, int newHeight)>&
+                    checkhandler,
+                const std::string& testname);
 
     std::string getFontList(const std::string& message);
     void testStateChanged(const std::string& filename, std::set<std::string>& vecComands);
     double getColRowSize(const std::string& property, const std::string& message, int index);
-    double getColRowSize(const std::shared_ptr<LOOLWebSocket>& socket, const std::string& item, int index, const std::string& testname);
-    void testEachView(const std::string& doc, const std::string& type, const std::string& protocol, const std::string& view, const std::string& testname);
+    double getColRowSize(const std::shared_ptr<LOOLWebSocket>& socket, const std::string& item,
+                         int index, const std::string& testname);
+    void testEachView(const std::string& doc, const std::string& type, const std::string& protocol,
+                      const std::string& view, const std::string& testname);
 
 public:
     HTTPWSTest()
@@ -216,18 +212,17 @@ public:
 #if ENABLE_SSL
         Poco::Net::initializeSSL();
         // Just accept the certificate anyway for testing purposes
-        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidCertHandler = new Poco::Net::AcceptCertificateHandler(false);
+        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidCertHandler
+            = new Poco::Net::AcceptCertificateHandler(false);
         Poco::Net::Context::Params sslParams;
-        Poco::Net::Context::Ptr sslContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
+        Poco::Net::Context::Ptr sslContext
+            = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
         Poco::Net::SSLManager::instance().initializeClient(nullptr, invalidCertHandler, sslContext);
 #endif
     }
 
 #if ENABLE_SSL
-    ~HTTPWSTest()
-    {
-        Poco::Net::uninitializeSSL();
-    }
+    ~HTTPWSTest() { Poco::Net::uninitializeSSL(); }
 #endif
 
     void setUp()
@@ -264,7 +259,8 @@ void HTTPWSTest::testBadRequest()
         session->setKeepAlive(true);
         session->sendRequest(request);
         session->receiveResponse(response);
-        CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTPResponse::HTTP_BAD_REQUEST, response.getStatus());
+        CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTPResponse::HTTP_BAD_REQUEST,
+                             response.getStatus());
     }
     catch (const Poco::Exception& exc)
     {
@@ -288,7 +284,7 @@ void HTTPWSTest::testHandshake()
         socket.setReceiveTimeout(0);
 
         int flags = 0;
-        char buffer[1024] = {0};
+        char buffer[1024] = { 0 };
         int bytes = socket.receiveFrame(buffer, sizeof(buffer), flags);
         TST_LOG("Got " << LOOLProtocol::getAbbreviatedFrameDump(buffer, bytes, flags));
         CPPUNIT_ASSERT_EQUAL(std::string("statusindicator: find"), std::string(buffer, bytes));
@@ -297,13 +293,15 @@ void HTTPWSTest::testHandshake()
         TST_LOG("Got " << LOOLProtocol::getAbbreviatedFrameDump(buffer, bytes, flags));
         if (bytes > 0 && !std::strstr(buffer, "error:"))
         {
-            CPPUNIT_ASSERT_EQUAL(std::string("statusindicator: connect"), std::string(buffer, bytes));
+            CPPUNIT_ASSERT_EQUAL(std::string("statusindicator: connect"),
+                                 std::string(buffer, bytes));
 
             bytes = socket.receiveFrame(buffer, sizeof(buffer), flags);
             TST_LOG("Got " << LOOLProtocol::getAbbreviatedFrameDump(buffer, bytes, flags));
             if (!std::strstr(buffer, "error:"))
             {
-                CPPUNIT_ASSERT_EQUAL(std::string("statusindicator: ready"), std::string(buffer, bytes));
+                CPPUNIT_ASSERT_EQUAL(std::string("statusindicator: ready"),
+                                     std::string(buffer, bytes));
             }
             else
             {
@@ -313,7 +311,8 @@ void HTTPWSTest::testHandshake()
                 // close frame message
                 bytes = socket.receiveFrame(buffer, sizeof(buffer), flags);
                 TST_LOG("Got " << LOOLProtocol::getAbbreviatedFrameDump(buffer, bytes, flags));
-                CPPUNIT_ASSERT((flags & Poco::Net::WebSocket::FRAME_OP_BITMASK) == Poco::Net::WebSocket::FRAME_OP_CLOSE);
+                CPPUNIT_ASSERT((flags & Poco::Net::WebSocket::FRAME_OP_BITMASK)
+                               == Poco::Net::WebSocket::FRAME_OP_CLOSE);
             }
         }
         else
@@ -324,7 +323,8 @@ void HTTPWSTest::testHandshake()
             // close frame message
             bytes = socket.receiveFrame(buffer, sizeof(buffer), flags);
             TST_LOG("Got " << LOOLProtocol::getAbbreviatedFrameDump(buffer, bytes, flags));
-            CPPUNIT_ASSERT((flags & Poco::Net::WebSocket::FRAME_OP_BITMASK) == Poco::Net::WebSocket::FRAME_OP_CLOSE);
+            CPPUNIT_ASSERT((flags & Poco::Net::WebSocket::FRAME_OP_BITMASK)
+                           == Poco::Net::WebSocket::FRAME_OP_CLOSE);
         }
     }
     catch (const Poco::Exception& exc)
@@ -355,17 +355,19 @@ void HTTPWSTest::testCloseAfterClose()
         do
         {
             bytes = socket->receiveFrame(buffer, sizeof(buffer), flags);
-            TST_LOG("Received [" << std::string(buffer, bytes) << "], flags: "<< std::hex << flags << std::dec);
-        }
-        while (bytes > 0 && (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK) != Poco::Net::WebSocket::FRAME_OP_CLOSE);
+            TST_LOG("Received [" << std::string(buffer, bytes) << "], flags: " << std::hex << flags
+                                 << std::dec);
+        } while (bytes > 0
+                 && (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK)
+                        != Poco::Net::WebSocket::FRAME_OP_CLOSE);
 
-        TST_LOG("Received " << bytes << " bytes, flags: "<< std::hex << flags << std::dec);
+        TST_LOG("Received " << bytes << " bytes, flags: " << std::hex << flags << std::dec);
 
         try
         {
             // no more messages is received.
             bytes = socket->receiveFrame(buffer, sizeof(buffer), flags);
-            TST_LOG("Received " << bytes << " bytes, flags: "<< std::hex << flags << std::dec);
+            TST_LOG("Received " << bytes << " bytes, flags: " << std::hex << flags << std::dec);
             CPPUNIT_ASSERT_EQUAL(0, bytes);
             CPPUNIT_ASSERT_EQUAL(0, flags);
         }
@@ -375,7 +377,6 @@ void HTTPWSTest::testCloseAfterClose()
             // echoing back the shutdown status code. However, if it doesn't
             // we assert above that it doesn't send any more data.
             TST_LOG("Error: " << exc.displayText());
-
         }
     }
     catch (const Poco::Exception& exc)
@@ -424,7 +425,8 @@ void HTTPWSTest::testConnectNoLoad()
     std::shared_ptr<LOOLWebSocket> socket1 = connectLOKit(_uri, request, _response, testname2);
     CPPUNIT_ASSERT_MESSAGE("Failed to connect.", socket1);
     sendTextFrame(socket1, "load url=" + documentURL, testname2);
-    CPPUNIT_ASSERT_MESSAGE("cannot load the document " + documentURL, isDocumentLoaded(socket1, testname2));
+    CPPUNIT_ASSERT_MESSAGE("cannot load the document " + documentURL,
+                           isDocumentLoaded(socket1, testname2));
 
     // Connect but don't load second view.
     TST_LOG_NAME(testname3, "Connecting third to disconnect without loading.");
@@ -450,10 +452,8 @@ void HTTPWSTest::testLoadSimple()
     loadDoc(documentURL, "load ");
 }
 
-int HTTPWSTest::loadTorture(const std::string& testname,
-                            const std::string& docName,
-                            const size_t thread_count,
-                            const size_t max_jitter_ms)
+int HTTPWSTest::loadTorture(const std::string& testname, const std::string& docName,
+                            const size_t thread_count, const size_t max_jitter_ms)
 {
     // Load same document from many threads together.
     std::string documentPath, documentURL;
@@ -467,8 +467,7 @@ int HTTPWSTest::loadTorture(const std::string& testname,
     std::vector<std::thread> threads;
     for (size_t i = 0; i < thread_count; ++i)
     {
-        threads.emplace_back([&]
-        {
+        threads.emplace_back([&] {
             std::ostringstream oss;
             oss << std::hex << std::this_thread::get_id();
             const std::string id = oss.str();
@@ -479,7 +478,8 @@ int HTTPWSTest::loadTorture(const std::string& testname,
                 // Load a document and wait for the status.
                 Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, documentURL);
                 Poco::Net::HTTPResponse response;
-                std::shared_ptr<LOOLWebSocket> socket = connectLOKit(_uri, request, response, testname);
+                std::shared_ptr<LOOLWebSocket> socket
+                    = connectLOKit(_uri, request, response, testname);
                 sendTextFrame(socket, "load url=" + documentURL, testname);
 
                 const auto status = assertResponseString(socket, "status:", testname);
@@ -489,7 +489,8 @@ int HTTPWSTest::loadTorture(const std::string& testname,
                 ++num_of_views;
                 --num_to_load;
 
-                TST_LOG(": #" << id << ", loaded views: " << num_of_views << ", to load: " << num_to_load);
+                TST_LOG(": #" << id << ", loaded views: " << num_of_views
+                              << ", to load: " << num_to_load);
 
                 while (true)
                 {
@@ -500,15 +501,17 @@ int HTTPWSTest::loadTorture(const std::string& testname,
                         break;
                     }
 
-                    const auto ms = (max_jitter_ms > 0
-                                    ? std::chrono::milliseconds(Util::rng::getNext() % max_jitter_ms)
-                                    : std::chrono::milliseconds(0));
+                    const auto ms
+                        = (max_jitter_ms > 0
+                               ? std::chrono::milliseconds(Util::rng::getNext() % max_jitter_ms)
+                               : std::chrono::milliseconds(0));
                     std::this_thread::sleep_for(ms);
 
                     // Unload only when we aren't the last/only.
                     if (--num_of_views > 0)
                     {
-                        TST_LOG(": #" << id << ", views: " << num_of_views << " not the last/only, unloading.");
+                        TST_LOG(": #" << id << ", views: " << num_of_views
+                                      << " not the last/only, unloading.");
                         break;
                     }
                     else
@@ -594,8 +597,7 @@ void HTTPWSTest::testLoadTorture()
     threads.reserve(docNames.size());
     for (const auto& docName : docNames)
     {
-        threads.emplace_back([&]
-        {
+        threads.emplace_back([&] {
             const auto testname = "loadTorture_" + docName + ' ';
             loadTorture(testname, docName, thread_count, max_jitter_ms);
         });
@@ -639,7 +641,7 @@ void HTTPWSTest::testReload()
     getDocumentPathAndURL("hello.odt", documentPath, documentURL, testname);
     for (int i = 0; i < 3; ++i)
     {
-        TST_LOG("loading #" << (i+1));
+        TST_LOG("loading #" << (i + 1));
         loadDoc(documentURL, testname);
     }
 }
@@ -854,13 +856,15 @@ void HTTPWSTest::testExcelLoad()
     try
     {
         // Load a document and get status.
-        std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("timeline.xlsx", _uri, testname);
+        std::shared_ptr<LOOLWebSocket> socket
+            = loadDocAndGetSocket("timeline.xlsx", _uri, testname);
 
         sendTextFrame(socket, "status", testname);
         const auto status = assertResponseString(socket, "status:", testname);
 
         // Expected format is something like 'status: type=text parts=2 current=0 width=12808 height=1142'.
-        Poco::StringTokenizer tokens(status, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer tokens(
+            status, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(8), tokens.count());
     }
     catch (const Poco::Exception& exc)
@@ -878,7 +882,9 @@ void HTTPWSTest::testPaste()
 
     for (int i = 0; i < 5; ++i)
     {
-        const std::string text = std::to_string(i + 1) + "_sh9le[;\"CFD7U[#B+_nW=$kXgx{sv9QE#\"l1y\"hr_" + Util::encodeId(Util::rng::getNext());
+        const std::string text = std::to_string(i + 1)
+                                 + "_sh9le[;\"CFD7U[#B+_nW=$kXgx{sv9QE#\"l1y\"hr_"
+                                 + Util::encodeId(Util::rng::getNext());
         TST_LOG("Pasting text #" << i + 1 << ": " << text);
 
         // Always delete everything to have an empty doc.
@@ -968,7 +974,8 @@ void HTTPWSTest::testRenderingOptions()
         std::string documentPath, documentURL;
         getDocumentPathAndURL("hide-whitespace.odt", documentPath, documentURL, testname);
 
-        const std::string options = "{\"rendering\":{\".uno:HideWhitespace\":{\"type\":\"boolean\",\"value\":\"true\"}}}";
+        const std::string options
+            = "{\"rendering\":{\".uno:HideWhitespace\":{\"type\":\"boolean\",\"value\":\"true\"}}}";
 
         Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, documentURL);
         std::shared_ptr<LOOLWebSocket> socket = connectLOKit(_uri, request, _response, testname);
@@ -978,7 +985,8 @@ void HTTPWSTest::testRenderingOptions()
         const auto status = assertResponseString(socket, "status:", testname);
 
         // Expected format is something like 'status: type=text parts=2 current=0 width=12808 height=1142'.
-        Poco::StringTokenizer tokens(status, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer tokens(
+            status, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(7), tokens.count());
 
         const std::string token = tokens[5];
@@ -1009,7 +1017,9 @@ void HTTPWSTest::testPasswordProtectedDocumentWithoutPassword()
         sendTextFrame(socket, "load url=" + documentURL);
 
         const auto response = getResponseString(socket, "error:", testname);
-        Poco::StringTokenizer tokens(response, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer tokens(response, " ",
+                                     Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                         | Poco::StringTokenizer::TOK_TRIM);
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), tokens.count());
 
         std::string errorCommand;
@@ -1040,7 +1050,9 @@ void HTTPWSTest::testPasswordProtectedDocumentWithWrongPassword()
         sendTextFrame(socket, "load url=" + documentURL + " password=2");
 
         const auto response = getResponseString(socket, "error:", testname);
-        Poco::StringTokenizer tokens(response, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer tokens(response, " ",
+                                     Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                         | Poco::StringTokenizer::TOK_TRIM);
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), tokens.count());
 
         std::string errorCommand;
@@ -1070,7 +1082,8 @@ void HTTPWSTest::testPasswordProtectedDocumentWithCorrectPassword()
         // Send a load request with correct password
         sendTextFrame(socket, "load url=" + documentURL + " password=1");
 
-        CPPUNIT_ASSERT_MESSAGE("cannot load the document with correct password " + documentURL, isDocumentLoaded(socket, testname));
+        CPPUNIT_ASSERT_MESSAGE("cannot load the document with correct password " + documentURL,
+                               isDocumentLoaded(socket, testname));
     }
     catch (const Poco::Exception& exc)
     {
@@ -1097,7 +1110,8 @@ void HTTPWSTest::testPasswordProtectedOOXMLDocument()
         // Send a load request with correct password
         sendTextFrame(socket, "load url=" + documentURL + " password=abc");
 
-        CPPUNIT_ASSERT_MESSAGE("cannot load the document with correct password " + documentURL, isDocumentLoaded(socket, testname));
+        CPPUNIT_ASSERT_MESSAGE("cannot load the document with correct password " + documentURL,
+                               isDocumentLoaded(socket, testname));
     }
     catch (const Poco::Exception& exc)
     {
@@ -1119,7 +1133,8 @@ void HTTPWSTest::testPasswordProtectedBinaryMSOfficeDocument()
         // Send a load request with correct password
         sendTextFrame(socket, "load url=" + documentURL + " password=abc");
 
-        CPPUNIT_ASSERT_MESSAGE("cannot load the document with correct password " + documentURL, isDocumentLoaded(socket, testname));
+        CPPUNIT_ASSERT_MESSAGE("cannot load the document with correct password " + documentURL,
+                               isDocumentLoaded(socket, testname));
     }
     catch (const Poco::Exception& exc)
     {
@@ -1143,7 +1158,8 @@ void HTTPWSTest::testInsertDelete()
         std::shared_ptr<LOOLWebSocket> socket = connectLOKit(_uri, request, _response, testname);
 
         sendTextFrame(socket, "load url=" + documentURL);
-        CPPUNIT_ASSERT_MESSAGE("cannot load the document " + documentURL, isDocumentLoaded(socket, testname));
+        CPPUNIT_ASSERT_MESSAGE("cannot load the document " + documentURL,
+                               isDocumentLoaded(socket, testname));
 
         // check total slides 1
         TST_LOG("Expecting 1 slide.");
@@ -1161,12 +1177,14 @@ void HTTPWSTest::testInsertDelete()
         {
             sendTextFrame(socket, "uno .uno:InsertPage");
             response = getResponseString(socket, "status:", testname);
-            CPPUNIT_ASSERT_MESSAGE("did not receive a status: message as expected", !response.empty());
+            CPPUNIT_ASSERT_MESSAGE("did not receive a status: message as expected",
+                                   !response.empty());
             getPartHashCodes(testname, response.substr(7), parts);
             CPPUNIT_ASSERT_EQUAL(it + 1, parts.size());
         }
 
-        CPPUNIT_ASSERT_MESSAGE("Hash code of slide #1 changed after inserting extra slides.", parts[0] == slide1Hash);
+        CPPUNIT_ASSERT_MESSAGE("Hash code of slide #1 changed after inserting extra slides.",
+                               parts[0] == slide1Hash);
         const std::vector<std::string> parts_after_insert(parts.begin(), parts.end());
 
         // delete 10 slides
@@ -1177,12 +1195,14 @@ void HTTPWSTest::testInsertDelete()
             sendTextFrame(socket, "setclientpart part=" + std::to_string(it));
             sendTextFrame(socket, "uno .uno:DeletePage");
             response = getResponseString(socket, "status:", testname);
-            CPPUNIT_ASSERT_MESSAGE("did not receive a status: message as expected", !response.empty());
+            CPPUNIT_ASSERT_MESSAGE("did not receive a status: message as expected",
+                                   !response.empty());
             getPartHashCodes(testname, response.substr(7), parts);
             CPPUNIT_ASSERT_EQUAL(11 - it, parts.size());
         }
 
-        CPPUNIT_ASSERT_MESSAGE("Hash code of slide #1 changed after deleting extra slides.", parts[0] == slide1Hash);
+        CPPUNIT_ASSERT_MESSAGE("Hash code of slide #1 changed after deleting extra slides.",
+                               parts[0] == slide1Hash);
 
         // undo delete slides
         TST_LOG("Undoing 10 slide deletes.");
@@ -1190,14 +1210,17 @@ void HTTPWSTest::testInsertDelete()
         {
             sendTextFrame(socket, "uno .uno:Undo");
             response = getResponseString(socket, "status:", testname);
-            CPPUNIT_ASSERT_MESSAGE("did not receive a status: message as expected", !response.empty());
+            CPPUNIT_ASSERT_MESSAGE("did not receive a status: message as expected",
+                                   !response.empty());
             getPartHashCodes(testname, response.substr(7), parts);
             CPPUNIT_ASSERT_EQUAL(it + 1, parts.size());
         }
 
-        CPPUNIT_ASSERT_MESSAGE("Hash code of slide #1 changed after undoing slide delete.", parts[0] == slide1Hash);
+        CPPUNIT_ASSERT_MESSAGE("Hash code of slide #1 changed after undoing slide delete.",
+                               parts[0] == slide1Hash);
         const std::vector<std::string> parts_after_undo(parts.begin(), parts.end());
-        CPPUNIT_ASSERT_MESSAGE("Hash codes changed between deleting and undo.", parts_after_insert == parts_after_undo);
+        CPPUNIT_ASSERT_MESSAGE("Hash codes changed between deleting and undo.",
+                               parts_after_insert == parts_after_undo);
 
         // redo inserted slides
         TST_LOG("Redoing 10 slide deletes.");
@@ -1205,12 +1228,14 @@ void HTTPWSTest::testInsertDelete()
         {
             sendTextFrame(socket, "uno .uno:Redo");
             response = getResponseString(socket, "status:", testname);
-            CPPUNIT_ASSERT_MESSAGE("did not receive a status: message as expected", !response.empty());
+            CPPUNIT_ASSERT_MESSAGE("did not receive a status: message as expected",
+                                   !response.empty());
             getPartHashCodes(testname, response.substr(7), parts);
             CPPUNIT_ASSERT_EQUAL(11 - it, parts.size());
         }
 
-        CPPUNIT_ASSERT_MESSAGE("Hash code of slide #1 changed after redoing slide delete.", parts[0] == slide1Hash);
+        CPPUNIT_ASSERT_MESSAGE("Hash code of slide #1 changed after redoing slide delete.",
+                               parts[0] == slide1Hash);
 
         // check total slides 1
         TST_LOG("Expecting 1 slide.");
@@ -1226,7 +1251,7 @@ void HTTPWSTest::testInsertDelete()
     }
 }
 
-static int findInDOM(Poco::XML::Document *doc, const char *string, bool checkName,
+static int findInDOM(Poco::XML::Document* doc, const char* string, bool checkName,
                      unsigned long nodeFilter = Poco::XML::NodeFilter::SHOW_ALL)
 {
     int count = 0;
@@ -1261,14 +1286,19 @@ void HTTPWSTest::testSlideShow()
         std::shared_ptr<LOOLWebSocket> socket = connectLOKit(_uri, request, _response, testname);
 
         sendTextFrame(socket, "load url=" + documentURL, testname);
-        CPPUNIT_ASSERT_MESSAGE("cannot load the document " + documentURL, isDocumentLoaded(socket, testname));
+        CPPUNIT_ASSERT_MESSAGE("cannot load the document " + documentURL,
+                               isDocumentLoaded(socket, testname));
 
         // request slide show
-        sendTextFrame(socket, "downloadas name=slideshow.svg id=slideshow format=svg options=", testname);
+        sendTextFrame(socket,
+                      "downloadas name=slideshow.svg id=slideshow format=svg options=", testname);
         response = getResponseString(socket, "downloadas:", testname);
-        CPPUNIT_ASSERT_MESSAGE("did not receive a downloadas: message as expected", !response.empty());
+        CPPUNIT_ASSERT_MESSAGE("did not receive a downloadas: message as expected",
+                               !response.empty());
 
-        Poco::StringTokenizer tokens(response.substr(11), " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer tokens(response.substr(11), " ",
+                                     Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                         | Poco::StringTokenizer::TOK_TRIM);
         // "downloadas: jail= dir= name=slideshow.svg port= id=slideshow"
         const std::string jail = tokens[0].substr(std::string("jail=").size());
         const std::string dir = tokens[1].substr(std::string("dir=").size());
@@ -1295,9 +1325,9 @@ void HTTPWSTest::testSlideShow()
         CPPUNIT_ASSERT_EQUAL(std::string("image/svg+xml"), responseSVG.getContentType());
         TST_LOG("SVG file size: " << responseSVG.getContentLength());
 
-//        std::ofstream ofs("/tmp/slide.svg");
-//        Poco::StreamCopier::copyStream(rs, ofs);
-//        ofs.close();
+        //        std::ofstream ofs("/tmp/slide.svg");
+        //        Poco::StreamCopier::copyStream(rs, ofs);
+        //        ofs.close();
 
         // Asserting on the size of the stream is really unhelpful;
         // lets checkout the contents instead ...
@@ -1306,10 +1336,14 @@ void HTTPWSTest::testSlideShow()
         Poco::AutoPtr<Poco::XML::Document> doc = parser.parse(&svgSrc);
 
         // Do we have our automation / scripting
-        CPPUNIT_ASSERT(findInDOM(doc, "jessyinkstart",    false, Poco::XML::NodeFilter::SHOW_CDATA_SECTION));
-        CPPUNIT_ASSERT(findInDOM(doc, "jessyinkend",      false, Poco::XML::NodeFilter::SHOW_CDATA_SECTION));
-        CPPUNIT_ASSERT(findInDOM(doc, "libreofficestart", false, Poco::XML::NodeFilter::SHOW_CDATA_SECTION));
-        CPPUNIT_ASSERT(findInDOM(doc, "libreofficeend",   false, Poco::XML::NodeFilter::SHOW_CDATA_SECTION));
+        CPPUNIT_ASSERT(
+            findInDOM(doc, "jessyinkstart", false, Poco::XML::NodeFilter::SHOW_CDATA_SECTION));
+        CPPUNIT_ASSERT(
+            findInDOM(doc, "jessyinkend", false, Poco::XML::NodeFilter::SHOW_CDATA_SECTION));
+        CPPUNIT_ASSERT(
+            findInDOM(doc, "libreofficestart", false, Poco::XML::NodeFilter::SHOW_CDATA_SECTION));
+        CPPUNIT_ASSERT(
+            findInDOM(doc, "libreofficeend", false, Poco::XML::NodeFilter::SHOW_CDATA_SECTION));
 
         // Do we have plausible content ?
         int countText = findInDOM(doc, "text", true, Poco::XML::NodeFilter::SHOW_ELEMENT);
@@ -1329,11 +1363,13 @@ void HTTPWSTest::testInactiveClient()
         std::string documentPath, documentURL;
         getDocumentPathAndURL("hello.odt", documentPath, documentURL, testname);
 
-        std::shared_ptr<LOOLWebSocket> socket1 = loadDocAndGetSocket(_uri, documentURL, "inactiveClient-1 ");
+        std::shared_ptr<LOOLWebSocket> socket1
+            = loadDocAndGetSocket(_uri, documentURL, "inactiveClient-1 ");
 
         // Connect another and go inactive.
         TST_LOG_NAME("inactiveClient-2 ", "Connecting second client.");
-        std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, "inactiveClient-2 ", true);
+        std::shared_ptr<LOOLWebSocket> socket2
+            = loadDocAndGetSocket(_uri, documentURL, "inactiveClient-2 ", true);
         sendTextFrame(socket2, "userinactive", "inactiveClient-2 ");
 
         // While second is inactive, make some changes.
@@ -1342,30 +1378,21 @@ void HTTPWSTest::testInactiveClient()
 
         // Activate second.
         sendTextFrame(socket2, "useractive", "inactiveClient-2 ");
-        SocketProcessor("Second ", socket2, [&](const std::string& msg)
-                {
-                    const auto token = LOOLProtocol::getFirstToken(msg);
-                    CPPUNIT_ASSERT_MESSAGE("unexpected message: " + msg,
-                                            token == "cursorvisible:" ||
-                                            token == "graphicselection:" ||
-                                            token == "graphicviewselection:" ||
-                                            token == "invalidatecursor:" ||
-                                            token == "invalidatetiles:" ||
-                                            token == "invalidateviewcursor:" ||
-                                            token == "setpart:" ||
-                                            token == "statechanged:" ||
-                                            token == "textselection:" ||
-                                            token == "textselectionend:" ||
-                                            token == "textselectionstart:" ||
-                                            token == "textviewselection:" ||
-                                            token == "viewcursorvisible:" ||
-                                            token == "viewinfo:" ||
-                                            token == "editor:" ||
-                                            token == "context:");
+        SocketProcessor("Second ", socket2, [&](const std::string& msg) {
+            const auto token = LOOLProtocol::getFirstToken(msg);
+            CPPUNIT_ASSERT_MESSAGE(
+                "unexpected message: " + msg,
+                token == "cursorvisible:" || token == "graphicselection:"
+                    || token == "graphicviewselection:" || token == "invalidatecursor:"
+                    || token == "invalidatetiles:" || token == "invalidateviewcursor:"
+                    || token == "setpart:" || token == "statechanged:" || token == "textselection:"
+                    || token == "textselectionend:" || token == "textselectionstart:"
+                    || token == "textviewselection:" || token == "viewcursorvisible:"
+                    || token == "viewinfo:" || token == "editor:" || token == "context:");
 
-                    // End when we get state changed.
-                    return (token != "statechanged:");
-                });
+            // End when we get state changed.
+            return (token != "statechanged:");
+        });
 
         TST_LOG("Second client finished.");
         socket1->shutdown();
@@ -1383,10 +1410,8 @@ void HTTPWSTest::testMaxColumn()
     {
         limitCursor(
             // move cursor to last column
-            [](const std::shared_ptr<LOOLWebSocket>& socket,
-               int cursorX, int cursorY, int cursorWidth, int cursorHeight,
-               int docWidth, int docHeight)
-            {
+            [](const std::shared_ptr<LOOLWebSocket>& socket, int cursorX, int cursorY,
+               int cursorWidth, int cursorHeight, int docWidth, int docHeight) {
                 CPPUNIT_ASSERT(cursorX >= 0);
                 CPPUNIT_ASSERT(cursorY >= 0);
                 CPPUNIT_ASSERT(cursorWidth >= 0);
@@ -1402,13 +1427,11 @@ void HTTPWSTest::testMaxColumn()
                 }
             },
             // check new document width
-            [](int docWidth, int docHeight, int newWidth, int newHeight)
-            {
+            [](int docWidth, int docHeight, int newWidth, int newHeight) {
                 CPPUNIT_ASSERT_EQUAL(docHeight, newHeight);
                 CPPUNIT_ASSERT(newWidth > docWidth);
             },
-            "maxColumn"
-        );
+            "maxColumn");
     }
     catch (const Poco::Exception& exc)
     {
@@ -1422,10 +1445,8 @@ void HTTPWSTest::testMaxRow()
     {
         limitCursor(
             // move cursor to last row
-            [](const std::shared_ptr<LOOLWebSocket>& socket,
-               int cursorX, int cursorY, int cursorWidth, int cursorHeight,
-               int docWidth, int docHeight)
-            {
+            [](const std::shared_ptr<LOOLWebSocket>& socket, int cursorX, int cursorY,
+               int cursorWidth, int cursorHeight, int docWidth, int docHeight) {
                 CPPUNIT_ASSERT(cursorX >= 0);
                 CPPUNIT_ASSERT(cursorY >= 0);
                 CPPUNIT_ASSERT(cursorWidth >= 0);
@@ -1441,13 +1462,11 @@ void HTTPWSTest::testMaxRow()
                 }
             },
             // check new document height
-            [](int docWidth, int docHeight, int newWidth, int newHeight)
-            {
+            [](int docWidth, int docHeight, int newWidth, int newHeight) {
                 CPPUNIT_ASSERT_EQUAL(docWidth, newWidth);
                 CPPUNIT_ASSERT(newHeight > docHeight);
             },
-            "maxRow"
-        );
+            "maxRow");
     }
     catch (const Poco::Exception& exc)
     {
@@ -1455,8 +1474,7 @@ void HTTPWSTest::testMaxRow()
     }
 }
 
-void HTTPWSTest::getPartHashCodes(const std::string& testname,
-                                  const std::string& response,
+void HTTPWSTest::getPartHashCodes(const std::string& testname, const std::string& response,
                                   std::vector<std::string>& parts)
 {
     std::string line;
@@ -1466,7 +1484,8 @@ void HTTPWSTest::getPartHashCodes(const std::string& testname,
     TST_LOG("Reading parts from [" << response << "].");
 
     // Expected format is something like 'type= parts= current= width= height= viewid='.
-    Poco::StringTokenizer tokens(line, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+    Poco::StringTokenizer tokens(
+        line, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
     CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(6), tokens.count());
 
     const std::string type = tokens[0].substr(std::string("type=").size());
@@ -1500,8 +1519,8 @@ void HTTPWSTest::getPartHashCodes(const std::string& testname,
     CPPUNIT_ASSERT_EQUAL(totalParts, (int)parts.size());
 }
 
-void HTTPWSTest::getCursor(const std::string& message,
-                           int& cursorX, int& cursorY, int& cursorWidth, int& cursorHeight)
+void HTTPWSTest::getCursor(const std::string& message, int& cursorX, int& cursorY, int& cursorWidth,
+                           int& cursorHeight)
 {
     Poco::JSON::Parser parser;
     const Poco::Dynamic::Var result = parser.parse(message);
@@ -1510,7 +1529,8 @@ void HTTPWSTest::getCursor(const std::string& message,
     CPPUNIT_ASSERT_EQUAL(std::string(".uno:CellCursor"), text);
     text = command->get("commandValues").toString();
     CPPUNIT_ASSERT(!text.empty());
-    Poco::StringTokenizer position(text, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+    Poco::StringTokenizer position(
+        text, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
     cursorX = std::stoi(position[0]);
     cursorY = std::stoi(position[1]);
     cursorWidth = std::stoi(position[2]);
@@ -1521,13 +1541,13 @@ void HTTPWSTest::getCursor(const std::string& message,
     CPPUNIT_ASSERT(cursorHeight >= 0);
 }
 
-void HTTPWSTest::limitCursor(const std::function<void(const std::shared_ptr<LOOLWebSocket>& socket,
-                                                int cursorX, int cursorY,
-                                                int cursorWidth, int cursorHeight,
-                                                int docWidth, int docHeight)>& keyhandler,
-                             const std::function<void(int docWidth, int docHeight,
-                                                int newWidth, int newHeight)>& checkhandler,
-                             const std::string& testname)
+void HTTPWSTest::limitCursor(
+    const std::function<void(const std::shared_ptr<LOOLWebSocket>& socket, int cursorX, int cursorY,
+                             int cursorWidth, int cursorHeight, int docWidth, int docHeight)>&
+        keyhandler,
+    const std::function<void(int docWidth, int docHeight, int newWidth, int newHeight)>&
+        checkhandler,
+    const std::string& testname)
 {
     int docSheet = -1;
     int docSheets = 0;
@@ -1550,14 +1570,18 @@ void HTTPWSTest::limitCursor(const std::function<void(const std::shared_ptr<LOOL
     // check document size
     sendTextFrame(socket, "status", testname);
     response = assertResponseString(socket, "status:", testname);
-    parseDocSize(response.substr(7), "spreadsheet", docSheet, docSheets, docWidth, docHeight, docViewId);
+    parseDocSize(response.substr(7), "spreadsheet", docSheet, docSheets, docWidth, docHeight,
+                 docViewId);
 
     // Send an arrow key to initialize the CellCursor, otherwise we get "EMPTY".
     sendTextFrame(socket, "key type=input char=0 key=1027", testname);
 
     std::string text;
-    Poco::format(text, "commandvalues command=.uno:CellCursor?outputHeight=%d&outputWidth=%d&tileHeight=%d&tileWidth=%d",
-                 256, 256, 3840, 3840);
+    Poco::format(
+        text,
+        "commandvalues "
+        "command=.uno:CellCursor?outputHeight=%d&outputWidth=%d&tileHeight=%d&tileWidth=%d",
+        256, 256, 3840, 3840);
     sendTextFrame(socket, text, testname);
     const auto cursor = getResponseString(socket, "commandvalues:", testname);
     getCursor(cursor.substr(14), cursorX, cursorY, cursorWidth, cursorHeight);
@@ -1567,7 +1591,8 @@ void HTTPWSTest::limitCursor(const std::function<void(const std::shared_ptr<LOOL
 
     // filter messages, and expect to receive new document size
     response = assertResponseString(socket, "status:", testname);
-    parseDocSize(response.substr(7), "spreadsheet", newSheet, newSheets, newWidth, newHeight, docViewId);
+    parseDocSize(response.substr(7), "spreadsheet", newSheet, newSheets, newWidth, newHeight,
+                 docViewId);
 
     CPPUNIT_ASSERT_EQUAL(docSheets, newSheets);
     CPPUNIT_ASSERT_EQUAL(docSheet, newSheet);
@@ -1607,8 +1632,10 @@ void HTTPWSTest::testInsertAnnotationWriter()
 
     // Confirm that the text is in the comment and not doc body.
     // Click in the body.
-    sendTextFrame(socket, "mouse type=buttondown x=1600 y=1600 count=1 buttons=1 modifier=0", testname);
-    sendTextFrame(socket, "mouse type=buttonup x=1600 y=1600 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=1600 y=1600 count=1 buttons=1 modifier=0",
+                  testname);
+    sendTextFrame(socket, "mouse type=buttonup x=1600 y=1600 count=1 buttons=1 modifier=0",
+                  testname);
     // Read body text.
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
@@ -1616,19 +1643,25 @@ void HTTPWSTest::testInsertAnnotationWriter()
     CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
 
     // Confirm that the comment is still intact.
-    sendTextFrame(socket, "mouse type=buttondown x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
-    sendTextFrame(socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=13855 y=1893 count=1 buttons=1 modifier=0",
+                  testname);
+    sendTextFrame(socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0",
+                  testname);
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
     res = getResponseString(socket, "textselectioncontent:", testname);
     CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: aaa bbb ccc"), res);
 
     // Can we still edit the coment?
-    sendTextFrame(socket, "paste mimetype=text/plain;charset=utf-8\nand now for something completely different", testname);
+    sendTextFrame(
+        socket,
+        "paste mimetype=text/plain;charset=utf-8\nand now for something completely different",
+        testname);
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
     res = getResponseString(socket, "textselectioncontent:", testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: and now for something completely different"), res);
+    CPPUNIT_ASSERT_EQUAL(
+        std::string("textselectioncontent: and now for something completely different"), res);
 
     // Close and reopen the same document and test again.
     socket->shutdown();
@@ -1641,8 +1674,10 @@ void HTTPWSTest::testInsertAnnotationWriter()
 
     // Confirm that the text is in the comment and not doc body.
     // Click in the body.
-    sendTextFrame(socket, "mouse type=buttondown x=1600 y=1600 count=1 buttons=1 modifier=0", testname);
-    sendTextFrame(socket, "mouse type=buttonup x=1600 y=1600 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=1600 y=1600 count=1 buttons=1 modifier=0",
+                  testname);
+    sendTextFrame(socket, "mouse type=buttonup x=1600 y=1600 count=1 buttons=1 modifier=0",
+                  testname);
     // Read body text.
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
@@ -1650,12 +1685,15 @@ void HTTPWSTest::testInsertAnnotationWriter()
     CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
 
     // Confirm that the comment is still intact.
-    sendTextFrame(socket, "mouse type=buttondown x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
-    sendTextFrame(socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=13855 y=1893 count=1 buttons=1 modifier=0",
+                  testname);
+    sendTextFrame(socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0",
+                  testname);
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
     res = getResponseString(socket, "textselectioncontent:", testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: and now for something completely different"), res);
+    CPPUNIT_ASSERT_EQUAL(
+        std::string("textselectioncontent: and now for something completely different"), res);
 
     // Can we still edit the coment?
     sendTextFrame(socket, "paste mimetype=text/plain;charset=utf-8\nblah blah xyz", testname);
@@ -1675,8 +1713,10 @@ void HTTPWSTest::testEditAnnotationWriter()
     std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket(_uri, documentURL, testname);
 
     // Click in the body.
-    sendTextFrame(socket, "mouse type=buttondown x=1600 y=1600 count=1 buttons=1 modifier=0", testname);
-    sendTextFrame(socket, "mouse type=buttonup x=1600 y=1600 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=1600 y=1600 count=1 buttons=1 modifier=0",
+                  testname);
+    sendTextFrame(socket, "mouse type=buttonup x=1600 y=1600 count=1 buttons=1 modifier=0",
+                  testname);
     // Read body text.
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
@@ -1684,19 +1724,25 @@ void HTTPWSTest::testEditAnnotationWriter()
     CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
 
     // Confirm that the comment is intact.
-    sendTextFrame(socket, "mouse type=buttondown x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
-    sendTextFrame(socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=13855 y=1893 count=1 buttons=1 modifier=0",
+                  testname);
+    sendTextFrame(socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0",
+                  testname);
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
     res = getResponseString(socket, "textselectioncontent:", testname);
     CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: blah blah xyz"), res);
 
     // Can we still edit the coment?
-    sendTextFrame(socket, "paste mimetype=text/plain;charset=utf-8\nand now for something completely different", testname);
+    sendTextFrame(
+        socket,
+        "paste mimetype=text/plain;charset=utf-8\nand now for something completely different",
+        testname);
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
     res = getResponseString(socket, "textselectioncontent:", testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: and now for something completely different"), res);
+    CPPUNIT_ASSERT_EQUAL(
+        std::string("textselectioncontent: and now for something completely different"), res);
 
     const int kitcount = getLoolKitProcessCount();
 
@@ -1712,8 +1758,10 @@ void HTTPWSTest::testEditAnnotationWriter()
 
     // Confirm that the text is in the comment and not doc body.
     // Click in the body.
-    sendTextFrame(socket, "mouse type=buttondown x=1600 y=1600 count=1 buttons=1 modifier=0", testname);
-    sendTextFrame(socket, "mouse type=buttonup x=1600 y=1600 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=1600 y=1600 count=1 buttons=1 modifier=0",
+                  testname);
+    sendTextFrame(socket, "mouse type=buttonup x=1600 y=1600 count=1 buttons=1 modifier=0",
+                  testname);
     // Read body text.
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
@@ -1721,12 +1769,15 @@ void HTTPWSTest::testEditAnnotationWriter()
     CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
 
     // Confirm that the comment is still intact.
-    sendTextFrame(socket, "mouse type=buttondown x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
-    sendTextFrame(socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=13855 y=1893 count=1 buttons=1 modifier=0",
+                  testname);
+    sendTextFrame(socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0",
+                  testname);
     sendTextFrame(socket, "uno .uno:SelectAll", testname);
     sendTextFrame(socket, "gettextselection mimetype=text/plain;charset=utf-8", testname);
     res = getResponseString(socket, "textselectioncontent:", testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: and now for something completely different"), res);
+    CPPUNIT_ASSERT_EQUAL(
+        std::string("textselectioncontent: and now for something completely different"), res);
 
     // Can we still edit the coment?
     sendTextFrame(socket, "paste mimetype=text/plain;charset=utf-8\nnew text different", testname);
@@ -1739,7 +1790,8 @@ void HTTPWSTest::testEditAnnotationWriter()
 void HTTPWSTest::testInsertAnnotationCalc()
 {
     const char* testname = "insertAnnotationCalc ";
-    std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("setclientpart.ods", _uri, testname);
+    std::shared_ptr<LOOLWebSocket> socket
+        = loadDocAndGetSocket("setclientpart.ods", _uri, testname);
 
     // Insert comment.
     sendTextFrame(socket, "uno .uno:InsertAnnotation", testname);
@@ -1759,14 +1811,16 @@ void HTTPWSTest::testCalcEditRendering()
     const char* testname = "calcEditRendering ";
     std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("calc_render.xls", _uri, testname);
 
-    sendTextFrame(socket, "mouse type=buttondown x=5000 y=5 count=1 buttons=1 modifier=0", testname);
+    sendTextFrame(socket, "mouse type=buttondown x=5000 y=5 count=1 buttons=1 modifier=0",
+                  testname);
     sendTextFrame(socket, "key type=input char=97 key=0", testname);
     sendTextFrame(socket, "key type=input char=98 key=0", testname);
     sendTextFrame(socket, "key type=input char=99 key=0", testname);
 
     assertResponseString(socket, "cellformula: abc", testname);
 
-    const char* req = "tilecombine part=0 width=512 height=512 tileposx=3840 tileposy=0 tilewidth=7680 tileheight=7680";
+    const char* req = "tilecombine part=0 width=512 height=512 tileposx=3840 tileposy=0 "
+                      "tilewidth=7680 tileheight=7680";
     sendTextFrame(socket, req, testname);
 
     const std::vector<char> tile = getResponseMessage(socket, "tile:", testname);
@@ -1836,8 +1890,8 @@ void HTTPWSTest::testCalcRenderAfterNewView51()
     getServerVersion(socket, major, minor, testname);
     if (major != 5 || minor != 1)
     {
-        TST_LOG("Skipping test on incompatible client ["
-                  << major << '.' << minor << "], expected [5.1].");
+        TST_LOG("Skipping test on incompatible client [" << major << '.' << minor
+                                                         << "], expected [5.1].");
         return;
     }
 
@@ -1850,16 +1904,16 @@ void HTTPWSTest::testCalcRenderAfterNewView51()
     // Wait for status due to doc resize.
     assertResponseString(socket, "status:", testname);
 
-    const char* req = "tilecombine part=0 width=256 height=256 tileposx=0 tileposy=253440 tilewidth=3840 tileheight=3840";
+    const char* req = "tilecombine part=0 width=256 height=256 tileposx=0 tileposy=253440 "
+                      "tilewidth=3840 tileheight=3840";
 
     // Get tile.
-    const std::vector<char> tile1 = getTileAndSave(socket, req, "/tmp/calc_render_51_orig.png", testname);
-
+    const std::vector<char> tile1
+        = getTileAndSave(socket, req, "/tmp/calc_render_51_orig.png", testname);
 
     // Connect second client, which will load at the top.
     TST_LOG("Connecting second client.");
     std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, testname);
-
 
     // Up one row on the first view to trigger the bug.
     TST_LOG("Up.");
@@ -1867,7 +1921,8 @@ void HTTPWSTest::testCalcRenderAfterNewView51()
     assertResponseString(socket, "invalidatetiles:", testname); // Up invalidates.
 
     // Get same tile again.
-    const std::vector<char> tile2 = getTileAndSave(socket, req, "/tmp/calc_render_51_sec.png", testname);
+    const std::vector<char> tile2
+        = getTileAndSave(socket, req, "/tmp/calc_render_51_sec.png", testname);
 
     CPPUNIT_ASSERT(tile1 == tile2);
 }
@@ -1887,8 +1942,8 @@ void HTTPWSTest::testCalcRenderAfterNewView53()
     getServerVersion(socket, major, minor, testname);
     if (major < 5 || minor < 3)
     {
-        TST_LOG("Skipping test on incompatible client ["
-                  << major << '.' << minor << "], expected [>=5.3].");
+        TST_LOG("Skipping test on incompatible client [" << major << '.' << minor
+                                                         << "], expected [>=5.3].");
         return;
     }
 
@@ -1896,20 +1951,21 @@ void HTTPWSTest::testCalcRenderAfterNewView53()
     sendTextFrame(socket, "key type=input char=0 key=1031", testname);
 
     // Get tile.
-    const char* req = "tilecombine part=0 width=256 height=256 tileposx=0 tileposy=291840 tilewidth=3840 tileheight=3840 oldwid=0";
-    const std::vector<char> tile1 = getTileAndSave(socket, req, "/tmp/calc_render_53_orig.png", testname);
-
+    const char* req = "tilecombine part=0 width=256 height=256 tileposx=0 tileposy=291840 "
+                      "tilewidth=3840 tileheight=3840 oldwid=0";
+    const std::vector<char> tile1
+        = getTileAndSave(socket, req, "/tmp/calc_render_53_orig.png", testname);
 
     // Connect second client, which will load at the top.
     TST_LOG("Connecting second client.");
     std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, testname);
 
-
     TST_LOG("Waiting for cellviewcursor of second on first.");
     assertResponseString(socket, "cellviewcursor:", testname);
 
     // Get same tile again.
-    const std::vector<char> tile2 = getTileAndSave(socket, req, "/tmp/calc_render_53_sec.png", testname);
+    const std::vector<char> tile2
+        = getTileAndSave(socket, req, "/tmp/calc_render_53_sec.png", testname);
 
     CPPUNIT_ASSERT(tile1 == tile2);
 
@@ -1935,14 +1991,17 @@ void HTTPWSTest::testFontList()
     try
     {
         // Load a document
-        std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("setclientpart.odp", _uri, testname);
+        std::shared_ptr<LOOLWebSocket> socket
+            = loadDocAndGetSocket("setclientpart.odp", _uri, testname);
 
         sendTextFrame(socket, "commandvalues command=.uno:CharFontName", testname);
         const std::vector<char> response = getResponseMessage(socket, "commandvalues:", testname);
-        CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected", !response.empty());
+        CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected",
+                               !response.empty());
 
         std::stringstream streamResponse;
-        std::copy(response.begin() + std::string("commandvalues:").length() + 1, response.end(), std::ostream_iterator<char>(streamResponse));
+        std::copy(response.begin() + std::string("commandvalues:").length() + 1, response.end(),
+                  std::ostream_iterator<char>(streamResponse));
         CPPUNIT_ASSERT(!getFontList(streamResponse.str()).empty());
     }
     catch (const Poco::Exception& exc)
@@ -1958,23 +2017,21 @@ void HTTPWSTest::testStateChanged(const std::string& filename, std::set<std::str
     Poco::RegularExpression reUno("\\.[a-zA-Z]*\\:[a-zA-Z]*\\=");
 
     std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket(filename, _uri, testname);
-    SocketProcessor(testname, socket,
-        [&](const std::string& msg)
+    SocketProcessor(testname, socket, [&](const std::string& msg) {
+        Poco::RegularExpression::MatchVec matches;
+        if (reUno.match(msg, 0, matches) > 0 && matches.size() == 1)
         {
-            Poco::RegularExpression::MatchVec matches;
-            if (reUno.match(msg, 0, matches) > 0 && matches.size() == 1)
-            {
-                commands.erase(msg.substr(matches[0].offset, matches[0].length));
-            }
+            commands.erase(msg.substr(matches[0].offset, matches[0].length));
+        }
 
-            return !commands.empty();
-        });
+        return !commands.empty();
+    });
 
     if (!commands.empty())
     {
         std::ostringstream ostr;
         ostr << filename << " : Missing Uno Commands: " << std::endl;
-        for (auto & itUno : commands)
+        for (auto& itUno : commands)
         {
             ostr << itUno << std::endl;
         }
@@ -1985,59 +2042,56 @@ void HTTPWSTest::testStateChanged(const std::string& filename, std::set<std::str
 
 void HTTPWSTest::testStateUnoCommandWriter()
 {
-    std::set<std::string> writerCommands
-    {
-        ".uno:BackColor=",
-        ".uno:BackgroundColor=",
-        ".uno:Bold=",
-        ".uno:CenterPara=",
-        ".uno:CharBackColor=",
-        ".uno:CharBackgroundExt=",
-        ".uno:CharFontName=",
-        ".uno:Color=",
-        ".uno:DefaultBullet=",
-        ".uno:DefaultNumbering=",
-        ".uno:FontColor=",
-        ".uno:FontHeight=",
-        ".uno:Italic=",
-        ".uno:JustifyPara=",
-        ".uno:OutlineFont=",
-        ".uno:LeftPara=",
-        ".uno:RightPara=",
-        ".uno:Shadowed=",
-        ".uno:SubScript=",
-        ".uno:SuperScript=",
-        ".uno:Strikeout=",
-        ".uno:StyleApply=",
-        ".uno:Underline=",
-        ".uno:ModifiedStatus=",
-        ".uno:Undo=",
-        ".uno:Redo=",
-        ".uno:Cut=",
-        ".uno:Copy=",
-        ".uno:Paste=",
-        ".uno:SelectAll=",
-        ".uno:InsertAnnotation=",
-        ".uno:InsertRowsBefore=",
-        ".uno:InsertRowsAfter=",
-        ".uno:InsertColumnsBefore=",
-        ".uno:InsertColumnsAfter=",
-        ".uno:DeleteRows=",
-        ".uno:DeleteColumns=",
-        ".uno:DeleteTable=",
-        ".uno:SelectTable=",
-        ".uno:EntireRow=",
-        ".uno:EntireColumn=",
-        ".uno:EntireCell=",
-        ".uno:InsertMode=",
-        ".uno:StateTableCell=",
-        ".uno:StatePageNumber=",
-        ".uno:StateWordCount=",
-        ".uno:SelectionMode=",
-        ".uno:NumberFormatCurrency=",
-        ".uno:NumberFormatPercent=",
-        ".uno:NumberFormatDate="
-    };
+    std::set<std::string> writerCommands{ ".uno:BackColor=",
+                                          ".uno:BackgroundColor=",
+                                          ".uno:Bold=",
+                                          ".uno:CenterPara=",
+                                          ".uno:CharBackColor=",
+                                          ".uno:CharBackgroundExt=",
+                                          ".uno:CharFontName=",
+                                          ".uno:Color=",
+                                          ".uno:DefaultBullet=",
+                                          ".uno:DefaultNumbering=",
+                                          ".uno:FontColor=",
+                                          ".uno:FontHeight=",
+                                          ".uno:Italic=",
+                                          ".uno:JustifyPara=",
+                                          ".uno:OutlineFont=",
+                                          ".uno:LeftPara=",
+                                          ".uno:RightPara=",
+                                          ".uno:Shadowed=",
+                                          ".uno:SubScript=",
+                                          ".uno:SuperScript=",
+                                          ".uno:Strikeout=",
+                                          ".uno:StyleApply=",
+                                          ".uno:Underline=",
+                                          ".uno:ModifiedStatus=",
+                                          ".uno:Undo=",
+                                          ".uno:Redo=",
+                                          ".uno:Cut=",
+                                          ".uno:Copy=",
+                                          ".uno:Paste=",
+                                          ".uno:SelectAll=",
+                                          ".uno:InsertAnnotation=",
+                                          ".uno:InsertRowsBefore=",
+                                          ".uno:InsertRowsAfter=",
+                                          ".uno:InsertColumnsBefore=",
+                                          ".uno:InsertColumnsAfter=",
+                                          ".uno:DeleteRows=",
+                                          ".uno:DeleteColumns=",
+                                          ".uno:DeleteTable=",
+                                          ".uno:SelectTable=",
+                                          ".uno:EntireRow=",
+                                          ".uno:EntireColumn=",
+                                          ".uno:EntireCell=",
+                                          ".uno:InsertMode=",
+                                          ".uno:StateTableCell=",
+                                          ".uno:StatePageNumber=",
+                                          ".uno:StateWordCount=",
+                                          ".uno:SelectionMode=",
+                                          ".uno:NumberFormatCurrency=",
+                                          ".uno:NumberFormatPercent=",
+                                          ".uno:NumberFormatDate=" };
 
     try
     {
@@ -2051,53 +2105,50 @@ void HTTPWSTest::testStateUnoCommandWriter()
 
 void HTTPWSTest::testStateUnoCommandCalc()
 {
-    std::set<std::string> calcCommands
-    {
-        ".uno:BackgroundColor=",
-        ".uno:Bold=",
-        ".uno:CenterPara=",
-        ".uno:CharBackColor=",
-        ".uno:CharFontName=",
-        ".uno:Color=",
-        ".uno:FontHeight=",
-        ".uno:Italic=",
-        ".uno:JustifyPara=",
-        ".uno:OutlineFont=",
-        ".uno:LeftPara=",
-        ".uno:RightPara=",
-        ".uno:Shadowed=",
-        ".uno:SubScript=",
-        ".uno:SuperScript=",
-        ".uno:Strikeout=",
-        ".uno:StyleApply=",
-        ".uno:Underline=",
-        ".uno:ModifiedStatus=",
-        ".uno:Undo=",
-        ".uno:Redo=",
-        ".uno:Cut=",
-        ".uno:Copy=",
-        ".uno:Paste=",
-        ".uno:SelectAll=",
-        ".uno:InsertAnnotation=",
-        ".uno:InsertRowsBefore=",
-        ".uno:InsertRowsAfter=",
-        ".uno:InsertColumnsBefore=",
-        ".uno:InsertColumnsAfter=",
-        ".uno:DeleteRows=",
-        ".uno:DeleteColumns=",
-        ".uno:StatusDocPos=",
-        ".uno:RowColSelCount=",
-        ".uno:StatusPageStyle=",
-        ".uno:InsertMode=",
-        ".uno:StatusSelectionMode=",
-        ".uno:StateTableCell=",
-        ".uno:StatusBarFunc=",
-        ".uno:WrapText=",
-        ".uno:ToggleMergeCells=",
-        ".uno:NumberFormatCurrency=",
-        ".uno:NumberFormatPercent=",
-        ".uno:NumberFormatDate="
-    };
+    std::set<std::string> calcCommands{ ".uno:BackgroundColor=",
+                                        ".uno:Bold=",
+                                        ".uno:CenterPara=",
+                                        ".uno:CharBackColor=",
+                                        ".uno:CharFontName=",
+                                        ".uno:Color=",
+                                        ".uno:FontHeight=",
+                                        ".uno:Italic=",
+                                        ".uno:JustifyPara=",
+                                        ".uno:OutlineFont=",
+                                        ".uno:LeftPara=",
+                                        ".uno:RightPara=",
+                                        ".uno:Shadowed=",
+                                        ".uno:SubScript=",
+                                        ".uno:SuperScript=",
+                                        ".uno:Strikeout=",
+                                        ".uno:StyleApply=",
+                                        ".uno:Underline=",
+                                        ".uno:ModifiedStatus=",
+                                        ".uno:Undo=",
+                                        ".uno:Redo=",
+                                        ".uno:Cut=",
+                                        ".uno:Copy=",
+                                        ".uno:Paste=",
+                                        ".uno:SelectAll=",
+                                        ".uno:InsertAnnotation=",
+                                        ".uno:InsertRowsBefore=",
+                                        ".uno:InsertRowsAfter=",
+                                        ".uno:InsertColumnsBefore=",
+                                        ".uno:InsertColumnsAfter=",
+                                        ".uno:DeleteRows=",
+                                        ".uno:DeleteColumns=",
+                                        ".uno:StatusDocPos=",
+                                        ".uno:RowColSelCount=",
+                                        ".uno:StatusPageStyle=",
+                                        ".uno:InsertMode=",
+                                        ".uno:StatusSelectionMode=",
+                                        ".uno:StateTableCell=",
+                                        ".uno:StatusBarFunc=",
+                                        ".uno:WrapText=",
+                                        ".uno:ToggleMergeCells=",
+                                        ".uno:NumberFormatCurrency=",
+                                        ".uno:NumberFormatPercent=",
+                                        ".uno:NumberFormatDate=" };
 
     try
     {
@@ -2111,8 +2162,7 @@ void HTTPWSTest::testStateUnoCommandCalc()
 
 void HTTPWSTest::testStateUnoCommandImpress()
 {
-    std::set<std::string> impressCommands
-    {
+    std::set<std::string> impressCommands{
         ".uno:Bold=",
         ".uno:CenterPara=",
         ".uno:CharBackColor=",
@@ -2190,12 +2240,15 @@ double HTTPWSTest::getColRowSize(const std::string& property, const std::string&
     return item->getValue<double>("size");
 }
 
-double HTTPWSTest::getColRowSize(const std::shared_ptr<LOOLWebSocket>& socket, const std::string& item, int index, const std::string& testname)
+double HTTPWSTest::getColRowSize(const std::shared_ptr<LOOLWebSocket>& socket,
+                                 const std::string& item, int index, const std::string& testname)
 {
     std::vector<char> response;
     response = getResponseMessage(socket, "commandvalues:", testname);
-    CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected", !response.empty());
-    std::vector<char> json(response.begin() + std::string("commandvalues:").length(), response.end());
+    CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected",
+                           !response.empty());
+    std::vector<char> json(response.begin() + std::string("commandvalues:").length(),
+                           response.end());
     json.push_back(0);
     return getColRowSize(item, json.data(), index);
 }
@@ -2215,9 +2268,11 @@ void HTTPWSTest::testColumnRowResize()
         const std::string commandValues = "commandvalues command=.uno:ViewRowColumnHeaders";
         sendTextFrame(socket, commandValues);
         response = getResponseMessage(socket, "commandvalues:", testname);
-        CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected", !response.empty());
+        CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected",
+                               !response.empty());
         {
-            std::vector<char> json(response.begin() + std::string("commandvalues:").length(), response.end());
+            std::vector<char> json(response.begin() + std::string("commandvalues:").length(),
+                                   response.end());
             json.push_back(0);
 
             // get column 2
@@ -2246,8 +2301,10 @@ void HTTPWSTest::testColumnRowResize()
             sendTextFrame(socket, "uno .uno:ColumnWidth " + oss.str(), testname);
             sendTextFrame(socket, commandValues, testname);
             response = getResponseMessage(socket, "commandvalues:", testname);
-            CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected", !response.empty());
-            std::vector<char> json(response.begin() + std::string("commandvalues:").length(), response.end());
+            CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected",
+                                   !response.empty());
+            std::vector<char> json(response.begin() + std::string("commandvalues:").length(),
+                                   response.end());
             json.push_back(0);
             newWidth = getColRowSize("columns", json.data(), 1);
             CPPUNIT_ASSERT(newWidth > oldWidth);
@@ -2273,8 +2330,10 @@ void HTTPWSTest::testColumnRowResize()
             sendTextFrame(socket, "uno .uno:RowHeight " + oss.str(), testname);
             sendTextFrame(socket, commandValues, testname);
             response = getResponseMessage(socket, "commandvalues:", testname);
-            CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected", !response.empty());
-            std::vector<char> json(response.begin() + std::string("commandvalues:").length(), response.end());
+            CPPUNIT_ASSERT_MESSAGE("did not receive a commandvalues: message as expected",
+                                   !response.empty());
+            std::vector<char> json(response.begin() + std::string("commandvalues:").length(),
+                                   response.end());
             json.push_back(0);
             newHeight = getColRowSize("rows", json.data(), 1);
             CPPUNIT_ASSERT(newHeight > oldHeight);
@@ -2404,7 +2463,8 @@ void HTTPWSTest::testEachView(const std::string& doc, const std::string& type,
         getDocumentPathAndURL(doc, documentPath, documentURL, testname);
 
         int itView = 0;
-        std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket(_uri, documentURL, Poco::format(view, itView));
+        std::shared_ptr<LOOLWebSocket> socket
+            = loadDocAndGetSocket(_uri, documentURL, Poco::format(view, itView));
 
         // Check document size
         sendTextFrame(socket, "status", Poco::format(view, itView));
@@ -2418,11 +2478,13 @@ void HTTPWSTest::testEachView(const std::string& doc, const std::string& type,
 
         // Send click message
         std::string text;
-        Poco::format(text, "mouse type=%s x=%d y=%d count=1 buttons=1 modifier=0", std::string("buttondown"), docWidth/2, docHeight/6);
+        Poco::format(text, "mouse type=%s x=%d y=%d count=1 buttons=1 modifier=0",
+                     std::string("buttondown"), docWidth / 2, docHeight / 6);
         sendTextFrame(socket, text, Poco::format(view, itView));
         text.clear();
 
-        Poco::format(text, "mouse type=%s x=%d y=%d count=1 buttons=1 modifier=0", std::string("buttonup"), docWidth/2, docHeight/6);
+        Poco::format(text, "mouse type=%s x=%d y=%d count=1 buttons=1 modifier=0",
+                     std::string("buttonup"), docWidth / 2, docHeight / 6);
         sendTextFrame(socket, text, Poco::format(view, itView));
         response = getResponseString(socket, protocol, Poco::format(view, itView));
         CPPUNIT_ASSERT_MESSAGE(Poco::format(error, itView, protocol), !response.empty());
@@ -2442,7 +2504,8 @@ void HTTPWSTest::testEachView(const std::string& doc, const std::string& type,
         {
             getResponseString(socket, protocolView, Poco::format(view, itView));
             CPPUNIT_ASSERT_MESSAGE(Poco::format(error, itView, protocolView), !response.empty());
-            ++itView; (void)socketView;
+            ++itView;
+            (void)socketView;
         }
     }
     catch (const Poco::Exception& exc)
@@ -2457,12 +2520,14 @@ void HTTPWSTest::testEachView(const std::string& doc, const std::string& type,
 
 void HTTPWSTest::testInvalidateViewCursor()
 {
-    testEachView("viewcursor.odp", "presentation", "invalidatecursor:", "invalidateviewcursor:", "invalidateViewCursor ");
+    testEachView("viewcursor.odp", "presentation",
+                 "invalidatecursor:", "invalidateviewcursor:", "invalidateViewCursor ");
 }
 
 void HTTPWSTest::testViewCursorVisible()
 {
-    testEachView("viewcursor.odp", "presentation", "cursorvisible:", "viewcursorvisible:", "viewCursorVisible ");
+    testEachView("viewcursor.odp", "presentation",
+                 "cursorvisible:", "viewcursorvisible:", "viewCursorVisible ");
 }
 
 void HTTPWSTest::testCellViewCursor()
@@ -2472,17 +2537,20 @@ void HTTPWSTest::testCellViewCursor()
 
 void HTTPWSTest::testGraphicViewSelectionWriter()
 {
-    testEachView("graphicviewselection.odt", "text", "graphicselection:", "graphicviewselection:", "graphicViewSelection-odt ");
+    testEachView("graphicviewselection.odt", "text",
+                 "graphicselection:", "graphicviewselection:", "graphicViewSelection-odt ");
 }
 
 void HTTPWSTest::testGraphicViewSelectionCalc()
 {
-    testEachView("graphicviewselection.ods", "spreadsheet", "graphicselection:", "graphicviewselection:", "graphicViewSelection-ods ");
+    testEachView("graphicviewselection.ods", "spreadsheet",
+                 "graphicselection:", "graphicviewselection:", "graphicViewSelection-ods ");
 }
 
 void HTTPWSTest::testGraphicViewSelectionImpress()
 {
-    testEachView("graphicviewselection.odp", "presentation", "graphicselection:", "graphicviewselection:", "graphicViewSelection-odp ");
+    testEachView("graphicviewselection.odp", "presentation",
+                 "graphicselection:", "graphicviewselection:", "graphicViewSelection-odp ");
 }
 
 void HTTPWSTest::testGraphicInvalidate()
@@ -2494,17 +2562,23 @@ void HTTPWSTest::testGraphicInvalidate()
         std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("shape.ods", _uri, testname);
 
         // Send click message
-        sendTextFrame(socket, "mouse type=buttondown x=1035 y=400 count=1 buttons=1 modifier=0", testname);
-        sendTextFrame(socket, "mouse type=buttonup x=1035 y=400 count=1 buttons=1 modifier=0", testname);
+        sendTextFrame(socket, "mouse type=buttondown x=1035 y=400 count=1 buttons=1 modifier=0",
+                      testname);
+        sendTextFrame(socket, "mouse type=buttonup x=1035 y=400 count=1 buttons=1 modifier=0",
+                      testname);
         getResponseString(socket, "graphicselection:", testname);
 
         // Drag & drop graphic
-        sendTextFrame(socket, "mouse type=buttondown x=1035 y=400 count=1 buttons=1 modifier=0", testname);
-        sendTextFrame(socket, "mouse type=move x=1035 y=450 count=1 buttons=1 modifier=0", testname);
-        sendTextFrame(socket, "mouse type=buttonup x=1035 y=450 count=1 buttons=1 modifier=0", testname);
+        sendTextFrame(socket, "mouse type=buttondown x=1035 y=400 count=1 buttons=1 modifier=0",
+                      testname);
+        sendTextFrame(socket, "mouse type=move x=1035 y=450 count=1 buttons=1 modifier=0",
+                      testname);
+        sendTextFrame(socket, "mouse type=buttonup x=1035 y=450 count=1 buttons=1 modifier=0",
+                      testname);
 
         const auto message = getResponseString(socket, "invalidatetiles:", testname);
-        CPPUNIT_ASSERT_MESSAGE("Drag & Drop graphic invalidate all tiles", message.find("EMPTY") == std::string::npos);
+        CPPUNIT_ASSERT_MESSAGE("Drag & Drop graphic invalidate all tiles",
+                               message.find("EMPTY") == std::string::npos);
     }
     catch (const Poco::Exception& exc)
     {
@@ -2518,7 +2592,7 @@ void HTTPWSTest::testCursorPosition()
     {
         const char* testname = "cursorPosition ";
 
-         // Load a document.
+        // Load a document.
         std::string docPath;
         std::string docURL;
         std::string response;
@@ -2534,7 +2608,9 @@ void HTTPWSTest::testCursorPosition()
         const auto& command0 = result0.extract<Poco::JSON::Object::Ptr>();
         CPPUNIT_ASSERT_MESSAGE("missing property rectangle", command0->has("rectangle"));
 
-        Poco::StringTokenizer cursorTokens(command0->get("rectangle").toString(), ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer cursorTokens(command0->get("rectangle").toString(), ",",
+                                           Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                               | Poco::StringTokenizer::TOK_TRIM);
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(4), cursorTokens.count());
 
         // Create second view
@@ -2548,7 +2624,9 @@ void HTTPWSTest::testCursorPosition()
         const auto& command = result.extract<Poco::JSON::Object::Ptr>();
         CPPUNIT_ASSERT_MESSAGE("missing property rectangle", command->has("rectangle"));
 
-        Poco::StringTokenizer viewTokens(command->get("rectangle").toString(), ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer viewTokens(command->get("rectangle").toString(), ",",
+                                         Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                             | Poco::StringTokenizer::TOK_TRIM);
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(4), viewTokens.count());
 
         // check both cursor should be equal
@@ -2583,7 +2661,9 @@ void HTTPWSTest::testAlertAllUsers()
         for (int i = 0; i < 2; i++)
         {
             const std::string response = assertResponseString(socket[i], "error:", testname);
-            Poco::StringTokenizer tokens(response.substr(6), " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+            Poco::StringTokenizer tokens(response.substr(6), " ",
+                                         Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                             | Poco::StringTokenizer::TOK_TRIM);
             std::string cmd;
             LOOLProtocol::getTokenString(tokens, "cmd", cmd);
             CPPUNIT_ASSERT_EQUAL(std::string("internal"), cmd);
@@ -2626,7 +2706,8 @@ void HTTPWSTest::testViewInfoMsg()
         // Check if viewinfo message also mentions the same viewid
         response = getResponseString(socket0, "viewinfo: ", testname + "0 ");
         Poco::JSON::Parser parser0;
-        Poco::JSON::Array::Ptr array = parser0.parse(response.substr(9)).extract<Poco::JSON::Array::Ptr>();
+        Poco::JSON::Array::Ptr array
+            = parser0.parse(response.substr(9)).extract<Poco::JSON::Array::Ptr>();
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(1), array->size());
 
         Poco::JSON::Object::Ptr viewInfoObj0 = array->getObject(0);
@@ -2661,7 +2742,7 @@ void HTTPWSTest::testViewInfoMsg()
         const auto response1 = getResponseString(socket0, "viewinfo: ", testname + "0 ");
         CPPUNIT_ASSERT_EQUAL(response, response1);
     }
-    catch(const Poco::Exception& exc)
+    catch (const Poco::Exception& exc)
     {
         CPPUNIT_FAIL(exc.displayText());
     }
@@ -2702,7 +2783,8 @@ void HTTPWSTest::testUndoConflict()
         sendTextFrame(socket0, "uno .uno:Undo", testname);
         // undo conflict
         response = getResponseString(socket0, "unocommandresult:", testname + "0 ");
-        Poco::JSON::Object::Ptr objJSON = parser.parse(response.substr(17)).extract<Poco::JSON::Object::Ptr>();
+        Poco::JSON::Object::Ptr objJSON
+            = parser.parse(response.substr(17)).extract<Poco::JSON::Object::Ptr>();
         CPPUNIT_ASSERT_EQUAL(objJSON->get("commandName").toString(), std::string(".uno:Undo"));
         CPPUNIT_ASSERT_EQUAL(objJSON->get("success").toString(), std::string("true"));
         CPPUNIT_ASSERT(objJSON->has("result"));
@@ -2712,7 +2794,7 @@ void HTTPWSTest::testUndoConflict()
         CPPUNIT_ASSERT(Poco::strToInt(resultObj->get("value").toString(), conflict, 10));
         CPPUNIT_ASSERT(conflict > 0); /*UNDO_CONFLICT*/
     }
-    catch(const Poco::Exception& exc)
+    catch (const Poco::Exception& exc)
     {
         CPPUNIT_FAIL(exc.displayText());
     }
@@ -2733,16 +2815,17 @@ void HTTPWSTest::testRenderShapeSelectionImpress()
         getServerVersion(socket, major, minor, testname);
         if (major != 6 || minor != 0)
         {
-            TST_LOG("Skipping test on incompatible client ["
-                    << major << '.' << minor << "], expected [6.0].");
+            TST_LOG("Skipping test on incompatible client [" << major << '.' << minor
+                                                             << "], expected [6.0].");
             return;
         }
 
         sendTextFrame(socket, "uno .uno:SelectAll", testname);
         sendTextFrame(socket, "rendershapeselection mimetype=image/svg+xml", testname);
-        std::vector<char> responseSVG = getResponseMessage(socket, "shapeselectioncontent:", testname);
+        std::vector<char> responseSVG
+            = getResponseMessage(socket, "shapeselectioncontent:", testname);
         CPPUNIT_ASSERT(!responseSVG.empty());
-        auto it = std::find(responseSVG.begin(), responseSVG.end(),'\n');
+        auto it = std::find(responseSVG.begin(), responseSVG.end(), '\n');
         if (it != responseSVG.end())
             responseSVG.erase(responseSVG.begin(), ++it);
 
@@ -2768,9 +2851,10 @@ void HTTPWSTest::testRenderShapeSelectionWriter()
         // Select the shape with SHIFT + F4
         sendKeyPress(socket, 0, 771 | skShift, testname);
         sendTextFrame(socket, "rendershapeselection mimetype=image/svg+xml", testname);
-        std::vector<char> responseSVG = getResponseMessage(socket, "shapeselectioncontent:", testname);
+        std::vector<char> responseSVG
+            = getResponseMessage(socket, "shapeselectioncontent:", testname);
         CPPUNIT_ASSERT(!responseSVG.empty());
-        auto it = std::find(responseSVG.begin(), responseSVG.end(),'\n');
+        auto it = std::find(responseSVG.begin(), responseSVG.end(), '\n');
         if (it != responseSVG.end())
             responseSVG.erase(responseSVG.begin(), ++it);
 
@@ -2796,13 +2880,15 @@ void HTTPWSTest::testRenderShapeSelectionWriterImage()
         // Select the shape with SHIFT + F4
         sendKeyPress(socket, 0, 771 | skShift, testname);
         sendTextFrame(socket, "rendershapeselection mimetype=image/svg+xml", testname);
-        std::vector<char> responseSVG = getResponseMessage(socket, "shapeselectioncontent:", testname);
+        std::vector<char> responseSVG
+            = getResponseMessage(socket, "shapeselectioncontent:", testname);
         CPPUNIT_ASSERT(!responseSVG.empty());
-        auto it = std::find(responseSVG.begin(), responseSVG.end(),'\n');
+        auto it = std::find(responseSVG.begin(), responseSVG.end(), '\n');
         if (it != responseSVG.end())
             responseSVG.erase(responseSVG.begin(), ++it);
 
-        const std::vector<char> expectedSVG = helpers::readDataFromFile("non_shape_writer_image.svg");
+        const std::vector<char> expectedSVG
+            = helpers::readDataFromFile("non_shape_writer_image.svg");
         CPPUNIT_ASSERT(expectedSVG == responseSVG);
     }
     catch (const Poco::Exception& exc)

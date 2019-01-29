@@ -14,77 +14,49 @@
 #include <Log.hpp>
 
 #ifndef TILE_WIRE_ID
-#  define TILE_WIRE_ID
-   typedef uint32_t TileWireId;
+#define TILE_WIRE_ID
+typedef uint32_t TileWireId;
 #endif
 
 /// A quick and dirty delta generator for last tile changes
-class DeltaGenerator {
-
-    struct DeltaBitmapRow {
+class DeltaGenerator
+{
+    struct DeltaBitmapRow
+    {
     private:
         uint64_t _crc;
         std::vector<uint32_t> _pixels;
 
     public:
-        bool identical(const DeltaBitmapRow &other) const
+        bool identical(const DeltaBitmapRow& other) const
         {
             if (_crc != other._crc)
                 return false;
             return _pixels == other._pixels;
         }
 
-        const std::vector<uint32_t>& getPixels() const
-        {
-            return _pixels;
-        }
+        const std::vector<uint32_t>& getPixels() const { return _pixels; }
 
-        std::vector<uint32_t>& getPixels()
-        {
-            return _pixels;
-        }
+        std::vector<uint32_t>& getPixels() { return _pixels; }
     };
 
-    struct DeltaData {
-        void setWid(TileWireId wid)
-        {
-            _wid = wid;
-        }
+    struct DeltaData
+    {
+        void setWid(TileWireId wid) { _wid = wid; }
 
-        TileWireId getWid() const
-        {
-            return _wid;
-        }
+        TileWireId getWid() const { return _wid; }
 
-        void setWidth(int width)
-        {
-            _width = width;
-        }
+        void setWidth(int width) { _width = width; }
 
-        int getWidth() const
-        {
-            return _width;
-        }
+        int getWidth() const { return _width; }
 
-        void setHeight(int height)
-        {
-            _height = height;
-        }
+        void setHeight(int height) { _height = height; }
 
-        int getHeight() const
-        {
-            return _height;
-        }
+        int getHeight() const { return _height; }
 
-        const std::vector<DeltaBitmapRow>& getRows() const
-        {
-            return _rows;
-        }
+        const std::vector<DeltaBitmapRow>& getRows() const { return _rows; }
 
-        std::vector<DeltaBitmapRow>& getRows()
-        {
-            return _rows;
-        }
+        std::vector<DeltaBitmapRow>& getRows() { return _rows; }
 
     private:
         TileWireId _wid;
@@ -94,16 +66,13 @@ class DeltaGenerator {
     };
     std::vector<std::shared_ptr<DeltaData>> _deltaEntries;
 
-    bool makeDelta(
-        const DeltaData &prev,
-        const DeltaData &cur,
-        std::vector<char>& output)
+    bool makeDelta(const DeltaData& prev, const DeltaData& cur, std::vector<char>& output)
     {
         // TODO: should we split and compress alpha separately ?
         if (prev.getWidth() != cur.getWidth() || prev.getHeight() != cur.getHeight())
         {
             LOG_ERR("mis-sized delta: " << prev.getWidth() << "x" << prev.getHeight() << " vs "
-                    << cur.getWidth() << "x" << cur.getHeight());
+                                        << cur.getWidth() << "x" << cur.getHeight());
             return false;
         }
 
@@ -111,9 +80,9 @@ class DeltaGenerator {
         LOG_TRC("building delta of a " << cur.getWidth() << "x" << cur.getHeight() << " bitmap");
 
         // row move/copy src/dest is a byte.
-        assert (prev.getHeight() <= 256);
+        assert(prev.getHeight() <= 256);
         // column position is a byte.
-        assert (prev.getWidth() <= 256);
+        assert(prev.getWidth() <= 256);
 
         // How do the rows look against each other ?
         size_t lastMatchOffset = 0;
@@ -135,8 +104,8 @@ class DeltaGenerator {
                     if (lastCopy > 0)
                     {
                         char cnt = output[lastCopy];
-                        if (output[lastCopy + 1] + cnt == (char)(match) &&
-                            output[lastCopy + 2] + cnt == (char)(y))
+                        if (output[lastCopy + 1] + cnt == (char)(match)
+                            && output[lastCopy + 2] + cnt == (char)(y))
                         {
                             output[lastCopy]++;
                             matched = true;
@@ -145,11 +114,11 @@ class DeltaGenerator {
                     }
 
                     lastMatchOffset = match - y;
-                    output.push_back('c');   // copy-row
+                    output.push_back('c'); // copy-row
                     lastCopy = output.size();
-                    output.push_back(1);     // count
+                    output.push_back(1); // count
                     output.push_back(match); // src
-                    output.push_back(y);     // dest
+                    output.push_back(y); // dest
 
                     matched = true;
                     continue;
@@ -159,21 +128,22 @@ class DeltaGenerator {
                 continue;
 
             // Our row is just that different:
-            const DeltaBitmapRow &curRow = cur.getRows()[y];
-            const DeltaBitmapRow &prevRow = prev.getRows()[y];
+            const DeltaBitmapRow& curRow = cur.getRows()[y];
+            const DeltaBitmapRow& prevRow = prev.getRows()[y];
             for (int x = 0; x < prev.getWidth();)
             {
                 int same;
-                for (same = 0; same + x < prev.getWidth() &&
-                         prevRow.getPixels()[x+same] == curRow.getPixels()[x+same];)
+                for (same = 0; same + x < prev.getWidth()
+                               && prevRow.getPixels()[x + same] == curRow.getPixels()[x + same];)
                     ++same;
 
                 x += same;
 
                 int diff;
-                for (diff = 0; diff + x < prev.getWidth() &&
-                         (prevRow.getPixels()[x+diff] == curRow.getPixels()[x+diff] || diff < 2) &&
-                         diff < 254;)
+                for (diff = 0;
+                     diff + x < prev.getWidth()
+                     && (prevRow.getPixels()[x + diff] == curRow.getPixels()[x + diff] || diff < 2)
+                     && diff < 254;)
                     ++diff;
                 if (diff > 0)
                 {
@@ -195,32 +165,29 @@ class DeltaGenerator {
         return true;
     }
 
-    std::shared_ptr<DeltaData> dataToDeltaData(
-        TileWireId wid,
-        unsigned char* pixmap, size_t startX, size_t startY,
-        int width, int height,
-        int bufferWidth, int bufferHeight)
+    std::shared_ptr<DeltaData> dataToDeltaData(TileWireId wid, unsigned char* pixmap, size_t startX,
+                                               size_t startY, int width, int height,
+                                               int bufferWidth, int bufferHeight)
     {
         auto data = std::make_shared<DeltaData>();
         data->setWid(wid);
 
-        assert (startX + width <= (size_t)bufferWidth);
-        assert (startY + height <= (size_t)bufferHeight);
+        assert(startX + width <= (size_t)bufferWidth);
+        assert(startY + height <= (size_t)bufferHeight);
 
         (void)bufferHeight;
 
-        LOG_TRC("Converting pixel data to delta data of size "
-                << (width * height * 4) << " width " << width
-                << " height " << height);
+        LOG_TRC("Converting pixel data to delta data of size " << (width * height * 4) << " width "
+                                                               << width << " height " << height);
 
         data->setWidth(width);
         data->setHeight(height);
         data->getRows().resize(height);
         for (int y = 0; y < height; ++y)
         {
-            DeltaBitmapRow &row = data->getRows()[y];
+            DeltaBitmapRow& row = data->getRows()[y];
             size_t position = ((startY + y) * bufferWidth * 4) + (startX * 4);
-            int32_t *src = reinterpret_cast<int32_t *>(pixmap + position);
+            int32_t* src = reinterpret_cast<int32_t*>(pixmap + position);
 
             // We get the hash ~for free as we copy - with a cheap hash.
             uint64_t crc = 0x7fffffff - 1;
@@ -235,7 +202,7 @@ class DeltaGenerator {
         return data;
     }
 
-  public:
+public:
     DeltaGenerator() {}
 
     /**
@@ -244,23 +211,19 @@ class DeltaGenerator {
      * stores @pixmap, and other data to accelerate delta
      * creation in a limited size cache.
      */
-    bool createDelta(
-        unsigned char* pixmap, size_t startX, size_t startY,
-        int width, int height,
-        int bufferWidth, int bufferHeight,
-        std::vector<char>& output,
-        TileWireId wid, TileWireId oldWid)
+    bool createDelta(unsigned char* pixmap, size_t startX, size_t startY, int width, int height,
+                     int bufferWidth, int bufferHeight, std::vector<char>& output, TileWireId wid,
+                     TileWireId oldWid)
     {
         // First store a copy for later:
         if (_deltaEntries.size() > 6) // FIXME: hard-coded ...
             _deltaEntries.erase(_deltaEntries.begin());
 
-        std::shared_ptr<DeltaData> update =
-            dataToDeltaData(wid, pixmap, startX, startY, width, height,
-                            bufferWidth, bufferHeight);
+        std::shared_ptr<DeltaData> update = dataToDeltaData(wid, pixmap, startX, startY, width,
+                                                            height, bufferWidth, bufferHeight);
         _deltaEntries.push_back(update);
 
-        for (auto &old : _deltaEntries)
+        for (auto& old : _deltaEntries)
         {
             if (oldWid == old->getWid())
                 return makeDelta(*old, *update, output);

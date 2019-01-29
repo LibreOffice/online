@@ -15,8 +15,8 @@
 
 #include <gtk/gtk.h>
 #include <webkit2/webkit2.h>
-#if !WEBKIT_CHECK_VERSION(2,22,0)
-#  include<JavaScriptCore/JavaScript.h>
+#if !WEBKIT_CHECK_VERSION(2, 22, 0)
+#include <JavaScriptCore/JavaScript.h>
 #endif
 
 #include "FakeSocket.hpp"
@@ -30,21 +30,20 @@ const int SHOW_JS_MAXLEN = 70;
 int loolwsd_server_socket_fd = -1;
 
 static std::string fileURL;
-static LOOLWSD *loolwsd = nullptr;
+static LOOLWSD* loolwsd = nullptr;
 static int fakeClientFd;
 static int closeNotificationPipeForForwardingThread[2];
-static WebKitWebView *webView;
+static WebKitWebView* webView;
 
-static void send2JS_ready_callback(GObject      *source_object,
-                                   GAsyncResult *res,
-                                   gpointer      user_data)
+static void send2JS_ready_callback(GObject* source_object, GAsyncResult* res, gpointer user_data)
 {
     free(user_data);
 }
 
 static void send2JS(const std::vector<char>& buffer)
 {
-    LOG_TRC_NOFILE("Send to JS: " << LOOLProtocol::getAbbreviatedMessage(buffer.data(), buffer.size()));
+    LOG_TRC_NOFILE(
+        "Send to JS: " << LOOLProtocol::getAbbreviatedMessage(buffer.data(), buffer.size()));
 
     std::string js;
 
@@ -54,19 +53,19 @@ static void send2JS(const std::vector<char>& buffer)
     // handles it fine even if such a message, too, comes in as an ArrayBuffer. (Look for the
     // "textMsg = String.fromCharCode.apply(null, imgBytes);".)
 
-    const char *newline = (const char *)memchr(buffer.data(), '\n', buffer.size());
+    const char* newline = (const char*)memchr(buffer.data(), '\n', buffer.size());
     if (newline != nullptr)
     {
         // The data needs to be an ArrayBuffer
         js = "window.TheFakeWebSocket.onmessage({'data': Base64ToArrayBuffer('";
-        gchar *base64 = g_base64_encode((const guchar*)buffer.data(), buffer.size());
+        gchar* base64 = g_base64_encode((const guchar*)buffer.data(), buffer.size());
         js = js + std::string(base64);
         g_free(base64);
         js = js + "')});";
     }
     else
     {
-        const unsigned char *ubufp = (const unsigned char *)buffer.data();
+        const unsigned char* ubufp = (const unsigned char*)buffer.data();
         std::vector<char> data;
         for (int i = 0; i < buffer.size(); i++)
         {
@@ -93,21 +92,23 @@ static void send2JS(const std::vector<char>& buffer)
     if (js.length() > SHOW_JS_MAXLEN)
         subjs += "...";
 
-    LOG_TRC_NOFILE( "Evaluating JavaScript: " << subjs);
+    LOG_TRC_NOFILE("Evaluating JavaScript: " << subjs);
 
-    char *jscopy = strdup(js.c_str());
-    g_idle_add([](gpointer data)
-               {
-                   char *jscopy = (char*) data;
-                   webkit_web_view_run_javascript(webView, jscopy, nullptr, send2JS_ready_callback, jscopy);
-                   return FALSE;
-               }, jscopy);
+    char* jscopy = strdup(js.c_str());
+    g_idle_add(
+        [](gpointer data) {
+            char* jscopy = (char*)data;
+            webkit_web_view_run_javascript(webView, jscopy, nullptr, send2JS_ready_callback,
+                                           jscopy);
+            return FALSE;
+        },
+        jscopy);
 }
 
-static char *js_result_as_gstring(WebKitJavascriptResult *js_result)
+static char* js_result_as_gstring(WebKitJavascriptResult* js_result)
 {
-#if WEBKIT_CHECK_VERSION(2,22,0) // unclear when this API changed ...
-    JSCValue *value = webkit_javascript_result_get_js_value(js_result);
+#if WEBKIT_CHECK_VERSION(2, 22, 0) // unclear when this API changed ...
+    JSCValue* value = webkit_javascript_result_get_js_value(js_result);
     if (jsc_value_is_string(value))
         return jsc_value_to_string(value);
     else
@@ -119,7 +120,7 @@ static char *js_result_as_gstring(WebKitJavascriptResult *js_result)
     {
         const JSStringRef js_str = JSValueToStringCopy(ctx, value, nullptr);
         size_t gstring_max = JSStringGetMaximumUTF8CStringSize(js_str);
-        char *gstring = (char *)g_malloc(gstring_max);
+        char* gstring = (char*)g_malloc(gstring_max);
         if (gstring)
             JSStringGetUTF8CString(js_str, gstring, gstring_max);
         else
@@ -133,9 +134,9 @@ static char *js_result_as_gstring(WebKitJavascriptResult *js_result)
 #endif
 }
 
-static void handle_message(const char * type, WebKitJavascriptResult *js_result)
+static void handle_message(const char* type, WebKitJavascriptResult* js_result)
 {
-    gchar *string_value = js_result_as_gstring(js_result);
+    gchar* string_value = js_result_as_gstring(js_result);
 
     if (string_value)
         LOG_TRC_NOFILE("From JS: " << type << ": " << string_value);
@@ -145,11 +146,10 @@ static void handle_message(const char * type, WebKitJavascriptResult *js_result)
     g_free(string_value);
 }
 
-static void handle_lool_message(WebKitUserContentManager *manager,
-                                WebKitJavascriptResult   *js_result,
-                                gpointer                  user_data)
+static void handle_lool_message(WebKitUserContentManager* manager,
+                                WebKitJavascriptResult* js_result, gpointer user_data)
 {
-    gchar *string_value = js_result_as_gstring(js_result);
+    gchar* string_value = js_result_as_gstring(js_result);
 
     if (string_value)
     {
@@ -169,67 +169,68 @@ static void handle_lool_message(WebKitUserContentManager *manager,
             fakeSocketPipe2(closeNotificationPipeForForwardingThread);
 
             // Start another thread to read responses and forward them to the JavaScript
-            std::thread([]
+            std::thread([] {
+                Util::setThreadName("app2js");
+                while (true)
+                {
+                    struct pollfd pollfd[2];
+                    pollfd[0].fd = fakeClientFd;
+                    pollfd[0].events = POLLIN;
+                    pollfd[1].fd = closeNotificationPipeForForwardingThread[1];
+                    pollfd[1].events = POLLIN;
+                    if (fakeSocketPoll(pollfd, 2, -1) > 0)
+                    {
+                        if (pollfd[1].revents == POLLIN)
                         {
-                            Util::setThreadName("app2js");
-                            while (true)
-                            {
-                               struct pollfd pollfd[2];
-                               pollfd[0].fd = fakeClientFd;
-                               pollfd[0].events = POLLIN;
-                               pollfd[1].fd = closeNotificationPipeForForwardingThread[1];
-                               pollfd[1].events = POLLIN;
-                               if (fakeSocketPoll(pollfd, 2, -1) > 0)
-                               {
-                                   if (pollfd[1].revents == POLLIN)
-                                   {
-                                       // The code below handling the "BYE" fake Websocket
-                                       // message has closed the other end of the
-                                       // closeNotificationPipeForForwardingThread. Let's close
-                                       // the other end too just for cleanliness, even if a
-                                       // FakeSocket as such is not a system resource so nothing
-                                       // is saved by closing it.
-                                       fakeSocketClose(closeNotificationPipeForForwardingThread[1]);
+                            // The code below handling the "BYE" fake Websocket
+                            // message has closed the other end of the
+                            // closeNotificationPipeForForwardingThread. Let's close
+                            // the other end too just for cleanliness, even if a
+                            // FakeSocket as such is not a system resource so nothing
+                            // is saved by closing it.
+                            fakeSocketClose(closeNotificationPipeForForwardingThread[1]);
 
-                                       // Close our end of the fake socket connection to the
-                                       // ClientSession thread, so that it terminates
-                                       fakeSocketClose(fakeClientFd);
+                            // Close our end of the fake socket connection to the
+                            // ClientSession thread, so that it terminates
+                            fakeSocketClose(fakeClientFd);
 
-                                       return;
-                                   }
-                                   if (pollfd[0].revents == POLLIN)
-                                   {
-                                       int n = fakeSocketAvailableDataLength(fakeClientFd);
-                                       if (n == 0)
-                                           return;
-                                       std::vector<char> buf(n);
-                                       n = fakeSocketRead(fakeClientFd, buf.data(), n);
-                                       send2JS(buf);
-                                   }
-                               }
-                               else
-                                   break;
-                           }
-                           assert(false);
-                        }).detach();
+                            return;
+                        }
+                        if (pollfd[0].revents == POLLIN)
+                        {
+                            int n = fakeSocketAvailableDataLength(fakeClientFd);
+                            if (n == 0)
+                                return;
+                            std::vector<char> buf(n);
+                            n = fakeSocketRead(fakeClientFd, buf.data(), n);
+                            send2JS(buf);
+                        }
+                    }
+                    else
+                        break;
+                }
+                assert(false);
+            })
+                .detach();
 
             // First we simply send it the URL. This corresponds to the GET request with Upgrade to
             // WebSocket.
             LOG_TRC_NOFILE("Actually sending to Online:" << fileURL);
 
             // Must do this in a thread, too, so that we can return to the GTK+ main loop
-            std::thread([]
-                        {
-                            struct pollfd pollfd;
-                            pollfd.fd = fakeClientFd;
-                            pollfd.events = POLLOUT;
-                            fakeSocketPoll(&pollfd, 1, -1);
-                            fakeSocketWrite(fakeClientFd, fileURL.c_str(), fileURL.size());
-                        }).detach();
+            std::thread([] {
+                struct pollfd pollfd;
+                pollfd.fd = fakeClientFd;
+                pollfd.events = POLLOUT;
+                fakeSocketPoll(&pollfd, 1, -1);
+                fakeSocketWrite(fakeClientFd, fileURL.c_str(), fileURL.size());
+            })
+                .detach();
         }
         else if (strcmp(string_value, "BYE") == 0)
         {
-            LOG_TRC_NOFILE("Document window terminating on JavaScript side. Closing our end of the socket.");
+            LOG_TRC_NOFILE(
+                "Document window terminating on JavaScript side. Closing our end of the socket.");
 
             // Close one end of the socket pair, that will wake up the forwarding thread above
             fakeSocketClose(closeNotificationPipeForForwardingThread[0]);
@@ -239,16 +240,16 @@ static void handle_lool_message(WebKitUserContentManager *manager,
         else
         {
             // As above
-            char *string_copy = strdup(string_value);
-            std::thread([=]
-                        {
-                            struct pollfd pollfd;
-                            pollfd.fd = fakeClientFd;
-                            pollfd.events = POLLOUT;
-                            fakeSocketPoll(&pollfd, 1, -1);
-                            fakeSocketWrite(fakeClientFd, string_copy, strlen(string_copy));
-                            free(string_copy);
-                        }).detach();
+            char* string_copy = strdup(string_value);
+            std::thread([=] {
+                struct pollfd pollfd;
+                pollfd.fd = fakeClientFd;
+                pollfd.events = POLLOUT;
+                fakeSocketPoll(&pollfd, 1, -1);
+                fakeSocketWrite(fakeClientFd, string_copy, strlen(string_copy));
+                free(string_copy);
+            })
+                .detach();
         }
         g_free(string_value);
     }
@@ -256,16 +257,14 @@ static void handle_lool_message(WebKitUserContentManager *manager,
         LOG_TRC_NOFILE("From JS: lool: some object");
 }
 
-static void handle_debug_message(WebKitUserContentManager *manager,
-                                 WebKitJavascriptResult   *js_result,
-                                 gpointer                  user_data)
+static void handle_debug_message(WebKitUserContentManager* manager,
+                                 WebKitJavascriptResult* js_result, gpointer user_data)
 {
     handle_message("debug", js_result);
 }
 
-static void handle_error_message(WebKitUserContentManager *manager,
-                                 WebKitJavascriptResult   *js_result,
-                                 gpointer                  user_data)
+static void handle_error_message(WebKitUserContentManager* manager,
+                                 WebKitJavascriptResult* js_result, gpointer user_data)
 {
     handle_message("error", js_result);
 }
@@ -281,40 +280,41 @@ int main(int argc, char* argv[])
     Log::initialize("Mobile", "trace", false, false, {});
     Util::setThreadName("main");
 
-    fakeSocketSetLoggingCallback([](const std::string& line)
-                                 {
-                                     LOG_TRC_NOFILE(line);
-                                 });
+    fakeSocketSetLoggingCallback([](const std::string& line) { LOG_TRC_NOFILE(line); });
 
-    std::thread([]
-                {
-                    assert(loolwsd == nullptr);
-                    char *argv[2];
-                    argv[0] = strdup("mobile");
-                    argv[1] = nullptr;
-                    Util::setThreadName("app");
-                    while (true)
-                    {
-                        loolwsd = new LOOLWSD();
-                        loolwsd->run(1, argv);
-                        delete loolwsd;
-                        LOG_TRC("One run of LOOLWSD completed");
-                    }
-                }).detach();
+    std::thread([] {
+        assert(loolwsd == nullptr);
+        char* argv[2];
+        argv[0] = strdup("mobile");
+        argv[1] = nullptr;
+        Util::setThreadName("app");
+        while (true)
+        {
+            loolwsd = new LOOLWSD();
+            loolwsd->run(1, argv);
+            delete loolwsd;
+            LOG_TRC("One run of LOOLWSD completed");
+        }
+    })
+        .detach();
 
     fakeClientFd = fakeSocketSocket();
 
     gtk_init(&argc, &argv);
 
-    GtkWidget *mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    GtkWidget* mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_default_size(GTK_WINDOW(mainWindow), 1000, 800);
     g_signal_connect(mainWindow, "destroy", G_CALLBACK(gtk_main_quit), nullptr);
 
-    WebKitUserContentManager *userContentManager = WEBKIT_USER_CONTENT_MANAGER(webkit_user_content_manager_new());
+    WebKitUserContentManager* userContentManager
+        = WEBKIT_USER_CONTENT_MANAGER(webkit_user_content_manager_new());
 
-    g_signal_connect(userContentManager, "script-message-received::debug", G_CALLBACK(handle_debug_message), nullptr);
-    g_signal_connect(userContentManager, "script-message-received::lool",  G_CALLBACK(handle_lool_message), nullptr);
-    g_signal_connect(userContentManager, "script-message-received::error", G_CALLBACK(handle_error_message), nullptr);
+    g_signal_connect(userContentManager, "script-message-received::debug",
+                     G_CALLBACK(handle_debug_message), nullptr);
+    g_signal_connect(userContentManager, "script-message-received::lool",
+                     G_CALLBACK(handle_lool_message), nullptr);
+    g_signal_connect(userContentManager, "script-message-received::error",
+                     G_CALLBACK(handle_error_message), nullptr);
 
     webkit_user_content_manager_register_script_message_handler(userContentManager, "debug");
     webkit_user_content_manager_register_script_message_handler(userContentManager, "lool");
@@ -326,12 +326,12 @@ int main(int argc, char* argv[])
 
     fileURL = "file://" + std::string(realpath(argv[1], nullptr));
 
-    std::string urlAndQuery =
-        "file://" TOPSRCDIR "/loleaflet/dist/loleaflet.html"
-        "?file_path=" + fileURL +
-        "&closebutton=1"
-        "&permission=edit"
-        "&debug=true";
+    std::string urlAndQuery = "file://" TOPSRCDIR "/loleaflet/dist/loleaflet.html"
+                              "?file_path="
+                              + fileURL
+                              + "&closebutton=1"
+                                "&permission=edit"
+                                "&debug=true";
 
     webkit_web_view_load_uri(webView, urlAndQuery.c_str());
 

@@ -37,7 +37,8 @@ using Poco::Base64Decoder;
 using Poco::Base64Encoder;
 using Poco::OutputLineEndingConverter;
 
-const Poco::Crypto::RSAKey JWTAuth::_key(Poco::Crypto::RSAKey(Poco::Crypto::RSAKey::KL_2048, Poco::Crypto::RSAKey::EXP_LARGE));
+const Poco::Crypto::RSAKey JWTAuth::_key(Poco::Crypto::RSAKey(Poco::Crypto::RSAKey::KL_2048,
+                                                              Poco::Crypto::RSAKey::EXP_LARGE));
 
 const std::string JWTAuth::getAccessToken()
 {
@@ -46,10 +47,14 @@ const std::string JWTAuth::getAccessToken()
 
     // trim '=' from end of encoded header
     encodedHeader.erase(std::find_if(encodedHeader.rbegin(), encodedHeader.rend(),
-                                     [](char& ch)->bool {return ch != '='; }).base(), encodedHeader.end());
+                                     [](char& ch) -> bool { return ch != '='; })
+                            .base(),
+                        encodedHeader.end());
     // trim '=' from end of encoded payload
     encodedPayload.erase(std::find_if(encodedPayload.rbegin(), encodedPayload.rend(),
-                                      [](char& ch)->bool { return ch != '='; }).base(), encodedPayload.end());
+                                      [](char& ch) -> bool { return ch != '='; })
+                             .base(),
+                         encodedPayload.end());
     LOG_INF("Encoded JWT header: " << encodedHeader);
     LOG_INF("Encoded JWT payload: " << encodedPayload);
 
@@ -61,7 +66,7 @@ const std::string JWTAuth::getAccessToken()
     std::replace(encodedPayload.begin(), encodedPayload.end(), '+', '-');
     std::replace(encodedPayload.begin(), encodedPayload.end(), '/', '_');
 
-    const std::string encodedBody = encodedHeader + '.' +  encodedPayload;
+    const std::string encodedBody = encodedHeader + '.' + encodedPayload;
 
     // sign the encoded body
     _digestEngine.update(encodedBody.c_str(), static_cast<unsigned>(encodedBody.length()));
@@ -78,7 +83,9 @@ const std::string JWTAuth::getAccessToken()
 
     // trim '=' from end of encoded signature
     encodedSig.erase(std::find_if(encodedSig.rbegin(), encodedSig.rend(),
-                                  [](char& ch)->bool { return ch != '='; }).base(), encodedSig.end());
+                                  [](char& ch) -> bool { return ch != '='; })
+                         .base(),
+                     encodedSig.end());
 
     // Be URL and filename safe
     std::replace(encodedSig.begin(), encodedSig.end(), '+', '-');
@@ -94,7 +101,9 @@ const std::string JWTAuth::getAccessToken()
 
 bool JWTAuth::verify(const std::string& accessToken)
 {
-    Poco::StringTokenizer tokens(accessToken, ".", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+    Poco::StringTokenizer tokens(accessToken, ".",
+                                 Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                     | Poco::StringTokenizer::TOK_TRIM);
 
     try
     {
@@ -112,7 +121,9 @@ bool JWTAuth::verify(const std::string& accessToken)
 
         // trim '=' from end of encoded signature.
         encodedSig.erase(std::find_if(encodedSig.rbegin(), encodedSig.rend(),
-                                      [](char& ch)->bool { return ch != '='; }).base(), encodedSig.end());
+                                      [](char& ch) -> bool { return ch != '='; })
+                             .base(),
+                         encodedSig.end());
 
         // Make the encoded sig URL and filename safe
         std::replace(encodedSig.begin(), encodedSig.end(), '+', '-');
@@ -120,7 +131,8 @@ bool JWTAuth::verify(const std::string& accessToken)
 
         if (encodedSig != tokens[2])
         {
-            LOG_INF("JWTAuth: verification failed; Expected: " << encodedSig << ", Received: " << tokens[2]);
+            LOG_INF("JWTAuth: verification failed; Expected: " << encodedSig
+                                                               << ", Received: " << tokens[2]);
             return false;
         }
 
@@ -140,11 +152,12 @@ bool JWTAuth::verify(const std::string& accessToken)
         std::time_t curtime = Poco::Timestamp().epochTime();
         if (curtime > decodedExptime)
         {
-            LOG_INF("JWTAuth:verify: JWT expired; curtime:" << curtime << ", exp:" << decodedExptime);
+            LOG_INF("JWTAuth:verify: JWT expired; curtime:" << curtime
+                                                            << ", exp:" << decodedExptime);
             return false;
         }
     }
-    catch(Poco::Exception& exc)
+    catch (Poco::Exception& exc)
     {
         LOG_WRN("JWTAuth:verify: Exception: " << exc.displayText());
         return false;
@@ -174,9 +187,9 @@ const std::string JWTAuth::createPayload()
     const std::string exptime = std::to_string(curtime + 1800);
 
     // TODO: Some sane code to represent JSON objects
-    const std::string payload = "{\"iss\":\"" + _iss + "\",\"sub\":\"" + _sub
-                              + "\",\"aud\":\"" + _aud + "\",\"nme\":\"" + _name
-                              + "\",\"exp\":\"" + exptime + "\"}";
+    const std::string payload = "{\"iss\":\"" + _iss + "\",\"sub\":\"" + _sub + "\",\"aud\":\""
+                                + _aud + "\",\"nme\":\"" + _name + "\",\"exp\":\"" + exptime
+                                + "\"}";
 
     LOG_INF("JWT Payload: " << payload);
     std::ostringstream ostr;
@@ -191,21 +204,20 @@ const std::string JWTAuth::createPayload()
 //TODO: This MUST be done over TLS to protect the token.
 const std::string OAuth::getAccessToken()
 {
-    const std::string url = _tokenEndPoint
-                          + "?client_id=" + _clientId
-                          + "&client_secret=" + _clientSecret
-                          + "&grant_type=authorization_code"
-                          + "&code=" + _authorizationCode;
-                        // + "&redirect_uri="
+    const std::string url = _tokenEndPoint + "?client_id=" + _clientId
+                            + "&client_secret=" + _clientSecret + "&grant_type=authorization_code"
+                            + "&code=" + _authorizationCode;
+    // + "&redirect_uri="
 
     Poco::URI uri(url);
     Poco::Net::HTTPClientSession session(uri.getHost(), uri.getPort());
-    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, url, Poco::Net::HTTPMessage::HTTP_1_1);
+    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_POST, url,
+                                   Poco::Net::HTTPMessage::HTTP_1_1);
     Poco::Net::HTTPResponse response;
     session.sendRequest(request);
 
     std::istream& rs = session.receiveResponse(response);
-    LOG_INF("Status: " <<  response.getStatus() << ' ' << response.getReason());
+    LOG_INF("Status: " << response.getStatus() << ' ' << response.getReason());
 
     const std::string reply(std::istreambuf_iterator<char>(rs), {});
     LOG_INF("Response: " << reply);
@@ -220,12 +232,13 @@ bool OAuth::verify(const std::string& token)
     LOG_DBG("Verifying authorization token from: " << url);
     Poco::URI uri(url);
     Poco::Net::HTTPClientSession session(uri.getHost(), uri.getPort());
-    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, url, Poco::Net::HTTPMessage::HTTP_1_1);
+    Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, url,
+                                   Poco::Net::HTTPMessage::HTTP_1_1);
     Poco::Net::HTTPResponse response;
     session.sendRequest(request);
 
     std::istream& rs = session.receiveResponse(response);
-    LOG_INF("Status: " <<  response.getStatus() << ' ' << response.getReason());
+    LOG_INF("Status: " << response.getStatus() << ' ' << response.getReason());
 
     const std::string reply(std::istreambuf_iterator<char>(rs), {});
     LOG_INF("Response: " << reply);

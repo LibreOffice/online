@@ -37,10 +37,10 @@ class UnitWOPI : public WopiTestServer
     bool _finishedSaveModified;
 
 public:
-    UnitWOPI() :
-        _phase(Phase::LoadAndSave),
-        _finishedSaveUnmodified(false),
-        _finishedSaveModified(false)
+    UnitWOPI()
+        : _phase(Phase::LoadAndSave)
+        , _finishedSaveUnmodified(false)
+        , _finishedSaveModified(false)
     {
     }
 
@@ -87,8 +87,10 @@ public:
             {
                 initWebsocket("/wopi/files/0?access_token=anything");
 
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(), testName);
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "save dontTerminateEdit=1 dontSaveIfUnmodified=0", testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(),
+                                       testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(),
+                                       "save dontTerminateEdit=1 dontSaveIfUnmodified=0", testName);
 
                 _phase = Phase::Modify;
                 _savingPhase = SavingPhase::Unmodified;
@@ -97,15 +99,18 @@ public:
             }
             case Phase::Modify:
             {
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=input char=97 key=0", testName);
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=up char=0 key=512", testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=input char=97 key=0",
+                                       testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=up char=0 key=512",
+                                       testName);
 
                 _phase = Phase::SaveModified;
                 break;
             }
             case Phase::SaveModified:
             {
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "save dontTerminateEdit=0 dontSaveIfUnmodified=0", testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(),
+                                       "save dontTerminateEdit=0 dontSaveIfUnmodified=0", testName);
 
                 _phase = Phase::Polling;
                 _savingPhase = SavingPhase::Modified;
@@ -120,9 +125,6 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitWOPI();
-}
+UnitBase* unit_create_wsd(void) { return new UnitWOPI(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

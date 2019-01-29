@@ -68,8 +68,8 @@ int MasterPortNumber = DEFAULT_MASTER_PORT_NUMBER;
 class CommandDispatcher : public IoUtil::PipeReader
 {
 public:
-    CommandDispatcher(const int pipe) :
-        PipeReader("wsd_pipe_rd", pipe)
+    CommandDispatcher(const int pipe)
+        : PipeReader("wsd_pipe_rd", pipe)
     {
     }
 
@@ -77,7 +77,7 @@ public:
     bool pollAndDispatch()
     {
         std::string message;
-        const int ready = readLine(message, [](){ return TerminationFlag.load(); });
+        const int ready = readLine(message, []() { return TerminationFlag.load(); });
         if (ready <= 0)
         {
             // Termination is done via SIGTERM, which breaks the wait.
@@ -105,7 +105,8 @@ public:
                 const int count = std::stoi(tokens[1]);
                 if (count > 0)
                 {
-                    LOG_INF("Setting to spawn " << tokens[1] << " child" << (count == 1 ? "" : "ren") << " per request.");
+                    LOG_INF("Setting to spawn " << tokens[1] << " child"
+                                                << (count == 1 ? "" : "ren") << " per request.");
                     ForkCounter = count;
                 }
                 else
@@ -146,7 +147,7 @@ static bool haveCapability(cap_value_t capability)
         return false;
     }
 
-    char *cap_name = cap_to_name(capability);
+    char* cap_name = cap_to_name(capability);
     cap_flag_value_t value;
 
     if (cap_get_flag(caps, capability, CAP_EFFECTIVE, &value) == -1)
@@ -218,7 +219,8 @@ static void cleanupChildren()
         const auto it = childJails.find(exitedChildPid);
         if (it != childJails.end())
         {
-            LOG_INF("Child " << exitedChildPid << " has exited, will remove its jail [" << it->second << "].");
+            LOG_INF("Child " << exitedChildPid << " has exited, will remove its jail ["
+                             << it->second << "].");
             jails.emplace_back(it->second);
             childJails.erase(it);
             if (childJails.empty() && !TerminationFlag)
@@ -241,10 +243,8 @@ static void cleanupChildren()
     }
 }
 
-static int createLibreOfficeKit(const std::string& childRoot,
-                                const std::string& sysTemplate,
-                                const std::string& loTemplate,
-                                const std::string& loSubPath,
+static int createLibreOfficeKit(const std::string& childRoot, const std::string& sysTemplate,
+                                const std::string& loTemplate, const std::string& loSubPath,
                                 bool queryVersion = false)
 {
     // Generate a jail ID to be used for in the jail path.
@@ -277,9 +277,11 @@ static int createLibreOfficeKit(const std::string& childRoot,
         }
 
 #ifndef KIT_IN_PROCESS
-        lokit_main(childRoot, jailId, sysTemplate, loTemplate, loSubPath, NoCapsForKit, NoSeccomp, queryVersion, DisplayVersion);
+        lokit_main(childRoot, jailId, sysTemplate, loTemplate, loSubPath, NoCapsForKit, NoSeccomp,
+                   queryVersion, DisplayVersion);
 #else
-        lokit_main(childRoot, jailId, sysTemplate, loTemplate, loSubPath, true, true, queryVersion, DisplayVersion);
+        lokit_main(childRoot, jailId, sysTemplate, loTemplate, loSubPath, true, true, queryVersion,
+                   DisplayVersion);
 #endif
     }
     else
@@ -303,17 +305,14 @@ static int createLibreOfficeKit(const std::string& childRoot,
     return pid;
 }
 
-void forkLibreOfficeKit(const std::string& childRoot,
-                        const std::string& sysTemplate,
-                        const std::string& loTemplate,
-                        const std::string& loSubPath,
-                        int limit)
+void forkLibreOfficeKit(const std::string& childRoot, const std::string& sysTemplate,
+                        const std::string& loTemplate, const std::string& loSubPath, int limit)
 {
     // Cleanup first, to reduce disk load.
     cleanupChildren();
 
 #ifndef KIT_IN_PROCESS
-    (void) limit;
+    (void)limit;
 #else
     if (limit > 0)
         ForkCounter = limit;
@@ -327,7 +326,8 @@ void forkLibreOfficeKit(const std::string& childRoot,
         const size_t retry = count * 2;
         for (size_t i = 0; ForkCounter > 0 && i < retry; ++i)
         {
-            if (ForkCounter-- <= 0 || createLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath) < 0)
+            if (ForkCounter-- <= 0
+                || createLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath) < 0)
             {
                 LOG_ERR("Failed to create a kit process.");
                 ++ForkCounter;
@@ -341,7 +341,8 @@ static void printArgumentHelp()
 {
     std::cout << "Usage: loolforkit [OPTION]..." << std::endl;
     std::cout << "  Single-threaded process that spawns lok instances" << std::endl;
-    std::cout << "  Note: Running this standalone is not possible. It is spawned by loolwsd" << std::endl;
+    std::cout << "  Note: Running this standalone is not possible. It is spawned by loolwsd"
+              << std::endl;
     std::cout << "        and is controlled via a pipe." << std::endl;
     std::cout << "" << std::endl;
 }
@@ -359,8 +360,8 @@ int main(int argc, char** argv)
         if (delaySecs > 0)
         {
             std::cerr << "Forkit: Sleeping " << delaySecs
-                      << " seconds to give you time to attach debugger to process "
-                      << Process::id() << std::endl;
+                      << " seconds to give you time to attach debugger to process " << Process::id()
+                      << std::endl;
             Thread::sleep(delaySecs * 1000);
         }
     }
@@ -387,7 +388,8 @@ int main(int argc, char** argv)
     LogLevel = logLevel ? logLevel : "trace";
     if (LogLevel != "trace")
     {
-        LOG_INF("Setting log-level to [trace] and delaying setting to configured [" << LogLevel << "] until after Forkit initialization.");
+        LOG_INF("Setting log-level to [trace] and delaying setting to configured ["
+                << LogLevel << "] until after Forkit initialization.");
     }
 
     std::string childRoot;
@@ -406,37 +408,37 @@ int main(int argc, char** argv)
 
     for (int i = 0; i < argc; ++i)
     {
-        char *cmd = argv[i];
-        char *eq;
+        char* cmd = argv[i];
+        char* eq;
         if (std::strstr(cmd, "--losubpath=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            loSubPath = std::string(eq+1);
+            loSubPath = std::string(eq + 1);
         }
         else if (std::strstr(cmd, "--systemplate=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            sysTemplate = std::string(eq+1);
+            sysTemplate = std::string(eq + 1);
         }
         else if (std::strstr(cmd, "--lotemplate=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            loTemplate = std::string(eq+1);
+            loTemplate = std::string(eq + 1);
         }
         else if (std::strstr(cmd, "--childroot=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            childRoot = std::string(eq+1);
+            childRoot = std::string(eq + 1);
         }
         else if (std::strstr(cmd, "--clientport=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            ClientPortNumber = std::stoll(std::string(eq+1));
+            ClientPortNumber = std::stoll(std::string(eq + 1));
         }
         else if (std::strstr(cmd, "--masterport=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            MasterPortNumber = std::stoll(std::string(eq+1));
+            MasterPortNumber = std::stoll(std::string(eq + 1));
         }
         else if (std::strstr(cmd, "--version") == cmd)
         {
@@ -448,7 +450,7 @@ int main(int argc, char** argv)
         else if (std::strstr(cmd, "--rlimits") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            const std::string rlimits = std::string(eq+1);
+            const std::string rlimits = std::string(eq + 1);
             std::vector<std::string> tokens = LOOLProtocol::tokenize(rlimits, ';');
             for (const std::string& cmdLimit : tokens)
             {
@@ -465,13 +467,14 @@ int main(int argc, char** argv)
         else if (std::strstr(cmd, "--unitlib=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            UnitTestLibrary = std::string(eq+1);
+            UnitTestLibrary = std::string(eq + 1);
         }
 #endif
         // we are running in a lower-privilege mode - with no chroot
         else if (std::strstr(cmd, "--nocaps") == cmd)
         {
-            LOG_ERR("Security: Running without the capability to enter a chroot jail is ill advised.");
+            LOG_ERR(
+                "Security: Running without the capability to enter a chroot jail is ill advised.");
             NoCapsForKit = true;
         }
 
@@ -483,15 +486,13 @@ int main(int argc, char** argv)
         }
     }
 
-    if (loSubPath.empty() || sysTemplate.empty() ||
-        loTemplate.empty() || childRoot.empty())
+    if (loSubPath.empty() || sysTemplate.empty() || loTemplate.empty() || childRoot.empty())
     {
         printArgumentHelp();
         return Application::EXIT_USAGE;
     }
 
-    if (!UnitBase::init(UnitBase::UnitType::Kit,
-                        UnitTestLibrary))
+    if (!UnitBase::init(UnitBase::UnitType::Kit, UnitTestLibrary))
     {
         LOG_ERR("Failed to load kit unit test library");
         return Application::EXIT_USAGE;
@@ -501,21 +502,23 @@ int main(int argc, char** argv)
     const std::string layers(
         "xcsxcu:${BRAND_BASE_DIR}/share/registry "
         "res:${BRAND_BASE_DIR}/share/registry "
-        "bundledext:${${BRAND_BASE_DIR}/program/lounorc:BUNDLED_EXTENSIONS_USER}/registry/com.sun.star.comp.deployment.configuration.PackageRegistryBackend/configmgr.ini "
-        "sharedext:${${BRAND_BASE_DIR}/program/lounorc:SHARED_EXTENSIONS_USER}/registry/com.sun.star.comp.deployment.configuration.PackageRegistryBackend/configmgr.ini "
-        "userext:${${BRAND_BASE_DIR}/program/lounorc:UNO_USER_PACKAGES_CACHE}/registry/com.sun.star.comp.deployment.configuration.PackageRegistryBackend/configmgr.ini "
+        "bundledext:${${BRAND_BASE_DIR}/program/lounorc:BUNDLED_EXTENSIONS_USER}/registry/"
+        "com.sun.star.comp.deployment.configuration.PackageRegistryBackend/configmgr.ini "
+        "sharedext:${${BRAND_BASE_DIR}/program/lounorc:SHARED_EXTENSIONS_USER}/registry/"
+        "com.sun.star.comp.deployment.configuration.PackageRegistryBackend/configmgr.ini "
+        "userext:${${BRAND_BASE_DIR}/program/lounorc:UNO_USER_PACKAGES_CACHE}/registry/"
+        "com.sun.star.comp.deployment.configuration.PackageRegistryBackend/configmgr.ini "
 #if ENABLE_DEBUG // '*' denotes non-writable.
         "user:*file://" DEBUG_ABSSRCDIR "/loolkitconfig.xcu "
 #else
         "user:*file://" LOOLWSD_CONFIGDIR "/loolkitconfig.xcu "
 #endif
-        );
+    );
 
     // No-caps tracing can spawn eg. glxinfo & other oddness.
     unsetenv("DISPLAY");
 
-    ::setenv("CONFIGURATION_LAYERS", layers.c_str(),
-             1 /* override */);
+    ::setenv("CONFIGURATION_LAYERS", layers.c_str(), 1 /* override */);
 
     if (!std::getenv("LD_BIND_NOW")) // must be set by parent.
         LOG_INF("Note: LD_BIND_NOW is not set.");
@@ -523,8 +526,12 @@ int main(int argc, char** argv)
     if (!NoCapsForKit && !haveCorrectCapabilities())
     {
         std::cerr << "FATAL: Capabilities are not set for the loolforkit program." << std::endl;
-        std::cerr << "Please make sure that the current partition was *not* mounted with the 'nosuid' option." << std::endl;
-        std::cerr << "If you are on SLES11, please set 'file_caps=1' as kernel boot option." << std::endl << std::endl;
+        std::cerr << "Please make sure that the current partition was *not* mounted with the "
+                     "'nosuid' option."
+                  << std::endl;
+        std::cerr << "If you are on SLES11, please set 'file_caps=1' as kernel boot option."
+                  << std::endl
+                  << std::endl;
         return Application::EXIT_SOFTWARE;
     }
 
@@ -544,7 +551,8 @@ int main(int argc, char** argv)
     // We must have at least one child, more are created dynamically.
     // Ask this first child to send version information to master process and trace startup.
     ::setenv("LOOL_TRACE_STARTUP", "1", 1);
-    Process::PID forKitPid = createLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath, true);
+    Process::PID forKitPid
+        = createLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath, true);
     if (forKitPid < 0)
     {
         LOG_FTL("Failed to create a kit process.");
@@ -556,7 +564,8 @@ int main(int argc, char** argv)
     ::unsetenv("LOOL_TRACE_STARTUP");
     if (LogLevel != "trace")
     {
-        LOG_INF("Forkit initialization complete: setting log-level to [" << LogLevel << "] as configured.");
+        LOG_INF("Forkit initialization complete: setting log-level to [" << LogLevel
+                                                                         << "] as configured.");
         Log::logger().setLevel(LogLevel);
     }
 

@@ -18,12 +18,11 @@
 class QueueHandler : public Poco::Runnable
 {
 public:
-    QueueHandler(std::shared_ptr<MessageQueue> queue,
-                 const std::shared_ptr<Session>& session,
-                 const std::string& name):
-        _queue(std::move(queue)),
-        _session(session),
-        _name(name)
+    QueueHandler(std::shared_ptr<MessageQueue> queue, const std::shared_ptr<Session>& session,
+                 const std::string& name)
+        : _queue(std::move(queue))
+        , _session(session)
+        , _name(name)
     {
     }
 

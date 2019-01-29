@@ -20,13 +20,20 @@ class FileServerRequestHandler
 {
     static std::string getRequestPathname(const Poco::Net::HTTPRequest& request);
 
-    static void preprocessFile(const Poco::Net::HTTPRequest& request, Poco::MemoryInputStream& message, const std::shared_ptr<StreamSocket>& socket);
-    static void preprocessAdminFile(const Poco::Net::HTTPRequest& request, const std::shared_ptr<StreamSocket>& socket);
+    static void preprocessFile(const Poco::Net::HTTPRequest& request,
+                               Poco::MemoryInputStream& message,
+                               const std::shared_ptr<StreamSocket>& socket);
+    static void preprocessAdminFile(const Poco::Net::HTTPRequest& request,
+                                    const std::shared_ptr<StreamSocket>& socket);
+
 public:
     /// Evaluate if the cookie exists, and if not, ask for the credentials.
-    static bool isAdminLoggedIn(const Poco::Net::HTTPRequest& request, Poco::Net::HTTPResponse& response);
+    static bool isAdminLoggedIn(const Poco::Net::HTTPRequest& request,
+                                Poco::Net::HTTPResponse& response);
 
-    static void handleRequest(const Poco::Net::HTTPRequest& request, Poco::MemoryInputStream& message, const std::shared_ptr<StreamSocket>& socket);
+    static void handleRequest(const Poco::Net::HTTPRequest& request,
+                              Poco::MemoryInputStream& message,
+                              const std::shared_ptr<StreamSocket>& socket);
 
     /// Read all files that we can serve into memory and compress them.
     static void initialize();
@@ -34,17 +41,18 @@ public:
     /// Clean cached files.
     static void uninitialize() { FileHash.clear(); }
 
-    static void readDirToHash(const std::string &basePath, const std::string &path);
+    static void readDirToHash(const std::string& basePath, const std::string& path);
 
-    static const std::string *getCompressedFile(const std::string &path);
+    static const std::string* getCompressedFile(const std::string& path);
 
-    static const std::string *getUncompressedFile(const std::string &path);
+    static const std::string* getUncompressedFile(const std::string& path);
 
 private:
     static std::map<std::string, std::pair<std::string, std::string>> FileHash;
     static void sendError(int errorCode, const Poco::Net::HTTPRequest& request,
-                          const std::shared_ptr<StreamSocket>& socket, const std::string& shortMessage,
-                          const std::string& longMessage, const std::string& extraHeader = "");
+                          const std::shared_ptr<StreamSocket>& socket,
+                          const std::string& shortMessage, const std::string& longMessage,
+                          const std::string& extraHeader = "");
 };
 
 #endif

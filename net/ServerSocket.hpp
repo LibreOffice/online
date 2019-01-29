@@ -27,15 +27,20 @@ public:
 class ServerSocket : public Socket
 {
 public:
-    ServerSocket(Socket::Type type, SocketPoll& clientPoller, std::shared_ptr<SocketFactory> sockFactory) :
-        Socket(type),
-        _type(type),
-        _clientPoller(clientPoller),
-        _sockFactory(std::move(sockFactory))
+    ServerSocket(Socket::Type type, SocketPoll& clientPoller,
+                 std::shared_ptr<SocketFactory> sockFactory)
+        : Socket(type)
+        , _type(type)
+        , _clientPoller(clientPoller)
+        , _sockFactory(std::move(sockFactory))
     {
     }
 
-    enum Type { Local, Public };
+    enum Type
+    {
+        Local,
+        Public
+    };
 
     /// Binds to a local address (Servers only).
     /// Does not retry on error.
@@ -67,7 +72,7 @@ public:
 #ifndef MOBILEAPP
         struct sockaddr_in6 clientInfo;
         socklen_t addrlen = sizeof(clientInfo);
-        const int rc = ::accept4(getFD(), (struct sockaddr *)&clientInfo, &addrlen, SOCK_NONBLOCK);
+        const int rc = ::accept4(getFD(), (struct sockaddr*)&clientInfo, &addrlen, SOCK_NONBLOCK);
 #else
         const int rc = fakeSocketAccept4(getFD());
 #endif
@@ -80,23 +85,23 @@ public:
 #ifndef MOBILEAPP
                 char addrstr[INET6_ADDRSTRLEN];
 
-                const void *inAddr;
+                const void* inAddr;
                 if (clientInfo.sin6_family == AF_INET)
                 {
-                    auto ipv4 = (struct sockaddr_in *)&clientInfo;
+                    auto ipv4 = (struct sockaddr_in*)&clientInfo;
                     inAddr = &(ipv4->sin_addr);
                 }
                 else
                 {
-                    auto ipv6 = (struct sockaddr_in6 *)&clientInfo;
+                    auto ipv6 = (struct sockaddr_in6*)&clientInfo;
                     inAddr = &(ipv6->sin6_addr);
                 }
 
                 inet_ntop(clientInfo.sin6_family, inAddr, addrstr, sizeof(addrstr));
                 std::shared_ptr<Socket> _socket = _sockFactory->create(rc);
                 _socket->setClientAddress(addrstr);
-                LOG_DBG("Accepted socket has family " << clientInfo.sin6_family <<
-                        " address " << _socket->clientAddress());
+                LOG_DBG("Accepted socket has family " << clientInfo.sin6_family << " address "
+                                                      << _socket->clientAddress());
 #else
                 std::shared_ptr<Socket> _socket = _sockFactory->create(rc);
                 _socket->setClientAddress("dummy");
@@ -114,15 +119,14 @@ public:
     }
 
     int getPollEvents(std::chrono::steady_clock::time_point /* now */,
-                      int & /* timeoutMaxMs */) override
+                      int& /* timeoutMaxMs */) override
     {
         return POLLIN;
     }
 
     void dumpState(std::ostream& os) override;
 
-    void handlePoll(SocketDisposition &,
-                    std::chrono::steady_clock::time_point /* now */,
+    void handlePoll(SocketDisposition&, std::chrono::steady_clock::time_point /* now */,
                     int events) override
     {
         if (events & POLLIN)

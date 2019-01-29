@@ -20,6 +20,7 @@
 class UnitTimeout : public UnitWSD
 {
     std::atomic<bool> _timedOut;
+
 public:
     UnitTimeout()
         : _timedOut(false)
@@ -31,7 +32,7 @@ public:
         _timedOut = true;
         UnitBase::timeout();
     }
-    virtual void returnValue(int & retValue) override
+    virtual void returnValue(int& retValue) override
     {
         if (!_timedOut)
         {
@@ -61,7 +62,7 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
+UnitBase* unit_create_wsd(void)
 {
     UnitTimeout::testDefaultKits();
     return new UnitTimeout();

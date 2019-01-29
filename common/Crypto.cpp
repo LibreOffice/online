@@ -35,8 +35,9 @@ struct SupportKeyImpl
     std::string _signature;
     DateTime _expiry;
     // Key format: iso-expiry-date:field1:field2:field:...:<signature>
-    SupportKeyImpl(const std::string &key)
-        : _invalid(true), _key(key)
+    SupportKeyImpl(const std::string& key)
+        : _invalid(true)
+        , _key(key)
     {
         LOG_INF("Support key '" << key << "' provided");
         size_t firstColon = key.find(':');
@@ -45,35 +46,35 @@ struct SupportKeyImpl
             std::string expiry(key.substr(0, firstColon));
             LOG_INF("Support key with expiry '" << expiry << "'");
 
-            try {
+            try
+            {
                 int timeZoneDifferential = 0;
                 Poco::DateTimeParser::parse(expiry, _expiry, timeZoneDifferential);
 
                 size_t lastColon = key.rfind(":");
                 if (lastColon != std::string::npos)
                 {
-                    _signature = key.substr(lastColon + 1,
-                                            key.length() - lastColon);
+                    _signature = key.substr(lastColon + 1, key.length() - lastColon);
                     _data = key.substr(0, lastColon);
                     LOG_INF("Support key signature '" << _signature << "' data '" << _data << "'");
 
                     _invalid = false;
                 }
-            } catch (SyntaxException &e) {
+            }
+            catch (SyntaxException& e)
+            {
                 LOG_ERR("Invalid support key expiry '" << expiry << "'");
             }
         }
     }
 };
 
-SupportKey::SupportKey(const std::string &key) :
-    _impl(new SupportKeyImpl(key))
+SupportKey::SupportKey(const std::string& key)
+    : _impl(new SupportKeyImpl(key))
 {
 }
 
-SupportKey::~SupportKey()
-{
-}
+SupportKey::~SupportKey() {}
 
 bool SupportKey::verify()
 {
@@ -85,7 +86,8 @@ bool SupportKey::verify()
 
     std::istringstream pubStream(SUPPORT_PUBLIC_KEY);
 
-    try {
+    try
+    {
         RSAKey keyPub(&pubStream);
         RSADigestEngine rsaEngine(keyPub, RSADigestEngine::DigestType::DIGEST_SHA1);
         rsaEngine.update(_impl->_data);
@@ -96,13 +98,15 @@ bool SupportKey::verify()
         std::istreambuf_iterator<char> eos;
         std::vector<unsigned char> rawSignature(std::istreambuf_iterator<char>(rawStream), eos);
         LOG_INF("Signature of length " << rawSignature.size()
-                << " data size: " << _impl->_data.length());
+                                       << " data size: " << _impl->_data.length());
         if (!rsaEngine.verify(rawSignature))
         {
             LOG_ERR("Support key is not correctly signed.");
             return false;
         }
-    } catch (...) {
+    }
+    catch (...)
+    {
         LOG_ERR("Exception validating support key.");
         return false;
     }
@@ -127,15 +131,9 @@ int SupportKey::validDaysRemaining()
     return days;
 }
 
-DateTime SupportKey::expiry() const
-{
-    return _impl->_expiry;
-}
+DateTime SupportKey::expiry() const { return _impl->_expiry; }
 
-std::string SupportKey::data() const
-{
-    return _impl->_data;
-}
+std::string SupportKey::data() const { return _impl->_data; }
 
 #endif // ENABLE_SUPPORT_KEY
 

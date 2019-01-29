@@ -45,25 +45,22 @@ using Poco::File;
 using Poco::StringTokenizer;
 using Poco::Timestamp;
 
-TileCache::TileCache(const std::string& docURL,
-                     const Timestamp& modifiedTime,
-                     const std::string& cacheDir,
-                     const bool tileCachePersistent) :
-    _docURL(docURL),
-    _cacheDir(cacheDir),
-    _tileCachePersistent(tileCachePersistent)
+TileCache::TileCache(const std::string& docURL, const Timestamp& modifiedTime,
+                     const std::string& cacheDir, const bool tileCachePersistent)
+    : _docURL(docURL)
+    , _cacheDir(cacheDir)
+    , _tileCachePersistent(tileCachePersistent)
 {
 #ifndef BUILDING_TESTS
-    LOG_INF("TileCache ctor for uri [" << LOOLWSD::anonymizeUrl(_docURL) <<
-            "], cacheDir: [" << _cacheDir <<
-            "], modifiedTime=" << (modifiedTime.raw()/1000000) <<
-            " getLastModified()=" << (getLastModified().raw()/1000000));
+    LOG_INF("TileCache ctor for uri ["
+            << LOOLWSD::anonymizeUrl(_docURL) << "], cacheDir: [" << _cacheDir
+            << "], modifiedTime=" << (modifiedTime.raw() / 1000000)
+            << " getLastModified()=" << (getLastModified().raw() / 1000000));
 #endif
     File directory(_cacheDir);
     std::string unsaved;
-    if (directory.exists() &&
-        (getLastModified() < modifiedTime ||
-         getTextFile("unsaved.txt", unsaved)))
+    if (directory.exists()
+        && (getLastModified() < modifiedTime || getTextFile("unsaved.txt", unsaved)))
     {
         // Document changed externally or modifications were not saved after all. Cache not useful.
         completeCleanup();
@@ -94,9 +91,9 @@ void TileCache::completeCleanup() const
 struct TileCache::TileBeingRendered
 {
     TileBeingRendered(const std::string& cachedName, const TileDesc& tile)
-     : _startTime(std::chrono::steady_clock::now()),
-       _tile(tile),
-       _cachedName(cachedName)
+        : _startTime(std::chrono::steady_clock::now())
+        , _tile(tile)
+        , _cachedName(cachedName)
     {
     }
 
@@ -106,9 +103,14 @@ struct TileCache::TileBeingRendered
     void setVersion(int version) { _tile.setVersion(version); }
 
     std::chrono::steady_clock::time_point getStartTime() const { return _startTime; }
-    double getElapsedTimeMs() const { return std::chrono::duration_cast<std::chrono::milliseconds>
-                                              (std::chrono::steady_clock::now() - _startTime).count(); }
+    double getElapsedTimeMs() const
+    {
+        return std::chrono::duration_cast<std::chrono::milliseconds>(
+                   std::chrono::steady_clock::now() - _startTime)
+            .count();
+    }
     std::vector<std::weak_ptr<ClientSession>>& getSubscribers() { return _subscribers; }
+
 private:
     std::vector<std::weak_ptr<ClientSession>> _subscribers;
     std::chrono::steady_clock::time_point _startTime;
@@ -116,7 +118,8 @@ private:
     std::string _cachedName;
 };
 
-std::shared_ptr<TileCache::TileBeingRendered> TileCache::findTileBeingRendered(const TileDesc& tileDesc)
+std::shared_ptr<TileCache::TileBeingRendered>
+TileCache::findTileBeingRendered(const TileDesc& tileDesc)
 {
     const std::string cachedName = cacheFileName(tileDesc);
 
@@ -126,16 +129,18 @@ std::shared_ptr<TileCache::TileBeingRendered> TileCache::findTileBeingRendered(c
     return tile != _tilesBeingRendered.end() ? tile->second : nullptr;
 }
 
-void TileCache::forgetTileBeingRendered(const std::shared_ptr<TileCache::TileBeingRendered>& tileBeingRendered, const TileDesc& tile)
+void TileCache::forgetTileBeingRendered(
+    const std::shared_ptr<TileCache::TileBeingRendered>& tileBeingRendered, const TileDesc& tile)
 {
     assertCorrectThread();
     assert(tileBeingRendered);
-    assert(_tilesBeingRendered.find(tileBeingRendered->getCacheName()) != _tilesBeingRendered.end());
+    assert(_tilesBeingRendered.find(tileBeingRendered->getCacheName())
+           != _tilesBeingRendered.end());
 
-    for(auto& subscriber : tileBeingRendered->getSubscribers())
+    for (auto& subscriber : tileBeingRendered->getSubscribers())
     {
         std::shared_ptr<ClientSession> session = subscriber.lock();
-        if(session && tile.getId() == -1)
+        if (session && tile.getId() == -1)
             session->traceUnSubscribeToTile(tileBeingRendered->getCacheName());
     }
 
@@ -145,7 +150,7 @@ void TileCache::forgetTileBeingRendered(const std::shared_ptr<TileCache::TileBei
 double TileCache::getTileBeingRenderedElapsedTimeMs(const std::string& tileCacheName) const
 {
     auto iterator = _tilesBeingRendered.find(tileCacheName);
-    if(iterator == _tilesBeingRendered.end())
+    if (iterator == _tilesBeingRendered.end())
         return -1.0; // Negativ value means that we did not find tileBeingRendered object
 
     return iterator->second->getElapsedTimeMs();
@@ -173,9 +178,9 @@ std::unique_ptr<std::fstream> TileCache::lookupTile(const TileDesc& tile)
     const std::string fileName = _cacheDir + "/" + cacheFileName(tile);
 
     std::unique_ptr<std::fstream> result(new std::fstream(fileName, std::ios::in));
-    UnitWSD::get().lookupTile(tile.getPart(), tile.getWidth(), tile.getHeight(),
-                              tile.getTilePosX(), tile.getTilePosY(),
-                              tile.getTileWidth(), tile.getTileHeight(), result);
+    UnitWSD::get().lookupTile(tile.getPart(), tile.getWidth(), tile.getHeight(), tile.getTilePosX(),
+                              tile.getTilePosY(), tile.getTileWidth(), tile.getTileHeight(),
+                              result);
 
     if (result && result->is_open())
     {
@@ -186,15 +191,15 @@ std::unique_ptr<std::fstream> TileCache::lookupTile(const TileDesc& tile)
     return nullptr;
 }
 
-void TileCache::saveTileAndNotify(const TileDesc& tile, const char *data, const size_t size)
+void TileCache::saveTileAndNotify(const TileDesc& tile, const char* data, const size_t size)
 {
     assertCorrectThread();
 
     std::shared_ptr<TileBeingRendered> tileBeingRendered = findTileBeingRendered(tile);
 
     // Save to disk.
-    const std::string cachedName = (tileBeingRendered ? tileBeingRendered->getCacheName()
-                                               : cacheFileName(tile));
+    const std::string cachedName
+        = (tileBeingRendered ? tileBeingRendered->getCacheName() : cacheFileName(tile));
 
     // Ignore if we can't save the tile, things will work anyway, but slower.
     // An error indication is supposed to be sent to all users in that case.
@@ -214,8 +219,7 @@ void TileCache::saveTileAndNotify(const TileDesc& tile, const char *data, const 
             LOG_DBG("Sending tile message to " << subscriberCount << " subscribers: " << response);
 
             // Send to first subscriber as-is (without cache marker).
-            auto payload = std::make_shared<Message>(response,
-                                                     Message::Dir::Out,
+            auto payload = std::make_shared<Message>(response, Message::Dir::Out,
                                                      response.size() + 1 + size);
             payload->append("\n", 1);
             payload->append(data, size);
@@ -234,8 +238,7 @@ void TileCache::saveTileAndNotify(const TileDesc& tile, const char *data, const 
 
                 // Create a new Payload.
                 payload.reset();
-                payload = std::make_shared<Message>(response,
-                                                    Message::Dir::Out,
+                payload = std::make_shared<Message>(response, Message::Dir::Out,
                                                     response.size() + size);
                 payload->append(data, size);
 
@@ -258,8 +261,8 @@ void TileCache::saveTileAndNotify(const TileDesc& tile, const char *data, const 
         // Remove subscriptions.
         if (tileBeingRendered->getVersion() <= tile.getVersion())
         {
-            LOG_DBG("STATISTICS: tile " << tile.getVersion() << " internal roundtrip " <<
-                    tileBeingRendered->getElapsedTimeMs() << " ms.");
+            LOG_DBG("STATISTICS: tile " << tile.getVersion() << " internal roundtrip "
+                                        << tileBeingRendered->getElapsedTimeMs() << " ms.");
             forgetTileBeingRendered(tileBeingRendered, tile);
         }
     }
@@ -271,7 +274,7 @@ void TileCache::saveTileAndNotify(const TileDesc& tile, const char *data, const 
 
 bool TileCache::getTextFile(const std::string& fileName, std::string& content)
 {
-    const std::string fullFileName =  _cacheDir + "/" + fileName;
+    const std::string fullFileName = _cacheDir + "/" + fileName;
 
     std::fstream textStream(fullFileName, std::ios::in);
     if (!textStream.is_open())
@@ -292,8 +295,8 @@ bool TileCache::getTextFile(const std::string& fileName, std::string& content)
         buffer.pop_back();
 
     content = std::string(buffer.data(), buffer.size());
-    LOG_INF("Read '" << LOOLProtocol::getAbbreviatedMessage(content.c_str(), content.size()) <<
-            "' from " << fullFileName);
+    LOG_INF("Read '" << LOOLProtocol::getAbbreviatedMessage(content.c_str(), content.size())
+                     << "' from " << fullFileName);
 
     return true;
 }
@@ -310,8 +313,8 @@ void TileCache::saveTextFile(const std::string& text, const std::string& fileNam
     }
     else
     {
-        LOG_INF("Saving '" << LOOLProtocol::getAbbreviatedMessage(text.c_str(), text.size()) <<
-                "' to " << fullFileName);
+        LOG_INF("Saving '" << LOOLProtocol::getAbbreviatedMessage(text.c_str(), text.size())
+                           << "' to " << fullFileName);
     }
 
     textStream << text << std::endl;
@@ -326,7 +329,8 @@ void TileCache::setUnsavedChanges(bool state)
         removeFile("unsaved.txt");
 }
 
-void TileCache::saveRendering(const std::string& name, const std::string& dir, const char *data, std::size_t size)
+void TileCache::saveRendering(const std::string& name, const std::string& dir, const char* data,
+                              std::size_t size)
 {
     // can fonts be invalidated?
     const std::string dirName = _cacheDir + "/" + dir;
@@ -338,7 +342,8 @@ void TileCache::saveRendering(const std::string& name, const std::string& dir, c
     FileUtil::saveDataToFileSafely(fileName, data, size);
 }
 
-std::unique_ptr<std::fstream> TileCache::lookupCachedFile(const std::string& name, const std::string& dir)
+std::unique_ptr<std::fstream> TileCache::lookupCachedFile(const std::string& name,
+                                                          const std::string& dir)
 {
     const std::string dirName = _cacheDir + "/" + dir;
     const std::string fileName = dirName + "/" + name;
@@ -355,10 +360,8 @@ std::unique_ptr<std::fstream> TileCache::lookupCachedFile(const std::string& nam
 
 void TileCache::invalidateTiles(int part, int x, int y, int width, int height)
 {
-    LOG_TRC("Removing invalidated tiles: part: " << part <<
-            ", x: " << x << ", y: " << y <<
-            ", width: " << width <<
-            ", height: " << height);
+    LOG_TRC("Removing invalidated tiles: part: " << part << ", x: " << x << ", y: " << y
+                                                 << ", width: " << width << ", height: " << height);
 
     File dir(_cacheDir);
 
@@ -366,7 +369,8 @@ void TileCache::invalidateTiles(int part, int x, int y, int width, int height)
 
     if (dir.exists() && dir.isDirectory())
     {
-        for (auto tileIterator = DirectoryIterator(dir); tileIterator != DirectoryIterator(); ++tileIterator)
+        for (auto tileIterator = DirectoryIterator(dir); tileIterator != DirectoryIterator();
+             ++tileIterator)
         {
             const std::string fileName = tileIterator.path().getFileName();
             if (intersectsTile(fileName, part, x, y, width, height))
@@ -382,12 +386,14 @@ void TileCache::invalidateTiles(const std::string& tiles)
 {
     std::pair<int, Util::Rectangle> result = TileCache::parseInvalidateMsg(tiles);
     Util::Rectangle& invalidateRect = result.second;
-    invalidateTiles(result.first, invalidateRect.getLeft(), invalidateRect.getTop(), invalidateRect.getWidth(), invalidateRect.getHeight());
+    invalidateTiles(result.first, invalidateRect.getLeft(), invalidateRect.getTop(),
+                    invalidateRect.getWidth(), invalidateRect.getHeight());
 }
 
 std::pair<int, Util::Rectangle> TileCache::parseInvalidateMsg(const std::string& tiles)
 {
-    StringTokenizer tokens(tiles, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+    StringTokenizer tokens(tiles, " ",
+                           StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
 
     assert(tokens[0] == "invalidatetiles:");
 
@@ -406,14 +412,11 @@ std::pair<int, Util::Rectangle> TileCache::parseInvalidateMsg(const std::string&
     else
     {
         int part, x, y, width, height;
-        if (tokens.count() == 6 &&
-            getTokenInteger(tokens[1], "part", part) &&
-            getTokenInteger(tokens[2], "x", x) &&
-            getTokenInteger(tokens[3], "y", y) &&
-            getTokenInteger(tokens[4], "width", width) &&
-            getTokenInteger(tokens[5], "height", height))
+        if (tokens.count() == 6 && getTokenInteger(tokens[1], "part", part)
+            && getTokenInteger(tokens[2], "x", x) && getTokenInteger(tokens[3], "y", y)
+            && getTokenInteger(tokens[4], "width", width)
+            && getTokenInteger(tokens[5], "height", height))
         {
-
             return std::pair<int, Util::Rectangle>(part, Util::Rectangle(x, y, width, height));
         }
     }
@@ -434,20 +437,25 @@ std::string TileCache::cacheFileName(const TileDesc& tile)
 {
     std::ostringstream oss;
     oss << tile.getPart() << '_' << tile.getWidth() << 'x' << tile.getHeight() << '.'
-        << tile.getTilePosX() << ',' << tile.getTilePosY() << '.'
-        << tile.getTileWidth() << 'x' << tile.getTileHeight() << ".png";
+        << tile.getTilePosX() << ',' << tile.getTilePosY() << '.' << tile.getTileWidth() << 'x'
+        << tile.getTileHeight() << ".png";
     return oss.str();
 }
 
-bool TileCache::parseCacheFileName(const std::string& fileName, int& part, int& width, int& height, int& tilePosX, int& tilePosY, int& tileWidth, int& tileHeight)
+bool TileCache::parseCacheFileName(const std::string& fileName, int& part, int& width, int& height,
+                                   int& tilePosX, int& tilePosY, int& tileWidth, int& tileHeight)
 {
-    return std::sscanf(fileName.c_str(), "%d_%dx%d.%d,%d.%dx%d.png", &part, &width, &height, &tilePosX, &tilePosY, &tileWidth, &tileHeight) == 7;
+    return std::sscanf(fileName.c_str(), "%d_%dx%d.%d,%d.%dx%d.png", &part, &width, &height,
+                       &tilePosX, &tilePosY, &tileWidth, &tileHeight)
+           == 7;
 }
 
-bool TileCache::intersectsTile(const std::string& fileName, int part, int x, int y, int width, int height)
+bool TileCache::intersectsTile(const std::string& fileName, int part, int x, int y, int width,
+                               int height)
 {
     int tilePart, tilePixelWidth, tilePixelHeight, tilePosX, tilePosY, tileWidth, tileHeight;
-    if (parseCacheFileName(fileName, tilePart, tilePixelWidth, tilePixelHeight, tilePosX, tilePosY, tileWidth, tileHeight))
+    if (parseCacheFileName(fileName, tilePart, tilePixelWidth, tilePixelHeight, tilePosX, tilePosY,
+                           tileWidth, tileHeight))
     {
         if (part != -1 && tilePart != part)
             return false;
@@ -486,7 +494,8 @@ void TileCache::saveLastModified(const Timestamp& timestamp)
 }
 
 // FIXME: to be further simplified when we centralize tile messages.
-void TileCache::subscribeToTileRendering(const TileDesc& tile, const std::shared_ptr<ClientSession>& subscriber)
+void TileCache::subscribeToTileRendering(const TileDesc& tile,
+                                         const std::shared_ptr<ClientSession>& subscriber)
 {
     std::ostringstream oss;
     oss << '(' << tile.getPart() << ',' << tile.getTilePosX() << ',' << tile.getTilePosY() << ')';
@@ -498,7 +507,7 @@ void TileCache::subscribeToTileRendering(const TileDesc& tile, const std::shared
 
     if (tileBeingRendered)
     {
-        for (const auto &s : tileBeingRendered->getSubscribers())
+        for (const auto& s : tileBeingRendered->getSubscribers())
         {
             if (s.lock().get() == subscriber.get())
             {
@@ -508,14 +517,17 @@ void TileCache::subscribeToTileRendering(const TileDesc& tile, const std::shared
             }
         }
 
-        LOG_DBG("Subscribing " << subscriber->getName() << " to tile " << name << " which has " <<
-                tileBeingRendered->getSubscribers().size() << " subscribers already.");
+        LOG_DBG("Subscribing " << subscriber->getName() << " to tile " << name << " which has "
+                               << tileBeingRendered->getSubscribers().size()
+                               << " subscribers already.");
         tileBeingRendered->getSubscribers().push_back(subscriber);
-        if(tile.getId() == -1)
+        if (tile.getId() == -1)
             subscriber->traceSubscribeToTile(tileBeingRendered->getCacheName());
 
-        const auto duration = (std::chrono::steady_clock::now() - tileBeingRendered->getStartTime());
-        if (std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() > COMMAND_TIMEOUT_MS)
+        const auto duration
+            = (std::chrono::steady_clock::now() - tileBeingRendered->getStartTime());
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(duration).count()
+            > COMMAND_TIMEOUT_MS)
         {
             // Tile painting has stalled. Reissue.
             tileBeingRendered->setVersion(tile.getVersion());
@@ -523,8 +535,8 @@ void TileCache::subscribeToTileRendering(const TileDesc& tile, const std::shared
     }
     else
     {
-        LOG_DBG("Subscribing " << subscriber->getName() << " to tile " << name <<
-                " ver=" << tile.getVersion() << " which has no subscribers.");
+        LOG_DBG("Subscribing " << subscriber->getName() << " to tile " << name
+                               << " ver=" << tile.getVersion() << " which has no subscribers.");
 
         const std::string cachedName = cacheFileName(tile);
 
@@ -532,7 +544,7 @@ void TileCache::subscribeToTileRendering(const TileDesc& tile, const std::shared
 
         tileBeingRendered = std::make_shared<TileBeingRendered>(cachedName, tile);
         tileBeingRendered->getSubscribers().push_back(subscriber);
-        if(tile.getId() == -1)
+        if (tile.getId() == -1)
             subscriber->traceSubscribeToTile(tileBeingRendered->getCacheName());
         _tilesBeingRendered[cachedName] = tileBeingRendered;
     }
@@ -543,8 +555,10 @@ void TileCache::registerTileBeingRendered(const TileDesc& tile)
     std::shared_ptr<TileBeingRendered> tileBeingRendered = findTileBeingRendered(tile);
     if (tileBeingRendered)
     {
-        const auto duration = (std::chrono::steady_clock::now() - tileBeingRendered->getStartTime());
-        if (std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() > COMMAND_TIMEOUT_MS)
+        const auto duration
+            = (std::chrono::steady_clock::now() - tileBeingRendered->getStartTime());
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(duration).count()
+            > COMMAND_TIMEOUT_MS)
         {
             // Tile painting has stalled. Reissue.
             tileBeingRendered->setVersion(tile.getVersion());
@@ -561,7 +575,7 @@ void TileCache::registerTileBeingRendered(const TileDesc& tile)
     }
 }
 
-std::string TileCache::cancelTiles(const std::shared_ptr<ClientSession> &subscriber)
+std::string TileCache::cancelTiles(const std::shared_ptr<ClientSession>& subscriber)
 {
     assert(subscriber && "cancelTiles expects valid subscriber");
     LOG_TRC("Cancelling tiles for " << subscriber->getName());
@@ -572,7 +586,7 @@ std::string TileCache::cancelTiles(const std::shared_ptr<ClientSession> &subscri
 
     std::ostringstream oss;
 
-    for (auto it = _tilesBeingRendered.begin(); it != _tilesBeingRendered.end(); )
+    for (auto it = _tilesBeingRendered.begin(); it != _tilesBeingRendered.end();)
     {
         if (it->second->getTile().getId() >= 0)
         {
@@ -584,12 +598,13 @@ std::string TileCache::cancelTiles(const std::shared_ptr<ClientSession> &subscri
         auto& subscribers = it->second->getSubscribers();
         LOG_TRC("Tile " << it->first << " has " << subscribers.size() << " subscribers.");
 
-        const auto itRem = std::find_if(subscribers.begin(), subscribers.end(),
-                                        [sub](std::weak_ptr<ClientSession>& ptr){ return ptr.lock().get() == sub; });
+        const auto itRem = std::find_if(
+            subscribers.begin(), subscribers.end(),
+            [sub](std::weak_ptr<ClientSession>& ptr) { return ptr.lock().get() == sub; });
         if (itRem != subscribers.end())
         {
-            LOG_TRC("Tile " << it->first << " has " << subscribers.size() <<
-                    " subscribers. Removing " << subscriber->getName() << ".");
+            LOG_TRC("Tile " << it->first << " has " << subscribers.size()
+                            << " subscribers. Removing " << subscriber->getName() << ".");
             subscribers.erase(itRem, itRem + 1);
             if (subscribers.empty())
             {
@@ -611,10 +626,10 @@ void TileCache::assertCorrectThread()
 {
     const bool correctThread = _owner == std::thread::id() || std::this_thread::get_id() == _owner;
     if (!correctThread)
-        LOG_ERR("TileCache method invoked from foreign thread. Expected: " <<
-                Log::to_string(_owner) << " but called from " <<
-                std::this_thread::get_id() << " (" << Util::getThreadId() << ").");
-    assert (correctThread);
+        LOG_ERR("TileCache method invoked from foreign thread. Expected: "
+                << Log::to_string(_owner) << " but called from " << std::this_thread::get_id()
+                << " (" << Util::getThreadId() << ").");
+    assert(correctThread);
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

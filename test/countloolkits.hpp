@@ -93,7 +93,8 @@ static void testNoExtraLoolKitsLeft()
     CPPUNIT_ASSERT_EQUAL(InitialLoolKitCount, countNow);
 
     const auto duration = (std::chrono::steady_clock::now() - TestStartTime);
-    const std::chrono::milliseconds::rep durationMs = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+    const std::chrono::milliseconds::rep durationMs
+        = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 
     TST_LOG(" (" << durationMs << " ms)");
 }

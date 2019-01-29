@@ -57,13 +57,10 @@
 
 namespace Png
 {
-
 // Callback functions for libpng
 extern "C"
 {
-    static void user_write_status_fn(png_structp, png_uint_32, int)
-    {
-    }
+    static void user_write_status_fn(png_structp, png_uint_32, int) {}
 
     static void user_write_fn(png_structp png_ptr, png_bytep data, png_size_t length)
     {
@@ -73,25 +70,21 @@ extern "C"
         std::memcpy(outputp->data() + oldsize, data, length);
     }
 
-    static void user_flush_fn(png_structp)
-    {
-    }
+    static void user_flush_fn(png_structp) {}
 }
 
-
 /* Unpremultiplies data and converts native endian ARGB => RGBA bytes */
-static void
-unpremultiply_data (png_structp /*png*/, png_row_infop row_info, png_bytep data)
+static void unpremultiply_data(png_structp /*png*/, png_row_infop row_info, png_bytep data)
 {
     unsigned int i;
 
     for (i = 0; i < row_info->rowbytes; i += 4)
     {
-        uint8_t *b = &data[i];
+        uint8_t* b = &data[i];
         uint32_t pixel;
-        uint8_t  alpha;
+        uint8_t alpha;
 
-        std::memcpy (&pixel, b, sizeof (uint32_t));
+        std::memcpy(&pixel, b, sizeof(uint32_t));
         alpha = (pixel & 0xff000000) >> 24;
         if (alpha == 0)
         {
@@ -100,8 +93,8 @@ unpremultiply_data (png_structp /*png*/, png_row_infop row_info, png_bytep data)
         else
         {
             b[0] = (((pixel & 0xff0000) >> 16) * 255 + alpha / 2) / alpha;
-            b[1] = (((pixel & 0x00ff00) >>  8) * 255 + alpha / 2) / alpha;
-            b[2] = (((pixel & 0x0000ff) >>  0) * 255 + alpha / 2) / alpha;
+            b[1] = (((pixel & 0x00ff00) >> 8) * 255 + alpha / 2) / alpha;
+            b[2] = (((pixel & 0x0000ff) >> 0) * 255 + alpha / 2) / alpha;
             b[3] = alpha;
         }
     }
@@ -109,11 +102,9 @@ unpremultiply_data (png_structp /*png*/, png_row_infop row_info, png_bytep data)
 
 // Sadly, older libpng headers don't use const for the pixmap pointer parameter to
 // png_write_row(), so can't use const here for pixmap.
-inline
-bool encodeSubBufferToPNG(unsigned char* pixmap, size_t startX, size_t startY,
-                          int width, int height,
-                          int bufferWidth, int bufferHeight,
-                          std::vector<char>& output, LibreOfficeKitTileMode mode)
+inline bool encodeSubBufferToPNG(unsigned char* pixmap, size_t startX, size_t startY, int width,
+                                 int height, int bufferWidth, int bufferHeight,
+                                 std::vector<char>& output, LibreOfficeKitTileMode mode)
 {
     if (bufferWidth < width || bufferHeight < height)
     {
@@ -134,7 +125,8 @@ bool encodeSubBufferToPNG(unsigned char* pixmap, size_t startX, size_t startY,
     png_set_compression_level(png_ptr, Z_BEST_SPEED);
 #endif
 
-    png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+    png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
+                 PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
     png_set_write_fn(png_ptr, &output, user_write_fn, user_flush_fn);
     png_set_write_status_fn(png_ptr, user_write_status_fn);
@@ -143,7 +135,7 @@ bool encodeSubBufferToPNG(unsigned char* pixmap, size_t startX, size_t startY,
 
     if (mode == LOK_TILEMODE_BGRA)
     {
-        png_set_write_user_transform_fn (png_ptr, unpremultiply_data);
+        png_set_write_user_transform_fn(png_ptr, unpremultiply_data);
     }
 
     auto a = std::chrono::steady_clock::now();
@@ -158,36 +150,35 @@ bool encodeSubBufferToPNG(unsigned char* pixmap, size_t startX, size_t startY,
 
     auto b = std::chrono::steady_clock::now();
 
-    std::chrono::milliseconds::rep duration = std::chrono::duration_cast<std::chrono::milliseconds>(b-a).count();
+    std::chrono::milliseconds::rep duration
+        = std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count();
 
     static std::chrono::milliseconds::rep totalDuration = 0;
     static int nCalls = 0;
 
     totalDuration += duration;
     nCalls += 1;
-    LOG_TRC("Average PNG compression time after " << std::to_string(nCalls) << " calls: " << (totalDuration / static_cast<double>(nCalls)));
+    LOG_TRC("Average PNG compression time after " << std::to_string(nCalls) << " calls: "
+                                                  << (totalDuration / static_cast<double>(nCalls)));
 
     png_destroy_write_struct(&png_ptr, &info_ptr);
 
     return true;
 }
 
-inline
-bool encodeBufferToPNG(unsigned char* pixmap, int width, int height,
-                       std::vector<char>& output, LibreOfficeKitTileMode mode)
+inline bool encodeBufferToPNG(unsigned char* pixmap, int width, int height,
+                              std::vector<char>& output, LibreOfficeKitTileMode mode)
 {
     return encodeSubBufferToPNG(pixmap, 0, 0, width, height, width, height, output, mode);
 }
 
-inline
-uint64_t hashBuffer(unsigned char* pixmap, long width, long height)
+inline uint64_t hashBuffer(unsigned char* pixmap, long width, long height)
 {
     return SpookyHash::Hash64(pixmap, width * height * 4, 1073741789);
 }
 
-inline
-uint64_t hashSubBuffer(unsigned char* pixmap, size_t startX, size_t startY,
-                       long width, long height, int bufferWidth, int bufferHeight)
+inline uint64_t hashSubBuffer(unsigned char* pixmap, size_t startX, size_t startY, long width,
+                              long height, int bufferWidth, int bufferHeight)
 {
     if (bufferWidth < width || bufferHeight < height)
         return 0; // magic invalid hash.
@@ -207,8 +198,7 @@ uint64_t hashSubBuffer(unsigned char* pixmap, size_t startX, size_t startY,
     return hash1;
 }
 
-static
-void readTileData(png_structp png_ptr, png_bytep data, png_size_t length)
+static void readTileData(png_structp png_ptr, png_bytep data, png_size_t length)
 {
     png_voidp io_ptr = png_get_io_ptr(png_ptr);
     assert(io_ptr);
@@ -216,11 +206,11 @@ void readTileData(png_structp png_ptr, png_bytep data, png_size_t length)
     streamTile.read(reinterpret_cast<char*>(data), length);
 }
 
-inline
-std::vector<png_bytep> decodePNG(std::stringstream& stream, png_uint_32& height, png_uint_32& width, png_uint_32& rowBytes)
+inline std::vector<png_bytep> decodePNG(std::stringstream& stream, png_uint_32& height,
+                                        png_uint_32& width, png_uint_32& rowBytes)
 {
     png_byte signature[0x08];
-    stream.read(reinterpret_cast<char *>(signature), 0x08);
+    stream.read(reinterpret_cast<char*>(signature), 0x08);
     if (png_sig_cmp(signature, 0x00, 0x08))
     {
         throw std::runtime_error("Invalid PNG signature.");
@@ -267,7 +257,8 @@ std::vector<png_bytep> decodePNG(std::stringstream& stream, png_uint_32& height,
     // rows
     for (png_uint_32 itRow = 0; itRow < height; itRow++)
     {
-        const size_t index = height + (itRow * rowBytes + sizeof(png_bytep) - 1) / sizeof(png_bytep);
+        const size_t index
+            = height + (itRow * rowBytes + sizeof(png_bytep) - 1) / sizeof(png_bytep);
         rows[itRow] = reinterpret_cast<png_bytep>(&rows[index]);
     }
 
@@ -278,6 +269,6 @@ std::vector<png_bytep> decodePNG(std::stringstream& stream, png_uint_32& height,
     return rows;
 }
 
-}
+} // namespace Png
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

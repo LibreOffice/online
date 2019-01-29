@@ -26,7 +26,7 @@
 #include <ServerSocket.hpp>
 #include <WebSocketHandler.hpp>
 #if ENABLE_SSL
-#  include <SslSocket.hpp>
+#include <SslSocket.hpp>
 #endif
 
 SocketPoll DumpSocketPoll("websocket");
@@ -36,14 +36,14 @@ class DumpSocketHandler : public WebSocketHandler
 {
 public:
     DumpSocketHandler(const std::weak_ptr<StreamSocket>& socket,
-                      const Poco::Net::HTTPRequest& request) :
-        WebSocketHandler(socket, request)
+                      const Poco::Net::HTTPRequest& request)
+        : WebSocketHandler(socket, request)
     {
     }
 
 private:
     /// Process incoming websocket messages
-    void handleMessage(bool fin, WSOpCode code, std::vector<char> &data)
+    void handleMessage(bool fin, WSOpCode code, std::vector<char>& data)
     {
         std::cout << "WebSocket message code " << (int)code << " fin " << fin << " data:\n";
         Util::dumpHex(std::cout, "", "    ", data, false);
@@ -54,12 +54,9 @@ private:
 class ClientRequestDispatcher : public SocketHandlerInterface
 {
 public:
-    ClientRequestDispatcher()
-    {
-    }
+    ClientRequestDispatcher() {}
 
 private:
-
     /// Set the socket associated with this ResponseClient.
     void onConnect(const std::shared_ptr<StreamSocket>& socket) override
     {
@@ -68,7 +65,7 @@ private:
     }
 
     /// Called after successful socket reads.
-    void handleIncomingMessage(SocketDisposition &disposition) override
+    void handleIncomingMessage(SocketDisposition& disposition) override
     {
         std::shared_ptr<StreamSocket> socket = _socket.lock();
         std::vector<char>& in = socket->getInBuffer();
@@ -76,8 +73,7 @@ private:
 
         // Find the end of the header, if any.
         static const std::string marker("\r\n\r\n");
-        auto itBody = std::search(in.begin(), in.end(),
-                                  marker.begin(), marker.end());
+        auto itBody = std::search(in.begin(), in.end(), marker.begin(), marker.end());
         if (itBody == in.end())
         {
             LOG_DBG("#" << socket->getFD() << " doesn't have enough data yet.");
@@ -96,10 +92,8 @@ private:
             Log::StreamLogger logger = Log::info();
             if (logger.enabled())
             {
-                logger << "#" << socket->getFD() << ": Client HTTP Request: "
-                       << request.getMethod() << ' '
-                       << request.getURI() << ' '
-                       << request.getVersion();
+                logger << "#" << socket->getFD() << ": Client HTTP Request: " << request.getMethod()
+                       << ' ' << request.getURI() << ' ' << request.getVersion();
 
                 for (const auto& it : request)
                 {
@@ -113,9 +107,11 @@ private:
             const auto offset = itBody - in.begin();
             const std::streamsize available = in.size() - offset;
 
-            if (contentLength != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH && available < contentLength)
+            if (contentLength != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH
+                && available < contentLength)
             {
-                LOG_DBG("Not enough content yet: ContentLength: " << contentLength << ", available: " << available);
+                LOG_DBG("Not enough content yet: ContentLength: " << contentLength
+                                                                  << ", available: " << available);
                 return;
             }
         }
@@ -136,10 +132,12 @@ private:
             LOG_INF("Incoming websocket request: " << request.getURI());
 
             const std::string& requestURI = request.getURI();
-            Poco::StringTokenizer pathTokens(requestURI, "/", Poco::StringTokenizer::TOK_IGNORE_EMPTY |
-                                                              Poco::StringTokenizer::TOK_TRIM);
+            Poco::StringTokenizer pathTokens(requestURI, "/",
+                                             Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                                 | Poco::StringTokenizer::TOK_TRIM);
 
-            if (request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0)
+            if (request.find("Upgrade") != request.end()
+                && Poco::icompare(request["Upgrade"], "websocket") == 0)
             {
                 auto dumpHandler = std::make_shared<DumpSocketHandler>(_socket, request);
                 socket->setHandler(dumpHandler);
@@ -161,7 +159,10 @@ private:
             // Bad request.
             std::ostringstream oss;
             oss << "HTTP/1.1 400\r\n"
-                << "Date: " << Poco::DateTimeFormatter::format(Poco::Timestamp(), Poco::DateTimeFormat::HTTP_FORMAT) << "\r\n"
+                << "Date: "
+                << Poco::DateTimeFormatter::format(Poco::Timestamp(),
+                                                   Poco::DateTimeFormat::HTTP_FORMAT)
+                << "\r\n"
                 << "User-Agent: LOOLWSD WOPI Agent\r\n"
                 << "Content-Length: 0\r\n"
                 << "\r\n";
@@ -169,8 +170,8 @@ private:
             socket->shutdown();
 
             // NOTE: Check _wsState to choose between HTTP response or WebSocket (app-level) error.
-            LOG_INF("#" << socket->getFD() << " Exception while processing incoming request: [" <<
-                    LOOLProtocol::getAbbreviatedMessage(in) << "]: " << exc.what());
+            LOG_INF("#" << socket->getFD() << " Exception while processing incoming request: ["
+                        << LOOLProtocol::getAbbreviatedMessage(in) << "]: " << exc.what());
         }
 
         // if we succeeded - remove the request from our input buffer
@@ -179,14 +180,12 @@ private:
     }
 
     int getPollEvents(std::chrono::steady_clock::time_point /* now */,
-                      int & /* timeoutMaxMs */) override
+                      int& /* timeoutMaxMs */) override
     {
         return POLLIN;
     }
 
-    void performWrites() override
-    {
-    }
+    void performWrites() override {}
 
 private:
     // The socket that owns us (we can't own it).
@@ -199,46 +198,50 @@ private:
     bool _isSSL = false;
 
 public:
-    DumpSocketFactory(bool isSSL) : _isSSL(isSSL) {}
+    DumpSocketFactory(bool isSSL)
+        : _isSSL(isSSL)
+    {
+    }
 
     std::shared_ptr<Socket> create(const int physicalFd) override
     {
 #if ENABLE_SSL
         if (_isSSL)
-            return StreamSocket::create<SslStreamSocket>(physicalFd, false, std::make_shared<ClientRequestDispatcher>());
+            return StreamSocket::create<SslStreamSocket>(
+                physicalFd, false, std::make_shared<ClientRequestDispatcher>());
 #else
-        (void) _isSSL;
+        (void)_isSSL;
 #endif
-        return StreamSocket::create<StreamSocket>(physicalFd, false, std::make_shared<ClientRequestDispatcher>());
+        return StreamSocket::create<StreamSocket>(physicalFd, false,
+                                                  std::make_shared<ClientRequestDispatcher>());
     }
 };
 
 namespace Util
 {
-    void alertAllUsers(const std::string& cmd, const std::string& kind)
-    {
-        std::cout << "error: cmd=" << cmd << " kind=" << kind << std::endl;
-    }
+void alertAllUsers(const std::string& cmd, const std::string& kind)
+{
+    std::cout << "error: cmd=" << cmd << " kind=" << kind << std::endl;
 }
+} // namespace Util
 
-class LoolConfig final: public Poco::Util::XMLConfiguration
+class LoolConfig final : public Poco::Util::XMLConfiguration
 {
 public:
-    LoolConfig()
-        {}
+    LoolConfig() {}
 };
 
-int main (int argc, char **argv)
+int main(int argc, char** argv)
 {
-    (void) argc; (void) argv;
+    (void)argc;
+    (void)argv;
 
     if (!UnitWSD::init(UnitWSD::UnitType::Wsd, ""))
     {
         throw std::runtime_error("Failed to load wsd unit test library.");
     }
 
-    Log::initialize("WebSocketDump", "trace", true, false,
-                    std::map<std::string, std::string>());
+    Log::initialize("WebSocketDump", "trace", true, false, std::map<std::string, std::string>());
 
     LoolConfig config;
     config.load("loolwsd.xml");
@@ -263,18 +266,15 @@ int main (int argc, char **argv)
 
     // Initialize the non-blocking socket SSL.
     if (isSSL)
-        SslContext::initialize(ssl_cert_file_path,
-                               ssl_key_file_path,
-                               ssl_ca_file_path,
+        SslContext::initialize(ssl_cert_file_path, ssl_key_file_path, ssl_ca_file_path,
                                ssl_cipher_list);
 #endif
 
     SocketPoll acceptPoll("accept");
 
     // Setup listening socket with a factory for connected sockets.
-    auto serverSocket = std::make_shared<ServerSocket>(
-        Socket::Type::All, DumpSocketPoll,
-        std::make_shared<DumpSocketFactory>(isSSL));
+    auto serverSocket = std::make_shared<ServerSocket>(Socket::Type::All, DumpSocketPoll,
+                                                       std::make_shared<DumpSocketFactory>(isSSL));
 
     if (!serverSocket->bind(ServerSocket::Type::Public, port))
     {

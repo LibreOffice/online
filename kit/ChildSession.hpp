@@ -37,16 +37,12 @@ class DocumentManagerInterface
 {
 public:
     /// Reqest loading a document, or a new view, if one exists.
-    virtual bool onLoad(const std::string& sessionId,
-                        const std::string& jailedFilePath,
-                        const std::string& jailedFilePathAnonym,
-                        const std::string& userName,
-                        const std::string& userNameAnonym,
-                        const std::string& docPassword,
-                        const std::string& renderOpts,
-                        const bool haveDocPassword,
-                        const std::string& lang,
-                        const std::string& watermarkText) = 0;
+    virtual bool onLoad(const std::string& sessionId, const std::string& jailedFilePath,
+                        const std::string& jailedFilePathAnonym, const std::string& userName,
+                        const std::string& userNameAnonym, const std::string& docPassword,
+                        const std::string& renderOpts, const bool haveDocPassword,
+                        const std::string& lang, const std::string& watermarkText)
+        = 0;
 
     /// Unload a client session, which unloads the document
     /// if it is the last and only.
@@ -86,35 +82,21 @@ private:
     std::string _payload;
 
 public:
-    RecordedEvent()
-    {
-    }
+    RecordedEvent() {}
 
     RecordedEvent(int type, const std::string& payload)
-        : _type(type),
-        _payload(payload)
+        : _type(type)
+        , _payload(payload)
     {
     }
 
-    void setType(int type)
-    {
-        _type = type;
-    }
+    void setType(int type) { _type = type; }
 
-    int getType() const
-    {
-        return _type;
-    }
+    int getType() const { return _type; }
 
-    void setPayload(const std::string& payload)
-    {
-        _payload = payload;
-    }
+    void setPayload(const std::string& payload) { _payload = payload; }
 
-    const std::string& getPayload() const
-    {
-        return _payload;
-    }
+    const std::string& getPayload() const { return _payload; }
 };
 
 /// When the session is inactive, we need to record its state for a replay.
@@ -128,25 +110,23 @@ private:
     std::vector<RecordedEvent> _recordedEventsVector;
 
 public:
-    StateRecorder() : _invalidate(false) {}
+    StateRecorder()
+        : _invalidate(false)
+    {
+    }
 
     // TODO Remember the maximal area we need to invalidate - grow it step by step.
-    void recordInvalidate()
-    {
-        _invalidate = true;
-    }
+    void recordInvalidate() { _invalidate = true; }
 
-    bool isInvalidate() const
-    {
-        return _invalidate;
-    }
+    bool isInvalidate() const { return _invalidate; }
 
     const std::unordered_map<std::string, std::string>& getRecordedStates() const
     {
         return _recordedStates;
     }
 
-    const std::unordered_map<int, std::unordered_map<int, RecordedEvent>>& getRecordedViewEvents() const
+    const std::unordered_map<int, std::unordered_map<int, RecordedEvent>>&
+    getRecordedViewEvents() const
     {
         return _recordedViewEvents;
     }
@@ -168,7 +148,7 @@ public:
 
     void recordViewEvent(const int viewId, const int type, const std::string& payload)
     {
-        _recordedViewEvents[viewId][type] = {type, payload};
+        _recordedViewEvents[viewId][type] = { type, payload };
     }
 
     void recordState(const std::string& name, const std::string& value)
@@ -204,8 +184,7 @@ public:
     ///                 a new view) or nullptr (when first view).
     /// jailId The JailID of the jail root directory,
     //         used by downloadas to construct jailed path.
-    ChildSession(const std::string& id,
-                 const std::string& jailId,
+    ChildSession(const std::string& id, const std::string& jailId,
                  DocumentManagerInterface& docManager);
     virtual ~ChildSession();
 
@@ -251,10 +230,13 @@ private:
     std::string getTextSelectionInternal(const std::string& mimeType);
     bool paste(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool insertFile(const char* buffer, int length, const std::vector<std::string>& tokens);
-    bool keyEvent(const char* buffer, int length, const std::vector<std::string>& tokens, const LokEventTargetEnum target);
-    bool extTextInputEvent(const char* /*buffer*/, int /*length*/, const std::vector<std::string>& tokens);
+    bool keyEvent(const char* buffer, int length, const std::vector<std::string>& tokens,
+                  const LokEventTargetEnum target);
+    bool extTextInputEvent(const char* /*buffer*/, int /*length*/,
+                           const std::vector<std::string>& tokens);
     bool dialogKeyEvent(const char* buffer, int length, const std::vector<std::string>& tokens);
-    bool mouseEvent(const char* buffer, int length, const std::vector<std::string>& tokens, const LokEventTargetEnum target);
+    bool mouseEvent(const char* buffer, int length, const std::vector<std::string>& tokens,
+                    const LokEventTargetEnum target);
     bool unoCommand(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool selectText(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool selectGraphic(const char* buffer, int length, const std::vector<std::string>& tokens);
@@ -264,28 +246,29 @@ private:
     bool setClientPart(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool setPage(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool sendWindowCommand(const char* buffer, int length, const std::vector<std::string>& tokens);
-    bool signDocumentContent(const char* buffer, int length, const std::vector<std::string>& tokens);
+    bool signDocumentContent(const char* buffer, int length,
+                             const std::vector<std::string>& tokens);
     bool askSignatureStatus(const char* buffer, int length, const std::vector<std::string>& tokens);
-    bool uploadSignedDocument(const char* buffer, int length, const std::vector<std::string>& tokens);
-    bool exportSignAndUploadDocument(const char* buffer, int length, const std::vector<std::string>& tokens);
-    bool renderShapeSelection(const char* buffer, int length, const std::vector<std::string>& tokens);
+    bool uploadSignedDocument(const char* buffer, int length,
+                              const std::vector<std::string>& tokens);
+    bool exportSignAndUploadDocument(const char* buffer, int length,
+                                     const std::vector<std::string>& tokens);
+    bool renderShapeSelection(const char* buffer, int length,
+                              const std::vector<std::string>& tokens);
 
     void rememberEventsForInactiveUser(const int type, const std::string& payload);
 
     virtual void disconnect() override;
     virtual bool _handleInput(const char* buffer, int length) override;
 
-    std::shared_ptr<lok::Document> getLOKitDocument()
-    {
-        return _docManager.getLOKitDocument();
-    }
+    std::shared_ptr<lok::Document> getLOKitDocument() { return _docManager.getLOKitDocument(); }
 
 private:
     const std::string _jailId;
     DocumentManagerInterface& _docManager;
 
     std::queue<std::chrono::steady_clock::time_point> _cursorInvalidatedEvent;
-    const unsigned _eventStorageIntervalMs = 15*1000;
+    const unsigned _eventStorageIntervalMs = 15 * 1000;
 
     /// View ID, returned by createView() or 0 by default.
     int _viewId;

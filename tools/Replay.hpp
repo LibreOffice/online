@@ -22,8 +22,9 @@
 class Connection
 {
 public:
-    static
-    std::shared_ptr<Connection> create(const std::string& serverURI, const std::string& documentURL, const std::string& sessionId)
+    static std::shared_ptr<Connection> create(const std::string& serverURI,
+                                              const std::string& documentURL,
+                                              const std::string& sessionId)
     {
         try
         {
@@ -36,15 +37,18 @@ public:
 
             std::string encodedUri;
             Poco::URI::encode(documentURL, ":/?", encodedUri);
-            Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, "/lool/" + encodedUri + "/ws");
+            Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET,
+                                           "/lool/" + encodedUri + "/ws");
             Poco::Net::HTTPResponse response;
-            std::shared_ptr<LOOLWebSocket> ws = helpers::connectLOKit(uri, request, response, sessionId + ' ');
+            std::shared_ptr<LOOLWebSocket> ws
+                = helpers::connectLOKit(uri, request, response, sessionId + ' ');
             std::cout << "Connected to " << serverURI << ".\n";
             return std::shared_ptr<Connection>(new Connection(documentURL, sessionId, ws));
         }
         catch (const std::exception& exc)
         {
-            std::cout << "ERROR while connecting to [" << serverURI << "]: " << exc.what() << std::endl;
+            std::cout << "ERROR while connecting to [" << serverURI << "]: " << exc.what()
+                      << std::endl;
             return nullptr;
         }
     }
@@ -62,8 +66,8 @@ public:
         }
         catch (const std::exception& exc)
         {
-            std::cout << "Error in " << _name << " while sending ["
-                      << data << "]: " << exc.what() << std::endl;
+            std::cout << "Error in " << _name << " while sending [" << data << "]: " << exc.what()
+                      << std::endl;
         }
 
         return false;
@@ -83,11 +87,12 @@ public:
     }
 
 private:
-    Connection(const std::string& documentURL, const std::string& sessionId, std::shared_ptr<LOOLWebSocket>& ws) :
-        _documentURL(documentURL),
-        _sessionId(sessionId),
-        _name(sessionId + ' '),
-        _ws(ws)
+    Connection(const std::string& documentURL, const std::string& sessionId,
+               std::shared_ptr<LOOLWebSocket>& ws)
+        : _documentURL(documentURL)
+        , _sessionId(sessionId)
+        , _name(sessionId + ' ')
+        , _ws(ws)
     {
     }
 
@@ -103,11 +108,10 @@ private:
 class Replay : public Poco::Runnable
 {
 public:
-
-    Replay(const std::string& serverUri, const std::string& uri, bool ignoreTiming = true) :
-        _serverUri(serverUri),
-        _uri(uri),
-        _ignoreTiming(ignoreTiming)
+    Replay(const std::string& serverUri, const std::string& uri, bool ignoreTiming = true)
+        : _serverUri(serverUri)
+        , _uri(uri)
+        , _ignoreTiming(ignoreTiming)
     {
     }
 
@@ -117,18 +121,17 @@ public:
         {
             replay();
         }
-        catch (const Poco::Exception &e)
+        catch (const Poco::Exception& e)
         {
             std::cout << "Error: " << e.name() << ' ' << e.message() << std::endl;
         }
-        catch (const std::exception &e)
+        catch (const std::exception& e)
         {
             std::cout << "Error: " << e.what() << std::endl;
         }
     }
 
 protected:
-
     void replay()
     {
         TraceFileReader traceFile(_uri);
@@ -137,7 +140,8 @@ protected:
         auto epochCurrent = std::chrono::steady_clock::now();
 
         const Poco::Int64 replayDuration = (traceFile.getEpochEnd() - epochFile);
-        std::cout << "Replaying file [" << _uri << "] of " << replayDuration / 1000000. << " second length." << std::endl;
+        std::cout << "Replaying file [" << _uri << "] of " << replayDuration / 1000000.
+                  << " second length." << std::endl;
 
         for (;;)
         {
@@ -148,7 +152,10 @@ protected:
                 break;
             }
 
-            const std::chrono::microseconds::rep deltaCurrent = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - epochCurrent).count();
+            const std::chrono::microseconds::rep deltaCurrent
+                = std::chrono::duration_cast<std::chrono::microseconds>(
+                      std::chrono::steady_clock::now() - epochCurrent)
+                      .count();
             const unsigned deltaFile = rec.getTimestampNs() - epochFile;
             const unsigned delay = (_ignoreTiming ? 0 : deltaFile - deltaCurrent);
             if (delay > 0)
@@ -180,11 +187,13 @@ protected:
                         // Add a new session.
                         if (it->second.find(rec.getSessionId()) != it->second.end())
                         {
-                            std::cout << "ERROR: session [" << rec.getSessionId() << "] already exists on doc [" << uri << "]\n";
+                            std::cout << "ERROR: session [" << rec.getSessionId()
+                                      << "] already exists on doc [" << uri << "]\n";
                         }
                         else
                         {
-                            std::shared_ptr<Connection> connection = Connection::create(_serverUri, uri, rec.getSessionId());
+                            std::shared_ptr<Connection> connection
+                                = Connection::create(_serverUri, uri, rec.getSessionId());
                             if (connection)
                             {
                                 it->second.emplace(rec.getSessionId(), connection);
@@ -195,7 +204,8 @@ protected:
                     {
                         std::cout << "New Document: " << uri << "\n";
                         _childToDoc.emplace(rec.getPid(), uri);
-                        std::shared_ptr<Connection> connection = Connection::create(_serverUri, uri, rec.getSessionId());
+                        std::shared_ptr<Connection> connection
+                            = Connection::create(_serverUri, uri, rec.getSessionId());
                         if (connection)
                         {
                             _sessions[uri].emplace(rec.getSessionId(), connection);
@@ -246,7 +256,8 @@ protected:
                         }
                         else
                         {
-                            std::cout << "ERROR: Session [" << rec.getSessionId() << "] does not exist.\n";
+                            std::cout << "ERROR: Session [" << rec.getSessionId()
+                                      << "] does not exist.\n";
                         }
                     }
                     else
@@ -256,12 +267,14 @@ protected:
                 }
                 else
                 {
-                    std::cout << "ERROR: Unknown PID [" << rec.getPid() << "] maps to no active document.\n";
+                    std::cout << "ERROR: Unknown PID [" << rec.getPid()
+                              << "] maps to no active document.\n";
                 }
             }
             else
             {
-                std::cout << "ERROR: Unknown trace file direction [" << static_cast<char>(rec.getDir()) << "].\n";
+                std::cout << "ERROR: Unknown trace file direction ["
+                          << static_cast<char>(rec.getDir()) << "].\n";
             }
 
             epochCurrent = std::chrono::steady_clock::now();

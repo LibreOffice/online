@@ -40,9 +40,12 @@ extern "C"
     static void myCallback(int type, const char* payload, void*)
     {
         std::cout << "Callback: ";
-        switch ((LibreOfficeKitCallbackType) type)
+        switch ((LibreOfficeKitCallbackType)type)
         {
-#define CASE(x) case LOK_CALLBACK_##x: std::cout << #x; break
+#define CASE(x)                                                                                    \
+    case LOK_CALLBACK_##x:                                                                         \
+        std::cout << #x;                                                                           \
+        break
             CASE(INVALIDATE_TILES);
             CASE(INVALIDATE_VISIBLE_CURSOR);
             CASE(TEXT_SELECTION);
@@ -91,7 +94,7 @@ extern "C"
 }
 
 /// The application class implementing a client.
-class LOKitClient: public Application
+class LOKitClient : public Application
 {
 public:
 protected:
@@ -103,8 +106,8 @@ protected:
             return Application::EXIT_USAGE;
         }
 
-        LibreOfficeKit *loKit;
-        LibreOfficeKitDocument *loKitDocument;
+        LibreOfficeKit* loKit;
+        LibreOfficeKitDocument* loKitDocument;
 
         loKit = lok_init(args[0].c_str());
         if (!loKit)
@@ -113,11 +116,11 @@ protected:
             return Application::EXIT_UNAVAILABLE;
         }
 
-
         loKitDocument = loKit->pClass->documentLoad(loKit, args[1].c_str());
         if (!loKitDocument)
         {
-            logger().fatal("Document loading failed: " + std::string(loKit->pClass->getError(loKit)));
+            logger().fatal("Document loading failed: "
+                           + std::string(loKit->pClass->getError(loKit)));
             return Application::EXIT_UNAVAILABLE;
         }
 
@@ -127,7 +130,8 @@ protected:
 
         if (isatty(0))
         {
-            std::cout << "Enter LOKit \"commands\", one per line. 'help' for help. EOF to finish." << std::endl;
+            std::cout << "Enter LOKit \"commands\", one per line. 'help' for help. EOF to finish."
+                      << std::endl;
         }
 
         while (!std::cin.eof())
@@ -135,19 +139,24 @@ protected:
             std::string line;
             std::getline(std::cin, line);
 
-            StringTokenizer tokens(line, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+            StringTokenizer tokens(line, " ",
+                                   StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
 
             if (tokens.count() == 0)
                 continue;
 
             if (tokens[0] == "?" || tokens[0] == "help")
             {
-                std::cout <<
-                    "Commands mimic LOOL protocol but we talk directly to LOKit:" << std::endl <<
-                    "    status" << std::endl <<
-                    "        calls LibreOfficeKitDocument::getDocumentType, getParts, getPartName, getDocumentSize" << std::endl <<
-                    "    tile part pixelwidth pixelheight docposx docposy doctilewidth doctileheight" << std::endl <<
-                    "        calls LibreOfficeKitDocument::paintTile" << std::endl;
+                std::cout << "Commands mimic LOOL protocol but we talk directly to LOKit:"
+                          << std::endl
+                          << "    status" << std::endl
+                          << "        calls LibreOfficeKitDocument::getDocumentType, getParts, "
+                             "getPartName, getDocumentSize"
+                          << std::endl
+                          << "    tile part pixelwidth pixelheight docposx docposy doctilewidth "
+                             "doctileheight"
+                          << std::endl
+                          << "        calls LibreOfficeKitDocument::paintTile" << std::endl;
             }
             else if (tokens[0] == "status")
             {
@@ -159,7 +168,9 @@ protected:
                 std::cout << LOKitHelper::documentStatus(loKitDocument) << std::endl;
                 for (int i = 0; i < loKitDocument->pClass->getParts(loKitDocument); i++)
                 {
-                    std::cout << "  " << i << ": '" << loKitDocument->pClass->getPartName(loKitDocument, i) << "'" << std::endl;
+                    std::cout << "  " << i << ": '"
+                              << loKitDocument->pClass->getPartName(loKitDocument, i) << "'"
+                              << std::endl;
                 }
             }
             else if (tokens[0] == "tile")
@@ -178,15 +189,18 @@ protected:
                 int tileWidth(std::stoi(tokens[6]));
                 int tileHeight(std::stoi(tokens[7]));
 
-                std::vector<unsigned char> pixmap(canvasWidth*canvasHeight*4);
+                std::vector<unsigned char> pixmap(canvasWidth * canvasHeight * 4);
                 loKitDocument->pClass->setPart(loKitDocument, partNumber);
-                loKitDocument->pClass->paintTile(loKitDocument, pixmap.data(), canvasWidth, canvasHeight, tilePosX, tilePosY, tileWidth, tileHeight);
+                loKitDocument->pClass->paintTile(loKitDocument, pixmap.data(), canvasWidth,
+                                                 canvasHeight, tilePosX, tilePosY, tileWidth,
+                                                 tileHeight);
 
                 if (!Util::windowingAvailable())
                     continue;
 
                 std::vector<char> png;
-                const auto mode = static_cast<LibreOfficeKitTileMode>(loKitDocument->pClass->getTileMode(loKitDocument));
+                const auto mode = static_cast<LibreOfficeKitTileMode>(
+                    loKitDocument->pClass->getTileMode(loKitDocument));
 
                 Png::encodeBufferToPNG(pixmap.data(), canvasWidth, canvasHeight, png, mode);
 
@@ -214,14 +228,13 @@ protected:
 
 namespace Util
 {
-
 void alertAllUsers(const std::string& cmd, const std::string& kind)
 {
     std::cout << "error: cmd=" << cmd << " kind=" << kind << std::endl;
-    (void) kind;
+    (void)kind;
 }
 
-}
+} // namespace Util
 
 POCO_APP_MAIN(LOKitClient)
 

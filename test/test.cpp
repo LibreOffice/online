@@ -32,7 +32,8 @@
 
 class HTTPGetTest;
 
-bool filterTests(CPPUNIT_NS::TestRunner& runner, CPPUNIT_NS::Test* testRegistry, const std::string& testName)
+bool filterTests(CPPUNIT_NS::TestRunner& runner, CPPUNIT_NS::Test* testRegistry,
+                 const std::string& testName)
 {
     Poco::RegularExpression re(testName, Poco::RegularExpression::RE_CASELESS);
     Poco::RegularExpression::Match reMatch;
@@ -69,15 +70,12 @@ int main(int argc, char** argv)
 
     Log::initialize("tst", loglevel, true, false, {});
 
-    return runClientTests(true, verbose)? 0: 1;
+    return runClientTests(true, verbose) ? 0 : 1;
 }
 
 static bool IsStandalone = false;
 
-bool isStandalone()
-{
-    return IsStandalone;
-}
+bool isStandalone() { return IsStandalone; }
 
 // returns true on success
 bool runClientTests(bool standalone, bool verbose)
@@ -111,7 +109,8 @@ bool runClientTests(bool standalone, bool verbose)
         const bool testsAdded = filterTests(runner, testRegistry, testName);
         if (!testsAdded)
         {
-            std::cerr << "Failed to match [" << testName << "] to any names in the external test-suite. "
+            std::cerr << "Failed to match [" << testName
+                      << "] to any names in the external test-suite. "
                       << "No external tests will be executed" << std::endl;
         }
     }
@@ -150,7 +149,8 @@ std::vector<int> getProcPids(const char* exec_filename, bool ignoreZombies = fal
     std::vector<int> pids;
 
     // Crash all lokit processes.
-    for (auto it = Poco::DirectoryIterator(std::string("/proc")); it != Poco::DirectoryIterator(); ++it)
+    for (auto it = Poco::DirectoryIterator(std::string("/proc")); it != Poco::DirectoryIterator();
+         ++it)
     {
         try
         {
@@ -179,14 +179,14 @@ std::vector<int> getProcPids(const char* exec_filename, bool ignoreZombies = fal
                     {
                         switch (tokens[2].c_str()[0])
                         {
-                            // Dead marker for old and new kernels.
-                        case 'x':
-                        case 'X':
-                            // Don't ignore zombies.
-                            break;
-                        default:
-                            pids.push_back(pid);
-                            break;
+                                // Dead marker for old and new kernels.
+                            case 'x':
+                            case 'X':
+                                // Don't ignore zombies.
+                                break;
+                            default:
+                                pids.push_back(pid);
+                                break;
                         }
                     }
                     else
@@ -210,10 +210,7 @@ std::vector<int> getKitPids()
     return pids;
 }
 
-int getLoolKitProcessCount()
-{
-    return getProcPids("(loolkit)", true).size();
-}
+int getLoolKitProcessCount() { return getProcPids("(loolkit)", true).size(); }
 
 std::vector<int> getForKitPids()
 {
@@ -231,10 +228,7 @@ std::vector<int> getForKitPids()
 // Here we are compiled inside UnitClient.cpp and we have
 // full access to the WSD process internals.
 
-std::vector<int> getKitPids()
-{
-    return LOOLWSD::getKitPids();
-}
+std::vector<int> getKitPids() { return LOOLWSD::getKitPids(); }
 
 /// Get the PID of the forkit
 std::vector<int> getForKitPids()
@@ -246,10 +240,7 @@ std::vector<int> getForKitPids()
 }
 
 /// How many live lookit processes do we have ?
-int getLoolKitProcessCount()
-{
-    return getKitPids().size();
-}
+int getLoolKitProcessCount() { return getKitPids().size(); }
 
 #endif // UNIT_CLIENT_TESTS
 

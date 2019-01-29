@@ -33,21 +33,18 @@ using namespace helpers;
 
 namespace CPPUNIT_NS
 {
-template<>
-struct assertion_traits<std::vector<char>>
+template <> struct assertion_traits<std::vector<char>>
 {
-    static bool equal(const std::vector<char>& x, const std::vector<char>& y)
-    {
-        return x == y;
-    }
+    static bool equal(const std::vector<char>& x, const std::vector<char>& y) { return x == y; }
 
     static std::string toString(const std::vector<char>& x)
     {
-        const std::string text = '"' + (!x.empty() ? std::string(x.data(), x.size()) : "<empty>") + '"';
+        const std::string text
+            = '"' + (!x.empty() ? std::string(x.data(), x.size()) : "<empty>") + '"';
         return text;
     }
 };
-}
+} // namespace CPPUNIT_NS
 
 /// TileCache unit-tests.
 class TileCacheTests : public CPPUNIT_NS::TestFixture
@@ -88,7 +85,6 @@ class TileCacheTests : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(testWireIDFilteringOnWSDSide);
     CPPUNIT_TEST(testLimitTileVersionsOnFly);
 
-
     CPPUNIT_TEST_SUITE_END();
 
     void testSimple();
@@ -119,21 +115,14 @@ class TileCacheTests : public CPPUNIT_NS::TestFixture
     void testWireIDFilteringOnWSDSide();
     void testLimitTileVersionsOnFly();
 
-    void checkTiles(std::shared_ptr<LOOLWebSocket>& socket,
-                    const std::string& type,
+    void checkTiles(std::shared_ptr<LOOLWebSocket>& socket, const std::string& type,
                     const std::string& name = "checkTiles ");
 
-    void requestTiles(std::shared_ptr<LOOLWebSocket>& socket,
-                      const int part,
-                      const int docWidth,
-                      const int docHeight,
-                      const std::string& name = "requestTiles ");
+    void requestTiles(std::shared_ptr<LOOLWebSocket>& socket, const int part, const int docWidth,
+                      const int docHeight, const std::string& name = "requestTiles ");
 
-    void checkBlackTiles(std::shared_ptr<LOOLWebSocket>& socket,
-                         const int part,
-                         const int docWidth,
-                         const int docHeight,
-                         const std::string& name = "checkBlackTiles ");
+    void checkBlackTiles(std::shared_ptr<LOOLWebSocket>& socket, const int part, const int docWidth,
+                         const int docHeight, const std::string& name = "checkBlackTiles ");
 
     void checkBlackTile(std::stringstream& tile);
 
@@ -144,18 +133,17 @@ public:
 #if ENABLE_SSL
         Poco::Net::initializeSSL();
         // Just accept the certificate anyway for testing purposes
-        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidCertHandler = new Poco::Net::AcceptCertificateHandler(false);
+        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidCertHandler
+            = new Poco::Net::AcceptCertificateHandler(false);
         Poco::Net::Context::Params sslParams;
-        Poco::Net::Context::Ptr sslContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
+        Poco::Net::Context::Ptr sslContext
+            = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
         Poco::Net::SSLManager::instance().initializeClient(nullptr, invalidCertHandler, sslContext);
 #endif
     }
 
 #if ENABLE_SSL
-    ~TileCacheTests()
-    {
-        Poco::Net::uninitializeSSL();
-    }
+    ~TileCacheTests() { Poco::Net::uninitializeSSL(); }
 #endif
 
     void setUp()
@@ -224,15 +212,18 @@ void TileCacheTests::testSimpleCombine()
     getDocumentPathAndURL("hello.odt", documentPath, documentURL, testname);
 
     // First.
-    std::shared_ptr<LOOLWebSocket> socket1 = loadDocAndGetSocket(_uri, documentURL, "simpleCombine-1 ");
+    std::shared_ptr<LOOLWebSocket> socket1
+        = loadDocAndGetSocket(_uri, documentURL, "simpleCombine-1 ");
 
-    sendTextFrame(socket1, "tilecombine part=0 width=256 height=256 tileposx=0,3840 tileposy=0,0 tilewidth=3840 tileheight=3840");
+    sendTextFrame(socket1, "tilecombine part=0 width=256 height=256 tileposx=0,3840 tileposy=0,0 "
+                           "tilewidth=3840 tileheight=3840");
 
     std::vector<char> tile1a = getResponseMessage(socket1, "tile:", testname);
     CPPUNIT_ASSERT_MESSAGE("did not receive a tile: message as expected", !tile1a.empty());
     std::vector<char> tile1b = getResponseMessage(socket1, "tile:", testname);
     CPPUNIT_ASSERT_MESSAGE("did not receive a tile: message as expected", !tile1b.empty());
-    sendTextFrame(socket1, "tilecombine part=0 width=256 height=256 tileposx=0,3840 tileposy=0,0 tilewidth=3840 tileheight=3840");
+    sendTextFrame(socket1, "tilecombine part=0 width=256 height=256 tileposx=0,3840 tileposy=0,0 "
+                           "tilewidth=3840 tileheight=3840");
 
     tile1a = getResponseMessage(socket1, "tile:", testname);
     CPPUNIT_ASSERT_MESSAGE("did not receive a tile: message as expected", !tile1a.empty());
@@ -241,9 +232,11 @@ void TileCacheTests::testSimpleCombine()
 
     // Second.
     std::cerr << "Connecting second client." << std::endl;
-    std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, "simpleCombine-2 ", true);
+    std::shared_ptr<LOOLWebSocket> socket2
+        = loadDocAndGetSocket(_uri, documentURL, "simpleCombine-2 ", true);
 
-    sendTextFrame(socket2, "tilecombine part=0 width=256 height=256 tileposx=0,3840 tileposy=0,0 tilewidth=3840 tileheight=3840");
+    sendTextFrame(socket2, "tilecombine part=0 width=256 height=256 tileposx=0,3840 tileposy=0,0 "
+                           "tilewidth=3840 tileheight=3840");
 
     std::vector<char> tile2a = getResponseMessage(socket2, "tile:", testname);
     CPPUNIT_ASSERT_MESSAGE("did not receive a tile: message as expected", !tile2a.empty());
@@ -265,10 +258,12 @@ void TileCacheTests::testCancelTiles()
         // Wait to clear previous sessions.
         countLoolKitProcesses(InitialLoolKitCount);
 
-        std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("setclientpart.ods", _uri, testName);
+        std::shared_ptr<LOOLWebSocket> socket
+            = loadDocAndGetSocket("setclientpart.ods", _uri, testName);
 
         // Request a huge tile, and cancel immediately.
-        sendTextFrame(socket, "tilecombine part=0 width=2560 height=2560 tileposx=0 tileposy=0 tilewidth=38400 tileheight=38400");
+        sendTextFrame(socket, "tilecombine part=0 width=2560 height=2560 tileposx=0 tileposy=0 "
+                              "tilewidth=38400 tileheight=38400");
         sendTextFrame(socket, "canceltiles");
 
         const auto res = getResponseString(socket, "tile:", testName, 1000);
@@ -280,7 +275,8 @@ void TileCacheTests::testCancelTiles()
         {
             if (i == repeat)
             {
-                CPPUNIT_ASSERT_MESSAGE("Did not expect getting message [" + res + "].", res.empty());
+                CPPUNIT_ASSERT_MESSAGE("Did not expect getting message [" + res + "].",
+                                       res.empty());
             }
 
             std::cerr << "Unexpected: [" << res << "]" << std::endl;
@@ -304,11 +300,20 @@ void TileCacheTests::testCancelTilesMultiView()
         countLoolKitProcesses(InitialLoolKitCount);
 
         // Request a huge tile, and cancel immediately.
-        std::shared_ptr<LOOLWebSocket> socket1 = loadDocAndGetSocket(_uri, documentURL, "cancelTilesMultiView-1 ");
-        std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, "cancelTilesMultiView-2 ", true);
+        std::shared_ptr<LOOLWebSocket> socket1
+            = loadDocAndGetSocket(_uri, documentURL, "cancelTilesMultiView-1 ");
+        std::shared_ptr<LOOLWebSocket> socket2
+            = loadDocAndGetSocket(_uri, documentURL, "cancelTilesMultiView-2 ", true);
 
-        sendTextFrame(socket1, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520 tileposy=0,0,0,0,3840,3840,3840,3840 tilewidth=3840 tileheight=3840", "cancelTilesMultiView-1 ");
-        sendTextFrame(socket2, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,0 tileposy=0,0,0,22520 tilewidth=3840 tileheight=3840", "cancelTilesMultiView-2 ");
+        sendTextFrame(
+            socket1,
+            "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520 "
+            "tileposy=0,0,0,0,3840,3840,3840,3840 tilewidth=3840 tileheight=3840",
+            "cancelTilesMultiView-1 ");
+        sendTextFrame(socket2,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,0 "
+                      "tileposy=0,0,0,22520 tilewidth=3840 tileheight=3840",
+                      "cancelTilesMultiView-2 ");
 
         sendTextFrame(socket1, "canceltiles");
         const auto res1 = getResponseString(socket1, "tile:", "cancelTilesMultiView-1 ", 500);
@@ -316,7 +321,8 @@ void TileCacheTests::testCancelTilesMultiView()
         {
             if (j == repeat)
             {
-                CPPUNIT_ASSERT_MESSAGE("Did not expect getting message [" + res1 + "].", res1.empty());
+                CPPUNIT_ASSERT_MESSAGE("Did not expect getting message [" + res1 + "].",
+                                       res1.empty());
             }
 
             std::cerr << "Unexpected: [" << res1 << "]" << std::endl;
@@ -337,7 +343,8 @@ void TileCacheTests::testCancelTilesMultiView()
         {
             if (j == repeat)
             {
-                CPPUNIT_ASSERT_MESSAGE("Did not expect getting message [" + res2 + "].", res1.empty());
+                CPPUNIT_ASSERT_MESSAGE("Did not expect getting message [" + res2 + "].",
+                                       res1.empty());
             }
 
             std::cerr << "Unexpected: [" << res2 << "]" << std::endl;
@@ -365,11 +372,20 @@ void TileCacheTests::testDisconnectMultiView()
         countLoolKitProcesses(InitialLoolKitCount);
 
         // Request a huge tile, and cancel immediately.
-        std::shared_ptr<LOOLWebSocket> socket1 = loadDocAndGetSocket(_uri, documentURL, "disconnectMultiView-1 ");
-        std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, "disconnectMultiView-2 ", true);
+        std::shared_ptr<LOOLWebSocket> socket1
+            = loadDocAndGetSocket(_uri, documentURL, "disconnectMultiView-1 ");
+        std::shared_ptr<LOOLWebSocket> socket2
+            = loadDocAndGetSocket(_uri, documentURL, "disconnectMultiView-2 ", true);
 
-        sendTextFrame(socket1, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520 tileposy=0,0,0,0,3840,3840,3840,3840 tilewidth=3840 tileheight=3840", "cancelTilesMultiView-1 ");
-        sendTextFrame(socket2, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,0 tileposy=0,0,0,22520 tilewidth=3840 tileheight=3840", "cancelTilesMultiView-2 ");
+        sendTextFrame(
+            socket1,
+            "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520 "
+            "tileposy=0,0,0,0,3840,3840,3840,3840 tilewidth=3840 tileheight=3840",
+            "cancelTilesMultiView-1 ");
+        sendTextFrame(socket2,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,0 "
+                      "tileposy=0,0,0,22520 tilewidth=3840 tileheight=3840",
+                      "cancelTilesMultiView-2 ");
 
         socket1->shutdown();
 
@@ -389,10 +405,12 @@ void TileCacheTests::testUnresponsiveClient()
     getDocumentPathAndURL("hello.odt", documentPath, documentURL, "unresponsiveClient ");
 
     std::cerr << "Connecting first client." << std::endl;
-    std::shared_ptr<LOOLWebSocket> socket1 = loadDocAndGetSocket(_uri, documentURL, "unresponsiveClient-1 ");
+    std::shared_ptr<LOOLWebSocket> socket1
+        = loadDocAndGetSocket(_uri, documentURL, "unresponsiveClient-1 ");
 
     std::cerr << "Connecting second client." << std::endl;
-    std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, "unresponsiveClient-2 ");
+    std::shared_ptr<LOOLWebSocket> socket2
+        = loadDocAndGetSocket(_uri, documentURL, "unresponsiveClient-2 ");
 
     // Pathologically request tiles and fail to read (say slow connection).
     // Meanwhile, verify that others can get all tiles fine.
@@ -415,14 +433,22 @@ void TileCacheTests::testUnresponsiveClient()
         assertResponseString(socket2, "invalidatetiles:", "client2 ");
 
         // Ask for tiles and don't read!
-        sendTextFrame(socket1, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520 tileposy=0,0,0,0,3840,3840,3840,3840 tilewidth=3840 tileheight=3840");
+        sendTextFrame(
+            socket1,
+            "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520 "
+            "tileposy=0,0,0,0,3840,3840,3840,3840 tilewidth=3840 tileheight=3840");
 
         // Verify that we get all 8 tiles.
-        sendTextFrame(socket2, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520 tileposy=0,0,0,0,3840,3840,3840,3840 tilewidth=3840 tileheight=3840");
+        sendTextFrame(
+            socket2,
+            "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520 "
+            "tileposy=0,0,0,0,3840,3840,3840,3840 tilewidth=3840 tileheight=3840");
         for (int i = 0; i < 8; ++i)
         {
             std::vector<char> tile = getResponseMessage(socket2, "tile:", "client2 ");
-            CPPUNIT_ASSERT_MESSAGE("Did not receive tile #" + std::to_string(i+1) + " of 8: message as expected", !tile.empty());
+            CPPUNIT_ASSERT_MESSAGE("Did not receive tile #" + std::to_string(i + 1)
+                                       + " of 8: message as expected",
+                                   !tile.empty());
         }
         /// Send canceltiles message to clear tiles-on-fly list, otherwise wsd waits for tileprocessed messages
         sendTextFrame(socket2, "canceltiles");
@@ -434,9 +460,13 @@ void TileCacheTests::testImpressTiles()
     try
     {
         const std::string testName = "impressTiles ";
-        std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("setclientpart.odp", _uri, testName);
+        std::shared_ptr<LOOLWebSocket> socket
+            = loadDocAndGetSocket("setclientpart.odp", _uri, testName);
 
-        sendTextFrame(socket, "tile part=0 width=180 height=135 tileposx=0 tileposy=0 tilewidth=15875 tileheight=11906 id=0", testName);
+        sendTextFrame(socket,
+                      "tile part=0 width=180 height=135 tileposx=0 tileposy=0 tilewidth=15875 "
+                      "tileheight=11906 id=0",
+                      testName);
         getTileMessage(*socket, testName);
     }
     catch (const Poco::Exception& exc)
@@ -450,7 +480,8 @@ void TileCacheTests::testClientPartImpress()
     try
     {
         const std::string testName = "clientPartImpress ";
-        std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("setclientpart.odp", _uri, testName);
+        std::shared_ptr<LOOLWebSocket> socket
+            = loadDocAndGetSocket("setclientpart.odp", _uri, testName);
 
         checkTiles(socket, "presentation", testName);
 
@@ -467,7 +498,8 @@ void TileCacheTests::testClientPartCalc()
     try
     {
         const std::string testName = "clientPartCalc ";
-        std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket("setclientpart.ods", _uri, testName);
+        std::shared_ptr<LOOLWebSocket> socket
+            = loadDocAndGetSocket("setclientpart.ods", _uri, testName);
 
         checkTiles(socket, "spreadsheet", testName);
 
@@ -493,7 +525,8 @@ void TileCacheTests::testTilesRenderedJustOnce()
         sendTextFrame(socket, "ping", testname);
         const auto ping1 = assertResponseString(socket, "pong", testname);
         int renderCount1 = 0;
-        CPPUNIT_ASSERT(LOOLProtocol::getTokenIntegerFromMessage(ping1, "rendercount", renderCount1));
+        CPPUNIT_ASSERT(
+            LOOLProtocol::getTokenIntegerFromMessage(ping1, "rendercount", renderCount1));
         CPPUNIT_ASSERT_EQUAL(i * 3, renderCount1);
 
         // Modify.
@@ -501,7 +534,10 @@ void TileCacheTests::testTilesRenderedJustOnce()
         assertResponseString(socket, "invalidatetiles:", testname);
 
         // Get 3 tiles.
-        sendTextFrame(socket, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840", testname);
+        sendTextFrame(socket,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 "
+                      "tilewidth=3840 tileheight=3840",
+                      testname);
         assertResponseString(socket, "tile:", testname);
         assertResponseString(socket, "tile:", testname);
         assertResponseString(socket, "tile:", testname);
@@ -510,11 +546,15 @@ void TileCacheTests::testTilesRenderedJustOnce()
         sendTextFrame(socket, "ping", testname);
         const auto ping2 = assertResponseString(socket, "pong", testname);
         int renderCount2 = 0;
-        CPPUNIT_ASSERT(LOOLProtocol::getTokenIntegerFromMessage(ping2, "rendercount", renderCount2));
-        CPPUNIT_ASSERT_EQUAL((i+1) * 3, renderCount2);
+        CPPUNIT_ASSERT(
+            LOOLProtocol::getTokenIntegerFromMessage(ping2, "rendercount", renderCount2));
+        CPPUNIT_ASSERT_EQUAL((i + 1) * 3, renderCount2);
 
         // Get same 3 tiles.
-        sendTextFrame(socket, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840", testname);
+        sendTextFrame(socket,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 "
+                      "tilewidth=3840 tileheight=3840",
+                      testname);
         const auto tile1 = assertResponseString(socket, "tile:", testname);
         std::string renderId1;
         LOOLProtocol::getTokenStringFromMessage(tile1, "renderid", renderId1);
@@ -534,7 +574,8 @@ void TileCacheTests::testTilesRenderedJustOnce()
         sendTextFrame(socket, "ping", testname);
         const auto ping3 = assertResponseString(socket, "pong", testname);
         int renderCount3 = 0;
-        CPPUNIT_ASSERT(LOOLProtocol::getTokenIntegerFromMessage(ping3, "rendercount", renderCount3));
+        CPPUNIT_ASSERT(
+            LOOLProtocol::getTokenIntegerFromMessage(ping3, "rendercount", renderCount3));
         CPPUNIT_ASSERT_EQUAL(renderCount2, renderCount3);
     }
 }
@@ -557,7 +598,8 @@ void TileCacheTests::testTilesRenderedJustOnceMultiClient()
     std::cerr << "Connecting third client." << std::endl;
     std::shared_ptr<LOOLWebSocket> socket3 = loadDocAndGetSocket(_uri, documentURL, testname3);
     std::cerr << "Connecting fourth client." << std::endl;
-    std::shared_ptr<LOOLWebSocket> socket4 = loadDocAndGetSocket(_uri, documentURL, "tilesRenderdJustOnce-4 ");
+    std::shared_ptr<LOOLWebSocket> socket4
+        = loadDocAndGetSocket(_uri, documentURL, "tilesRenderdJustOnce-4 ");
 
     for (int i = 0; i < 10; ++i)
     {
@@ -571,7 +613,8 @@ void TileCacheTests::testTilesRenderedJustOnceMultiClient()
         sendTextFrame(socket, "ping", testname1);
         const auto ping1 = assertResponseString(socket, "pong", testname1);
         int renderCount1 = 0;
-        CPPUNIT_ASSERT(LOOLProtocol::getTokenIntegerFromMessage(ping1, "rendercount", renderCount1));
+        CPPUNIT_ASSERT(
+            LOOLProtocol::getTokenIntegerFromMessage(ping1, "rendercount", renderCount1));
         CPPUNIT_ASSERT_EQUAL(i * 3, renderCount1);
 
         // Modify.
@@ -579,25 +622,37 @@ void TileCacheTests::testTilesRenderedJustOnceMultiClient()
         assertResponseString(socket, "invalidatetiles:", testname1);
 
         // Get 3 tiles.
-        sendTextFrame(socket, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840", testname1);
+        sendTextFrame(socket,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 "
+                      "tilewidth=3840 tileheight=3840",
+                      testname1);
         assertResponseString(socket, "tile:", testname1);
         assertResponseString(socket, "tile:", testname1);
         assertResponseString(socket, "tile:", testname1);
 
         assertResponseString(socket2, "invalidatetiles:", testname2);
-        sendTextFrame(socket2, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840", testname2);
+        sendTextFrame(socket2,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 "
+                      "tilewidth=3840 tileheight=3840",
+                      testname2);
         assertResponseString(socket2, "tile:", testname2);
         assertResponseString(socket2, "tile:", testname2);
         assertResponseString(socket2, "tile:", testname2);
 
         assertResponseString(socket3, "invalidatetiles:", testname3);
-        sendTextFrame(socket3, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840", testname3);
+        sendTextFrame(socket3,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 "
+                      "tilewidth=3840 tileheight=3840",
+                      testname3);
         assertResponseString(socket3, "tile:", testname3);
         assertResponseString(socket3, "tile:", testname3);
         assertResponseString(socket3, "tile:", testname3);
 
         assertResponseString(socket4, "invalidatetiles:", testname4);
-        sendTextFrame(socket4, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840", testname4);
+        sendTextFrame(socket4,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 "
+                      "tilewidth=3840 tileheight=3840",
+                      testname4);
         assertResponseString(socket4, "tile:", testname4);
         assertResponseString(socket4, "tile:", testname4);
         assertResponseString(socket4, "tile:", testname4);
@@ -606,11 +661,15 @@ void TileCacheTests::testTilesRenderedJustOnceMultiClient()
         sendTextFrame(socket, "ping", testname1);
         const auto ping2 = assertResponseString(socket, "pong", testname1);
         int renderCount2 = 0;
-        CPPUNIT_ASSERT(LOOLProtocol::getTokenIntegerFromMessage(ping2, "rendercount", renderCount2));
-        CPPUNIT_ASSERT_EQUAL((i+1) * 3, renderCount2);
+        CPPUNIT_ASSERT(
+            LOOLProtocol::getTokenIntegerFromMessage(ping2, "rendercount", renderCount2));
+        CPPUNIT_ASSERT_EQUAL((i + 1) * 3, renderCount2);
 
         // Get same 3 tiles.
-        sendTextFrame(socket, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840", testname1);
+        sendTextFrame(socket,
+                      "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 "
+                      "tilewidth=3840 tileheight=3840",
+                      testname1);
         const auto tile1 = assertResponseString(socket, "tile:", testname1);
         std::string renderId1;
         LOOLProtocol::getTokenStringFromMessage(tile1, "renderid", renderId1);
@@ -630,7 +689,8 @@ void TileCacheTests::testTilesRenderedJustOnceMultiClient()
         sendTextFrame(socket, "ping", testname1);
         const auto ping3 = assertResponseString(socket, "pong", testname1);
         int renderCount3 = 0;
-        CPPUNIT_ASSERT(LOOLProtocol::getTokenIntegerFromMessage(ping3, "rendercount", renderCount3));
+        CPPUNIT_ASSERT(
+            LOOLProtocol::getTokenIntegerFromMessage(ping3, "rendercount", renderCount3));
         CPPUNIT_ASSERT_EQUAL(renderCount2, renderCount3);
     }
 }
@@ -638,20 +698,25 @@ void TileCacheTests::testTilesRenderedJustOnceMultiClient()
 void TileCacheTests::testSimultaneousTilesRenderedJustOnce()
 {
     std::string documentPath, documentURL;
-    getDocumentPathAndURL("hello.odt", documentPath, documentURL, "simultaneousTilesrenderedJustOnce ");
+    getDocumentPathAndURL("hello.odt", documentPath, documentURL,
+                          "simultaneousTilesrenderedJustOnce ");
 
     std::cerr << "Connecting first client." << std::endl;
-    std::shared_ptr<LOOLWebSocket> socket1 = loadDocAndGetSocket(_uri, documentURL, "simultaneousTilesRenderdJustOnce-1 ");
+    std::shared_ptr<LOOLWebSocket> socket1
+        = loadDocAndGetSocket(_uri, documentURL, "simultaneousTilesRenderdJustOnce-1 ");
     std::cerr << "Connecting second client." << std::endl;
-    std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, "simultaneousTilesRenderdJustOnce-2 ");
+    std::shared_ptr<LOOLWebSocket> socket2
+        = loadDocAndGetSocket(_uri, documentURL, "simultaneousTilesRenderdJustOnce-2 ");
 
     // Wait for the invalidatetile events to pass, otherwise they
     // remove our tile subscription.
     assertResponseString(socket1, "statechanged:", "client1 ");
     assertResponseString(socket2, "statechanged:", "client2 ");
 
-    sendTextFrame(socket1, "tile part=42 width=400 height=400 tileposx=1000 tileposy=2000 tilewidth=3000 tileheight=3000");
-    sendTextFrame(socket2, "tile part=42 width=400 height=400 tileposx=1000 tileposy=2000 tilewidth=3000 tileheight=3000");
+    sendTextFrame(socket1, "tile part=42 width=400 height=400 tileposx=1000 tileposy=2000 "
+                           "tilewidth=3000 tileheight=3000");
+    sendTextFrame(socket2, "tile part=42 width=400 height=400 tileposx=1000 tileposy=2000 "
+                           "tilewidth=3000 tileheight=3000");
 
     const auto response1 = assertResponseString(socket1, "tile:", "client1 ");
     const auto response2 = assertResponseString(socket2, "tile:", "client2 ");
@@ -663,9 +728,8 @@ void TileCacheTests::testSimultaneousTilesRenderedJustOnce()
         std::string renderId2;
         LOOLProtocol::getTokenStringFromMessage(response2, "renderid", renderId2);
 
-        CPPUNIT_ASSERT(renderId1 == renderId2 ||
-                       (renderId1 == "cached" && renderId2 != "cached") ||
-                       (renderId1 != "cached" && renderId2 == "cached"));
+        CPPUNIT_ASSERT(renderId1 == renderId2 || (renderId1 == "cached" && renderId2 != "cached")
+                       || (renderId1 != "cached" && renderId2 == "cached"));
     }
 }
 
@@ -686,7 +750,8 @@ void TileCacheTests::testLoad12ods()
         sendTextFrame(socket, "status");
 
         const auto response = assertResponseString(socket, "status:", testname);
-        parseDocSize(response.substr(7), "spreadsheet", docSheet, docSheets, docWidth, docHeight, docViewId);
+        parseDocSize(response.substr(7), "spreadsheet", docSheet, docSheets, docWidth, docHeight,
+                     docViewId);
 
         checkBlackTiles(socket, docSheet, docWidth, docWidth, testname);
     }
@@ -732,13 +797,16 @@ void TileCacheTests::checkBlackTile(std::stringstream& tile)
     CPPUNIT_ASSERT_MESSAGE("The tile is 90% black", (black * 100) / (height * width) < 90);
 }
 
-void TileCacheTests::checkBlackTiles(std::shared_ptr<LOOLWebSocket>& socket, const int /*part*/, const int /*docWidth*/, const int /*docHeight*/, const std::string& name)
+void TileCacheTests::checkBlackTiles(std::shared_ptr<LOOLWebSocket>& socket, const int /*part*/,
+                                     const int /*docWidth*/, const int /*docHeight*/,
+                                     const std::string& name)
 {
     // Check the last row of tiles to verify that the tiles
     // render correctly and there are no black tiles.
     // Current cap of table size ends at 257280 twips (for load12.ods),
     // otherwise 2035200 should be rendered successfully.
-    const char* req = "tile part=0 width=256 height=256 tileposx=0 tileposy=253440 tilewidth=3840 tileheight=3840";
+    const char* req = "tile part=0 width=256 height=256 tileposx=0 tileposy=253440 tilewidth=3840 "
+                      "tileheight=3840";
     sendTextFrame(socket, req);
 
     const std::vector<char> tile = getResponseMessage(socket, "tile:", name);
@@ -757,7 +825,8 @@ void TileCacheTests::checkBlackTiles(std::shared_ptr<LOOLWebSocket>& socket, con
 #endif
 
     std::stringstream streamTile;
-    std::copy(tile.begin() + firstLine.size() + 1, tile.end(), std::ostream_iterator<char>(streamTile));
+    std::copy(tile.begin() + firstLine.size() + 1, tile.end(),
+              std::ostream_iterator<char>(streamTile));
     checkBlackTile(streamTile);
 }
 
@@ -773,7 +842,9 @@ void TileCacheTests::testTileInvalidateWriter()
     std::string text = "Test. Now go 3 \"Enters\":\n\n\nNow after the enters, goes this text";
     for (char ch : text)
     {
-        sendChar(socket, ch, skNone, testname); // Send ordinary characters and wait for response -> one tile invalidation for each
+        sendChar(
+            socket, ch, skNone,
+            testname); // Send ordinary characters and wait for response -> one tile invalidation for each
         assertResponseString(socket, "invalidatetiles:", testname);
     }
 
@@ -810,7 +881,10 @@ void TileCacheTests::testTileInvalidateWriterPage()
     sendChar(socket, '\n', skCtrl, testname); // Send Ctrl+Enter (page break).
     assertResponseString(socket, "invalidatetiles:", testname);
 
-    sendTextFrame(socket, "uno .uno:InsertTable { \"Columns\": { \"type\": \"long\",\"value\": 3 }, \"Rows\": { \"type\": \"long\",\"value\": 2 }}", testname);
+    sendTextFrame(socket,
+                  "uno .uno:InsertTable { \"Columns\": { \"type\": \"long\",\"value\": 3 }, "
+                  "\"Rows\": { \"type\": \"long\",\"value\": 2 }}",
+                  testname);
 
     const auto res = assertResponseString(socket, "invalidatetiles:", testname);
     int part = -1;
@@ -830,7 +904,7 @@ void TileCacheTests::testWriterAnyKey()
     std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket(_uri, documentURL, testname);
 
     // Now test "usual" keycodes (TODO: whole 32-bit range)
-    for (int i=0; i<0x1000; ++i)
+    for (int i = 0; i < 0x1000; ++i)
     {
         std::stringstream ss("Keycode ");
         ss << i;
@@ -840,61 +914,61 @@ void TileCacheTests::testWriterAnyKey()
         std::string f = fn.str();
 
         const int istart = 474;
-        sendText(socket, "\n"+s+"\n", testname);
+        sendText(socket, "\n" + s + "\n", testname);
         sendKeyEvent(socket, "input", 0, i, testname);
         sendKeyEvent(socket, "up", 0, i, testname);
-        sendText(socket, "\nEnd "+s+"\n", testname);
-        if (i>=istart)
+        sendText(socket, "\nEnd " + s + "\n", testname);
+        if (i >= istart)
             sendTextFrame(socket, f);
 
-        sendText(socket, "\n"+s+" With Shift:\n", testname);
-        sendKeyEvent(socket, "input", 0, i|skShift, testname);
-        sendKeyEvent(socket, "up", 0, i|skShift, testname);
-        sendText(socket, "\nEnd "+s+" With Shift\n", testname);
-        if (i>=istart)
+        sendText(socket, "\n" + s + " With Shift:\n", testname);
+        sendKeyEvent(socket, "input", 0, i | skShift, testname);
+        sendKeyEvent(socket, "up", 0, i | skShift, testname);
+        sendText(socket, "\nEnd " + s + " With Shift\n", testname);
+        if (i >= istart)
             sendTextFrame(socket, f);
 
-        sendText(socket, "\n"+s+" With Ctrl:\n", testname);
-        sendKeyEvent(socket, "input", 0, i|skCtrl, testname);
-        sendKeyEvent(socket, "up", 0, i|skCtrl, testname);
-        sendText(socket, "\nEnd "+s+" With Ctrl\n", testname);
-        if (i>=istart)
+        sendText(socket, "\n" + s + " With Ctrl:\n", testname);
+        sendKeyEvent(socket, "input", 0, i | skCtrl, testname);
+        sendKeyEvent(socket, "up", 0, i | skCtrl, testname);
+        sendText(socket, "\nEnd " + s + " With Ctrl\n", testname);
+        if (i >= istart)
             sendTextFrame(socket, f);
 
-        sendText(socket, "\n"+s+" With Alt:\n", testname);
-        sendKeyEvent(socket, "input", 0, i|skAlt, testname);
-        sendKeyEvent(socket, "up", 0, i|skAlt, testname);
-        sendText(socket, "\nEnd "+s+" With Alt\n", testname);
-        if (i>=istart)
+        sendText(socket, "\n" + s + " With Alt:\n", testname);
+        sendKeyEvent(socket, "input", 0, i | skAlt, testname);
+        sendKeyEvent(socket, "up", 0, i | skAlt, testname);
+        sendText(socket, "\nEnd " + s + " With Alt\n", testname);
+        if (i >= istart)
             sendTextFrame(socket, f);
 
-        sendText(socket, "\n"+s+" With Shift+Ctrl:\n", testname);
-        sendKeyEvent(socket, "input", 0, i|skShift|skCtrl, testname);
-        sendKeyEvent(socket, "up", 0, i|skShift|skCtrl, testname);
-        sendText(socket, "\nEnd "+s+" With Shift+Ctrl\n", testname);
-        if (i>=istart)
+        sendText(socket, "\n" + s + " With Shift+Ctrl:\n", testname);
+        sendKeyEvent(socket, "input", 0, i | skShift | skCtrl, testname);
+        sendKeyEvent(socket, "up", 0, i | skShift | skCtrl, testname);
+        sendText(socket, "\nEnd " + s + " With Shift+Ctrl\n", testname);
+        if (i >= istart)
             sendTextFrame(socket, f);
 
-        sendText(socket, "\n"+s+" With Shift+Alt:\n", testname);
-        sendKeyEvent(socket, "input", 0, i|skShift|skAlt, testname);
-        sendKeyEvent(socket, "up", 0, i|skShift|skAlt, testname);
-        sendText(socket, "\nEnd "+s+" With Shift+Alt\n", testname);
-        if (i>=istart)
+        sendText(socket, "\n" + s + " With Shift+Alt:\n", testname);
+        sendKeyEvent(socket, "input", 0, i | skShift | skAlt, testname);
+        sendKeyEvent(socket, "up", 0, i | skShift | skAlt, testname);
+        sendText(socket, "\nEnd " + s + " With Shift+Alt\n", testname);
+        if (i >= istart)
             sendTextFrame(socket, f);
 
-        sendText(socket, "\n"+s+" With Ctrl+Alt:\n", testname);
-        sendKeyEvent(socket, "input", 0, i|skCtrl|skAlt, testname);
-        sendKeyEvent(socket, "up", 0, i|skCtrl|skAlt, testname);
-        sendText(socket, "\nEnd "+s+" With Ctrl+Alt\n", testname);
-        if (i>=istart)
+        sendText(socket, "\n" + s + " With Ctrl+Alt:\n", testname);
+        sendKeyEvent(socket, "input", 0, i | skCtrl | skAlt, testname);
+        sendKeyEvent(socket, "up", 0, i | skCtrl | skAlt, testname);
+        sendText(socket, "\nEnd " + s + " With Ctrl+Alt\n", testname);
+        if (i >= istart)
             sendTextFrame(socket, f);
 
-        sendText(socket, "\n"+s+" With Shift+Ctrl+Alt:\n", testname);
-        sendKeyEvent(socket, "input", 0, i|skShift|skCtrl|skAlt, testname);
-        sendKeyEvent(socket, "up", 0, i|skShift|skCtrl|skAlt, testname);
-        sendText(socket, "\nEnd "+s+" With Shift+Ctrl+Alt\n", testname);
+        sendText(socket, "\n" + s + " With Shift+Ctrl+Alt:\n", testname);
+        sendKeyEvent(socket, "input", 0, i | skShift | skCtrl | skAlt, testname);
+        sendKeyEvent(socket, "up", 0, i | skShift | skCtrl | skAlt, testname);
+        sendText(socket, "\nEnd " + s + " With Shift+Ctrl+Alt\n", testname);
 
-        if (i>=istart)
+        if (i >= istart)
             sendTextFrame(socket, f);
 
         // This is to allow server to process the input, and check that everything is still OK
@@ -912,7 +986,8 @@ void TileCacheTests::testTileInvalidateCalc()
     std::string text = "Test. Now go 3 \"Enters\": Now after the enters, goes this text";
     for (char ch : text)
     {
-        sendChar(socket, ch, skNone, testname); // Send ordinary characters -> one tile invalidation for each
+        sendChar(socket, ch, skNone,
+                 testname); // Send ordinary characters -> one tile invalidation for each
         assertResponseString(socket, "invalidatetiles:", testname);
     }
 
@@ -920,7 +995,8 @@ void TileCacheTests::testTileInvalidateCalc()
     text = "\n\n\n";
     for (char ch : text)
     {
-        sendChar(socket, ch, skCtrl, testname); // Send 3 Ctrl+Enter -> 3 new pages; I see 3 tiles invalidated for each
+        sendChar(socket, ch, skCtrl,
+                 testname); // Send 3 Ctrl+Enter -> 3 new pages; I see 3 tiles invalidated for each
         assertResponseString(socket, "invalidatetiles:", testname);
     }
 
@@ -945,12 +1021,14 @@ void TileCacheTests::testTileInvalidatePartCalc()
 
     sendTextFrame(socket1, "setclientpart part=2", testname1);
     assertResponseString(socket1, "setpart:", testname1);
-    sendTextFrame(socket1, "mouse type=buttondown x=1500 y=1500 count=1 buttons=1 modifier=0", testname1);
+    sendTextFrame(socket1, "mouse type=buttondown x=1500 y=1500 count=1 buttons=1 modifier=0",
+                  testname1);
 
     std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, testname2);
     sendTextFrame(socket2, "setclientpart part=5", testname2);
     assertResponseString(socket2, "setpart:", testname2);
-    sendTextFrame(socket2, "mouse type=buttondown x=1500 y=1500 count=1 buttons=1 modifier=0", testname2);
+    sendTextFrame(socket2, "mouse type=buttondown x=1500 y=1500 count=1 buttons=1 modifier=0",
+                  testname2);
 
     static const std::string text = "Some test";
     for (char ch : text)
@@ -983,12 +1061,14 @@ void TileCacheTests::testTileInvalidatePartImpress()
 
     sendTextFrame(socket1, "setclientpart part=2", testname1);
     assertResponseString(socket1, "setpart:", testname1);
-    sendTextFrame(socket1, "mouse type=buttondown x=1500 y=1500 count=1 buttons=1 modifier=0", testname1);
+    sendTextFrame(socket1, "mouse type=buttondown x=1500 y=1500 count=1 buttons=1 modifier=0",
+                  testname1);
 
     std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, testname2);
     sendTextFrame(socket2, "setclientpart part=5", testname2);
     assertResponseString(socket2, "setpart:", testname2);
-    sendTextFrame(socket2, "mouse type=buttondown x=1500 y=1500 count=1 buttons=1 modifier=0", testname2);
+    sendTextFrame(socket2, "mouse type=buttondown x=1500 y=1500 count=1 buttons=1 modifier=0",
+                  testname2);
 
     // This should be short, as in odp the font is large and we leave the page otherwise.
     static const std::string text = "Some test";
@@ -1009,7 +1089,8 @@ void TileCacheTests::testTileInvalidatePartImpress()
     }
 }
 
-void TileCacheTests::checkTiles(std::shared_ptr<LOOLWebSocket>& socket, const std::string& docType, const std::string& name)
+void TileCacheTests::checkTiles(std::shared_ptr<LOOLWebSocket>& socket, const std::string& docType,
+                                const std::string& name)
 {
     const std::string current = "current=";
     const std::string height = "height=";
@@ -1030,7 +1111,8 @@ void TileCacheTests::checkTiles(std::shared_ptr<LOOLWebSocket>& socket, const st
         std::istringstream istr(response.substr(8));
         std::getline(istr, line);
 
-        Poco::StringTokenizer tokens(line, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer tokens(
+            line, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(6), tokens.count());
 
         // Expected format is something like 'type= parts= current= width= height='.
@@ -1083,7 +1165,8 @@ void TileCacheTests::checkTiles(std::shared_ptr<LOOLWebSocket>& socket, const st
     }
 }
 
-void TileCacheTests::requestTiles(std::shared_ptr<LOOLWebSocket>& socket, const int part, const int docWidth, const int docHeight, const std::string& name)
+void TileCacheTests::requestTiles(std::shared_ptr<LOOLWebSocket>& socket, const int part,
+                                  const int docWidth, const int docHeight, const std::string& name)
 {
     // twips
     const int tileSize = 3840;
@@ -1122,21 +1205,31 @@ void TileCacheTests::requestTiles(std::shared_ptr<LOOLWebSocket>& socket, const 
             tileHeight = tileSize;
             tileX = tileSize * itCol;
             tileY = tileSize * itRow;
-            text = Poco::format("tile part=%d width=%d height=%d tileposx=%d tileposy=%d tilewidth=%d tileheight=%d",
-                                part, pixTileSize, pixTileSize, tileX, tileY, tileWidth, tileHeight);
+            text
+                = Poco::format("tile part=%d width=%d height=%d tileposx=%d tileposy=%d "
+                               "tilewidth=%d tileheight=%d",
+                               part, pixTileSize, pixTileSize, tileX, tileY, tileWidth, tileHeight);
 
             sendTextFrame(socket, text, name);
             tile = assertResponseString(socket, "tile:", name);
             // expected tile: part= width= height= tileposx= tileposy= tilewidth= tileheight=
-            Poco::StringTokenizer tokens(tile, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+            Poco::StringTokenizer tokens(tile, " ",
+                                         Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                             | Poco::StringTokenizer::TOK_TRIM);
             CPPUNIT_ASSERT_EQUAL(std::string("tile:"), tokens[0]);
             CPPUNIT_ASSERT_EQUAL(part, std::stoi(tokens[1].substr(std::string("part=").size())));
-            CPPUNIT_ASSERT_EQUAL(pixTileSize, std::stoi(tokens[2].substr(std::string("width=").size())));
-            CPPUNIT_ASSERT_EQUAL(pixTileSize, std::stoi(tokens[3].substr(std::string("height=").size())));
-            CPPUNIT_ASSERT_EQUAL(tileX, std::stoi(tokens[4].substr(std::string("tileposx=").size())));
-            CPPUNIT_ASSERT_EQUAL(tileY, std::stoi(tokens[5].substr(std::string("tileposy=").size())));
-            CPPUNIT_ASSERT_EQUAL(tileWidth, std::stoi(tokens[6].substr(std::string("tileWidth=").size())));
-            CPPUNIT_ASSERT_EQUAL(tileHeight, std::stoi(tokens[7].substr(std::string("tileHeight=").size())));
+            CPPUNIT_ASSERT_EQUAL(pixTileSize,
+                                 std::stoi(tokens[2].substr(std::string("width=").size())));
+            CPPUNIT_ASSERT_EQUAL(pixTileSize,
+                                 std::stoi(tokens[3].substr(std::string("height=").size())));
+            CPPUNIT_ASSERT_EQUAL(tileX,
+                                 std::stoi(tokens[4].substr(std::string("tileposx=").size())));
+            CPPUNIT_ASSERT_EQUAL(tileY,
+                                 std::stoi(tokens[5].substr(std::string("tileposy=").size())));
+            CPPUNIT_ASSERT_EQUAL(tileWidth,
+                                 std::stoi(tokens[6].substr(std::string("tileWidth=").size())));
+            CPPUNIT_ASSERT_EQUAL(tileHeight,
+                                 std::stoi(tokens[7].substr(std::string("tileHeight=").size())));
         }
     }
 }
@@ -1163,7 +1256,9 @@ void TileCacheTests::testTileRequestByInvalidation()
     // 2. use case: invalidation of one tile inside the client visible area
     // Now set the client visible area
     sendTextFrame(socket, "clientvisiblearea x=-4005 y=0 width=50490 height=72300");
-    sendTextFrame(socket, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
+    sendTextFrame(
+        socket,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
 
     // Type one character to trigger invalidation
     sendChar(socket, 'x', skNone, testname);
@@ -1188,10 +1283,16 @@ void TileCacheTests::testTileRequestByZoom()
 
     // Set the client visible area
     sendTextFrame(socket, "clientvisiblearea x=-2662 y=0 width=16000 height=9875");
-    sendTextFrame(socket, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3200 tiletwipheight=3200");
+    sendTextFrame(
+        socket,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3200 tiletwipheight=3200");
 
     // Request all tile of the visible area (it happens by zoom)
-    sendTextFrame(socket, "tilecombine part=0 width=256 height=256 tileposx=0,3200,6400,9600,12800,0,3200,6400,9600,12800,0,3200,6400,9600,12800,0,3200,6400,9600,12800 tileposy=0,0,0,0,0,3200,3200,3200,3200,3200,6400,6400,6400,6400,6400,9600,9600,9600,9600,9600 tilewidth=3200 tileheight=3200");
+    sendTextFrame(socket, "tilecombine part=0 width=256 height=256 "
+                          "tileposx=0,3200,6400,9600,12800,0,3200,6400,9600,12800,0,3200,6400,9600,"
+                          "12800,0,3200,6400,9600,12800 "
+                          "tileposy=0,0,0,0,0,3200,3200,3200,3200,3200,6400,6400,6400,6400,6400,"
+                          "9600,9600,9600,9600,9600 tilewidth=3200 tileheight=3200");
 
     // Check that we get all the tiles without we send back the tileprocessed message
     for (int i = 0; i < 20; ++i)
@@ -1211,7 +1312,9 @@ void TileCacheTests::testTileWireIDHandling()
 
     // Set the client visible area
     sendTextFrame(socket, "clientvisiblearea x=-4005 y=0 width=50490 height=72300");
-    sendTextFrame(socket, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
+    sendTextFrame(
+        socket,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
 
     // Type one character to trigger invalidation
     sendChar(socket, 'x', skNone, testname);
@@ -1226,9 +1329,9 @@ void TileCacheTests::testTileWireIDHandling()
     {
         std::vector<char> tile = getResponseMessage(socket, "tile:", testname);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
             ++arrivedTiles;
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_MESSAGE("We expect two tiles at least!", arrivedTiles > 1);
 
@@ -1242,9 +1345,9 @@ void TileCacheTests::testTileWireIDHandling()
     {
         std::vector<char> tile = getResponseMessage(socket, "tile:", testname);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
             ++arrivedTiles;
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_EQUAL(1, arrivedTiles);
 }
@@ -1260,10 +1363,17 @@ void TileCacheTests::testTileProcessed()
 
     // Set the client visible area
     sendTextFrame(socket, "clientvisiblearea x=-2662 y=0 width=10000 height=9000");
-    sendTextFrame(socket, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3200 tiletwipheight=3200");
+    sendTextFrame(
+        socket,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3200 tiletwipheight=3200");
 
     // Request a lots of tiles (more than wsd can send once)
-    sendTextFrame(socket, "tilecombine part=0 width=256 height=256 tileposx=0,3200,6400,9600,12800,0,3200,6400,9600,12800,0,3200,6400,9600,12800,0,3200,6400,9600,12800,0,3200,6400,9600,12800 tileposy=0,0,0,0,0,3200,3200,3200,3200,3200,6400,6400,6400,6400,6400,9600,9600,9600,9600,9600,12800,12800,12800,12800,12800 tilewidth=3200 tileheight=3200");
+    sendTextFrame(socket,
+                  "tilecombine part=0 width=256 height=256 "
+                  "tileposx=0,3200,6400,9600,12800,0,3200,6400,9600,12800,0,3200,6400,9600,12800,0,"
+                  "3200,6400,9600,12800,0,3200,6400,9600,12800 "
+                  "tileposy=0,0,0,0,0,3200,3200,3200,3200,3200,6400,6400,6400,6400,6400,9600,9600,"
+                  "9600,9600,9600,12800,12800,12800,12800,12800 tilewidth=3200 tileheight=3200");
 
     std::vector<std::string> tileIDs;
     int arrivedTile = 0;
@@ -1272,26 +1382,28 @@ void TileCacheTests::testTileProcessed()
     {
         std::string tile = getResponseString(socket, "tile:", testname);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
         {
             ++arrivedTile;
 
             // Store tileID, so we can send it back
-            Poco::StringTokenizer tokens(tile, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
-            std::string tileID = tokens[1].substr(std::string("part=").size()) + ":" +
-                                 tokens[4].substr(std::string("tileposx=").size()) + ":" +
-                                 tokens[5].substr(std::string("tileposy=").size()) + ":" +
-                                 tokens[6].substr(std::string("tileWidth=").size()) + ":" +
-                                 tokens[7].substr(std::string("tileHeight=").size());
+            Poco::StringTokenizer tokens(tile, " ",
+                                         Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                             | Poco::StringTokenizer::TOK_TRIM);
+            std::string tileID = tokens[1].substr(std::string("part=").size()) + ":"
+                                 + tokens[4].substr(std::string("tileposx=").size()) + ":"
+                                 + tokens[5].substr(std::string("tileposy=").size()) + ":"
+                                 + tokens[6].substr(std::string("tileWidth=").size()) + ":"
+                                 + tokens[7].substr(std::string("tileHeight=").size());
             tileIDs.push_back(tileID);
         }
 
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_MESSAGE("We expect two tiles at least!", arrivedTile > 1);
     CPPUNIT_ASSERT_MESSAGE("We expect that wsd can't send all the tiles!", arrivedTile < 25);
 
-    for(std::string& tileID : tileIDs)
+    for (std::string& tileID : tileIDs)
     {
         sendTextFrame(socket, "tileprocessed tile=" + tileID);
     }
@@ -1302,10 +1414,10 @@ void TileCacheTests::testTileProcessed()
     {
         std::vector<char> tile = getResponseMessage(socket, "tile:", testname);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
             ++arrivedTile2;
 
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_MESSAGE("We expect one tile at least!", arrivedTile2 > 1);
 }
@@ -1324,16 +1436,19 @@ void TileCacheTests::testTileInvalidatedOutside()
 
     // First wsd forwards the invalidation
     std::string sInvalidate = assertResponseString(socket, "invalidatetiles:", testname);
-    Poco::StringTokenizer tokens(sInvalidate, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+    Poco::StringTokenizer tokens(sInvalidate, " ",
+                                 Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                     | Poco::StringTokenizer::TOK_TRIM);
     int y = std::stoi(tokens[3].substr(std::string("y=").size()));
     int height = std::stoi(tokens[5].substr(std::string("height=").size()));
-
 
     // Set client visible area to make it not having intersection with the invalidate rectangle, but having shared tiles
     std::ostringstream oss;
     oss << "clientvisiblearea x=0 y=" << (y + height + 100) << " width=50490 height=72300";
     sendTextFrame(socket, oss.str());
-    sendTextFrame(socket, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
+    sendTextFrame(
+        socket,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
 
     // Type one character to trigger invalidation
     sendChar(socket, 'x', skNone, testname);
@@ -1360,7 +1475,9 @@ void TileCacheTests::testTileBeingRenderedHandling()
 
     // Set the client visible area
     sendTextFrame(socket, "clientvisiblearea x=-2662 y=0 width=16000 height=9875");
-    sendTextFrame(socket, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3200 tiletwipheight=3200");
+    sendTextFrame(
+        socket,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3200 tiletwipheight=3200");
 
     // Type one character to trigger invalidation
     sendChar(socket, 'x', skNone, testname);
@@ -1375,14 +1492,14 @@ void TileCacheTests::testTileBeingRenderedHandling()
     {
         std::vector<char> tile = getResponseMessage(socket, "tile:", testname);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
             ++arrivedTiles;
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_MESSAGE("We expect two tiles at least!", arrivedTiles > 1);
 
     // For the later inputs wsd will send one tile, since other ones are indentical
-    for(int i = 0; i < 5; ++i)
+    for (int i = 0; i < 5; ++i)
     {
         // Type an other character
         sendChar(socket, 'x', skNone, testname);
@@ -1393,9 +1510,9 @@ void TileCacheTests::testTileBeingRenderedHandling()
         {
             std::vector<char> tile = getResponseMessage(socket, "tile:", testname, 500);
             gotTile = !tile.empty();
-            if(gotTile)
+            if (gotTile)
                 ++arrivedTiles;
-        } while(gotTile);
+        } while (gotTile);
 
         CPPUNIT_ASSERT_EQUAL(1, arrivedTiles);
 
@@ -1412,12 +1529,16 @@ void TileCacheTests::testWireIDFilteringOnWSDSide()
     std::shared_ptr<LOOLWebSocket> socket1 = loadDocAndGetSocket(_uri, documentURL, testname);
     // Set the client visible area
     sendTextFrame(socket1, "clientvisiblearea x=-4005 y=0 width=50490 height=72300");
-    sendTextFrame(socket1, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
+    sendTextFrame(
+        socket1,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
 
     std::shared_ptr<LOOLWebSocket> socket2 = loadDocAndGetSocket(_uri, documentURL, testname, true);
     // Set the client visible area
     sendTextFrame(socket1, "clientvisiblearea x=-4005 y=0 width=50490 height=72300");
-    sendTextFrame(socket1, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
+    sendTextFrame(
+        socket1,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3840 tiletwipheight=3840");
 
     //1. First make the first client to trigger the kit to filter out tiles based on identical wireIDs
 
@@ -1434,9 +1555,9 @@ void TileCacheTests::testWireIDFilteringOnWSDSide()
     {
         std::vector<char> tile = getResponseMessage(socket1, "tile:", testname, 5000);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
             ++arrivedTiles;
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_MESSAGE("We expect two tiles at least!", arrivedTiles > 1);
 
@@ -1450,15 +1571,16 @@ void TileCacheTests::testWireIDFilteringOnWSDSide()
     {
         std::vector<char> tile = getResponseMessage(socket1, "tile:", testname, 1000);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
             ++arrivedTiles;
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_EQUAL(1, arrivedTiles);
 
     //2. Now request the same tiles by the other client (e.g. scroll to the same view)
 
-    sendTextFrame(socket2, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840");
+    sendTextFrame(socket2, "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 "
+                           "tileposy=0,0,0 tilewidth=3840 tileheight=3840");
 
     // We expect three tiles sent to the second client
     arrivedTiles = 0;
@@ -1466,9 +1588,9 @@ void TileCacheTests::testWireIDFilteringOnWSDSide()
     {
         std::vector<char> tile = getResponseMessage(socket2, "tile:", testname, 1000);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
             ++arrivedTiles;
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_EQUAL(3, arrivedTiles);
 
@@ -1489,7 +1611,9 @@ void TileCacheTests::testLimitTileVersionsOnFly()
 
     // Set the client visible area
     sendTextFrame(socket, "clientvisiblearea x=-2662 y=0 width=16000 height=9875");
-    sendTextFrame(socket, "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3200 tiletwipheight=3200");
+    sendTextFrame(
+        socket,
+        "clientzoom tilepixelwidth=256 tilepixelheight=256 tiletwipwidth=3200 tiletwipheight=3200");
 
     // Type one character to trigger sending tiles
     sendChar(socket, 'x', skNone, testname);
@@ -1500,7 +1624,7 @@ void TileCacheTests::testLimitTileVersionsOnFly()
     {
         std::string tile = getResponseString(socket, "tile:", testname, 1000);
         getTileResp = !tile.empty();
-    } while(getTileResp);
+    } while (getTileResp);
 
     // Type an other character to trigger sending tiles
     sendChar(socket, 'x', skNone, testname);
@@ -1510,7 +1634,7 @@ void TileCacheTests::testLimitTileVersionsOnFly()
     {
         std::string tile = getResponseString(socket, "tile:", testname, 1000);
         getTileResp = !tile.empty();
-    } while(getTileResp);
+    } while (getTileResp);
 
     // For the third invalidation wsd does not send the new tile since
     // two versions of the same tile were already sent.
@@ -1529,9 +1653,9 @@ void TileCacheTests::testLimitTileVersionsOnFly()
     {
         std::vector<char> tile = getResponseMessage(socket, "tile:", testname, 1000);
         gotTile = !tile.empty();
-        if(gotTile)
+        if (gotTile)
             ++arrivedTiles;
-    } while(gotTile);
+    } while (gotTile);
 
     CPPUNIT_ASSERT_EQUAL(1, arrivedTiles);
 }

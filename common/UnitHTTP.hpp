@@ -23,8 +23,8 @@
 #include "Common.hpp"
 #include <LOOLWebSocket.hpp>
 
-using Poco::Net::SocketAddress;
 using Poco::Net::HTTPServerParams;
+using Poco::Net::SocketAddress;
 
 /// Unit test stub for a server response
 class UnitHTTPServerResponse : public Poco::Net::HTTPServerResponse
@@ -33,8 +33,8 @@ class UnitHTTPServerResponse : public Poco::Net::HTTPServerResponse
     std::stringstream _dummyStream;
 
 public:
-    UnitHTTPServerResponse() :
-        _sent(false)
+    UnitHTTPServerResponse()
+        : _sent(false)
     {
     }
     virtual void sendContinue() override {}
@@ -44,11 +44,14 @@ public:
         return _dummyStream;
     }
     virtual void sendFile(const std::string& /* path */,
-                          const std::string& /* mediaType */) override {}
-    virtual void sendBuffer(const void* /* buffer */,
-                            std::size_t /* length */) override {}
+                          const std::string& /* mediaType */) override
+    {
+    }
+    virtual void sendBuffer(const void* /* buffer */, std::size_t /* length */) override {}
     virtual void redirect(const std::string& /* uri */,
-                          HTTPStatus /* status = HTTP_FOUND */) override {}
+                          HTTPStatus /* status = HTTP_FOUND */) override
+    {
+    }
     virtual void requireAuthentication(const std::string& /* realm */) override {}
     virtual bool sent() const override { return _sent; }
 };
@@ -71,56 +74,33 @@ private:
     UnitHTTPServerParams _dummyParams;
 
 public:
-    UnitHTTPServerRequest(UnitHTTPServerResponse& inResponse,
-                          const std::string& uri) :
-        _response(inResponse),
-        _serverAddress(MasterPortNumber)
+    UnitHTTPServerRequest(UnitHTTPServerResponse& inResponse, const std::string& uri)
+        : _response(inResponse)
+        , _serverAddress(MasterPortNumber)
     {
         setURI(uri);
     }
-    virtual std::istream& stream() override
-    {
-        return _dummyStream;
-    }
+    virtual std::istream& stream() override { return _dummyStream; }
 #if POCO_VERSION < 0x01080000
-    virtual bool expectContinue() const override
-    {
-        return false;
-    }
+    virtual bool expectContinue() const override { return false; }
 #endif
 #if POCO_VERSION >= 0x01080000
-    virtual bool secure() const override
-    {
-        return true;
-    }
+    virtual bool secure() const override { return true; }
 #endif
-    virtual const SocketAddress& clientAddress() const override
-    {
-        return _clientAddress;
-    }
-    virtual const SocketAddress& serverAddress() const override
-    {
-        return _serverAddress;
-    }
-    virtual const HTTPServerParams& serverParams() const override
-    {
-        return _dummyParams;
-    }
-    virtual Poco::Net::HTTPServerResponse& response() const override
-    {
-        return _response;
-    }
+    virtual const SocketAddress& clientAddress() const override { return _clientAddress; }
+    virtual const SocketAddress& serverAddress() const override { return _serverAddress; }
+    virtual const HTTPServerParams& serverParams() const override { return _dummyParams; }
+    virtual Poco::Net::HTTPServerResponse& response() const override { return _response; }
 };
 
 namespace UnitHTTP
 {
-    inline Poco::Net::HTTPClientSession* createSession()
-    {
-        // HTTP forced in configure hook.
-        return new Poco::Net::HTTPClientSession ("127.0.0.1",
-                                                 ClientPortNumber);
-    }
+inline Poco::Net::HTTPClientSession* createSession()
+{
+    // HTTP forced in configure hook.
+    return new Poco::Net::HTTPClientSession("127.0.0.1", ClientPortNumber);
 }
+} // namespace UnitHTTP
 
 class UnitWebSocket
 {
@@ -131,7 +111,8 @@ public:
     /// Get a websocket connected for a given URL
     UnitWebSocket(const std::string& docURL)
     {
-        try {
+        try
+        {
             UnitHTTPServerResponse response;
             UnitHTTPServerRequest request(response, docURL);
 
@@ -139,7 +120,9 @@ public:
 
             // FIXME: leaking the session - hey ho ... do we need a UnitSocket ?
             _socket = new LOOLWebSocket(*_session, request, response);
-        } catch (const Poco::Exception &ex) {
+        }
+        catch (const Poco::Exception& ex)
+        {
             std::cerr << "Exception creating websocket " << ex.displayText() << std::endl;
             throw;
         }
@@ -151,10 +134,7 @@ public:
         delete _session;
     }
 
-    LOOLWebSocket* getLOOLWebSocket() const
-    {
-        return _socket;
-    }
+    LOOLWebSocket* getLOOLWebSocket() const { return _socket; }
 };
 
 #endif

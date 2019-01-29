@@ -38,11 +38,9 @@ using Poco::Net::WebSocket;
 
 namespace IoUtil
 {
-
 // Synchronously process LOOLWebSocket requests and dispatch to handler.
 // Handler returns false to end.
-void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws,
-                     const std::string& name,
+void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws, const std::string& name,
                      const std::function<bool(const std::vector<char>&)>& handler,
                      const std::function<void()>& closeFrame,
                      const std::function<bool()>& stopPredicate)
@@ -70,8 +68,7 @@ void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws,
                 break;
             }
 
-            if (!ws->poll(waitTime, Poco::Net::Socket::SELECT_READ) ||
-                stopPredicate())
+            if (!ws->poll(waitTime, Poco::Net::Socket::SELECT_READ) || stopPredicate())
             {
                 // If SELECT_READ fails, it might mean the socket is in error.
                 if (ws->poll(Poco::Timespan(0), Poco::Net::Socket::SELECT_ERROR))
@@ -107,13 +104,15 @@ void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws,
             }
             else if (n < 0)
             {
-                LOG_DBG("SocketProcessor [" << name << "]: was not an interesting frame, nothing to do here");
+                LOG_DBG("SocketProcessor ["
+                        << name << "]: was not an interesting frame, nothing to do here");
                 continue;
             }
 
             LOG_CHECK(n > 0);
 
-            if ((flags & WebSocket::FrameFlags::FRAME_FLAG_FIN) != WebSocket::FrameFlags::FRAME_FLAG_FIN)
+            if ((flags & WebSocket::FrameFlags::FRAME_FLAG_FIN)
+                != WebSocket::FrameFlags::FRAME_FLAG_FIN)
             {
                 // One WS message split into multiple frames.
                 // TODO: Is this even possible with Poco if we never construct such messages outselves?
@@ -122,20 +121,25 @@ void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws,
                 {
                     char buffer[READ_BUFFER_SIZE];
                     n = ws->receiveFrame(buffer, sizeof(buffer), flags);
-                    if (n == 0 || (flags & WebSocket::FRAME_OP_BITMASK) == WebSocket::FRAME_OP_CLOSE)
+                    if (n == 0
+                        || (flags & WebSocket::FRAME_OP_BITMASK) == WebSocket::FRAME_OP_CLOSE)
                     {
-                        LOG_WRN("SocketProcessor [" << name << "]: Connection closed while reading multiframe message.");
+                        LOG_WRN("SocketProcessor ["
+                                << name
+                                << "]: Connection closed while reading multiframe message.");
                         closeFrame();
                         break;
                     }
                     else if (n < 0)
                     {
-                        LOG_DBG("SocketProcessor [" << name << "]: was not an interesting frame, nothing to do here");
+                        LOG_DBG("SocketProcessor ["
+                                << name << "]: was not an interesting frame, nothing to do here");
                         continue;
                     }
 
                     payload.insert(payload.end(), buffer, buffer + n);
-                    if ((flags & WebSocket::FrameFlags::FRAME_FLAG_FIN) == WebSocket::FrameFlags::FRAME_FLAG_FIN)
+                    if ((flags & WebSocket::FrameFlags::FRAME_FLAG_FIN)
+                        == WebSocket::FrameFlags::FRAME_FLAG_FIN)
                     {
                         // No more frames.
                         break;
@@ -157,8 +161,9 @@ void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws,
 
             if (payload.capacity() > READ_BUFFER_SIZE * 4)
             {
-                LOG_INF("Compacting buffer of SocketProcessor [" << name << "] from " <<
-                        payload.capacity() / 1024 << "KB to " << READ_BUFFER_SIZE / 1024 << "KB.");
+                LOG_INF("Compacting buffer of SocketProcessor ["
+                        << name << "] from " << payload.capacity() / 1024 << "KB to "
+                        << READ_BUFFER_SIZE / 1024 << "KB.");
                 payload = std::vector<char>(READ_BUFFER_SIZE);
                 payload.resize(0);
             }
@@ -169,17 +174,18 @@ void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws,
         LOG_ERR("SocketProcessor [" << name << "]: Exception: " << exc.what());
     }
 
-    if ((flags & WebSocket::FRAME_OP_BITMASK) != WebSocket::FRAME_OP_CLOSE && n > 0 && payload.size() > 0)
+    if ((flags & WebSocket::FRAME_OP_BITMASK) != WebSocket::FRAME_OP_CLOSE && n > 0
+        && payload.size() > 0)
     {
         std::string msg;
         Poco::URI::encode(std::string(payload.data(), payload.size()), "", msg);
-        LOG_WRN("SocketProcessor [" << name << "]: Last message (" << payload.size() <<
-                " bytes) will not be processed: [" << msg << "].");
+        LOG_WRN("SocketProcessor [" << name << "]: Last message (" << payload.size()
+                                    << " bytes) will not be processed: [" << msg << "].");
     }
 
-    LOG_INF("SocketProcessor [" << name << "] finished. stop: " << (stop ? "true" : "false") <<
-            ", n: " << n << ", payload size: " << payload.size() <<
-            ", flags: " << std::hex << flags);
+    LOG_INF("SocketProcessor [" << name << "] finished. stop: " << (stop ? "true" : "false")
+                                << ", n: " << n << ", payload size: " << payload.size()
+                                << ", flags: " << std::hex << flags);
 }
 
 ssize_t writeToPipe(int pipe, const char* buffer, ssize_t size)
@@ -187,7 +193,8 @@ ssize_t writeToPipe(int pipe, const char* buffer, ssize_t size)
     ssize_t count = 0;
     for (;;)
     {
-        LOG_TRC("Writing to pipe. Data: [" << Util::formatLinesForLog(std::string(buffer, size)) << "].");
+        LOG_TRC("Writing to pipe. Data: [" << Util::formatLinesForLog(std::string(buffer, size))
+                                           << "].");
         const ssize_t bytes = write(pipe, buffer + count, size - count);
         if (bytes < 0)
         {
@@ -220,8 +227,7 @@ ssize_t readFromPipe(int pipe, char* buffer, ssize_t size)
     do
     {
         bytes = read(pipe, buffer, size);
-    }
-    while (bytes < 0 && errno == EINTR);
+    } while (bytes < 0 && errno == EINTR);
 
     return bytes;
 }
@@ -229,17 +235,16 @@ ssize_t readFromPipe(int pipe, char* buffer, ssize_t size)
 /// Reads a single line from a pipe.
 /// Returns 0 for timeout, <0 for error, and >0 on success.
 /// On success, line will contain the read message.
-int PipeReader::readLine(std::string& line,
-                         const std::function<bool()>& stopPredicate)
+int PipeReader::readLine(std::string& line, const std::function<bool()>& stopPredicate)
 {
-    const char *endOfLine = static_cast<const char *>(std::memchr(_data.data(), '\n', _data.size()));
+    const char* endOfLine = static_cast<const char*>(std::memchr(_data.data(), '\n', _data.size()));
     if (endOfLine != nullptr)
     {
         // We have a line cached, return it.
         line += std::string(_data.data(), endOfLine);
         _data.erase(0, endOfLine - _data.data() + 1); // Including the '\n'.
-        LOG_TRC("Read existing line from pipe: " << _name << ", line: [" <<
-                line << "], data: [" << Util::formatLinesForLog(_data) << "].");
+        LOG_TRC("Read existing line from pipe: " << _name << ", line: [" << line << "], data: ["
+                                                 << Util::formatLinesForLog(_data) << "].");
         return 1;
     }
 
@@ -284,7 +289,7 @@ int PipeReader::readLine(std::string& line,
                 return -1;
             }
 
-            endOfLine = static_cast<const char *>(std::memchr(buffer, '\n', bytes));
+            endOfLine = static_cast<const char*>(std::memchr(buffer, '\n', bytes));
             if (endOfLine != nullptr)
             {
                 // Got end of line.
@@ -292,8 +297,8 @@ int PipeReader::readLine(std::string& line,
                 const std::string tail(static_cast<const char*>(buffer), endOfLine);
                 line += tail;
                 _data = std::string(endOfLine + 1, bytes - tail.size() - 1); // Exclude the '\n'.
-                LOG_TRC("Read line from pipe: " << _name << ", line: [" << line <<
-                        "], data: [" << Util::formatLinesForLog(_data) << "].");
+                LOG_TRC("Read line from pipe: " << _name << ", line: [" << line << "], data: ["
+                                                << Util::formatLinesForLog(_data) << "].");
                 return 1;
             }
             else
@@ -314,6 +319,6 @@ int PipeReader::readLine(std::string& line,
     return 0;
 }
 
-}
+} // namespace IoUtil
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

@@ -46,269 +46,270 @@ std::mutex SigHandlerTrap;
 
 namespace SigUtil
 {
-    const char *signalName(const int signo)
+const char* signalName(const int signo)
+{
+    switch (signo)
     {
-        switch (signo)
-        {
-#define CASE(x) case SIG##x: return "SIG" #x
-            CASE(HUP);
-            CASE(INT);
-            CASE(QUIT);
-            CASE(ILL);
-            CASE(ABRT);
-            CASE(FPE);
-            CASE(KILL);
-            CASE(SEGV);
-            CASE(PIPE);
-            CASE(ALRM);
-            CASE(TERM);
-            CASE(USR1);
-            CASE(USR2);
-            CASE(CHLD);
-            CASE(CONT);
-            CASE(STOP);
-            CASE(TSTP);
-            CASE(TTIN);
-            CASE(TTOU);
-            CASE(BUS);
+#define CASE(x)                                                                                    \
+    case SIG##x:                                                                                   \
+        return "SIG" #x
+        CASE(HUP);
+        CASE(INT);
+        CASE(QUIT);
+        CASE(ILL);
+        CASE(ABRT);
+        CASE(FPE);
+        CASE(KILL);
+        CASE(SEGV);
+        CASE(PIPE);
+        CASE(ALRM);
+        CASE(TERM);
+        CASE(USR1);
+        CASE(USR2);
+        CASE(CHLD);
+        CASE(CONT);
+        CASE(STOP);
+        CASE(TSTP);
+        CASE(TTIN);
+        CASE(TTOU);
+        CASE(BUS);
 #ifdef SIGPOLL
-            CASE(POLL);
+        CASE(POLL);
 #endif
-            CASE(PROF);
-            CASE(SYS);
-            CASE(TRAP);
-            CASE(URG);
-            CASE(VTALRM);
-            CASE(XCPU);
-            CASE(XFSZ);
+        CASE(PROF);
+        CASE(SYS);
+        CASE(TRAP);
+        CASE(URG);
+        CASE(VTALRM);
+        CASE(XCPU);
+        CASE(XFSZ);
 #ifdef SIGEMT
-            CASE(EMT);
+        CASE(EMT);
 #endif
 #ifdef SIGSTKFLT
-            CASE(STKFLT);
+        CASE(STKFLT);
 #endif
 #if defined(SIGIO) && SIGIO != SIGPOLL
-            CASE(IO);
+        CASE(IO);
 #endif
 #ifdef SIGPWR
-            CASE(PWR);
+        CASE(PWR);
 #endif
 #ifdef SIGLOST
-            CASE(LOST);
+        CASE(LOST);
 #endif
-            CASE(WINCH);
+        CASE(WINCH);
 #if defined(SIGINFO) && SIGINFO != SIGPWR
-            CASE(INFO);
+        CASE(INFO);
 #endif
 #undef CASE
         default:
             return "unknown";
-        }
     }
+}
 
-    static
-    void handleTerminationSignal(const int signal)
+static void handleTerminationSignal(const int signal)
+{
+    bool hardExit = false;
+    const char* domain;
+    if (!ShutdownRequestFlag && signal == SIGINT)
     {
-        bool hardExit = false;
-        const char *domain;
-        if (!ShutdownRequestFlag && signal == SIGINT)
-        {
-            domain = " Shutdown signal received: ";
-            ShutdownRequestFlag = true;
-        }
-        else if (!TerminationFlag)
-        {
-            domain = " Forced-Termination signal received: ";
-            TerminationFlag = true;
-        }
-        else
-        {
-            domain = " ok, ok - hard-termination signal received: ";
-            hardExit = true;
-        }
-        Log::signalLogPrefix();
-        Log::signalLog(domain);
-        Log::signalLog(signalName(signal));
-        Log::signalLog("\n");
-
-        if (!hardExit)
-            SocketPoll::wakeupWorld();
-        else
-        {
-            ::signal (signal, SIG_DFL);
-            ::raise (signal);
-        }
-    }
-
-    void requestShutdown()
-    {
+        domain = " Shutdown signal received: ";
         ShutdownRequestFlag = true;
+    }
+    else if (!TerminationFlag)
+    {
+        domain = " Forced-Termination signal received: ";
+        TerminationFlag = true;
+    }
+    else
+    {
+        domain = " ok, ok - hard-termination signal received: ";
+        hardExit = true;
+    }
+    Log::signalLogPrefix();
+    Log::signalLog(domain);
+    Log::signalLog(signalName(signal));
+    Log::signalLog("\n");
+
+    if (!hardExit)
         SocketPoll::wakeupWorld();
+    else
+    {
+        ::signal(signal, SIG_DFL);
+        ::raise(signal);
+    }
+}
+
+void requestShutdown()
+{
+    ShutdownRequestFlag = true;
+    SocketPoll::wakeupWorld();
+}
+
+void setTerminationSignals()
+{
+    struct sigaction action;
+
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    action.sa_handler = handleTerminationSignal;
+
+    sigaction(SIGINT, &action, nullptr);
+    sigaction(SIGTERM, &action, nullptr);
+    sigaction(SIGQUIT, &action, nullptr);
+    sigaction(SIGHUP, &action, nullptr);
+}
+
+static char FatalGdbString[256] = { '\0' };
+
+static void handleFatalSignal(const int signal)
+{
+    std::unique_lock<std::mutex> lock(SigHandlerTrap);
+
+    Log::signalLogPrefix();
+    Log::signalLog(" Fatal signal received: ");
+    Log::signalLog(signalName(signal));
+    Log::signalLog("\n");
+
+    if (std::getenv("LOOL_DEBUG"))
+    {
+        Log::signalLog(FatalGdbString);
+        LOG_ERR("Sleeping 30s to allow debugging.");
+        sleep(30);
     }
 
-    void setTerminationSignals()
+    struct sigaction action;
+
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    action.sa_handler = SIG_DFL;
+
+    sigaction(signal, &action, nullptr);
+
+    dumpBacktrace();
+
+    // let default handler process the signal
+    kill(Poco::Process::id(), signal);
+}
+
+void dumpBacktrace()
+{
+    char header[32];
+    sprintf(header, "Backtrace %d:\n", getpid());
+
+    const int maxSlots = 50;
+    void* backtraceBuffer[maxSlots];
+    int numSlots = backtrace(backtraceBuffer, maxSlots);
+    if (numSlots > 0)
     {
-        struct sigaction action;
-
-        sigemptyset(&action.sa_mask);
-        action.sa_flags = 0;
-        action.sa_handler = handleTerminationSignal;
-
-        sigaction(SIGINT, &action, nullptr);
-        sigaction(SIGTERM, &action, nullptr);
-        sigaction(SIGQUIT, &action, nullptr);
-        sigaction(SIGHUP, &action, nullptr);
-    }
-
-    static char FatalGdbString[256] = { '\0' };
-
-    static
-    void handleFatalSignal(const int signal)
-    {
-        std::unique_lock<std::mutex> lock(SigHandlerTrap);
-
-        Log::signalLogPrefix();
-        Log::signalLog(" Fatal signal received: ");
-        Log::signalLog(signalName(signal));
-        Log::signalLog("\n");
-
-        if (std::getenv("LOOL_DEBUG"))
+        char** symbols = backtrace_symbols(backtraceBuffer, numSlots);
+        if (symbols != nullptr)
         {
-            Log::signalLog(FatalGdbString);
-            LOG_ERR("Sleeping 30s to allow debugging.");
-            sleep(30);
-        }
-
-        struct sigaction action;
-
-        sigemptyset(&action.sa_mask);
-        action.sa_flags = 0;
-        action.sa_handler = SIG_DFL;
-
-        sigaction(signal, &action, nullptr);
-
-        dumpBacktrace();
-
-        // let default handler process the signal
-        kill(Poco::Process::id(), signal);
-    }
-
-    void dumpBacktrace()
-    {
-        char header[32];
-        sprintf(header, "Backtrace %d:\n", getpid());
-
-        const int maxSlots = 50;
-        void *backtraceBuffer[maxSlots];
-        int numSlots = backtrace(backtraceBuffer, maxSlots);
-        if (numSlots > 0)
-        {
-            char **symbols = backtrace_symbols(backtraceBuffer, numSlots);
-            if (symbols != nullptr)
+            struct iovec ioVector[maxSlots * 2 + 1];
+            ioVector[0].iov_base = static_cast<void*>(header);
+            ioVector[0].iov_len = std::strlen(static_cast<const char*>(ioVector[0].iov_base));
+            for (int i = 0; i < numSlots; i++)
             {
-                struct iovec ioVector[maxSlots*2+1];
-                ioVector[0].iov_base = static_cast<void*>(header);
-                ioVector[0].iov_len = std::strlen(static_cast<const char*>(ioVector[0].iov_base));
-                for (int i = 0; i < numSlots; i++)
-                {
-                    ioVector[1+i*2+0].iov_base = symbols[i];
-                    ioVector[1+i*2+0].iov_len = std::strlen(static_cast<const char *>(ioVector[1+i*2+0].iov_base));
-                    ioVector[1+i*2+1].iov_base = const_cast<void*>(static_cast<const void*>("\n"));
-                    ioVector[1+i*2+1].iov_len = 1;
-                }
+                ioVector[1 + i * 2 + 0].iov_base = symbols[i];
+                ioVector[1 + i * 2 + 0].iov_len
+                    = std::strlen(static_cast<const char*>(ioVector[1 + i * 2 + 0].iov_base));
+                ioVector[1 + i * 2 + 1].iov_base
+                    = const_cast<void*>(static_cast<const void*>("\n"));
+                ioVector[1 + i * 2 + 1].iov_len = 1;
+            }
 
-                if (writev(STDERR_FILENO, ioVector, numSlots*2+1) == -1)
-                {
-                    LOG_SYS("Failed to dump backtrace to stderr.");
-                }
+            if (writev(STDERR_FILENO, ioVector, numSlots * 2 + 1) == -1)
+            {
+                LOG_SYS("Failed to dump backtrace to stderr.");
             }
         }
+    }
 
-        if (std::getenv("LOOL_DEBUG"))
+    if (std::getenv("LOOL_DEBUG"))
+    {
+        LOG_ERR("Sleeping 30s to allow debugging.");
+        sleep(30);
+    }
+}
+
+void setFatalSignals()
+{
+    struct sigaction action;
+
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    action.sa_handler = handleFatalSignal;
+
+    sigaction(SIGSEGV, &action, nullptr);
+    sigaction(SIGBUS, &action, nullptr);
+    sigaction(SIGABRT, &action, nullptr);
+    sigaction(SIGILL, &action, nullptr);
+    sigaction(SIGFPE, &action, nullptr);
+
+    // prepare this in advance just in case.
+    std::ostringstream stream;
+    stream << "\nFatal signal! Attach debugger with:\n"
+           << "sudo gdb --pid=" << Poco::Process::id() << "\n or \n"
+           << "sudo gdb --q --n --ex 'thread apply all backtrace full' --batch --pid="
+           << Poco::Process::id() << "\n";
+    std::string streamStr = stream.str();
+    assert(sizeof(FatalGdbString) > strlen(streamStr.c_str()) + 1);
+    strncpy(FatalGdbString, streamStr.c_str(), sizeof(FatalGdbString));
+}
+
+static void handleUserSignal(const int signal)
+{
+    Log::signalLogPrefix();
+    Log::signalLog(" User signal received: ");
+    Log::signalLog(signalName(signal));
+    Log::signalLog("\n");
+    if (signal == SIGUSR1)
+    {
+        DumpGlobalState = true;
+        SocketPoll::wakeupWorld();
+    }
+}
+
+void setUserSignals()
+{
+    struct sigaction action;
+
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    action.sa_handler = handleUserSignal;
+
+    sigaction(SIGUSR1, &action, nullptr);
+}
+
+/// Kill the given pid with SIGTERM.  Returns true when the pid does not exist any more.
+bool killChild(const int pid)
+{
+    LOG_DBG("Killing PID: " << pid);
+    if (kill(pid, SIGTERM) == 0 || errno == ESRCH)
+    {
+        // Killed or doesn't exist.
+        return true;
+    }
+
+    LOG_SYS("Error when trying to kill PID: " << pid << ". Will wait for termination.");
+
+    const int sleepMs = 50;
+    const int count = std::max(CHILD_REBALANCE_INTERVAL_MS / sleepMs, 2);
+    for (int i = 0; i < count; ++i)
+    {
+        if (kill(pid, 0) == 0 || errno == ESRCH)
         {
-            LOG_ERR("Sleeping 30s to allow debugging.");
-            sleep(30);
-        }
-    }
-
-    void setFatalSignals()
-    {
-        struct sigaction action;
-
-        sigemptyset(&action.sa_mask);
-        action.sa_flags = 0;
-        action.sa_handler = handleFatalSignal;
-
-        sigaction(SIGSEGV, &action, nullptr);
-        sigaction(SIGBUS, &action, nullptr);
-        sigaction(SIGABRT, &action, nullptr);
-        sigaction(SIGILL, &action, nullptr);
-        sigaction(SIGFPE, &action, nullptr);
-
-        // prepare this in advance just in case.
-        std::ostringstream stream;
-        stream << "\nFatal signal! Attach debugger with:\n"
-               << "sudo gdb --pid=" << Poco::Process::id() << "\n or \n"
-               << "sudo gdb --q --n --ex 'thread apply all backtrace full' --batch --pid="
-               << Poco::Process::id() << "\n";
-        std::string streamStr = stream.str();
-        assert (sizeof (FatalGdbString) > strlen(streamStr.c_str()) + 1);
-        strncpy(FatalGdbString, streamStr.c_str(), sizeof(FatalGdbString));
-    }
-
-    static
-    void handleUserSignal(const int signal)
-    {
-        Log::signalLogPrefix();
-        Log::signalLog(" User signal received: ");
-        Log::signalLog(signalName(signal));
-        Log::signalLog("\n");
-        if (signal == SIGUSR1)
-        {
-            DumpGlobalState = true;
-            SocketPoll::wakeupWorld();
-        }
-    }
-
-    void setUserSignals()
-    {
-        struct sigaction action;
-
-        sigemptyset(&action.sa_mask);
-        action.sa_flags = 0;
-        action.sa_handler = handleUserSignal;
-
-        sigaction(SIGUSR1, &action, nullptr);
-    }
-
-    /// Kill the given pid with SIGTERM.  Returns true when the pid does not exist any more.
-    bool killChild(const int pid)
-    {
-        LOG_DBG("Killing PID: " << pid);
-        if (kill(pid, SIGTERM) == 0 || errno == ESRCH)
-        {
-            // Killed or doesn't exist.
+            // Doesn't exist.
             return true;
         }
 
-        LOG_SYS("Error when trying to kill PID: " << pid << ". Will wait for termination.");
-
-        const int sleepMs = 50;
-        const int count = std::max(CHILD_REBALANCE_INTERVAL_MS / sleepMs, 2);
-        for (int i = 0; i < count; ++i)
-        {
-            if (kill(pid, 0) == 0 || errno == ESRCH)
-            {
-                // Doesn't exist.
-                return true;
-            }
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(sleepMs));
-        }
-
-        return false;
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleepMs));
     }
+
+    return false;
 }
+} // namespace SigUtil
 
 #endif // !MOBILEAPP
 

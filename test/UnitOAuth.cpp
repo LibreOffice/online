@@ -24,19 +24,19 @@ class UnitOAuth : public WopiTestServer
 {
     enum class Phase
     {
-        LoadToken,  // loading the document with Bearer token
+        LoadToken, // loading the document with Bearer token
         LoadHeader, // loading the document with Basic auth
-        Polling     // just wait for the results
+        Polling // just wait for the results
     } _phase;
 
     bool _finishedToken;
     bool _finishedHeader;
 
 public:
-    UnitOAuth() :
-        _phase(Phase::LoadToken),
-        _finishedToken(false),
-        _finishedHeader(false)
+    UnitOAuth()
+        : _phase(Phase::LoadToken)
+        , _finishedToken(false)
+        , _finishedHeader(false)
     {
     }
 
@@ -44,7 +44,8 @@ public:
     void assertRequest(const Poco::Net::HTTPRequest& request, int fileIndex)
     {
         // check that the request contains the Authorization: header
-        try {
+        try
+        {
             if (fileIndex == 0)
             {
                 OAuth20Credentials creds(request);
@@ -66,7 +67,7 @@ public:
     void assertCheckFileInfoRequest(const Poco::Net::HTTPRequest& request) override
     {
         std::string path = Poco::URI(request.getURI()).getPath();
-        assertRequest(request, (path == "/wopi/files/0")? 0: 1);
+        assertRequest(request, (path == "/wopi/files/0") ? 0 : 1);
     }
 
     void assertGetFileRequest(const Poco::Net::HTTPRequest& request) override
@@ -101,7 +102,8 @@ public:
                 else
                     initWebsocket("/wopi/files/1?access_header=Authorization: Basic basic==");
 
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(), testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(),
+                                       testName);
                 SocketPoll::wakeupWorld();
 
                 if (_phase == Phase::LoadToken)
@@ -119,9 +121,6 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitOAuth();
-}
+UnitBase* unit_create_wsd(void) { return new UnitOAuth(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

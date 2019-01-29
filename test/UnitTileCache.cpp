@@ -20,16 +20,18 @@
 
 using namespace helpers;
 
-class UnitTileCache: public UnitWSD
+class UnitTileCache : public UnitWSD
 {
-    enum class Phase {
-        Load,             // load the document
-        Tile,             // lookup tile method
+    enum class Phase
+    {
+        Load, // load the document
+        Tile, // lookup tile method
     } _phase;
     std::unique_ptr<UnitWebSocket> _ws;
+
 public:
-    UnitTileCache() :
-        _phase(Phase::Load)
+    UnitTileCache()
+        : _phase(Phase::Load)
     {
     }
 
@@ -37,7 +39,8 @@ public:
                             int tileWidth, int tileHeight, std::unique_ptr<std::fstream>& cacheFile)
     {
         // Call base to fire events.
-        UnitWSD::lookupTile(part, width, height, tilePosX, tilePosY, tileWidth, tileHeight, cacheFile);
+        UnitWSD::lookupTile(part, width, height, tilePosX, tilePosY, tileWidth, tileHeight,
+                            cacheFile);
 
         // Fail the lookup to force subscription and rendering.
         cacheFile.reset();
@@ -50,28 +53,25 @@ public:
     {
         switch (_phase)
         {
-        case Phase::Load:
-        {
-            _phase = Phase::Tile;
-            std::string docPath;
-            std::string docURL;
-            getDocumentPathAndURL("empty.odt", docPath, docURL, "unitTileCache ");
-            _ws = std::unique_ptr<UnitWebSocket>(new UnitWebSocket(docURL));
-            assert(_ws.get());
+            case Phase::Load:
+            {
+                _phase = Phase::Tile;
+                std::string docPath;
+                std::string docURL;
+                getDocumentPathAndURL("empty.odt", docPath, docURL, "unitTileCache ");
+                _ws = std::unique_ptr<UnitWebSocket>(new UnitWebSocket(docURL));
+                assert(_ws.get());
 
-            // FIXME: need to invoke the tile lookup ...
-            exitTest(TestResult::Ok);
-            break;
-        }
-        case Phase::Tile:
-            break;
+                // FIXME: need to invoke the tile lookup ...
+                exitTest(TestResult::Ok);
+                break;
+            }
+            case Phase::Tile:
+                break;
         }
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitTileCache();
-}
+UnitBase* unit_create_wsd(void) { return new UnitTileCache(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

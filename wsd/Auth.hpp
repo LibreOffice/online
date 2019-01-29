@@ -40,10 +40,10 @@ class JWTAuth : public AuthBase
 {
 public:
     JWTAuth(const std::string& name, const std::string& sub, const std::string& aud)
-        : _name(name),
-          _sub(sub),
-          _aud(aud),
-          _digestEngine(_key, "SHA256")
+        : _name(name)
+        , _sub(sub)
+        , _aud(aud)
+        , _digestEngine(_key, "SHA256")
     {
     }
 
@@ -73,16 +73,14 @@ private:
 class OAuth : public AuthBase
 {
 public:
-    OAuth(const std::string& clientId,
-          const std::string& clientSecret,
-          const std::string& tokenEndPoint,
-          const std::string& authVerifyUrl,
-          const std::string& authorizationCode) :
-        _clientId(clientId),
-        _clientSecret(clientSecret),
-        _tokenEndPoint(tokenEndPoint),
-        _authVerifyUrl(authVerifyUrl),
-        _authorizationCode(authorizationCode)
+    OAuth(const std::string& clientId, const std::string& clientSecret,
+          const std::string& tokenEndPoint, const std::string& authVerifyUrl,
+          const std::string& authorizationCode)
+        : _clientId(clientId)
+        , _clientSecret(clientSecret)
+        , _tokenEndPoint(tokenEndPoint)
+        , _authVerifyUrl(authVerifyUrl)
+        , _authorizationCode(authorizationCode)
     {
     }
 

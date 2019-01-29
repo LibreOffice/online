@@ -25,219 +25,222 @@ using Poco::StringTokenizer;
 
 namespace LOOLProtocol
 {
-    std::tuple<int, int, std::string> ParseVersion(const std::string& version)
+std::tuple<int, int, std::string> ParseVersion(const std::string& version)
+{
+    int major = -1;
+    int minor = -1;
+    std::string patch;
+
+    StringTokenizer firstTokens(version, ".",
+                                StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+    if (firstTokens.count() > 0)
     {
-        int major = -1;
-        int minor = -1;
-        std::string patch;
+        major = std::stoi(firstTokens[0]);
 
-        StringTokenizer firstTokens(version, ".", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-        if (firstTokens.count() > 0)
-        {
-            major = std::stoi(firstTokens[0]);
+        StringTokenizer secondTokens(firstTokens[1], "-",
+                                     StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        minor = std::stoi(secondTokens[0]);
 
-            StringTokenizer secondTokens(firstTokens[1], "-", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-            minor = std::stoi(secondTokens[0]);
-
-            if (secondTokens.count() > 1)
-                patch = secondTokens[1];
-        }
-        return std::make_tuple(major, minor, patch);
+        if (secondTokens.count() > 1)
+            patch = secondTokens[1];
     }
+    return std::make_tuple(major, minor, patch);
+}
 
-    bool stringToInteger(const std::string& input, int& value)
+bool stringToInteger(const std::string& input, int& value)
+{
+    try
     {
-        try
-        {
-            value = std::stoi(input);
-        }
-        catch (std::invalid_argument&)
-        {
-            return false;
-        }
-
-        return true;
+        value = std::stoi(input);
     }
-
-    bool stringToUInt32(const std::string& input, uint32_t& value)
+    catch (std::invalid_argument&)
     {
-        try
-        {
-            value = std::stoul(input);
-        }
-        catch (std::invalid_argument&)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    bool stringToUInt64(const std::string& input, uint64_t& value)
-    {
-        try
-        {
-            value = std::stoull(input);
-        }
-        catch (std::invalid_argument&)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    bool getTokenInteger(const std::string& token, const std::string& name, int& value)
-    {
-        if (token.size() > (name.size() + 1) &&
-            token.compare(0, name.size(), name) == 0 &&
-            token[name.size()] == '=')
-        {
-            const char* str = token.data() + name.size() + 1;
-            char* endptr = nullptr;
-            value = strtol(str, &endptr, 10);
-            return (endptr > str);
-        }
-
         return false;
     }
 
-    bool getTokenUInt64(const std::string& token, const std::string& name, uint64_t& value)
-    {
-        if (token.size() > (name.size() + 1) &&
-            token.compare(0, name.size(), name) == 0 &&
-            token[name.size()] == '=')
-        {
-            const char* str = token.data() + name.size() + 1;
-            char* endptr = nullptr;
-            value = strtoull(str, &endptr, 10);
-            return (endptr > str);
-        }
+    return true;
+}
 
+bool stringToUInt32(const std::string& input, uint32_t& value)
+{
+    try
+    {
+        value = std::stoul(input);
+    }
+    catch (std::invalid_argument&)
+    {
         return false;
     }
 
-    bool getTokenUInt32(const std::string& token, const std::string& name, uint32_t& value)
-    {
-        if (token.size() > (name.size() + 1) &&
-            token.compare(0, name.size(), name) == 0 &&
-            token[name.size()] == '=')
-        {
-            const char* str = token.data() + name.size() + 1;
-            char* endptr = nullptr;
-            value = strtoul(str, &endptr, 10);
-            return (endptr > str);
-        }
+    return true;
+}
 
+bool stringToUInt64(const std::string& input, uint64_t& value)
+{
+    try
+    {
+        value = std::stoull(input);
+    }
+    catch (std::invalid_argument&)
+    {
         return false;
     }
 
-    bool getTokenString(const std::string& token, const std::string& name, std::string& value)
+    return true;
+}
+
+bool getTokenInteger(const std::string& token, const std::string& name, int& value)
+{
+    if (token.size() > (name.size() + 1) && token.compare(0, name.size(), name) == 0
+        && token[name.size()] == '=')
     {
-        if (token.size() >= (name.size() + 1) &&
-            token.compare(0, name.size(), name) == 0 &&
-            token[name.size()] == '=')
+        const char* str = token.data() + name.size() + 1;
+        char* endptr = nullptr;
+        value = strtol(str, &endptr, 10);
+        return (endptr > str);
+    }
+
+    return false;
+}
+
+bool getTokenUInt64(const std::string& token, const std::string& name, uint64_t& value)
+{
+    if (token.size() > (name.size() + 1) && token.compare(0, name.size(), name) == 0
+        && token[name.size()] == '=')
+    {
+        const char* str = token.data() + name.size() + 1;
+        char* endptr = nullptr;
+        value = strtoull(str, &endptr, 10);
+        return (endptr > str);
+    }
+
+    return false;
+}
+
+bool getTokenUInt32(const std::string& token, const std::string& name, uint32_t& value)
+{
+    if (token.size() > (name.size() + 1) && token.compare(0, name.size(), name) == 0
+        && token[name.size()] == '=')
+    {
+        const char* str = token.data() + name.size() + 1;
+        char* endptr = nullptr;
+        value = strtoul(str, &endptr, 10);
+        return (endptr > str);
+    }
+
+    return false;
+}
+
+bool getTokenString(const std::string& token, const std::string& name, std::string& value)
+{
+    if (token.size() >= (name.size() + 1) && token.compare(0, name.size(), name) == 0
+        && token[name.size()] == '=')
+    {
+        value = token.substr(name.size() + 1);
+        return true;
+    }
+
+    return false;
+}
+
+bool getTokenKeyword(const std::string& token, const std::string& name,
+                     const std::map<std::string, int>& map, int& value)
+{
+    std::string t;
+    if (getTokenString(token, name, t))
+    {
+        if (t[0] == '\'' && t[t.size() - 1] == '\'')
         {
-            value = token.substr(name.size() + 1);
+            t = t.substr(1, t.size() - 2);
+        }
+
+        const auto p = map.find(t);
+        if (p != map.cend())
+        {
+            value = p->second;
             return true;
         }
-
-        return false;
     }
 
-    bool getTokenKeyword(const std::string& token, const std::string& name,
-                         const std::map<std::string, int>& map, int& value)
+    return false;
+}
+
+bool getTokenInteger(const Poco::StringTokenizer& tokens, const std::string& name, int& value)
+{
+    for (size_t i = 0; i < tokens.count(); i++)
     {
-        std::string t;
-        if (getTokenString(token, name, t))
+        if (getTokenInteger(tokens[i], name, value))
+            return true;
+    }
+    return false;
+}
+
+bool getTokenString(const Poco::StringTokenizer& tokens, const std::string& name,
+                    std::string& value)
+{
+    for (size_t i = 0; i < tokens.count(); i++)
+    {
+        if (getTokenString(tokens[i], name, value))
+            return true;
+    }
+    return false;
+}
+
+bool getTokenKeyword(const Poco::StringTokenizer& tokens, const std::string& name,
+                     const std::map<std::string, int>& map, int& value)
+{
+    for (size_t i = 0; i < tokens.count(); i++)
+    {
+        if (getTokenKeyword(tokens[i], name, map, value))
+            return true;
+    }
+    return false;
+}
+
+bool getTokenInteger(const std::vector<std::string>& tokens, const std::string& name, int& value)
+{
+    for (const auto& pair : tokens)
+    {
+        if (getTokenInteger(pair, name, value))
         {
-            if (t[0] == '\'' && t[t.size() - 1] == '\'')
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool getTokenStringFromMessage(const std::string& message, const std::string& name,
+                               std::string& value)
+{
+    if (message.size() > name.size() + 1)
+    {
+        size_t pos = message.find(name);
+        while (pos != std::string::npos)
+        {
+            bool spaceBefore = pos == 0 || message[pos - 1] == ' ';
+            const size_t beg = pos + name.size();
+            if (spaceBefore && message[beg] == '=')
             {
-                t = t.substr(1, t.size() - 2);
+                const size_t end = message.find_first_of(" \n", beg);
+                value = message.substr(beg + 1, end - beg - 1);
+                return true;
             }
 
-            const auto p = map.find(t);
-            if (p != map.cend())
-            {
-                value = p->second;
-                return true;
-            }
+            pos = message.find(name, pos + name.size());
         }
-
-        return false;
     }
 
-    bool getTokenInteger(const Poco::StringTokenizer& tokens, const std::string& name, int& value)
-    {
-        for (size_t i = 0; i < tokens.count(); i++)
-        {
-            if (getTokenInteger(tokens[i], name, value))
-                return true;
-        }
-        return false;
-    }
+    return false;
+}
 
-    bool getTokenString(const Poco::StringTokenizer& tokens, const std::string& name, std::string& value)
-    {
-        for (size_t i = 0; i < tokens.count(); i++)
-        {
-            if (getTokenString(tokens[i], name, value))
-                return true;
-        }
-        return false;
-    }
-
-    bool getTokenKeyword(const Poco::StringTokenizer& tokens, const std::string& name, const std::map<std::string, int>& map, int& value)
-    {
-        for (size_t i = 0; i < tokens.count(); i++)
-        {
-            if (getTokenKeyword(tokens[i], name, map, value))
-                return true;
-        }
-        return false;
-    }
-
-    bool getTokenInteger(const std::vector<std::string>& tokens, const std::string& name, int& value)
-    {
-        for (const auto& pair : tokens)
-        {
-            if (getTokenInteger(pair, name, value))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    bool getTokenStringFromMessage(const std::string& message, const std::string& name, std::string& value)
-    {
-        if (message.size() > name.size() + 1)
-        {
-            size_t pos = message.find(name);
-            while (pos != std::string::npos)
-            {
-                bool spaceBefore = pos == 0 || message[pos-1] == ' ';
-                const size_t beg = pos + name.size();
-                if (spaceBefore && message[beg] == '=')
-                {
-                    const size_t end = message.find_first_of(" \n", beg);
-                    value = message.substr(beg + 1, end - beg - 1);
-                    return true;
-                }
-
-                pos = message.find(name, pos + name.size());
-            }
-        }
-
-        return false;
-    }
-
-    bool getTokenKeywordFromMessage(const std::string& message, const std::string& name, const std::map<std::string, int>& map, int& value)
-    {
-        Poco::StringTokenizer tokens(message, " \n", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-        return getTokenKeyword(tokens, name, map, value);
-    }
-};
+bool getTokenKeywordFromMessage(const std::string& message, const std::string& name,
+                                const std::map<std::string, int>& map, int& value)
+{
+    Poco::StringTokenizer tokens(message, " \n",
+                                 StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+    return getTokenKeyword(tokens, name, map, value);
+}
+}; // namespace LOOLProtocol
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

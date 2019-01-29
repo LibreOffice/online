@@ -39,173 +39,164 @@
 
 namespace Log
 {
-    using namespace Poco;
+using namespace Poco;
 
-    /// Helper to avoid destruction ordering issues.
-    struct StaticNameHelper
+/// Helper to avoid destruction ordering issues.
+struct StaticNameHelper
+{
+private:
+    std::atomic<bool> _inited;
+    std::string _name;
+    std::string _id;
+
+public:
+    StaticNameHelper()
+        : _inited(true)
     {
-    private:
-        std::atomic<bool> _inited;
-        std::string _name;
-        std::string _id;
-    public:
-        StaticNameHelper() :
-            _inited(true)
-        {
-        }
-        ~StaticNameHelper()
-        {
-            _inited = false;
-        }
+    }
+    ~StaticNameHelper() { _inited = false; }
 
-        bool getInited() const { return _inited; }
+    bool getInited() const { return _inited; }
 
-        void setId(const std::string& id) { _id = id; }
+    void setId(const std::string& id) { _id = id; }
 
-        const std::string& getId() const { return _id; }
+    const std::string& getId() const { return _id; }
 
-        void setName(const std::string& name) { _name = name; }
+    void setName(const std::string& name) { _name = name; }
 
-        const std::string& getName() const { return _name; }
-    };
-    static StaticNameHelper Source;
+    const std::string& getName() const { return _name; }
+};
+static StaticNameHelper Source;
 
-    // We need a signal safe means of writing messages
-    //   $ man 7 signal
-    void signalLog(const char *message)
+// We need a signal safe means of writing messages
+//   $ man 7 signal
+void signalLog(const char* message)
+{
+    while (true)
     {
-        while (true)
+        const int length = std::strlen(message);
+        const int written = write(STDERR_FILENO, message, length);
+        if (written < 0)
         {
-            const int length = std::strlen(message);
-            const int written = write (STDERR_FILENO, message, length);
-            if (written < 0)
-            {
-                if (errno == EINTR)
-                    continue; // ignore.
-                else
-                    break;
-            }
-
-            message += written;
-            if (message[0] == '\0')
+            if (errno == EINTR)
+                continue; // ignore.
+            else
                 break;
         }
-    }
 
-    // We need a signal safe means of writing messages
-    //   $ man 7 signal
-    void signalLogNumber(std::size_t num)
-    {
-        int i;
-        char buf[22];
-        buf[21] = '\0';
-        for (i = 20; i > 0 && num > 0; --i)
-        {
-            buf[i] = '0' + num % 10;
-            num /= 10;
-        }
-        signalLog(buf + i + 1);
+        message += written;
+        if (message[0] == '\0')
+            break;
     }
+}
 
-    char* prefix(char* buffer, const std::size_t len, const char* level)
+// We need a signal safe means of writing messages
+//   $ man 7 signal
+void signalLogNumber(std::size_t num)
+{
+    int i;
+    char buf[22];
+    buf[21] = '\0';
+    for (i = 20; i > 0 && num > 0; --i)
     {
-        const char *threadName = Util::getThreadName();
+        buf[i] = '0' + num % 10;
+        num /= 10;
+    }
+    signalLog(buf + i + 1);
+}
+
+char* prefix(char* buffer, const std::size_t len, const char* level)
+{
+    const char* threadName = Util::getThreadName();
 #ifdef __linux
-        const long osTid = Util::getThreadId();
+    const long osTid = Util::getThreadId();
 #elif defined IOS
-        const auto osTid = pthread_mach_thread_np(pthread_self());
+    const auto osTid = pthread_mach_thread_np(pthread_self());
 #endif
-        Poco::DateTime time;
-        snprintf(buffer, len, "%s-%.05lu %.4u-%.2u-%.2u %.2u:%.2u:%.2u.%.6u [ %s ] %s  ",
-                    (Source.getInited() ? Source.getId().c_str() : "<shutdown>"),
-                    osTid,
-                    time.year(), time.month(), time.day(),
-                    time.hour(), time.minute(), time.second(),
-                    time.millisecond() * 1000 + time.microsecond(),
-                    threadName, level);
-        return buffer;
-    }
+    Poco::DateTime time;
+    snprintf(buffer, len, "%s-%.05lu %.4u-%.2u-%.2u %.2u:%.2u:%.2u.%.6u [ %s ] %s  ",
+             (Source.getInited() ? Source.getId().c_str() : "<shutdown>"), osTid, time.year(),
+             time.month(), time.day(), time.hour(), time.minute(), time.second(),
+             time.millisecond() * 1000 + time.microsecond(), threadName, level);
+    return buffer;
+}
 
-    void signalLogPrefix()
-    {
-        char buffer[1024];
-        prefix(buffer, sizeof(buffer) - 1, "SIG");
-        signalLog(buffer);
-    }
+void signalLogPrefix()
+{
+    char buffer[1024];
+    prefix(buffer, sizeof(buffer) - 1, "SIG");
+    signalLog(buffer);
+}
 
-    void initialize(const std::string& name,
-                    const std::string& logLevel,
-                    const bool withColor,
-                    const bool logToFile,
-                    const std::map<std::string, std::string>& config)
-    {
-        Source.setName(name);
-        std::ostringstream oss;
-        oss << Source.getName();
+void initialize(const std::string& name, const std::string& logLevel, const bool withColor,
+                const bool logToFile, const std::map<std::string, std::string>& config)
+{
+    Source.setName(name);
+    std::ostringstream oss;
+    oss << Source.getName();
 #ifndef MOBILEAPP // Just one process in a mobile app, the pid is uninteresting.
-        oss << '-'
-            << std::setw(5) << std::setfill('0') << Poco::Process::id();
+    oss << '-' << std::setw(5) << std::setfill('0') << Poco::Process::id();
 #endif
-        Source.setId(oss.str());
+    Source.setId(oss.str());
 
-        // Configure the logger.
-        AutoPtr<Channel> channel;
+    // Configure the logger.
+    AutoPtr<Channel> channel;
 
-        if (logToFile)
+    if (logToFile)
+    {
+        channel = static_cast<Poco::Channel*>(new FileChannel("loolwsd.log"));
+        for (const auto& pair : config)
         {
-            channel = static_cast<Poco::Channel*>(new FileChannel("loolwsd.log"));
-            for (const auto& pair : config)
-            {
-                channel->setProperty(pair.first, pair.second);
-            }
+            channel->setProperty(pair.first, pair.second);
         }
-        else if (withColor)
-            channel = static_cast<Poco::Channel*>(new Poco::ColorConsoleChannel());
-        else
-            channel = static_cast<Poco::Channel*>(new Poco::ConsoleChannel());
+    }
+    else if (withColor)
+        channel = static_cast<Poco::Channel*>(new Poco::ColorConsoleChannel());
+    else
+        channel = static_cast<Poco::Channel*>(new Poco::ConsoleChannel());
 
-        /**
+    /**
          * Open the channel explicitly, instead of waiting for first log message
          * This is important especially for the kit process where opening the channel
          * after chroot can cause file creation inside the jail instead of outside
          * */
-        channel->open();
-        auto& logger = Poco::Logger::create(Source.getName(), channel, Poco::Message::PRIO_TRACE);
+    channel->open();
+    auto& logger = Poco::Logger::create(Source.getName(), channel, Poco::Message::PRIO_TRACE);
 
-        logger.setLevel(logLevel.empty() ? std::string("trace") : logLevel);
+    logger.setLevel(logLevel.empty() ? std::string("trace") : logLevel);
 
-        const std::time_t t = std::time(nullptr);
-        oss.str("");
-        oss.clear();
+    const std::time_t t = std::time(nullptr);
+    oss.str("");
+    oss.clear();
 
-        oss << "Initializing " << name << ".";
+    oss << "Initializing " << name << ".";
 
-        // TODO: replace with std::put_time when we move to gcc 5+.
-        char buf[32];
-        if (strftime(buf, sizeof(buf), "%a %F %T%z", std::localtime(&t)) > 0)
-        {
-            oss << " Local time: " << buf << ".";
-        }
-
-        oss <<  " Log level is [" << logger.getLevel() << "].";
-        LOG_INF(oss.str());
-    }
-
-    Poco::Logger& logger()
+    // TODO: replace with std::put_time when we move to gcc 5+.
+    char buf[32];
+    if (strftime(buf, sizeof(buf), "%a %F %T%z", std::localtime(&t)) > 0)
     {
-        return Poco::Logger::get(Source.getInited() ? Source.getName() : std::string());
+        oss << " Local time: " << buf << ".";
     }
 
-    void shutdown()
-    {
-        logger().shutdown();
-
-        // Flush
-        std::flush(std::cout);
-        fflush(stdout);
-        std::flush(std::cerr);
-        fflush(stderr);
-    }
+    oss << " Log level is [" << logger.getLevel() << "].";
+    LOG_INF(oss.str());
 }
+
+Poco::Logger& logger()
+{
+    return Poco::Logger::get(Source.getInited() ? Source.getName() : std::string());
+}
+
+void shutdown()
+{
+    logger().shutdown();
+
+    // Flush
+    std::flush(std::cout);
+    fflush(stdout);
+    std::flush(std::cerr);
+    fflush(stderr);
+}
+} // namespace Log
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

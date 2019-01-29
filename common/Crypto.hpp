@@ -15,15 +15,17 @@
 #include <memory>
 
 struct SupportKeyImpl;
-namespace Poco {
-    class DateTime;
+namespace Poco
+{
+class DateTime;
 }
 
-class SupportKey {
+class SupportKey
+{
     std::unique_ptr<SupportKeyImpl> _impl;
 
 public:
-    SupportKey(const std::string &key);
+    SupportKey(const std::string& key);
     virtual ~SupportKey();
 
     /// Check the key is validly signed.

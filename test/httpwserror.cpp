@@ -62,18 +62,17 @@ public:
 #if ENABLE_SSL
         Poco::Net::initializeSSL();
         // Just accept the certificate anyway for testing purposes
-        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidCertHandler = new Poco::Net::AcceptCertificateHandler(false);
+        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidCertHandler
+            = new Poco::Net::AcceptCertificateHandler(false);
         Poco::Net::Context::Params sslParams;
-        Poco::Net::Context::Ptr sslContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
+        Poco::Net::Context::Ptr sslContext
+            = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
         Poco::Net::SSLManager::instance().initializeClient(nullptr, invalidCertHandler, sslContext);
 #endif
     }
 
 #if ENABLE_SSL
-    ~HTTPWSError()
-    {
-        Poco::Net::uninitializeSSL();
-    }
+    ~HTTPWSError() { Poco::Net::uninitializeSSL(); }
 #endif
 
     void setUp()
@@ -107,7 +106,9 @@ void HTTPWSError::testBadDocLoadFail()
         sendTextFrame(socket, "load url=" + documentURL, testname);
 
         const auto response = getResponseString(socket, "error:", testname);
-        Poco::StringTokenizer tokens(response, " ", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer tokens(response, " ",
+                                     Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                         | Poco::StringTokenizer::TOK_TRIM);
         CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), tokens.count());
 
         std::string errorCommand;
@@ -131,7 +132,8 @@ void HTTPWSError::testMaxDocuments()
     if (MAX_DOCUMENTS > 20)
     {
         std::cerr << "Skipping " << testname << "test since MAX_DOCUMENTS (" << MAX_DOCUMENTS
-                  << ") is too high to test. Set to a more sensible number, ideally a dozen or so." << std::endl;
+                  << ") is too high to test. Set to a more sensible number, ideally a dozen or so."
+                  << std::endl;
         return;
     }
 
@@ -164,7 +166,8 @@ void HTTPWSError::testMaxDocuments()
 
         std::string message;
         const int statusCode = getErrorCode(socket, message, testname);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION), statusCode);
+        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
+                             statusCode);
 
         socket->shutdown();
     }
@@ -182,7 +185,8 @@ void HTTPWSError::testMaxConnections()
     if (MAX_CONNECTIONS > 40)
     {
         std::cerr << "Skipping " << testname << "test since MAX_CONNECTION (" << MAX_CONNECTIONS
-                  << ") is too high to test. Set to a more sensible number, ideally a dozen or so." << std::endl;
+                  << ") is too high to test. Set to a more sensible number, ideally a dozen or so."
+                  << std::endl;
         return;
     }
 
@@ -205,7 +209,8 @@ void HTTPWSError::testMaxConnections()
             std::unique_ptr<Poco::Net::HTTPClientSession> session(createSession(_uri));
             auto ws = std::make_shared<LOOLWebSocket>(*session, request, _response);
             views.emplace_back(ws);
-            std::cerr << "Opened connection #" << (it+1) << " of " << MAX_CONNECTIONS << std::endl;
+            std::cerr << "Opened connection #" << (it + 1) << " of " << MAX_CONNECTIONS
+                      << std::endl;
         }
 
         std::cerr << "Opening one more connection beyond the limit." << std::endl;
@@ -219,7 +224,8 @@ void HTTPWSError::testMaxConnections()
 
         std::string message;
         const int statusCode = getErrorCode(socketN, message, testname);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION), statusCode);
+        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
+                             statusCode);
 
         socketN->shutdown();
     }
@@ -237,7 +243,8 @@ void HTTPWSError::testMaxViews()
     if (MAX_CONNECTIONS > 40)
     {
         std::cerr << "Skipping " << testname << "test since MAX_CONNECTION (" << MAX_CONNECTIONS
-                  << ") is too high to test. Set to a more sensible number, ideally a dozen or so." << std::endl;
+                  << ") is too high to test. Set to a more sensible number, ideally a dozen or so."
+                  << std::endl;
         return;
     }
 
@@ -258,7 +265,7 @@ void HTTPWSError::testMaxViews()
         for (int it = 1; it < MAX_CONNECTIONS; ++it)
         {
             views.emplace_back(loadDocAndGetSocket(_uri, docURL, testname));
-            std::cerr << "Opened view #" << (it+1) << " of " << MAX_CONNECTIONS << std::endl;
+            std::cerr << "Opened view #" << (it + 1) << " of " << MAX_CONNECTIONS << std::endl;
         }
 
         std::cerr << "Opening one more connection beyond the limit." << std::endl;
@@ -272,7 +279,8 @@ void HTTPWSError::testMaxViews()
 
         std::string message;
         const int statusCode = getErrorCode(socketN, message, testname);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION), statusCode);
+        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
+                             statusCode);
     }
     catch (const Poco::Exception& exc)
     {

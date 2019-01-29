@@ -38,18 +38,18 @@ public:
         Event = '~'
     };
 
-    TraceFileRecord() :
-        _dir(Direction::Invalid),
-        _timestampNs(0),
-        _pid(0)
+    TraceFileRecord()
+        : _dir(Direction::Invalid)
+        , _timestampNs(0)
+        , _pid(0)
     {
     }
 
     std::string toString() const
     {
         std::ostringstream oss;
-        oss << static_cast<char>(_dir) << _pid << static_cast<char>(_dir)
-            << _sessionId << static_cast<char>(_dir) << _payload;
+        oss << static_cast<char>(_dir) << _pid << static_cast<char>(_dir) << _sessionId
+            << static_cast<char>(_dir) << _payload;
         return oss.str();
     }
 
@@ -86,19 +86,16 @@ private:
 class TraceFileWriter
 {
 public:
-    TraceFileWriter(const std::string& path,
-                    const bool recordOugoing,
-                    const bool compress,
-                    const bool takeSnapshot,
-                    const std::vector<std::string>& filters) :
-        _epochStart(Poco::Timestamp().epochMicroseconds()),
-        _recordOutgoing(recordOugoing),
-        _compress(compress),
-        _takeSnapshot(takeSnapshot),
-        _path(Poco::Path(path).parent().toString()),
-        _filter(true),
-        _stream(processPath(path), compress ? std::ios::binary : std::ios::out),
-        _deflater(_stream, Poco::DeflatingStreamBuf::STREAM_GZIP)
+    TraceFileWriter(const std::string& path, const bool recordOugoing, const bool compress,
+                    const bool takeSnapshot, const std::vector<std::string>& filters)
+        : _epochStart(Poco::Timestamp().epochMicroseconds())
+        , _recordOutgoing(recordOugoing)
+        , _compress(compress)
+        , _takeSnapshot(takeSnapshot)
+        , _path(Poco::Path(path).parent().toString())
+        , _filter(true)
+        , _stream(processPath(path), compress ? std::ios::binary : std::ios::out)
+        , _deflater(_stream, Poco::DeflatingStreamBuf::STREAM_GZIP)
     {
         for (const auto& f : filters)
         {
@@ -114,7 +111,8 @@ public:
         _stream.close();
     }
 
-    void newSession(const std::string& id, const std::string& sessionId, const std::string& uri, const std::string& localPath)
+    void newSession(const std::string& id, const std::string& sessionId, const std::string& uri,
+                    const std::string& localPath)
     {
         std::unique_lock<std::mutex> lock(_mutex);
 
@@ -136,11 +134,13 @@ public:
                 // Create a snapshot file.
                 const Poco::Path origPath(localPath);
                 std::string filename = origPath.getBaseName();
-                filename += '_' + Poco::DateTimeFormatter::format(Poco::DateTime(), "%Y%m%d_%H-%M-%S");
+                filename
+                    += '_' + Poco::DateTimeFormatter::format(Poco::DateTime(), "%Y%m%d_%H-%M-%S");
                 filename += '.' + origPath.getExtension();
                 snapshot = Poco::Path(_path, filename).toString();
 
-                LOG_TRC("TraceFile: Copying local file [" << localPath << "] to snapshot [" << snapshot << "].");
+                LOG_TRC("TraceFile: Copying local file [" << localPath << "] to snapshot ["
+                                                          << snapshot << "].");
                 Poco::File(localPath).copyTo(snapshot);
                 snapshot = Poco::URI(Poco::URI("file://"), snapshot).toString();
 
@@ -216,7 +216,8 @@ public:
                         const auto it = _urlToSnapshot.find(url);
                         if (it != _urlToSnapshot.end())
                         {
-                            LOG_TRC("TraceFile: Mapped URL: " << url << " to " << it->second.getSnapshot());
+                            LOG_TRC("TraceFile: Mapped URL: " << url << " to "
+                                                              << it->second.getSnapshot());
                             tokens[1] = "url=" + it->second.getSnapshot();
                             std::string newData;
                             for (const auto& token : tokens)
@@ -224,14 +225,16 @@ public:
                                 newData += token + ' ';
                             }
 
-                            writeLocked(id, sessionId, newData, static_cast<char>(TraceFileRecord::Direction::Incoming));
+                            writeLocked(id, sessionId, newData,
+                                        static_cast<char>(TraceFileRecord::Direction::Incoming));
                             return;
                         }
                     }
                 }
             }
 
-            writeLocked(id, sessionId, data, static_cast<char>(TraceFileRecord::Direction::Incoming));
+            writeLocked(id, sessionId, data,
+                        static_cast<char>(TraceFileRecord::Direction::Incoming));
         }
     }
 
@@ -241,7 +244,8 @@ public:
 
         if (_recordOutgoing && _filter.match(data))
         {
-            writeLocked(id, sessionId, data, static_cast<char>(TraceFileRecord::Direction::Outgoing));
+            writeLocked(id, sessionId, data,
+                        static_cast<char>(TraceFileRecord::Direction::Outgoing));
         }
     }
 
@@ -254,7 +258,8 @@ private:
         _stream.flush();
     }
 
-    void writeLocked(const std::string& id, const std::string& sessionId, const std::string& data, const char delim)
+    void writeLocked(const std::string& id, const std::string& sessionId, const std::string& data,
+                     const char delim)
     {
         Util::assertIsLocked(_mutex);
 
@@ -303,14 +308,14 @@ private:
 private:
     struct SnapshotData
     {
-        SnapshotData(const std::string& snapshot) :
-            _snapshot(snapshot)
+        SnapshotData(const std::string& snapshot)
+            : _snapshot(snapshot)
         {
             _sessionCount = 1;
         }
 
-        SnapshotData(const SnapshotData& other) :
-            _snapshot(other.getSnapshot())
+        SnapshotData(const SnapshotData& other)
+            : _snapshot(other.getSnapshot())
         {
             _sessionCount = other.getSessionCount().load();
         }
@@ -344,23 +349,20 @@ private:
 class TraceFileReader
 {
 public:
-    TraceFileReader(const std::string& path) :
-        _compressed(path.size() > 2 && path.substr(path.size() - 2) == "gz"),
-        _epochStart(0),
-        _epochEnd(0),
-        _stream(path, _compressed ? std::ios::binary : std::ios::in),
-        _inflater(_stream, Poco::InflatingStreamBuf::STREAM_GZIP),
-        _index(0),
-        _indexIn(-1),
-        _indexOut(-1)
+    TraceFileReader(const std::string& path)
+        : _compressed(path.size() > 2 && path.substr(path.size() - 2) == "gz")
+        , _epochStart(0)
+        , _epochEnd(0)
+        , _stream(path, _compressed ? std::ios::binary : std::ios::in)
+        , _inflater(_stream, Poco::InflatingStreamBuf::STREAM_GZIP)
+        , _index(0)
+        , _indexIn(-1)
+        , _indexOut(-1)
     {
         readFile();
     }
 
-    ~TraceFileReader()
-    {
-        _stream.close();
-    }
+    ~TraceFileReader() { _stream.close(); }
 
     Poco::Int64 getEpochStart() const { return _epochStart; }
     Poco::Int64 getEpochEnd() const { return _epochEnd; }
@@ -427,14 +429,15 @@ private:
             if (extractRecord(line, rec))
                 _records.push_back(rec);
             else
-                fprintf(stderr, "Invalid trace file record, expected 4 tokens. [%s]\n", line.c_str());
+                fprintf(stderr, "Invalid trace file record, expected 4 tokens. [%s]\n",
+                        line.c_str());
         }
 
-        if (_records.empty() ||
-            _records[0].getDir() != TraceFileRecord::Direction::Event ||
-            _records[0].getPayload().find("NewSession") != 0)
+        if (_records.empty() || _records[0].getDir() != TraceFileRecord::Direction::Event
+            || _records[0].getPayload().find("NewSession") != 0)
         {
-            fprintf(stderr, "Invalid trace file with %ld records. First record: %s\n", _records.size(),
+            fprintf(stderr, "Invalid trace file with %ld records. First record: %s\n",
+                    _records.size(),
                     _records.empty() ? "<empty>" : _records[0].getPayload().c_str());
             throw std::runtime_error("Invalid trace file.");
         }

@@ -18,7 +18,7 @@ const int NumToPrefork = 20;
 class UnitPrefork : public UnitWSD
 {
     Poco::Timestamp _startTime;
-    std::atomic< int > _childSockets;
+    std::atomic<int> _childSockets;
 
 public:
     UnitPrefork()
@@ -33,7 +33,7 @@ public:
         UnitWSD::configure(config);
     }
 
-    virtual void newChild(WebSocketHandler &) override
+    virtual void newChild(WebSocketHandler&) override
     {
         _childSockets++;
         LOG_INF("Unit-prefork: got new child, have " << _childSockets << " of " << NumToPrefork);
@@ -42,19 +42,17 @@ public:
         {
             Poco::Timestamp::TimeDiff elapsed = _startTime.elapsed();
 
-            const double totalTime = (1000. * elapsed)/Poco::Timestamp::resolution();
+            const double totalTime = (1000. * elapsed) / Poco::Timestamp::resolution();
             LOG_INF("Launched " << _childSockets << " in " << totalTime);
             std::cerr << "Launch time total   " << totalTime << " ms" << std::endl;
-            std::cerr << "Launch time average " << (totalTime / _childSockets) << " ms" << std::endl;
+            std::cerr << "Launch time average " << (totalTime / _childSockets) << " ms"
+                      << std::endl;
 
             exitTest(TestResult::Ok);
         }
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitPrefork();
-}
+UnitBase* unit_create_wsd(void) { return new UnitPrefork(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

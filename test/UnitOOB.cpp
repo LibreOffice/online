@@ -29,9 +29,7 @@
 class UnitOOB : public UnitWSD
 {
 public:
-    UnitOOB()
-    {
-    }
+    UnitOOB() {}
 
     virtual void invokeTest() override
     {
@@ -44,9 +42,6 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitOOB();
-}
+UnitBase* unit_create_wsd(void) { return new UnitOOB(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
