@@ -20,11 +20,11 @@ class SslStreamSocket final : public StreamSocket
 {
 public:
     SslStreamSocket(const int fd, bool isClient,
-                    std::shared_ptr<SocketHandlerInterface> responseClient) :
-        StreamSocket(fd, isClient, std::move(responseClient)),
-        _ssl(nullptr),
-        _sslWantsTo(SslWantsTo::Neither),
-        _doHandshake(true)
+                    std::shared_ptr<SocketHandlerInterface> responseClient)
+        : StreamSocket(fd, isClient, std::move(responseClient))
+        , _ssl(nullptr)
+        , _sslWantsTo(SslWantsTo::Neither)
+        , _doHandshake(true)
     {
         LOG_DBG("SslStreamSocket ctor #" << fd);
 
@@ -120,12 +120,11 @@ public:
     {
         assertCorrectThread();
 
-        assert (len > 0); // Never write 0 bytes.
+        assert(len > 0); // Never write 0 bytes.
         return handleSslState(SSL_write(_ssl, buf, len));
     }
 
-    int getPollEvents(std::chrono::steady_clock::time_point now,
-                      int & timeoutMaxMs) override
+    int getPollEvents(std::chrono::steady_clock::time_point now, int& timeoutMaxMs) override
     {
         assertCorrectThread();
         int events = getSocketHandler()->getPollEvents(now, timeoutMaxMs);
@@ -148,7 +147,6 @@ public:
     }
 
 private:
-
     /// The possible next I/O operation that SSL want to do.
     enum class SslWantsTo
     {
@@ -167,8 +165,7 @@ private:
             do
             {
                 rc = SSL_do_handshake(_ssl);
-            }
-            while (rc < 0 && errno == EINTR);
+            } while (rc < 0 && errno == EINTR);
 
             if (rc <= 0)
             {
@@ -201,44 +198,45 @@ private:
         const int sslError = SSL_get_error(_ssl, rc);
         switch (sslError)
         {
-        case SSL_ERROR_ZERO_RETURN:
-            // Shutdown complete, we're disconnected.
-            LOG_TRC("Socket #" << getFD() << " SSL error: ZERO_RETURN (" << sslError << ").");
-            return 0;
+            case SSL_ERROR_ZERO_RETURN:
+                // Shutdown complete, we're disconnected.
+                LOG_TRC("Socket #" << getFD() << " SSL error: ZERO_RETURN (" << sslError << ").");
+                return 0;
 
-        case SSL_ERROR_WANT_READ:
-            LOG_TRC("Socket #" << getFD() << " SSL error: WANT_READ (" << sslError << ").");
-            _sslWantsTo = SslWantsTo::Read;
-            return rc;
-
-        case SSL_ERROR_WANT_WRITE:
-            LOG_TRC("Socket #" << getFD() << " SSL error: WANT_WRITE (" << sslError << ").");
-            _sslWantsTo = SslWantsTo::Write;
-            return rc;
-
-        case SSL_ERROR_WANT_CONNECT:
-            LOG_TRC("Socket #" << getFD() << " SSL error: WANT_CONNECT (" << sslError << ").");
-            return rc;
-
-        case SSL_ERROR_WANT_ACCEPT:
-            LOG_TRC("Socket #" << getFD() << " SSL error: WANT_ACCEPT (" << sslError << ").");
-            return rc;
-
-        case SSL_ERROR_WANT_X509_LOOKUP:
-            LOG_TRC("Socket #" << getFD() << " SSL error: WANT_X509_LOOKUP (" << sslError << ").");
-            // Unexpected.
-            return rc;
-
-        case SSL_ERROR_SYSCALL:
-            if (errno != 0)
-            {
-                // Posix API error, let the caller handle.
-                LOG_SYS("Socket #" << getFD() << " SSL error: SYSCALL (" << sslError << ").");
+            case SSL_ERROR_WANT_READ:
+                LOG_TRC("Socket #" << getFD() << " SSL error: WANT_READ (" << sslError << ").");
+                _sslWantsTo = SslWantsTo::Read;
                 return rc;
-            }
 
-            // Fallthrough...
-        default:
+            case SSL_ERROR_WANT_WRITE:
+                LOG_TRC("Socket #" << getFD() << " SSL error: WANT_WRITE (" << sslError << ").");
+                _sslWantsTo = SslWantsTo::Write;
+                return rc;
+
+            case SSL_ERROR_WANT_CONNECT:
+                LOG_TRC("Socket #" << getFD() << " SSL error: WANT_CONNECT (" << sslError << ").");
+                return rc;
+
+            case SSL_ERROR_WANT_ACCEPT:
+                LOG_TRC("Socket #" << getFD() << " SSL error: WANT_ACCEPT (" << sslError << ").");
+                return rc;
+
+            case SSL_ERROR_WANT_X509_LOOKUP:
+                LOG_TRC("Socket #" << getFD() << " SSL error: WANT_X509_LOOKUP (" << sslError
+                                   << ").");
+                // Unexpected.
+                return rc;
+
+            case SSL_ERROR_SYSCALL:
+                if (errno != 0)
+                {
+                    // Posix API error, let the caller handle.
+                    LOG_SYS("Socket #" << getFD() << " SSL error: SYSCALL (" << sslError << ").");
+                    return rc;
+                }
+
+                // Fallthrough...
+            default:
             {
                 if (sslError == SSL_ERROR_SSL)
                     LOG_TRC("Socket #" << getFD() << " SSL error: SSL (" << sslError << ").");
@@ -265,13 +263,15 @@ private:
                     }
                     else if (rc == -1)
                     {
-                        LOG_SYS("Socket #" << getFD() << " SSL BIO error: closed unexpectedly (-1).");
+                        LOG_SYS("Socket #" << getFD()
+                                           << " SSL BIO error: closed unexpectedly (-1).");
                         throw std::runtime_error("SSL Socket closed unexpectedly.");
                     }
                     else
                     {
                         LOG_SYS("Socket #" << getFD() << " SSL BIO error: unknown (" << rc << ").");
-                        throw std::runtime_error("SSL BIO reported error [" + std::to_string(rc) + "].");
+                        throw std::runtime_error("SSL BIO reported error [" + std::to_string(rc)
+                                                 + "].");
                     }
                 }
                 else

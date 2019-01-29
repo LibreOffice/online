@@ -34,7 +34,7 @@
 #include <test/helpers.hpp>
 
 /// Stress testing and performance/scalability benchmarking tool.
-class Stress: public Poco::Util::Application
+class Stress : public Poco::Util::Application
 {
 public:
     Stress();
@@ -42,6 +42,7 @@ public:
     static bool Benchmark;
     static size_t Iterations;
     static bool NoDelay;
+
 private:
     unsigned _numClients;
     std::string _serverURI;
@@ -49,7 +50,7 @@ private:
 protected:
     void defineOptions(Poco::Util::OptionSet& options) override;
     void handleOption(const std::string& name, const std::string& value) override;
-    int  main(const std::vector<std::string>& args) override;
+    int main(const std::vector<std::string>& args) override;
 };
 
 using Poco::Thread;
@@ -81,15 +82,19 @@ long percentile(std::vector<long>& v, const double percentile)
 std::mutex Connection::Mutex;
 
 //static constexpr auto FIRST_ROW_TILES = "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680 tileposy=0,0,0 tilewidth=3840 tileheight=3840";
-static constexpr const char* FIRST_PAGE_TILES = "tilecombine part=0 width=256 height=256 tileposx=0,3840,7680,11520,0,3840,7680,11520,0,3840,7680,11520,0,3840,7680,11520 tileposy=0,0,0,0,3840,3840,3840,3840,7680,7680,7680,7680,11520,11520,11520,11520 tilewidth=3840 tileheight=3840";
+static constexpr const char* FIRST_PAGE_TILES
+    = "tilecombine part=0 width=256 height=256 "
+      "tileposx=0,3840,7680,11520,0,3840,7680,11520,0,3840,7680,11520,0,3840,7680,11520 "
+      "tileposy=0,0,0,0,3840,3840,3840,3840,7680,7680,7680,7680,11520,11520,11520,11520 "
+      "tilewidth=3840 tileheight=3840";
 static constexpr int FIRST_PAGE_TILE_COUNT = 16;
 
 /// Main thread class to replay a trace file.
-class Worker: public Replay
+class Worker : public Replay
 {
 public:
-
-    Worker(const std::string& serverUri, const std::string& uri) : Replay(serverUri, uri, Stress::NoDelay)
+    Worker(const std::string& serverUri, const std::string& uri)
+        : Replay(serverUri, uri, Stress::NoDelay)
     {
     }
 
@@ -110,29 +115,28 @@ public:
                 replay();
             }
         }
-        catch (const Poco::Exception &e)
+        catch (const Poco::Exception& e)
         {
-            std::cout << "Error: " << e.name() << ' '
-                      << e.message() << std::endl;
+            std::cout << "Error: " << e.name() << ' ' << e.message() << std::endl;
         }
-        catch (const std::exception &e)
+        catch (const std::exception& e)
         {
             std::cout << "Error: " << e.what() << std::endl;
         }
     }
 
 private:
-
     bool modifyDoc(const std::shared_ptr<Connection>& con)
     {
         const auto startModify = std::chrono::steady_clock::now();
 
-        con->send("key type=input char=97 key=0");   // a
+        con->send("key type=input char=97 key=0"); // a
         //con->send("key type=input char=0 key=1283"); // backspace
         const bool success = !con->recv("invalidatetiles:").empty();
 
         const auto now = std::chrono::steady_clock::now();
-        const std::chrono::microseconds::rep deltaModify = std::chrono::duration_cast<std::chrono::microseconds>(now - startModify).count();
+        const std::chrono::microseconds::rep deltaModify
+            = std::chrono::duration_cast<std::chrono::microseconds>(now - startModify).count();
         _latencyStats.push_back(deltaModify);
 
         return success;
@@ -155,7 +159,8 @@ private:
         }
 
         const auto now = std::chrono::steady_clock::now();
-        const std::chrono::microseconds::rep delta = std::chrono::duration_cast<std::chrono::microseconds>(now - start).count();
+        const std::chrono::microseconds::rep delta
+            = std::chrono::duration_cast<std::chrono::microseconds>(now - start).count();
         _renderingStats.push_back(delta / expectedTilesCount);
 
         return true;
@@ -176,7 +181,8 @@ private:
         }
 
         const auto now = std::chrono::steady_clock::now();
-        const std::chrono::microseconds::rep delta = std::chrono::duration_cast<std::chrono::microseconds>(now - start).count();
+        const std::chrono::microseconds::rep delta
+            = std::chrono::duration_cast<std::chrono::microseconds>(now - start).count();
         _cacheStats.push_back(delta / expectedTilesCount);
 
         return true;
@@ -192,7 +198,8 @@ private:
 
         static std::atomic<unsigned> SessionId;
         const size_t sessionId = ++SessionId;
-        std::shared_ptr<Connection> connection = Connection::create(getServerUri(), getUri(), std::to_string(sessionId));
+        std::shared_ptr<Connection> connection
+            = Connection::create(getServerUri(), getUri(), std::to_string(sessionId));
 
         connection->load();
 
@@ -214,8 +221,9 @@ bool Stress::NoDelay = false;
 bool Stress::Benchmark = false;
 size_t Stress::Iterations = 100;
 
-Stress::Stress() :
-    _numClients(1),
+Stress::Stress()
+    : _numClients(1)
+    ,
 #if ENABLE_SSL
     _serverURI("https://127.0.0.1:" + std::to_string(DEFAULT_CLIENT_PORT_NUMBER))
 #else
@@ -229,24 +237,30 @@ void Stress::defineOptions(OptionSet& optionSet)
     Application::defineOptions(optionSet);
 
     optionSet.addOption(Option("help", "", "Display help information on command line arguments.")
-                        .required(false).repeatable(false));
-    optionSet.addOption(Option("bench", "", "Performance benchmark. The argument is a document URL to load.")
-                        .required(false).repeatable(false));
+                            .required(false)
+                            .repeatable(false));
+    optionSet.addOption(
+        Option("bench", "", "Performance benchmark. The argument is a document URL to load.")
+            .required(false)
+            .repeatable(false));
     optionSet.addOption(Option("iter", "", "Number of iterations to use for Benchmarking.")
-                        .required(false).repeatable(false)
-                        .argument("iter"));
+                            .required(false)
+                            .repeatable(false)
+                            .argument("iter"));
     optionSet.addOption(Option("nodelay", "", "Replay at full speed disregarding original timing.")
-                        .required(false).repeatable(false));
+                            .required(false)
+                            .repeatable(false));
     optionSet.addOption(Option("clientsperdoc", "", "Number of simultaneous clients on each doc.")
-                        .required(false).repeatable(false)
-                        .argument("concurrency"));
+                            .required(false)
+                            .repeatable(false)
+                            .argument("concurrency"));
     optionSet.addOption(Option("server", "", "URI of LOOL server")
-                        .required(false).repeatable(false)
-                        .argument("uri"));
+                            .required(false)
+                            .repeatable(false)
+                            .argument("uri"));
 }
 
-void Stress::handleOption(const std::string& optionName,
-                          const std::string& value)
+void Stress::handleOption(const std::string& optionName, const std::string& value)
 {
     Application::handleOption(optionName, value);
 
@@ -284,7 +298,8 @@ int Stress::main(const std::vector<std::string>& args)
     if (args.size() == 0)
     {
         std::cerr << "Usage: loolstress [--bench] <tracefile | url> " << std::endl;
-        std::cerr << "       Trace files may be plain text or gzipped (with .gz extension)." << std::endl;
+        std::cerr << "       Trace files may be plain text or gzipped (with .gz extension)."
+                  << std::endl;
         std::cerr << "       --help for full arguments list." << std::endl;
         return Application::EXIT_NOINPUT;
     }
@@ -331,14 +346,22 @@ int Stress::main(const std::vector<std::string>& args)
             std::cerr << "\nResults:\n";
             std::cerr << "Iterations: " << Stress::Iterations << "\n";
 
-            std::cerr << "Latency best: " << latencyStats[0] << " microsecs, 95th percentile: " << percentile(latencyStats, 95) << " microsecs." << std::endl;
-            std::cerr << "Tile best: " << renderingStats[0] << " microsecs, rendering 95th percentile: " << percentile(renderingStats, 95) << " microsecs." << std::endl;
-            std::cerr << "Cached best: " << cachedStats[0] << " microsecs, tile 95th percentile: " << percentile(cachedStats, 95) << " microsecs." << std::endl;
+            std::cerr << "Latency best: " << latencyStats[0]
+                      << " microsecs, 95th percentile: " << percentile(latencyStats, 95)
+                      << " microsecs." << std::endl;
+            std::cerr << "Tile best: " << renderingStats[0]
+                      << " microsecs, rendering 95th percentile: " << percentile(renderingStats, 95)
+                      << " microsecs." << std::endl;
+            std::cerr << "Cached best: " << cachedStats[0]
+                      << " microsecs, tile 95th percentile: " << percentile(cachedStats, 95)
+                      << " microsecs." << std::endl;
 
-            const auto renderingTime = std::accumulate(renderingStats.begin(), renderingStats.end(), 0L);
+            const auto renderingTime
+                = std::accumulate(renderingStats.begin(), renderingStats.end(), 0L);
             const double renderedPixels = 256 * 256 * renderingStats.size();
             const double pixelsPerSecRendered = renderedPixels / renderingTime;
-            std::cerr << "Rendering power: " << pixelsPerSecRendered << " MPixels/sec." << std::endl;
+            std::cerr << "Rendering power: " << pixelsPerSecRendered << " MPixels/sec."
+                      << std::endl;
 
             const auto cacheTime = std::accumulate(cachedStats.begin(), cachedStats.end(), 0L);
             const double cachePixels = 256 * 256 * cachedStats.size();

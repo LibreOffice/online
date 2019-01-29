@@ -35,12 +35,13 @@
 
 namespace
 {
-    void alertAllUsersAndLog(const std::string& message, const std::string& cmd, const std::string& kind)
+    void alertAllUsersAndLog(const std::string& message, const std::string& cmd,
+                             const std::string& kind)
     {
         LOG_ERR(message);
         Util::alertAllUsers(cmd, kind);
     }
-}
+} // namespace
 
 namespace FileUtil
 {
@@ -51,10 +52,12 @@ namespace FileUtil
         return name;
     }
 
-    std::string getTempFilePath(const std::string& srcDir, const std::string& srcFilename, const std::string& dstFilenamePrefix)
+    std::string getTempFilePath(const std::string& srcDir, const std::string& srcFilename,
+                                const std::string& dstFilenamePrefix)
     {
         const std::string srcPath = srcDir + '/' + srcFilename;
-        const std::string dstFilename = dstFilenamePrefix + Util::encodeId(Util::rng::getNext()) + '_' + srcFilename;
+        const std::string dstFilename
+            = dstFilenamePrefix + Util::encodeId(Util::rng::getNext()) + '_' + srcFilename;
         const std::string dstPath = Poco::Path(Poco::Path::temp(), dstFilename).toString();
         Poco::File(srcPath).copyTo(dstPath);
         Poco::TemporaryFile::registerForDeletion(dstPath);
@@ -66,7 +69,7 @@ namespace FileUtil
         return getTempFilePath(srcDir, srcFilename, "");
     }
 
-    bool saveDataToFileSafely(const std::string& fileName, const char *data, size_t size)
+    bool saveDataToFileSafely(const std::string& fileName, const char* data, size_t size)
     {
         const auto tempFileName = fileName + ".temp";
         std::fstream outStream(tempFileName, std::ios::out);
@@ -74,7 +77,8 @@ namespace FileUtil
         // If we can't create the file properly, just remove it
         if (!outStream.good())
         {
-            alertAllUsersAndLog("Creating " + tempFileName + " failed, disk full?", "internal", "diskfull");
+            alertAllUsersAndLog("Creating " + tempFileName + " failed, disk full?", "internal",
+                                "diskfull");
             // Try removing both just in case
             std::remove(tempFileName.c_str());
             std::remove(fileName.c_str());
@@ -85,7 +89,8 @@ namespace FileUtil
             outStream.write(data, size);
             if (!outStream.good())
             {
-                alertAllUsersAndLog("Writing to " + tempFileName + " failed, disk full?", "internal", "diskfull");
+                alertAllUsersAndLog("Writing to " + tempFileName + " failed, disk full?",
+                                    "internal", "diskfull");
                 outStream.close();
                 std::remove(tempFileName.c_str());
                 std::remove(fileName.c_str());
@@ -96,7 +101,8 @@ namespace FileUtil
                 outStream.close();
                 if (!outStream.good())
                 {
-                    alertAllUsersAndLog("Closing " + tempFileName + " failed, disk full?", "internal", "diskfull");
+                    alertAllUsersAndLog("Closing " + tempFileName + " failed, disk full?",
+                                        "internal", "diskfull");
                     std::remove(tempFileName.c_str());
                     std::remove(fileName.c_str());
                     return false;
@@ -111,7 +117,9 @@ namespace FileUtil
                     }
                     else
                     {
-                        alertAllUsersAndLog("Renaming " + tempFileName + " to " + fileName + " failed, disk full?", "internal", "diskfull");
+                        alertAllUsersAndLog("Renaming " + tempFileName + " to " + fileName
+                                                + " failed, disk full?",
+                                            "internal", "diskfull");
                         std::remove(tempFileName.c_str());
                         std::remove(fileName.c_str());
                         return false;
@@ -121,7 +129,7 @@ namespace FileUtil
         }
     }
 
-    static int nftw_cb(const char *fpath, const struct stat*, int type, struct FTW*)
+    static int nftw_cb(const char* fpath, const struct stat*, int type, struct FTW*)
     {
         if (type == FTW_DP)
         {
@@ -158,16 +166,15 @@ namespace FileUtil
         }
     }
 
-
 } // namespace FileUtil
 
 namespace
 {
-
     struct fs
     {
         fs(const std::string& path, dev_t dev)
-            : _path(path), _dev(dev)
+            : _path(path)
+            , _dev(dev)
         {
         }
 
@@ -182,7 +189,7 @@ namespace
 
     struct fsComparator
     {
-        bool operator() (const fs& lhs, const fs& rhs) const
+        bool operator()(const fs& lhs, const fs& rhs) const
         {
             return (lhs.getDev() < rhs.getDev());
         }
@@ -229,7 +236,7 @@ namespace FileUtil
         if (cacheLastCheck)
             lastCheck = now;
 
-        for (const auto& i: filesystems)
+        for (const auto& i : filesystems)
         {
             if (!checkDiskSpace(i.getPath()))
             {
@@ -252,7 +259,7 @@ namespace FileUtil
 #endif
 
         // we should be able to run just OK with 5GB
-        constexpr int64_t ENOUGH_SPACE = int64_t(5)*1024*1024*1024;
+        constexpr int64_t ENOUGH_SPACE = int64_t(5) * 1024 * 1024 * 1024;
 
 #ifdef __linux
         struct statfs sfs;
@@ -261,8 +268,8 @@ namespace FileUtil
 
         const int64_t freeBytes = static_cast<int64_t>(sfs.f_bavail) * sfs.f_bsize;
 
-        LOG_INF("Filesystem [" << path << "] has " << (freeBytes / 1024 / 1024) <<
-                " MB free (" << (sfs.f_bavail * 100. / sfs.f_blocks) << "%).");
+        LOG_INF("Filesystem [" << path << "] has " << (freeBytes / 1024 / 1024) << " MB free ("
+                               << (sfs.f_bavail * 100. / sfs.f_blocks) << "%).");
 
         if (freeBytes > ENOUGH_SPACE)
             return true;
@@ -270,7 +277,8 @@ namespace FileUtil
         if (static_cast<double>(sfs.f_bavail) / sfs.f_blocks <= 0.05)
             return false;
 #elif defined IOS
-        NSDictionary *atDict = [[NSFileManager defaultManager] attributesOfFileSystemForPath:@"/" error:NULL];
+        NSDictionary* atDict =
+            [[NSFileManager defaultManager] attributesOfFileSystemForPath:@"/" error:NULL];
         long long freeSpace = [[atDict objectForKey:NSFileSystemFreeSize] longLongValue];
         long long totalSpace = [[atDict objectForKey:NSFileSystemSize] longLongValue];
 

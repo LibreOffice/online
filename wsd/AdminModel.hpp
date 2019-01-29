@@ -24,11 +24,11 @@
 class View
 {
 public:
-    View(const std::string& sessionId, const std::string& userName, const std::string& userId) :
-        _sessionId(sessionId),
-        _userName(userName),
-        _userId(userId),
-        _start(std::time(nullptr))
+    View(const std::string& sessionId, const std::string& userName, const std::string& userId)
+        : _sessionId(sessionId)
+        , _userName(userName)
+        , _userId(userId)
+        , _start(std::time(nullptr))
     {
     }
 
@@ -54,7 +54,10 @@ struct DocProcSettings
     size_t getLimitStackMemKb() const { return _limitStackMemKb; }
     void setLimitFileSizeMb(size_t limitFileSizeMb) { _limitFileSizeMb = limitFileSizeMb; }
     size_t getLimitFileSizeMb() const { return _limitFileSizeMb; }
-    void setLimitNumberOpenFiles(size_t limitNumberOpenFiles) { _limitNumberOpenFiles = limitNumberOpenFiles; }
+    void setLimitNumberOpenFiles(size_t limitNumberOpenFiles)
+    {
+        _limitNumberOpenFiles = limitNumberOpenFiles;
+    }
     size_t getLimitNumberOpenFiles() const { return _limitNumberOpenFiles; }
 
 private:
@@ -73,11 +76,11 @@ class DocBasicInfo
     bool _saved;
 
 public:
-    DocBasicInfo(const std::string& docKey, std::time_t idleTime, int mem, bool saved) :
-        _docKey(docKey),
-        _idleTime(idleTime),
-        _mem(mem),
-        _saved(saved)
+    DocBasicInfo(const std::string& docKey, std::time_t idleTime, int mem, bool saved)
+        : _docKey(docKey)
+        , _idleTime(idleTime)
+        , _mem(mem)
+        , _saved(saved)
     {
     }
 
@@ -94,21 +97,19 @@ public:
 class Document
 {
 public:
-    Document(const std::string& docKey,
-             Poco::Process::PID pid,
-             const std::string& filename)
-        : _docKey(docKey),
-          _pid(pid),
-          _activeViews(0),
-          _filename(filename),
-          _memoryDirty(0),
-          _lastJiffy(0),
-          _start(std::time(nullptr)),
-          _lastActivity(_start),
-          _end(0),
-          _sentBytes(0),
-          _recvBytes(0),
-          _isModified(false)
+    Document(const std::string& docKey, Poco::Process::PID pid, const std::string& filename)
+        : _docKey(docKey)
+        , _pid(pid)
+        , _activeViews(0)
+        , _filename(filename)
+        , _memoryDirty(0)
+        , _lastJiffy(0)
+        , _start(std::time(nullptr))
+        , _lastActivity(_start)
+        , _end(0)
+        , _sentBytes(0)
+        , _recvBytes(0)
+        , _isModified(false)
     {
     }
 
@@ -124,7 +125,8 @@ public:
 
     std::time_t getIdleTime() const { return std::time(nullptr) - _lastActivity; }
 
-    void addView(const std::string& sessionId, const std::string& userName, const std::string& userId);
+    void addView(const std::string& sessionId, const std::string& userName,
+                 const std::string& userId);
 
     int expireView(const std::string& sessionId);
 
@@ -153,7 +155,10 @@ public:
     }
 
     const DocProcSettings& getDocProcSettings() const { return _docProcSettings; }
-    void setDocProcSettings(const DocProcSettings& docProcSettings) { _docProcSettings = docProcSettings; }
+    void setDocProcSettings(const DocProcSettings& docProcSettings)
+    {
+        _docProcSettings = docProcSettings;
+    }
 
     std::string to_string() const;
 
@@ -174,7 +179,7 @@ private:
     std::time_t _start;
     std::time_t _lastActivity;
     std::time_t _end;
-    std::map<std::time_t,std::string> _snapshots;
+    std::map<std::time_t, std::string> _snapshots;
 
     /// Total bytes sent and recv'd by this document.
     uint64_t _sentBytes, _recvBytes;
@@ -189,16 +194,13 @@ class Subscriber
 {
 public:
     Subscriber(const std::weak_ptr<WebSocketHandler>& ws)
-        : _ws(ws),
-          _start(std::time(nullptr))
+        : _ws(ws)
+        , _start(std::time(nullptr))
     {
         LOG_INF("Subscriber ctor.");
     }
 
-    ~Subscriber()
-    {
-        LOG_INF("Subscriber dtor.");
-    }
+    ~Subscriber() { LOG_INF("Subscriber dtor."); }
 
     bool notify(const std::string& message);
 
@@ -224,8 +226,8 @@ private:
 class AdminModel
 {
 public:
-    AdminModel() :
-        _owner(std::this_thread::get_id())
+    AdminModel()
+        : _owner(std::this_thread::get_id())
     {
         LOG_INF("AdminModel ctor.");
     }
@@ -233,7 +235,7 @@ public:
     ~AdminModel();
 
     /// All methods here must be called from the Admin socket-poll
-    void setThreadOwner(const std::thread::id &id) { _owner = id; }
+    void setThreadOwner(const std::thread::id& id) { _owner = id; }
 
     /// In debug mode check that code is running in the correct thread.
     /// Asserts in the debug builds, otherwise just logs.
@@ -271,7 +273,9 @@ public:
 
     void notify(const std::string& message);
 
-    void addDocument(const std::string& docKey, Poco::Process::PID pid, const std::string& filename, const std::string& sessionId, const std::string& userName, const std::string& userId);
+    void addDocument(const std::string& docKey, Poco::Process::PID pid, const std::string& filename,
+                     const std::string& sessionId, const std::string& userName,
+                     const std::string& userId);
 
     void removeDocument(const std::string& docKey, const std::string& sessionId);
     void removeDocument(const std::string& docKey);

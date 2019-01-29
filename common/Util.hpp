@@ -49,7 +49,7 @@ namespace Util
         /// Generates a random string suitable for
         /// file/directory names.
         std::string getFilename(const size_t length);
-    }
+    } // namespace rng
 
     /// Create randomized temporary directory
     std::string createRandomTmpDir();
@@ -60,8 +60,8 @@ namespace Util
 
     /// Spawn a process if stdInput is non-NULL it contains a writable descriptor
     /// to send data to the child.
-    int spawnProcess(const std::string &cmd, const std::vector<std::string> &args,
-                     int *stdInput = nullptr);
+    int spawnProcess(const std::string& cmd, const std::vector<std::string>& args,
+                     int* stdInput = nullptr);
 #endif
 
     /// Hex to unsigned char
@@ -87,22 +87,17 @@ namespace Util
 #else
 
     /// No-op implementation in the test programs
-    inline void alertAllUsers(const std::string&)
-    {
-    }
+    inline void alertAllUsers(const std::string&) {}
 
     /// No-op implementation in the test programs
-    inline void alertAllUsers(const std::string&, const std::string&)
-    {
-    }
+    inline void alertAllUsers(const std::string&, const std::string&) {}
 #endif
 
     /// Assert that a lock is already taken.
-    template <typename T>
-    void assertIsLocked(const T& lock)
+    template <typename T> void assertIsLocked(const T& lock)
     {
 #ifdef NDEBUG
-        (void) lock;
+        (void)lock;
 #else
         assert(lock.owns_lock());
 #endif
@@ -111,7 +106,7 @@ namespace Util
     inline void assertIsLocked(std::mutex& mtx)
     {
 #ifdef NDEBUG
-        (void) mtx;
+        (void)mtx;
 #else
         assert(!mtx.try_lock());
 #endif
@@ -145,7 +140,7 @@ namespace Util
 
     void setThreadName(const std::string& s);
 
-    const char *getThreadName();
+    const char* getThreadName();
 
 #ifdef __linux
     pid_t getThreadId();
@@ -163,10 +158,8 @@ namespace Util
     std::map<std::string, std::string> JsonToMap(const std::string& jsonString);
 
     /// Dump a lineof data as hex
-    inline std::string stringifyHexLine(
-                            const std::vector<char> &buffer,
-                            unsigned int offset,
-                            const unsigned int width = 32)
+    inline std::string stringifyHexLine(const std::vector<char>& buffer, unsigned int offset,
+                                        const unsigned int width = 32)
     {
         char scratch[64];
         std::stringstream os;
@@ -176,19 +169,19 @@ namespace Util
             if (i && (i % 8) == 0)
                 os << " ";
             if ((offset + i) < buffer.size())
-                sprintf (scratch, "%.2x ", (unsigned char)buffer[offset+i]);
+                sprintf(scratch, "%.2x ", (unsigned char)buffer[offset + i]);
             else
-                sprintf (scratch, "   ");
+                sprintf(scratch, "   ");
             os << scratch;
         }
         os << " | ";
 
         for (unsigned int i = 0; i < width; i++)
         {
-            if ((offset + i) < buffer.size() && ::isprint(buffer[offset+i]))
-                sprintf (scratch, "%c", buffer[offset+i]);
+            if ((offset + i) < buffer.size() && ::isprint(buffer[offset + i]))
+                sprintf(scratch, "%c", buffer[offset + i]);
             else
-                sprintf (scratch, ".");
+                sprintf(scratch, ".");
             os << scratch;
         }
 
@@ -196,9 +189,9 @@ namespace Util
     }
 
     /// Dump data as hex and chars to stream
-    inline void dumpHex (std::ostream &os, const char *legend, const char *prefix,
-                         const std::vector<char> &buffer, bool skipDup = true,
-                         const unsigned int width = 32)
+    inline void dumpHex(std::ostream& os, const char* legend, const char* prefix,
+                        const std::vector<char>& buffer, bool skipDup = true,
+                        const unsigned int width = 32)
     {
         unsigned int j;
         char scratch[64];
@@ -208,13 +201,14 @@ namespace Util
         os << legend;
         for (j = 0; j < buffer.size() + width - 1; j += width)
         {
-            sprintf (scratch, "%s0x%.4x  ", prefix, j);
+            sprintf(scratch, "%s0x%.4x  ", prefix, j);
             os << scratch;
 
             std::string line = stringifyHexLine(buffer, j, width);
             if (skipDup && lastLine == line)
                 skip++;
-            else {
+            else
+            {
                 if (skip > 0)
                 {
                     os << "... dup " << skip - 1 << "...";
@@ -309,10 +303,7 @@ namespace Util
     }
 
     /// Trim spaces from left and right. Just spaces.
-    inline std::string trimmed(const char* s)
-    {
-        return trimmed(std::string(s));
-    }
+    inline std::string trimmed(const char* s) { return trimmed(std::string(s)); }
 
     /// Return true iff s starts with t.
     inline bool startsWith(const std::string& s, const std::string& t)
@@ -334,9 +325,9 @@ namespace Util
 
 #ifdef IOS
 
-    inline void *memrchr(const void *s, int c, size_t n)
+    inline void* memrchr(const void* s, int c, size_t n)
     {
-        char *p = (char*)s + n - 1;
+        char* p = (char*)s + n - 1;
         while (p >= (char*)s)
         {
             if (*p == c)
@@ -356,20 +347,20 @@ int main(int argc, char**argv)
   char *s;
   char *p;
 
-#define TEST(s_,c,n,e) \
-  s = s_; \
-  printf("memrchr(\"%s\",'%c',%d)=",s,c,n); \
-  p = memrchr(s, c, n); \
-  if (p) \
-    printf("\"%s\"", p); \
-  else \
-    printf("NULL"); \
-  if (p == e) \
-    printf(" OK\n"); \
-  else \
-    { \
-      printf(" FAIL\n"); \
-      success = 0; \
+#define TEST(s_, c, n, e)                                                                          \
+    s = s_;                                                                                        \
+    printf("memrchr(\"%s\",'%c',%d)=", s, c, n);                                                   \
+    p = memrchr(s, c, n);                                                                          \
+    if (p)                                                                                         \
+        printf("\"%s\"", p);                                                                       \
+    else                                                                                           \
+        printf("NULL");                                                                            \
+    if (p == e)                                                                                    \
+        printf(" OK\n");                                                                           \
+    else                                                                                           \
+    {                                                                                              \
+        printf(" FAIL\n");                                                                         \
+        success = 0;                                                                               \
     }
 
   TEST("abc", 'x', 0, NULL);
@@ -401,7 +392,7 @@ int main(int argc, char**argv)
     {
         if (message && length > 0)
         {
-            const char *founddelim = static_cast<const char *>(memrchr(message, delim, length));
+            const char* founddelim = static_cast<const char*>(memrchr(message, delim, length));
             const auto size = (founddelim == nullptr ? length : founddelim - message);
             return size;
         }
@@ -415,226 +406,358 @@ int main(int argc, char**argv)
         // Errnos from <asm-generic/errno-base.h> and <asm-generic/errno.h> on Linux.
         switch (e)
         {
-        case EPERM: return "EPERM";
-        case ENOENT: return "ENOENT";
-        case ESRCH: return "ESRCH";
-        case EINTR: return "EINTR";
-        case EIO: return "EIO";
-        case ENXIO: return "ENXIO";
-        case E2BIG: return "E2BIG";
-        case ENOEXEC: return "ENOEXEC";
-        case EBADF: return "EBADF";
-        case ECHILD: return "ECHILD";
-        case EAGAIN: return "EAGAIN";
-        case ENOMEM: return "ENOMEM";
-        case EACCES: return "EACCES";
-        case EFAULT: return "EFAULT";
-        case ENOTBLK: return "ENOTBLK";
-        case EBUSY: return "EBUSY";
-        case EEXIST: return "EEXIST";
-        case EXDEV: return "EXDEV";
-        case ENODEV: return "ENODEV";
-        case ENOTDIR: return "ENOTDIR";
-        case EISDIR: return "EISDIR";
-        case EINVAL: return "EINVAL";
-        case ENFILE: return "ENFILE";
-        case EMFILE: return "EMFILE";
-        case ENOTTY: return "ENOTTY";
-        case ETXTBSY: return "ETXTBSY";
-        case EFBIG: return "EFBIG";
-        case ENOSPC: return "ENOSPC";
-        case ESPIPE: return "ESPIPE";
-        case EROFS: return "EROFS";
-        case EMLINK: return "EMLINK";
-        case EPIPE: return "EPIPE";
-        case EDOM: return "EDOM";
-        case ERANGE: return "ERANGE";
-        case EDEADLK: return "EDEADLK";
-        case ENAMETOOLONG: return "ENAMETOOLONG";
-        case ENOLCK: return "ENOLCK";
-        case ENOSYS: return "ENOSYS";
-        case ENOTEMPTY: return "ENOTEMPTY";
-        case ELOOP: return "ELOOP";
-        case ENOMSG: return "ENOMSG";
-        case EIDRM: return "EIDRM";
+            case EPERM:
+                return "EPERM";
+            case ENOENT:
+                return "ENOENT";
+            case ESRCH:
+                return "ESRCH";
+            case EINTR:
+                return "EINTR";
+            case EIO:
+                return "EIO";
+            case ENXIO:
+                return "ENXIO";
+            case E2BIG:
+                return "E2BIG";
+            case ENOEXEC:
+                return "ENOEXEC";
+            case EBADF:
+                return "EBADF";
+            case ECHILD:
+                return "ECHILD";
+            case EAGAIN:
+                return "EAGAIN";
+            case ENOMEM:
+                return "ENOMEM";
+            case EACCES:
+                return "EACCES";
+            case EFAULT:
+                return "EFAULT";
+            case ENOTBLK:
+                return "ENOTBLK";
+            case EBUSY:
+                return "EBUSY";
+            case EEXIST:
+                return "EEXIST";
+            case EXDEV:
+                return "EXDEV";
+            case ENODEV:
+                return "ENODEV";
+            case ENOTDIR:
+                return "ENOTDIR";
+            case EISDIR:
+                return "EISDIR";
+            case EINVAL:
+                return "EINVAL";
+            case ENFILE:
+                return "ENFILE";
+            case EMFILE:
+                return "EMFILE";
+            case ENOTTY:
+                return "ENOTTY";
+            case ETXTBSY:
+                return "ETXTBSY";
+            case EFBIG:
+                return "EFBIG";
+            case ENOSPC:
+                return "ENOSPC";
+            case ESPIPE:
+                return "ESPIPE";
+            case EROFS:
+                return "EROFS";
+            case EMLINK:
+                return "EMLINK";
+            case EPIPE:
+                return "EPIPE";
+            case EDOM:
+                return "EDOM";
+            case ERANGE:
+                return "ERANGE";
+            case EDEADLK:
+                return "EDEADLK";
+            case ENAMETOOLONG:
+                return "ENAMETOOLONG";
+            case ENOLCK:
+                return "ENOLCK";
+            case ENOSYS:
+                return "ENOSYS";
+            case ENOTEMPTY:
+                return "ENOTEMPTY";
+            case ELOOP:
+                return "ELOOP";
+            case ENOMSG:
+                return "ENOMSG";
+            case EIDRM:
+                return "EIDRM";
 #ifdef ECHRNG
-        case ECHRNG: return "ECHRNG";
+            case ECHRNG:
+                return "ECHRNG";
 #endif
 #ifdef EL2NSYNC
-        case EL2NSYNC: return "EL2NSYNC";
+            case EL2NSYNC:
+                return "EL2NSYNC";
 #endif
 #ifdef EL3HLT
-        case EL3HLT: return "EL3HLT";
+            case EL3HLT:
+                return "EL3HLT";
 #endif
 #ifdef EL3RST
-        case EL3RST: return "EL3RST";
+            case EL3RST:
+                return "EL3RST";
 #endif
 #ifdef ELNRNG
-        case ELNRNG: return "ELNRNG";
+            case ELNRNG:
+                return "ELNRNG";
 #endif
 #ifdef EUNATCH
-        case EUNATCH: return "EUNATCH";
+            case EUNATCH:
+                return "EUNATCH";
 #endif
 #ifdef ENOCSI
-        case ENOCSI: return "ENOCSI";
+            case ENOCSI:
+                return "ENOCSI";
 #endif
 #ifdef EL2HLT
-        case EL2HLT: return "EL2HLT";
+            case EL2HLT:
+                return "EL2HLT";
 #endif
 #ifdef EBADE
-        case EBADE: return "EBADE";
+            case EBADE:
+                return "EBADE";
 #endif
 #ifdef EBADR
-        case EBADR: return "EBADR";
+            case EBADR:
+                return "EBADR";
 #endif
 #ifdef EXFULL
-        case EXFULL: return "EXFULL";
+            case EXFULL:
+                return "EXFULL";
 #endif
 #ifdef ENOANO
-        case ENOANO: return "ENOANO";
+            case ENOANO:
+                return "ENOANO";
 #endif
 #ifdef EBADRQC
-        case EBADRQC: return "EBADRQC";
+            case EBADRQC:
+                return "EBADRQC";
 #endif
 #ifdef EBADSLT
-        case EBADSLT: return "EBADSLT";
+            case EBADSLT:
+                return "EBADSLT";
 #endif
 #ifdef EBFONT
-        case EBFONT: return "EBFONT";
+            case EBFONT:
+                return "EBFONT";
 #endif
-        case ENOSTR: return "ENOSTR";
-        case ENODATA: return "ENODATA";
-        case ETIME: return "ETIME";
-        case ENOSR: return "ENOSR";
+            case ENOSTR:
+                return "ENOSTR";
+            case ENODATA:
+                return "ENODATA";
+            case ETIME:
+                return "ETIME";
+            case ENOSR:
+                return "ENOSR";
 #ifdef ENONET
-        case ENONET: return "ENONET";
+            case ENONET:
+                return "ENONET";
 #endif
 #ifdef ENOPKG
-        case ENOPKG: return "ENOPKG";
+            case ENOPKG:
+                return "ENOPKG";
 #endif
-        case EREMOTE: return "EREMOTE";
-        case ENOLINK: return "ENOLINK";
+            case EREMOTE:
+                return "EREMOTE";
+            case ENOLINK:
+                return "ENOLINK";
 #ifdef EADV
-        case EADV: return "EADV";
+            case EADV:
+                return "EADV";
 #endif
 #ifdef ESRMNT
-        case ESRMNT: return "ESRMNT";
+            case ESRMNT:
+                return "ESRMNT";
 #endif
 #ifdef ECOMM
-        case ECOMM: return "ECOMM";
+            case ECOMM:
+                return "ECOMM";
 #endif
-        case EPROTO: return "EPROTO";
-        case EMULTIHOP: return "EMULTIHOP";
+            case EPROTO:
+                return "EPROTO";
+            case EMULTIHOP:
+                return "EMULTIHOP";
 #ifdef EDOTDOT
-        case EDOTDOT: return "EDOTDOT";
+            case EDOTDOT:
+                return "EDOTDOT";
 #endif
-        case EBADMSG: return "EBADMSG";
-        case EOVERFLOW: return "EOVERFLOW";
+            case EBADMSG:
+                return "EBADMSG";
+            case EOVERFLOW:
+                return "EOVERFLOW";
 #ifdef ENOTUNIQ
-        case ENOTUNIQ: return "ENOTUNIQ";
+            case ENOTUNIQ:
+                return "ENOTUNIQ";
 #endif
 #ifdef EBADFD
-        case EBADFD: return "EBADFD";
+            case EBADFD:
+                return "EBADFD";
 #endif
 #ifdef EREMCHG
-        case EREMCHG: return "EREMCHG";
+            case EREMCHG:
+                return "EREMCHG";
 #endif
 #ifdef ELIBACC
-        case ELIBACC: return "ELIBACC";
+            case ELIBACC:
+                return "ELIBACC";
 #endif
 #ifdef ELIBBAD
-        case ELIBBAD: return "ELIBBAD";
+            case ELIBBAD:
+                return "ELIBBAD";
 #endif
 #ifdef ELIBSCN
-        case ELIBSCN: return "ELIBSCN";
+            case ELIBSCN:
+                return "ELIBSCN";
 #endif
 #ifdef ELIBMAX
-        case ELIBMAX: return "ELIBMAX";
+            case ELIBMAX:
+                return "ELIBMAX";
 #endif
 #ifdef ELIBEXEC
-        case ELIBEXEC: return "ELIBEXEC";
+            case ELIBEXEC:
+                return "ELIBEXEC";
 #endif
-        case EILSEQ: return "EILSEQ";
+            case EILSEQ:
+                return "EILSEQ";
 #ifdef ERESTART
-        case ERESTART: return "ERESTART";
+            case ERESTART:
+                return "ERESTART";
 #endif
 #ifdef ESTRPIPE
-        case ESTRPIPE: return "ESTRPIPE";
+            case ESTRPIPE:
+                return "ESTRPIPE";
 #endif
-        case EUSERS: return "EUSERS";
-        case ENOTSOCK: return "ENOTSOCK";
-        case EDESTADDRREQ: return "EDESTADDRREQ";
-        case EMSGSIZE: return "EMSGSIZE";
-        case EPROTOTYPE: return "EPROTOTYPE";
-        case ENOPROTOOPT: return "ENOPROTOOPT";
-        case EPROTONOSUPPORT: return "EPROTONOSUPPORT";
-        case ESOCKTNOSUPPORT: return "ESOCKTNOSUPPORT";
-        case EOPNOTSUPP: return "EOPNOTSUPP";
-        case EPFNOSUPPORT: return "EPFNOSUPPORT";
-        case EAFNOSUPPORT: return "EAFNOSUPPORT";
-        case EADDRINUSE: return "EADDRINUSE";
-        case EADDRNOTAVAIL: return "EADDRNOTAVAIL";
-        case ENETDOWN: return "ENETDOWN";
-        case ENETUNREACH: return "ENETUNREACH";
-        case ENETRESET: return "ENETRESET";
-        case ECONNABORTED: return "ECONNABORTED";
-        case ECONNRESET: return "ECONNRESET";
-        case ENOBUFS: return "ENOBUFS";
-        case EISCONN: return "EISCONN";
-        case ENOTCONN: return "ENOTCONN";
-        case ESHUTDOWN: return "ESHUTDOWN";
-        case ETOOMANYREFS: return "ETOOMANYREFS";
-        case ETIMEDOUT: return "ETIMEDOUT";
-        case ECONNREFUSED: return "ECONNREFUSED";
-        case EHOSTDOWN: return "EHOSTDOWN";
-        case EHOSTUNREACH: return "EHOSTUNREACH";
-        case EALREADY: return "EALREADY";
-        case EINPROGRESS: return "EINPROGRESS";
-        case ESTALE: return "ESTALE";
+            case EUSERS:
+                return "EUSERS";
+            case ENOTSOCK:
+                return "ENOTSOCK";
+            case EDESTADDRREQ:
+                return "EDESTADDRREQ";
+            case EMSGSIZE:
+                return "EMSGSIZE";
+            case EPROTOTYPE:
+                return "EPROTOTYPE";
+            case ENOPROTOOPT:
+                return "ENOPROTOOPT";
+            case EPROTONOSUPPORT:
+                return "EPROTONOSUPPORT";
+            case ESOCKTNOSUPPORT:
+                return "ESOCKTNOSUPPORT";
+            case EOPNOTSUPP:
+                return "EOPNOTSUPP";
+            case EPFNOSUPPORT:
+                return "EPFNOSUPPORT";
+            case EAFNOSUPPORT:
+                return "EAFNOSUPPORT";
+            case EADDRINUSE:
+                return "EADDRINUSE";
+            case EADDRNOTAVAIL:
+                return "EADDRNOTAVAIL";
+            case ENETDOWN:
+                return "ENETDOWN";
+            case ENETUNREACH:
+                return "ENETUNREACH";
+            case ENETRESET:
+                return "ENETRESET";
+            case ECONNABORTED:
+                return "ECONNABORTED";
+            case ECONNRESET:
+                return "ECONNRESET";
+            case ENOBUFS:
+                return "ENOBUFS";
+            case EISCONN:
+                return "EISCONN";
+            case ENOTCONN:
+                return "ENOTCONN";
+            case ESHUTDOWN:
+                return "ESHUTDOWN";
+            case ETOOMANYREFS:
+                return "ETOOMANYREFS";
+            case ETIMEDOUT:
+                return "ETIMEDOUT";
+            case ECONNREFUSED:
+                return "ECONNREFUSED";
+            case EHOSTDOWN:
+                return "EHOSTDOWN";
+            case EHOSTUNREACH:
+                return "EHOSTUNREACH";
+            case EALREADY:
+                return "EALREADY";
+            case EINPROGRESS:
+                return "EINPROGRESS";
+            case ESTALE:
+                return "ESTALE";
 #ifdef EUCLEAN
-        case EUCLEAN: return "EUCLEAN";
+            case EUCLEAN:
+                return "EUCLEAN";
 #endif
 #ifdef ENOTNAM
-        case ENOTNAM: return "ENOTNAM";
+            case ENOTNAM:
+                return "ENOTNAM";
 #endif
 #ifdef ENAVAIL
-        case ENAVAIL: return "ENAVAIL";
+            case ENAVAIL:
+                return "ENAVAIL";
 #endif
 #ifdef EISNAM
-        case EISNAM: return "EISNAM";
+            case EISNAM:
+                return "EISNAM";
 #endif
 #ifdef EREMOTEIO
-        case EREMOTEIO: return "EREMOTEIO";
+            case EREMOTEIO:
+                return "EREMOTEIO";
 #endif
-        case EDQUOT: return "EDQUOT";
+            case EDQUOT:
+                return "EDQUOT";
 #ifdef ENOMEDIUM
-        case ENOMEDIUM: return "ENOMEDIUM";
+            case ENOMEDIUM:
+                return "ENOMEDIUM";
 #endif
 #ifdef EMEDIUMTYPE
-        case EMEDIUMTYPE: return "EMEDIUMTYPE";
+            case EMEDIUMTYPE:
+                return "EMEDIUMTYPE";
 #endif
-        case ECANCELED: return "ECANCELED";
+            case ECANCELED:
+                return "ECANCELED";
 #ifdef ENOKEY
-        case ENOKEY: return "ENOKEY";
+            case ENOKEY:
+                return "ENOKEY";
 #endif
 #ifdef EKEYEXPIRED
-        case EKEYEXPIRED: return "EKEYEXPIRED";
+            case EKEYEXPIRED:
+                return "EKEYEXPIRED";
 #endif
 #ifdef EKEYREVOKED
-        case EKEYREVOKED: return "EKEYREVOKED";
+            case EKEYREVOKED:
+                return "EKEYREVOKED";
 #endif
 #ifdef EKEYREJECTED
-        case EKEYREJECTED: return "EKEYREJECTED";
+            case EKEYREJECTED:
+                return "EKEYREJECTED";
 #endif
-        case EOWNERDEAD: return "EOWNERDEAD";
-        case ENOTRECOVERABLE: return "ENOTRECOVERABLE";
+            case EOWNERDEAD:
+                return "EOWNERDEAD";
+            case ENOTRECOVERABLE:
+                return "ENOTRECOVERABLE";
 #ifdef ERFKILL
-        case ERFKILL: return "ERFKILL";
+            case ERFKILL:
+                return "ERFKILL";
 #endif
 #ifdef EHWPOISON
-        case EHWPOISON: return "EHWPOISON";
+            case EHWPOISON:
+                return "EHWPOISON";
 #endif
-        default: return std::to_string(e);
+            default:
+                return std::to_string(e);
         }
     }
 
@@ -642,7 +765,7 @@ int main(int argc, char**argv)
     {
         if (message && length > 0)
         {
-            const char *founddelim = static_cast<const char *>(std::memchr(message, delim, length));
+            const char* founddelim = static_cast<const char*>(std::memchr(message, delim, length));
             const size_t size = (founddelim == nullptr ? length : founddelim - message);
             return size;
         }
@@ -650,21 +773,21 @@ int main(int argc, char**argv)
         return 0;
     }
 
-    inline
-    std::string getDelimitedInitialSubstring(const char *message, const int length, const char delim)
+    inline std::string getDelimitedInitialSubstring(const char* message, const int length,
+                                                    const char delim)
     {
         const size_t size = getDelimiterPosition(message, length, delim);
         return std::string(message, size);
     }
 
     /// Split a string in two at the delimeter, removing it.
-    inline
-    std::pair<std::string, std::string> split(const char* s, const int length, const char delimeter = ' ', bool removeDelim = true)
+    inline std::pair<std::string, std::string>
+    split(const char* s, const int length, const char delimeter = ' ', bool removeDelim = true)
     {
         const size_t size = getDelimiterPosition(s, length, delimeter);
 
         std::string after;
-        int after_pos = size + (removeDelim? 1: 0);
+        int after_pos = size + (removeDelim ? 1 : 0);
         if (after_pos < length)
             after = std::string(s + after_pos, length - after_pos);
 
@@ -672,20 +795,20 @@ int main(int argc, char**argv)
     }
 
     /// Split a string in two at the delimeter, removing it.
-    inline
-    std::pair<std::string, std::string> split(const std::string& s, const char delimeter = ' ', bool removeDelim = true)
+    inline std::pair<std::string, std::string>
+    split(const std::string& s, const char delimeter = ' ', bool removeDelim = true)
     {
         return split(s.c_str(), s.size(), delimeter, removeDelim);
     }
 
     /// Split a string in two at the delimeter.
-    inline
-    std::pair<std::string, std::string> splitLast(const char* s, const int length, const char delimeter = ' ', bool removeDelim = true)
+    inline std::pair<std::string, std::string>
+    splitLast(const char* s, const int length, const char delimeter = ' ', bool removeDelim = true)
     {
         const size_t size = getLastDelimiterPosition(s, length, delimeter);
 
         std::string after;
-        int after_pos = size + (removeDelim? 1: 0);
+        int after_pos = size + (removeDelim ? 1 : 0);
         if (after_pos < length)
             after = std::string(s + after_pos, length - after_pos);
 
@@ -693,8 +816,8 @@ int main(int argc, char**argv)
     }
 
     /// Split a string in two at the delimeter, removing it.
-    inline
-    std::pair<std::string, std::string> splitLast(const std::string& s, const char delimeter = ' ', bool removeDelim = true)
+    inline std::pair<std::string, std::string>
+    splitLast(const std::string& s, const char delimeter = ' ', bool removeDelim = true)
     {
         return splitLast(s.c_str(), s.size(), delimeter, removeDelim);
     }
@@ -732,34 +855,33 @@ int main(int argc, char**argv)
     class RegexListMatcher
     {
     public:
-        RegexListMatcher() :
-            _allowByDefault(false)
+        RegexListMatcher()
+            : _allowByDefault(false)
         {
         }
 
-        RegexListMatcher(const bool allowByDefault) :
-            _allowByDefault(allowByDefault)
+        RegexListMatcher(const bool allowByDefault)
+            : _allowByDefault(allowByDefault)
         {
         }
 
-        RegexListMatcher(std::initializer_list<std::string> allowed) :
-            _allowByDefault(false),
-            _allowed(allowed)
+        RegexListMatcher(std::initializer_list<std::string> allowed)
+            : _allowByDefault(false)
+            , _allowed(allowed)
         {
         }
 
         RegexListMatcher(std::initializer_list<std::string> allowed,
-                         std::initializer_list<std::string> denied) :
-            _allowByDefault(false),
-            _allowed(allowed),
-            _denied(denied)
+                         std::initializer_list<std::string> denied)
+            : _allowByDefault(false)
+            , _allowed(allowed)
+            , _denied(denied)
         {
         }
 
-        RegexListMatcher(const bool allowByDefault,
-                         std::initializer_list<std::string> denied) :
-            _allowByDefault(allowByDefault),
-            _denied(denied)
+        RegexListMatcher(const bool allowByDefault, std::initializer_list<std::string> denied)
+            : _allowByDefault(allowByDefault)
+            , _denied(denied)
         {
         }
 
@@ -799,7 +921,8 @@ int main(int argc, char**argv)
                     Poco::RegularExpression::Match reMatch;
 
                     // Must be a full match.
-                    if (re.match(subject, reMatch) && reMatch.offset == 0 && reMatch.length == subject.size())
+                    if (re.match(subject, reMatch) && reMatch.offset == 0
+                        && reMatch.length == subject.size())
                     {
                         return true;
                     }
@@ -821,8 +944,7 @@ int main(int argc, char**argv)
 
     /// A logical constant that is allowed to initialize
     /// exactly once and checks usage before initialization.
-    template <typename T>
-    class RuntimeConstant
+    template <typename T> class RuntimeConstant
     {
         T _value;
         std::atomic<bool> _initialized;

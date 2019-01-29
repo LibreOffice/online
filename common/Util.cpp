@@ -74,16 +74,11 @@ namespace Util
         // Create the prng with a random-device for seed.
         // If we don't have a hardware random-device, we will get the same seed.
         // In that case we are better off with an arbitrary, but changing, seed.
-        static std::mt19937_64 _rng = std::mt19937_64(_rd.entropy()
-                                                    ? _rd()
-                                                    : (clock() + getpid()));
+        static std::mt19937_64 _rng = std::mt19937_64(_rd.entropy() ? _rd() : (clock() + getpid()));
 
         // A new seed is used to shuffle the sequence.
         // N.B. Always reseed after getting forked!
-        void reseed()
-        {
-            _rng.seed(_rd.entropy() ? _rd() : (clock() + getpid()));
-        }
+        void reseed() { _rng.seed(_rd.entropy() ? _rd() : (clock() + getpid())); }
 
         // Returns a new random number.
         unsigned getNext()
@@ -113,19 +108,18 @@ namespace Util
         {
             std::string s = getB64String(length * 2);
             s.erase(std::remove_if(s.begin(), s.end(),
-                                   [](const std::string::value_type& c)
-                                   {
+                                   [](const std::string::value_type& c) {
                                        // Remove undesirable characters in a filename.
                                        return c == '/' || c == ' ' || c == '+';
                                    }),
-                     s.end());
+                    s.end());
             return s.substr(0, length);
         }
-    }
+    } // namespace rng
 
     static std::string getDefaultTmpDir()
     {
-        const char *tmp = getenv("TMPDIR");
+        const char* tmp = getenv("TMPDIR");
         if (!tmp)
             tmp = getenv("TEMP");
         if (!tmp)
@@ -138,9 +132,9 @@ namespace Util
     std::string createRandomTmpDir()
     {
         std::string defaultTmp = getDefaultTmpDir();
-        std::string newTmp =
-            defaultTmp + "/lool-" + rng::getFilename(16);
-        if (::mkdir(newTmp.c_str(), S_IRWXU) < 0) {
+        std::string newTmp = defaultTmp + "/lool-" + rng::getFilename(16);
+        if (::mkdir(newTmp.c_str(), S_IRWXU) < 0)
+        {
             LOG_ERR("Failed to create random temp directory");
             return defaultTmp;
         }
@@ -150,7 +144,7 @@ namespace Util
 #ifndef MOBILEAPP
     int getProcessThreadCount()
     {
-        DIR *fdDir = opendir("/proc/self/task");
+        DIR* fdDir = opendir("/proc/self/task");
         if (!fdDir)
         {
             LOG_ERR("No proc mounted");
@@ -166,34 +160,35 @@ namespace Util
     // close what we have - far faster than going up to a 1m open_max eg.
     static bool closeFdsFromProc()
     {
-          DIR *fdDir = opendir("/proc/self/fd");
-          if (!fdDir)
-              return false;
+        DIR* fdDir = opendir("/proc/self/fd");
+        if (!fdDir)
+            return false;
 
-          struct dirent *i;
+        struct dirent* i;
 
-          while ((i = readdir(fdDir))) {
-              if (i->d_name[0] == '.')
-                  continue;
+        while ((i = readdir(fdDir)))
+        {
+            if (i->d_name[0] == '.')
+                continue;
 
-              char *e = NULL;
-              errno = 0;
-              long fd = strtol(i->d_name, &e, 10);
-              if (errno != 0 || !e || *e)
-                  continue;
+            char* e = NULL;
+            errno = 0;
+            long fd = strtol(i->d_name, &e, 10);
+            if (errno != 0 || !e || *e)
+                continue;
 
-              if (fd == dirfd(fdDir))
-                  continue;
+            if (fd == dirfd(fdDir))
+                continue;
 
-              if (fd < 3)
-                  continue;
+            if (fd < 3)
+                continue;
 
-              if (close(fd) < 0)
-                  std::cerr << "Unexpected failure to close fd " << fd << std::endl;
-          }
+            if (close(fd) < 0)
+                std::cerr << "Unexpected failure to close fd " << fd << std::endl;
+        }
 
-          closedir(fdDir);
-          return true;
+        closedir(fdDir);
+        return true;
     }
 
     static void closeFds()
@@ -206,7 +201,7 @@ namespace Util
         }
     }
 
-    int spawnProcess(const std::string &cmd, const std::vector<std::string> &args, int *stdInput)
+    int spawnProcess(const std::string& cmd, const std::vector<std::string>& args, int* stdInput)
     {
         int pipeFds[2] = { -1, -1 };
         if (stdInput)
@@ -218,10 +213,10 @@ namespace Util
             }
         }
 
-        std::vector<char *> params;
-        params.push_back(const_cast<char *>(cmd.c_str()));
+        std::vector<char*> params;
+        params.push_back(const_cast<char*>(cmd.c_str()));
         for (const auto& i : args)
-            params.push_back(const_cast<char *>(i.c_str()));
+            params.push_back(const_cast<char*>(i.c_str()));
         params.push_back(nullptr);
 
         int pid = fork();
@@ -239,7 +234,8 @@ namespace Util
 
             int ret = execvp(params[0], &params[0]);
             if (ret < 0)
-                std::cerr << "Failed to exec command '" << cmd << "' with error '" << strerror(errno) << "'\n";
+                std::cerr << "Failed to exec command '" << cmd << "' with error '"
+                          << strerror(errno) << "'\n";
             Log::shutdown();
             _exit(42);
         }
@@ -290,14 +286,11 @@ namespace Util
         return id;
     }
 
-    bool windowingAvailable()
-    {
-        return std::getenv("DISPLAY") != nullptr;
-    }
+    bool windowingAvailable() { return std::getenv("DISPLAY") != nullptr; }
 
 #ifndef MOBILEAPP
 
-    static const char *startsWith(const char *line, const char *tag)
+    static const char* startsWith(const char* line, const char* tag)
     {
         size_t len = std::strlen(tag);
         if (!strncmp(line, tag, len))
@@ -316,19 +309,31 @@ namespace Util
         constexpr unsigned factor = 1024;
         short count = 0;
         float val = nBytes;
-        while (val >= factor && count < 4) {
+        while (val >= factor && count < 4)
+        {
             val /= factor;
             count++;
         }
         std::string unit;
         switch (count)
         {
-        case 0: unit = ""; break;
-        case 1: unit = "ki"; break;
-        case 2: unit = "Mi"; break;
-        case 3: unit = "Gi"; break;
-        case 4: unit = "Ti"; break;
-        default: assert(false);
+            case 0:
+                unit = "";
+                break;
+            case 1:
+                unit = "ki";
+                break;
+            case 2:
+                unit = "Mi";
+                break;
+            case 3:
+                unit = "Gi";
+                break;
+            case 4:
+                unit = "Ti";
+                break;
+            default:
+                assert(false);
         }
 
         unit += "B";
@@ -366,9 +371,9 @@ namespace Util
         {
             rewind(file);
             char line[4096] = { 0 };
-            while (fgets(line, sizeof (line), file))
+            while (fgets(line, sizeof(line), file))
             {
-                const char *value;
+                const char* value;
                 // Shared_Dirty is accounted for by forkit's RSS
                 if ((value = startsWith(line, "Private_Dirty:")))
                 {
@@ -388,8 +393,7 @@ namespace Util
     {
         const std::pair<size_t, size_t> pssAndDirtyKb = getPssAndDirtyFromSMaps(file);
         std::ostringstream oss;
-        oss << "procmemstats: pid=" << getpid()
-            << " pss=" << pssAndDirtyKb.first
+        oss << "procmemstats: pid=" << getpid() << " pss=" << pssAndDirtyKb.first
             << " dirty=" << pssAndDirtyKb.second;
         LOG_TRC("Collected " << oss.str());
         return oss.str();
@@ -448,7 +452,7 @@ namespace Util
             if (fp != nullptr)
             {
                 char line[4096] = { 0 };
-                if (fgets(line, sizeof (line), fp))
+                if (fgets(line, sizeof(line), fp))
                 {
                     const std::string s(line);
                     int index = 1;
@@ -492,13 +496,13 @@ namespace Util
         std::string r;
         std::string::size_type n = s.size();
         if (n > 0 && s.back() == '\n')
-            r = s.substr(0, n-1);
+            r = s.substr(0, n - 1);
         else
             r = s;
         return replace(r, "\n", " / ");
     }
 
-    static __thread char ThreadName[32] = {0};
+    static __thread char ThreadName[32] = { 0 };
 
     void setThreadName(const std::string& s)
     {
@@ -506,19 +510,19 @@ namespace Util
         ThreadName[31] = '\0';
 #ifdef __linux
         if (prctl(PR_SET_NAME, reinterpret_cast<unsigned long>(s.c_str()), 0, 0, 0) != 0)
-            LOG_SYS("Cannot set thread name of " << getThreadId() << " (" << std::hex <<
-                    std::this_thread::get_id() << std::dec << ") to [" << s << "].");
+            LOG_SYS("Cannot set thread name of " << getThreadId() << " (" << std::hex
+                                                 << std::this_thread::get_id() << std::dec
+                                                 << ") to [" << s << "].");
         else
-            LOG_INF("Thread " << getThreadId() << " (" << std::hex <<
-                    std::this_thread::get_id() << std::dec << ") is now called [" << s << "].");
+            LOG_INF("Thread " << getThreadId() << " (" << std::hex << std::this_thread::get_id()
+                              << std::dec << ") is now called [" << s << "].");
 #elif defined IOS
         [[NSThread currentThread] setName:[NSString stringWithUTF8String:ThreadName]];
-        LOG_INF("Thread " << getThreadId() <<
-                ") is now called [" << s << "].");
+        LOG_INF("Thread " << getThreadId() << ") is now called [" << s << "].");
 #endif
     }
 
-    const char *getThreadName()
+    const char* getThreadName()
     {
         // Main process and/or not set yet.
         if (ThreadName[0] == '\0')
@@ -527,7 +531,7 @@ namespace Util
             if (prctl(PR_GET_NAME, reinterpret_cast<unsigned long>(ThreadName), 0, 0, 0) != 0)
                 strncpy(ThreadName, "<noid>", sizeof(ThreadName) - 1);
 #elif defined IOS
-            const char *const name = [[[NSThread currentThread] name] UTF8String];
+            const char* const name = [[[NSThread currentThread] name] UTF8String];
             strncpy(ThreadName, name, 31);
             ThreadName[31] = '\0';
 #endif
@@ -607,7 +611,7 @@ namespace Util
 
         for (char c : host)
         {
-            if (!isalnum(c) && c != '_' && c != '-' && c != '.' && c !=':' && c != '[' && c != ']')
+            if (!isalnum(c) && c != '_' && c != '-' && c != '.' && c != ':' && c != '[' && c != ']')
                 return false;
         }
 
@@ -615,8 +619,8 @@ namespace Util
     }
 
     /// Split a string in two at the delimeter and give the delimiter to the first.
-    static
-    std::pair<std::string, std::string> splitLast2(const char* s, const int length, const char delimeter = ' ')
+    static std::pair<std::string, std::string> splitLast2(const char* s, const int length,
+                                                          const char delimeter = ' ')
     {
         if (s != nullptr && length > 0)
         {
@@ -687,7 +691,8 @@ namespace Util
 
         // Generate the anonymized string. The '#' is to hint that it's anonymized.
         // Prepend with salt to make it unique, in case we get collisions (which we will, eventually).
-        const std::string res = '#' + Util::encodeId(AnonymizationSalt++, 0) + '#' + Util::encodeId(hash, 0) + '#';
+        const std::string res
+            = '#' + Util::encodeId(AnonymizationSalt++, 0) + '#' + Util::encodeId(hash, 0) + '#';
         mapAnonymized(text, res);
         return res;
     }
@@ -712,6 +717,6 @@ namespace Util
 
         return base + Util::anonymize(filename) + ext + params;
     }
-}
+} // namespace Util
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

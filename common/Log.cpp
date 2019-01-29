@@ -48,15 +48,13 @@ namespace Log
         std::atomic<bool> _inited;
         std::string _name;
         std::string _id;
+
     public:
-        StaticNameHelper() :
-            _inited(true)
+        StaticNameHelper()
+            : _inited(true)
         {
         }
-        ~StaticNameHelper()
-        {
-            _inited = false;
-        }
+        ~StaticNameHelper() { _inited = false; }
 
         bool getInited() const { return _inited; }
 
@@ -72,12 +70,12 @@ namespace Log
 
     // We need a signal safe means of writing messages
     //   $ man 7 signal
-    void signalLog(const char *message)
+    void signalLog(const char* message)
     {
         while (true)
         {
             const int length = std::strlen(message);
-            const int written = write (STDERR_FILENO, message, length);
+            const int written = write(STDERR_FILENO, message, length);
             if (written < 0)
             {
                 if (errno == EINTR)
@@ -109,7 +107,7 @@ namespace Log
 
     char* prefix(char* buffer, const std::size_t len, const char* level)
     {
-        const char *threadName = Util::getThreadName();
+        const char* threadName = Util::getThreadName();
 #ifdef __linux
         const long osTid = Util::getThreadId();
 #elif defined IOS
@@ -117,12 +115,9 @@ namespace Log
 #endif
         Poco::DateTime time;
         snprintf(buffer, len, "%s-%.05lu %.4u-%.2u-%.2u %.2u:%.2u:%.2u.%.6u [ %s ] %s  ",
-                    (Source.getInited() ? Source.getId().c_str() : "<shutdown>"),
-                    osTid,
-                    time.year(), time.month(), time.day(),
-                    time.hour(), time.minute(), time.second(),
-                    time.millisecond() * 1000 + time.microsecond(),
-                    threadName, level);
+                 (Source.getInited() ? Source.getId().c_str() : "<shutdown>"), osTid, time.year(),
+                 time.month(), time.day(), time.hour(), time.minute(), time.second(),
+                 time.millisecond() * 1000 + time.microsecond(), threadName, level);
         return buffer;
     }
 
@@ -133,18 +128,14 @@ namespace Log
         signalLog(buffer);
     }
 
-    void initialize(const std::string& name,
-                    const std::string& logLevel,
-                    const bool withColor,
-                    const bool logToFile,
-                    const std::map<std::string, std::string>& config)
+    void initialize(const std::string& name, const std::string& logLevel, const bool withColor,
+                    const bool logToFile, const std::map<std::string, std::string>& config)
     {
         Source.setName(name);
         std::ostringstream oss;
         oss << Source.getName();
 #ifndef MOBILEAPP // Just one process in a mobile app, the pid is uninteresting.
-        oss << '-'
-            << std::setw(5) << std::setfill('0') << Poco::Process::id();
+        oss << '-' << std::setw(5) << std::setfill('0') << Poco::Process::id();
 #endif
         Source.setId(oss.str());
 
@@ -187,7 +178,7 @@ namespace Log
             oss << " Local time: " << buf << ".";
         }
 
-        oss <<  " Log level is [" << logger.getLevel() << "].";
+        oss << " Log level is [" << logger.getLevel() << "].";
         LOG_INF(oss.str());
     }
 
@@ -206,6 +197,6 @@ namespace Log
         std::flush(std::cerr);
         fflush(stderr);
     }
-}
+} // namespace Log
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

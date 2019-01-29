@@ -66,8 +66,7 @@ class HTTPCrashTest : public CPPUNIT_NS::TestFixture
     void testRecoverAfterKitCrash();
     void testCrashForkit();
 
-    static
-    void killLoKitProcesses();
+    static void killLoKitProcesses();
     void killForkitProcess();
 
 public:
@@ -77,18 +76,17 @@ public:
 #if ENABLE_SSL
         Poco::Net::initializeSSL();
         // Just accept the certificate anyway for testing purposes
-        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidCertHandler = new Poco::Net::AcceptCertificateHandler(false);
+        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidCertHandler
+            = new Poco::Net::AcceptCertificateHandler(false);
         Poco::Net::Context::Params sslParams;
-        Poco::Net::Context::Ptr sslContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
+        Poco::Net::Context::Ptr sslContext
+            = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
         Poco::Net::SSLManager::instance().initializeClient(nullptr, invalidCertHandler, sslContext);
 #endif
     }
 
 #if ENABLE_SSL
-    ~HTTPCrashTest()
-    {
-        Poco::Net::uninitializeSSL();
-    }
+    ~HTTPCrashTest() { Poco::Net::uninitializeSSL(); }
 #endif
 
     void setUp()
@@ -150,7 +148,8 @@ void HTTPCrashTest::testCrashKit()
 
         std::string message;
         const int statusCode = getErrorCode(socket, message, testname);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_ENDPOINT_GOING_AWAY), statusCode);
+        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_ENDPOINT_GOING_AWAY),
+                             statusCode);
 
         // respond close frame
         TST_LOG("Shutting down socket.");
@@ -232,7 +231,7 @@ void HTTPCrashTest::testCrashForkit()
     }
 }
 
-static void killPids(const std::vector<int> &pids, const std::string& testname)
+static void killPids(const std::vector<int>& pids, const std::string& testname)
 {
     TST_LOG("kill pids " << pids.size());
     // Now kill them
@@ -240,7 +239,8 @@ static void killPids(const std::vector<int> &pids, const std::string& testname)
     {
         TST_LOG_BEGIN("Killing " << pid);
         if (kill(pid, SIGKILL) == -1)
-            TST_LOG_APPEND("kill(" << pid << ", SIGKILL) failed: " << Util::symbolicErrno(errno) << ": " << std::strerror(errno));
+            TST_LOG_APPEND("kill(" << pid << ", SIGKILL) failed: " << Util::symbolicErrno(errno)
+                                   << ": " << std::strerror(errno));
         TST_LOG_END;
     }
 }
@@ -251,10 +251,7 @@ void HTTPCrashTest::killLoKitProcesses()
     InitialLoolKitCount = 1; // non-intuitive but it will arrive soon.
 }
 
-void HTTPCrashTest::killForkitProcess()
-{
-    killPids(getForKitPids(), "killForkitProcess ");
-}
+void HTTPCrashTest::killForkitProcess() { killPids(getForKitPids(), "killForkitProcess "); }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(HTTPCrashTest);
 

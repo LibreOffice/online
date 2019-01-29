@@ -28,8 +28,8 @@ class UnitWopiOwnertermination : public WopiTestServer
     } _phase;
 
 public:
-    UnitWopiOwnertermination() :
-        _phase(Phase::Load)
+    UnitWopiOwnertermination()
+        : _phase(Phase::Load)
     {
     }
 
@@ -52,21 +52,24 @@ public:
             {
                 initWebsocket("/wopi/files/0?access_token=anything");
 
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(), testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(),
+                                       testName);
 
                 _phase = Phase::Modify;
                 break;
             }
             case Phase::Modify:
             {
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=input char=97 key=0", testName);
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=up char=0 key=512", testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=input char=97 key=0",
+                                       testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=up char=0 key=512",
+                                       testName);
 
                 _phase = Phase::OwnerTermination;
                 SocketPoll::wakeupWorld();
                 break;
             }
-	        case Phase::OwnerTermination:
+            case Phase::OwnerTermination:
             {
                 _phase = Phase::Polling;
                 helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "closedocument", testName);
@@ -81,9 +84,6 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitWopiOwnertermination();
-}
+UnitBase* unit_create_wsd(void) { return new UnitWopiOwnertermination(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

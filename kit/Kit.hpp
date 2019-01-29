@@ -24,20 +24,13 @@
 
 void lokit_main(
 #ifndef MOBILEAPP
-                const std::string& childRoot,
-                const std::string& jailId,
-                const std::string& sysTemplate,
-                const std::string& loTemplate,
-                const std::string& loSubPath,
-                bool noCapabilities,
-                bool noSeccomp,
-                bool queryVersionInfo,
-                bool displayVersion
+    const std::string& childRoot, const std::string& jailId, const std::string& sysTemplate,
+    const std::string& loTemplate, const std::string& loSubPath, bool noCapabilities,
+    bool noSeccomp, bool queryVersionInfo, bool displayVersion
 #else
-                const std::string& documentUri,
-                int docBrokerSocket
+    const std::string& documentUri, int docBrokerSocket
 #endif
-                );
+);
 
 bool globalPreinit(const std::string& loTemplate);
 /// Wrapper around private Document::ViewCallback().
@@ -49,22 +42,15 @@ class DocumentManagerInterface;
 /// callback to a specific view.
 struct CallbackDescriptor
 {
-    CallbackDescriptor(DocumentManagerInterface* const doc,
-                       const int viewId) :
-        _doc(doc),
-        _viewId(viewId)
+    CallbackDescriptor(DocumentManagerInterface* const doc, const int viewId)
+        : _doc(doc)
+        , _viewId(viewId)
     {
     }
 
-    DocumentManagerInterface* getDoc() const
-    {
-        return _doc;
-    }
+    DocumentManagerInterface* getDoc() const { return _doc; }
 
-    int getViewId() const
-    {
-        return _viewId;
-    }
+    int getViewId() const { return _viewId; }
 
 private:
     DocumentManagerInterface* const _doc;
@@ -76,40 +62,24 @@ private:
 /// after any child session goes away
 struct UserInfo
 {
-    UserInfo()
+    UserInfo() {}
+
+    UserInfo(const std::string& userId, const std::string& userName,
+             const std::string& userExtraInfo, bool readOnly)
+        : _userId(userId)
+        , _userName(userName)
+        , _userExtraInfo(userExtraInfo)
+        , _readOnly(readOnly)
     {
     }
 
-    UserInfo(const std::string& userId,
-             const std::string& userName,
-             const std::string& userExtraInfo,
-             bool readOnly) :
-        _userId(userId),
-        _userName(userName),
-        _userExtraInfo(userExtraInfo),
-        _readOnly(readOnly)
-    {
-    }
+    const std::string& getUserId() const { return _userId; }
 
-    const std::string& getUserId() const
-    {
-        return _userId;
-    }
+    const std::string& getUserName() const { return _userName; }
 
-    const std::string& getUserName() const
-    {
-        return _userName;
-    }
+    const std::string& getUserExtraInfo() const { return _userExtraInfo; }
 
-    const std::string& getUserExtraInfo() const
-    {
-        return _userExtraInfo;
-    }
-
-    bool isReadOnly() const
-    {
-        return _readOnly;
-    }
+    bool isReadOnly() const { return _readOnly; }
 
 private:
     std::string _userId;
@@ -120,11 +90,8 @@ private:
 
 /// Check the ForkCounter, and if non-zero, fork more of them accordingly.
 /// @param limit If non-zero, set the ForkCounter to this limit.
-void forkLibreOfficeKit(const std::string& childRoot,
-                        const std::string& sysTemplate,
-                        const std::string& loTemplate,
-                        const std::string& loSubPath,
-                        int limit = 0);
+void forkLibreOfficeKit(const std::string& childRoot, const std::string& sysTemplate,
+                        const std::string& loTemplate, const std::string& loSubPath, int limit = 0);
 
 /// Anonymize the basename of filenames, preserving the path and extension.
 std::string anonymizeUrl(const std::string& url);

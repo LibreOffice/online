@@ -32,13 +32,11 @@ public:
     class FileInfo
     {
     public:
-        FileInfo(const std::string& filename,
-                 const std::string& ownerId,
-                 const Poco::Timestamp& modifiedTime,
-                 size_t /*size*/)
-            : _filename(filename),
-              _ownerId(ownerId),
-              _modifiedTime(modifiedTime)
+        FileInfo(const std::string& filename, const std::string& ownerId,
+                 const Poco::Timestamp& modifiedTime, size_t /*size*/)
+            : _filename(filename)
+            , _ownerId(ownerId)
+            , _modifiedTime(modifiedTime)
         {
         }
 
@@ -75,19 +73,14 @@ public:
             FAILED
         };
 
-        SaveResult(Result result) : _result(result)
+        SaveResult(Result result)
+            : _result(result)
         {
         }
 
-        void setResult(Result result)
-        {
-            _result = result;
-        }
+        void setResult(Result result) { _result = result; }
 
-        Result getResult() const
-        {
-            return _result;
-        }
+        Result getResult() const { return _result; }
 
         void setSaveAsResult(const std::string& name, const std::string& url)
         {
@@ -95,15 +88,9 @@ public:
             _saveAsUrl = url;
         }
 
-        const std::string& getSaveAsName() const
-        {
-            return _saveAsName;
-        }
+        const std::string& getSaveAsName() const { return _saveAsName; }
 
-        const std::string& getSaveAsUrl() const
-        {
-            return _saveAsUrl;
-        }
+        const std::string& getSaveAsUrl() const { return _saveAsUrl; }
 
     private:
         Result _result;
@@ -118,17 +105,16 @@ public:
 
     /// localStorePath the absolute root path of the chroot.
     /// jailPath the path within the jail that the child uses.
-    StorageBase(const Poco::URI& uri,
-                const std::string& localStorePath,
-                const std::string& jailPath) :
-        _uri(uri),
-        _localStorePath(localStorePath),
-        _jailPath(jailPath),
-        _fileInfo("", "lool", Poco::Timestamp::fromEpochTime(0), 0),
-        _isLoaded(false),
-        _forceSave(false),
-        _isUserModified(false),
-        _isAutosave(false)
+    StorageBase(const Poco::URI& uri, const std::string& localStorePath,
+                const std::string& jailPath)
+        : _uri(uri)
+        , _localStorePath(localStorePath)
+        , _jailPath(jailPath)
+        , _fileInfo("", "lool", Poco::Timestamp::fromEpochTime(0), 0)
+        , _isLoaded(false)
+        , _forceSave(false)
+        , _isUserModified(false)
+        , _isAutosave(false)
     {
         LOG_DBG("Storage ctor: " << LOOLWSD::anonymizeUrl(uri.toString()));
     }
@@ -154,10 +140,7 @@ public:
 
     const std::string& getRootFilePathAnonym() const { return _jailedFilePathAnonym; };
 
-    void setRootFilePathAnonym(const std::string& newPath)
-    {
-        _jailedFilePathAnonym = newPath;
-    }
+    void setRootFilePathAnonym(const std::string& newPath) { _jailedFilePathAnonym = newPath; }
 
     void setLoaded(bool loaded) { _isLoaded = loaded; }
 
@@ -185,7 +168,10 @@ public:
     /// Returns the basic information about the file.
     FileInfo& getFileInfo() { return _fileInfo; }
 
-    std::string getFileExtension() const { return Poco::Path(_fileInfo.getFilename()).getExtension(); }
+    std::string getFileExtension() const
+    {
+        return Poco::Path(_fileInfo.getFilename()).getExtension();
+    }
 
     /// Returns a local file path for the given URI.
     /// If necessary copies the file locally first.
@@ -193,7 +179,10 @@ public:
 
     /// Writes the contents of the file back to the source.
     /// @param savedFile When the operation was saveAs, this is the path to the file that was saved.
-    virtual SaveResult saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath, const std::string& saveAsFilename) = 0;
+    virtual SaveResult saveLocalFileToStorage(const Authorization& auth,
+                                              const std::string& saveAsPath,
+                                              const std::string& saveAsFilename)
+        = 0;
 
     static size_t getFileSize(const std::string& filename);
 
@@ -201,13 +190,12 @@ public:
     static void initialize();
 
     /// Storage object creation factory.
-    static std::unique_ptr<StorageBase> create(const Poco::URI& uri,
-                                               const std::string& jailRoot,
+    static std::unique_ptr<StorageBase> create(const Poco::URI& uri, const std::string& jailRoot,
                                                const std::string& jailPath);
 
     static bool allowedWopiHost(const std::string& host);
-protected:
 
+protected:
     /// Returns the root path of the jail directory of docs.
     std::string getLocalRootPath() const;
 
@@ -239,23 +227,22 @@ private:
 class LocalStorage : public StorageBase
 {
 public:
-    LocalStorage(const Poco::URI& uri,
-                 const std::string& localStorePath,
-                 const std::string& jailPath) :
-        StorageBase(uri, localStorePath, jailPath),
-        _isCopy(false)
+    LocalStorage(const Poco::URI& uri, const std::string& localStorePath,
+                 const std::string& jailPath)
+        : StorageBase(uri, localStorePath, jailPath)
+        , _isCopy(false)
     {
-        LOG_INF("LocalStorage ctor with localStorePath: [" << localStorePath <<
-                "], jailPath: [" << jailPath << "], uri: [" << LOOLWSD::anonymizeUrl(uri.toString()) << "].");
+        LOG_INF("LocalStorage ctor with localStorePath: ["
+                << localStorePath << "], jailPath: [" << jailPath << "], uri: ["
+                << LOOLWSD::anonymizeUrl(uri.toString()) << "].");
     }
 
     class LocalFileInfo
     {
     public:
-        LocalFileInfo(const std::string& userId,
-                      const std::string& username)
-            : _userId(userId),
-              _username(username)
+        LocalFileInfo(const std::string& userId, const std::string& username)
+            : _userId(userId)
+            , _username(username)
         {
         }
 
@@ -274,7 +261,8 @@ public:
 
     std::string loadStorageFileToLocal(const Authorization& auth) override;
 
-    SaveResult saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath, const std::string& saveAsFilename) override;
+    SaveResult saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath,
+                                      const std::string& saveAsFilename) override;
 
 private:
     /// True if the jailed file is not linked but copied.
@@ -286,14 +274,14 @@ private:
 class WopiStorage : public StorageBase
 {
 public:
-    WopiStorage(const Poco::URI& uri,
-                const std::string& localStorePath,
-                const std::string& jailPath) :
-        StorageBase(uri, localStorePath, jailPath),
-        _wopiLoadDuration(0)
+    WopiStorage(const Poco::URI& uri, const std::string& localStorePath,
+                const std::string& jailPath)
+        : StorageBase(uri, localStorePath, jailPath)
+        , _wopiLoadDuration(0)
     {
-        LOG_INF("WopiStorage ctor with localStorePath: [" << localStorePath <<
-                "], jailPath: [" << jailPath << "], uri: [" << LOOLWSD::anonymizeUrl(uri.toString()) << "].");
+        LOG_INF("WopiStorage ctor with localStorePath: ["
+                << localStorePath << "], jailPath: [" << jailPath << "], uri: ["
+                << LOOLWSD::anonymizeUrl(uri.toString()) << "].");
     }
 
     class WOPIFileInfo
@@ -306,56 +294,45 @@ public:
             Unset
         };
 
-        WOPIFileInfo(const std::string& userid,
-                     const std::string& obfuscatedUserId,
-                     const std::string& username,
-                     const std::string& userExtraInfo,
-                     const std::string& watermarkText,
-                     const std::string& templateSaveAs,
-                     const bool userCanWrite,
-                     const std::string& postMessageOrigin,
-                     const bool hidePrintOption,
-                     const bool hideSaveOption,
-                     const bool hideExportOption,
-                     const bool enableOwnerTermination,
-                     const bool disablePrint,
-                     const bool disableExport,
-                     const bool disableCopy,
-                     const bool disableInactiveMessages,
-                     const bool userCanNotWriteRelative,
-                     const bool enableInsertRemoteImage,
-                     const bool enableShare,
-                     const std::string& hideUserList,
-                     const TriState disableChangeTrackingShow,
+        WOPIFileInfo(const std::string& userid, const std::string& obfuscatedUserId,
+                     const std::string& username, const std::string& userExtraInfo,
+                     const std::string& watermarkText, const std::string& templateSaveAs,
+                     const bool userCanWrite, const std::string& postMessageOrigin,
+                     const bool hidePrintOption, const bool hideSaveOption,
+                     const bool hideExportOption, const bool enableOwnerTermination,
+                     const bool disablePrint, const bool disableExport, const bool disableCopy,
+                     const bool disableInactiveMessages, const bool userCanNotWriteRelative,
+                     const bool enableInsertRemoteImage, const bool enableShare,
+                     const std::string& hideUserList, const TriState disableChangeTrackingShow,
                      const TriState disableChangeTrackingRecord,
                      const TriState hideChangeTrackingControls,
                      const std::chrono::duration<double> callDuration)
-            : _userId(userid),
-              _obfuscatedUserId(obfuscatedUserId),
-              _username(username),
-              _watermarkText(watermarkText),
-              _templateSaveAs(templateSaveAs),
-              _userCanWrite(userCanWrite),
-              _postMessageOrigin(postMessageOrigin),
-              _hidePrintOption(hidePrintOption),
-              _hideSaveOption(hideSaveOption),
-              _hideExportOption(hideExportOption),
-              _enableOwnerTermination(enableOwnerTermination),
-              _disablePrint(disablePrint),
-              _disableExport(disableExport),
-              _disableCopy(disableCopy),
-              _disableInactiveMessages(disableInactiveMessages),
-              _userCanNotWriteRelative(userCanNotWriteRelative),
-              _enableInsertRemoteImage(enableInsertRemoteImage),
-              _enableShare(enableShare),
-              _hideUserList(hideUserList),
-              _disableChangeTrackingShow(disableChangeTrackingShow),
-              _disableChangeTrackingRecord(disableChangeTrackingRecord),
-              _hideChangeTrackingControls(hideChangeTrackingControls),
-              _callDuration(callDuration)
-            {
-                _userExtraInfo = userExtraInfo;
-            }
+            : _userId(userid)
+            , _obfuscatedUserId(obfuscatedUserId)
+            , _username(username)
+            , _watermarkText(watermarkText)
+            , _templateSaveAs(templateSaveAs)
+            , _userCanWrite(userCanWrite)
+            , _postMessageOrigin(postMessageOrigin)
+            , _hidePrintOption(hidePrintOption)
+            , _hideSaveOption(hideSaveOption)
+            , _hideExportOption(hideExportOption)
+            , _enableOwnerTermination(enableOwnerTermination)
+            , _disablePrint(disablePrint)
+            , _disableExport(disableExport)
+            , _disableCopy(disableCopy)
+            , _disableInactiveMessages(disableInactiveMessages)
+            , _userCanNotWriteRelative(userCanNotWriteRelative)
+            , _enableInsertRemoteImage(enableInsertRemoteImage)
+            , _enableShare(enableShare)
+            , _hideUserList(hideUserList)
+            , _disableChangeTrackingShow(disableChangeTrackingShow)
+            , _disableChangeTrackingRecord(disableChangeTrackingRecord)
+            , _hideChangeTrackingControls(hideChangeTrackingControls)
+            , _callDuration(callDuration)
+        {
+            _userExtraInfo = userExtraInfo;
+        }
 
         const std::string& getUserId() const { return _userId; }
 
@@ -470,7 +447,8 @@ public:
     /// uri format: http://server/<...>/wopi*/files/<id>/content
     std::string loadStorageFileToLocal(const Authorization& auth) override;
 
-    SaveResult saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath, const std::string& saveAsFilename) override;
+    SaveResult saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath,
+                                      const std::string& saveAsFilename) override;
 
     /// Total time taken for making WOPI calls during load
     std::chrono::duration<double> getWopiLoadDuration() const { return _wopiLoadDuration; }
@@ -484,15 +462,14 @@ private:
 class WebDAVStorage : public StorageBase
 {
 public:
-    WebDAVStorage(const Poco::URI& uri,
-                  const std::string& localStorePath,
-                  const std::string& jailPath,
-                  std::unique_ptr<AuthBase> authAgent) :
-        StorageBase(uri, localStorePath, jailPath),
-        _authAgent(std::move(authAgent))
+    WebDAVStorage(const Poco::URI& uri, const std::string& localStorePath,
+                  const std::string& jailPath, std::unique_ptr<AuthBase> authAgent)
+        : StorageBase(uri, localStorePath, jailPath)
+        , _authAgent(std::move(authAgent))
     {
-        LOG_INF("WebDAVStorage ctor with localStorePath: [" << localStorePath <<
-                "], jailPath: [" << jailPath << "], uri: [" << LOOLWSD::anonymizeUrl(uri.toString()) << "].");
+        LOG_INF("WebDAVStorage ctor with localStorePath: ["
+                << localStorePath << "], jailPath: [" << jailPath << "], uri: ["
+                << LOOLWSD::anonymizeUrl(uri.toString()) << "].");
     }
 
     // Implement me
@@ -500,7 +477,8 @@ public:
 
     std::string loadStorageFileToLocal(const Authorization& auth) override;
 
-    SaveResult saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath, const std::string& saveAsFilename) override;
+    SaveResult saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath,
+                                      const std::string& saveAsFilename) override;
 
 private:
     std::unique_ptr<AuthBase> _authAgent;

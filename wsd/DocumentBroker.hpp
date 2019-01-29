@@ -43,13 +43,12 @@ class Message;
 class TerminatingPoll : public SocketPoll
 {
 public:
-    TerminatingPoll(const std::string &threadName) :
-        SocketPoll(threadName) {}
-
-    bool continuePolling() override
+    TerminatingPoll(const std::string& threadName)
+        : SocketPoll(threadName)
     {
-        return SocketPoll::continuePolling() && !TerminationFlag;
     }
+
+    bool continuePolling() override { return SocketPoll::continuePolling() && !TerminationFlag; }
 };
 
 /// Represents a new LOK child that is read
@@ -59,19 +58,17 @@ class ChildProcess
 public:
     /// @param pid is the process ID of the child.
     /// @param socket is the underlying Sockeet to the child.
-    ChildProcess(const Poco::Process::PID pid,
-                 const std::string& jailId,
-                 const std::shared_ptr<StreamSocket>& socket,
-                 const Poco::Net::HTTPRequest &request) :
+    ChildProcess(const Poco::Process::PID pid, const std::string& jailId,
+                 const std::shared_ptr<StreamSocket>& socket, const Poco::Net::HTTPRequest& request)
+        :
 
-        _pid(pid),
-        _jailId(jailId),
-        _ws(std::make_shared<WebSocketHandler>(socket, request)),
-        _socket(socket)
+        _pid(pid)
+        , _jailId(jailId)
+        , _ws(std::make_shared<WebSocketHandler>(socket, request))
+        , _socket(socket)
     {
         LOG_INF("ChildProcess ctor [" << _pid << "].");
     }
-
 
     ChildProcess(ChildProcess&& other) = delete;
 
@@ -139,8 +136,8 @@ public:
             }
         }
 #else
-        // What to do? Throw some unique exception that the outermost call in the thread catches and
-        // exits from the thread?
+            // What to do? Throw some unique exception that the outermost call in the thread catches and
+            // exits from the thread?
 #endif
         _pid = -1;
     }
@@ -155,19 +152,22 @@ public:
         {
             if (_ws)
             {
-                LOG_TRC("Send DocBroker to Child message: [" << LOOLProtocol::getAbbreviatedMessage(data) << "].");
+                LOG_TRC("Send DocBroker to Child message: ["
+                        << LOOLProtocol::getAbbreviatedMessage(data) << "].");
                 _ws->sendMessage(data);
                 return true;
             }
         }
         catch (const std::exception& exc)
         {
-            LOG_ERR("Failed to send child [" << _pid << "] data [" <<
-                    LOOLProtocol::getAbbreviatedMessage(data) << "] due to: " << exc.what());
+            LOG_ERR("Failed to send child [" << _pid << "] data ["
+                                             << LOOLProtocol::getAbbreviatedMessage(data)
+                                             << "] due to: " << exc.what());
             throw;
         }
 
-        LOG_WRN("No socket between DocBroker and child to send [" << LOOLProtocol::getAbbreviatedMessage(data) << "]");
+        LOG_WRN("No socket between DocBroker and child to send ["
+                << LOOLProtocol::getAbbreviatedMessage(data) << "]");
         return false;
     }
 
@@ -208,6 +208,7 @@ class ClientSession;
 class DocumentBroker : public std::enable_shared_from_this<DocumentBroker>
 {
     class DocumentBrokerPoll;
+
 public:
     static Poco::URI sanitizeURI(const std::string& uri);
 
@@ -219,9 +220,7 @@ public:
     DocumentBroker();
 
     /// Construct DocumentBroker with URI, docKey, and root path.
-    DocumentBroker(const std::string& uri,
-                   const Poco::URI& uriPublic,
-                   const std::string& docKey,
+    DocumentBroker(const std::string& uri, const Poco::URI& uriPublic, const std::string& docKey,
                    const std::string& childRoot);
 
     ~DocumentBroker();
@@ -243,11 +242,13 @@ public:
     bool isDocumentChangedInStorage() { return _documentChangedInStorage; }
 
     /// Save the document to Storage if it needs persisting.
-    bool saveToStorage(const std::string& sesionId, bool success, const std::string& result = "", bool force = false);
+    bool saveToStorage(const std::string& sesionId, bool success, const std::string& result = "",
+                       bool force = false);
 
     /// Save As the document to Storage.
     /// @param saveAsPath Absolute path to the jailed file.
-    bool saveAsToStorage(const std::string& sesionId, const std::string& saveAsPath, const std::string& saveAsFilename);
+    bool saveAsToStorage(const std::string& sesionId, const std::string& saveAsPath,
+                         const std::string& saveAsFilename);
 
     bool isModified() const { return _isModified; }
     void setModified(const bool value);
@@ -304,8 +305,7 @@ public:
     }
 
     void invalidateTiles(const std::string& tiles);
-    void handleTileRequest(TileDesc& tile,
-                           const std::shared_ptr<ClientSession>& session);
+    void handleTileRequest(TileDesc& tile, const std::shared_ptr<ClientSession>& session);
     void handleDialogRequest(const std::string& dialogCmd);
     void handleTileCombinedRequest(TileCombined& tileCombined,
                                    const std::shared_ptr<ClientSession>& session);
@@ -337,7 +337,10 @@ public:
     Poco::Process::PID getPid() const { return _childProcess->getPid(); }
 
     std::unique_lock<std::mutex> getLock() { return std::unique_lock<std::mutex>(_mutex); }
-    std::unique_lock<std::mutex> getDeferredLock() { return std::unique_lock<std::mutex>(_mutex, std::defer_lock); }
+    std::unique_lock<std::mutex> getDeferredLock()
+    {
+        return std::unique_lock<std::mutex>(_mutex, std::defer_lock);
+    }
 
     void updateLastActivityTime();
 
@@ -362,7 +365,6 @@ public:
     void setInitialSetting(const std::string& name);
 
 private:
-
     /// Shutdown all client connections with the given reason.
     void shutdownClients(const std::string& closeReason);
 
@@ -371,7 +373,10 @@ private:
     void terminateChild(const std::string& closeReason);
 
     /// Saves the doc to the storage.
-    bool saveToStorageInternal(const std::string& sesionId, bool success, const std::string& result = "", const std::string& saveAsPath = std::string(), const std::string& saveAsFilename = std::string());
+    bool saveToStorageInternal(const std::string& sesionId, bool success,
+                               const std::string& result = "",
+                               const std::string& saveAsPath = std::string(),
+                               const std::string& saveAsFilename = std::string());
 
     /// True iff a save is in progress (requested but not completed).
     bool isSaving() const { return _lastSaveResponseTime < _lastSaveRequestTime; }
@@ -379,7 +384,10 @@ private:
     /// True if we know the doc is modified or
     /// if there has been activity from a client after we last *requested* saving,
     /// since there are race conditions vis-a-vis user activity while saving.
-    bool isPossiblyModified() const { return _isModified || (_lastSaveRequestTime < _lastActivityTime); }
+    bool isPossiblyModified() const
+    {
+        return _isModified || (_lastSaveRequestTime < _lastActivityTime);
+    }
 
     /// True iff there is at least one non-readonly session other than the given.
     /// Since only editable sessions can save, we need to use the last to
@@ -401,7 +409,7 @@ private:
     void pollThread();
 
     /// Sum the I/O stats from all connected sessions
-    void getIOStats(uint64_t &sent, uint64_t &recv);
+    void getIOStats(uint64_t& sent, uint64_t& recv);
 
 private:
     const std::string _uriOrig;
@@ -439,7 +447,7 @@ private:
     Poco::Timestamp _lastFileModifiedTime;
 
     /// All session of this DocBroker by ID.
-    std::map<std::string, std::shared_ptr<ClientSession> > _sessions;
+    std::map<std::string, std::shared_ptr<ClientSession>> _sessions;
 
     /// If we set the user-requested inital (on load) settings to be forced.
     std::set<std::string> _isInitialStateSet;

@@ -25,19 +25,16 @@
 
 class DocumentBroker;
 
-
 /// Represents a session to a LOOL client, in the WSD process.
 class ClientSession final : public Session, public std::enable_shared_from_this<ClientSession>
 {
 public:
-    ClientSession(const std::string& id,
-                  const std::shared_ptr<DocumentBroker>& docBroker,
-                  const Poco::URI& uriPublic,
-                  const bool isReadOnly = false);
+    ClientSession(const std::string& id, const std::shared_ptr<DocumentBroker>& docBroker,
+                  const Poco::URI& uriPublic, const bool isReadOnly = false);
 
     virtual ~ClientSession();
 
-    void handleIncomingMessage(SocketDisposition &) override;
+    void handleIncomingMessage(SocketDisposition&) override;
 
     void setReadOnly() override;
 
@@ -75,10 +72,7 @@ public:
     void enqueueSendMessage(const std::shared_ptr<Message>& data);
 
     /// Set the save-as socket which is used to send convert-to results.
-    void setSaveAsSocket(const std::shared_ptr<StreamSocket>& socket)
-    {
-        _saveAsSocket = socket;
-    }
+    void setSaveAsSocket(const std::shared_ptr<StreamSocket>& socket) { _saveAsSocket = socket; }
 
     std::shared_ptr<DocumentBroker> getDocumentBroker() const { return _docBroker.lock(); }
 
@@ -94,7 +88,10 @@ public:
     Authorization getAuthorization() const;
 
     /// Set WOPI fileinfo object
-    void setWopiFileInfo(std::unique_ptr<WopiStorage::WOPIFileInfo>& wopiFileInfo) { _wopiFileInfo = std::move(wopiFileInfo); }
+    void setWopiFileInfo(std::unique_ptr<WopiStorage::WOPIFileInfo>& wopiFileInfo)
+    {
+        _wopiFileInfo = std::move(wopiFileInfo);
+    }
 
     /// Get requested tiles waiting for sending to the client
     std::deque<TileDesc>& getRequestedTiles() { return _requestedTiles; }
@@ -123,19 +120,19 @@ public:
     void removeOutdatedTileSubscriptions();
     void clearTileSubscription();
 
-    size_t getTilesBeingRenderedCount() const {return _tilesBeingRendered.size();}
+    size_t getTilesBeingRenderedCount() const { return _tilesBeingRendered.size(); }
 
     /// Clear wireId map anytime when client visible area changes (visible area, zoom, part number)
     void resetWireIdMap();
 
     bool isTextDocument() const { return _isTextDocument; }
-private:
 
+private:
     /// SocketHandler: disconnection event.
     void onDisconnect() override;
     /// Does SocketHandler: have data or timeouts to setup.
     int getPollEvents(std::chrono::steady_clock::time_point /* now */,
-                      int & /* timeoutMaxMs */) override;
+                      int& /* timeoutMaxMs */) override;
     /// SocketHandler: write to socket.
     void performWrites() override;
 
@@ -227,7 +224,6 @@ private:
     /// Store wireID's of the sent tiles inside the actual visible area
     std::map<std::string, TileWireId> _oldWireIds;
 };
-
 
 #endif
 

@@ -23,8 +23,8 @@ class UnitClient : public UnitWSD
     std::thread _worker;
 
 public:
-    UnitClient() :
-        _workerStarted(false)
+    UnitClient()
+        : _workerStarted(false)
     {
         int timeout_minutes = 5;
         setTimeout(timeout_minutes * 60 * 1000);
@@ -35,7 +35,7 @@ public:
         _worker.join();
     }
 
-    bool filterAlertAllusers(const std::string & msg) override
+    bool filterAlertAllusers(const std::string& msg) override
     {
         std::cout << "Alert: " << msg << "\n";
         return false;
@@ -55,19 +55,16 @@ public:
             return;
         _workerStarted = true;
 
-        _worker = std::thread([this]{
-                if (runClientTests(false, true))
-                    exitTest(TestResult::Ok);
-                else
-                    exitTest(TestResult::Failed);
-            });
+        _worker = std::thread([this] {
+            if (runClientTests(false, true))
+                exitTest(TestResult::Ok);
+            else
+                exitTest(TestResult::Failed);
+        });
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitClient();
-}
+UnitBase* unit_create_wsd(void) { return new UnitClient(); }
 
 // Allows re-use of UnitClient in test.cpp impls.
 #define UNIT_CLIENT_TESTS

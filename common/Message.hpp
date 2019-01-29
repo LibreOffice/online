@@ -21,21 +21,29 @@
 class Message
 {
 public:
-
-    enum class Type { Text, JSON, Binary };
-    enum class Dir { In, Out };
+    enum class Type
+    {
+        Text,
+        JSON,
+        Binary
+    };
+    enum class Dir
+    {
+        In,
+        Out
+    };
 
     /// Construct a text message.
     /// message must include the full first-line.
-    Message(const std::string& message,
-            const enum Dir dir) :
-        _forwardToken(getForwardToken(message.data(), message.size())),
-        _data(skipWhitespace(message.data() + _forwardToken.size()), message.data() + message.size()),
-        _tokens(LOOLProtocol::tokenize(_data.data(), _data.size())),
-        _id(makeId(dir)),
-        _firstLine(LOOLProtocol::getFirstLine(_data.data(), _data.size())),
-        _abbr(_id + ' ' + LOOLProtocol::getAbbreviatedMessage(_data.data(), _data.size())),
-        _type(detectType())
+    Message(const std::string& message, const enum Dir dir)
+        : _forwardToken(getForwardToken(message.data(), message.size()))
+        , _data(skipWhitespace(message.data() + _forwardToken.size()),
+                message.data() + message.size())
+        , _tokens(LOOLProtocol::tokenize(_data.data(), _data.size()))
+        , _id(makeId(dir))
+        , _firstLine(LOOLProtocol::getFirstLine(_data.data(), _data.size()))
+        , _abbr(_id + ' ' + LOOLProtocol::getAbbreviatedMessage(_data.data(), _data.size()))
+        , _type(detectType())
     {
         LOG_TRC("Message " << _abbr);
     }
@@ -43,16 +51,15 @@ public:
     /// Construct a message from a string with type and
     /// reserve extra space (total, including message).
     /// message must include the full first-line.
-    Message(const std::string& message,
-            const enum Dir dir,
-            const size_t reserve) :
-        _forwardToken(getForwardToken(message.data(), message.size())),
-        _data(std::max(reserve, message.size())),
-        _tokens(LOOLProtocol::tokenize(message.data() + _forwardToken.size(), message.size() - _forwardToken.size())),
-        _id(makeId(dir)),
-        _firstLine(LOOLProtocol::getFirstLine(message)),
-        _abbr(_id + ' ' + LOOLProtocol::getAbbreviatedMessage(message)),
-        _type(detectType())
+    Message(const std::string& message, const enum Dir dir, const size_t reserve)
+        : _forwardToken(getForwardToken(message.data(), message.size()))
+        , _data(std::max(reserve, message.size()))
+        , _tokens(LOOLProtocol::tokenize(message.data() + _forwardToken.size(),
+                                         message.size() - _forwardToken.size()))
+        , _id(makeId(dir))
+        , _firstLine(LOOLProtocol::getFirstLine(message))
+        , _abbr(_id + ' ' + LOOLProtocol::getAbbreviatedMessage(message))
+        , _type(detectType())
     {
         _data.resize(message.size());
         const char* offset = skipWhitespace(message.data() + _forwardToken.size());
@@ -62,16 +69,14 @@ public:
 
     /// Construct a message from a character array with type.
     /// Note: p must include the full first-line.
-    Message(const char* p,
-            const size_t len,
-            const enum Dir dir) :
-        _forwardToken(getForwardToken(p, len)),
-        _data(skipWhitespace(p + _forwardToken.size()), p + len),
-        _tokens(LOOLProtocol::tokenize(_data.data(), _data.size())),
-        _id(makeId(dir)),
-        _firstLine(LOOLProtocol::getFirstLine(_data.data(), _data.size())),
-        _abbr(_id + ' ' + LOOLProtocol::getAbbreviatedMessage(_data.data(), _data.size())),
-        _type(detectType())
+    Message(const char* p, const size_t len, const enum Dir dir)
+        : _forwardToken(getForwardToken(p, len))
+        , _data(skipWhitespace(p + _forwardToken.size()), p + len)
+        , _tokens(LOOLProtocol::tokenize(_data.data(), _data.size()))
+        , _id(makeId(dir))
+        , _firstLine(LOOLProtocol::getFirstLine(_data.data(), _data.size()))
+        , _abbr(_id + ' ' + LOOLProtocol::getAbbreviatedMessage(_data.data(), _data.size()))
+        , _type(detectType())
     {
         LOG_TRC("Message " << _abbr);
     }
@@ -118,7 +123,6 @@ public:
     bool isBinary() const { return _type == Type::Binary; }
 
 private:
-
     /// Constructs a unique ID.
     static std::string makeId(const enum Dir dir)
     {
@@ -128,10 +132,8 @@ private:
 
     Type detectType() const
     {
-        if (_tokens[0] == "tile:" ||
-            _tokens[0] == "tilecombine:" ||
-            _tokens[0] == "renderfont:" ||
-            _tokens[0] == "windowpaint:")
+        if (_tokens[0] == "tile:" || _tokens[0] == "tilecombine:" || _tokens[0] == "renderfont:"
+            || _tokens[0] == "windowpaint:")
         {
             return Type::Binary;
         }

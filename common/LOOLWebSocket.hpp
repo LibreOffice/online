@@ -35,8 +35,8 @@ private:
     std::mutex _mutexWrite;
 
 public:
-    LOOLWebSocket(const Socket& socket) :
-        Poco::Net::WebSocket(socket)
+    LOOLWebSocket(const Socket& socket)
+        : Poco::Net::WebSocket(socket)
     {
     }
 
@@ -48,10 +48,9 @@ public:
     }
 #endif
 
-    LOOLWebSocket(Poco::Net::HTTPClientSession& cs,
-                  Poco::Net::HTTPRequest& request,
-                  Poco::Net::HTTPResponse& response) :
-        Poco::Net::WebSocket(cs, request, response)
+    LOOLWebSocket(Poco::Net::HTTPClientSession& cs, Poco::Net::HTTPRequest& request,
+                  Poco::Net::HTTPResponse& response)
+        : Poco::Net::WebSocket(cs, request, response)
     {
     }
 #if 0
@@ -98,7 +97,10 @@ public:
             {
                 // Echo back the ping message.
                 std::unique_lock<std::mutex> lock(_mutexWrite);
-                if (Poco::Net::WebSocket::sendFrame(buffer, n, static_cast<int>(WebSocket::FRAME_FLAG_FIN) | WebSocket::FRAME_OP_PONG) != n)
+                if (Poco::Net::WebSocket::sendFrame(buffer, n,
+                                                    static_cast<int>(WebSocket::FRAME_FLAG_FIN)
+                                                        | WebSocket::FRAME_OP_PONG)
+                    != n)
                 {
                     LOG_WRN("Sending Pong failed.");
                     return -1;
@@ -130,8 +132,9 @@ public:
 
         if (result != length)
         {
-            LOG_ERR("Sent incomplete message, expected " << length << " bytes but sent " << result <<
-                    " for: " << LOOLProtocol::getAbbreviatedFrameDump(buffer, length, flags));
+            LOG_ERR("Sent incomplete message, expected "
+                    << length << " bytes but sent " << result
+                    << " for: " << LOOLProtocol::getAbbreviatedFrameDump(buffer, length, flags));
         }
         else
         {
@@ -143,10 +146,7 @@ public:
 
     /// Safe shutdown by sending a normal close frame, if socket is not in error,
     /// or, otherwise, close the socket without sending close frame, if it is.
-    void shutdown()
-    {
-        shutdown(Poco::Net::WebSocket::StatusCodes::WS_NORMAL_CLOSE);
-    }
+    void shutdown() { shutdown(Poco::Net::WebSocket::StatusCodes::WS_NORMAL_CLOSE); }
 
     /// Safe shutdown by sending a specific close frame, if socket is not in error,
     /// or, otherwise, close the socket without sending close frame, if it is.
@@ -170,8 +170,9 @@ public:
         }
         catch (const Poco::Exception& exc)
         {
-            LOG_WRN("LOOLWebSocket::shutdown: Exception: " << exc.displayText() <<
-                    (exc.nested() ? " (" + exc.nested()->displayText() + ")" : ""));
+            LOG_WRN("LOOLWebSocket::shutdown: Exception: "
+                    << exc.displayText()
+                    << (exc.nested() ? " (" + exc.nested()->displayText() + ")" : ""));
 
             // Just close it.
             try

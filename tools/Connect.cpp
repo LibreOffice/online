@@ -47,18 +47,18 @@ using Poco::Net::HTTPSClientSession;
 #else
 using Poco::Net::HTTPClientSession;
 #endif
-using Poco::Net::HTTPRequest;
-using Poco::Net::HTTPResponse;
-using Poco::Net::InvalidCertificateHandler;
-using Poco::Net::SSLManager;
-using Poco::Net::WebSocket;
-using Poco::Net::WebSocketException;
 using Poco::Runnable;
 using Poco::SharedPtr;
 using Poco::StringTokenizer;
 using Poco::TemporaryFile;
 using Poco::Thread;
 using Poco::URI;
+using Poco::Net::HTTPRequest;
+using Poco::Net::HTTPResponse;
+using Poco::Net::InvalidCertificateHandler;
+using Poco::Net::SSLManager;
+using Poco::Net::WebSocket;
+using Poco::Net::WebSocketException;
 using Poco::Util::Application;
 
 static bool closeExpected = false;
@@ -68,8 +68,8 @@ static std::mutex coutMutex;
 class Output : public Runnable
 {
 public:
-    Output(LOOLWebSocket& ws) :
-        _ws(ws)
+    Output(LOOLWebSocket& ws)
+        : _ws(ws)
     {
     }
 
@@ -87,11 +87,14 @@ public:
                 {
                     {
                         std::unique_lock<std::mutex> lock(coutMutex);
-                        std::cout << "Got " << getAbbreviatedFrameDump(buffer, n, flags) << std::endl;
+                        std::cout << "Got " << getAbbreviatedFrameDump(buffer, n, flags)
+                                  << std::endl;
                     }
 
                     std::string firstLine = getFirstLine(buffer, n);
-                    StringTokenizer tokens(firstLine, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+                    StringTokenizer tokens(firstLine, " ",
+                                           StringTokenizer::TOK_IGNORE_EMPTY
+                                               | StringTokenizer::TOK_TRIM);
 
                     if (std::getenv("DISPLAY") != nullptr && tokens[0] == "tile:")
                     {
@@ -106,8 +109,7 @@ public:
                         }
                     }
                 }
-            }
-            while (n > 0 && (flags & WebSocket::FRAME_OP_BITMASK) != WebSocket::FRAME_OP_CLOSE);
+            } while (n > 0 && (flags & WebSocket::FRAME_OP_BITMASK) != WebSocket::FRAME_OP_CLOSE);
 
             {
                 std::unique_lock<std::mutex> lock(coutMutex);
@@ -128,10 +130,11 @@ private:
 };
 
 /// Program for interactive or scripted testing of a lool server.
-class Connect: public Poco::Util::Application
+class Connect : public Poco::Util::Application
 {
 public:
-    Connect() :
+    Connect()
+        :
 #if ENABLE_SSL
         _uri("https://127.0.0.1:" + std::to_string(DEFAULT_CLIENT_PORT_NUMBER) + "/ws")
 #else
@@ -155,7 +158,8 @@ protected:
 #if ENABLE_SSL
         Poco::Net::initializeSSL();
 
-        SharedPtr<InvalidCertificateHandler> invalidCertHandler = new AcceptCertificateHandler(false);
+        SharedPtr<InvalidCertificateHandler> invalidCertHandler
+            = new AcceptCertificateHandler(false);
         Context::Params sslParams;
         Context::Ptr sslContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslParams);
         SSLManager::instance().initializeClient(nullptr, invalidCertHandler, sslContext);
@@ -241,7 +245,7 @@ namespace Util
     {
         std::cout << "error: cmd=" << cmd << " kind=" << kind << std::endl;
     }
-}
+} // namespace Util
 
 POCO_APP_MAIN(Connect)
 

@@ -38,7 +38,7 @@ namespace LOOLProtocol
     inline std::string GetProtocolVersion()
     {
         return std::to_string(ProtocolMajorVersionNumber) + '.'
-            + std::to_string(ProtocolMinorVersionNumber);
+               + std::to_string(ProtocolMinorVersionNumber);
     }
 
     // Parse a string into a version tuple.
@@ -49,8 +49,8 @@ namespace LOOLProtocol
     bool stringToUInt32(const std::string& input, uint32_t& value);
     bool stringToUInt64(const std::string& input, uint64_t& value);
 
-    inline
-    bool parseNameValuePair(const std::string& token, std::string& name, std::string& value, const char delim = '=')
+    inline bool parseNameValuePair(const std::string& token, std::string& name, std::string& value,
+                                   const char delim = '=')
     {
         const size_t mid = token.find_first_of(delim);
         if (mid != std::string::npos)
@@ -63,8 +63,7 @@ namespace LOOLProtocol
         return false;
     }
 
-    inline
-    bool parseNameIntegerPair(const std::string& token, std::string& name, int& value)
+    inline bool parseNameIntegerPair(const std::string& token, std::string& name, int& value)
     {
         std::string strValue;
         return parseNameValuePair(token, name, strValue, '=') && stringToInteger(strValue, value);
@@ -74,16 +73,19 @@ namespace LOOLProtocol
     bool getTokenUInt32(const std::string& token, const std::string& name, uint32_t& value);
     bool getTokenUInt64(const std::string& token, const std::string& name, uint64_t& value);
     bool getTokenString(const std::string& token, const std::string& name, std::string& value);
-    bool getTokenKeyword(const std::string& token, const std::string& name, const std::map<std::string, int>& map, int& value);
+    bool getTokenKeyword(const std::string& token, const std::string& name,
+                         const std::map<std::string, int>& map, int& value);
 
     bool getTokenInteger(const Poco::StringTokenizer& tokens, const std::string& name, int& value);
-    bool getTokenString(const Poco::StringTokenizer& tokens, const std::string& name, std::string& value);
-    bool getTokenKeyword(const Poco::StringTokenizer& tokens, const std::string& name, const std::map<std::string, int>& map, int& value);
+    bool getTokenString(const Poco::StringTokenizer& tokens, const std::string& name,
+                        std::string& value);
+    bool getTokenKeyword(const Poco::StringTokenizer& tokens, const std::string& name,
+                         const std::map<std::string, int>& map, int& value);
 
-    bool getTokenInteger(const std::vector<std::string>& tokens, const std::string& name, int& value);
+    bool getTokenInteger(const std::vector<std::string>& tokens, const std::string& name,
+                         int& value);
 
-    inline bool getTokenString(const std::vector<std::string>& tokens,
-                               const std::string& name,
+    inline bool getTokenString(const std::vector<std::string>& tokens, const std::string& name,
                                std::string& value)
     {
         for (const auto& token : tokens)
@@ -97,12 +99,14 @@ namespace LOOLProtocol
         return false;
     }
 
-    bool getTokenStringFromMessage(const std::string& message, const std::string& name, std::string& value);
-    bool getTokenKeywordFromMessage(const std::string& message, const std::string& name, const std::map<std::string, int>& map, int& value);
+    bool getTokenStringFromMessage(const std::string& message, const std::string& name,
+                                   std::string& value);
+    bool getTokenKeywordFromMessage(const std::string& message, const std::string& name,
+                                    const std::map<std::string, int>& map, int& value);
 
     /// Tokenize space-delimited values until we hit new-line or the end.
-    inline
-    std::vector<std::string> tokenize(const char* data, const size_t size, const char delimeter = ' ')
+    inline std::vector<std::string> tokenize(const char* data, const size_t size,
+                                             const char delimeter = ' ')
     {
         std::vector<std::string> tokens;
         if (size == 0 || data == nullptr)
@@ -137,14 +141,13 @@ namespace LOOLProtocol
         return tokens;
     }
 
-    inline
-    std::vector<std::string> tokenize(const std::string& s, const char delimeter = ' ')
+    inline std::vector<std::string> tokenize(const std::string& s, const char delimeter = ' ')
     {
         return tokenize(s.data(), s.size(), delimeter);
     }
 
-    inline
-    std::vector<int> tokenizeInts(const char* data, const size_t size, const char delimeter = ',')
+    inline std::vector<int> tokenizeInts(const char* data, const size_t size,
+                                         const char delimeter = ',')
     {
         std::vector<int> tokens;
         if (size == 0 || data == nullptr)
@@ -171,46 +174,41 @@ namespace LOOLProtocol
         return tokens;
     }
 
-    inline
-    std::vector<int> tokenizeInts(const std::string& s, const char delimeter = ',')
+    inline std::vector<int> tokenizeInts(const std::string& s, const char delimeter = ',')
     {
         return tokenizeInts(s.data(), s.size(), delimeter);
     }
 
-    inline bool getTokenIntegerFromMessage(const std::string& message, const std::string& name, int& value)
+    inline bool getTokenIntegerFromMessage(const std::string& message, const std::string& name,
+                                           int& value)
     {
         return getTokenInteger(tokenize(message), name, value);
     }
 
     /// Returns the first token of a message.
-    inline
-    std::string getFirstToken(const char *message, const int length, const char delim = ' ')
+    inline std::string getFirstToken(const char* message, const int length, const char delim = ' ')
     {
         return Util::getDelimitedInitialSubstring(message, length, delim);
     }
 
-    template <typename T>
-    std::string getFirstToken(const T& message, const char delim = ' ')
+    template <typename T> std::string getFirstToken(const T& message, const char delim = ' ')
     {
         return getFirstToken(message.data(), message.size(), delim);
     }
 
-    inline
-    bool matchPrefix(const std::string& prefix, const std::string& message)
+    inline bool matchPrefix(const std::string& prefix, const std::string& message)
     {
-        return (message.size() >= prefix.size() &&
-                message.compare(0, prefix.size(), prefix) == 0);
+        return (message.size() >= prefix.size() && message.compare(0, prefix.size(), prefix) == 0);
     }
 
-    inline
-    bool matchPrefix(const std::string& prefix, const std::vector<char>& message)
+    inline bool matchPrefix(const std::string& prefix, const std::vector<char>& message)
     {
-        return (message.size() >= prefix.size() &&
-                prefix.compare(0, prefix.size(), message.data(), prefix.size()) == 0);
+        return (message.size() >= prefix.size()
+                && prefix.compare(0, prefix.size(), message.data(), prefix.size()) == 0);
     }
 
-    inline
-    bool matchPrefix(const std::string& prefix, const std::string& message, const bool ignoreWhitespace)
+    inline bool matchPrefix(const std::string& prefix, const std::string& message,
+                            const bool ignoreWhitespace)
     {
         if (ignoreWhitespace)
         {
@@ -230,8 +228,7 @@ namespace LOOLProtocol
     /// Currently this excludes commands sent automatically.
     /// Notice that this doesn't guarantee editing activity,
     /// rather just user interaction with the UI.
-    inline
-    bool tokenIndicatesUserInteraction(const std::string& token)
+    inline bool tokenIndicatesUserInteraction(const std::string& token)
     {
         // Exclude tokens that include these keywords, such as canceltiles statusindicator.
 
@@ -240,22 +237,18 @@ namespace LOOLProtocol
         // but that is coincidental. We should check what the actual whole token is, at least, not
         // look for a substring.
 
-        return (token.find("tile") == std::string::npos &&
-                token.find("status") == std::string::npos &&
-                token.find("state") == std::string::npos &&
-                token != "userinactive");
+        return (token.find("tile") == std::string::npos && token.find("status") == std::string::npos
+                && token.find("state") == std::string::npos && token != "userinactive");
     }
 
     /// Returns the first line of a message.
-    inline
-    std::string getFirstLine(const char *message, const int length)
+    inline std::string getFirstLine(const char* message, const int length)
     {
         return Util::getDelimitedInitialSubstring(message, length, '\n');
     }
 
     /// Returns the first line of any data which payload char*.
-    template <typename T>
-    std::string getFirstLine(const T& message)
+    template <typename T> std::string getFirstLine(const T& message)
     {
         return getFirstLine(message.data(), message.size());
     }
@@ -265,8 +258,7 @@ namespace LOOLProtocol
     /// is in printable UTF-8. I.e. no encoding of binary bytes is done. The format of the result is
     /// not guaranteed to be stable. It is to be used for logging purposes only, not for decoding
     /// protocol frames.
-    inline
-    std::string getAbbreviatedMessage(const char *message, const int length)
+    inline std::string getAbbreviatedMessage(const char* message, const int length)
     {
         if (message == nullptr || length <= 0)
         {
@@ -286,7 +278,8 @@ namespace LOOLProtocol
 
     inline std::string getAbbreviatedMessage(const std::string& message)
     {
-        const size_t pos = Util::getDelimiterPosition(message.data(), std::min(message.size(), 501UL), '\n');
+        const size_t pos
+            = Util::getDelimiterPosition(message.data(), std::min(message.size(), 501UL), '\n');
 
         // If first line is less than the length (minus newline), add ellipsis.
         if (pos < static_cast<std::string::size_type>(message.size()) - 1)
@@ -297,8 +290,7 @@ namespace LOOLProtocol
         return message;
     }
 
-    template <typename T>
-    std::string getAbbreviatedMessage(const T& message)
+    template <typename T> std::string getAbbreviatedMessage(const T& message)
     {
         return getAbbreviatedMessage(message.data(), message.size());
     }
@@ -306,35 +298,42 @@ namespace LOOLProtocol
     // Return a string dump of a WebSocket frame: Its opcode, length, first line (if present),
     // flags. For human-readable logging purposes. Format not guaranteed to be stable. Not to be
     // inspected programmatically.
-    inline
-    std::string getAbbreviatedFrameDump(const char *message, const int length, const int flags)
+    inline std::string getAbbreviatedFrameDump(const char* message, const int length,
+                                               const int flags)
     {
         std::ostringstream result;
         switch (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK)
         {
-#define CASE(x) case Poco::Net::WebSocket::FRAME_OP_##x: result << #x; break
-        CASE(CONT);
-        CASE(TEXT);
-        CASE(BINARY);
-        CASE(CLOSE);
-        CASE(PING);
-        CASE(PONG);
+#define CASE(x)                                                                                    \
+    case Poco::Net::WebSocket::FRAME_OP_##x:                                                       \
+        result << #x;                                                                              \
+        break
+            CASE(CONT);
+            CASE(TEXT);
+            CASE(BINARY);
+            CASE(CLOSE);
+            CASE(PING);
+            CASE(PONG);
 #undef CASE
-        default:
-            result << Poco::format("%#x", flags);
-            break;
+            default:
+                result << Poco::format("%#x", flags);
+                break;
         }
         result << " " << std::setw(3) << length << " bytes";
 
-        if (length > 0 &&
-            ((flags & Poco::Net::WebSocket::FRAME_OP_BITMASK) == Poco::Net::WebSocket::FRAME_OP_TEXT ||
-             (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK) == Poco::Net::WebSocket::FRAME_OP_BINARY ||
-             (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK) == Poco::Net::WebSocket::FRAME_OP_PING ||
-             (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK) == Poco::Net::WebSocket::FRAME_OP_PONG))
+        if (length > 0
+            && ((flags & Poco::Net::WebSocket::FRAME_OP_BITMASK)
+                    == Poco::Net::WebSocket::FRAME_OP_TEXT
+                || (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK)
+                       == Poco::Net::WebSocket::FRAME_OP_BINARY
+                || (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK)
+                       == Poco::Net::WebSocket::FRAME_OP_PING
+                || (flags & Poco::Net::WebSocket::FRAME_OP_BITMASK)
+                       == Poco::Net::WebSocket::FRAME_OP_PONG))
             result << ": '" << getAbbreviatedMessage(message, length) << "'";
         return result.str();
     }
-};
+}; // namespace LOOLProtocol
 
 #endif
 

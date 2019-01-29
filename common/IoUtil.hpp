@@ -20,8 +20,7 @@ namespace IoUtil
 {
     /// Synchronously process LOOLWebSocket requests and dispatch to handler.
     /// Handler returns false to end.
-    void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws,
-                         const std::string& name,
+    void SocketProcessor(const std::shared_ptr<LOOLWebSocket>& ws, const std::string& name,
                          const std::function<bool(const std::vector<char>&)>& handler,
                          const std::function<void()>& closeFrame,
                          const std::function<bool()>& stopPredicate);
@@ -38,9 +37,9 @@ namespace IoUtil
     class PipeReader
     {
     public:
-        PipeReader(const std::string& name, const int pipe) :
-            _name(name),
-            _pipe(pipe)
+        PipeReader(const std::string& name, const int pipe)
+            : _name(name)
+            , _pipe(pipe)
         {
         }
 
@@ -49,15 +48,14 @@ namespace IoUtil
         /// Reads a single line from the pipe.
         /// Returns 0 for timeout, <0 for error, and >0 on success.
         /// On success, line will contain the read message.
-        int readLine(std::string& line,
-                     const std::function<bool()>& stopPredicate);
+        int readLine(std::string& line, const std::function<bool()>& stopPredicate);
 
     private:
         const std::string _name;
         const int _pipe;
         std::string _data;
     };
-}
+} // namespace IoUtil
 
 #endif
 

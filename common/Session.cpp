@@ -45,23 +45,21 @@ using namespace LOOLProtocol;
 using Poco::Exception;
 using std::size_t;
 
-Session::Session(const std::string& name, const std::string& id, bool readOnly) :
-    _id(id),
-    _name(name),
-    _disconnected(false),
-    _isActive(true),
-    _lastActivityTime(std::chrono::steady_clock::now()),
-    _isCloseFrame(false),
-    _isReadOnly(readOnly),
-    _docPassword(""),
-    _haveDocPassword(false),
-    _isDocPasswordProtected(false)
+Session::Session(const std::string& name, const std::string& id, bool readOnly)
+    : _id(id)
+    , _name(name)
+    , _disconnected(false)
+    , _isActive(true)
+    , _lastActivityTime(std::chrono::steady_clock::now())
+    , _isCloseFrame(false)
+    , _isReadOnly(readOnly)
+    , _docPassword("")
+    , _haveDocPassword(false)
+    , _isDocPasswordProtected(false)
 {
 }
 
-Session::~Session()
-{
-}
+Session::~Session() {}
 
 bool Session::sendTextFrame(const char* buffer, const int length)
 {
@@ -69,13 +67,14 @@ bool Session::sendTextFrame(const char* buffer, const int length)
     return sendMessage(buffer, length, WSOpCode::Text) >= length;
 }
 
-bool Session::sendBinaryFrame(const char *buffer, int length)
+bool Session::sendBinaryFrame(const char* buffer, int length)
 {
     LOG_TRC(getName() << ": Send: " << std::to_string(length) << " binary bytes.");
     return sendMessage(buffer, length, WSOpCode::Binary) >= length;
 }
 
-void Session::parseDocOptions(const std::vector<std::string>& tokens, int& part, std::string& timestamp)
+void Session::parseDocOptions(const std::vector<std::string>& tokens, int& part,
+                              std::string& timestamp)
 {
     // First token is the "load" command itself.
     size_t offset = 1;
@@ -172,7 +171,8 @@ void Session::parseDocOptions(const std::vector<std::string>& tokens, int& part,
         if (getTokenString(tokens[offset], "options", _docOptions))
         {
             if (tokens.size() > offset + 1)
-                _docOptions += Poco::cat(std::string(" "), tokens.begin() + offset + 1, tokens.end());
+                _docOptions
+                    += Poco::cat(std::string(" "), tokens.begin() + offset + 1, tokens.end());
         }
     }
 }
@@ -193,10 +193,12 @@ bool Session::handleDisconnect()
     return false;
 }
 
-void Session::shutdown(const WebSocketHandler::StatusCodes statusCode, const std::string& statusMessage)
+void Session::shutdown(const WebSocketHandler::StatusCodes statusCode,
+                       const std::string& statusMessage)
 {
-    LOG_TRC("Shutting down WS [" << getName() << "] with statusCode [" <<
-            static_cast<unsigned>(statusCode) << "] and reason [" << statusMessage << "].");
+    LOG_TRC("Shutting down WS [" << getName() << "] with statusCode ["
+                                 << static_cast<unsigned>(statusCode) << "] and reason ["
+                                 << statusMessage << "].");
 
     // See protocol.txt for this application-level close frame.
     sendMessage("close: " + statusMessage);
@@ -204,11 +206,11 @@ void Session::shutdown(const WebSocketHandler::StatusCodes statusCode, const std
     WebSocketHandler::shutdown(statusCode, statusMessage);
 }
 
-void Session::handleMessage(bool /*fin*/, WSOpCode /*code*/, std::vector<char> &data)
+void Session::handleMessage(bool /*fin*/, WSOpCode /*code*/, std::vector<char>& data)
 {
     try
     {
-        std::unique_ptr< std::vector<char> > replace;
+        std::unique_ptr<std::vector<char>> replace;
         if (UnitBase::get().filterSessionInput(this, &data[0], data.size(), replace))
         {
             if (!replace || replace->empty())
@@ -220,19 +222,18 @@ void Session::handleMessage(bool /*fin*/, WSOpCode /*code*/, std::vector<char> &
     }
     catch (const Exception& exc)
     {
-        LOG_ERR("Session::handleInput: Exception while handling [" <<
-                getAbbreviatedMessage(data) <<
-                "] in " << getName() << ": " << exc.displayText() <<
-                (exc.nested() ? " (" + exc.nested()->displayText() + ")" : ""));
+        LOG_ERR("Session::handleInput: Exception while handling ["
+                << getAbbreviatedMessage(data) << "] in " << getName() << ": " << exc.displayText()
+                << (exc.nested() ? " (" + exc.nested()->displayText() + ")" : ""));
     }
     catch (const std::exception& exc)
     {
-        LOG_ERR("Session::handleInput: Exception while handling [" <<
-                getAbbreviatedMessage(data) << "]: " << exc.what());
+        LOG_ERR("Session::handleInput: Exception while handling [" << getAbbreviatedMessage(data)
+                                                                   << "]: " << exc.what());
     }
 }
 
-void Session::getIOStats(uint64_t &sent, uint64_t &recv)
+void Session::getIOStats(uint64_t& sent, uint64_t& recv)
 {
     std::shared_ptr<StreamSocket> socket = getSocket().lock();
     if (socket)
@@ -248,22 +249,14 @@ void Session::dumpState(std::ostream& os)
 {
     WebSocketHandler::dumpState(os);
 
-    os <<   "\t\tid: " << _id
-       << "\n\t\tname: " << _name
-       << "\n\t\tdisconnected: " << _disconnected
-       << "\n\t\tisActive: " << _isActive
-       << "\n\t\tisCloseFrame: " << _isCloseFrame
-       << "\n\t\tisReadOnly: " << _isReadOnly
-       << "\n\t\tdocURL: " << _docURL
-       << "\n\t\tjailedFilePath: " << _jailedFilePath
-       << "\n\t\tdocPwd: " << _docPassword
+    os << "\t\tid: " << _id << "\n\t\tname: " << _name << "\n\t\tdisconnected: " << _disconnected
+       << "\n\t\tisActive: " << _isActive << "\n\t\tisCloseFrame: " << _isCloseFrame
+       << "\n\t\tisReadOnly: " << _isReadOnly << "\n\t\tdocURL: " << _docURL
+       << "\n\t\tjailedFilePath: " << _jailedFilePath << "\n\t\tdocPwd: " << _docPassword
        << "\n\t\thaveDocPwd: " << _haveDocPassword
        << "\n\t\tisDocPwdProtected: " << _isDocPasswordProtected
-       << "\n\t\tDocOptions: " << _docOptions
-       << "\n\t\tuserId: " << _userId
-       << "\n\t\tuserName: " << _userName
-       << "\n\t\tlang: " << _lang
-       << "\n";
+       << "\n\t\tDocOptions: " << _docOptions << "\n\t\tuserId: " << _userId
+       << "\n\t\tuserName: " << _userName << "\n\t\tlang: " << _lang << "\n";
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

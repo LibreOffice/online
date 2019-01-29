@@ -28,7 +28,7 @@ int fakeSocketSocket();
 
 int fakeSocketPipe2(int pipefd[2]);
 
-int fakeSocketPoll(struct pollfd *fds, int nfds, int timeout);
+int fakeSocketPoll(struct pollfd* fds, int nfds, int timeout);
 
 int fakeSocketListen(int fd);
 
@@ -40,9 +40,9 @@ int fakeSocketPeer(int fd);
 
 ssize_t fakeSocketAvailableDataLength(int fd);
 
-ssize_t fakeSocketRead(int fd, void *buf, size_t nbytes);
+ssize_t fakeSocketRead(int fd, void* buf, size_t nbytes);
 
-ssize_t fakeSocketWrite(int fd, const void *buf, size_t nbytes);
+ssize_t fakeSocketWrite(int fd, const void* buf, size_t nbytes);
 
 int fakeSocketShutdown(int fd);
 

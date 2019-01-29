@@ -31,12 +31,14 @@ namespace LOOLProtocol
         int minor = -1;
         std::string patch;
 
-        StringTokenizer firstTokens(version, ".", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        StringTokenizer firstTokens(version, ".",
+                                    StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
         if (firstTokens.count() > 0)
         {
             major = std::stoi(firstTokens[0]);
 
-            StringTokenizer secondTokens(firstTokens[1], "-", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+            StringTokenizer secondTokens(
+                firstTokens[1], "-", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
             minor = std::stoi(secondTokens[0]);
 
             if (secondTokens.count() > 1)
@@ -89,9 +91,8 @@ namespace LOOLProtocol
 
     bool getTokenInteger(const std::string& token, const std::string& name, int& value)
     {
-        if (token.size() > (name.size() + 1) &&
-            token.compare(0, name.size(), name) == 0 &&
-            token[name.size()] == '=')
+        if (token.size() > (name.size() + 1) && token.compare(0, name.size(), name) == 0
+            && token[name.size()] == '=')
         {
             const char* str = token.data() + name.size() + 1;
             char* endptr = nullptr;
@@ -104,9 +105,8 @@ namespace LOOLProtocol
 
     bool getTokenUInt64(const std::string& token, const std::string& name, uint64_t& value)
     {
-        if (token.size() > (name.size() + 1) &&
-            token.compare(0, name.size(), name) == 0 &&
-            token[name.size()] == '=')
+        if (token.size() > (name.size() + 1) && token.compare(0, name.size(), name) == 0
+            && token[name.size()] == '=')
         {
             const char* str = token.data() + name.size() + 1;
             char* endptr = nullptr;
@@ -119,9 +119,8 @@ namespace LOOLProtocol
 
     bool getTokenUInt32(const std::string& token, const std::string& name, uint32_t& value)
     {
-        if (token.size() > (name.size() + 1) &&
-            token.compare(0, name.size(), name) == 0 &&
-            token[name.size()] == '=')
+        if (token.size() > (name.size() + 1) && token.compare(0, name.size(), name) == 0
+            && token[name.size()] == '=')
         {
             const char* str = token.data() + name.size() + 1;
             char* endptr = nullptr;
@@ -134,9 +133,8 @@ namespace LOOLProtocol
 
     bool getTokenString(const std::string& token, const std::string& name, std::string& value)
     {
-        if (token.size() >= (name.size() + 1) &&
-            token.compare(0, name.size(), name) == 0 &&
-            token[name.size()] == '=')
+        if (token.size() >= (name.size() + 1) && token.compare(0, name.size(), name) == 0
+            && token[name.size()] == '=')
         {
             value = token.substr(name.size() + 1);
             return true;
@@ -177,7 +175,8 @@ namespace LOOLProtocol
         return false;
     }
 
-    bool getTokenString(const Poco::StringTokenizer& tokens, const std::string& name, std::string& value)
+    bool getTokenString(const Poco::StringTokenizer& tokens, const std::string& name,
+                        std::string& value)
     {
         for (size_t i = 0; i < tokens.count(); i++)
         {
@@ -187,7 +186,8 @@ namespace LOOLProtocol
         return false;
     }
 
-    bool getTokenKeyword(const Poco::StringTokenizer& tokens, const std::string& name, const std::map<std::string, int>& map, int& value)
+    bool getTokenKeyword(const Poco::StringTokenizer& tokens, const std::string& name,
+                         const std::map<std::string, int>& map, int& value)
     {
         for (size_t i = 0; i < tokens.count(); i++)
         {
@@ -197,7 +197,8 @@ namespace LOOLProtocol
         return false;
     }
 
-    bool getTokenInteger(const std::vector<std::string>& tokens, const std::string& name, int& value)
+    bool getTokenInteger(const std::vector<std::string>& tokens, const std::string& name,
+                         int& value)
     {
         for (const auto& pair : tokens)
         {
@@ -210,14 +211,15 @@ namespace LOOLProtocol
         return false;
     }
 
-    bool getTokenStringFromMessage(const std::string& message, const std::string& name, std::string& value)
+    bool getTokenStringFromMessage(const std::string& message, const std::string& name,
+                                   std::string& value)
     {
         if (message.size() > name.size() + 1)
         {
             size_t pos = message.find(name);
             while (pos != std::string::npos)
             {
-                bool spaceBefore = pos == 0 || message[pos-1] == ' ';
+                bool spaceBefore = pos == 0 || message[pos - 1] == ' ';
                 const size_t beg = pos + name.size();
                 if (spaceBefore && message[beg] == '=')
                 {
@@ -233,11 +235,13 @@ namespace LOOLProtocol
         return false;
     }
 
-    bool getTokenKeywordFromMessage(const std::string& message, const std::string& name, const std::map<std::string, int>& map, int& value)
+    bool getTokenKeywordFromMessage(const std::string& message, const std::string& name,
+                                    const std::map<std::string, int>& map, int& value)
     {
-        Poco::StringTokenizer tokens(message, " \n", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer tokens(message, " \n",
+                                     StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
         return getTokenKeyword(tokens, name, map, value);
     }
-};
+}; // namespace LOOLProtocol
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

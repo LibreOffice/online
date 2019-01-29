@@ -27,13 +27,12 @@ public:
     AdminSocketHandler(Admin* adminManager);
 
     /// Connection from remote admin socket
-    AdminSocketHandler(Admin* adminManager,
-                       const std::weak_ptr<StreamSocket>& socket,
+    AdminSocketHandler(Admin* adminManager, const std::weak_ptr<StreamSocket>& socket,
                        const Poco::Net::HTTPRequest& request);
 
     /// Handle the initial Admin WS upgrade request.
     /// @returns true if we should give this socket to the Admin poll.
-    static bool handleInitialRequest(const std::weak_ptr<StreamSocket> &socket,
+    static bool handleInitialRequest(const std::weak_ptr<StreamSocket>& socket,
                                      const Poco::Net::HTTPRequest& request);
 
     static void subscribeAsync(const std::shared_ptr<AdminSocketHandler>& handler);
@@ -43,7 +42,7 @@ private:
     void sendTextFrame(const std::string& message);
 
     /// Process incoming websocket messages
-    void handleMessage(bool fin, WSOpCode code, std::vector<char> &data);
+    void handleMessage(bool fin, WSOpCode code, std::vector<char>& data);
 
 private:
     Admin* _admin;
@@ -57,6 +56,7 @@ class MemoryStatsTask;
 class Admin : public SocketPoll
 {
     Admin();
+
 public:
     virtual ~Admin();
 
@@ -82,7 +82,9 @@ public:
     void update(const std::string& message);
 
     /// Calls with same pid will increment view count, if pid already exists
-    void addDoc(const std::string& docKey, Poco::Process::PID pid, const std::string& filename, const std::string& sessionId, const std::string& userName, const std::string& userId);
+    void addDoc(const std::string& docKey, Poco::Process::PID pid, const std::string& filename,
+                const std::string& sessionId, const std::string& userName,
+                const std::string& userId);
 
     /// Decrement view count till becomes zero after which doc is removed
     void rmDoc(const std::string& docKey, const std::string& sessionId);
@@ -121,7 +123,7 @@ public:
     }
 
     /// Attempt a synchronous connection to a monitor with @uri @when that future comes
-    void scheduleMonitorConnect(const std::string &uri, std::chrono::steady_clock::time_point when);
+    void scheduleMonitorConnect(const std::string& uri, std::chrono::steady_clock::time_point when);
 
 private:
     /// Notify Forkit of changed settings.
@@ -140,7 +142,7 @@ private:
     }
 
     /// Synchronous connection setup to remote monitoring server
-    void connectToMonitorSync(const std::string &uri);
+    void connectToMonitorSync(const std::string& uri);
 
 private:
     /// The model is accessed only during startup & in

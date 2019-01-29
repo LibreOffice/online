@@ -31,28 +31,32 @@ void TileQueue::put_impl(const Payload& value)
 
     if (firstToken == "canceltiles")
     {
-        LOG_TRC("Processing [" << LOOLProtocol::getAbbreviatedMessage(msg) << "]. Before canceltiles have " << getQueue().size() << " in queue.");
+        LOG_TRC("Processing [" << LOOLProtocol::getAbbreviatedMessage(msg)
+                               << "]. Before canceltiles have " << getQueue().size()
+                               << " in queue.");
         const std::string seqs = msg.substr(12);
-        StringTokenizer tokens(seqs, ",", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        StringTokenizer tokens(seqs, ",",
+                               StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
         getQueue().erase(std::remove_if(getQueue().begin(), getQueue().end(),
-                [&tokens](const Payload& v)
-                {
-                    const std::string s(v.data(), v.size());
-                    // Tile is for a thumbnail, don't cancel it
-                    if (s.find("id=") != std::string::npos)
-                        return false;
-                    for (size_t i = 0; i < tokens.count(); ++i)
-                    {
-                        if (s.find("ver=" + tokens[i]) != std::string::npos)
-                        {
-                            LOG_TRC("Matched " << tokens[i] << ", Removing [" << s << "]");
-                            return true;
-                        }
-                    }
+                                        [&tokens](const Payload& v) {
+                                            const std::string s(v.data(), v.size());
+                                            // Tile is for a thumbnail, don't cancel it
+                                            if (s.find("id=") != std::string::npos)
+                                                return false;
+                                            for (size_t i = 0; i < tokens.count(); ++i)
+                                            {
+                                                if (s.find("ver=" + tokens[i]) != std::string::npos)
+                                                {
+                                                    LOG_TRC("Matched " << tokens[i]
+                                                                       << ", Removing [" << s
+                                                                       << "]");
+                                                    return true;
+                                                }
+                                            }
 
-                    return false;
-
-                }), getQueue().end());
+                                            return false;
+                                        }),
+                         getQueue().end());
 
         // Don't push canceltiles into the queue.
         LOG_TRC("After canceltiles have " << getQueue().size() << " in queue.");
@@ -116,74 +120,77 @@ void TileQueue::removeTileDuplicate(const std::string& tileMsg)
     for (size_t i = 0; i < getQueue().size(); ++i)
     {
         auto& it = getQueue()[i];
-        if (it.size() > newMsgPos &&
-            strncmp(tileMsg.data(), it.data(), newMsgPos) == 0)
+        if (it.size() > newMsgPos && strncmp(tileMsg.data(), it.data(), newMsgPos) == 0)
         {
-            LOG_TRC("Remove duplicate tile request: " << std::string(it.data(), it.size()) << " -> " << LOOLProtocol::getAbbreviatedMessage(tileMsg));
+            LOG_TRC("Remove duplicate tile request: "
+                    << std::string(it.data(), it.size()) << " -> "
+                    << LOOLProtocol::getAbbreviatedMessage(tileMsg));
             getQueue().erase(getQueue().begin() + i);
             break;
         }
     }
 }
 
-namespace {
-
-/// Read the viewId from the tokens.
-std::string extractViewId(const std::string& origMsg, const std::vector<std::string>& tokens)
+namespace
 {
-    size_t nonJson = tokens[0].size() + tokens[1].size() + tokens[2].size() + 3; // including spaces
-    std::string jsonString(origMsg.data() + nonJson, origMsg.size() - nonJson);
-
-    Poco::JSON::Parser parser;
-    const Poco::Dynamic::Var result = parser.parse(jsonString);
-    const auto& json = result.extract<Poco::JSON::Object::Ptr>();
-    return json->get("viewId").toString();
-}
-
-/// Extract the .uno: command ID from the potential command.
-std::string extractUnoCommand(const std::string& command)
-{
-    if (!LOOLProtocol::matchPrefix(".uno:", command))
-        return std::string();
-
-    size_t equalPos = command.find('=');
-    if (equalPos != std::string::npos)
-        return command.substr(0, equalPos);
-
-    return command;
-}
-
-/// Extract rectangle from the invalidation callback
-bool extractRectangle(const std::vector<std::string>& tokens, int& x, int& y, int& w, int& h, int& part)
-{
-    x = 0;
-    y = 0;
-    w = INT_MAX;
-    h = INT_MAX;
-    part = 0;
-
-    if (tokens.size() < 5)
-        return false;
-
-    if (tokens[3] == "EMPTY,")
+    /// Read the viewId from the tokens.
+    std::string extractViewId(const std::string& origMsg, const std::vector<std::string>& tokens)
     {
-        part = std::atoi(tokens[4].c_str());
+        size_t nonJson
+            = tokens[0].size() + tokens[1].size() + tokens[2].size() + 3; // including spaces
+        std::string jsonString(origMsg.data() + nonJson, origMsg.size() - nonJson);
+
+        Poco::JSON::Parser parser;
+        const Poco::Dynamic::Var result = parser.parse(jsonString);
+        const auto& json = result.extract<Poco::JSON::Object::Ptr>();
+        return json->get("viewId").toString();
+    }
+
+    /// Extract the .uno: command ID from the potential command.
+    std::string extractUnoCommand(const std::string& command)
+    {
+        if (!LOOLProtocol::matchPrefix(".uno:", command))
+            return std::string();
+
+        size_t equalPos = command.find('=');
+        if (equalPos != std::string::npos)
+            return command.substr(0, equalPos);
+
+        return command;
+    }
+
+    /// Extract rectangle from the invalidation callback
+    bool extractRectangle(const std::vector<std::string>& tokens, int& x, int& y, int& w, int& h,
+                          int& part)
+    {
+        x = 0;
+        y = 0;
+        w = INT_MAX;
+        h = INT_MAX;
+        part = 0;
+
+        if (tokens.size() < 5)
+            return false;
+
+        if (tokens[3] == "EMPTY,")
+        {
+            part = std::atoi(tokens[4].c_str());
+            return true;
+        }
+
+        if (tokens.size() < 8)
+            return false;
+
+        x = std::atoi(tokens[3].c_str());
+        y = std::atoi(tokens[4].c_str());
+        w = std::atoi(tokens[5].c_str());
+        h = std::atoi(tokens[6].c_str());
+        part = std::atoi(tokens[7].c_str());
+
         return true;
     }
 
-    if (tokens.size() < 8)
-        return false;
-
-    x = std::atoi(tokens[3].c_str());
-    y = std::atoi(tokens[4].c_str());
-    w = std::atoi(tokens[5].c_str());
-    h = std::atoi(tokens[6].c_str());
-    part = std::atoi(tokens[7].c_str());
-
-    return true;
-}
-
-}
+} // namespace
 
 std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
 {
@@ -199,7 +206,7 @@ std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
 
     // FIXME: Good grief, why don't we use the symbolic LOK_CALLBACK_FOO names here? Doing it this
     // way is somewhat fragile and certainly bad style.
-    if (callbackType == "0")        // invalidation
+    if (callbackType == "0") // invalidation
     {
         int msgX, msgY, msgW, msgH, msgPart;
 
@@ -222,7 +229,8 @@ std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
             }
 
             // not a invalidation callback
-            if (queuedTokens[0] != tokens[0] || queuedTokens[1] != tokens[1] || queuedTokens[2] != tokens[2])
+            if (queuedTokens[0] != tokens[0] || queuedTokens[1] != tokens[1]
+                || queuedTokens[2] != tokens[2])
             {
                 ++i;
                 continue;
@@ -244,10 +252,13 @@ std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
 
             // the invalidation in the queue is fully covered by the message,
             // just remove it
-            if (msgX <= queuedX && queuedX + queuedW <= msgX + msgW && msgY <= queuedY && queuedY + queuedH <= msgY + msgH)
+            if (msgX <= queuedX && queuedX + queuedW <= msgX + msgW && msgY <= queuedY
+                && queuedY + queuedH <= msgY + msgH)
             {
-                LOG_TRC("Removing smaller invalidation: " << std::string(it.data(), it.size()) << " -> " <<
-                        tokens[0] << " " << tokens[1] << " " << tokens[2] << " " << msgX << " " << msgY << " " << msgW << " " << msgH << " " << msgPart);
+                LOG_TRC("Removing smaller invalidation: "
+                        << std::string(it.data(), it.size()) << " -> " << tokens[0] << " "
+                        << tokens[1] << " " << tokens[2] << " " << msgX << " " << msgY << " "
+                        << msgW << " " << msgH << " " << msgPart);
 
                 // remove from the queue
                 getQueue().erase(getQueue().begin() + i);
@@ -256,24 +267,28 @@ std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
 
             // the invalidation just intersects, join those (if the result is
             // small)
-            if (TileDesc::rectanglesIntersect(msgX, msgY, msgW, msgH, queuedX, queuedY, queuedW, queuedH))
+            if (TileDesc::rectanglesIntersect(msgX, msgY, msgW, msgH, queuedX, queuedY, queuedW,
+                                              queuedH))
             {
                 int joinX = std::min(msgX, queuedX);
                 int joinY = std::min(msgY, queuedY);
                 int joinW = std::max(msgX + msgW, queuedX + queuedW) - joinX;
                 int joinH = std::max(msgY + msgH, queuedY + queuedH) - joinY;
 
-                const int reasonableSizeX = 4*3840; // 4x tile at 100% zoom
-                const int reasonableSizeY = 2*3840; // 2x tile at 100% zoom
+                const int reasonableSizeX = 4 * 3840; // 4x tile at 100% zoom
+                const int reasonableSizeY = 2 * 3840; // 2x tile at 100% zoom
                 if (joinW > reasonableSizeX || joinH > reasonableSizeY)
                 {
                     ++i;
                     continue;
                 }
 
-                LOG_TRC("Merging invalidations: " << std::string(it.data(), it.size()) << " and " <<
-                        tokens[0] << " " << tokens[1] << " " << tokens[2] << " " << msgX << " " << msgY << " " << msgW << " " << msgH << " " << msgPart << " -> " <<
-                        tokens[0] << " " << tokens[1] << " " << tokens[2] << " " << joinX << " " << joinY << " " << joinW << " " << joinH << " " << msgPart);
+                LOG_TRC("Merging invalidations: "
+                        << std::string(it.data(), it.size()) << " and " << tokens[0] << " "
+                        << tokens[1] << " " << tokens[2] << " " << msgX << " " << msgY << " "
+                        << msgW << " " << msgH << " " << msgPart << " -> " << tokens[0] << " "
+                        << tokens[1] << " " << tokens[2] << " " << joinX << " " << joinY << " "
+                        << joinW << " " << joinH << " " << msgPart);
 
                 msgX = joinX;
                 msgY = joinY;
@@ -292,20 +307,19 @@ std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
         if (performedMerge)
         {
             size_t pre = tokens[0].size() + tokens[1].size() + tokens[2].size() + 3;
-            size_t post = pre + tokens[3].size() + tokens[4].size() + tokens[5].size() + tokens[6].size() + 4;
+            size_t post = pre + tokens[3].size() + tokens[4].size() + tokens[5].size()
+                          + tokens[6].size() + 4;
 
-            std::string result = callbackMsg.substr(0, pre) +
-                std::to_string(msgX) + ", " +
-                std::to_string(msgY) + ", " +
-                std::to_string(msgW) + ", " +
-                std::to_string(msgH) + ", " + callbackMsg.substr(post);
+            std::string result = callbackMsg.substr(0, pre) + std::to_string(msgX) + ", "
+                                 + std::to_string(msgY) + ", " + std::to_string(msgW) + ", "
+                                 + std::to_string(msgH) + ", " + callbackMsg.substr(post);
 
             LOG_TRC("Merge result: " << result);
 
             return result;
         }
     }
-    else if (callbackType == "8")        // state changed
+    else if (callbackType == "8") // state changed
     {
         if (tokens.size() < 4)
             return std::string();
@@ -323,7 +337,8 @@ std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
             if (queuedTokens.size() < 4)
                 continue;
 
-            if (queuedTokens[0] != tokens[0] || queuedTokens[1] != tokens[1] || queuedTokens[2] != tokens[2])
+            if (queuedTokens[0] != tokens[0] || queuedTokens[1] != tokens[1]
+                || queuedTokens[2] != tokens[2])
                 continue;
 
             // callback, the same target, state changed; now check it's
@@ -334,22 +349,25 @@ std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
 
             if (unoCommand == queuedUnoCommand)
             {
-                LOG_TRC("Remove obsolete uno command: " << std::string(it.data(), it.size()) << " -> " << LOOLProtocol::getAbbreviatedMessage(callbackMsg));
+                LOG_TRC("Remove obsolete uno command: "
+                        << std::string(it.data(), it.size()) << " -> "
+                        << LOOLProtocol::getAbbreviatedMessage(callbackMsg));
                 getQueue().erase(getQueue().begin() + i);
                 break;
             }
         }
     }
     else if (callbackType == "1" || // the cursor has moved
-            callbackType == "5" ||  // the cursor visibility has changed
-            callbackType == "10" || // setting the indicator value
-            callbackType == "13" || // setting the document size
-            callbackType == "17" || // the cell cursor has moved
-            callbackType == "24" || // the view cursor has moved
-            callbackType == "26" || // the view cell cursor has moved
-            callbackType == "28")   // the view cursor visibility has changed
+             callbackType == "5" || // the cursor visibility has changed
+             callbackType == "10" || // setting the indicator value
+             callbackType == "13" || // setting the document size
+             callbackType == "17" || // the cell cursor has moved
+             callbackType == "24" || // the view cursor has moved
+             callbackType == "26" || // the view cell cursor has moved
+             callbackType == "28") // the view cursor visibility has changed
     {
-        const bool isViewCallback = (callbackType == "24" || callbackType == "26" || callbackType == "28");
+        const bool isViewCallback
+            = (callbackType == "24" || callbackType == "26" || callbackType == "28");
 
         std::string viewId;
         if (isViewCallback)
@@ -371,20 +389,26 @@ std::string TileQueue::removeCallbackDuplicate(const std::string& callbackMsg)
 
             if (!isViewCallback && (queuedTokens[1] == tokens[1] && queuedTokens[2] == tokens[2]))
             {
-                LOG_TRC("Remove obsolete callback: " << std::string(it.data(), it.size()) << " -> " << LOOLProtocol::getAbbreviatedMessage(callbackMsg));
+                LOG_TRC("Remove obsolete callback: "
+                        << std::string(it.data(), it.size()) << " -> "
+                        << LOOLProtocol::getAbbreviatedMessage(callbackMsg));
                 getQueue().erase(getQueue().begin() + i);
                 break;
             }
-            else if (isViewCallback && (queuedTokens[1] == tokens[1] && queuedTokens[2] == tokens[2]))
+            else if (isViewCallback
+                     && (queuedTokens[1] == tokens[1] && queuedTokens[2] == tokens[2]))
             {
                 // we additionally need to ensure that the payload is about
                 // the same viewid (otherwise we'd merge them all views into
                 // one)
-                const std::string queuedViewId = extractViewId(std::string(it.data(), it.size()), queuedTokens);
+                const std::string queuedViewId
+                    = extractViewId(std::string(it.data(), it.size()), queuedTokens);
 
                 if (viewId == queuedViewId)
                 {
-                    LOG_TRC("Remove obsolete view callback: " << std::string(it.data(), it.size()) << " -> " << LOOLProtocol::getAbbreviatedMessage(callbackMsg));
+                    LOG_TRC("Remove obsolete view callback: "
+                            << std::string(it.data(), it.size()) << " -> "
+                            << LOOLProtocol::getAbbreviatedMessage(callbackMsg));
                     getQueue().erase(getQueue().begin() + i);
                     break;
                 }
@@ -419,8 +443,8 @@ void TileQueue::deprioritizePreviews()
 
         // stop at the first non-tile or non-'id' (preview) message
         std::string id;
-        if (!LOOLProtocol::matchPrefix("tile", message) ||
-            !LOOLProtocol::getTokenStringFromMessage(message, "id", id))
+        if (!LOOLProtocol::matchPrefix("tile", message)
+            || !LOOLProtocol::getTokenStringFromMessage(message, "id", id))
         {
             break;
         }
@@ -467,8 +491,8 @@ TileQueue::Payload TileQueue::get_impl()
         // avoid starving - stop the search when we reach a non-tile,
         // otherwise we may keep growing the queue of unhandled stuff (both
         // tiles and non-tiles)
-        if (!LOOLProtocol::matchPrefix("tile", prio) ||
-            LOOLProtocol::getTokenStringFromMessage(prio, "id", id))
+        if (!LOOLProtocol::matchPrefix("tile", prio)
+            || LOOLProtocol::getTokenStringFromMessage(prio, "id", id))
         {
             break;
         }
@@ -494,12 +518,12 @@ TileQueue::Payload TileQueue::get_impl()
     tiles.emplace_back(TileDesc::parse(msg));
 
     // Combine as many tiles as possible with the top one.
-    for (size_t i = 0; i < getQueue().size(); )
+    for (size_t i = 0; i < getQueue().size();)
     {
         auto& it = getQueue()[i];
         msg = std::string(it.data(), it.size());
-        if (!LOOLProtocol::matchPrefix("tile", msg) ||
-            LOOLProtocol::getTokenStringFromMessage(msg, "id", id))
+        if (!LOOLProtocol::matchPrefix("tile", msg)
+            || LOOLProtocol::getTokenStringFromMessage(msg, "id", id))
         {
             // Don't combine non-tiles or tiles with id.
             ++i;

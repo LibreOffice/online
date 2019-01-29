@@ -26,25 +26,29 @@ class UnitWOPISaveAs : public WopiTestServer
     } _phase;
 
 public:
-    UnitWOPISaveAs() :
-        _phase(Phase::LoadAndSaveAs)
+    UnitWOPISaveAs()
+        : _phase(Phase::LoadAndSaveAs)
     {
     }
 
     void assertPutRelativeFileRequest(const Poco::Net::HTTPRequest& request) override
     {
         // spec says UTF-7...
-        CPPUNIT_ASSERT_EQUAL(std::string("/jan/hole+AWE-ovsk+AP0-/hello world.pdf"), request.get("X-WOPI-SuggestedTarget"));
+        CPPUNIT_ASSERT_EQUAL(std::string("/jan/hole+AWE-ovsk+AP0-/hello world.pdf"),
+                             request.get("X-WOPI-SuggestedTarget"));
 
         // make sure it is a pdf - or at least that it is larger than what it
         // used to be
         CPPUNIT_ASSERT(std::stoul(request.get("X-WOPI-Size")) > getFileContent().size());
     }
 
-    bool filterSendMessage(const char* data, const size_t len, const WSOpCode /* code */, const bool /* flush */, int& /*unitReturn*/) override
+    bool filterSendMessage(const char* data, const size_t len, const WSOpCode /* code */,
+                           const bool /* flush */, int& /*unitReturn*/) override
     {
         const std::string message(data, len);
-        const std::string expected("saveas: url=" + helpers::getTestServerURI() + "/something%20wopi/files/1?access_token=anything filename=hello%20world.pdf");
+        const std::string expected(
+            "saveas: url=" + helpers::getTestServerURI()
+            + "/something%20wopi/files/1?access_token=anything filename=hello%20world.pdf");
         if (message.find(expected) == 0)
         {
             // successfully exit the test if we also got the outgoing message
@@ -65,8 +69,11 @@ public:
             {
                 initWebsocket("/wopi/files/0?access_token=anything");
 
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(), testName);
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "saveas url=wopi:///jan/hole%C5%A1ovsk%C3%BD/hello%20world.pdf", testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(),
+                                       testName);
+                helpers::sendTextFrame(
+                    *getWs()->getLOOLWebSocket(),
+                    "saveas url=wopi:///jan/hole%C5%A1ovsk%C3%BD/hello%20world.pdf", testName);
                 SocketPoll::wakeupWorld();
 
                 _phase = Phase::Polling;
@@ -81,9 +88,6 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitWOPISaveAs();
-}
+UnitBase* unit_create_wsd(void) { return new UnitWOPISaveAs(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

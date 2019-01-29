@@ -39,9 +39,7 @@ namespace FileUtil
     void alertAllUsers(const std::string& cmd, const std::string& kind);
 #else
     // No-op implementation in the test programs
-    inline void alertAllUsers(const std::string&, const std::string&)
-    {
-    }
+    inline void alertAllUsers(const std::string&, const std::string&) {}
 #endif
 
     // Add the file system that 'path' is located on to a list of file systems that are periodically
@@ -77,7 +75,8 @@ namespace FileUtil
     std::string getTempFilePath(const std::string& srcDir, const std::string& srcFilename);
 
     /// Make a temp copy of a file, and prepend it with a prefix.
-    std::string getTempFilePath(const std::string& srcDir, const std::string& srcFilename, const std::string& dstFilenamePrefix);
+    std::string getTempFilePath(const std::string& srcDir, const std::string& srcFilename,
+                                const std::string& dstFilenamePrefix);
 
 } // end namespace FileUtil
 

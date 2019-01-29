@@ -48,26 +48,27 @@ int Socket::createSocket(Socket::Type type)
 }
 
 // help with initialization order
-namespace {
-    std::vector<int> &getWakeupsArray()
+namespace
+{
+    std::vector<int>& getWakeupsArray()
     {
         static std::vector<int> pollWakeups;
         return pollWakeups;
     }
-    std::mutex &getPollWakeupsMutex()
+    std::mutex& getPollWakeupsMutex()
     {
         static std::mutex pollWakeupsMutex;
         return pollWakeupsMutex;
     }
-}
+} // namespace
 
 SocketPoll::SocketPoll(const std::string& threadName)
-    : _name(threadName),
-      _stop(false),
-      _threadStarted(false),
-      _threadFinished(false),
-      _runOnClientThread(false),
-      _owner(std::this_thread::get_id())
+    : _name(threadName)
+    , _stop(false)
+    , _threadStarted(false)
+    , _threadFinished(false)
+    , _runOnClientThread(false)
+    , _owner(std::this_thread::get_id())
 {
     // Create the wakeup fd.
     if (
@@ -76,9 +77,10 @@ SocketPoll::SocketPoll(const std::string& threadName)
 #else
         fakeSocketPipe2(_wakeup) == -1
 #endif
-        )
+    )
     {
-        throw std::runtime_error("Failed to allocate pipe for SocketPoll [" + threadName + "] waking.");
+        throw std::runtime_error("Failed to allocate pipe for SocketPoll [" + threadName
+                                 + "] waking.");
     }
 
     std::lock_guard<std::mutex> lock(getPollWakeupsMutex());
@@ -91,9 +93,7 @@ SocketPoll::~SocketPoll()
 
     {
         std::lock_guard<std::mutex> lock(getPollWakeupsMutex());
-        auto it = std::find(getWakeupsArray().begin(),
-                            getWakeupsArray().end(),
-                            _wakeup[1]);
+        auto it = std::find(getWakeupsArray().begin(), getWakeupsArray().end(), _wakeup[1]);
 
         if (it != getWakeupsArray().end())
             getWakeupsArray().erase(it);
@@ -138,10 +138,7 @@ void SocketPoll::joinThread()
 {
     if (isAlive())
     {
-        addCallback([this]()
-                    {
-                        removeSockets();
-                    });
+        addCallback([this]() { removeSockets(); });
         stop();
     }
 
@@ -165,8 +162,7 @@ void SocketPoll::pollingThreadEntry()
         LOG_INF("Starting polling thread [" << _name << "].");
 
         _owner = std::this_thread::get_id();
-        LOG_DBG("Thread affinity of " << _name << " set to " <<
-                Log::to_string(_owner) << ".");
+        LOG_DBG("Thread affinity of " << _name << " set to " << Log::to_string(_owner) << ".");
 
         // Invoke the virtual implementation.
         pollingThread();
@@ -191,11 +187,11 @@ void SocketPoll::wakeupWorld()
 
 void SocketPoll::insertNewWebSocketSync(
 #ifndef MOBILEAPP
-                                        const Poco::URI &uri,
+    const Poco::URI& uri,
 #else
-                                        int peerSocket,
+    int peerSocket,
 #endif
-                                        const std::shared_ptr<SocketHandlerInterface>& websocketHandler)
+    const std::shared_ptr<SocketHandlerInterface>& websocketHandler)
 {
 #ifndef MOBILEAPP
     LOG_INF("Connecting to " << uri.getHost() << " : " << uri.getPort() << " : " << uri.getPath());
@@ -205,9 +201,8 @@ void SocketPoll::insertNewWebSocketSync(
     struct addrinfo* ainfo = nullptr;
     struct addrinfo hints;
     std::memset(&hints, 0, sizeof(hints));
-    int rc = getaddrinfo(uri.getHost().c_str(),
-                         std::to_string(uri.getPort()).c_str(),
-                         &hints, &ainfo);
+    int rc
+        = getaddrinfo(uri.getHost().c_str(), std::to_string(uri.getPort()).c_str(), &hints, &ainfo);
     std::string canonicalName;
     bool isSSL = uri.getScheme() != "ws";
 #if !ENABLE_SSL
@@ -246,23 +241,27 @@ void SocketPoll::insertNewWebSocketSync(
 
                     if (socket)
                     {
-                        LOG_DBG("Connected to client websocket " << uri.getHost() << " #" << socket->getFD());
+                        LOG_DBG("Connected to client websocket " << uri.getHost() << " #"
+                                                                 << socket->getFD());
 
                         // cf. WebSocketHandler::upgradeToWebSocket (?)
                         // send Sec-WebSocket-Key: <hmm> ... Sec-WebSocket-Protocol: chat, Sec-WebSocket-Version: 13
 
                         std::ostringstream oss;
-                        oss << "GET " << uri.getPathAndQuery() << " HTTP/1.1\r\n"
-                            "Connection:Upgrade\r\n"
-                            "User-Foo: Adminbits\r\n"
-                            "Sec-WebSocket-Key:fxTaWTEMVhq1PkWsMoLxGw==\r\n"
-                            "Upgrade:websocket\r\n"
-                            "Accept-Language:en\r\n"
-                            "Cache-Control:no-cache\r\n"
-                            "Pragma:no-cache\r\n"
-                            "Sec-WebSocket-Version:13\r\n"
-                            "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
-                            "\r\n";
+                        oss << "GET " << uri.getPathAndQuery()
+                            << " HTTP/1.1\r\n"
+                               "Connection:Upgrade\r\n"
+                               "User-Foo: Adminbits\r\n"
+                               "Sec-WebSocket-Key:fxTaWTEMVhq1PkWsMoLxGw==\r\n"
+                               "Upgrade:websocket\r\n"
+                               "Accept-Language:en\r\n"
+                               "Cache-Control:no-cache\r\n"
+                               "Pragma:no-cache\r\n"
+                               "Sec-WebSocket-Version:13\r\n"
+                               "User-Agent: "
+                            << WOPI_AGENT_STRING
+                            << "\r\n"
+                               "\r\n";
                         socket->send(oss.str());
                         websocketHandler->onConnect(socket);
                         insertNewSocket(socket);
@@ -310,10 +309,7 @@ void SocketPoll::insertNewWebSocketSync(
 #endif
 }
 
-void ServerSocket::dumpState(std::ostream& os)
-{
-    os << "\t" << getFD() << "\t<accept>\n";
-}
+void ServerSocket::dumpState(std::ostream& os) { os << "\t" << getFD() << "\t<accept>\n"; }
 
 void SocketDisposition::execute()
 {
@@ -333,8 +329,7 @@ const int WebSocketHandler::PingFrequencyMs = 18 * 1000;
 
 void WebSocketHandler::dumpState(std::ostream& os)
 {
-    os << (_shuttingDown ? "shutd " : "alive ")
-       << std::setw(5) << _pingTimeUs/1000. << "ms ";
+    os << (_shuttingDown ? "shutd " : "alive ") << std::setw(5) << _pingTimeUs / 1000. << "ms ";
     if (_wsPayload.size() > 0)
         Util::dumpHex(os, "\t\tws queued payload:\n", "\t\t", _wsPayload);
     os << "\n";
@@ -344,8 +339,8 @@ void StreamSocket::dumpState(std::ostream& os)
 {
     int timeoutMaxMs = SocketPoll::DefaultPollTimeoutMs;
     int events = getPollEvents(std::chrono::steady_clock::now(), timeoutMaxMs);
-    os << "\t" << getFD() << "\t" << events << "\t"
-       << _inBuffer.size() << "\t" << _outBuffer.size() << "\t"
+    os << "\t" << getFD() << "\t" << events << "\t" << _inBuffer.size() << "\t" << _outBuffer.size()
+       << "\t"
        << " r: " << _bytesRecvd << "\t w: " << _bytesSent << "\t";
     _socketHandler->dumpState(os);
     if (_inBuffer.size() > 0)
@@ -357,7 +352,8 @@ void StreamSocket::dumpState(std::ostream& os)
 void StreamSocket::send(Poco::Net::HTTPResponse& response)
 {
     response.set("User-Agent", HTTP_AGENT_STRING);
-    response.set("Date", Poco::DateTimeFormatter::format(Poco::Timestamp(), Poco::DateTimeFormat::HTTP_FORMAT));
+    response.set("Date", Poco::DateTimeFormatter::format(Poco::Timestamp(),
+                                                         Poco::DateTimeFormat::HTTP_FORMAT));
 
     std::ostringstream oss;
     response.write(oss);
@@ -368,12 +364,12 @@ void StreamSocket::send(Poco::Net::HTTPResponse& response)
 void SocketPoll::dumpState(std::ostream& os)
 {
     // FIXME: NOT thread-safe! _pollSockets is modified from the polling thread!
-    os << " Poll [" << _pollSockets.size() << "] - wakeup r: "
-       << _wakeup[0] << " w: " << _wakeup[1] << "\n";
+    os << " Poll [" << _pollSockets.size() << "] - wakeup r: " << _wakeup[0] << " w: " << _wakeup[1]
+       << "\n";
     if (_newCallbacks.size() > 0)
         os << "\tcallbacks: " << _newCallbacks.size() << "\n";
     os << "\tfd\tevents\trsize\twsize\n";
-    for (auto &i : _pollSockets)
+    for (auto& i : _pollSockets)
         i->dumpState(os);
 }
 
@@ -401,7 +397,7 @@ bool ServerSocket::bind(Type type, int port)
         else
             addrv4.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
 
-        rc = ::bind(getFD(), (const sockaddr *)&addrv4, sizeof(addrv4));
+        rc = ::bind(getFD(), (const sockaddr*)&addrv4, sizeof(addrv4));
     }
     else
     {
@@ -415,14 +411,16 @@ bool ServerSocket::bind(Type type, int port)
             addrv6.sin6_addr = in6addr_loopback;
 
         int ipv6only = _type == Socket::Type::All ? 0 : 1;
-        if (::setsockopt(getFD(), IPPROTO_IPV6, IPV6_V6ONLY, (char*)&ipv6only, sizeof(ipv6only)) == -1)
+        if (::setsockopt(getFD(), IPPROTO_IPV6, IPV6_V6ONLY, (char*)&ipv6only, sizeof(ipv6only))
+            == -1)
             LOG_SYS("Failed set ipv6 socket to %d" << ipv6only);
 
-        rc = ::bind(getFD(), (const sockaddr *)&addrv6, sizeof(addrv6));
+        rc = ::bind(getFD(), (const sockaddr*)&addrv6, sizeof(addrv6));
     }
 
     if (rc)
-        LOG_SYS("Failed to bind to: " << (_type == Socket::Type::IPv4 ? "IPv4" : "IPv6") << " port: " << port);
+        LOG_SYS("Failed to bind to: " << (_type == Socket::Type::IPv4 ? "IPv4" : "IPv6")
+                                      << " port: " << port);
 
     return rc == 0;
 #else
@@ -432,10 +430,8 @@ bool ServerSocket::bind(Type type, int port)
 
 #ifndef MOBILEAPP
 
-bool StreamSocket::parseHeader(const char *clientName,
-                               Poco::MemoryInputStream &message,
-                               Poco::Net::HTTPRequest &request,
-                               size_t *requestSize)
+bool StreamSocket::parseHeader(const char* clientName, Poco::MemoryInputStream& message,
+                               Poco::Net::HTTPRequest& request, size_t* requestSize)
 {
     LOG_TRC("#" << getFD() << " handling incoming " << _inBuffer.size() << " bytes.");
 
@@ -443,8 +439,7 @@ bool StreamSocket::parseHeader(const char *clientName,
 
     // Find the end of the header, if any.
     static const std::string marker("\r\n\r\n");
-    auto itBody = std::search(_inBuffer.begin(), _inBuffer.end(),
-                              marker.begin(), marker.end());
+    auto itBody = std::search(_inBuffer.begin(), _inBuffer.end(), marker.begin(), marker.end());
     if (itBody == _inBuffer.end())
     {
         LOG_TRC("#" << getFD() << " doesn't have enough data yet.");
@@ -463,9 +458,8 @@ bool StreamSocket::parseHeader(const char *clientName,
         Log::StreamLogger logger = Log::info();
         if (logger.enabled())
         {
-            logger << "#" << getFD() << ": " << clientName << " HTTP Request: "
-                   << request.getMethod() << ' '
-                   << request.getURI() << ' '
+            logger << "#" << getFD() << ": " << clientName
+                   << " HTTP Request: " << request.getMethod() << ' ' << request.getURI() << ' '
                    << request.getVersion();
 
             for (const auto& it : request)
@@ -480,9 +474,11 @@ bool StreamSocket::parseHeader(const char *clientName,
         const auto offset = itBody - _inBuffer.begin();
         const std::streamsize available = _inBuffer.size() - offset;
 
-        if (contentLength != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH && available < contentLength)
+        if (contentLength != Poco::Net::HTTPMessage::UNKNOWN_CONTENT_LENGTH
+            && available < contentLength)
         {
-            LOG_DBG("Not enough content yet: ContentLength: " << contentLength << ", available: " << available);
+            LOG_DBG("Not enough content yet: ContentLength: " << contentLength
+                                                              << ", available: " << available);
             return false;
         }
     }
@@ -507,8 +503,7 @@ bool StreamSocket::parseHeader(const char *clientName,
 namespace HttpHelper
 {
     void sendUncompressedFileContent(const std::shared_ptr<StreamSocket>& socket,
-                                     const std::string& path,
-                                     const int bufferSize)
+                                     const std::string& path, const int bufferSize)
     {
         std::ifstream file(path, std::ios::binary);
         std::unique_ptr<char[]> buf(new char[bufferSize]);
@@ -520,13 +515,11 @@ namespace HttpHelper
                 socket->send(&buf[0], size, true);
             else
                 break;
-        }
-        while (file);
+        } while (file);
     }
 
     void sendDeflatedFileContent(const std::shared_ptr<StreamSocket>& socket,
-                                 const std::string& path,
-                                 const int fileSize)
+                                 const std::string& path, const int fileSize)
     {
         // FIXME: Should compress once ahead of time
         // compression of bundle.js takes significant time:
@@ -542,26 +535,24 @@ namespace HttpHelper
             const long unsigned int size = file.gcount();
             long unsigned int compSize = compressBound(size);
             std::unique_ptr<char[]> cbuf(new char[compSize]);
-            compress2((Bytef *)&cbuf[0], &compSize, (Bytef *)&buf[0], size, Level);
+            compress2((Bytef*)&cbuf[0], &compSize, (Bytef*)&buf[0], size, Level);
 
             if (size > 0)
                 socket->send(&cbuf[0], compSize, true);
         }
     }
 
-    void sendFile(const std::shared_ptr<StreamSocket>& socket,
-                  const std::string& path,
-                  const std::string& mediaType,
-                  Poco::Net::HTTPResponse& response,
-                  const bool noCache,
-                  const bool deflate,
-                  const bool headerOnly)
+    void sendFile(const std::shared_ptr<StreamSocket>& socket, const std::string& path,
+                  const std::string& mediaType, Poco::Net::HTTPResponse& response,
+                  const bool noCache, const bool deflate, const bool headerOnly)
     {
         struct stat st;
         if (stat(path.c_str(), &st) != 0)
         {
-            LOG_WRN("#" << socket->getFD() << ": Failed to stat [" << path << "]. File will not be sent.");
-            throw Poco::FileNotFoundException("Failed to stat [" + path + "]. File will not be sent.");
+            LOG_WRN("#" << socket->getFD() << ": Failed to stat [" << path
+                        << "]. File will not be sent.");
+            throw Poco::FileNotFoundException("Failed to stat [" + path
+                                              + "]. File will not be sent.");
         }
 
         if (!noCache)
@@ -591,8 +582,8 @@ namespace HttpHelper
         if (!deflate || true)
         {
             response.setContentLength(st.st_size);
-            LOG_TRC("#" << socket->getFD() << ": Sending " <<
-                    (headerOnly ? "header for " : "") << " file [" << path << "].");
+            LOG_TRC("#" << socket->getFD() << ": Sending " << (headerOnly ? "header for " : "")
+                        << " file [" << path << "].");
             socket->send(response);
 
             if (!headerOnly)
@@ -601,15 +592,15 @@ namespace HttpHelper
         else
         {
             response.set("Content-Encoding", "deflate");
-            LOG_TRC("#" << socket->getFD() << ": Sending " <<
-                    (headerOnly ? "header for " : "") << " file [" << path << "].");
+            LOG_TRC("#" << socket->getFD() << ": Sending " << (headerOnly ? "header for " : "")
+                        << " file [" << path << "].");
             socket->send(response);
 
             if (!headerOnly)
                 sendDeflatedFileContent(socket, path, st.st_size);
         }
     }
-}
+} // namespace HttpHelper
 
 bool StreamSocket::sniffSSL() const
 {
@@ -620,7 +611,7 @@ bool StreamSocket::sniffSSL() const
     // 0x0000  16 03 01 02 00 01 00 01
     return (_inBuffer[0] == 0x16 && // HANDSHAKE
             _inBuffer[1] == 0x03 && // SSL 3.0 / TLS 1.x
-            _inBuffer[5] == 0x01);  // Handshake: CLIENT_HELLO
+            _inBuffer[5] == 0x01); // Handshake: CLIENT_HELLO
 }
 
 #endif // !MOBILEAPP

@@ -30,34 +30,37 @@ class UnitFuzz : public UnitWSD
     std::random_device _rd;
     std::mt19937 _mt;
     std::uniform_int_distribution<> _dist;
+
 public:
-    UnitFuzz() :
-        _mt(_rd()),
-        _dist(0, 1000)
+    UnitFuzz()
+        : _mt(_rd())
+        , _dist(0, 1000)
     {
         std::cerr << "\n\nYour WSD process is being randomly fuzzed\n\n\n";
         setHasKitHooks();
         setTimeout(3600 * 1000); /* one hour */
     }
 
-    std::string corruptString(const std::string &str)
+    std::string corruptString(const std::string& str)
     {
         std::string ret;
         for (auto it = str.begin(); it != str.end(); ++it)
         {
             int op = _dist(_mt);
-            if (op < 10) {
-                switch (op) {
+            if (op < 10)
+            {
+                switch (op)
+                {
                     case 0:
                         ret += 0xff;
                         break;
-                case 1:
-                case 3:
-                    ret += *it & 0x80;
-                    break;
-                default:
-                    ret += *it ^ _dist(_mt);
-                    break;
+                    case 1:
+                    case 3:
+                        ret += *it & 0x80;
+                        break;
+                    default:
+                        ret += *it ^ _dist(_mt);
+                        break;
                 }
             }
         }
@@ -68,33 +71,34 @@ public:
      * Note: Fuzzers are fragile and their performance is rather
      * sensitive. Please avoid random code tweaking in this method.
      */
-    virtual bool filterSessionInput(Session *, const char *buffer,
-                                    int length,
-                                    std::unique_ptr< std::vector<char> > &replace) override
+    virtual bool filterSessionInput(Session*, const char* buffer, int length,
+                                    std::unique_ptr<std::vector<char>>& replace) override
     {
         // Avoid fuzzing most messages
         if (_dist(_mt) < 875)
             return false;
 
         std::unique_ptr<std::vector<char>> fuzzed(new std::vector<char>());
-        fuzzed->assign(buffer, buffer+length);
+        fuzzed->assign(buffer, buffer + length);
 
         int resize = _dist(_mt);
-        if (resize < 50) { // truncate
-            size_t shrink = (fuzzed->size() * _dist(_mt))/1000;
+        if (resize < 50)
+        { // truncate
+            size_t shrink = (fuzzed->size() * _dist(_mt)) / 1000;
             fuzzed->resize(shrink);
-
-        } else if (resize < 200) {
+        }
+        else if (resize < 200)
+        {
             bool prepend = resize < 100;
             bool middle = resize < 150;
-            size_t count = 1 + _dist(_mt)/100;
+            size_t count = 1 + _dist(_mt) / 100;
             for (size_t i = 0; i < count; ++i)
             {
                 char c = (_dist(_mt) * 256 / 1000);
                 if (prepend)
                     fuzzed->insert(fuzzed->begin(), c);
                 else if (middle)
-                    fuzzed->insert(fuzzed->begin() + fuzzed->size()/2, c);
+                    fuzzed->insert(fuzzed->begin() + fuzzed->size() / 2, c);
                 else
                     fuzzed->push_back(c);
             }
@@ -109,7 +113,7 @@ public:
             if (change < 256)
                 c ^= change;
             else if (c >= '0' && c <= '9')
-                c = '0' + (change - 256)/100;
+                c = '0' + (change - 256) / 100;
             else
                 c |= 0x80;
         }
@@ -119,10 +123,8 @@ public:
         return true;
     }
 
-    virtual bool filterHandleRequest(
-        TestRequest /* type */,
-        SocketDisposition & /* disposition */,
-        WebSocketHandler & /* socket */) override
+    virtual bool filterHandleRequest(TestRequest /* type */, SocketDisposition& /* disposition */,
+                                     WebSocketHandler& /* socket */) override
     {
         return false;
     }
@@ -137,20 +139,14 @@ public:
         std::cerr << "\n\nYour KIT process has fuzzing hooks\n\n\n";
         setTimeout(3600 * 1000); /* one hour */
     }
-    virtual bool filterKitMessage(WebSocketHandler *, std::string & /* message */) override
+    virtual bool filterKitMessage(WebSocketHandler*, std::string& /* message */) override
     {
         return false;
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitFuzz();
-}
+UnitBase* unit_create_wsd(void) { return new UnitFuzz(); }
 
-UnitBase *unit_create_kit(void)
-{
-    return new UnitKitFuzz();
-}
+UnitBase* unit_create_kit(void) { return new UnitKitFuzz(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

@@ -18,7 +18,7 @@ extern "C"
 {
 #endif
 
-LibreOfficeKit* dummy_lok_init_2(const char *install_path,  const char *user_profile_url);
+    LibreOfficeKit* dummy_lok_init_2(const char* install_path, const char* user_profile_url);
 
 #ifdef __cplusplus
 }

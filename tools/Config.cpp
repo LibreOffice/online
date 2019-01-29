@@ -37,11 +37,10 @@ using Poco::Util::XMLConfiguration;
 #define MIN_PWD_ITERATIONS 1000
 #define MIN_PWD_HASH_LENGTH 20
 
-class LoolConfig final: public XMLConfiguration
+class LoolConfig final : public XMLConfiguration
 {
 public:
-    LoolConfig()
-        {}
+    LoolConfig() {}
 };
 
 struct AdminConfig
@@ -50,8 +49,8 @@ private:
     unsigned _pwdSaltLength = 128;
     unsigned _pwdIterations = 10000;
     unsigned _pwdHashLength = 128;
-public:
 
+public:
     void setPwdSaltLength(unsigned pwdSaltLength) { _pwdSaltLength = pwdSaltLength; }
     unsigned getPwdSaltLength() const { return _pwdSaltLength; }
     void setPwdIterations(unsigned pwdIterations) { _pwdIterations = pwdIterations; }
@@ -61,7 +60,7 @@ public:
 };
 
 // Config tool to change loolwsd configuration (loolwsd.xml)
-class Config: public Application
+class Config : public Application
 {
     // Display help information on the console
     void displayHelp();
@@ -112,39 +111,43 @@ void Config::displayHelp()
               << "    set-support-key" << std::endl
 #endif
               << "    set <key> <value>" << std::endl
-              << "    update-system-template" << std::endl << std::endl;
+              << "    update-system-template" << std::endl
+              << std::endl;
 }
 
 void Config::defineOptions(OptionSet& optionSet)
 {
     Application::defineOptions(optionSet);
 
-    optionSet.addOption(Option("help", "h", "Show this usage information.")
-                        .required(false)
-                        .repeatable(false));
+    optionSet.addOption(
+        Option("help", "h", "Show this usage information.").required(false).repeatable(false));
     optionSet.addOption(Option("config-file", "", "Specify configuration file path manually.")
-                        .required(false)
-                        .repeatable(false)
-                        .argument("path"));
+                            .required(false)
+                            .repeatable(false)
+                            .argument("path"));
 
-    optionSet.addOption(Option("pwd-salt-length", "", "Length of the salt to use to hash password [set-admin-password].")
-                        .required(false)
-                        .repeatable(false).
-                        argument("number"));
-    optionSet.addOption(Option("pwd-iterations", "", "Number of iterations to do in PKDBF2 password hashing [set-admin-password].")
-                        .required(false)
-                        .repeatable(false)
-                        .argument("number"));
-    optionSet.addOption(Option("pwd-hash-length", "", "Length of password hash to generate [set-admin-password].")
-                        .required(false)
-                        .repeatable(false)
-                        .argument("number"));
+    optionSet.addOption(Option("pwd-salt-length", "",
+                               "Length of the salt to use to hash password [set-admin-password].")
+                            .required(false)
+                            .repeatable(false)
+                            .argument("number"));
+    optionSet.addOption(
+        Option("pwd-iterations", "",
+               "Number of iterations to do in PKDBF2 password hashing [set-admin-password].")
+            .required(false)
+            .repeatable(false)
+            .argument("number"));
+    optionSet.addOption(
+        Option("pwd-hash-length", "", "Length of password hash to generate [set-admin-password].")
+            .required(false)
+            .repeatable(false)
+            .argument("number"));
 
 #if ENABLE_SUPPORT_KEY
     optionSet.addOption(Option("support-key", "", "Specify the support key [set-support-key].")
-                        .required(false)
-                        .repeatable(false)
-                        .argument("key"));
+                            .required(false)
+                            .repeatable(false)
+                            .argument("key"));
 #endif
 }
 
@@ -250,10 +253,8 @@ int Config::main(const std::vector<std::string>& args)
         }
 
         // Do the magic !
-        PKCS5_PBKDF2_HMAC(adminPwd.c_str(), -1,
-                          salt, _adminConfig.getPwdSaltLength(),
-                          _adminConfig.getPwdIterations(),
-                          EVP_sha512(),
+        PKCS5_PBKDF2_HMAC(adminPwd.c_str(), -1, salt, _adminConfig.getPwdSaltLength(),
+                          _adminConfig.getPwdIterations(), EVP_sha512(),
                           _adminConfig.getPwdHashLength(), pwdhash);
 
         // Make salt randomness readable
@@ -270,17 +271,21 @@ int Config::main(const std::vector<std::string>& args)
             stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(pwdhash[j]);
         const std::string passwordHash = stream.str();
 
-        std::stringstream pwdConfigValue("pbkdf2.sha512.", std::ios_base::in | std::ios_base::out | std::ios_base::ate);
+        std::stringstream pwdConfigValue("pbkdf2.sha512.", std::ios_base::in | std::ios_base::out
+                                                               | std::ios_base::ate);
         pwdConfigValue << std::to_string(_adminConfig.getPwdIterations()) << ".";
         pwdConfigValue << saltHash << "." << passwordHash;
         _loolConfig.setString("admin_console.username", adminUser);
-        _loolConfig.setString("admin_console.secure_password[@desc]",
-                              "Salt and password hash combination generated using PBKDF2 with SHA512 digest.");
+        _loolConfig.setString(
+            "admin_console.secure_password[@desc]",
+            "Salt and password hash combination generated using PBKDF2 with SHA512 digest.");
         _loolConfig.setString("admin_console.secure_password", pwdConfigValue.str());
 
         changed = true;
 #else
-        std::cerr << "This application was compiled with old OpenSSL. Operation not supported. You can use plain text password in /etc/loolwsd/loolwsd.xml." << std::endl;
+        std::cerr << "This application was compiled with old OpenSSL. Operation not supported. You "
+                     "can use plain text password in /etc/loolwsd/loolwsd.xml."
+                  << std::endl;
         return Application::EXIT_UNAVAILABLE;
 #endif
     }
@@ -301,8 +306,9 @@ int Config::main(const std::vector<std::string>& args)
             SupportKey key(supportKeyString);
             if (!key.verify())
                 std::cerr << "Invalid key\n";
-            else {
-                int validDays =  key.validDaysRemaining();
+            else
+            {
+                int validDays = key.validDaysRemaining();
                 if (validDays <= 0)
                     std::cerr << "Valid but expired key\n";
                 else
@@ -330,25 +336,26 @@ int Config::main(const std::vector<std::string>& args)
             if (_loolConfig.has(args[1]))
             {
                 const std::string val = _loolConfig.getString(args[1]);
-                std::cout << "Previous value found in config file: \""  << val << "\"" << std::endl;
+                std::cout << "Previous value found in config file: \"" << val << "\"" << std::endl;
                 std::cout << "Changing value to: \"" << args[2] << "\"" << std::endl;
                 _loolConfig.setString(args[1], args[2]);
                 changed = true;
             }
             else
-                std::cerr << "No property, \"" << args[1] << "\"," << " found in config file." << std::endl;
+                std::cerr << "No property, \"" << args[1] << "\","
+                          << " found in config file." << std::endl;
         }
         else
             std::cerr << "set expects a key and value as arguments" << std::endl
                       << "Eg: " << std::endl
                       << "    set logging.level trace" << std::endl;
-
     }
     else if (args[0] == "update-system-template")
     {
-        const char command[] = "su lool --shell=/bin/sh -c 'loolwsd-systemplate-setup /opt/lool/systemplate " LO_PATH " >/dev/null 2>&1'";
-        std::cout << "Running the following command:" << std::endl
-                  << command << std::endl;
+        const char command[]
+            = "su lool --shell=/bin/sh -c 'loolwsd-systemplate-setup /opt/lool/systemplate " LO_PATH
+              " >/dev/null 2>&1'";
+        std::cout << "Running the following command:" << std::endl << command << std::endl;
 
         retval = system(command);
         if (retval != 0)
@@ -356,7 +363,7 @@ int Config::main(const std::vector<std::string>& args)
     }
     else
     {
-        std::cerr << "No such command, \"" << args[0]  << "\"" << std::endl;
+        std::cerr << "No such command, \"" << args[0] << "\"" << std::endl;
         displayHelp();
     }
 

@@ -25,8 +25,8 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 
-#define MOBILEAPP // A bit ugly, but currently FakeSocket.hpp is surrounded by a MOBILEAPP ifdef,
-                  // and probably it is not a good idea to remove that?
+#define MOBILEAPP // A bit ugly, but currently FakeSocket.hpp is surrounded by a MOBILEAPP ifdef,  \
+    // and probably it is not a good idea to remove that?
 #include "FakeSocket.hpp"
 
 class FakeSocketTest : public CPPUNIT_NS::TestFixture
@@ -40,21 +40,14 @@ class FakeSocketTest : public CPPUNIT_NS::TestFixture
     void testBasic();
 
 public:
-    FakeSocketTest()
-    {
-    }
+    FakeSocketTest() {}
 
     void setUp()
     {
-        fakeSocketSetLoggingCallback([](const std::string& line)
-                                     {
-                                         std::cerr << line << "\n";
-                                     });
+        fakeSocketSetLoggingCallback([](const std::string& line) { std::cerr << line << "\n"; });
     }
 
-    void tearDown()
-    {
-    }
+    void tearDown() {}
 };
 
 void FakeSocketTest::testBasic()
@@ -100,11 +93,11 @@ void FakeSocketTest::testBasic()
     // Start a thread that accepts two connections to s0, producing sockets s3 and s4.
     int s3 = -1, s4 = -1;
     std::thread t0([&] {
-            // Cannot use CPPUNIT_ASSERT here as that throws and this thread has no Cppunit
-            // exception handler. We check below after joining this thread.
-            s3 = fakeSocketAccept4(s0);
-            s4 = fakeSocketAccept4(s0);
-        });
+        // Cannot use CPPUNIT_ASSERT here as that throws and this thread has no Cppunit
+        // exception handler. We check below after joining this thread.
+        s3 = fakeSocketAccept4(s0);
+        s4 = fakeSocketAccept4(s0);
+    });
 
     // Connect s1 and s2 to s0 (that is, to the sockets produced by accepting connections to
     // s0).
@@ -153,7 +146,7 @@ void FakeSocketTest::testBasic()
     rc = fakeSocketRead(s1, buf, 4);
     CPPUNIT_ASSERT(rc == -1);
     CPPUNIT_ASSERT(errno == EAGAIN); // Note: not really the right errno, but what else? See
-                                     // FakeSocket.cpp.
+        // FakeSocket.cpp.
 
     rc = fakeSocketRead(s1, buf, 100);
     CPPUNIT_ASSERT(rc > 0);

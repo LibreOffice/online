@@ -42,13 +42,9 @@ public:
 
     virtual bool sendBinaryFrame(const char* buffer, int length);
     virtual bool sendTextFrame(const char* buffer, const int length);
-    bool sendTextFrame(const std::string& text)
-    {
-        return sendTextFrame(text.data(), text.size());
-    }
+    bool sendTextFrame(const std::string& text) { return sendTextFrame(text.data(), text.size()); }
 
-    template <std::size_t N>
-    bool sendTextFrame(const char (&buffer)[N])
+    template <std::size_t N> bool sendTextFrame(const char (&buffer)[N])
     {
         return (buffer != nullptr && N > 0 ? sendTextFrame(buffer, N) : false);
     }
@@ -58,7 +54,7 @@ public:
         return (buffer != nullptr ? sendTextFrame(buffer, std::strlen(buffer)) : false);
     }
 
-    virtual void handleMessage(bool fin, WSOpCode code, std::vector<char> &data) override;
+    virtual void handleMessage(bool fin, WSOpCode code, std::vector<char>& data) override;
 
     /// Invoked when we want to disconnect a session.
     virtual void disconnect();
@@ -66,7 +62,8 @@ public:
     /// Called to handle disconnection command from socket.
     virtual bool handleDisconnect();
 
-    void shutdown(const WebSocketHandler::StatusCodes statusCode = WebSocketHandler::StatusCodes::NORMAL_CLOSE,
+    void shutdown(const WebSocketHandler::StatusCodes statusCode
+                  = WebSocketHandler::StatusCodes::NORMAL_CLOSE,
                   const std::string& statusMessage = "");
 
     bool isActive() const { return _isActive; }
@@ -82,7 +79,7 @@ public:
     void closeFrame() { _isCloseFrame = true; };
     bool isCloseFrame() const { return _isCloseFrame; }
 
-    void getIOStats(uint64_t &sent, uint64_t &recv);
+    void getIOStats(uint64_t& sent, uint64_t& recv);
 
     void setUserId(const std::string& userId) { _userId = userId; }
 
@@ -94,7 +91,7 @@ public:
 
     void setUserName(const std::string& userName) { _userName = userName; }
 
-    const std::string& getUserName() const {return _userName; }
+    const std::string& getUserName() const { return _userName; }
 
     const std::string& getUserNameAnonym() const { return _userNameAnonym; }
 
@@ -112,7 +109,7 @@ public:
 
     const std::string& getUserExtraInfo() const { return _userExtraInfo; }
 
-    const std::string& getDocURL() const { return  _docURL; }
+    const std::string& getDocURL() const { return _docURL; }
 
     const std::string& getJailedFilePath() const { return _jailedFilePath; }
 
@@ -126,16 +123,10 @@ protected:
     /// shared between MasterProcessSession::loadDocument() and ChildProcessSession::loadDocument().
     void parseDocOptions(const std::vector<std::string>& tokens, int& part, std::string& timestamp);
 
-    void updateLastActivityTime()
-    {
-        _lastActivityTime = std::chrono::steady_clock::now();
-    }
+    void updateLastActivityTime() { _lastActivityTime = std::chrono::steady_clock::now(); }
 
     /// Internal lock shared with derived classes.
-    std::unique_lock<std::mutex> getLock()
-    {
-        return std::unique_lock<std::mutex>(_mutex);
-    }
+    std::unique_lock<std::mutex> getLock() { return std::unique_lock<std::mutex>(_mutex); }
 
     void dumpState(std::ostream& os) override;
 

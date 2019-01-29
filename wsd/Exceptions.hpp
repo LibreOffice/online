@@ -19,10 +19,7 @@
 class LoolException : public std::runtime_error
 {
 public:
-    std::string toString() const
-    {
-        return what();
-    }
+    std::string toString() const { return what(); }
 
 protected:
     using std::runtime_error::runtime_error;

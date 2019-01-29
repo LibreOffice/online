@@ -29,29 +29,24 @@ typedef uint64_t TileBinaryHash;
 class TileDesc
 {
 public:
-    TileDesc(int part, int width, int height, int tilePosX, int tilePosY, int tileWidth, int tileHeight, int ver, int imgSize, int id, bool broadcast) :
-        _part(part),
-        _width(width),
-        _height(height),
-        _tilePosX(tilePosX),
-        _tilePosY(tilePosY),
-        _tileWidth(tileWidth),
-        _tileHeight(tileHeight),
-        _ver(ver),
-        _imgSize(imgSize),
-        _id(id),
-        _broadcast(broadcast),
-        _oldWireId(0),
-        _wireId(0)
+    TileDesc(int part, int width, int height, int tilePosX, int tilePosY, int tileWidth,
+             int tileHeight, int ver, int imgSize, int id, bool broadcast)
+        : _part(part)
+        , _width(width)
+        , _height(height)
+        , _tilePosX(tilePosX)
+        , _tilePosY(tilePosY)
+        , _tileWidth(tileWidth)
+        , _tileHeight(tileHeight)
+        , _ver(ver)
+        , _imgSize(imgSize)
+        , _id(id)
+        , _broadcast(broadcast)
+        , _oldWireId(0)
+        , _wireId(0)
     {
-        if (_part < 0 ||
-            _width <= 0 ||
-            _height <= 0 ||
-            _tilePosX < 0 ||
-            _tilePosY < 0 ||
-            _tileWidth <= 0 ||
-            _tileHeight <= 0 ||
-            _imgSize < 0)
+        if (_part < 0 || _width <= 0 || _height <= 0 || _tilePosX < 0 || _tilePosY < 0
+            || _tileWidth <= 0 || _tileHeight <= 0 || _imgSize < 0)
         {
             throw BadArgumentException("Invalid tile descriptor.");
         }
@@ -77,43 +72,34 @@ public:
 
     bool operator==(const TileDesc& other) const
     {
-        return _part == other._part &&
-               _width == other._width &&
-               _height == other._height &&
-               _tilePosX == other._tilePosX &&
-               _tilePosY == other._tilePosY &&
-               _tileWidth == other._tileWidth &&
-               _tileHeight == other._tileHeight &&
-               _id == other._id &&
-               _broadcast == other._broadcast;
+        return _part == other._part && _width == other._width && _height == other._height
+               && _tilePosX == other._tilePosX && _tilePosY == other._tilePosY
+               && _tileWidth == other._tileWidth && _tileHeight == other._tileHeight
+               && _id == other._id && _broadcast == other._broadcast;
     }
 
     static bool rectanglesIntersect(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
     {
-        return x1 + w1 >= x2 &&
-               x1 <= x2 + w2 &&
-               y1 + h1 >= y2 &&
-               y1 <= y2 + h2;
+        return x1 + w1 >= x2 && x1 <= x2 + w2 && y1 + h1 >= y2 && y1 <= y2 + h2;
     }
 
     bool intersectsWithRect(int x, int y, int w, int h) const
     {
-        return rectanglesIntersect(getTilePosX(), getTilePosY(), getTileWidth(), getTileHeight(), x, y, w, h);
+        return rectanglesIntersect(getTilePosX(), getTilePosY(), getTileWidth(), getTileHeight(), x,
+                                   y, w, h);
     }
 
     bool intersects(const TileDesc& other) const
     {
-        return intersectsWithRect(other.getTilePosX(), other.getTilePosY(),
-                                  other.getTileWidth(), other.getTileHeight());
+        return intersectsWithRect(other.getTilePosX(), other.getTilePosY(), other.getTileWidth(),
+                                  other.getTileHeight());
     }
 
     bool isAdjacent(const TileDesc& other) const
     {
-        if (other.getPart() != getPart() ||
-            other.getWidth() != getWidth() ||
-            other.getHeight() != getHeight() ||
-            other.getTileWidth() != getTileWidth() ||
-            other.getTileHeight() != getTileHeight())
+        if (other.getPart() != getPart() || other.getWidth() != getWidth()
+            || other.getHeight() != getHeight() || other.getTileWidth() != getTileWidth()
+            || other.getTileHeight() != getTileHeight())
         {
             return false;
         }
@@ -123,17 +109,15 @@ public:
 
     bool onSameRow(const TileDesc& other) const
     {
-        if (other.getPart() != getPart() ||
-            other.getWidth() != getWidth() ||
-            other.getHeight() != getHeight() ||
-            other.getTileWidth() != getTileWidth() ||
-            other.getTileHeight() != getTileHeight())
+        if (other.getPart() != getPart() || other.getWidth() != getWidth()
+            || other.getHeight() != getHeight() || other.getTileWidth() != getTileWidth()
+            || other.getTileHeight() != getTileHeight())
         {
             return false;
         }
 
-        return other.getTilePosY() + other.getTileHeight() >= getTilePosY() &&
-               other.getTilePosY() <= getTilePosY() + getTileHeight();
+        return other.getTilePosY() + other.getTileHeight() >= getTilePosY()
+               && other.getTilePosY() <= getTilePosY() + getTileHeight();
     }
 
     /// Serialize this instance into a string.
@@ -141,16 +125,9 @@ public:
     std::string serialize(const std::string& prefix = "") const
     {
         std::ostringstream oss;
-        oss << prefix
-            << " part=" << _part
-            << " width=" << _width
-            << " height=" << _height
-            << " tileposx=" << _tilePosX
-            << " tileposy=" << _tilePosY
-            << " tilewidth=" << _tileWidth
-            << " tileheight=" << _tileHeight
-            << " oldwid=" << _oldWireId
-            << " wid=" << _wireId;
+        oss << prefix << " part=" << _part << " width=" << _width << " height=" << _height
+            << " tileposx=" << _tilePosX << " tileposy=" << _tilePosY << " tilewidth=" << _tileWidth
+            << " tileheight=" << _tileHeight << " oldwid=" << _oldWireId << " wid=" << _wireId;
 
         // Anything after ver is optional.
         oss << " ver=" << _ver;
@@ -205,13 +182,10 @@ public:
         }
 
         std::string s;
-        const bool broadcast = (LOOLProtocol::getTokenString(tokens, "broadcast", s) &&
-                                s == "yes");
+        const bool broadcast = (LOOLProtocol::getTokenString(tokens, "broadcast", s) && s == "yes");
 
-        TileDesc result(pairs["part"], pairs["width"], pairs["height"],
-                        pairs["tileposx"], pairs["tileposy"],
-                        pairs["tilewidth"], pairs["tileheight"],
-                        pairs["ver"],
+        TileDesc result(pairs["part"], pairs["width"], pairs["height"], pairs["tileposx"],
+                        pairs["tileposy"], pairs["tilewidth"], pairs["tileheight"], pairs["ver"],
                         pairs["imgsize"], pairs["id"], broadcast);
         result.setOldWireId(oldWireId);
         result.setWireId(wireId);
@@ -247,45 +221,51 @@ private:
 class TileCombined
 {
 private:
-    TileCombined(int part, int width, int height,
-                 const std::string& tilePositionsX, const std::string& tilePositionsY,
-                 int tileWidth, int tileHeight, const std::string& vers,
-                 const std::string& imgSizes, int id,
-                 const std::string& oldWireIds,
-                 const std::string& wireIds) :
-        _part(part),
-        _width(width),
-        _height(height),
-        _tileWidth(tileWidth),
-        _tileHeight(tileHeight),
-        _id(id)
+    TileCombined(int part, int width, int height, const std::string& tilePositionsX,
+                 const std::string& tilePositionsY, int tileWidth, int tileHeight,
+                 const std::string& vers, const std::string& imgSizes, int id,
+                 const std::string& oldWireIds, const std::string& wireIds)
+        : _part(part)
+        , _width(width)
+        , _height(height)
+        , _tileWidth(tileWidth)
+        , _tileHeight(tileHeight)
+        , _id(id)
     {
-        if (_part < 0 ||
-            _width <= 0 ||
-            _height <= 0 ||
-            _tileWidth <= 0 ||
-            _tileHeight <= 0)
+        if (_part < 0 || _width <= 0 || _height <= 0 || _tileWidth <= 0 || _tileHeight <= 0)
         {
             throw BadArgumentException("Invalid tilecombine descriptor.");
         }
 
-        Poco::StringTokenizer positionXtokens(tilePositionsX, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
-        Poco::StringTokenizer positionYtokens(tilePositionsY, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
-        Poco::StringTokenizer imgSizeTokens(imgSizes, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
-        Poco::StringTokenizer verTokens(vers, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
-        Poco::StringTokenizer oldWireIdTokens(oldWireIds, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
-        Poco::StringTokenizer wireIdTokens(wireIds, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer positionXtokens(tilePositionsX, ",",
+                                              Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                                  | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer positionYtokens(tilePositionsY, ",",
+                                              Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                                  | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer imgSizeTokens(imgSizes, ",",
+                                            Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                                | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer verTokens(
+            vers, ",", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer oldWireIdTokens(oldWireIds, ",",
+                                              Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                                  | Poco::StringTokenizer::TOK_TRIM);
+        Poco::StringTokenizer wireIdTokens(wireIds, ",",
+                                           Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                               | Poco::StringTokenizer::TOK_TRIM);
 
         const size_t numberOfPositions = positionXtokens.count();
 
         // check that the comma-separated strings have the same number of elements
-        if (numberOfPositions != positionYtokens.count() ||
-            (!imgSizes.empty() && numberOfPositions != imgSizeTokens.count()) ||
-            (!vers.empty() && numberOfPositions != verTokens.count()) ||
-            (!oldWireIds.empty() && numberOfPositions != oldWireIdTokens.count()) ||
-            (!wireIds.empty() && numberOfPositions != wireIdTokens.count()))
+        if (numberOfPositions != positionYtokens.count()
+            || (!imgSizes.empty() && numberOfPositions != imgSizeTokens.count())
+            || (!vers.empty() && numberOfPositions != verTokens.count())
+            || (!oldWireIds.empty() && numberOfPositions != oldWireIdTokens.count())
+            || (!wireIds.empty() && numberOfPositions != wireIdTokens.count()))
         {
-            throw BadArgumentException("Invalid tilecombine descriptor. Unequal number of tiles in parameters.");
+            throw BadArgumentException(
+                "Invalid tilecombine descriptor. Unequal number of tiles in parameters.");
         }
 
         for (size_t i = 0; i < numberOfPositions; ++i)
@@ -309,13 +289,15 @@ private:
             }
 
             int ver = -1;
-            if (verTokens.count() && !verTokens[i].empty() && !LOOLProtocol::stringToInteger(verTokens[i], ver))
+            if (verTokens.count() && !verTokens[i].empty()
+                && !LOOLProtocol::stringToInteger(verTokens[i], ver))
             {
                 throw BadArgumentException("Invalid 'ver' in tilecombine descriptor.");
             }
 
             TileWireId oldWireId = 0;
-            if (oldWireIdTokens.count() && !LOOLProtocol::stringToUInt32(oldWireIdTokens[i], oldWireId))
+            if (oldWireIdTokens.count()
+                && !LOOLProtocol::stringToUInt32(oldWireIdTokens[i], oldWireId))
             {
                 throw BadArgumentException("Invalid tilecombine descriptor.");
             }
@@ -326,7 +308,8 @@ private:
                 throw BadArgumentException("Invalid tilecombine descriptor.");
             }
 
-            _tiles.emplace_back(_part, _width, _height, x, y, _tileWidth, _tileHeight, ver, imgSize, id, false);
+            _tiles.emplace_back(_part, _width, _height, x, y, _tileWidth, _tileHeight, ver, imgSize,
+                                id, false);
             _tiles.back().setOldWireId(oldWireId);
             _tiles.back().setWireId(wireId);
         }
@@ -347,10 +330,7 @@ public:
     std::string serialize(const std::string& prefix = "") const
     {
         std::ostringstream oss;
-        oss << prefix
-            << " part=" << _part
-            << " width=" << _width
-            << " height=" << _height
+        oss << prefix << " part=" << _part << " width=" << _width << " height=" << _height
             << " tileposx=";
         for (const auto& tile : _tiles)
         {
@@ -372,8 +352,7 @@ public:
         }
         oss.seekp(-1, std::ios_base::cur);
 
-        oss << " tilewidth=" << _tileWidth
-            << " tileheight=" << _tileHeight;
+        oss << " tilewidth=" << _tileWidth << " tileheight=" << _tileHeight;
 
         oss << " ver=";
         for (const auto& tile : _tiles)
@@ -464,10 +443,8 @@ public:
             }
         }
 
-        return TileCombined(pairs["part"], pairs["width"], pairs["height"],
-                            tilePositionsX, tilePositionsY,
-                            pairs["tilewidth"], pairs["tileheight"],
-                            versions,
+        return TileCombined(pairs["part"], pairs["width"], pairs["height"], tilePositionsX,
+                            tilePositionsY, pairs["tilewidth"], pairs["tileheight"], versions,
                             imgSizes, pairs["id"], oldwireIds, wireIds);
     }
 
@@ -497,9 +474,9 @@ public:
         }
 
         vers.seekp(-1, std::ios_base::cur); // Remove last comma.
-        return TileCombined(tiles[0].getPart(), tiles[0].getWidth(), tiles[0].getHeight(),
-                            xs.str(), ys.str(), tiles[0].getTileWidth(), tiles[0].getTileHeight(),
-                            vers.str(), "", -1, oldhs.str(), hs.str());
+        return TileCombined(tiles[0].getPart(), tiles[0].getWidth(), tiles[0].getHeight(), xs.str(),
+                            ys.str(), tiles[0].getTileWidth(), tiles[0].getTileHeight(), vers.str(),
+                            "", -1, oldhs.str(), hs.str());
     }
 
 private:

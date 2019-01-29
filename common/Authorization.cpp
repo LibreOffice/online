@@ -23,7 +23,7 @@ void Authorization::authorizeURI(Poco::URI& uri) const
         static const std::string key("access_token");
 
         Poco::URI::QueryParameters queryParams = uri.getQueryParameters();
-        for (auto& param: queryParams)
+        for (auto& param : queryParams)
         {
             if (param.first == key)
             {
@@ -50,7 +50,9 @@ void Authorization::authorizeRequest(Poco::Net::HTTPRequest& request) const
             // there might be more headers in here; like
             //   Authorization: Basic ....
             //   X-Something-Custom: Huh
-            Poco::StringTokenizer tokens(_data, "\n\r", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+            Poco::StringTokenizer tokens(_data, "\n\r",
+                                         Poco::StringTokenizer::TOK_IGNORE_EMPTY
+                                             | Poco::StringTokenizer::TOK_TRIM);
             for (const auto& token : tokens)
             {
                 size_t i = token.find_first_of(':');

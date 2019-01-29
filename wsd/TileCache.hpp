@@ -34,7 +34,8 @@ public:
     /// When the docURL is a non-file:// url, the timestamp has to be provided by the caller.
     /// For file:// url's, it's ignored.
     /// When it is missing for non-file:// url, it is assumed the document must be read, and no cached value used.
-    TileCache(const std::string& docURL, const Poco::Timestamp& modifiedTime, const std::string& cacheDir, bool tileCachePersistent);
+    TileCache(const std::string& docURL, const Poco::Timestamp& modifiedTime,
+              const std::string& cacheDir, bool tileCachePersistent);
     ~TileCache();
 
     /// Remove the entire cache directory.
@@ -44,7 +45,8 @@ public:
 
     /// Subscribes if no subscription exists and returns the version number.
     /// Otherwise returns 0 to signify a subscription exists.
-    void subscribeToTileRendering(const TileDesc& tile, const std::shared_ptr<ClientSession>& subscriber);
+    void subscribeToTileRendering(const TileDesc& tile,
+                                  const std::shared_ptr<ClientSession>& subscriber);
 
     /// Create the TileBeingRendered object for the given tile indicating that the tile was sent to
     /// the kit for rendering. Note: subscribeToTileRendering calls this internally, so you don't need
@@ -71,7 +73,8 @@ public:
 
     // Saves a font / style / etc rendering
     // The dir parameter should be the type of rendering, like "font", "style", etc
-    void saveRendering(const std::string& name, const std::string& dir, const char* data, size_t size);
+    void saveRendering(const std::string& name, const std::string& dir, const char* data,
+                       size_t size);
 
     std::unique_ptr<std::fstream> lookupCachedFile(const std::string& name, const std::string& dir);
 
@@ -84,16 +87,16 @@ public:
     /// Store the timestamp to modtime.txt.
     void saveLastModified(const Poco::Timestamp& timestamp);
 
-    void forgetTileBeingRendered(const std::shared_ptr<TileCache::TileBeingRendered>& tileBeingRendered, const TileDesc& tile);
+    void
+    forgetTileBeingRendered(const std::shared_ptr<TileCache::TileBeingRendered>& tileBeingRendered,
+                            const TileDesc& tile);
     double getTileBeingRenderedElapsedTimeMs(const std::string& tileCacheName) const;
 
     bool hasTileBeingRendered(const TileDesc& tile);
     int getTileBeingRenderedVersion(const TileDesc& tile);
 
-    void setThreadOwner(const std::thread::id &id) { _owner = id; }
+    void setThreadOwner(const std::thread::id& id) { _owner = id; }
     void assertCorrectThread();
-
-
 
 private:
     void invalidateTiles(int part, int x, int y, int width, int height);
@@ -102,10 +105,12 @@ private:
     void removeFile(const std::string& fileName);
 
     static std::string cacheFileName(const TileDesc& tile);
-    static bool parseCacheFileName(const std::string& fileName, int& part, int& width, int& height, int& tilePosX, int& tilePosY, int& tileWidth, int& tileHeight);
+    static bool parseCacheFileName(const std::string& fileName, int& part, int& width, int& height,
+                                   int& tilePosX, int& tilePosY, int& tileWidth, int& tileHeight);
 
     /// Extract location from fileName, and check if it intersects with [x, y, width, height].
-    static bool intersectsTile(const std::string& fileName, int part, int x, int y, int width, int height);
+    static bool intersectsTile(const std::string& fileName, int part, int x, int y, int width,
+                               int height);
 
     /// Load the timestamp from modtime.txt.
     Poco::Timestamp getLastModified();
@@ -118,7 +123,7 @@ private:
 
     std::thread::id _owner;
 
-    std::map<std::string, std::shared_ptr<TileBeingRendered> > _tilesBeingRendered;
+    std::map<std::string, std::shared_ptr<TileBeingRendered>> _tilesBeingRendered;
 };
 
 #endif

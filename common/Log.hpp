@@ -26,7 +26,7 @@
 
 #include "Util.hpp"
 
-inline std::ostream& operator<< (std::ostream& os, const Poco::Timestamp& ts)
+inline std::ostream& operator<<(std::ostream& os, const Poco::Timestamp& ts)
 {
     os << Poco::DateTimeFormatter::format(Poco::DateTime(ts),
                                           Poco::DateTimeFormat::ISO8601_FRAC_FORMAT);
@@ -36,11 +36,8 @@ inline std::ostream& operator<< (std::ostream& os, const Poco::Timestamp& ts)
 namespace Log
 {
     /// Initialize the logging system.
-    void initialize(const std::string& name,
-                    const std::string& logLevel,
-                    const bool withColor,
-                    const bool logToFile,
-                    const std::map<std::string, std::string>& config);
+    void initialize(const std::string& name, const std::string& logLevel, const bool withColor,
+                    const bool logToFile, const std::map<std::string, std::string>& config);
 
     /// Returns the underlying logging system.
     Poco::Logger& logger();
@@ -69,9 +66,7 @@ namespace Log
     ///             << ", pointer: " << this << Log::end;
     static const struct _end_marker
     {
-        _end_marker()
-        {
-        }
+        _end_marker() {}
     } end;
 
     /// Helper class to support implementing streaming
@@ -81,22 +76,22 @@ namespace Log
     public:
         /// No-op instance.
         StreamLogger()
-          : _enabled(false)
+            : _enabled(false)
         {
         }
 
-        StreamLogger(std::function<void(const std::string&)> func, const char*level)
-          : _func(std::move(func)),
-            _enabled(true)
+        StreamLogger(std::function<void(const std::string&)> func, const char* level)
+            : _func(std::move(func))
+            , _enabled(true)
         {
             char buffer[1024];
             _stream << prefix(buffer, sizeof(buffer) - 1, level);
         }
 
         StreamLogger(StreamLogger&& sl) noexcept
-          : _stream(sl._stream.str()),
-            _func(std::move(sl._func)),
-            _enabled(sl._enabled)
+            : _stream(sl._stream.str())
+            , _func(std::move(sl._func))
+            , _enabled(sl._enabled)
         {
         }
 
@@ -122,47 +117,46 @@ namespace Log
     inline StreamLogger trace()
     {
         return traceEnabled()
-             ? StreamLogger([](const std::string& msg) { logger().trace(msg); }, "TRC")
-             : StreamLogger();
+                   ? StreamLogger([](const std::string& msg) { logger().trace(msg); }, "TRC")
+                   : StreamLogger();
     }
 
     inline StreamLogger debug()
     {
         return debugEnabled()
-             ? StreamLogger([](const std::string& msg) { logger().debug(msg); }, "DBG")
-             : StreamLogger();
+                   ? StreamLogger([](const std::string& msg) { logger().debug(msg); }, "DBG")
+                   : StreamLogger();
     }
 
     inline StreamLogger info()
     {
         return infoEnabled()
-             ? StreamLogger([](const std::string& msg) { logger().information(msg); }, "INF")
-             : StreamLogger();
+                   ? StreamLogger([](const std::string& msg) { logger().information(msg); }, "INF")
+                   : StreamLogger();
     }
 
     inline StreamLogger warn()
     {
         return warnEnabled()
-             ? StreamLogger([](const std::string& msg) { logger().warning(msg); }, "WRN")
-             : StreamLogger();
+                   ? StreamLogger([](const std::string& msg) { logger().warning(msg); }, "WRN")
+                   : StreamLogger();
     }
 
     inline StreamLogger error()
     {
         return errorEnabled()
-             ? StreamLogger([](const std::string& msg) { logger().error(msg); }, "ERR")
-             : StreamLogger();
+                   ? StreamLogger([](const std::string& msg) { logger().error(msg); }, "ERR")
+                   : StreamLogger();
     }
 
     inline StreamLogger fatal()
     {
         return fatalEnabled()
-             ? StreamLogger([](const std::string& msg) { logger().fatal(msg); }, "FTL")
-             : StreamLogger();
+                   ? StreamLogger([](const std::string& msg) { logger().fatal(msg); }, "FTL")
+                   : StreamLogger();
     }
 
-    template <typename U>
-    StreamLogger& operator<<(StreamLogger& lhs, const U& rhs)
+    template <typename U> StreamLogger& operator<<(StreamLogger& lhs, const U& rhs)
     {
         if (lhs.enabled())
         {
@@ -172,8 +166,7 @@ namespace Log
         return lhs;
     }
 
-    template <typename U>
-    StreamLogger& operator<<(StreamLogger&& lhs, U&& rhs)
+    template <typename U> StreamLogger& operator<<(StreamLogger&& lhs, U&& rhs)
     {
         if (lhs.enabled())
         {
@@ -187,8 +180,8 @@ namespace Log
     {
         if (lhs.enabled())
         {
-            lhs.getStream() << Poco::DateTimeFormatter::format(Poco::DateTime(rhs),
-                                                           Poco::DateTimeFormat::ISO8601_FRAC_FORMAT);
+            lhs.getStream() << Poco::DateTimeFormatter::format(
+                Poco::DateTime(rhs), Poco::DateTimeFormat::ISO8601_FRAC_FORMAT);
         }
 
         return lhs;
@@ -223,139 +216,145 @@ namespace Log
         return lhs;
     }
 
-}
+} // namespace Log
 
 #ifndef IOS
 #define LOG_FILE_NAME(f) f
 #else
 // We know that when building with Xcode, __FILE__ will always be a full path, with several slashes,
 // so this will always work. We want just the file name, they are unique anyway.
-#define LOG_FILE_NAME(f) (strrchr(f, '/')+1)
+#define LOG_FILE_NAME(f) (strrchr(f, '/') + 1)
 #endif
 
-#define LOG_END(LOG, FILEP)                             \
-    do                                                  \
-    {                                                   \
-        if (FILEP)                                      \
-            LOG << "| " << LOG_FILE_NAME(__FILE__) << ':' << __LINE__; \
+#define LOG_END(LOG, FILEP)                                                                        \
+    do                                                                                             \
+    {                                                                                              \
+        if (FILEP)                                                                                 \
+            LOG << "| " << LOG_FILE_NAME(__FILE__) << ':' << __LINE__;                             \
     } while (false)
 
-#define LOG_BODY_(LOG, PRIO, LVL, X, FILEP)                                                 \
-    Poco::Message m_(LOG.name(), "", Poco::Message::PRIO_##PRIO);                           \
-    char b_[1024];                                                                          \
-    std::ostringstream oss_(Log::prefix(b_, sizeof(b_) - 1, LVL), std::ostringstream::ate); \
-    oss_ << std::boolalpha << X;                                                            \
-    LOG_END(oss_, FILEP);                                                                   \
-    m_.setText(oss_.str());                                                                 \
+#define LOG_BODY_(LOG, PRIO, LVL, X, FILEP)                                                        \
+    Poco::Message m_(LOG.name(), "", Poco::Message::PRIO_##PRIO);                                  \
+    char b_[1024];                                                                                 \
+    std::ostringstream oss_(Log::prefix(b_, sizeof(b_) - 1, LVL), std::ostringstream::ate);        \
+    oss_ << std::boolalpha << X;                                                                   \
+    LOG_END(oss_, FILEP);                                                                          \
+    m_.setText(oss_.str());                                                                        \
     LOG.log(m_);
 
-#define LOG_TRC(X)                                  \
-    do                                              \
-    {                                               \
-        auto &log_ = Log::logger();                 \
-        if (log_.trace())                           \
-        {                                           \
-            LOG_BODY_(log_, TRACE, "TRC", X, true); \
-        }                                           \
+#define LOG_TRC(X)                                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.trace())                                                                          \
+        {                                                                                          \
+            LOG_BODY_(log_, TRACE, "TRC", X, true);                                                \
+        }                                                                                          \
     } while (false)
 
-#define LOG_TRC_NOFILE(X)                           \
-    do                                              \
-    {                                               \
-        auto &log_ = Log::logger();                 \
-        if (log_.trace())                           \
-        {                                           \
-            LOG_BODY_(log_, TRACE, "TRC", X, false);\
-        }                                           \
+#define LOG_TRC_NOFILE(X)                                                                          \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.trace())                                                                          \
+        {                                                                                          \
+            LOG_BODY_(log_, TRACE, "TRC", X, false);                                               \
+        }                                                                                          \
     } while (false)
 
-#define LOG_DBG(X)                                  \
-    do                                              \
-    {                                               \
-        auto &log_ = Log::logger();                 \
-        if (log_.debug())                           \
-        {                                           \
-            LOG_BODY_(log_, DEBUG, "DBG", X, true); \
-        }                                           \
+#define LOG_DBG(X)                                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.debug())                                                                          \
+        {                                                                                          \
+            LOG_BODY_(log_, DEBUG, "DBG", X, true);                                                \
+        }                                                                                          \
     } while (false)
 
-#define LOG_INF(X)                                        \
-    do                                                    \
-    {                                                     \
-        auto &log_ = Log::logger();                       \
-        if (log_.information())                           \
-        {                                                 \
-            LOG_BODY_(log_, INFORMATION, "INF", X, true); \
-        }                                                 \
+#define LOG_INF(X)                                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.information())                                                                    \
+        {                                                                                          \
+            LOG_BODY_(log_, INFORMATION, "INF", X, true);                                          \
+        }                                                                                          \
     } while (false)
 
-#define LOG_WRN(X)                                    \
-    do                                                \
-    {                                                 \
-        auto &log_ = Log::logger();                   \
-        if (log_.warning())                           \
-        {                                             \
-            LOG_BODY_(log_, WARNING, "WRN", X, true); \
-        }                                             \
+#define LOG_WRN(X)                                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.warning())                                                                        \
+        {                                                                                          \
+            LOG_BODY_(log_, WARNING, "WRN", X, true);                                              \
+        }                                                                                          \
     } while (false)
 
-#define LOG_ERR(X)                                  \
-    do                                              \
-    {                                               \
-        auto &log_ = Log::logger();                 \
-        if (log_.error())                           \
-        {                                           \
-            LOG_BODY_(log_, ERROR, "ERR", X, true); \
-        }                                           \
+#define LOG_ERR(X)                                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.error())                                                                          \
+        {                                                                                          \
+            LOG_BODY_(log_, ERROR, "ERR", X, true);                                                \
+        }                                                                                          \
     } while (false)
 
-#define LOG_SYS(X)                                                                                                               \
-    do                                                                                                                           \
-    {                                                                                                                            \
-        auto &log_ = Log::logger();                                                                                              \
-        if (log_.error())                                                                                                        \
-        {                                                                                                                        \
-            LOG_BODY_(log_, ERROR, "ERR", X << " (" << Util::symbolicErrno(errno) << ": " << std::strerror(errno) << ")", true); \
-        }                                                                                                                        \
+#define LOG_SYS(X)                                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.error())                                                                          \
+        {                                                                                          \
+            LOG_BODY_(log_, ERROR, "ERR",                                                          \
+                      X << " (" << Util::symbolicErrno(errno) << ": " << std::strerror(errno)      \
+                        << ")",                                                                    \
+                      true);                                                                       \
+        }                                                                                          \
     } while (false)
 
-#define LOG_FTL(X)                                  \
-    do                                              \
-    {                                               \
-        auto &log_ = Log::logger();                 \
-        if (log_.fatal())                           \
-        {                                           \
-            LOG_BODY_(log_, FATAL, "FTL", X, true); \
-        }                                           \
+#define LOG_FTL(X)                                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.fatal())                                                                          \
+        {                                                                                          \
+            LOG_BODY_(log_, FATAL, "FTL", X, true);                                                \
+        }                                                                                          \
     } while (false)
 
-#define LOG_SFL(X)                                                                                                               \
-    do                                                                                                                           \
-    {                                                                                                                            \
-        auto &log_ = Log::logger();                                                                                              \
-        if (log_.error())                                                                                                        \
-        {                                                                                                                        \
-            LOG_BODY_(log_, FATAL, "FTL", X << " (" << Util::symbolicErrno(errno) << ": " << std::strerror(errno) << ")", true); \
-        }                                                                                                                        \
+#define LOG_SFL(X)                                                                                 \
+    do                                                                                             \
+    {                                                                                              \
+        auto& log_ = Log::logger();                                                                \
+        if (log_.error())                                                                          \
+        {                                                                                          \
+            LOG_BODY_(log_, FATAL, "FTL",                                                          \
+                      X << " (" << Util::symbolicErrno(errno) << ": " << std::strerror(errno)      \
+                        << ")",                                                                    \
+                      true);                                                                       \
+        }                                                                                          \
     } while (false)
 
-#define LOG_CHECK(X)                                     \
-    do                                                   \
-    {                                                    \
-        if (!(X))                                        \
-        {                                                \
-            LOG_ERR("Check failed. Expected (" #X ")."); \
-        }                                                \
+#define LOG_CHECK(X)                                                                               \
+    do                                                                                             \
+    {                                                                                              \
+        if (!(X))                                                                                  \
+        {                                                                                          \
+            LOG_ERR("Check failed. Expected (" #X ").");                                           \
+        }                                                                                          \
     } while (false)
 
-#define LOG_CHECK_RET(X, RET)                            \
-    do                                                   \
-    {                                                    \
-        if (!(X))                                        \
-        {                                                \
-            LOG_ERR("Check failed. Expected (" #X ")."); \
-            return RET;                                  \
-        }                                                \
+#define LOG_CHECK_RET(X, RET)                                                                      \
+    do                                                                                             \
+    {                                                                                              \
+        if (!(X))                                                                                  \
+        {                                                                                          \
+            LOG_ERR("Check failed. Expected (" #X ").");                                           \
+            return RET;                                                                            \
+        }                                                                                          \
     } while (false)
 
 #endif

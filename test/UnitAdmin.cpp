@@ -30,12 +30,12 @@
 
 #define UNIT_URI "/loolwsd/unit-admin"
 
+using Poco::StringTokenizer;
 using Poco::Net::HTTPBasicCredentials;
+using Poco::Net::HTTPClientSession;
 using Poco::Net::HTTPCookie;
 using Poco::Net::HTTPRequest;
 using Poco::Net::HTTPResponse;
-using Poco::Net::HTTPClientSession;
-using Poco::StringTokenizer;
 
 // Inside the WSD process
 class UnitAdmin : public UnitWSD
@@ -59,12 +59,12 @@ private:
     int _usersCount = 0;
     int _docsCount = 0;
 
-    int  _messageTimeoutMilliSeconds = 5000;
+    int _messageTimeoutMilliSeconds = 5000;
     std::condition_variable _messageReceivedCV;
     std::mutex _messageReceivedMutex;
     std::string _messageReceived;
 
-// Tests
+    // Tests
 private:
     TestResult testIncorrectPassword()
     {
@@ -107,9 +107,7 @@ private:
         bool secure = cookies[0].getSecure();
         std::string value = cookies[0].getValue();
         TestResult res = TestResult::Failed;
-        if (cookiePath.find_first_of("/loleaflet/dist/admin/") == 0 &&
-            value != "" &&
-            secure)
+        if (cookiePath.find_first_of("/loleaflet/dist/admin/") == 0 && value != "" && secure)
         {
             // Set JWT cookie to be used for subsequent tests
             _jwtCookie = value;
@@ -136,16 +134,18 @@ private:
         std::unique_lock<std::mutex> lock(_messageReceivedMutex);
         _messageReceived.clear();
         _adminWs->sendFrame(testMessage.data(), testMessage.size());
-        if (_messageReceivedCV.wait_for(lock, std::chrono::milliseconds(_messageTimeoutMilliSeconds)) == std::cv_status::timeout)
+        if (_messageReceivedCV.wait_for(lock,
+                                        std::chrono::milliseconds(_messageTimeoutMilliSeconds))
+            == std::cv_status::timeout)
         {
             LOG_INF("testWebSocketWithoutAuth: Timed out waiting for admin console message");
             return TestResult::TimedOut;
         }
         lock.unlock();
 
-        StringTokenizer tokens(_messageReceived, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-        if (tokens.count() != 1 ||
-            tokens[0] != "NotAuthenticated")
+        StringTokenizer tokens(_messageReceived, " ",
+                               StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        if (tokens.count() != 1 || tokens[0] != "NotAuthenticated")
         {
             LOG_INF("testWebSocketWithoutAuth: Unrecognized message format");
             return TestResult::Failed;
@@ -167,16 +167,19 @@ private:
         std::unique_lock<std::mutex> lock(_messageReceivedMutex);
         _messageReceived.clear();
         _adminWs->sendFrame(testMessage.data(), testMessage.size());
-        if (_messageReceivedCV.wait_for(lock, std::chrono::milliseconds(_messageTimeoutMilliSeconds)) == std::cv_status::timeout)
+        if (_messageReceivedCV.wait_for(lock,
+                                        std::chrono::milliseconds(_messageTimeoutMilliSeconds))
+            == std::cv_status::timeout)
         {
-            LOG_INF("testWebSocketWithIncorrectAuthToken: Timed out waiting for admin console message");
+            LOG_INF(
+                "testWebSocketWithIncorrectAuthToken: Timed out waiting for admin console message");
             return TestResult::TimedOut;
         }
         lock.unlock();
 
-        StringTokenizer tokens(_messageReceived, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-        if (tokens.count() != 1 ||
-            tokens[0] != "InvalidAuthToken")
+        StringTokenizer tokens(_messageReceived, " ",
+                               StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        if (tokens.count() != 1 || tokens[0] != "InvalidAuthToken")
         {
             LOG_INF("testWebSocketWithIncorrectAuthToken: Unrecognized message format");
             return TestResult::Failed;
@@ -206,7 +209,8 @@ private:
         Poco::Thread::sleep(250);
 
         std::string documentPath1, documentURL1;
-        helpers::getDocumentPathAndURL("hello.odt", documentPath1, documentURL1, "unitAdmin-hello.odt ");
+        helpers::getDocumentPathAndURL("hello.odt", documentPath1, documentURL1,
+                                       "unitAdmin-hello.odt ");
         HTTPRequest request1(HTTPRequest::HTTP_GET, documentURL1);
         HTTPResponse response1;
         const Poco::URI docUri1(helpers::getTestServerURI());
@@ -218,7 +222,9 @@ private:
         _messageReceived.clear();
         _docWs1 = std::make_shared<LOOLWebSocket>(*session1, request1, response1);
         _docWs1->sendFrame(loadMessage1.data(), loadMessage1.size());
-        if (_messageReceivedCV.wait_for(lock, std::chrono::milliseconds(_messageTimeoutMilliSeconds)) == std::cv_status::timeout)
+        if (_messageReceivedCV.wait_for(lock,
+                                        std::chrono::milliseconds(_messageTimeoutMilliSeconds))
+            == std::cv_status::timeout)
         {
             LOG_INF("testAddDocNotify: Timed out waiting for admin console message");
             return TestResult::TimedOut;
@@ -226,10 +232,10 @@ private:
         lock.unlock();
 
         {
-            StringTokenizer tokens(_messageReceived, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-            if (tokens.count() != 5 ||
-                tokens[0] != "adddoc" ||
-                tokens[2] != documentPath1.substr(documentPath1.find_last_of('/') + 1) )
+            StringTokenizer tokens(_messageReceived, " ",
+                                   StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+            if (tokens.count() != 5 || tokens[0] != "adddoc"
+                || tokens[2] != documentPath1.substr(documentPath1.find_last_of('/') + 1))
             {
                 LOG_INF("testAddDocNotify: Unrecognized message format");
                 return TestResult::Failed;
@@ -246,7 +252,9 @@ private:
         _messageReceived.clear();
         _docWs2 = std::make_shared<LOOLWebSocket>(*session2, request1, response1);
         _docWs2->sendFrame(loadMessage1.data(), loadMessage1.size());
-        if (_messageReceivedCV.wait_for(lock, std::chrono::milliseconds(_messageTimeoutMilliSeconds)) == std::cv_status::timeout)
+        if (_messageReceivedCV.wait_for(lock,
+                                        std::chrono::milliseconds(_messageTimeoutMilliSeconds))
+            == std::cv_status::timeout)
         {
             LOG_INF("testAddDocNotify: Timed out waiting for admin console message");
             return TestResult::TimedOut;
@@ -254,10 +262,10 @@ private:
         lock.unlock();
 
         {
-            StringTokenizer tokens(_messageReceived, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-            if (tokens.count() != 5 ||
-                tokens[0] != "adddoc" ||
-                tokens[2] != documentPath1.substr(documentPath1.find_last_of('/') + 1) )
+            StringTokenizer tokens(_messageReceived, " ",
+                                   StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+            if (tokens.count() != 5 || tokens[0] != "adddoc"
+                || tokens[2] != documentPath1.substr(documentPath1.find_last_of('/') + 1))
             {
                 LOG_INF("testAddDocNotify: Unrecognized message format");
                 return TestResult::Failed;
@@ -270,7 +278,8 @@ private:
 
         // Open another document (different)
         std::string documentPath2, documentURL2;
-        helpers::getDocumentPathAndURL("insert-delete.odp", documentPath2, documentURL2, "unitAdmin-insert-delete.odp ");
+        helpers::getDocumentPathAndURL("insert-delete.odp", documentPath2, documentURL2,
+                                       "unitAdmin-insert-delete.odp ");
         HTTPRequest request2(HTTPRequest::HTTP_GET, documentURL2);
         HTTPResponse response2;
         const Poco::URI docUri2(helpers::getTestServerURI());
@@ -281,7 +290,9 @@ private:
         _messageReceived.clear();
         _docWs3 = std::make_shared<LOOLWebSocket>(*session3, request2, response2);
         _docWs3->sendFrame(loadMessage2.data(), loadMessage2.size());
-        if (_messageReceivedCV.wait_for(lock, std::chrono::milliseconds(_messageTimeoutMilliSeconds)) == std::cv_status::timeout)
+        if (_messageReceivedCV.wait_for(lock,
+                                        std::chrono::milliseconds(_messageTimeoutMilliSeconds))
+            == std::cv_status::timeout)
         {
             LOG_INF("testAddDocNotify: Timed out waiting for admin console message");
             return TestResult::TimedOut;
@@ -289,10 +300,10 @@ private:
         lock.unlock();
 
         {
-            StringTokenizer tokens(_messageReceived, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-            if (tokens.count() != 5 ||
-                tokens[0] != "adddoc" ||
-                tokens[2] != documentPath2.substr(documentPath2.find_last_of('/') + 1) )
+            StringTokenizer tokens(_messageReceived, " ",
+                                   StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+            if (tokens.count() != 5 || tokens[0] != "adddoc"
+                || tokens[2] != documentPath2.substr(documentPath2.find_last_of('/') + 1))
             {
                 LOG_INF("testAddDocNotify: Unrecognized message format");
                 return TestResult::Failed;
@@ -315,16 +326,18 @@ private:
 
         std::unique_lock<std::mutex> lock(_messageReceivedMutex);
         _adminWs->sendFrame(queryMessage.data(), queryMessage.size());
-        if (_messageReceivedCV.wait_for(lock, std::chrono::milliseconds(_messageTimeoutMilliSeconds)) == std::cv_status::timeout)
+        if (_messageReceivedCV.wait_for(lock,
+                                        std::chrono::milliseconds(_messageTimeoutMilliSeconds))
+            == std::cv_status::timeout)
         {
             LOG_INF("testUsersCount: Timed out waiting for admin console message");
             return TestResult::TimedOut;
         }
         lock.unlock();
 
-        StringTokenizer tokens(_messageReceived, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-        if (tokens.count() != 2 ||
-            tokens[0] != "active_users_count")
+        StringTokenizer tokens(_messageReceived, " ",
+                               StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        if (tokens.count() != 2 || tokens[0] != "active_users_count")
         {
             LOG_INF("testUsersCount: Unrecognized message format");
             return TestResult::Failed;
@@ -332,8 +345,8 @@ private:
         else if (std::stoi(tokens[1]) != _usersCount)
         {
             LOG_INF("testUsersCount: Incorrect users count "
-                      ", expected: " + std::to_string(_usersCount) +
-                      ", actual: " + tokens[1]);
+                    ", expected: "
+                    + std::to_string(_usersCount) + ", actual: " + tokens[1]);
             return TestResult::Failed;
         }
 
@@ -348,17 +361,19 @@ private:
 
         std::unique_lock<std::mutex> lock(_messageReceivedMutex);
         _adminWs->sendFrame(queryMessage.data(), queryMessage.size());
-        if (_messageReceivedCV.wait_for(lock, std::chrono::milliseconds(_messageTimeoutMilliSeconds)) == std::cv_status::timeout)
+        if (_messageReceivedCV.wait_for(lock,
+                                        std::chrono::milliseconds(_messageTimeoutMilliSeconds))
+            == std::cv_status::timeout)
         {
             LOG_INF("testDocCount: Timed out waiting for admin console message");
             return TestResult::TimedOut;
         }
         lock.unlock();
 
-        StringTokenizer tokens(_messageReceived, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-        if (tokens.count() != 2 ||
-            tokens[0] != "active_docs_count" ||
-            std::stoi(tokens[1]) != _docsCount)
+        StringTokenizer tokens(_messageReceived, " ",
+                               StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        if (tokens.count() != 2 || tokens[0] != "active_docs_count"
+            || std::stoi(tokens[1]) != _docsCount)
         {
             LOG_INF("testDocCount: Unrecognized message format");
             return TestResult::Failed;
@@ -366,8 +381,8 @@ private:
         else if (std::stoi(tokens[1]) != _docsCount)
         {
             LOG_INF("testDocCount: Incorrect doc count "
-                      ", expected: " + std::to_string(_docsCount) +
-                      ", actual: " + tokens[1]);
+                    ", expected: "
+                    + std::to_string(_docsCount) + ", actual: " + tokens[1]);
             return TestResult::Failed;
         }
 
@@ -384,17 +399,18 @@ private:
 
         std::unique_lock<std::mutex> lock(_messageReceivedMutex);
         _docWs1->close();
-        if (_messageReceivedCV.wait_for(lock, std::chrono::milliseconds(_messageTimeoutMilliSeconds)) == std::cv_status::timeout)
+        if (_messageReceivedCV.wait_for(lock,
+                                        std::chrono::milliseconds(_messageTimeoutMilliSeconds))
+            == std::cv_status::timeout)
         {
             LOG_INF("testRmDocNotify: Timed out waiting for admin console message");
             return TestResult::TimedOut;
         }
         lock.unlock();
 
-        StringTokenizer tokens(_messageReceived, " ", StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
-        if (tokens.count() != 3 ||
-            tokens[0] != "rmdoc" ||
-            stoi(tokens[1]) != _docPid1)
+        StringTokenizer tokens(_messageReceived, " ",
+                               StringTokenizer::TOK_IGNORE_EMPTY | StringTokenizer::TOK_TRIM);
+        if (tokens.count() != 3 || tokens[0] != "rmdoc" || stoi(tokens[1]) != _docPid1)
         {
             LOG_INF("testRmDocNotify: Invalid message format");
             return TestResult::Failed;
@@ -440,12 +456,11 @@ public:
             LOG_INF("UnitAdmin:: Finished test #" << _testCounter);
             if (res != TestResult::Ok)
             {
-                LOG_INF("Exiting with " <<
-                        (res == TestResult::Failed
-                              ? "FAIL"
-                              : (res == TestResult::TimedOut)
-                                      ? "TIMEOUT"
-                                      : "??? (" + std::to_string((int)res) + ")"));
+                LOG_INF("Exiting with " << (res == TestResult::Failed
+                                                ? "FAIL"
+                                                : (res == TestResult::TimedOut)
+                                                      ? "TIMEOUT"
+                                                      : "??? (" + std::to_string((int)res) + ")"));
                 exitTest(res);
                 assert(false);
                 return;
@@ -479,9 +494,6 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitAdmin();
-}
+UnitBase* unit_create_wsd(void) { return new UnitAdmin(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

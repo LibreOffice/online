@@ -46,11 +46,13 @@ std::mutex SigHandlerTrap;
 
 namespace SigUtil
 {
-    const char *signalName(const int signo)
+    const char* signalName(const int signo)
     {
         switch (signo)
         {
-#define CASE(x) case SIG##x: return "SIG" #x
+#define CASE(x)                                                                                    \
+    case SIG##x:                                                                                   \
+        return "SIG" #x
             CASE(HUP);
             CASE(INT);
             CASE(QUIT);
@@ -101,16 +103,15 @@ namespace SigUtil
             CASE(INFO);
 #endif
 #undef CASE
-        default:
-            return "unknown";
+            default:
+                return "unknown";
         }
     }
 
-    static
-    void handleTerminationSignal(const int signal)
+    static void handleTerminationSignal(const int signal)
     {
         bool hardExit = false;
-        const char *domain;
+        const char* domain;
         if (!ShutdownRequestFlag && signal == SIGINT)
         {
             domain = " Shutdown signal received: ";
@@ -135,8 +136,8 @@ namespace SigUtil
             SocketPoll::wakeupWorld();
         else
         {
-            ::signal (signal, SIG_DFL);
-            ::raise (signal);
+            ::signal(signal, SIG_DFL);
+            ::raise(signal);
         }
     }
 
@@ -162,8 +163,7 @@ namespace SigUtil
 
     static char FatalGdbString[256] = { '\0' };
 
-    static
-    void handleFatalSignal(const int signal)
+    static void handleFatalSignal(const int signal)
     {
         std::unique_lock<std::mutex> lock(SigHandlerTrap);
 
@@ -199,25 +199,27 @@ namespace SigUtil
         sprintf(header, "Backtrace %d:\n", getpid());
 
         const int maxSlots = 50;
-        void *backtraceBuffer[maxSlots];
+        void* backtraceBuffer[maxSlots];
         int numSlots = backtrace(backtraceBuffer, maxSlots);
         if (numSlots > 0)
         {
-            char **symbols = backtrace_symbols(backtraceBuffer, numSlots);
+            char** symbols = backtrace_symbols(backtraceBuffer, numSlots);
             if (symbols != nullptr)
             {
-                struct iovec ioVector[maxSlots*2+1];
+                struct iovec ioVector[maxSlots * 2 + 1];
                 ioVector[0].iov_base = static_cast<void*>(header);
                 ioVector[0].iov_len = std::strlen(static_cast<const char*>(ioVector[0].iov_base));
                 for (int i = 0; i < numSlots; i++)
                 {
-                    ioVector[1+i*2+0].iov_base = symbols[i];
-                    ioVector[1+i*2+0].iov_len = std::strlen(static_cast<const char *>(ioVector[1+i*2+0].iov_base));
-                    ioVector[1+i*2+1].iov_base = const_cast<void*>(static_cast<const void*>("\n"));
-                    ioVector[1+i*2+1].iov_len = 1;
+                    ioVector[1 + i * 2 + 0].iov_base = symbols[i];
+                    ioVector[1 + i * 2 + 0].iov_len
+                        = std::strlen(static_cast<const char*>(ioVector[1 + i * 2 + 0].iov_base));
+                    ioVector[1 + i * 2 + 1].iov_base
+                        = const_cast<void*>(static_cast<const void*>("\n"));
+                    ioVector[1 + i * 2 + 1].iov_len = 1;
                 }
 
-                if (writev(STDERR_FILENO, ioVector, numSlots*2+1) == -1)
+                if (writev(STDERR_FILENO, ioVector, numSlots * 2 + 1) == -1)
                 {
                     LOG_SYS("Failed to dump backtrace to stderr.");
                 }
@@ -252,12 +254,11 @@ namespace SigUtil
                << "sudo gdb --q --n --ex 'thread apply all backtrace full' --batch --pid="
                << Poco::Process::id() << "\n";
         std::string streamStr = stream.str();
-        assert (sizeof (FatalGdbString) > strlen(streamStr.c_str()) + 1);
+        assert(sizeof(FatalGdbString) > strlen(streamStr.c_str()) + 1);
         strncpy(FatalGdbString, streamStr.c_str(), sizeof(FatalGdbString));
     }
 
-    static
-    void handleUserSignal(const int signal)
+    static void handleUserSignal(const int signal)
     {
         Log::signalLogPrefix();
         Log::signalLog(" User signal received: ");
@@ -308,7 +309,7 @@ namespace SigUtil
 
         return false;
     }
-}
+} // namespace SigUtil
 
 #endif // !MOBILEAPP
 

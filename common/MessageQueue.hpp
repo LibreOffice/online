@@ -19,20 +19,14 @@
 #include <vector>
 
 /// Thread-safe message queue (FIFO).
-template <typename T>
-class MessageQueueBase
+template <typename T> class MessageQueueBase
 {
 public:
     typedef T Payload;
 
-    MessageQueueBase()
-    {
-    }
+    MessageQueueBase() {}
 
-    virtual ~MessageQueueBase()
-    {
-        clear();
-    }
+    virtual ~MessageQueueBase() { clear(); }
 
     MessageQueueBase(const MessageQueueBase&) = delete;
     MessageQueueBase& operator=(const MessageQueueBase&) = delete;
@@ -51,10 +45,7 @@ public:
         _cv.notify_one();
     }
 
-    void put(const std::string& value)
-    {
-        put(Payload(value.data(), value.data() + value.size()));
-    }
+    void put(const std::string& value) { put(Payload(value.data(), value.data() + value.size())); }
 
     /// Thread safe obtaining of the message.
     /// timeoutMs can be 0 to signify infinity.
@@ -94,15 +85,9 @@ public:
     }
 
 protected:
-    virtual void put_impl(const Payload& value)
-    {
-        _queue.push_back(value);
-    }
+    virtual void put_impl(const Payload& value) { _queue.push_back(value); }
 
-    bool wait_impl() const
-    {
-        return _queue.size() > 0;
-    }
+    bool wait_impl() const { return _queue.size() > 0; }
 
     virtual Payload get_impl()
     {
@@ -111,10 +96,7 @@ protected:
         return result;
     }
 
-    void clear_impl()
-    {
-        _queue.clear();
-    }
+    void clear_impl() { _queue.clear(); }
 
     /// Get the queue lock when accessing members of derived classes.
     std::unique_lock<std::mutex> getLock() { return std::unique_lock<std::mutex>(_mutex); }
@@ -125,7 +107,6 @@ private:
     std::vector<Payload> _queue;
     mutable std::mutex _mutex;
     std::condition_variable _cv;
-
 };
 
 typedef MessageQueueBase<std::vector<char>> MessageQueue;

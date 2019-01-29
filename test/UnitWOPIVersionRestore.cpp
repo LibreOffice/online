@@ -19,7 +19,6 @@
 #include <Poco/Timestamp.h>
 #include <Poco/Util/LayeredConfiguration.h>
 
-
 /*
  * 1) Modifies a current document
  * 2) Issue a version restore request
@@ -40,8 +39,8 @@ class UnitWOPIVersionRestore : public WopiTestServer
     bool _isDocumentSaved = false;
 
 public:
-    UnitWOPIVersionRestore() :
-        _phase(Phase::Load)
+    UnitWOPIVersionRestore()
+        : _phase(Phase::Load)
     {
     }
 
@@ -53,7 +52,8 @@ public:
         }
     }
 
-    bool filterSendMessage(const char* data, const size_t len, const WSOpCode /* code */, const bool /* flush */, int& /*unitReturn*/) override
+    bool filterSendMessage(const char* data, const size_t len, const WSOpCode /* code */,
+                           const bool /* flush */, int& /*unitReturn*/) override
     {
         std::string message(data, len);
         if (message == "close: versionrestore: prerestore_ack")
@@ -74,28 +74,32 @@ public:
             {
                 initWebsocket("/wopi/files/0?access_token=anything");
 
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(), testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "load url=" + getWopiSrc(),
+                                       testName);
 
                 _phase = Phase::Modify;
                 break;
             }
             case Phase::Modify:
             {
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=input char=97 key=0", testName);
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=up char=0 key=512", testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=input char=97 key=0",
+                                       testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "key type=up char=0 key=512",
+                                       testName);
 
                 _phase = Phase::VersionRestoreRequest;
                 SocketPoll::wakeupWorld();
                 break;
             }
-	        case Phase::VersionRestoreRequest:
+            case Phase::VersionRestoreRequest:
             {
                 // tell wsd that we are about to restore
-                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "versionrestore prerestore", testName);
+                helpers::sendTextFrame(*getWs()->getLOOLWebSocket(), "versionrestore prerestore",
+                                       testName);
                 _phase = Phase::Polling;
                 break;
             }
-	        case Phase::VersionRestoreAck:
+            case Phase::VersionRestoreAck:
             {
                 if (_isDocumentSaved)
                     exitTest(TestResult::Ok);
@@ -111,9 +115,6 @@ public:
     }
 };
 
-UnitBase *unit_create_wsd(void)
-{
-    return new UnitWOPIVersionRestore();
-}
+UnitBase* unit_create_wsd(void) { return new UnitWOPIVersionRestore(); }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
