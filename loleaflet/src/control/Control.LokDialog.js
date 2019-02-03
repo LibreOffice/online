@@ -637,7 +637,7 @@ L.Control.LokDialog = L.Control.extend({
 		$(floatingCanvas).hide(); // Hide to avoid flickering while we set the dimensions.
 		floatingCanvas.id = strId + '-floating';
 		L.DomUtil.setStyle(floatingCanvas, 'position', 'absolute');
-		L.DomUtil.setStyle(floatingCanvas, 'left', left + 'px'); // yes, it's necessary to append 'px'
+		L.DomUtil.setStyle(floatingCanvas, 'left', (left - 3) + 'px'); // Align drop-down list with parent.
 		L.DomUtil.setStyle(floatingCanvas, 'top', top + 'px');
 
 		// attach events
