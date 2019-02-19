@@ -24,7 +24,7 @@ L.Map.WOPI = L.Handler.extend({
 	EnableShare: false,
 	HideUserList: null,
 	CallPythonScriptSource: null,
-
+	_templateLoad: false,
 	_appLoadedConditions: {
 		docloaded: false,
 		updatepermission: false,
@@ -96,6 +96,7 @@ L.Map.WOPI = L.Handler.extend({
 		if ('TemplateSaveAs' in wopiInfo) {
 			this._map.showBusy(_('Creating new file from template...'), false);
 			this._map.saveAs(wopiInfo['TemplateSaveAs']);
+			this._templateLoad = true;
 		}
 	},
 
@@ -110,15 +111,14 @@ L.Map.WOPI = L.Handler.extend({
 		if (this._appLoaded) {
 			return;
 		}
-
 		if (e.type === 'docloaded') {
 			// doc unloaded
-			if (!e.status)
+			//ugly hack for load from template issues
+			if (!e.status && !this._templateLoad)
 			{
 				this._appLoadedConditions[e.type] = false;
 				return;
 			}
-
 			this.DocumentLoadedTime = Date.now();
 		}
 		this._appLoadedConditions[e.type] = true;
