@@ -118,7 +118,7 @@ L.Map.WOPI = L.Handler.extend({
 				this._appLoadedConditions[e.type] = false;
 				return;
 			}
-
+			
 			this.DocumentLoadedTime = Date.now();
 		}
 		this._appLoadedConditions[e.type] = true;
