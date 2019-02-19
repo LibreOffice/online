@@ -24,7 +24,6 @@ L.Map.WOPI = L.Handler.extend({
 	EnableShare: false,
 	HideUserList: null,
 	CallPythonScriptSource: null,
-
 	_appLoadedConditions: {
 		docloaded: false,
 		updatepermission: false,
@@ -110,7 +109,6 @@ L.Map.WOPI = L.Handler.extend({
 		if (this._appLoaded) {
 			return;
 		}
-
 		if (e.type === 'docloaded') {
 			// doc unloaded
 			if (!e.status)
@@ -118,7 +116,6 @@ L.Map.WOPI = L.Handler.extend({
 				this._appLoadedConditions[e.type] = false;
 				return;
 			}
-
 			this.DocumentLoadedTime = Date.now();
 		}
 		this._appLoadedConditions[e.type] = true;
