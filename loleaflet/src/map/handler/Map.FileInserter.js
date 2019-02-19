@@ -72,9 +72,17 @@ L.Map.FileInserter = L.Handler.extend({
 	},
 
 	_sendFile: function (name, file) {
-		var url = this._url;
+		//set url again in case saveAs since it creates new url
 		var socket = this._map._socket;
 		var map = this._map;
+		var wopiSrc = '';
+		if (map.options.wopiSrc != '') {
+			wopiSrc = '?WOPISrc=' + map.options.wopiSrc;
+		}
+		this._url = map.options.webserver + map.options.serviceRoot + '/' + map.options.urlPrefix +
+			'/' + encodeURIComponent(map.options.doc) + '/insertfile' + wopiSrc;
+		var url = this._url;
+
 		if (window.ThisIsAMobileApp) {
 			// Pass the file contents as a base64-encoded parameter in an insertfile message
 			var reader = new FileReader();
