@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f485f77_9b3b2837",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-02-25T13:13:37Z",
+      "side": 1,
+      "message": ".class selector will provide you all elements matching specified class (https://api.jquery.com/class-selector/).\n\nAs I see (not LO, but some test html file) .height() returned always value for the first matching instance I created.\n\nDid you consider multiple dialogs case?",
+      "revId": "4652757e7c74a76372ddaef3f9faae3058302459",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
