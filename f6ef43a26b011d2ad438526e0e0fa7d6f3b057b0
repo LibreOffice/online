@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f485f77_9669bf26",
+        "filename": "loleaflet/js/toolbar.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-02-26T09:16:36Z",
+      "side": 1,
+      "message": "could be simpler: if(event.item)\nundefined !\u003d\u003d null but both are \u003d\u003d false",
+      "revId": "f6ef43a26b011d2ad438526e0e0fa7d6f3b057b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f485f77_76764309",
+        "filename": "loleaflet/src/control/Ruler.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-02-26T09:16:36Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "f6ef43a26b011d2ad438526e0e0fa7d6f3b057b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f485f77_b655db52",
+        "filename": "loleaflet/src/map/handler/Map.FileInserter.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-02-26T09:16:36Z",
+      "side": 1,
+      "message": "please don\u0027t copy the same code two times, make a method instead and use in two places",
+      "revId": "f6ef43a26b011d2ad438526e0e0fa7d6f3b057b0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
