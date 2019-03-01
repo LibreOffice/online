@@ -8,6 +8,7 @@ L.Control.PartsPreview = L.Control.extend({
 	options: {
 		autoUpdate: true
 	},
+	partsFocused: false,
 
 	onAdd: function (map) {
 		this._previewInitialized = false;
@@ -60,6 +61,24 @@ L.Control.PartsPreview = L.Control.extend({
 						}
 					}
 				});
+
+				this._map.on('click', function() {
+					this.partsFocused = false;
+				}, this);
+				
+				this._map.on('keydown', function(e) {
+					if (this.partsFocused === true) {
+						switch (e.originalEvent.keyCode) {
+						case 38:
+							this._map.setPart('prev');
+							break;
+						case 40:
+							this._map.setPart('next');
+							break;
+						}
+					}
+				}, this);
+
 				this._scrollContainer = $('#slide-sorter .mCSB_container').get(0);
 
 				// Create the preview parts
@@ -80,6 +99,8 @@ L.Control.PartsPreview = L.Control.extend({
 					L.DomUtil.removeClass(this._previewTiles[j], 'preview-img-selected');
 				}
 				L.DomUtil.addClass(this._previewTiles[selectedPart], 'preview-img-selected');
+
+				$(this._previewTiles[selectedPart]).attr('tabindex', 0);
 			}
 		}
 	},
@@ -97,7 +118,10 @@ L.Control.PartsPreview = L.Control.extend({
 			.on(img, 'click', L.DomEvent.stopPropagation)
 			.on(img, 'click', L.DomEvent.stop)
 			.on(img, 'click', this._setPart, this)
-			.on(img, 'click', this._map.focus, this._map);
+			.on(img, 'click', this._map.focus, this._map)
+			.on(img, 'click', function() {
+				this.partsFocused = true;
+			}, this);
 
 		var topBound = this._previewContTop;
 		var previewFrameTop = 0;
@@ -137,6 +161,10 @@ L.Control.PartsPreview = L.Control.extend({
 	},
 
 	_setPart: function (e) {
+		if (e === 'prev' || e === 'next') {
+			this._map.setPart(e);
+			return;
+		}
 		var part = $('#slide-sorter .mCSB_container .preview-frame').index(e.target.parentNode);
 		if (part !== null) {
 			this._map.setPart(parseInt(part));
