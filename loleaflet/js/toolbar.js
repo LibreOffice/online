@@ -668,7 +668,7 @@ var fontsizesSelectValue;
 function createToolbar() {
 	var toolItems = [
 		{type: 'button',  id: 'closemobile',  img: 'closemobile', desktop: false, mobile: false, tablet: true, hidden: true},
-		{type: 'button',  id: 'save', img: 'save', hint: _UNO('.uno:Save')},
+		{type: 'button',  id: 'save', img: 'save', hint: _UNO('.uno:Save') },
 		{type: 'button',  id: 'print', img: 'print', hint: _UNO('.uno:Print', 'text'), mobile: false, tablet: false},
 		{type: 'break', id: 'savebreak', mobile: false},
 		{type: 'button',  id: 'undo',  img: 'undo', hint: _UNO('.uno:Undo'), uno: 'Undo', disabled: true, mobile: false},
@@ -1860,11 +1860,11 @@ function onCommandStateChanged(e) {
 		var html;
 		if (modifiedStatus) {
 			html = $('#modifiedstatuslabel').html('').parent().html();
-			w2ui['editbar'].set('save', {img:'savemodified'});
+			w2ui['editbar'].set('save', {img:'savemodified',disabled:false});
 		}
 		else {
 			html = $('#modifiedstatuslabel').html(_('Document saved')).parent().html();
-			w2ui['editbar'].set('save', {img:'save'});
+			w2ui['editbar'].set('save', {img:'save',disabled:true});
 		}
 		updateToolbarItem(statusbar, 'modifiedstatuslabel', html);
 	}
@@ -2121,6 +2121,7 @@ function onCommandResult(e) {
 	}
 	else if ((commandName === '.uno:Undo' || commandName === '.uno:Redo') &&
 		e.success === true && e.result.value && !isNaN(e.result.value)) { /*UNDO_CONFLICT*/
+		console.log('we are hereeeeeeeeeeeeeeeee');
 		$('#tb_editbar_item_repair').w2overlay({ html: '<div style="padding: 10px; line-height: 150%">' +
 			_('Conflict Undo/Redo with multiple users. Please use document repair to resolve') + '</div>'});
 	}
@@ -2438,7 +2439,6 @@ $(document).ready(function() {
 	if (closebutton && !L.Browser.mobile) {
 		$('#closebuttonwrapper').show();
 	}
-
 	$('#closebutton').click(function() {
 		map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
 		map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
