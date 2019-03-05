@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82abbf_6bef9187",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-03-05T11:32:52Z",
+      "side": 1,
+      "message": "This sentence is unnecessary in a commit message. you can just remove it, the first line is descriptive enough.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 158
+      },
+      "revId": "601ab9c79cc6f04326c97ed13fc8bb3b8330e986",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_ebd961f4",
+        "filename": "loleaflet/js/toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-03-05T11:32:52Z",
+      "side": 1,
+      "message": "please no unrelated whitespace changes.",
+      "revId": "601ab9c79cc6f04326c97ed13fc8bb3b8330e986",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_0bd7e5c1",
+        "filename": "loleaflet/js/toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1863,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-03-05T11:32:52Z",
+      "side": 1,
+      "message": "whitespace after comma",
+      "revId": "601ab9c79cc6f04326c97ed13fc8bb3b8330e986",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_abe359a4",
+        "filename": "loleaflet/js/toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1867,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-03-05T11:32:52Z",
+      "side": 1,
+      "message": "dito",
+      "revId": "601ab9c79cc6f04326c97ed13fc8bb3b8330e986",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}

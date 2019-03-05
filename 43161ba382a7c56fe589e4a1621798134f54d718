@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82abbf_cbe01d9a",
+        "filename": "loleaflet/js/toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2441,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-03-05T11:32:52Z",
+      "side": 0,
+      "message": "same here, no unrelated changes please.",
+      "revId": "43161ba382a7c56fe589e4a1621798134f54d718",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
