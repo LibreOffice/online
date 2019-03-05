@@ -1860,11 +1860,11 @@ function onCommandStateChanged(e) {
 		var html;
 		if (modifiedStatus) {
 			html = $('#modifiedstatuslabel').html('').parent().html();
-			w2ui['editbar'].set('save', {img:'savemodified'});
+			w2ui['editbar'].set('save', {img:'savemodified', disabled:false});
 		}
 		else {
 			html = $('#modifiedstatuslabel').html(_('Document saved')).parent().html();
-			w2ui['editbar'].set('save', {img:'save'});
+			w2ui['editbar'].set('save', {img:'save', disabled:true});
 		}
 		updateToolbarItem(statusbar, 'modifiedstatuslabel', html);
 	}
