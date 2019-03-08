@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82abbf_4945f26f",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-03-08T09:29:54Z",
+      "side": 1,
+      "message": "Nice feature to add for the future - would be good to document the parameters better here I think in the comment.",
+      "revId": "c451509020354d0f1facecffb06aa0e01422e455",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_095fea41",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-03-08T09:29:54Z",
+      "side": 1,
+      "message": "Not a fun of the redundant braces style - can we stick with the pattern of the existing code here: vertical space is a non-renewable resource \u003d)",
+      "revId": "c451509020354d0f1facecffb06aa0e01422e455",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_894bfa85",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-03-08T09:29:54Z",
+      "side": 1,
+      "message": "In general - would prefer not returning in the middle of the function - the \u0027doClose\u0027 thing looked more elegant to me - is there a reason not to continue with that approach - perhaps using a shutdown() error code value instead (?)",
+      "revId": "c451509020354d0f1facecffb06aa0e01422e455",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_a9503e34",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-03-08T09:29:54Z",
+      "side": 1,
+      "message": "Can we call this something less pejorative ? _inFragmentBlock or something ?",
+      "revId": "c451509020354d0f1facecffb06aa0e01422e455",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
