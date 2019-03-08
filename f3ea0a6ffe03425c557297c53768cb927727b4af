@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82abbf_6ca32451",
+        "filename": "loleaflet/src/control/Control.PartsPreview.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2019-03-08T17:48:23Z",
+      "side": 1,
+      "message": "Small nitpicks ;-)",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 4
+      },
+      "revId": "f3ea0a6ffe03425c557297c53768cb927727b4af",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_0c8858c4",
+        "filename": "loleaflet/src/control/Control.PartsPreview.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2019-03-08T17:48:23Z",
+      "side": 1,
+      "message": "... and here",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 5
+      },
+      "revId": "f3ea0a6ffe03425c557297c53768cb927727b4af",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
