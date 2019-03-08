@@ -37,6 +37,8 @@ private:
     std::atomic<bool> _shuttingDown;
     bool _isClient;
     bool _isMasking;
+    bool _isFragMessStarted;
+    bool _isManualDefrag;
 
 protected:
     struct WSFrameMask
@@ -50,12 +52,14 @@ protected:
 
 public:
     /// Perform upgrade ourselves, or select a client web socket.
-    WebSocketHandler(bool isClient = false, bool isMasking = true) :
+    WebSocketHandler(bool isClient = false, bool isMasking = true, bool isManualDefrag = false) :
         _lastPingSentTime(std::chrono::steady_clock::now()),
         _pingTimeUs(0),
         _shuttingDown(false),
         _isClient(isClient),
-        _isMasking(isClient && isMasking)
+        _isMasking(isClient && isMasking),
+        _isFragMessStarted(false),
+        _isManualDefrag(isManualDefrag)
     {
     }
 
@@ -69,7 +73,9 @@ public:
         _pingTimeUs(0),
         _shuttingDown(false),
         _isClient(false),
-        _isMasking(false)
+        _isMasking(false),
+        _isFragMessStarted(false),
+        _isManualDefrag(false)
     {
         upgradeToWebSocket(request);
     }
@@ -99,8 +105,8 @@ public:
         RESERVED_TLS_FAILURE    = 1015
     };
 
-    /// Sends WS shutdown message to the peer.
-    void shutdown(const StatusCodes statusCode = StatusCodes::NORMAL_CLOSE, const std::string& statusMessage = "")
+    /// Sends WS Close frame to the peer.
+    void sendCloseFrame(const StatusCodes statusCode = StatusCodes::NORMAL_CLOSE, const std::string& statusMessage = "")
     {
         std::shared_ptr<StreamSocket> socket = _socket.lock();
         if (socket == nullptr)
@@ -126,7 +132,33 @@ public:
 #endif
     }
 
-    bool handleOneIncomingMessage(const std::shared_ptr<StreamSocket>& socket)
+    void closeTCPConnection()
+    {
+        std::shared_ptr<StreamSocket> socket = _socket.lock();
+        if (socket)
+        {
+            socket->closeConnection();
+        }
+    }
+
+    void cleanupData()
+    {
+        _wsPayload.clear();
+        _isFragMessStarted = false;
+    }
+
+    void shutdown(const StatusCodes statusCode = StatusCodes::NORMAL_CLOSE, const std::string& statusMessage = "")
+    {
+        if (!_shuttingDown)
+        {
+            sendCloseFrame(statusCode, statusMessage);
+        }
+        closeTCPConnection();
+        cleanupData();
+        _shuttingDown = false;
+    }
+
+    bool handleTCPStream(const std::shared_ptr<StreamSocket>& socket)
     {
         assert(socket && "Expected a valid socket instance.");
 
@@ -193,114 +225,182 @@ public:
 
         LOG_TRC("#" << socket->getFD() << ": Incoming WebSocket data of " << len << " bytes: " << Util::stringifyHexLine(socket->getInBuffer(), 0, std::min((size_t)32, len)));
 
+        std::vector<char> ctrlPayload;//This is only for control frames. Is needed because control frames can be interleaved with data frames fragments and we must keep fragmented message separate in _wsPayload for payload accumulation.
+        std::vector<char> &payload = (isControlFrame(code) ? ctrlPayload : _wsPayload);
+
         data = p + headerLen;
 
         if (hasMask)
         {
-            const size_t end = _wsPayload.size();
-            _wsPayload.resize(end + payloadLen);
-            char* wsData = &_wsPayload[end];
-            for (size_t i = 0; i < payloadLen; ++i)
-                *wsData++ = data[i] ^ mask[i % 4];
-        } else
-            _wsPayload.insert(_wsPayload.end(), data, data + payloadLen);
+            if (_isClient)
+            {
+                LOG_ERR("#" << socket->getFD() << ": Servers should not send masked frames. Only clients.");
+                shutdown(StatusCodes::PROTOCOL_ERROR);
+                return true;
+            }
+            else
+            {
+                size_t end = payload.size();
+                payload.resize(end + payloadLen);
+                char* wsData = &payload[end];
+                for (size_t i = 0; i < payloadLen; ++i)
+                    *wsData++ = data[i] ^ mask[i % 4];
+            }
+        }
+        //The below code should be activated after we will fully distinguish between clients and servers.
+        //Now the communication between loolkit and loolwsd is made as server-server from websocket perspective.
+        /* else if (!_isClient)
+        {
+            LOG_ERR("#" << socket->getFD() << ": Received a non-masked frame from client. Clients should always mask their frames payload data.");
+            shutdown(StatusCodes::PROTOCOL_ERROR);
+            return true;
+        }*/
+        else
+            payload.insert(payload.end(), data, data + payloadLen);
+
+        std::string str = (char*)data;
+        str += "";
 #else
+        std::vector<char> &payload = _wsPayload;
         unsigned char * const p = reinterpret_cast<unsigned char*>(&socket->getInBuffer()[0]);
-        _wsPayload.insert(_wsPayload.end(), p, p + len);
+        payload.insert(payload.end(), p, p + len);
         const size_t headerLen = 0;
         const size_t payloadLen = len;
 #endif
 
-        assert(_wsPayload.size() >= payloadLen);
+        assert(payload.size() >= payloadLen);
 
         socket->getInBuffer().erase(socket->getInBuffer().begin(), socket->getInBuffer().begin() + headerLen + payloadLen);
 
 #if !MOBILEAPP
 
-        // FIXME: fin, aggregating payloads into _wsPayload etc.
         LOG_TRC("#" << socket->getFD() << ": Incoming WebSocket message code " << static_cast<unsigned>(code) <<
-                ", fin? " << fin << ", mask? " << hasMask << ", payload length: " << _wsPayload.size() <<
+                ", fin? " << fin << ", mask? " << hasMask << ", payload length: " << payload.size() <<
                 ", residual socket data: " << socket->getInBuffer().size() << " bytes.");
 
-        bool doClose = false;
+        if (isControlFrame(code))
+        {
+            // All control frames MUST NOT be fragmented and MUST have a payload length of 125 bytes or less
+            if (!fin)
+            {
+                LOG_ERR("#" << socket->getFD() << ": A control frame cannot be fragmented.");
+                shutdown(StatusCodes::PROTOCOL_ERROR);
+                return true;
+            }
+            if (payloadLen > 125)
+            {
+                LOG_ERR("#" << socket->getFD() << ": The payload length of a control frame must not exceed 125 bytes.");
+                shutdown(StatusCodes::PROTOCOL_ERROR);
+                return true;
+            }
+        }
 
         switch (code)
         {
         case WSOpCode::Pong:
-        {
             if (_isClient)
             {
                 LOG_ERR("#" << socket->getFD() << ": Servers should not send pongs, only clients");
-                doClose = true;
-                break;
+                shutdown(StatusCodes::POLICY_VIOLATION);
+                return true;
             }
             else
             {
                 _pingTimeUs = std::chrono::duration_cast<std::chrono::microseconds>
                     (std::chrono::steady_clock::now() - _lastPingSentTime).count();
                 LOG_TRC("#" << socket->getFD() << ": Pong received: " << _pingTimeUs << " microseconds");
-                break;
             }
-        }
+            break;
         case WSOpCode::Ping:
             if (_isClient)
             {
                 auto now = std::chrono::steady_clock::now();
                 _pingTimeUs = std::chrono::duration_cast<std::chrono::microseconds>
                                         (now - _lastPingSentTime).count();
-                sendPong(now, &_wsPayload[0], payloadLen, socket);
-                break;
+                sendPong(now, &payload[0], payloadLen, socket);
             }
             else
             {
                 LOG_ERR("#" << socket->getFD() << ": Clients should not send pings, only servers");
-                doClose = true;
+                shutdown(StatusCodes::POLICY_VIOLATION);
+                return true;
             }
             break;
         case WSOpCode::Close:
-            doClose = true;
-            break;
-        default:
-            handleMessage(fin, code, _wsPayload);
-            break;
-        }
-
-#else
-        handleMessage(true, WSOpCode::Binary, _wsPayload);
-
-#endif
-
-#if !MOBILEAPP
-        if (doClose)
-        {
-            if (!_shuttingDown)
             {
-                // Peer-initiated shutdown must be echoed.
-                // Otherwise, this is the echo to _our_ shutdown message, which we should ignore.
-                const StatusCodes statusCode = static_cast<StatusCodes>((((uint64_t)(unsigned char)_wsPayload[0]) << 8) +
-                                                                        (((uint64_t)(unsigned char)_wsPayload[1]) << 0));
-                LOG_TRC("#" << socket->getFD() << ": Client initiated socket shutdown. Code: " << static_cast<int>(statusCode));
-                if (_wsPayload.size() > 2)
+                std::string message;
+                StatusCodes statusCode = StatusCodes::NORMAL_CLOSE;
+                if (!_shuttingDown)
                 {
-                    const std::string message(&_wsPayload[2], &_wsPayload[2] + _wsPayload.size() - 2);
-                    shutdown(statusCode, message);
+                    // Peer-initiated shutdown must be echoed.
+                    // Otherwise, this is the echo to _our_ shutdown message, which we should ignore.
+                    LOG_TRC("#" << socket->getFD() << ": Peer initiated socket shutdown. Code: " << static_cast<int>(statusCode));
+                    if (payload.size())
+                    {
+                        statusCode = static_cast<StatusCodes>((((uint64_t)(unsigned char)payload[0]) << 8) +
+                                                             (((uint64_t)(unsigned char)payload[1]) << 0));
+                        if (payload.size() > 2)
+                        {
+                            message.assign(&payload[2], &payload[2] + payload.size() - 2);
+                        }
+                    }
                 }
-                else
+                shutdown(statusCode, message);
+                return true;
+            }
+        case WSOpCode::Continuation:
+        case WSOpCode::Text:
+        case WSOpCode::Binary:
+        default:
+            if (_isFragMessStarted)
+            {
+                if (code != WSOpCode::Continuation)
                 {
-                    shutdown(statusCode);
+                    LOG_ERR("#" << socket->getFD() << ": A fragment that is not the first fragment of a message must have the opcode equal to 0.");
+                    shutdown(StatusCodes::PROTOCOL_ERROR);
+                    return true;
                 }
             }
             else
             {
-                LOG_TRC("#" << socket->getFD() << ": Client responded to our shutdown.");
+                if (code == WSOpCode::Continuation)
+                {
+                    LOG_ERR("#" << socket->getFD() << ": An unfragmented message or the first fragment of a fragmented message must have the opcode different than 0.");
+                    shutdown(StatusCodes::PROTOCOL_ERROR);
+                    return true;
+                }
             }
 
-            // TCP Close.
-            socket->closeConnection();
+            if (fin)
+            {
+                //If is final fragment then process the accumulated message.
+                handleMessage(fin, code, payload);
+                _isFragMessStarted = false;
+            }
+            else
+            {
+                if (_isManualDefrag)
+                {
+                    //If the user wants to process defragmentation on its own then let him process it.
+                    handleMessage(fin, code, payload);
+                    _isFragMessStarted = true;
+                }
+                else
+                {
+                    _isFragMessStarted = true;
+                    //If is not final fragment then wait for next fragment.
+                    return false;
+                }
+            }
+            break;
         }
+
+#else
+        handleMessage(true, WSOpCode::Binary, payload);
+
 #endif
 
-        _wsPayload.clear();
+        payload.clear();
 
         return true;
     }
@@ -328,7 +428,7 @@ public:
 #endif
         else
         {
-            while (handleOneIncomingMessage(socket))
+            while (handleTCPStream(socket))
                 ; // might have multiple messages in the accumulated buffer.
         }
     }
@@ -511,6 +611,8 @@ private:
     }
 
 protected:
+
+    bool isControlFrame(WSOpCode code){ return code >= WSOpCode::Close; }
 
     /// To be overriden to handle the websocket messages the way you need.
     virtual void handleMessage(bool /*fin*/, WSOpCode /*code*/, std::vector<char> &/*data*/)
