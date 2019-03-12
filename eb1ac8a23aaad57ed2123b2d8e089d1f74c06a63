@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82abbf_0ec5a88e",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-03-12T12:58:25Z",
+      "side": 1,
+      "message": "people love nullptr these days \u003d) but no big deal.",
+      "revId": "eb1ac8a23aaad57ed2123b2d8e089d1f74c06a63",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_8e3698b4",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-03-12T12:58:25Z",
+      "side": 1,
+      "message": "we get red flagging for trailing white-space \u003d)",
+      "revId": "eb1ac8a23aaad57ed2123b2d8e089d1f74c06a63",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
