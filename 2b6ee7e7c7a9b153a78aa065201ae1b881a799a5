@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82abbf_ee8de47b",
+        "filename": "loolkitconfig.xcu",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2019-03-12T12:23:34Z",
+      "side": 1,
+      "message": "Funny that it was wrong all the time.",
+      "range": {
+        "startLine": 8,
+        "startChar": 46,
+        "endLine": 8,
+        "endChar": 59
+      },
+      "revId": "2b6ee7e7c7a9b153a78aa065201ae1b881a799a5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
