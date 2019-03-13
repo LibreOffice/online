@@ -16,6 +16,7 @@ L.Control.Menubar = L.Control.extend({
 		],
 		text:  [
 			{name: _UNO('.uno:PickList', 'text'), id: 'file', type: 'menu', menu: [
+				{name: _('Open...'), id:'open', type: 'action'},
 				{name: _UNO('.uno:Save', 'text'), id: 'save', type: 'action'},
 				{name: _UNO('.uno:SaveAs', 'text'), id: 'saveas', type: 'action'},
 				{name: _('Share...'), id:'shareas', type: 'action'},
@@ -233,6 +234,7 @@ L.Control.Menubar = L.Control.extend({
 
 		presentation: [
 			{name: _UNO('.uno:PickList', 'presentation'), id: 'file', type: 'menu', menu: [
+				{name: _('Open...'), id:'open', type: 'action'},
 				{name: _UNO('.uno:Save', 'presentation'), id: 'save', type: 'action'},
 				{name: _UNO('.uno:SaveAs', 'presentation'), id: 'saveas', type: 'action'},
 				{name: _('Share...'), id:'shareas', type: 'action'},
@@ -321,6 +323,7 @@ L.Control.Menubar = L.Control.extend({
 
 		spreadsheet: [
 			{name: _UNO('.uno:PickList', 'spreadsheet'), id: 'file', type: 'menu', menu: [
+				{name: _('Open...'), id:'open', type: 'action'},
 				{name: _UNO('.uno:Save', 'spreadsheet'), id: 'save', type: 'action'},
 				{name: _UNO('.uno:SaveAs', 'spreadsheet'), id: 'saveas', type: 'action'},
 				{name: _('Share...'), id:'shareas', type: 'action'},
@@ -716,6 +719,8 @@ L.Control.Menubar = L.Control.extend({
 			this._map.save(true, true);
 		} else if (id === 'saveas') {
 			this._map.fire('postMessage', {msgId: 'UI_SaveAs'});
+		} else if (id === 'open') {
+			this._map.fire('postMessage', {msgId: 'UI_Open'});
 		} else if (id === 'shareas') {
 			this._map.fire('postMessage', {msgId: 'UI_Share'});
 		} else if (id === 'print') {
