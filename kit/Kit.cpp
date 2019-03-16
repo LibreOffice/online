@@ -86,6 +86,10 @@
 #include "ios.h"
 #endif
 
+#if defined(__ANDROID__)
+#include <osl/detail/android-bootstrap.h>
+#endif
+
 #define LIB_SOFFICEAPP  "lib" "sofficeapp" ".so"
 #define LIB_MERGED      "lib" "mergedlo" ".so"
 
@@ -2508,6 +2512,18 @@ void lokit_main(
 #if defined(__linux) && !defined(__ANDROID__)
         Poco::URI userInstallationURI("file", LO_PATH);
         LibreOfficeKit *kit = lok_init_2(LO_PATH "/program", userInstallationURI.toString().c_str());
+#elif defined(__ANDROID__)
+        const char program_dir[] = "/program";
+        const char *data_dir = libreofficekit_get_app_data_dir();
+        char *full_program_dir = NULL;
+        size_t data_dir_len;
+        data_dir_len = strlen(data_dir);
+        full_program_dir = (char*)malloc(data_dir_len + sizeof(program_dir));
+
+        strncpy(full_program_dir, data_dir, data_dir_len);
+        strncpy(full_program_dir + data_dir_len, program_dir, sizeof(program_dir));
+
+        LibreOfficeKit *kit = lok_init_2(full_program_dir, nullptr);
 #else
         LibreOfficeKit *kit = lok_init_2(nullptr, nullptr);
 #endif
