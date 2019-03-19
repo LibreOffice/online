@@ -1,4 +1,4 @@
-* Compile LibreOffice master for Android
+* Compile LibreOffice master for Android. Run this in the folder where you cloned the LibreOffice core
 
   Something like the following in autogen.input:
 
@@ -12,6 +12,10 @@
 
 * Build the POCO for Android
 
+  #clone the poco repository in the same folder as LibreOffice core and online folders are placed.
+  git clone https://github.com/pocoproject/poco poco
+  cd poco
+
   # use the 1.9.1 branch
   git checkout -b poco-1.9.1 origin/poco-1.9.1
 
@@ -24,11 +28,12 @@
   # install it to /opt/poco-android
   PATH="$PATH":~/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin make -j8 ANDROID_ABI=armeabi-v7a CC=armv7a-linux-androideabi21-clang CXX=armv7a-linux-androideabi21-clang++ SYSLIBS=-static-libstdc++ install INSTALLDIR=/opt/poco-android
 
-* Configure the online.git
+* Configure the online.git in the online-android folder
+* Don't forget to change --with-lo-builddir
 
   ./autogen.sh && ./configure CC=~/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi21-clang CXX=~/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi21-clang++ --host=arm-linux-androideabi --enable-androidapp --with-lo-builddir=/local/libreoffice/master-android --with-poco-includes=/opt/poco-android/include --with-poco-libs=/opt/poco-android/lib --disable-setcap --enable-silent-rules --enable-debug
 
-* Build the JavaScript, HTML and CSS files
+* Build the JavaScript, HTML and CSS files also in the online-android folder
 
   # just run 'make'
   make
