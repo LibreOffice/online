@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82abbf_ba8710d8",
+        "filename": "android/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-03-19T15:18:47Z",
+      "side": 1,
+      "message": "Worth a separate paragraph maybe?",
+      "range": {
+        "startLine": 1,
+        "startChar": 42,
+        "endLine": 1,
+        "endChar": 102
+      },
+      "revId": "6d95f4cd96faedb764c0c44d66dc286316863fa1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_fa7d98e7",
+        "filename": "android/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-03-19T15:18:47Z",
+      "side": 1,
+      "message": "To be consistent with the later instructions, would be good to change to poco-android",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "6d95f4cd96faedb764c0c44d66dc286316863fa1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_9a824cc8",
+        "filename": "android/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-03-19T15:18:47Z",
+      "side": 1,
+      "message": "I\u0027d avoid the * here, it starts a new bullet point; instead I\u0027d use an empty line :-)",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 2
+      },
+      "revId": "6d95f4cd96faedb764c0c44d66dc286316863fa1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
