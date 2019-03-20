@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df87a7cf_c469f08b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2019-03-20T17:52:00Z",
+      "side": 1,
+      "message": "Minor nit: Please use present tense in the commit message. It should say what the change does, not what it \"did\". Also, do not end the first line with a period. (Yes, I know that many contributors donate follow these simple rules, but you could try to be better from the start;) I.e.:\n\nRepair a bug in loleaflet.html that made the socket connect to a server instead of Java",
+      "revId": "dfd038882d3be2cbeacc554b8e13ea15d85363d2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_6404a4c7",
+        "filename": "loleaflet/html/loleaflet.html.m4",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2019-03-20T17:52:00Z",
+      "side": 1,
+      "message": "Please do not add empty lines or do other gratuitous whitespace changes.",
+      "revId": "dfd038882d3be2cbeacc554b8e13ea15d85363d2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
