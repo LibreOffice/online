@@ -11,6 +11,8 @@ define([_foreachq],[ifelse([$#],[3],[],[define([$1],[$4])$2[]$0([$1],[$2],shift(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
+
 <script>
 dnl# Define MOBILEAPP as true if this is either for the iOS app or for the gtk+ "app" testbed
 define([MOBILEAPP],[])
@@ -31,6 +33,16 @@ ifelse(MOBILEAPP,[],
   };
   window.addEventListener('message', PostMessageReadyListener, false);
 )dnl
+
+
+dnl# For use in conditionals in JS: window.ThisIsAMobileApp, window.ThisIsTheiOSApp,
+dnl# and window.ThisIsTheGtkApp
+
+ifelse(MOBILEAPP,[true],
+  [   window.ThisIsAMobileApp = true;
+   window.MobileAppName='MOBILEAPPNAME';],
+  [   window.ThisIsAMobileApp = false;]
+)
 
 var Base64ToArrayBuffer = function(base64Str) {
   var binStr = atob(base64Str);
@@ -171,15 +183,11 @@ ifelse(MOBILEAPP,[true],
       window.tileSize = 256;])
 syscmd([cat ]GLOBAL_JS)dnl
     </script>
-  <script defer>
+ <script defer>
 
 dnl# For use in conditionals in JS: window.ThisIsAMobileApp, window.ThisIsTheiOSApp,
 dnl# and window.ThisIsTheGtkApp
-ifelse(MOBILEAPP,[true],
-  [   window.ThisIsAMobileApp = true;
-   window.MobileAppName='MOBILEAPPNAME';],
-  [   window.ThisIsAMobileApp = false;]
-)
+
 ifelse(IOSAPP,[true],
   [   window.ThisIsTheiOSApp = true;
    window.postMobileMessage = function(msg) { window.webkit.messageHandlers.lool.postMessage(msg, '*'); };
@@ -202,7 +210,6 @@ ifelse(ANDROIDAPP,[true],
   [   window.ThisIsTheAndroidApp = false;]
 )
   </script>
-
 ifelse(MOBILEAPP,[true],
   ifelse(DEBUG,[true],foreachq([fileJS],[LOLEAFLET_JS],
   [    <script src="fileJS" defer></script>
