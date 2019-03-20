@@ -11,8 +11,6 @@ define([_foreachq],[ifelse([$#],[3],[],[define([$1],[$4])$2[]$0([$1],[$2],shift(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-
 <script>
 dnl# Define MOBILEAPP as true if this is either for the iOS app or for the gtk+ "app" testbed
 define([MOBILEAPP],[])
@@ -33,7 +31,6 @@ ifelse(MOBILEAPP,[],
   };
   window.addEventListener('message', PostMessageReadyListener, false);
 )dnl
-
 
 dnl# For use in conditionals in JS: window.ThisIsAMobileApp, window.ThisIsTheiOSApp,
 dnl# and window.ThisIsTheGtkApp
