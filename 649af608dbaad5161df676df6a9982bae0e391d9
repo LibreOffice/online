@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df87a7cf_30981669",
+        "filename": "common/Util.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-03-25T02:12:06Z",
+      "side": 1,
+      "message": "Just realized that the log.trace() call might be optimistically trying to optimize away the string comparison.\n\nI fear this is futile, because Log::logger() is looking up the logger by name, so it\u0027s probably doing a map lookup and very likely doing at least one string comparison in the process. So probably more efficient to just do the plain !\u003d anonymized comparison instead.\n\nThough we should probably do away with that lookup in favor of a direct reference.",
+      "parentUuid": "df87a7cf_d073ea4c",
+      "revId": "649af608dbaad5161df676df6a9982bae0e391d9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df87a7cf_708e9e28",
         "filename": "common/Util.cpp",
         "patchSetId": 1
