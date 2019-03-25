@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df87a7cf_d073ea4c",
+        "filename": "common/Util.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-03-25T02:06:11Z",
+      "side": 1,
+      "message": "LOG_TRC already does the log.trace() check before formatting.\n\nSo we should only need to check plain !\u003d anonymized.",
+      "revId": "649af608dbaad5161df676df6a9982bae0e391d9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_708e9e28",
+        "filename": "common/Util.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-03-25T02:06:11Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "649af608dbaad5161df676df6a9982bae0e391d9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
