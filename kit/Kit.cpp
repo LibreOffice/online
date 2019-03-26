@@ -610,9 +610,8 @@ public:
                    LibreOfficeKitTileMode /*mode*/)
     {
         // set requested watermark size a little bit smaller than tile size
-        int width = tileWidth * 0.9;
-        int height = tileHeight * 0.9;
-
+        int width = tileWidth * 0.7;
+        int height = tileHeight * 0.7;
         const std::vector<unsigned char>* pixmap = getPixmap(width, height);
 
         if (pixmap && tilePixmap)
@@ -622,8 +621,8 @@ public:
             const int maxY = std::min(tileHeight, _height);
             offsetX += (tileWidth - maxX) / 2;
             offsetY += (tileHeight - maxY) / 2;
-
-            alphaBlend(*pixmap, _width, _height, offsetX, offsetY, tilePixmap, tilesPixmapWidth, tilesPixmapHeight);
+            if(tileWidth+offsetX < tilesPixmapWidth)
+                alphaBlend(*pixmap, width, height, offsetX, offsetY, tilePixmap, tilesPixmapWidth, tilesPixmapHeight);
         }
     }
 
@@ -1165,6 +1164,7 @@ public:
                 continue;
             }
 
+<<<<<<< HEAD
             bool skipCompress = false;
             size_t imgSize = -1;
             if (_pngCache.copyFromCache(hash, output, imgSize))
@@ -1173,6 +1173,17 @@ public:
                 skipCompress = true;
             }
             else
+=======
+            if (_docWatermark /*&& (size_t)(offsetX) < (size_t)pixelWidth && (size_t)(offsetY) < (size_t)pixelHeight*/)
+                _docWatermark->blending(pixmap.data(), offsetX, offsetY,
+                                        pixmapWidth, pixmapHeight,
+                                        pixelWidth, pixelHeight,
+                                        mode);
+
+            if (!_pngCache.encodeSubBufferToPNG(pixmap.data(), offsetX, offsetY,
+                                                pixelWidth, pixelHeight, pixmapWidth, pixmapHeight, output, mode,
+                                                hash, wireId, oldWireId))
+>>>>>>> Fix for overflowing watermarks on online
             {
                 LOG_DBG("PNG cache with hash " << hash << " missed.");
 
