@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df87a7cf_43838d05",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/MainActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-03-27T18:55:01Z",
+      "side": 1,
+      "message": "Please don\u0027t introduce the 2 empty lines here :-)",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 0
+      },
+      "revId": "4e1699ecef33f654ac4cd9aa0d492d41ca985894",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_2391a953",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/MainActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-03-27T18:55:01Z",
+      "side": 1,
+      "message": "Please remove it completely together with packaging the hello-world document(s) into the apk :-)",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 70
+      },
+      "revId": "4e1699ecef33f654ac4cd9aa0d492d41ca985894",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_e39ae16c",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/MainActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-03-27T18:55:01Z",
+      "side": 1,
+      "message": "Nitpick - please use spaces around \u0027\u003d\u0027 for consistency.",
+      "range": {
+        "startLine": 131,
+        "startChar": 24,
+        "endLine": 131,
+        "endChar": 25
+      },
+      "revId": "4e1699ecef33f654ac4cd9aa0d492d41ca985894",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_c376bd3f",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/LibreOfficeUIActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-03-27T18:55:01Z",
+      "side": 1,
+      "message": "I\u0027ve nitpicked about the spaces around \u0027\u003d\u0027 in the other file ;-)",
+      "range": {
+        "startLine": 618,
+        "startChar": 32,
+        "endLine": 618,
+        "endChar": 34
+      },
+      "revId": "4e1699ecef33f654ac4cd9aa0d492d41ca985894",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_237a0924",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/LibreOfficeUIActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-03-27T18:55:01Z",
+      "side": 1,
+      "message": "Nitpick - please use one space after commas for consistency.",
+      "range": {
+        "startLine": 621,
+        "startChar": 37,
+        "endLine": 621,
+        "endChar": 38
+      },
+      "revId": "4e1699ecef33f654ac4cd9aa0d492d41ca985894",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
