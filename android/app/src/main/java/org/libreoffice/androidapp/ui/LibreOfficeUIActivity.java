@@ -59,6 +59,8 @@ import org.libreoffice.androidapp.LibreOfficeApplication;
 import org.libreoffice.androidapp.LocaleHelper;
 import org.libreoffice.androidapp.MainActivity;
 import org.libreoffice.androidapp.R;
+import org.libreoffice.androidapp.SettingsActivity;
+import org.libreoffice.androidapp.SettingsListenerModel;
 import org.libreoffice.androidapp.storage.DocumentProviderFactory;
 import org.libreoffice.androidapp.storage.DocumentProviderSettingsActivity;
 import org.libreoffice.androidapp.storage.IDocumentProvider;
@@ -97,7 +99,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class LibreOfficeUIActivity extends AppCompatActivity implements /*SettingsListenerModel.OnSettingsPreferenceChangedListener,*/ View.OnClickListener {
+public class LibreOfficeUIActivity extends AppCompatActivity implements SettingsListenerModel.OnSettingsPreferenceChangedListener, View.OnClickListener {
     private String LOGTAG = LibreOfficeUIActivity.class.getSimpleName();
     private SharedPreferences prefs;
     private int filterMode = FileUtilities.ALL;
@@ -171,8 +173,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
         PreferenceManager.setDefaultValues(this, R.xml.documentprovider_preferences, false);
         readPreferences();
 
-        //TODO finish importing settings
-//        SettingsListenerModel.getInstance().setListener(this);
+        SettingsListenerModel.getInstance().setListener(this);
 
         // Registering the USB detect broadcast receiver
         IntentFilter filter = new IntentFilter();
@@ -556,8 +557,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
                 // a different thread
                 try {
                     return document[0].getDocument();
-                }
-                catch (final RuntimeException e) {
+                } catch (final RuntimeException e) {
                     final Activity activity = LibreOfficeUIActivity.this;
                     activity.runOnUiThread(new Runnable() {
                         @Override
@@ -583,7 +583,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
     }
 
     // Opens an Input dialog to get the name of new file
-    private void createNewFileInputDialog(final String defaultFileName, final String newDocumentType,final String extension) {
+    private void createNewFileInputDialog(final String defaultFileName, final String newDocumentType, final String extension) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.create_new_document_title);
 
@@ -602,17 +602,17 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
         layout.addView(warningText);
         //check if the file exists when showing the create dialog
         File tempFile = new File(currentDirectory.getUri().getPath() + input.getText().toString());
-        warningText.setVisibility(tempFile.exists()?View.VISIBLE:View.GONE);
+        warningText.setVisibility(tempFile.exists() ? View.VISIBLE : View.GONE);
 
         builder.setView(layout);
 
         builder.setPositiveButton(R.string.action_create, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                final String path=currentDirectory.getUri().getPath() + input.getText().toString();
-                createNewFile(path,extension);
+                final String path = currentDirectory.getUri().getPath() + input.getText().toString();
+                createNewFile(path, extension);
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.putExtra("URI",path);
+                intent.putExtra("URI", path);
                 startActivity(intent);
             }
         });
@@ -629,12 +629,16 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
             @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
                 File tempFile = new File(currentDirectory.getUri().getPath() + input.getText().toString());
-                warningText.setVisibility(tempFile.exists()?View.VISIBLE:View.GONE);
+                warningText.setVisibility(tempFile.exists() ? View.VISIBLE : View.GONE);
             }
+
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
+
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
         });
 
         builder.show();
@@ -643,17 +647,18 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
 
     /**
      * Creates a new file at the specified path, by copying an empty template to that location.
-     * @param path the complete path (including the file name) where the file will be created
+     *
+     * @param path      the complete path (including the file name) where the file will be created
      * @param extension is required to know what template should be used when creating the document
      */
-    private void createNewFile(final String path,final String extension){
+    private void createNewFile(final String path, final String extension) {
         InputStream templateFileStream = null;
         //create a new file where the template will be written
-        File newFile = new File(path );
+        File newFile = new File(path);
         OutputStream newFileStream = null;
         try {
             //read the template and copy it to the new file
-            templateFileStream = getAssets().open("templates/untitled"+extension);
+            templateFileStream = getAssets().open("templates/untitled" + extension);
             newFileStream = new FileOutputStream(newFile);
             byte[] buffer = new byte[1024];
             int length;
@@ -886,8 +891,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
             }
             return true;
             case R.id.action_settings:
-                //TODO import the settings activity
-//                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 return true;
 
             default:
@@ -930,12 +934,11 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
     }
 
 
-    //TODO finish importing settings
-//    @Override
-//    public void settingsPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//        readPreferences();
-//        refreshView();
-//    }
+    @Override
+    public void settingsPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        readPreferences();
+        refreshView();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -1137,16 +1140,16 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements /*Settin
                 }
                 break;
             case R.id.newWriterFAB:
-                createNewFileInputDialog(getString(R.string.default_document_name) + FileUtilities.DEFAULT_WRITER_EXTENSION, NEW_WRITER_STRING_KEY,FileUtilities.DEFAULT_WRITER_EXTENSION);
+                createNewFileInputDialog(getString(R.string.default_document_name) + FileUtilities.DEFAULT_WRITER_EXTENSION, NEW_WRITER_STRING_KEY, FileUtilities.DEFAULT_WRITER_EXTENSION);
                 break;
             case R.id.newImpressFAB:
-                createNewFileInputDialog(getString(R.string.default_document_name) + FileUtilities.DEFAULT_IMPRESS_EXTENSION, NEW_IMPRESS_STRING_KEY,FileUtilities.DEFAULT_IMPRESS_EXTENSION);
+                createNewFileInputDialog(getString(R.string.default_document_name) + FileUtilities.DEFAULT_IMPRESS_EXTENSION, NEW_IMPRESS_STRING_KEY, FileUtilities.DEFAULT_IMPRESS_EXTENSION);
                 break;
             case R.id.newCalcFAB:
-                createNewFileInputDialog(getString(R.string.default_document_name) + FileUtilities.DEFAULT_SPREADSHEET_EXTENSION, NEW_CALC_STRING_KEY,FileUtilities.DEFAULT_SPREADSHEET_EXTENSION);
+                createNewFileInputDialog(getString(R.string.default_document_name) + FileUtilities.DEFAULT_SPREADSHEET_EXTENSION, NEW_CALC_STRING_KEY, FileUtilities.DEFAULT_SPREADSHEET_EXTENSION);
                 break;
             case R.id.newDrawFAB:
-                createNewFileInputDialog(getString(R.string.default_document_name) + FileUtilities.DEFAULT_DRAWING_EXTENSION, NEW_DRAW_STRING_KEY,FileUtilities.DEFAULT_DRAWING_EXTENSION);
+                createNewFileInputDialog(getString(R.string.default_document_name) + FileUtilities.DEFAULT_DRAWING_EXTENSION, NEW_DRAW_STRING_KEY, FileUtilities.DEFAULT_DRAWING_EXTENSION);
                 break;
         }
     }
