@@ -33,6 +33,7 @@ static LOOLWSD *loolwsd = nullptr;
 static int fakeClientFd;
 static int closeNotificationPipeForForwardingThread[2];
 static JavaVM* javaVM = nullptr;
+static bool LOOLWSDThreadRunning; // LOOLWSD thread checks this bool and stops if it's false
 
 extern "C" JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM* vm, void*) {
@@ -237,6 +238,8 @@ Java_org_libreoffice_androidapp_MainActivity_postMobileMessage(JNIEnv *env, jobj
 
 extern "C" jboolean libreofficekit_initialize(JNIEnv* env, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager);
 
+
+
 /// Create the LOOLWSD instance.
 extern "C" JNIEXPORT void JNICALL
 Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager, jstring loadFileURL)
@@ -253,6 +256,8 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
                                      LOG_TRC_NOFILE(line);
                                  });
 
+    LOOLWSDThreadRunning = true;
+
     std::thread([]
                 {
                     assert(loolwsd == nullptr);
@@ -262,6 +267,8 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
                     Util::setThreadName("app");
                     while (true)
                     {
+                        if (!LOOLWSDThreadRunning)
+                            break;
                         loolwsd = new LOOLWSD();
                         loolwsd->run(1, argv);
                         delete loolwsd;
@@ -271,6 +278,13 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
                 }).detach();
 
     fakeClientFd = fakeSocketSocket();
+}
+
+/// Stop LOOLWSD instance.
+extern "C" JNIEXPORT void JNICALL
+Java_org_libreoffice_androidapp_MainActivity_destroyLOOLWSD(JNIEnv *env, jobject)
+{
+    LOOLWSDThreadRunning = false;
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab cinoptions=b1,g0,N-s cinkeys+=0=break: */

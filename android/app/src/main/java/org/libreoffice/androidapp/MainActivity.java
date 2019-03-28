@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
         String cacheDir = getApplication().getCacheDir().getAbsolutePath();
         String apkFile = getApplication().getPackageResourcePath();
 
-//        String urlToLoad = "file://" + dataDir + "/hello-world.odt";
         String urlToLoad=getIntent().getStringExtra("URI");
 
         createLOOLWSD(dataDir, cacheDir, apkFile, assetManager, urlToLoad);
@@ -162,12 +161,22 @@ public class MainActivity extends AppCompatActivity {
         updatePreferences();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "Stop LOOLWSD instance");
+        destroyLOOLWSD();
+    }
+
     static {
         System.loadLibrary("androidapp");
     }
 
     /** Initialize the LOOLWSD to load 'loadFileURL'. */
     public native void createLOOLWSD(String dataDir, String cacheDir, String apkFile, AssetManager assetManager, String loadFileURL);
+
+    /** Destroy LOOLWSD instance. */
+    public native void destroyLOOLWSD();
 
     /** Passing messages from JS (instead of the websocket communication). */
     @JavascriptInterface
