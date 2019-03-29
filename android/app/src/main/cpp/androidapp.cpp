@@ -32,25 +32,26 @@ static std::string fileURL;
 static LOOLWSD *loolwsd = nullptr;
 static int fakeClientFd;
 static int closeNotificationPipeForForwardingThread[2];
-static JavaVM* javaVM = nullptr;
+static JavaVM *javaVM = nullptr;
 static bool LOOLWSDThreadRunning;//LOOLWSD thread checks this bool and stops if it's false
 
 extern "C" JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM* vm, void*) {
+JNI_OnLoad(JavaVM *vm, void *) {
     javaVM = vm;
     libreofficekit_set_javavm(vm);
 
-    JNIEnv* env;
-    if (vm->GetEnv((void**)&env, JNI_VERSION_1_6) != JNI_OK) {
+    JNIEnv *env;
+    if (vm->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK) {
         return JNI_ERR; // JNI version not supported.
     }
 
     return JNI_VERSION_1_6;
 }
 
-static void send2JS(jclass mainActivityClz, jobject mainActivityObj, const std::vector<char>& buffer)
-{
-    LOG_TRC_NOFILE("Send to JS: " << LOOLProtocol::getAbbreviatedMessage(buffer.data(), buffer.size()));
+static void
+send2JS(jclass mainActivityClz, jobject mainActivityObj, const std::vector<char> &buffer) {
+    LOG_TRC_NOFILE(
+            "Send to JS: " << LOOLProtocol::getAbbreviatedMessage(buffer.data(), buffer.size()));
 
     std::string js;
 
@@ -60,9 +61,8 @@ static void send2JS(jclass mainActivityClz, jobject mainActivityObj, const std::
     // handles it fine even if such a message, too, comes in as an ArrayBuffer. (Look for the
     // "textMsg = String.fromCharCode.apply(null, imgBytes);".)
 
-    const char *newline = (const char *)memchr(buffer.data(), '\n', buffer.size());
-    if (newline != nullptr)
-    {
+    const char *newline = (const char *) memchr(buffer.data(), '\n', buffer.size());
+    if (newline != nullptr) {
         // The data needs to be an ArrayBuffer
         std::stringstream ss;
         ss << "Base64ToArrayBuffer('";
@@ -75,23 +75,17 @@ static void send2JS(jclass mainActivityClz, jobject mainActivityObj, const std::
         ss << "')";
 
         js = ss.str();
-    }
-    else
-    {
-        const unsigned char *ubufp = (const unsigned char *)buffer.data();
+    } else {
+        const unsigned char *ubufp = (const unsigned char *) buffer.data();
         std::vector<char> data;
         data.push_back('\'');
-        for (int i = 0; i < buffer.size(); i++)
-        {
-            if (ubufp[i] < ' ' || ubufp[i] == '\'' || ubufp[i] == '\\')
-            {
+        for (int i = 0; i < buffer.size(); i++) {
+            if (ubufp[i] < ' ' || ubufp[i] == '\'' || ubufp[i] == '\\') {
                 data.push_back('\\');
                 data.push_back('x');
                 data.push_back("0123456789abcdef"[(ubufp[i] >> 4) & 0x0F]);
                 data.push_back("0123456789abcdef"[ubufp[i] & 0x0F]);
-            }
-            else
-            {
+            } else {
                 data.push_back(ubufp[i]);
             }
         }
@@ -104,10 +98,10 @@ static void send2JS(jclass mainActivityClz, jobject mainActivityObj, const std::
     if (js.length() > SHOW_JS_MAXLEN)
         subjs += "...";
 
-    LOG_TRC_NOFILE( "Sending to JavaScript: " << subjs);
+    LOG_TRC_NOFILE("Sending to JavaScript: " << subjs);
 
     JNIEnv *env;
-    jint res = javaVM->GetEnv((void**)&env, JNI_VERSION_1_6);
+    jint res = javaVM->GetEnv((void **) &env, JNI_VERSION_1_6);
     if (res != JNI_OK) {
         LOG_TRC_NOFILE("GetEnv need to attach thread");
         res = javaVM->AttachCurrentThread(&env, nullptr);
@@ -118,22 +112,21 @@ static void send2JS(jclass mainActivityClz, jobject mainActivityObj, const std::
     }
 
     jstring jstr = env->NewStringUTF(js.c_str());
-    jmethodID callFakeWebsocket = env->GetMethodID(mainActivityClz, "callFakeWebsocketOnMessage", "(Ljava/lang/String;)V");
+    jmethodID callFakeWebsocket = env->GetMethodID(mainActivityClz, "callFakeWebsocketOnMessage",
+                                                   "(Ljava/lang/String;)V");
     env->CallVoidMethod(mainActivityObj, callFakeWebsocket, jstr);
 }
 
 /// Handle a message from JavaScript.
 extern "C" JNIEXPORT void JNICALL
-Java_org_libreoffice_androidapp_MainActivity_postMobileMessage(JNIEnv *env, jobject instance, jstring message)
-{
+Java_org_libreoffice_androidapp_MainActivity_postMobileMessageCpp(JNIEnv *env, jobject instance,
+                                                                  jstring message) {
     const char *string_value = env->GetStringUTFChars(message, nullptr);
 
-    if (string_value)
-    {
+    if (string_value) {
         LOG_TRC_NOFILE("From JS: lool: " << string_value);
 
-        if (strcmp(string_value, "HULLO") == 0)
-        {
+        if (strcmp(string_value, "HULLO") == 0) {
             // Now we know that the JS has started completely
 
             // Contact the permanently (during app lifetime) listening LOOLWSD server
@@ -150,100 +143,94 @@ Java_org_libreoffice_androidapp_MainActivity_postMobileMessage(JNIEnv *env, jobj
             jclass mainActivityClz = (jclass) env->NewGlobalRef(clz);
             jobject mainActivityObj = env->NewGlobalRef(instance);
 
-            std::thread([&mainActivityClz, &mainActivityObj]
-                        {
-                            Util::setThreadName("app2js");
-                            while (true)
-                            {
-                               struct pollfd pollfd[2];
-                               pollfd[0].fd = fakeClientFd;
-                               pollfd[0].events = POLLIN;
-                               pollfd[1].fd = closeNotificationPipeForForwardingThread[1];
-                               pollfd[1].events = POLLIN;
-                               if (fakeSocketPoll(pollfd, 2, -1) > 0)
-                               {
-                                   if (pollfd[1].revents == POLLIN)
-                                   {
-                                       // The code below handling the "BYE" fake Websocket
-                                       // message has closed the other end of the
-                                       // closeNotificationPipeForForwardingThread. Let's close
-                                       // the other end too just for cleanliness, even if a
-                                       // FakeSocket as such is not a system resource so nothing
-                                       // is saved by closing it.
-                                       fakeSocketClose(closeNotificationPipeForForwardingThread[1]);
+            std::thread([&mainActivityClz, &mainActivityObj] {
+                Util::setThreadName("app2js");
+                while (true) {
+                    if (!LOOLWSDThreadRunning)
+                        break;
+                    struct pollfd pollfd[2];
+                    pollfd[0].fd = fakeClientFd;
+                    pollfd[0].events = POLLIN;
+                    pollfd[1].fd = closeNotificationPipeForForwardingThread[1];
+                    pollfd[1].events = POLLIN;
+                    if (fakeSocketPoll(pollfd, 2, -1) > 0) {
+                        if (pollfd[1].revents == POLLIN) {
+                            // The code below handling the "BYE" fake Websocket
+                            // message has closed the other end of the
+                            // closeNotificationPipeForForwardingThread. Let's close
+                            // the other end too just for cleanliness, even if a
+                            // FakeSocket as such is not a system resource so nothing
+                            // is saved by closing it.
+                            fakeSocketClose(closeNotificationPipeForForwardingThread[1]);
 
-                                       // Close our end of the fake socket connection to the
-                                       // ClientSession thread, so that it terminates
-                                       fakeSocketClose(fakeClientFd);
+                            // Close our end of the fake socket connection to the
+                            // ClientSession thread, so that it terminates
+                            fakeSocketClose(fakeClientFd);
 
-                                       return;
-                                   }
-                                   if (pollfd[0].revents == POLLIN)
-                                   {
-                                       int n = fakeSocketAvailableDataLength(fakeClientFd);
-                                       if (n == 0)
-                                           return;
-                                       std::vector<char> buf(n);
-                                       n = fakeSocketRead(fakeClientFd, buf.data(), n);
-                                       send2JS(mainActivityClz, mainActivityObj, buf);
-                                   }
-                               }
-                               else
-                                   break;
-                           }
-                           assert(false);
-                        }).detach();
+                            return;
+                        }
+                        if (pollfd[0].revents == POLLIN) {
+                            int n = fakeSocketAvailableDataLength(fakeClientFd);
+                            if (n == 0)
+                                return;
+                            std::vector<char> buf(n);
+                            n = fakeSocketRead(fakeClientFd, buf.data(), n);
+                            send2JS(mainActivityClz, mainActivityObj, buf);
+                        }
+                    } else
+                        break;
+                }
+                assert(false);
+            }).detach();
 
             // First we simply send it the URL. This corresponds to the GET request with Upgrade to
             // WebSocket.
             LOG_TRC_NOFILE("Actually sending to Online:" << fileURL);
 
             // Must do this in a thread, too, so that we can return to the GTK+ main loop
-            std::thread([]
-                        {
-                            struct pollfd pollfd;
-                            pollfd.fd = fakeClientFd;
-                            pollfd.events = POLLOUT;
-                            fakeSocketPoll(&pollfd, 1, -1);
-                            fakeSocketWrite(fakeClientFd, fileURL.c_str(), fileURL.size());
-                        }).detach();
-        }
-        else if (strcmp(string_value, "BYE") == 0)
-        {
-            LOG_TRC_NOFILE("Document window terminating on JavaScript side. Closing our end of the socket.");
+            std::thread([] {
+                struct pollfd pollfd;
+                pollfd.fd = fakeClientFd;
+                pollfd.events = POLLOUT;
+                fakeSocketPoll(&pollfd, 1, -1);
+                fakeSocketWrite(fakeClientFd, fileURL.c_str(), fileURL.size());
+            }).detach();
+        } else if (strcmp(string_value, "BYE") == 0) {
+            LOG_TRC_NOFILE(
+                    "Document window terminating on JavaScript side. Closing our end of the socket.");
 
             // Close one end of the socket pair, that will wake up the forwarding thread above
             fakeSocketClose(closeNotificationPipeForForwardingThread[0]);
 
             // ???
-        }
-        else
-        {
+        } else {
             // As above
             char *string_copy = strdup(string_value);
-            std::thread([=]
-                        {
-                            struct pollfd pollfd;
-                            pollfd.fd = fakeClientFd;
-                            pollfd.events = POLLOUT;
-                            fakeSocketPoll(&pollfd, 1, -1);
-                            fakeSocketWrite(fakeClientFd, string_copy, strlen(string_copy));
-                            free(string_copy);
-                        }).detach();
+            std::thread([=] {
+                struct pollfd pollfd;
+                pollfd.fd = fakeClientFd;
+                pollfd.events = POLLOUT;
+                fakeSocketPoll(&pollfd, 1, -1);
+                fakeSocketWrite(fakeClientFd, string_copy, strlen(string_copy));
+                free(string_copy);
+            }).detach();
         }
-    }
-    else
+    } else
         LOG_TRC_NOFILE("From JS: lool: some object");
 }
 
-extern "C" jboolean libreofficekit_initialize(JNIEnv* env, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager);
+extern "C" jboolean
+libreofficekit_initialize(JNIEnv *env, jstring dataDir, jstring cacheDir, jstring apkFile,
+                          jobject assetManager);
 
 
 
 /// Create the LOOLWSD instance.
 extern "C" JNIEXPORT void JNICALL
-Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager, jstring loadFileURL)
-{
+Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject, jstring dataDir,
+                                                           jstring cacheDir, jstring apkFile,
+                                                           jobject assetManager,
+                                                           jstring loadFileURL) {
     libreofficekit_initialize(env, dataDir, cacheDir, apkFile, assetManager);
 
     fileURL = std::string(env->GetStringUTFChars(loadFileURL, nullptr));
@@ -251,31 +238,28 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
     Log::initialize("Mobile", "trace", false, false, {});
     Util::setThreadName("main");
 
-    fakeSocketSetLoggingCallback([](const std::string& line)
-                                 {
-                                     LOG_TRC_NOFILE(line);
-                                 });
+    fakeSocketSetLoggingCallback([](const std::string &line) {
+        LOG_TRC_NOFILE(line);
+    });
 
     LOOLWSDThreadRunning = true;
 
-    std::thread([]
-                {
-                    assert(loolwsd == nullptr);
-                    char *argv[2];
-                    argv[0] = strdup("mobile");
-                    argv[1] = nullptr;
-                    Util::setThreadName("app");
-                    while (true)
-                    {
-                        if(!LOOLWSDThreadRunning)
-                            break;
-                        loolwsd = new LOOLWSD();
-                        loolwsd->run(1, argv);
-                        delete loolwsd;
-                        LOG_TRC("One run of LOOLWSD completed");
-                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                    }
-                }).detach();
+    std::thread([] {
+        assert(loolwsd == nullptr);
+        char *argv[2];
+        argv[0] = strdup("mobile");
+        argv[1] = nullptr;
+        Util::setThreadName("app");
+        while (true) {
+            if (!LOOLWSDThreadRunning)
+                break;
+            loolwsd = new LOOLWSD();
+            loolwsd->run(1, argv);
+            delete loolwsd;
+            LOG_TRC("One run of LOOLWSD completed");
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+    }).detach();
 
     fakeClientFd = fakeSocketSocket();
 }
@@ -283,9 +267,8 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
 
 /// Stop LOOLWSD instance.
 extern "C" JNIEXPORT void JNICALL
-Java_org_libreoffice_androidapp_MainActivity_destroyLOOLWSD(JNIEnv *env, jobject)
-{
-    LOOLWSDThreadRunning=false;
+Java_org_libreoffice_androidapp_MainActivity_destroyLOOLWSD(JNIEnv *env, jobject) {
+    LOOLWSDThreadRunning = false;
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab cinoptions=b1,g0,N-s cinkeys+=0=break: */
