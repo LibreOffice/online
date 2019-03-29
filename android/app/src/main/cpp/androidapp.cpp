@@ -19,6 +19,7 @@
 #include <LOOLWSD.hpp>
 #include <Protocol.hpp>
 #include <Util.hpp>
+#include <DocumentBroker.hpp>
 
 #include <osl/detail/android-bootstrap.h>
 
@@ -29,6 +30,7 @@ const int SHOW_JS_MAXLEN = 70;
 int loolwsd_server_socket_fd = -1;
 
 static std::string fileURL;
+static std::string currentDocKey;//key of currently opened document
 static LOOLWSD *loolwsd = nullptr;
 static int fakeClientFd;
 static int closeNotificationPipeForForwardingThread[2];
@@ -124,7 +126,7 @@ static void send2JS(jclass mainActivityClz, jobject mainActivityObj, const std::
 
 /// Handle a message from JavaScript.
 extern "C" JNIEXPORT void JNICALL
-Java_org_libreoffice_androidapp_MainActivity_postMobileMessage(JNIEnv *env, jobject instance, jstring message)
+Java_org_libreoffice_androidapp_MainActivity_postMobileMessageCpp(JNIEnv *env, jobject instance, jstring message)
 {
     const char *string_value = env->GetStringUTFChars(message, nullptr);
 
@@ -155,43 +157,45 @@ Java_org_libreoffice_androidapp_MainActivity_postMobileMessage(JNIEnv *env, jobj
                             Util::setThreadName("app2js");
                             while (true)
                             {
-                               struct pollfd pollfd[2];
-                               pollfd[0].fd = fakeClientFd;
-                               pollfd[0].events = POLLIN;
-                               pollfd[1].fd = closeNotificationPipeForForwardingThread[1];
-                               pollfd[1].events = POLLIN;
-                               if (fakeSocketPoll(pollfd, 2, -1) > 0)
-                               {
-                                   if (pollfd[1].revents == POLLIN)
-                                   {
-                                       // The code below handling the "BYE" fake Websocket
-                                       // message has closed the other end of the
-                                       // closeNotificationPipeForForwardingThread. Let's close
-                                       // the other end too just for cleanliness, even if a
-                                       // FakeSocket as such is not a system resource so nothing
-                                       // is saved by closing it.
-                                       fakeSocketClose(closeNotificationPipeForForwardingThread[1]);
+                                if (!LOOLWSDThreadRunning)
+                                    break;
+                                struct pollfd pollfd[2];
+                                pollfd[0].fd = fakeClientFd;
+                                pollfd[0].events = POLLIN;
+                                pollfd[1].fd = closeNotificationPipeForForwardingThread[1];
+                                pollfd[1].events = POLLIN;
+                                if (fakeSocketPoll(pollfd, 2, -1) > 0)
+                                {
+                                    if (pollfd[1].revents == POLLIN)
+                                    {
+                                        // The code below handling the "BYE" fake Websocket
+                                        // message has closed the other end of the
+                                        // closeNotificationPipeForForwardingThread. Let's close
+                                        // the other end too just for cleanliness, even if a
+                                        // FakeSocket as such is not a system resource so nothing
+                                        // is saved by closing it.
+                                        fakeSocketClose(closeNotificationPipeForForwardingThread[1]);
 
-                                       // Close our end of the fake socket connection to the
-                                       // ClientSession thread, so that it terminates
-                                       fakeSocketClose(fakeClientFd);
+                                        // Close our end of the fake socket connection to the
+                                        // ClientSession thread, so that it terminates
+                                        fakeSocketClose(fakeClientFd);
 
-                                       return;
-                                   }
-                                   if (pollfd[0].revents == POLLIN)
-                                   {
-                                       int n = fakeSocketAvailableDataLength(fakeClientFd);
-                                       if (n == 0)
-                                           return;
-                                       std::vector<char> buf(n);
-                                       n = fakeSocketRead(fakeClientFd, buf.data(), n);
-                                       send2JS(mainActivityClz, mainActivityObj, buf);
-                                   }
-                               }
-                               else
-                                   break;
-                           }
-                           assert(false);
+                                        return;
+                                    }
+                                    if (pollfd[0].revents == POLLIN)
+                                    {
+                                        int n = fakeSocketAvailableDataLength(fakeClientFd);
+                                        if (n == 0)
+                                            return;
+                                        std::vector<char> buf(n);
+                                        n = fakeSocketRead(fakeClientFd, buf.data(), n);
+                                        send2JS(mainActivityClz, mainActivityObj, buf);
+                                    }
+                                }
+                                else
+                                    break;
+                            }
+                            assert(false);
                         }).detach();
 
             // First we simply send it the URL. This corresponds to the GET request with Upgrade to
@@ -247,6 +251,7 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
     libreofficekit_initialize(env, dataDir, cacheDir, apkFile, assetManager);
 
     fileURL = std::string(env->GetStringUTFChars(loadFileURL, nullptr));
+    currentDocKey = DocumentBroker::getDocKey(DocumentBroker::sanitizeURI(fileURL));
 
     Log::initialize("Mobile", "trace", false, false, {});
     Util::setThreadName("main");
@@ -267,13 +272,13 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
                     Util::setThreadName("app");
                     while (true)
                     {
-                        if(!LOOLWSDThreadRunning)
-                            break;
                         loolwsd = new LOOLWSD();
                         loolwsd->run(1, argv);
                         delete loolwsd;
                         LOG_TRC("One run of LOOLWSD completed");
                         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                        if (!LOOLWSDThreadRunning)
+                            break;
                     }
                 }).detach();
 
@@ -285,6 +290,7 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
 extern "C" JNIEXPORT void JNICALL
 Java_org_libreoffice_androidapp_MainActivity_destroyLOOLWSD(JNIEnv *env, jobject)
 {
+    loolwsd->closeDocument(currentDocKey, "Activity closed");
     LOOLWSDThreadRunning=false;
 }
 

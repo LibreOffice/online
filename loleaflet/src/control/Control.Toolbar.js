@@ -91,6 +91,15 @@ function onClick(e, id, item, subItem) {
 		var toolbar = w2ui['editbar'];
 		item = toolbar.get(id);
 	}
+	else if (id === 'close' || id === 'closemobile') {
+		if (window.ThisIsAMobileApp) {
+			window.postMobileMessage('BYE');
+		} else {
+			map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
+			map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
+		}
+		map.remove();
+	}
 	else if (w2ui.formulabar.get(id) !== null) {
 		toolbar = w2ui.formulabar;
 		item = toolbar.get(id);
@@ -288,15 +297,6 @@ function onClick(e, id, item, subItem) {
 			toolbar.check(id);
 		}
 		L.toggleFullScreen();
-	}
-	else if (id === 'close' || id === 'closemobile') {
-		if (window.ThisIsAMobileApp) {
-			window.postMobileMessage('BYE');
-		} else {
-			map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
-			map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
-		}
-		map.remove();
 	}
 	else {
 		map.handleSigningClickEvent(id, item); // this handles a bunch of signing bar click events
