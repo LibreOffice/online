@@ -9,6 +9,7 @@
 
 package org.libreoffice.androidapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.res.AssetManager;
@@ -22,6 +23,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+
+import org.libreoffice.androidapp.ui.LibreOfficeUIActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -114,8 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
-
         AssetManager assetManager = getResources().getAssets();
 
         ApplicationInfo applicationInfo = getApplicationInfo();
@@ -126,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
 
         String cacheDir = getApplication().getCacheDir().getAbsolutePath();
         String apkFile = getApplication().getPackageResourcePath();
-
         String urlToLoad=getIntent().getStringExtra("URI");
 
         createLOOLWSD(dataDir, cacheDir, apkFile, assetManager, urlToLoad);
@@ -180,7 +180,18 @@ public class MainActivity extends AppCompatActivity {
 
     /** Passing messages from JS (instead of the websocket communication). */
     @JavascriptInterface
-    public native void postMobileMessage(String message);
+    public void postMobileMessage(String message){
+        Log.d(TAG, "postMobileMessage: " + message);
+
+        // Going back to document browser on BYE (called when pressing the top left exit button)
+        if (message.equals("BYE"))
+            finish();
+
+        postMobileMessageNative(message);
+    };
+
+    /** Call the post method form C++ */
+    public native void postMobileMessageNative(String message);
 
     /** Passing messages from JS (instead of the websocket communication). */
     @JavascriptInterface
