@@ -64,8 +64,7 @@ public:
     static std::string ServiceRoot; ///< There are installations that need prefixing every page with some path.
     static std::string LOKitVersion;
     static std::string LogLevel;
-    static bool AnonymizeFilenames;
-    static bool AnonymizeUsernames;
+    static bool AnonymizePII;
     static std::atomic<unsigned> NumConnections;
     static bool TileCachePersistent;
     static std::unique_ptr<TraceFileWriter> TraceDumper;
@@ -142,14 +141,14 @@ public:
     /// Anonymize the basename of filenames, preserving the path and extension.
     static std::string anonymizeUrl(const std::string& url)
     {
-        return AnonymizeFilenames ? Util::anonymizeUrl(url) : url;
+        return AnonymizePII ? Util::anonymizeUrl(url) : url;
     }
 
     /// Anonymize user names and IDs.
     /// Will use the Obfuscated User ID if one is provied via WOPI.
     static std::string anonymizeUsername(const std::string& username)
     {
-        return AnonymizeUsernames ? Util::anonymize(username) : username;
+        return AnonymizePII ? Util::anonymize(username) : username;
     }
 
     int innerMain();
