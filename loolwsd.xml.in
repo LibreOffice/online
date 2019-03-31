@@ -53,6 +53,7 @@
         </file>
         <anonymize>
             <anonymize_pii type="bool" desc="Enable to anonymize/obfuscate of personally identifiable information in logs. If default is true, it was forced at compile-time and cannot be disabled." default="@LOOLWSD_ANONYMIZE_PII@">@LOOLWSD_ANONYMIZE_PII@</anonymize_pii>
+            <anonymization_salt type="bool" desc="The salt used to anonymize/obfuscate personally identifiable information in logs. Use a secret 64-bit random number." default="82589933">82589933</anonymization_salt>
         </anonymize>
     </logging>
 
