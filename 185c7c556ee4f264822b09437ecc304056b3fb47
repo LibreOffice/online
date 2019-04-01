@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df87a7cf_12a86c1d",
+        "filename": "wsd/ClientSession.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "{ on new line to fit in with the rest of the local coding style",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_b262e015",
+        "filename": "wsd/ClientSession.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "4 stop tabs; one lot of indentation - ie. the block below is correct, this isn\u0027t - or perhaps it is a tab vs. space mixup ? there should be git hooks to catch that (I think) ?",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_d2676425",
+        "filename": "wsd/ClientSession.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "Better to get a local object and operate on it once rather than calling \u0027getPermissions()\u0027 constantly I think.\n\nAlso - surely we are inside the right object here we don\u0027t need to use an accessor ? we could use a local variable right ?",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_726c5808",
+        "filename": "wsd/ClientSession.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "I wonder if this serialization should be on the permissions object itself (?) perhaps more elegant and better encapsulated that way ?",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_f2aaa817",
+        "filename": "wsd/ClientSession.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "Hmm - do we really want a reference to a shared pointer ? - lets drop the \u0027\u0026\u0027 and have a \u0027setPermissions\u0027 method if we need one \u003d)",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_9271dce3",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "Can\u0027t we combine this method with the method above ? so it looks more elegant ? \u003d) ideally we\u0027d pass the wopifileinfo on into the Permissions object and encapsulate all of that permission logic in one place (?) \u003d)",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_f27f08a9",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "Love it - but would like to pull the JSONValue\u0027s out inside the permissions constructor - so the code is easier to follow and less error prone - in terms of very long constructor lists: they\u0027re harder to maintain \u0026 review.",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_127dccb0",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "good cleanup here of course \u003d)",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_3276d0da",
+        "filename": "wsd/Storage.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "no need for the \u0027\u0026\u0027 again I think.",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_527354e8",
+        "filename": "wsd/Storage.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "I guess these are permission-like and/or access control related too (do they fit better here ?).",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df87a7cf_b24bc085",
+        "filename": "wsd/WOPIPermissions.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-04-01T20:40:24Z",
+      "side": 1,
+      "message": "Love only having get methods - good stuff \u003d)",
+      "revId": "185c7c556ee4f264822b09437ecc304056b3fb47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
