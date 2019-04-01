@@ -19,6 +19,7 @@
 #include <LOOLWSD.hpp>
 #include <Protocol.hpp>
 #include <Util.hpp>
+#include <DocumentBroker.hpp>
 
 #include <osl/detail/android-bootstrap.h>
 
@@ -267,12 +268,12 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
                     Util::setThreadName("app");
                     while (true)
                     {
-                        if (!LOOLWSDThreadRunning)
-                            break;
                         loolwsd = new LOOLWSD();
                         loolwsd->run(1, argv);
                         delete loolwsd;
                         LOG_TRC("One run of LOOLWSD completed");
+                        if (!LOOLWSDThreadRunning)
+                            break;
                         std::this_thread::sleep_for(std::chrono::milliseconds(100));
                     }
                 }).detach();
@@ -284,6 +285,8 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
 extern "C" JNIEXPORT void JNICALL
 Java_org_libreoffice_androidapp_MainActivity_destroyLOOLWSD(JNIEnv *env, jobject)
 {
+    std::string currentDocKey(DocumentBroker::getDocKey(DocumentBroker::sanitizeURI(fileURL)));
+    loolwsd->closeDocument(currentDocKey, "Activity closed");
     LOOLWSDThreadRunning = false;
 }
 
