@@ -514,62 +514,11 @@ bool DocumentBroker::load(const std::shared_ptr<ClientSession>& session, const s
         userExtraInfo = wopifileinfo->getUserExtraInfo();
         watermarkText = wopifileinfo->getWatermarkText();
 
-        if (!wopifileinfo->getUserCanWrite() ||
-            LOOLWSD::IsViewFileExtension(wopiStorage->getFileExtension()))
+        if (LOOLWSD::IsViewFileExtension(wopiStorage->getFileExtension()))
         {
             LOG_DBG("Setting the session as readonly");
             session->setReadOnly();
         }
-
-        // Construct a JSON containing relevant WOPI host properties
-        Object::Ptr wopiInfo = new Object();
-        if (!wopifileinfo->getPostMessageOrigin().empty())
-        {
-            // Update the scheme to https if ssl or ssl termination is on
-            if (wopifileinfo->getPostMessageOrigin().substr(0, 7) == "http://" &&
-                (LOOLWSD::isSSLEnabled() || LOOLWSD::isSSLTermination()))
-            {
-                wopifileinfo->getPostMessageOrigin().replace(0, 4, "https");
-                LOG_DBG("Updating PostMessageOrigin scheme to HTTPS. Updated origin is [" << wopifileinfo->getPostMessageOrigin() << "].");
-            }
-
-            wopiInfo->set("PostMessageOrigin", wopifileinfo->getPostMessageOrigin());
-        }
-
-        // If print, export are disabled, order client to hide these options in the UI
-        if (wopifileinfo->getDisablePrint())
-            wopifileinfo->setHidePrintOption(true);
-        if (wopifileinfo->getDisableExport())
-            wopifileinfo->setHideExportOption(true);
-
-        wopiInfo->set("BaseFileName", wopiStorage->getFileInfo().getFilename());
-
-        if (!wopifileinfo->getTemplateSaveAs().empty())
-            wopiInfo->set("TemplateSaveAs", wopifileinfo->getTemplateSaveAs());
-
-        wopiInfo->set("HidePrintOption", wopifileinfo->getHidePrintOption());
-        wopiInfo->set("HideSaveOption", wopifileinfo->getHideSaveOption());
-        wopiInfo->set("HideExportOption", wopifileinfo->getHideExportOption());
-        wopiInfo->set("DisablePrint", wopifileinfo->getDisablePrint());
-        wopiInfo->set("DisableExport", wopifileinfo->getDisableExport());
-        wopiInfo->set("DisableCopy", wopifileinfo->getDisableCopy());
-        wopiInfo->set("DisableInactiveMessages", wopifileinfo->getDisableInactiveMessages());
-        wopiInfo->set("UserCanNotWriteRelative", wopifileinfo->getUserCanNotWriteRelative());
-        wopiInfo->set("EnableInsertRemoteImage", wopifileinfo->getEnableInsertRemoteImage());
-        wopiInfo->set("EnableShare", wopifileinfo->getEnableShare());
-        wopiInfo->set("HideUserList", wopifileinfo->getHideUserList());
-        if (wopifileinfo->getHideChangeTrackingControls() != WopiStorage::WOPIFileInfo::TriState::Unset)
-            wopiInfo->set("HideChangeTrackingControls", wopifileinfo->getHideChangeTrackingControls() == WopiStorage::WOPIFileInfo::TriState::True);
-
-        std::ostringstream ossWopiInfo;
-        wopiInfo->stringify(ossWopiInfo);
-        const std::string wopiInfoString = ossWopiInfo.str();
-        LOG_TRC("Sending wopi info to client: " << wopiInfoString);
-
-        // Contains PostMessageOrigin property which is necessary to post messages to parent
-        // frame. Important to send this message immediately and not enqueue it so that in case
-        // document load fails, loleaflet is able to tell its parent frame via PostMessage API.
-        session->sendMessage("wopi: " + wopiInfoString);
 
         // Mark the session as 'Document owner' if WOPI hosts supports it
         if (userId == _storage->getFileInfo().getOwnerId())
@@ -582,6 +531,9 @@ bool DocumentBroker::load(const std::shared_ptr<ClientSession>& session, const s
 
         // Pass the ownership to client session
         session->setWopiFileInfo(wopifileinfo);
+
+        // send wopi parameters and permissions for the user
+        session->initializeWOPIPermissions();
     }
     else
 #endif

@@ -500,9 +500,10 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
     bool enableInsertRemoteImage = false;
     bool enableShare = false;
     std::string hideUserList("false");
-    WOPIFileInfo::TriState disableChangeTrackingRecord = WOPIFileInfo::TriState::Unset;
-    WOPIFileInfo::TriState disableChangeTrackingShow = WOPIFileInfo::TriState::Unset;
-    WOPIFileInfo::TriState hideChangeTrackingControls = WOPIFileInfo::TriState::Unset;
+    WOPIPermissions::TriState disableChangeTrackingRecord = WOPIPermissions::TriState::Unset;
+    WOPIPermissions::TriState disableChangeTrackingShow = WOPIPermissions::TriState::Unset;
+    WOPIPermissions::TriState hideChangeTrackingControls = WOPIPermissions::TriState::Unset;
+    std::shared_ptr<WOPIPermissions> permissions;
 
     Poco::JSON::Object::Ptr object;
     if (JsonUtil::parseJSON(wopiResponse, object))
@@ -587,11 +588,26 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
         JsonUtil::findJSONValue(object, "HideUserList", hideUserList);
         bool booleanFlag = false;
         if (JsonUtil::findJSONValue(object, "DisableChangeTrackingRecord", booleanFlag))
-            disableChangeTrackingRecord = (booleanFlag ? WOPIFileInfo::TriState::True : WOPIFileInfo::TriState::False);
+            disableChangeTrackingRecord = (booleanFlag ? WOPIPermissions::TriState::True : WOPIPermissions::TriState::False);
         if (JsonUtil::findJSONValue(object, "DisableChangeTrackingShow", booleanFlag))
-            disableChangeTrackingShow = (booleanFlag ? WOPIFileInfo::TriState::True : WOPIFileInfo::TriState::False);
+            disableChangeTrackingShow = (booleanFlag ? WOPIPermissions::TriState::True : WOPIPermissions::TriState::False);
         if (JsonUtil::findJSONValue(object, "HideChangeTrackingControls", booleanFlag))
-            hideChangeTrackingControls = (booleanFlag ? WOPIFileInfo::TriState::True : WOPIFileInfo::TriState::False);
+            hideChangeTrackingControls = (booleanFlag ? WOPIPermissions::TriState::True : WOPIPermissions::TriState::False);
+
+        permissions = std::shared_ptr<WOPIPermissions>(
+                        new WOPIPermissions(canWrite,
+                                            hidePrintOption,
+                                            hideSaveOption,
+                                            hideExportOption,
+                                            disablePrint,
+                                            disableExport,
+                                            disableCopy,
+                                            disableInactiveMessages,
+                                            userCanNotWriteRelative,
+                                            enableInsertRemoteImage,
+                                            enableShare,
+                                            hideUserList,
+                                            hideChangeTrackingControls));
     }
     else
     {
@@ -609,12 +625,8 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
     setFileInfo(FileInfo({filename, ownerId, modifiedTime, size}));
 
     return std::unique_ptr<WopiStorage::WOPIFileInfo>(new WOPIFileInfo(
-        {userId, obfuscatedUserId, userName, userExtraInfo, watermarkText, templateSaveAs, canWrite,
-         postMessageOrigin, hidePrintOption, hideSaveOption, hideExportOption,
-         enableOwnerTermination, disablePrint, disableExport, disableCopy,
-         disableInactiveMessages, userCanNotWriteRelative, enableInsertRemoteImage, enableShare,
-         hideUserList, disableChangeTrackingShow, disableChangeTrackingRecord,
-         hideChangeTrackingControls, callDuration}));
+        {userId, obfuscatedUserId, userName, filename, userExtraInfo, watermarkText, templateSaveAs,
+         postMessageOrigin, enableOwnerTermination, disableChangeTrackingShow, disableChangeTrackingRecord, permissions, callDuration}));
 }
 
 /// uri format: http://server/<...>/wopi*/files/<id>/content
