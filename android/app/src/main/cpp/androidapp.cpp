@@ -19,6 +19,7 @@
 #include <LOOLWSD.hpp>
 #include <Protocol.hpp>
 #include <Util.hpp>
+#include <DocumentBroker.hpp>
 
 #include <osl/detail/android-bootstrap.h>
 
@@ -29,6 +30,7 @@ const int SHOW_JS_MAXLEN = 70;
 int loolwsd_server_socket_fd = -1;
 
 static std::string fileURL;
+static std::string currentDocKey;//key of currently opened document
 static LOOLWSD *loolwsd = nullptr;
 static int fakeClientFd;
 static int closeNotificationPipeForForwardingThread[2];
@@ -234,6 +236,7 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
     libreofficekit_initialize(env, dataDir, cacheDir, apkFile, assetManager);
 
     fileURL = std::string(env->GetStringUTFChars(loadFileURL, nullptr));
+    currentDocKey = DocumentBroker::getDocKey(DocumentBroker::sanitizeURI(fileURL));
 
     Log::initialize("Mobile", "trace", false, false, {});
     Util::setThreadName("main");
@@ -251,13 +254,13 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
         argv[1] = nullptr;
         Util::setThreadName("app");
         while (true) {
-            if (!LOOLWSDThreadRunning)
-                break;
             loolwsd = new LOOLWSD();
             loolwsd->run(1, argv);
             delete loolwsd;
             LOG_TRC("One run of LOOLWSD completed");
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            if (!LOOLWSDThreadRunning)
+                break;
         }
     }).detach();
 
@@ -268,6 +271,7 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
 /// Stop LOOLWSD instance.
 extern "C" JNIEXPORT void JNICALL
 Java_org_libreoffice_androidapp_MainActivity_destroyLOOLWSD(JNIEnv *env, jobject) {
+    loolwsd->closeDocument(currentDocKey, "Activity closed");
     LOOLWSDThreadRunning = false;
 }
 
