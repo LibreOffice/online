@@ -96,6 +96,10 @@ public:
     /// Set WOPI fileinfo object
     void setWopiFileInfo(std::unique_ptr<WopiStorage::WOPIFileInfo>& wopiFileInfo) { _wopiFileInfo = std::move(wopiFileInfo); }
 
+    std::shared_ptr<WOPIPermissions>& getPermissions() const {  return _wopiFileInfo->getPermissions(); };
+
+    void initializeWOPIPermissions();
+
     /// Get requested tiles waiting for sending to the client
     std::deque<TileDesc>& getRequestedTiles() { return _requestedTiles; }
 
