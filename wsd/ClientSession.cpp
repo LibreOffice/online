@@ -19,6 +19,7 @@
 #include <Poco/StreamCopier.h>
 #include <Poco/StringTokenizer.h>
 #include <Poco/URI.h>
+#include <Poco/JSON/Object.h>
 
 #include "DocumentBroker.hpp"
 #include "LOOLWSD.hpp"
@@ -32,6 +33,7 @@
 
 using namespace LOOLProtocol;
 
+using Poco::JSON::Object;
 using Poco::Path;
 using Poco::StringTokenizer;
 
@@ -475,6 +477,57 @@ bool ClientSession::loadDocument(const char* /*buffer*/, int /*length*/,
     return false;
 }
 
+void ClientSession::initializeWOPIPermissions() {
+    if (!getPermissions()->getUserCanWrite())
+        {
+            LOG_DBG("Setting the session as readonly");
+            setReadOnly();
+        }
+    Object::Ptr wopiInfo = new Object();
+    if (!_wopiFileInfo->getPostMessageOrigin().empty())
+    {
+        // Update the scheme to https if ssl or ssl termination is on
+        if (_wopiFileInfo->getPostMessageOrigin().substr(0, 7) == "http://" &&
+            (LOOLWSD::isSSLEnabled() || LOOLWSD::isSSLTermination()))
+        {
+            _wopiFileInfo->getPostMessageOrigin().replace(0, 4, "https");
+            LOG_DBG("Updating PostMessageOrigin scheme to HTTPS. Updated origin is [" << _wopiFileInfo->getPostMessageOrigin() << "].");
+        }
+
+        wopiInfo->set("PostMessageOrigin", _wopiFileInfo->getPostMessageOrigin());
+    }
+
+    // If print, export are disabled, order client to hide these options in the UI
+    if (getPermissions()->getDisablePrint())
+        getPermissions()->setHidePrintOption(true);
+    if (getPermissions()->getDisableExport())
+        getPermissions()->setHideExportOption(true);
+
+    wopiInfo->set("BaseFileName", _wopiFileInfo->getFilename());
+    if (!_wopiFileInfo->getTemplateSaveAs().empty())
+        wopiInfo->set("TemplateSaveAs", _wopiFileInfo->getTemplateSaveAs());
+
+    wopiInfo->set("HidePrintOption", getPermissions()->getHidePrintOption());
+    wopiInfo->set("HideSaveOption", getPermissions()->getHideSaveOption());
+    wopiInfo->set("HideExportOption", getPermissions()->getHideExportOption());
+    wopiInfo->set("DisablePrint", getPermissions()->getDisablePrint());
+    wopiInfo->set("DisableExport", getPermissions()->getDisableExport());
+    wopiInfo->set("DisableCopy", getPermissions()->getDisableCopy());
+    wopiInfo->set("DisableInactiveMessages", getPermissions()->getDisableInactiveMessages());
+    wopiInfo->set("UserCanNotWriteRelative", getPermissions()->getUserCanNotWriteRelative());
+    wopiInfo->set("EnableInsertRemoteImage", getPermissions()->getEnableInsertRemoteImage());
+    wopiInfo->set("EnableShare", getPermissions()->getEnableShare());
+    wopiInfo->set("HideUserList", getPermissions()->getHideUserList());
+    if (getPermissions()->getHideChangeTrackingControls() != WOPIPermissions::TriState::Unset)
+        wopiInfo->set("HideChangeTrackingControls", getPermissions()->getHideChangeTrackingControls() == WOPIPermissions::TriState::True);
+
+    std::ostringstream ossWopiInfo;
+    wopiInfo->stringify(ossWopiInfo);
+    const std::string wopiInfoString = ossWopiInfo.str();
+    sendMessage("wopi: " + wopiInfoString);
+    LOG_TRC("Sending wopi info to client: " << wopiInfoString);
+}
+
 bool ClientSession::getCommandValues(const char *buffer, int length, const std::vector<std::string>& tokens,
                                      const std::shared_ptr<DocumentBroker>& docBroker)
 {
@@ -578,12 +631,12 @@ bool ClientSession::filterMessage(const std::string& message) const
         std::string id;
         if (getTokenString(tokens[2], "id", id))
         {
-            if (id == "print" && _wopiFileInfo && _wopiFileInfo->getDisablePrint())
+            if (id == "print" && _wopiFileInfo && getPermissions()->getDisablePrint())
             {
                 allowed = false;
                 LOG_WRN("WOPI host has disabled print for this session");
             }
-            else if (id == "export" && _wopiFileInfo && _wopiFileInfo->getDisableExport())
+            else if (id == "export" && _wopiFileInfo && getPermissions()->getDisableExport())
             {
                 allowed = false;
                 LOG_WRN("WOPI host has disabled export for this session");
@@ -597,7 +650,7 @@ bool ClientSession::filterMessage(const std::string& message) const
     }
     else if (tokens[0] == "gettextselection" || tokens[0] == ".uno:Copy")
     {
-        if (_wopiFileInfo && _wopiFileInfo->getDisableCopy())
+        if (_wopiFileInfo && getPermissions()->getDisableCopy())
         {
             allowed = false;
             LOG_WRN("WOPI host has disabled copying from the document");
@@ -894,9 +947,9 @@ bool ClientSession::handleKitToClientMessage(const char* buffer, const int lengt
                 if (unoStatePair.first == ".uno:TrackChanges")
                 {
                     if ((unoStatePair.second == "true" &&
-                         _wopiFileInfo && _wopiFileInfo->getDisableChangeTrackingRecord() == WopiStorage::WOPIFileInfo::TriState::True) ||
+                         _wopiFileInfo && _wopiFileInfo->getDisableChangeTrackingRecord() == WOPIPermissions::TriState::True) ||
                         (unoStatePair.second == "false" &&
-                         _wopiFileInfo && _wopiFileInfo->getDisableChangeTrackingRecord() == WopiStorage::WOPIFileInfo::TriState::False))
+                         _wopiFileInfo && _wopiFileInfo->getDisableChangeTrackingRecord() == WOPIPermissions::TriState::False))
                     {
                         // Toggle the TrackChanges state.
                         LOG_DBG("Forcing " << unoStatePair.first << " toggle per user settings.");
@@ -906,9 +959,9 @@ bool ClientSession::handleKitToClientMessage(const char* buffer, const int lengt
                 else if (unoStatePair.first == ".uno:ShowTrackedChanges")
                 {
                     if ((unoStatePair.second == "true" &&
-                         _wopiFileInfo && _wopiFileInfo->getDisableChangeTrackingShow() == WopiStorage::WOPIFileInfo::TriState::True) ||
+                         _wopiFileInfo && _wopiFileInfo->getDisableChangeTrackingShow() == WOPIPermissions::TriState::True) ||
                         (unoStatePair.second == "false" &&
-                         _wopiFileInfo && _wopiFileInfo->getDisableChangeTrackingShow() == WopiStorage::WOPIFileInfo::TriState::False))
+                         _wopiFileInfo && _wopiFileInfo->getDisableChangeTrackingShow() == WOPIPermissions::TriState::False))
                     {
                         // Toggle the ShowTrackChanges state.
                         LOG_DBG("Forcing " << unoStatePair.first << " toggle per user settings.");
