@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df87a7cf_b82ddf47",
+        "filename": "loleaflet/package.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-04-02T11:29:21Z",
+      "side": 0,
+      "message": "we should leave license as it is",
+      "revId": "765fac1d0d33e8e6aa0aa1000ca6339a85cb1a1a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
