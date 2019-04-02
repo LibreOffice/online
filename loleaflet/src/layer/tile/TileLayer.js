@@ -2,7 +2,7 @@
 /*
  * L.TileLayer is used for standard xyz-numbered tile layers.
  */
-/* global $ _ Uint8ClampedArray Uint8Array sanitizeUrl */
+/* global $ _ Uint8ClampedArray Uint8Array */
 // Implement String::startsWith which is non-portable (Firefox only, it seems)
 // See http://stackoverflow.com/questions/646628/how-to-check-if-a-string-startswith-another-string#4579228
 
@@ -784,7 +784,7 @@ L.TileLayer = L.GridLayer.extend({
 
 	_onHyperlinkClickedMsg: function (textMsg) {
 		var link = textMsg.substring(18);
-		this._map.fire('hyperlinkclicked', {url: sanitizeUrl.sanitizeUrl(link)});
+		this._map.fire('hyperlinkclicked', {url: link});
 	},
 
 	_onInvalidateCursorMsg: function (textMsg) {
@@ -812,7 +812,7 @@ L.TileLayer = L.GridLayer.extend({
 		//first time document open, set last cursor position
 		if (this.lastCursorPos.lat === 0 && this.lastCursorPos.lng === 0)
 			this.lastCursorPos = cursorPos;
-
+		
 		var updateCursor = false;
 		if ((this.lastCursorPos.lat !== cursorPos.lat) || (this.lastCursorPos.lng !== cursorPos.lng)) {
 			updateCursor = true;
