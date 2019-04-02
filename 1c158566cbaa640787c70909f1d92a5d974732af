@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df87a7cf_9826dbb7",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-04-02T09:16:16Z",
+      "side": 1,
+      "message": "I would like to have also \"isValid\" information which we can pass to the alert - then we can show correct message for a user (loleaflet/src/control/Control.AlertDialog.js).",
+      "revId": "1c158566cbaa640787c70909f1d92a5d974732af",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
