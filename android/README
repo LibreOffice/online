@@ -50,6 +50,12 @@ build the native parts on Windows.
   + Open this 'android' subdir as a project
   + Build from Android Studio (Build -> Make Project)
 
+== Debugging the app in Android Studio ==
+
+1. Run>Debug>Edit debug configurations, a popup with debug options will open.
+2. Go to Debugger section
+3. Add the directory with symbols to Symbol Directories
+
 == Tip: How to speed up your core.git build ==
 
 If you use icecream for parallel building, you can use it for
