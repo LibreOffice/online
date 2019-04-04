@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df87a7cf_64aa4e86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-04-04T12:43:28Z",
+      "side": 1,
+      "message": "please mention the commit hash instead of the gerrit link.\nGerrit might be gone one day, but commit hashes will always be part of this repo.",
+      "revId": "4159cc120da391921616e797b718159e6967c098",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
