@@ -60,7 +60,13 @@ and dependencies (minified).
 	}
 	init();
 }(function(){
-	
+	/*
+	----------------------------------------
+	CONSTANTS
+	----------------------------------------
+	*/
+	var scrollToDelay = 60;
+
 	/* 
 	----------------------------------------
 	PLUGIN NAMESPACE, PREFIX, DEFAULT SELECTOR(S) 
@@ -632,6 +638,15 @@ and dependencies (minified).
 					
 					if($this.data(pluginPfx)){ /* check if plugin has initialized */
 					
+						/* Ugly hack extension: When vertical scrollbar position
+						   was very close to the end of spreadsheet, next part of
+						   the document has to be loaded. This contidion is fulfilled
+						   in that case. We need to ignore it to prevent scrollbar
+						   from reaching the end what blocks possibility to scroll down. */
+						if(!window.ThisIsAMobileApp && options && options.timeout == undefined
+							&& options.calledFromInvalidateCursorMsg == undefined)
+							return;
+
 						var d=$this.data(pluginPfx),o=d.opt,
 							/* method default options */
 							methodDefaults={
@@ -639,7 +654,7 @@ and dependencies (minified).
 								scrollInertia:o.scrollInertia, /* scrolling inertia (animation duration) */
 								scrollEasing:"mcsEaseInOut", /* animation easing */
 								moveDragger:false, /* move dragger instead of content */
-								timeout:60, /* scroll-to delay */
+								timeout:scrollToDelay, /* scroll-to delay */
 								callbacks:true, /* enable/disable callbacks */
 								onStart:true,
 								onUpdate:true,
@@ -2127,7 +2142,11 @@ and dependencies (minified).
 						// hidden part of the document (for instance when pressing enter on the
 						// last visible line). The options.timeout==1 is a silly way to detect
 						// the mouse-wheel scrolling.
-						if(!window.ThisIsAMobileApp || options.drag || options.timeout===1 || options.calledFromInvalidateCursorMsg==true){
+						// Extension: scrollToDelay is the default timeout
+						// which is used for automatic scrolling. We want to ignore it to avoid
+						// endless scrolling at the end of (fully selected) spreadsheet.
+						if((window.ThisIsAMobileApp && (options.drag || options.timeout===1 || options.calledFromInvalidateCursorMsg==true)) ||
+							(!window.ThisIsAMobileApp && options.timeout != scrollToDelay)){
 							/* callbacks: whileScrolling */
 							if(_cb("whileScrolling")){_mcs(); o.callbacks.whileScrolling.call(el[0]);}
 						}
