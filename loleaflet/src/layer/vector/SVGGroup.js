@@ -45,12 +45,15 @@ L.SVGGroup = L.Layer.extend({
 	},
 
 	_onDragStart: function(evt) {
+		var target = evt.target || evt.srcElement;
+		var tagName = target.tagName ? target.tagName.toLowerCase() : '';
+
 		if (evt.type === 'touchstart') {
 			this.lastTouchEvent.clientX = evt.touches[0].clientX;
 			this.lastTouchEvent.clientY = evt.touches[0].clientY;
 		}
 
-		if (!this._dragShape)
+		if (!this._dragShape || tagName === 'tspan' || tagName === 'text')
 			return;
 		this._moved = false;
 
