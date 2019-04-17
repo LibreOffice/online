@@ -2234,6 +2234,61 @@ void documentViewCallback(const int type, const char* payload, void* data)
     Document::ViewCallback(type, payload, data);
 }
 
+/// Called by LOK main-loop
+int pollCallback(void* pData, int timeoutUs)
+{
+    if (!pData)
+        return 0;
+
+    int timeoutMs = timeoutUs / 1000;
+
+    SocketPoll* pSocketPoll = reinterpret_cast<SocketPoll*>(pData);
+    if (timeoutMs < 0)
+    {
+        while (pSocketPoll->poll(0) > 0)
+            ;
+    }
+    else
+    {
+        const auto startTime = std::chrono::steady_clock::now();
+        for (;;)
+        {
+            if (pSocketPoll->poll(timeoutMs) <= 0)
+                break;
+
+            const auto now = std::chrono::steady_clock::now();
+            const auto elapsedTimeMs
+                = std::chrono::duration_cast<std::chrono::milliseconds>(now - startTime)
+                .count();
+            if (elapsedTimeMs >= timeoutMs)
+                break;
+
+            timeoutMs -= elapsedTimeMs;
+        }
+    }
+
+#if !MOBILEAPP
+    if (document && document->purgeSessions() == 0)
+    {
+        LOG_INF("Last session discarded. Setting TerminationFlag");
+        TerminationFlag = true;
+        return -1;
+    }
+#endif
+
+    return 0;
+}
+
+/// Called by LOK main-loop
+void wakeCallback(void* pData)
+{
+    if (pData)
+    {
+        SocketPoll* pSocketPoll = reinterpret_cast<SocketPoll*>(pData);
+        pSocketPoll->wakeup();
+    }
+}
+
 #ifndef BUILDING_TESTS
 
 void lokit_main(
@@ -2426,13 +2481,14 @@ void lokit_main(
         std::string tmpSubdir = Util::createRandomTmpDir();
         ::setenv("TMPDIR", tmpSubdir.c_str(), 1);
 
+        LibreOfficeKit *kit;
         {
             const char *instdir = instdir_path.c_str();
             const char *userdir = userdir_url.c_str();
 #ifndef KIT_IN_PROCESS
-            LibreOfficeKit* kit = UnitKit::get().lok_init(instdir, userdir);
+            kit = UnitKit::get().lok_init(instdir, userdir);
 #else
-            LibreOfficeKit* kit = nullptr;
+            kit = nullptr;
 #ifdef FUZZER
             if (LOOLWSD::DummyLOK)
                 kit = dummy_lok_init_2(instdir, userdir);
@@ -2547,24 +2603,27 @@ void lokit_main(
         }
 #endif
 
-        while (!TerminationFlag)
+        if (!LIBREOFFICEKIT_HAS(kit, runLoop))
         {
-            mainKit.poll(SocketPoll::DefaultPollTimeoutMs);
-
-#if !MOBILEAPP
-            if (document && document->purgeSessions() == 0)
-            {
-                LOG_INF("Last session discarded. Setting TerminationFlag");
-                TerminationFlag = true;
-            }
-#endif
+            LOG_ERR("Kit is missing Unipoll API");
+            std::cout << "Fatal: out of date LibreOfficeKit - no Unipoll API\n";
+            std::_Exit(Application::EXIT_SOFTWARE);
         }
+
+        LOG_INF("Kit unipoll loop run");
+
+        loKit->runLoop(pollCallback, wakeCallback, &mainKit);
 
         LOG_INF("Kit poll terminated.");
 
 #if MOBILEAPP
         SocketPoll::wakeupWorld();
 #endif
+
+        // Trap the signal handler, if invoked,
+        // to prevent exiting.
+        LOG_INF("Process finished.");
+        Log::shutdown();
 
         // Let forkit handle the jail cleanup.
     }
