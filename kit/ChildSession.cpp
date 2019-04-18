@@ -264,6 +264,7 @@ bool ChildSession::_handleInput(const char *buffer, int length)
                tokens[0] == "mouse" ||
                tokens[0] == "windowmouse" ||
                tokens[0] == "windowgesture" ||
+               tokens[0] == "windowpaste" ||
                tokens[0] == "uno" ||
                tokens[0] == "selecttext" ||
                tokens[0] == "selectgraphic" ||
@@ -304,7 +305,7 @@ bool ChildSession::_handleInput(const char *buffer, int length)
         }
         else if (tokens[0] == "paste")
         {
-            return paste(buffer, length, tokens);
+            return paste(buffer, length, tokens, LokEventTargetEnum::Document);
         }
         else if (tokens[0] == "insertfile")
         {
@@ -333,6 +334,10 @@ bool ChildSession::_handleInput(const char *buffer, int length)
         else if (tokens[0] == "windowgesture")
         {
             return gestureEvent(buffer, length, tokens);
+        }
+        else if (tokens[0] == "windowpaste")
+        {
+            return paste(buffer, length, tokens, LokEventTargetEnum::Window);
         }
         else if (tokens[0] == "uno")
         {
@@ -929,15 +934,33 @@ bool ChildSession::getTextSelection(const char* /*buffer*/, int /*length*/, cons
     return true;
 }
 
-bool ChildSession::paste(const char* buffer, int length, const std::vector<std::string>& tokens)
+bool ChildSession::paste(const char* buffer, int length, const std::vector<std::string>& tokens, const LokEventTargetEnum target)
 {
+    unsigned winId = 0;
     std::string mimeType;
-    if (tokens.size() < 2 || !getTokenString(tokens[1], "mimetype", mimeType) ||
-        mimeType.empty())
+
+    if (target == LokEventTargetEnum::Window)
     {
-        sendTextFrame("error: cmd=paste kind=syntax");
-        return false;
+        if (tokens.size() < 3 ||
+            !getTokenUInt32(tokens[1], "id", winId) ||
+            !getTokenString(tokens[2], "mimetype", mimeType) ||
+            mimeType.empty())
+        {
+            sendTextFrame("error: cmd=windowpaste kind=syntax");
+            return false;
+        }
     }
+    else if (target == LokEventTargetEnum::Document)
+    {
+        if (tokens.size() < 2 || !getTokenString(tokens[1], "mimetype", mimeType) ||
+            mimeType.empty())
+        {
+            sendTextFrame("error: cmd=paste kind=syntax");
+            return false;
+        }
+    }
+    else
+        assert(false && "Unsupported paste target type");
 
     const std::string firstLine = getFirstLine(buffer, length);
     const char* data = buffer + firstLine.size() + 1;
@@ -948,7 +971,10 @@ bool ChildSession::paste(const char* buffer, int length, const std::vector<std::
 
         getLOKitDocument()->setView(_viewId);
 
-        getLOKitDocument()->paste(mimeType.c_str(), data, size);
+        if (target == LokEventTargetEnum::Document)
+            getLOKitDocument()->paste(mimeType.c_str(), data, size);
+        else if (target == LokEventTargetEnum::Window)
+            getLOKitDocument()->postWindowPaste(winId, mimeType.c_str(), data, size);
     }
 
     return true;

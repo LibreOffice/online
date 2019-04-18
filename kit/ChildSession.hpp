@@ -249,7 +249,7 @@ private:
     bool getChildId();
     bool getTextSelection(const char* buffer, int length, const std::vector<std::string>& tokens);
     std::string getTextSelectionInternal(const std::string& mimeType);
-    bool paste(const char* buffer, int length, const std::vector<std::string>& tokens);
+    bool paste(const char* buffer, int length, const std::vector<std::string>& tokens, const LokEventTargetEnum target);
     bool insertFile(const char* buffer, int length, const std::vector<std::string>& tokens);
     bool keyEvent(const char* buffer, int length, const std::vector<std::string>& tokens, const LokEventTargetEnum target);
     bool extTextInputEvent(const char* /*buffer*/, int /*length*/, const std::vector<std::string>& tokens);
