@@ -138,7 +138,8 @@ public:
 
     /// Serialize this instance into a string.
     /// Optionally prepend a prefix.
-    std::string serialize(const std::string& prefix = "") const
+    std::string serialize(const std::string& prefix = std::string(),
+                          const std::string& suffix = std::string()) const
     {
         std::ostringstream oss;
         oss << prefix
@@ -170,6 +171,7 @@ public:
             oss << " broadcast=yes";
         }
 
+        oss << suffix;
         return oss.str();
     }
 
@@ -351,7 +353,8 @@ public:
 
     /// Serialize this instance into a string.
     /// Optionally prepend a prefix.
-    std::string serialize(const std::string& prefix = "") const
+    std::string serialize(const std::string& prefix = std::string(),
+                          const std::string& suffix = std::string()) const
     {
         std::ostringstream oss;
         oss << prefix
@@ -397,15 +400,19 @@ public:
         oss.seekp(-1, std::ios_base::cur); // Ditto
 
         oss << " wid=";
+
+        bool comma = false;
         for (const auto& tile : _tiles)
         {
-            oss << tile.getWireId() << ',';
-        }
-        oss.seekp(-1, std::ios_base::cur); // See beow.
+            if (comma)
+                oss << ',';
 
-        // Make sure we don't return a potential trailing comma that
-        // we have seeked back over but not overwritten after all.
-        return oss.str().substr(0, oss.tellp());
+            oss << tile.getWireId();
+            comma = true;
+        }
+
+        oss << suffix;
+        return oss.str();
     }
 
     /// Deserialize a TileDesc from a tokenized string.
