@@ -19,6 +19,7 @@
 #include <LOOLWSD.hpp>
 #include <Protocol.hpp>
 #include <Util.hpp>
+#include <DocumentBroker.hpp>
 
 #include <osl/detail/android-bootstrap.h>
 
@@ -33,6 +34,7 @@ static LOOLWSD *loolwsd = nullptr;
 static int fakeClientFd;
 static int closeNotificationPipeForForwardingThread[2];
 static JavaVM* javaVM = nullptr;
+static bool isInitialized = false;//used to avoid initialzing the instance multiple times
 
 extern "C" JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM* vm, void*) {
@@ -174,7 +176,9 @@ Java_org_libreoffice_androidapp_MainActivity_postMobileMessage(JNIEnv *env, jobj
                                        // Close our end of the fake socket connection to the
                                        // ClientSession thread, so that it terminates
                                        fakeSocketClose(fakeClientFd);
-
+                                       std::string currentDocKey(DocumentBroker::getDocKey(DocumentBroker::sanitizeURI(fileURL)));
+                                       loolwsd->closeDocument(currentDocKey, "Activity closed");
+                                       javaVM->DetachCurrentThread();
                                        return;
                                    }
                                    if (pollfd[0].revents == POLLIN)
@@ -241,12 +245,16 @@ extern "C" jboolean libreofficekit_initialize(JNIEnv* env, jstring dataDir, jstr
 extern "C" JNIEXPORT void JNICALL
 Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager, jstring loadFileURL)
 {
-    libreofficekit_initialize(env, dataDir, cacheDir, apkFile, assetManager);
-
     fileURL = std::string(env->GetStringUTFChars(loadFileURL, nullptr));
 
-    Log::initialize("Mobile", "trace", false, false, {});
-    Util::setThreadName("main");
+    libreofficekit_initialize(env, dataDir, cacheDir, apkFile, assetManager);
+
+    if(!isInitialized){
+        Log::initialize("Mobile", "trace", false, false, {});
+        Util::setThreadName("main");
+    }
+
+    isInitialized=true;
 
     fakeSocketSetLoggingCallback([](const std::string& line)
                                  {
@@ -255,19 +263,25 @@ Java_org_libreoffice_androidapp_MainActivity_createLOOLWSD(JNIEnv *env, jobject,
 
     std::thread([]
                 {
+                    //wait if the previous instance is still closing
+                    while(loolwsd != nullptr){
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    }
                     assert(loolwsd == nullptr);
                     char *argv[2];
                     argv[0] = strdup("mobile");
                     argv[1] = nullptr;
                     Util::setThreadName("app");
-                    while (true)
-                    {
+                   // while (true)
+                   // {
                         loolwsd = new LOOLWSD();
                         loolwsd->run(1, argv);
                         delete loolwsd;
+                        loolwsd = nullptr;
                         LOG_TRC("One run of LOOLWSD completed");
-                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                    }
+                       // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                   // }
+
                 }).detach();
 
     fakeClientFd = fakeSocketSocket();
