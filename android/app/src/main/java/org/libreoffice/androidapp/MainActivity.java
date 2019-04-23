@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         AssetManager assetManager = getResources().getAssets();
 
         ApplicationInfo applicationInfo = getApplicationInfo();
@@ -268,9 +267,16 @@ public class MainActivity extends AppCompatActivity {
         updatePreferences();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "Stop LOOLWSD instance");
+        postMobileMessage("BYE");
+    }
+
     private void loadDocument() {
         String finalUrlToLoad = "file:///android_asset/dist/loleaflet.html?file_path=" +
-                urlToLoad+"&closebutton=1";
+                urlToLoad + "&closebutton=1";
         if (isDocEditable) {
             finalUrlToLoad += "&permission=edit";
         } else {
