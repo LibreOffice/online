@@ -19,26 +19,26 @@ function moveObjectVertically(obj, diff) {
 
 /* global closebutton vex revHistoryEnabled $ _ */
 
+L.Map.mergeOptions({
+	crs: L.CRS.Simple,
+	center: [0, 0],
+	zoom: 10,
+	minZoom: 6,
+	maxZoom: 14,
+	maxBounds: L.latLngBounds([0, 0], [-100, 100]),
+	fadeAnimation: false, // Not useful for typing.
+	defaultZoom: 10,
+	// 15 = 1440 twips-per-inch / 96 dpi.
+	// Chosen to match previous hardcoded value of 3840 for
+	// the current tile pixel size of 256.
+	tileWidthTwips: window.tileSize * 15,
+	tileHeightTwips: window.tileSize * 15,
+	urlPrefix: 'lool',
+	wopiSrc: '',
+	cursorURL: 'images/cursors'
+});
+
 L.Map.include({
-	options: {
-		crs: L.CRS.Simple,
-		center: [0, 0],
-		zoom: 10,
-		minZoom: 6,
-		maxZoom: 14,
-		maxBounds: L.latLngBounds([0, 0], [-100, 100]),
-		fadeAnimation: false, // Not useful for typing.
-		defaultZoom: 10,
-		// 15 = 1440 twips-per-inch / 96 dpi.
-		// Chosen to match previous hardcoded value of 3840 for
-		// the current tile pixel size of 256.
-		tileWidthTwips: window.tileSize * 15,
-		tileHeightTwips: window.tileSize * 15,
-		urlPrefix: 'lool',
-		wopiSrc: '',
-		cursorURL: 'images/cursors'
-	},
-	
 	lastActiveTime: Date.now(),
 
 	// Overwritten Leaflet method follows
