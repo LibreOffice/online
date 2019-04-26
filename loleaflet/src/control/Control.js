@@ -77,11 +77,7 @@ L.Control = L.Class.extend({
 	},
 
 	isVisible: function () {
-		if (!this._map) {
-			return false;
-		}
-		var corner = this._map._controlCorners[this.options.position];
-		return corner.hasChildNodes();
+		return !!this._map;
 	}
 });
 
