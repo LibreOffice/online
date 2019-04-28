@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_37f6bf91",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2019-04-28T07:12:54Z",
+      "side": 1,
+      "message": "note that std::queue uses std::deque as underlying container by default, and sometimes it is faster to just use std::vector as a queue. Also given how we use this ThreadPool, we might as well just push to the end of a vector, and pop off the end of a vector, we don\u0027t care about the ordering of the tasks",
+      "revId": "b0eb6b78ea082ea6618b4b8c08b831fac56905a3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_d7f2fb9a",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2019-04-28T07:12:54Z",
+      "side": 1,
+      "message": "I don\u0027t see any way here to prevent the same tile from being rendered multiple times for different clients, but perhaps that is not a concern",
+      "revId": "b0eb6b78ea082ea6618b4b8c08b831fac56905a3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_17f9437f",
+        "filename": "wsd/TileDesc.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2019-04-28T07:12:54Z",
+      "side": 1,
+      "message": "Does allocation of memory during serialize() show up at all in your profile?\nMight be worth doing something like:\n\n    std::string str;\n    str.reserve(5000); // some number that represents size of message\n    std::ostringstream sstr(std::move(str));",
+      "revId": "b0eb6b78ea082ea6618b4b8c08b831fac56905a3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
