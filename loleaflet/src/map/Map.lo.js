@@ -556,7 +556,7 @@ L.Map.include({
 		zoom = zoom === undefined ? this._zoom : zoom;
 		/* libreoffice-specific code starts */
 		var projectedPoint = this.options.crs.latLngToPoint(L.latLng(latlng), zoom);
-		return new L.Point(L.round(projectedPoint.x, 1e-6), L.round(projectedPoint.y, 1e-6));
+		return new L.Point(L.Util.formatNum(projectedPoint.x, 6), L.Util.formatNum(projectedPoint.y, 6));
 		/* libreoffice-specific code ends */
 	},
 	
