@@ -482,6 +482,9 @@ L.Socket = L.Class.extend({
 			else if (command.errorKind === 'savefailed') {
 				storageError = errorMessages.storage.savefailed;
 			}
+			else if (command.errorKind === 'renamefailed') {
+				storageError = errorMessages.storage.renamefailed;
+			}
 			else if (command.errorKind === 'saveunauthorized') {
 				storageError = errorMessages.storage.saveunauthorized;
 			}
@@ -711,6 +714,10 @@ L.Socket = L.Class.extend({
 				this._map.sendInitUNOCommands();
 			}
 			// var name = command.name; - ignored, we get the new name via the wopi's BaseFileName
+		}
+		else if (textMsg.startsWith('renamefile:')) {
+			this._map.hideBusy();
+			// todo implement rename file response
 		}
 		else if (textMsg.startsWith('statusindicator:')) {
 			//FIXME: We should get statusindicator when saving too, no?
