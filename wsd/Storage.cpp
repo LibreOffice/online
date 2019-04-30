@@ -336,7 +336,7 @@ std::string LocalStorage::loadStorageFileToLocal(const Authorization& /*auth*/)
 
 }
 
-StorageBase::SaveResult LocalStorage::saveLocalFileToStorage(const Authorization& /*auth*/, const std::string& /*saveAsPath*/, const std::string& /*saveAsFilename*/)
+StorageBase::SaveResult LocalStorage::saveLocalFileToStorage(const Authorization& /*auth*/, const std::string& /*saveAsPath*/, const std::string& /*saveAsFilename*/, bool /*isRename*/)
 {
     try
     {
@@ -499,6 +499,8 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
     bool userCanNotWriteRelative = true;
     bool enableInsertRemoteImage = false;
     bool enableShare = false;
+    bool supportsRename = false;
+    bool userCanRename = false;
     std::string hideUserList("false");
     WOPIFileInfo::TriState disableChangeTrackingRecord = WOPIFileInfo::TriState::Unset;
     WOPIFileInfo::TriState disableChangeTrackingShow = WOPIFileInfo::TriState::Unset;
@@ -582,6 +584,8 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
         JsonUtil::findJSONValue(object, "EnableInsertRemoteImage", enableInsertRemoteImage);
         JsonUtil::findJSONValue(object, "EnableShare", enableShare);
         JsonUtil::findJSONValue(object, "HideUserList", hideUserList);
+        JsonUtil::findJSONValue(object, "SupportsRename", supportsRename);
+        JsonUtil::findJSONValue(object, "UserCanRename", userCanRename);
         bool booleanFlag = false;
         if (JsonUtil::findJSONValue(object, "DisableChangeTrackingRecord", booleanFlag))
             disableChangeTrackingRecord = (booleanFlag ? WOPIFileInfo::TriState::True : WOPIFileInfo::TriState::False);
@@ -611,7 +615,7 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
          enableOwnerTermination, disablePrint, disableExport, disableCopy,
          disableInactiveMessages, userCanNotWriteRelative, enableInsertRemoteImage, enableShare,
          hideUserList, disableChangeTrackingShow, disableChangeTrackingRecord,
-         hideChangeTrackingControls, callDuration}));
+         hideChangeTrackingControls, supportsRename, userCanRename, callDuration}));
 }
 
 /// uri format: http://server/<...>/wopi*/files/<id>/content
@@ -689,7 +693,7 @@ std::string WopiStorage::loadStorageFileToLocal(const Authorization& auth)
     return "";
 }
 
-StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath, const std::string& saveAsFilename)
+StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization& auth, const std::string& saveAsPath, const std::string& saveAsFilename, const bool isRename)
 {
     // TODO: Check if this URI has write permission (canWrite = true)
 
@@ -700,7 +704,7 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
     const size_t size = getFileSize(filePath);
 
     Poco::URI uriObject(getUri());
-    uriObject.setPath(isSaveAs? uriObject.getPath(): uriObject.getPath() + "/contents");
+    uriObject.setPath(isSaveAs || isRename? uriObject.getPath(): uriObject.getPath() + "/contents");
     auth.authorizeURI(uriObject);
     const std::string uriAnonym = LOOLWSD::anonymizeUrl(uriObject.toString());
 
@@ -715,7 +719,7 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
         request.set("User-Agent", WOPI_AGENT_STRING);
         auth.authorizeRequest(request);
 
-        if (!isSaveAs)
+        if (!isSaveAs && !isRename)
         {
             // normal save
             request.set("X-WOPI-Override", "PUT");
@@ -733,9 +737,6 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
         }
         else
         {
-            // save as
-            request.set("X-WOPI-Override", "PUT_RELATIVE");
-
             // the suggested target has to be in UTF-7; default to extension
             // only when the conversion fails
             std::string suggestedTarget = "." + Poco::Path(saveAsFilename).getExtension();
@@ -763,9 +764,19 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
                 }
             }
 
-            request.set("X-WOPI-SuggestedTarget", suggestedTarget);
-
-            request.set("X-WOPI-Size", std::to_string(size));
+            if (isRename)
+            {
+                // rename file
+                request.set("X-WOPI-Override", "RENAME_FILE");
+                request.set("X-WOPI-RequestedName", suggestedTarget);
+            }
+            else
+            {
+                // save as
+                request.set("X-WOPI-Override", "PUT_RELATIVE");
+                request.set("X-WOPI-Size", std::to_string(size));
+                request.set("X-WOPI-SuggestedTarget", suggestedTarget);
+            }
         }
 
         request.setContentType("application/octet-stream");
@@ -783,7 +794,7 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
         Poco::StreamCopier::copyStream(rs, oss);
         std::string responseString = oss.str();
 
-        const std::string wopiLog(isSaveAs ? "WOPI::PutRelativeFile" : "WOPI::PutFile");
+        const std::string wopiLog(isSaveAs ? "WOPI::PutRelativeFile" : (isRename ? "WOPI::RenameFile":"WOPI::PutFile"));
 
         if (Log::infoEnabled())
         {
@@ -831,7 +842,7 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
                 LOG_TRC(wopiLog << " returns LastModifiedTime [" << lastModifiedTime << "].");
                 getFileInfo().setModifiedTime(iso8601ToTimestamp(lastModifiedTime, "LastModifiedTime"));
 
-                if (isSaveAs)
+                if (isSaveAs || isRename)
                 {
                     const std::string name = JsonUtil::getJSONValue<std::string>(object, "Name");
                     LOG_TRC(wopiLog << " returns Name [" << LOOLWSD::anonymizeUrl(name) << "].");
@@ -841,7 +852,6 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
 
                     saveResult.setSaveAsResult(name, url);
                 }
-
                 // Reset the force save flag now, if any, since we are done saving
                 // Next saves shouldn't be saved forcefully unless commanded
                 forceSave(false);
@@ -894,7 +904,7 @@ std::string WebDAVStorage::loadStorageFileToLocal(const Authorization& /*auth*/)
     return getUri().toString();
 }
 
-StorageBase::SaveResult WebDAVStorage::saveLocalFileToStorage(const Authorization& /*auth*/, const std::string& /*saveAsPath*/, const std::string& /*saveAsFilename*/)
+StorageBase::SaveResult WebDAVStorage::saveLocalFileToStorage(const Authorization& /*auth*/, const std::string& /*saveAsPath*/, const std::string& /*saveAsFilename*/, bool /*isRename*/)
 {
     // TODO: implement webdav PUT.
     return StorageBase::SaveResult(StorageBase::SaveResult::OK);
