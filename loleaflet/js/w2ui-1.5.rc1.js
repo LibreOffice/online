@@ -15408,6 +15408,9 @@ var w2prompt = function (label, title, callBack) {
         watchSize: function () {
             var obj = this;
             var tmp = $(obj.el).data('tmp') || {};
+            if ('sizeTimer' in tmp) {
+                clearInterval(tmp.sizeTimer);
+            }
             tmp.sizeTimer = setInterval(function () {
                 if ($(obj.el).parents('body').length > 0) {
                     obj.resize();
