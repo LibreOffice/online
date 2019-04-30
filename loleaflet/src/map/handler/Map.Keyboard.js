@@ -184,7 +184,9 @@ L.Map.Keyboard = L.Handler.extend({
 
 	_ignoreKeyEvent: function(e) {
 		var shift = e.originalEvent.shiftKey ? this.keyModifier.shift : 0;
-		if (shift && (e.originalEvent.keyCode === 45 || e.originalEvent.keyCode === 46)) {
+		var isIgnored = e.originalEvent.code ? (e.originalEvent.code === 'Insert' || e.originalEvent.code === 'Delete') :
+			(e.originalEvent.keyCode === 45 || e.originalEvent.keyCode === 46);
+		if (shift && isIgnored) {
 			// don't handle shift+insert, shift+delete
 			// These are converted to 'cut', 'paste' events which are
 			// automatically handled by us, so avoid double-handling
