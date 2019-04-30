@@ -19,6 +19,12 @@
     "jquery-ui": "1.10.5",
     "json-js": "1.1.2",
     "l10n-for-node": "0.0.1",
+    "rollup": "^1.10.1",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-legacy": "^1.0.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-uglify": "^6.0.2",
     "select2": "4.0.1",
     "shrinkpack": "1.0.0-alpha",
     "smartmenus": "1.0.0",
@@ -39,5 +45,6 @@
   "scripts": {
     "postinstall": "browserify node_modules/@braintree/sanitize-url/index.js --standalone sanitizeUrl > node_modules/@braintree/sanitize-url/dist.js"
   },
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "dependencies": {}
 }

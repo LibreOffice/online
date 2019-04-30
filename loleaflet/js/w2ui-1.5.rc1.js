@@ -8168,6 +8168,12 @@ w2utils.event = {
         },
 
         initToolbar: function () {
+            function tmp_close() {
+                if ($('#w2ui-overlay-'+ obj.name + '-searchOverlay').data('keepOpen') === true) return;
+                tb.uncheck(id);
+                $(document).off('click', 'body', tmp_close);
+            }
+
             var obj = this;
             // -- if toolbar is true
             if (this.toolbar['render'] == null) {
@@ -8272,11 +8278,6 @@ w2utils.event = {
                             } else {
                                 obj.searchOpen();
                                 event.originalEvent.stopPropagation();
-                                function tmp_close() {
-                                    if ($('#w2ui-overlay-'+ obj.name + '-searchOverlay').data('keepOpen') === true) return;
-                                    tb.uncheck(id);
-                                    $(document).off('click', 'body', tmp_close);
-                                }
                                 $(document).on('click', 'body', tmp_close);
                             }
                             break;

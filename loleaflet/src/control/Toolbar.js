@@ -3,6 +3,8 @@
  * Toolbar handler
  */
 
+import { sanitizeUrl } from '@braintree/sanitize-url/index.js'
+
 /* global $ window vex sanitizeUrl brandProductName brandProductURL _ */
 L.Map.include({
 
@@ -268,7 +270,7 @@ L.Map.include({
 		var productURL = (typeof brandProductURL !== 'undefined') ? brandProductURL : 'https://libreoffice.org';
 		content.find('#product-name').text(productName);
 		var productString = _('This version of %productName is powered by');
-		var productNameWithURL = '<a href="' + sanitizeUrl.sanitizeUrl(productURL) +
+		var productNameWithURL = '<a href="' + sanitizeUrl(productURL) +
 								 '" target="_blank">' + productName + '</a>';
 		content.find('#product-string').html(productString.replace('%productName', productNameWithURL));
 

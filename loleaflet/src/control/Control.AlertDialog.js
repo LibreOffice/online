@@ -3,6 +3,8 @@
  * L.Control.Dialog used for displaying alerts
  */
 
+import { sanitizeUrl } from '@braintree/sanitize-url/index.js'
+
 /* global _ vex sanitizeUrl */
 L.Control.AlertDialog = L.Control.extend({
 	onAdd: function (map) {
@@ -28,7 +30,7 @@ L.Control.AlertDialog = L.Control.extend({
 			var url = e.url;
 			var messageText = window.errorMessages.leaving;
 
-			var isLinkValid = sanitizeUrl.sanitizeUrl(url) !== 'about:blank';
+			var isLinkValid = sanitizeUrl(url) !== 'about:blank';
 
 			if (!isLinkValid) {
 				messageText = window.errorMessages.invalidLink;

@@ -1075,23 +1075,23 @@ and dependencies (minified).
 		
 		/* binds scrollbar events */
 		_bindEvents=function(){
+			function _mwt(){
+				mousewheelTimeout=setTimeout(function(){
+					if(!$.event.special.mousewheel){
+						_mwt();
+					}else{
+						clearTimeout(mousewheelTimeout);
+						_mousewheel.call($this[0]);
+					}
+				},100);
+			}
+			var mousewheelTimeout;
 			var $this=$(this),d=$this.data(pluginPfx),o=d.opt;
 			if(!d.bindEvents){ /* check if events are already bound */
 				_draggable.call(this);
 				if(o.contentTouchScroll){_contentDraggable.call(this);}
 				_selectable.call(this);
 				if(o.mouseWheel.enable){ /* bind mousewheel fn when plugin is available */
-					function _mwt(){
-						mousewheelTimeout=setTimeout(function(){
-							if(!$.event.special.mousewheel){
-								_mwt();
-							}else{
-								clearTimeout(mousewheelTimeout);
-								_mousewheel.call($this[0]);
-							}
-						},100);
-					}
-					var mousewheelTimeout;
 					_mwt();
 				}
 				_draggerRail.call(this);

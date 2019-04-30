@@ -2,7 +2,13 @@
 /* global errorMessages getParameterByName accessToken accessTokenTTL accessHeader vex host */
 /* global serviceRoot idleTimeoutSecs outOfFocusTimeoutSecs setupToolbar*/
 /*eslint indent: [error, "tab", { "outerIIFEBody": 0 }]*/
-(function (global) {
+
+// Hack to expose w2utils and w2ui as globals.
+// The w2ui code just *assumes* the global namespace, and that technique
+// breaks when bundling.
+import { w2utils, w2ui } from '../js/w2ui-1.5.rc1.js';
+window.w2utils = w2utils;
+window.w2ui = w2ui;
 
 var wopiParams;
 var wopiSrc = getParameterByName('WOPISrc');
@@ -32,10 +38,10 @@ if (host === '' && !window.ThisIsAMobileApp) {
 	vex.dialog.alert(errorMessages.emptyhosturl);
 }
 
-// loleaflet.js accesses these globals
+// loleaflet.js accesses these globals FIXME!!!
 // TODO: Get rid of these globals
-global.closebutton = closebutton;
-global.revHistoryEnabled = revHistoryEnabled;
+window.closebutton = closebutton;
+window.revHistoryEnabled = revHistoryEnabled;
 var docURL, docParams;
 var isWopi = false;
 if (wopiSrc != '') {
@@ -75,9 +81,9 @@ map.addControl(L.control.alertDialog());
 map.addControl(L.control.lokDialog());
 map.addControl(L.control.contextMenu());
 map.addControl(L.control.infobar());
-map.loadDocument(global.socket);
+map.loadDocument(window.socket);
 
-global.socket = map._socket;
+window.socket = map._socket;
 window.addEventListener('beforeunload', function () {
 	if (map && map._socket) {
 		map._socket.close();
@@ -87,5 +93,3 @@ window.addEventListener('beforeunload', function () {
 if (!L.Browser.mobile) {
 	L.DomEvent.on(document, 'contextmenu', L.DomEvent.preventDefault);
 }
-
-}(window));

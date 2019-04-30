@@ -25,5 +25,8 @@
   },
   "env": {
     "browser": true
-  }
+  },
+  "parserOptions": {
+        "sourceType": "module"
+    }
 }
