@@ -1569,6 +1569,10 @@
                     case 'left':
                         $context.on('click' + o.ns, o.selector, o, handle.click);
                         break;
+
+                    case 'touchstart':
+                        $context.on('touchstart' + o.ns, o.selector, o, handle.click);
+                        break;
                     /*
                      default:
                      // http://www.quirksmode.org/dom/events/contextmenu.html

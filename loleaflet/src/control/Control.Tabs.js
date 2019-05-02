@@ -43,7 +43,7 @@ L.Control.Tabs = L.Control.extend({
 		this._tabsCont = L.DomUtil.create('div', 'spreadsheet-tabs-container', docContainer.parentElement);
 		L.DomEvent.on(this._tabsCont, 'touchstart',
 			function (e) {
-				if (e && e.touches.length > 1) {
+				if (e && e.touches.length > 0) {
 					L.DomEvent.preventDefault(e);
 				}
 			},
@@ -52,6 +52,7 @@ L.Control.Tabs = L.Control.extend({
 		$.contextMenu({
 			selector: '.spreadsheet-tab',
 			className: 'loleaflet-font',
+			trigger: L.Browser.mobile ? 'touchstart' : 'right',
 			callback: function(key, options) {
 				var nPos = parseInt(options.$trigger.attr('id').split('spreadsheet-tab')[1]);
 
