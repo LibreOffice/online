@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_620d608f",
+        "filename": "loleaflet/src/map/handler/Map.Keyboard.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000863
+      },
+      "writtenOn": "2019-05-03T01:21:17Z",
+      "side": 1,
+      "message": "I was getting errors during build that these strings need single quotes.",
+      "range": {
+        "startLine": 195,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 60
+      },
+      "revId": "f9496760f1efe6938447e4eb490f5d1fefd5bc27",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
