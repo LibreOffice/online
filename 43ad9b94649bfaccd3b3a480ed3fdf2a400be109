@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_280df93d",
+        "filename": "bundled/include/LibreOfficeKit/LibreOfficeKit.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-05-03T21:59:12Z",
+      "side": 1,
+      "message": "Changing existing API is problematic. We might have to create a new one to support this new argument.",
+      "revId": "43ad9b94649bfaccd3b3a480ed3fdf2a400be109",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
