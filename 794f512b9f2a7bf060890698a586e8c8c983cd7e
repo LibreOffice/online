@@ -16,6 +16,24 @@
       "revId": "794f512b9f2a7bf060890698a586e8c8c983cd7e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_3d91b953",
+        "filename": "loleaflet/css/loleaflet.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2019-05-03T11:43:51Z",
+      "side": 1,
+      "message": "This is needed to keep the .vex-overlay on top of everything, like before the upgrade. I think they might have changed the z-index somewhere to a lower value, while we have 1000 set in some places.",
+      "parentUuid": "3fa0c359_5d404508",
+      "revId": "794f512b9f2a7bf060890698a586e8c8c983cd7e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
