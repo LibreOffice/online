@@ -186,6 +186,7 @@ std::vector<int> getProcPids(const char* exec_filename, bool ignoreZombies = tru
                 std::string statString;
                 Poco::StreamCopier::copyToString(stat, statString);
                 Poco::StringTokenizer tokens(statString, " ");
+                std::cerr << "proc fname '" << tokens[1] << "'\n";
                 if (tokens.count() > 3 && tokens[1] == exec_filename)
                 {
                     if (ignoreZombies)
