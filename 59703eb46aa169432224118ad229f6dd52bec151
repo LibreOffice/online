@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_1d739d82",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-03T10:59:47Z",
+      "side": 1,
+      "message": "No, this will fail if loolwsd sends an invalidate message with a rectangle origin (either x or y) of zero. Remember this is javacript and zeroes evaluate as false when used in a boolean expression.\n\nUsing isNaN() is better than this (but still, knowing which kind of messages from loolwsd can trigger an invalid rectangle would be *even better*).",
+      "revId": "59703eb46aa169432224118ad229f6dd52bec151",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
