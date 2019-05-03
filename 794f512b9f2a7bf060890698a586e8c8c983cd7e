@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_5d404508",
+        "filename": "loleaflet/css/loleaflet.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-03T10:30:05Z",
+      "side": 1,
+      "message": "If I\u0027m just reading this code, I cannot tell if this is a patch to upstream (in which case I\u0027d send a patch), or if this is an additional customization (in which case I\u0027d add some extra lo-specific CSS classes to make this clear and keep the upstream namespace clean)",
+      "revId": "794f512b9f2a7bf060890698a586e8c8c983cd7e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
