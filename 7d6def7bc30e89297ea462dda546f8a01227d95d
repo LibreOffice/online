@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_7dbae1de",
+        "filename": "loleaflet/src/control/Control.Tabs.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-03T11:37:07Z",
+      "side": 1,
+      "message": "I\u0027m worried about an edge case here, which is a Win10 surface tablet/laptop, with both a touchscreen and a mouse.\n\nIn such a case, L.Browser.mobile will be true (because MSIE11 to Edge 17 implement window.orientation if my memory serves), and then the right button trigger for the context menu will be deactivated.\n\nI think this needs a different trigger, using PointerEvents if available, checking the type of pointer device.",
+      "revId": "7d6def7bc30e89297ea462dda546f8a01227d95d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
