@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_959ea105",
+        "filename": "loleaflet/admin/main-admin.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2019-05-06T06:43:43Z",
+      "side": 1,
+      "message": "var vex \u003d require(\u0027vex-js/dist/js/vex.combined.js\u0027); \n\nDelete the previous line and change the current one to this.",
+      "range": {
+        "startLine": 16,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 54
+      },
+      "revId": "1106e4183db22e58917470a8d4d7a3083f28ccd3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
