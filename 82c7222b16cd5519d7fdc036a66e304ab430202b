@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_15761108",
+        "filename": "wsd/ClientSession.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-05-06T05:18:06Z",
+      "side": 1,
+      "message": "Outstanding merge conflicts.",
+      "revId": "82c7222b16cd5519d7fdc036a66e304ab430202b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
