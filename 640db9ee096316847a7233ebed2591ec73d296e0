@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_d513c9b7",
+        "filename": "common/MessageQueue.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-05-06T05:03:15Z",
+      "side": 1,
+      "message": "if (_queue.empty()) ?",
+      "revId": "640db9ee096316847a7233ebed2591ec73d296e0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_f51845d4",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 2002,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-05-06T05:03:15Z",
+      "side": 1,
+      "message": "Again .empty() might be more readable.",
+      "revId": "640db9ee096316847a7233ebed2591ec73d296e0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_950d4192",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 2111,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-05-06T05:03:15Z",
+      "side": 1,
+      "message": "Maybe a constexpr in Common.hpp, and we can use it everywhere.",
+      "revId": "640db9ee096316847a7233ebed2591ec73d296e0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_b512bdb0",
+        "filename": "test/Makefile.am",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-05-06T05:03:15Z",
+      "side": 1,
+      "message": "Looks like we\u0027ve spooked a file out of this patch!",
+      "revId": "640db9ee096316847a7233ebed2591ec73d296e0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
