@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_152131fc",
+        "filename": "common/MessageQueue.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-05-06T05:10:36Z",
+      "side": 1,
+      "message": "return _queue.empty(); should be more natural for isEmpty().",
+      "revId": "0d16a80f61a4fb4b95b415c850c3bed93aa5e4b1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
