@@ -3,8 +3,8 @@
 require('bootstrap/dist/css/bootstrap.css');
 require('./bootstrap/ie10-viewport-bug-workaround.css');
 require('./bootstrap/dashboard.css');
-require('vex-js/css/vex.css');
-require('vex-js/css/vex-theme-plain.css');
+require('vex-js/dist/css/vex.css');
+require('vex-js/dist/css/vex-theme-plain.css');
 
 var $ = require('jquery');
 global.$ = global.jQuery = $;
@@ -13,7 +13,7 @@ require('json-js/json2');
 require('l10n-for-node');
 
 var vex = require('vex-js');
-vex.dialog = require('vex-js/js/vex.dialog.js');
+vex.dialog = require('vex-js/dist/js/vex.combined.js');
 vex.defaultOptions.className = 'vex-theme-plain';
 global.vex = vex;
 
