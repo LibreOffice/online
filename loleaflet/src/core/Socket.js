@@ -390,7 +390,7 @@ L.Socket = L.Class.extend({
 
 			var dialogOpened = vex.dialog.open({
 				message: message,
-				contentClassName: 'vex-idle'
+				contentClassName: 'loleaflet-user-idle'
 			});
 
 			if (textMsg === 'idle' || textMsg === 'oom') {
