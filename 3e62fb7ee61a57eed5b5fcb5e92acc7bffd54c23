@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_753bd537",
+        "filename": "test/countloolkits.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-05-06T04:55:10Z",
+      "side": 1,
+      "message": "Not critical, but can be a char: \u0027 \u0027",
+      "revId": "3e62fb7ee61a57eed5b5fcb5e92acc7bffd54c23",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
