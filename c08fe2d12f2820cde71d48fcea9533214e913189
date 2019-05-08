@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_e92f10f4",
+        "filename": "loleaflet/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2019-05-08T09:32:24Z",
+      "side": 1,
+      "message": "This is no longer needed. It was used to make a \u0027dist\u0027 global variable so that \u0027sanitize-url\u0027 can be used.",
+      "revId": "c08fe2d12f2820cde71d48fcea9533214e913189",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_c92a54e6",
+        "filename": "loleaflet/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2019-05-08T09:32:24Z",
+      "side": 1,
+      "message": "This was only used to make a global variable \u0027sanitize-url\u0027 so I can use it. Considering we now have rollup please delete this postinstall script.",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "c08fe2d12f2820cde71d48fcea9533214e913189",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_a9390842",
+        "filename": "loleaflet/src/control/Control.AlertDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2019-05-08T09:32:24Z",
+      "side": 1,
+      "message": "I know \u0027sanitizeUrl\u0027 for sure no longer needs to be declared as \u0027global\u0027 for eslint. Maybe it\u0027s the case with \u0027vex\u0027 and other stuff as well.",
+      "revId": "c08fe2d12f2820cde71d48fcea9533214e913189",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_493e442a",
+        "filename": "loleaflet/src/loleaflet.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2019-05-08T09:32:24Z",
+      "side": 1,
+      "message": "I might be missing something here so that\u0027s why I\u0027m asking: is there any benefit of importing something like vex here considering we can import it in the files where it\u0027s being used?\n\nOr is this just a first step into refactoring? I\u0027m asking because that file is already exporting vex (dialog included): https://github.com/HubSpot/vex/blob/master/src/vex.combined.js",
+      "revId": "c08fe2d12f2820cde71d48fcea9533214e913189",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_89344c4c",
+        "filename": "loleaflet/src/main.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2019-05-08T09:32:24Z",
+      "side": 1,
+      "message": "Can these be declared in `package.json` and not bundled with our code?",
+      "revId": "c08fe2d12f2820cde71d48fcea9533214e913189",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
