@@ -13,6 +13,8 @@
     <string name="file_creation_failed">File creation failed</string>
     <string name="storage_permission_required">Storage permission is required</string>
     <string name="failed_to_load_file">Failed to determine the file to load</string>
+    <string name="failed_to_insert_image">Failed to insert image</string>
+    <string name="cannot_open_file_chooser">Cannot open file chooser</string>
 
     <string name="list_view">List</string>
     <string name="grid_view">Grid</string>
