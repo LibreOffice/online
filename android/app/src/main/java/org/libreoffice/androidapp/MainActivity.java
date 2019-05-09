@@ -10,6 +10,7 @@
 package org.libreoffice.androidapp;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,12 +23,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isDocEditable = false;
     private boolean isDocDebuggable = BuildConfig.DEBUG;
+
+    private ValueCallback<Uri[]> valueCallback;
+    public static final int REQUEST_SELECT_FILE = 555;
 
     private static boolean copyFromAssets(AssetManager assetManager,
                                           String fromAssetPath, String targetDir) {
@@ -205,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
         createLOOLWSD(dataDir, cacheDir, apkFile, assetManager, urlToLoad);
 
         mWebView = findViewById(R.id.browser);
-        mWebView.setWebViewClient(new WebViewClient());
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -218,12 +220,30 @@ public class MainActivity extends AppCompatActivity {
                 WebView.setWebContentsDebuggingEnabled(true);
             }
         }
-    }
 
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+                if (valueCallback != null) {
+                    valueCallback.onReceiveValue(null);
+                    valueCallback = null;
+                }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+                valueCallback = filePathCallback;
+                Intent intent = fileChooserParams.createIntent();
+
+                try {
+                    intent.setType("image/*");
+                    startActivityForResult(intent, REQUEST_SELECT_FILE);
+                } catch (ActivityNotFoundException e) {
+                    valueCallback = null;
+                    Toast.makeText(MainActivity.this, getString(R.string.cannot_open_file_chooser), Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                return true;
+            }
+        });
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "asking for read storage permission");
             ActivityCompat.requestPermissions(this,
@@ -370,6 +390,18 @@ public class MainActivity extends AppCompatActivity {
                 mWebView.loadUrl("javascript:window.TheFakeWebSocket.onmessage({'data':" + message + "});");
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == REQUEST_SELECT_FILE) {
+            if (valueCallback == null)
+                return;
+            valueCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, intent));
+            valueCallback = null;
+        } else {
+            Toast.makeText(this, getString(R.string.failed_to_insert_image), Toast.LENGTH_LONG).show();
+        }
     }
 }
 
