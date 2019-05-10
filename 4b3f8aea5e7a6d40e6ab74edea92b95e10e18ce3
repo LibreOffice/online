@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_80dadae6",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/MainActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-05-10T07:49:26Z",
+      "side": 1,
+      "message": "Seeing that you\u0027ve changed to WebChromeClient - does that make sense in some later patch to also add a progress bar while loading the loleaflet via the onProgressChanged()?   If yes, then please do that in a follow-up change.",
+      "range": {
+        "startLine": 224,
+        "startChar": 17,
+        "endLine": 224,
+        "endChar": 35
+      },
+      "revId": "4b3f8aea5e7a6d40e6ab74edea92b95e10e18ce3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_20cc2634",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/MainActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-05-10T07:49:26Z",
+      "side": 1,
+      "message": "Would be good to introduce this string via resources, so that it can potentially be translated.",
+      "range": {
+        "startLine": 240,
+        "startChar": 62,
+        "endLine": 240,
+        "endChar": 66
+      },
+      "revId": "4b3f8aea5e7a6d40e6ab74edea92b95e10e18ce3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_c0d0e2cc",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/MainActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-05-10T07:49:26Z",
+      "side": 1,
+      "message": "Please avoid adding unnecessary whitespace :-)",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 0
+      },
+      "revId": "4b3f8aea5e7a6d40e6ab74edea92b95e10e18ce3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_e0d5deba",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/MainActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-05-10T07:49:26Z",
+      "side": 1,
+      "message": "Again, via resources please :-)",
+      "range": {
+        "startLine": 404,
+        "startChar": 44,
+        "endLine": 404,
+        "endChar": 50
+      },
+      "revId": "4b3f8aea5e7a6d40e6ab74edea92b95e10e18ce3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
