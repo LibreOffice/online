@@ -1500,6 +1500,14 @@ L.Map = L.Evented.extend({
 			this.showMenubar();
 		else
 			this.hideMenubar();
+	},
+
+	showRuler: function() {
+		$('.loleaflet-ruler').show();
+	},
+
+	hideRuler: function() {
+		$('.loleaflet-ruler').hide();
 	}
 });
 
