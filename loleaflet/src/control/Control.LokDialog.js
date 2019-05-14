@@ -93,6 +93,26 @@ L.Control.LokDialog = L.Control.extend({
 		map.on('closesidebar', this._closeSidebar, this);
 		map.on('editorgotfocus', this._onEditorGotFocus, this);
 		L.DomEvent.on(document, 'mouseup', this.onCloseCurrentPopUp, this);
+
+		//open/close sidebar on swipe
+		var xDown = 0;
+		var swipeDistance = $(window).width() * 0.15;
+		var self = this;
+		$(document)
+			.on('touchstart', function (e) {
+				xDown = e.originalEvent.touches[0].pageX;
+			})
+			.on('touchend', function (e) {
+				var diffX = e.originalEvent.changedTouches[0].pageX - xDown;
+
+				//open sidebar on swipe left if there is not something else opened
+				if (diffX < -swipeDistance && self._currentDeck == undefined)
+					map._socket.sendMessage('uno .uno:Sidebar');
+
+				//on right swipe close the sidebar
+				if (diffX > swipeDistance && self._currentDeck != undefined && self._currentDeck.isSidebar)
+					map._socket.sendMessage('uno .uno:Sidebar');
+			})
 	},
 
 	_dialogs: {},
@@ -135,7 +155,7 @@ L.Control.LokDialog = L.Control.extend({
 		return this.dialogIdPrefix + id;
 	},
 
-	// Create a rectangle string of form "x,y,width,height"
+	// Create a rectangle string of form 'x,y,width,height'
 	// if params are missing, assumes 0,0,dialog width, dialog height
 	_createRectStr: function(id, x, y, width, height) {
 		if (!width)
@@ -561,6 +581,20 @@ L.Control.LokDialog = L.Control.extend({
 
 		// Render window.
 		this._sendPaintWindowRect(id);
+
+		//play slide from right animation if this is a mobile app
+		if (window.mode.isMobile()) {
+			var sidebar = $('#sidebar-dock-wrapper');
+			var bottomBar = $('#toolbar-down');
+			var sidebarWidth = $('#sidebar-dock-wrapper').width();
+			sidebar.css('bottom', '0px');//to take the space occupied by the bottom menu
+			sidebar.css('position', 'fixed');//fixed position in order to prevent scrollbars to appear while opening/closing
+			bottomBar.animate({ 'opacity': 0 }, 400);
+			sidebar.css('margin-right', -sidebarWidth + 'px').animate({ 'margin-right': '0px' }, 400, function () {
+				$('#toolbar-down').hide();
+				sidebar.css('position', '');
+			});
+		}		
 	},
 
 	_setupWindowEvents: function(id, canvas, dlgInput) {
@@ -714,6 +748,22 @@ L.Control.LokDialog = L.Control.extend({
 		this._map.focus();
 		delete this._dialogs[dialogId];
 		this._currentDeck = null;
+
+		//play slide animation if this is a mobile app
+		if (window.mode.isMobile()) {
+			var sidebar = $('#sidebar-dock-wrapper');
+			var bottomBar = $('#toolbar-down');
+			var sidebarWidth = $('#sidebar-dock-wrapper').width();
+			bottomBar.animate({ 'opacity': 1 }, 400);
+			sidebar.css('position', 'fixed');//fixed position in order to prevent scrollbars to appear while opening/closing
+			sidebar.animate({ 'margin-right': -sidebarWidth + 'px' }, 400, function () {
+				//remove artifacts from the animation
+				sidebar.css('margin-right', '');
+				sidebar.css('display', '');
+				sidebar.css('position', '');
+				$('#toolbar-down').show();
+			});
+		}
 	},
 
 	_onDialogClose: function(dialogId, notifyBackend) {
