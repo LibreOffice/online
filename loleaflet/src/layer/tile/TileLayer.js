@@ -234,7 +234,14 @@ L.TileLayer = L.GridLayer.extend({
 					callback: function (key, options) {
 						that.onAnnotationRemove.call(that, options.$trigger.get(0).annotation._data.id);
 					}
+				},
+				resolve: this._docType !== 'text' ? undefined : {
+					name: _('Resolve'),
+					callback: function (key, options) {
+						that.onAnnotationResolve.call(that, options.$trigger.get(0).annotation);
+					}
 				}
+
 			},
 			events: {
 				show: function (options) {

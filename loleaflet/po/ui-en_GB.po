@@ -1021,6 +1021,11 @@ msgstr "Modify"
 msgid "Remove"
 msgstr "Remove"
 
+#: src/layer/tile/TileLayer.js:?
+msgid "Resolve"
+msgstr "Resolve"
+
+
 #: src/map/Map.js:198
 msgid "Initializing..."
 msgstr "Initialising…"
