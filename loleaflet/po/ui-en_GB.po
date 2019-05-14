@@ -1021,6 +1021,7 @@ msgstr "Modify"
 msgid "Remove"
 msgstr "Remove"
 
+
 #: src/map/Map.js:198
 msgid "Initializing..."
 msgstr "Initialising…"
