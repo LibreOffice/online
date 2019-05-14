@@ -93,18 +93,37 @@ L.Control.LokDialog = L.Control.extend({
 		map.on('closesidebar', this._closeSidebar, this);
 		map.on('editorgotfocus', this._onEditorGotFocus, this);
 		L.DomEvent.on(document, 'mouseup', this.onCloseCurrentPopUp, this);
+
+		this.slideAnimationDuration = 250;//sidebar open animation duration
+
+		//open sidebar on left swipe on document view
+		var documentContainerHammer = new Hammer(document.getElementById('document-container'));
+		documentContainerHammer.on('swipeleft', function (e) {
+			var startX = e.changedPointers[0].clientX - e.deltaX;
+			if (startX < window.screen.width * 0.7)//detect open swipes only near screen edge
+				return;
+			map._socket.sendMessage('uno .uno:Sidebar');
+		})
+
+		//close sidebar on right swipe on sidebar panel, also on document view(for tablets)
+		var sidebarPanelHammer = new Hammer(document.getElementById('sidebar-panel'));
+		[sidebarPanelHammer, documentContainerHammer].forEach(function (hammerElement) {
+			hammerElement.on('swiperight', function () {
+				map._socket.sendMessage('uno .uno:Sidebar');
+			})
+		})
 	},
 
 	_dialogs: {},
 
-	_docLoaded: function(e) {
+	_docLoaded: function (e) {
 		if (!e.status) {
 			$('.lokdialog_container').remove();
 			$('.lokdialogchild-canvas').remove();
 		}
 	},
 
-	_getParentId: function(id) {
+	_getParentId: function (id) {
 		id = parseInt(id);
 		for (var winId in this._dialogs) {
 			if (this._dialogs[winId].childid && this._dialogs[winId].childid === id) {
@@ -114,30 +133,30 @@ L.Control.LokDialog = L.Control.extend({
 		return null;
 	},
 
-	_isOpen: function(id) {
+	_isOpen: function (id) {
 		return this._dialogs[id] &&
 			$('#' + this._toStrId(id)).length > 0;
 	},
 
-	_isSidebar: function(id) {
+	_isSidebar: function (id) {
 		return this._dialogs[id].isSidebar;
 	},
 
 	// Given a prefixed dialog id like 'lokdialog-323', gives a raw id, 323.
-	_toIntId: function(id) {
-		if (typeof(id) === 'string')
+	_toIntId: function (id) {
+		if (typeof (id) === 'string')
 			return parseInt(id.replace(this.dialogIdPrefix, ''));
 		return id;
 	},
 
 	// Converts a raw dialog id like 432, to 'lokdialog-432'.
-	_toStrId: function(id) {
+	_toStrId: function (id) {
 		return this.dialogIdPrefix + id;
 	},
 
-	// Create a rectangle string of form "x,y,width,height"
+	// Create a rectangle string of form 'x,y,width,height'
 	// if params are missing, assumes 0,0,dialog width, dialog height
-	_createRectStr: function(id, x, y, width, height) {
+	_createRectStr: function (id, x, y, width, height) {
 		if (!width)
 			width = this._dialogs[parseInt(id)].width;
 		if (width <= 0)
@@ -156,7 +175,7 @@ L.Control.LokDialog = L.Control.extend({
 		return [x * dpiscale, y * dpiscale, width * dpiscale, height * dpiscale].join(',');
 	},
 
-	_sendPaintWindowRect: function(id, x, y, width, height) {
+	_sendPaintWindowRect: function (id, x, y, width, height) {
 		if (!width)
 			width = this._dialogs[id].width;
 		if (width <= 0)
@@ -176,7 +195,7 @@ L.Control.LokDialog = L.Control.extend({
 		this._sendPaintWindow(id, rect);
 	},
 
-	_sendPaintWindow: function(id, rectangle) {
+	_sendPaintWindow: function (id, rectangle) {
 		if (!rectangle)
 			return; // Don't request rendering an empty area.
 
@@ -189,17 +208,17 @@ L.Control.LokDialog = L.Control.extend({
 		this._map._socket.sendMessage('paintwindow ' + id + ' rectangle=' + rectangle + ' dpiscale=' + dpiscale);
 	},
 
-	_sendCloseWindow: function(id) {
+	_sendCloseWindow: function (id) {
 		this._map._socket.sendMessage('windowcommand ' + id + ' close');
 	},
 
-	_isRectangleValid: function(rect) {
+	_isRectangleValid: function (rect) {
 		rect = rect.split(',');
 		return (!isNaN(parseInt(rect[0])) && !isNaN(parseInt(rect[1])) &&
-				parseInt(rect[2]) >= 0 && parseInt(rect[3]) >= 0);
+			parseInt(rect[2]) >= 0 && parseInt(rect[3]) >= 0);
 	},
 
-	_onDialogMsg: function(e) {
+	_onDialogMsg: function (e) {
 		if (e.winType != undefined && e.winType !== 'dialog' && e.winType !== 'child' && e.winType !== 'deck') {
 			return;
 		}
@@ -289,11 +308,11 @@ L.Control.LokDialog = L.Control.extend({
 		} else if (e.action === 'cursor_visible') {
 			this._dialogs[e.id].cursorVisible = e.visible === 'true';
 			if (this._dialogs[e.id].cursorVisible) {
-				$('#' + strId + '-cursor').css({display: 'block'});
+				$('#' + strId + '-cursor').css({ display: 'block' });
 				this._map._onLostFocus();
 			}
 			else {
-				$('#' + strId + '-cursor').css({display: 'none'});
+				$('#' + strId + '-cursor').css({ display: 'none' });
 			}
 		} else if (e.action === 'close') {
 			parent = this._getParentId(e.id);
@@ -306,11 +325,11 @@ L.Control.LokDialog = L.Control.extend({
 		}
 	},
 
-	_openDialog: function(e) {
+	_openDialog: function (e) {
 		this._map.sendUnoCommand(e.uno);
 	},
 
-	_updateDialogCursor: function(dlgId, x, y, height) {
+	_updateDialogCursor: function (dlgId, x, y, height) {
 		var strId = this._toStrId(dlgId);
 		var dialogCursor = L.DomUtil.get(strId + '-cursor');
 		L.DomUtil.setStyle(dialogCursor, 'height', height + 'px');
@@ -323,7 +342,7 @@ L.Control.LokDialog = L.Control.extend({
 		this._updateDialogInput(dlgId);
 	},
 
-	_createDialogCursor: function(dialogId) {
+	_createDialogCursor: function (dialogId) {
 		var id = this._toIntId(dialogId);
 		this._dialogs[id].cursor = L.DomUtil.create('div', 'leaflet-cursor-container', L.DomUtil.get(dialogId));
 		var cursor = L.DomUtil.create('div', 'leaflet-cursor lokdialog-cursor', this._dialogs[id].cursor);
@@ -331,7 +350,7 @@ L.Control.LokDialog = L.Control.extend({
 		L.DomUtil.addClass(cursor, 'blinking-cursor');
 	},
 
-	_createDialogInput: function(dialogId) {
+	_createDialogInput: function (dialogId) {
 		var id = this._toIntId(dialogId);
 		var clipDlgContainer = L.DomUtil.create('div', 'clipboard-container', L.DomUtil.get(dialogId));
 		clipDlgContainer.id = dialogId + '-clipboard-container';
@@ -346,7 +365,7 @@ L.Control.LokDialog = L.Control.extend({
 		return dlgTextArea;
 	},
 
-	_updateDialogInput: function(dlgId) {
+	_updateDialogInput: function (dlgId) {
 		if (!this._dialogs[dlgId].input)
 			return;
 
@@ -357,14 +376,14 @@ L.Control.LokDialog = L.Control.extend({
 		L.DomUtil.setPosition(dlgContainer, new L.Point(left, top));
 	},
 
-	focus: function(dlgId, force) {
+	focus: function (dlgId, force) {
 		if (!force && (!this._isOpen(dlgId) || !this._dialogs[dlgId].input || !this._dialogs[dlgId].cursorVisible))
 			return;
 
 		this._dialogs[dlgId].input.focus();
 	},
 
-	_setCanvasWidthHeight: function(canvas, width, height) {
+	_setCanvasWidthHeight: function (canvas, width, height) {
 		var scale = L.getDpiScaleFactor();
 		var newWidth = width * scale;
 		if (canvas.width != newWidth) {
@@ -379,7 +398,7 @@ L.Control.LokDialog = L.Control.extend({
 		}
 	},
 
-	_launchDialog: function(id, leftTwips, topTwips, width, height, title) {
+	_launchDialog: function (id, leftTwips, topTwips, width, height, title) {
 		if (window.ThisIsTheiOSApp)
 			w2ui['editbar'].disable('closemobile');
 		this.onCloseCurrentPopUp();
@@ -411,7 +430,7 @@ L.Control.LokDialog = L.Control.extend({
 			closeOnEscape: true,
 			resizable: false,
 			dialogClass: dialogClass,
-			close: function() {
+			close: function () {
 				that._onDialogClose(id, true);
 			}
 		});
@@ -460,7 +479,7 @@ L.Control.LokDialog = L.Control.extend({
 		this._sendPaintWindow(id, this._createRectStr(id));
 	},
 
-	_launchSidebar: function(id, left, top, width, height) {
+	_launchSidebar: function (id, left, top, width, height) {
 
 		if (!left)
 			left = 0;
@@ -468,7 +487,7 @@ L.Control.LokDialog = L.Control.extend({
 			top = 0;
 
 		if ((window.mode.isMobile() || window.mode.isTablet())
-		    && this._map._permission != 'edit')
+			&& this._map._permission != 'edit')
 			return;
 
 		$('#sidebar-dock-wrapper').css('display', 'block');
@@ -486,7 +505,7 @@ L.Control.LokDialog = L.Control.extend({
 
 			// Hide cursor.
 			this._currentDeck.cursorVisible = false;
-			$('#' + strId + '-cursor').css({display: 'none'});
+			$('#' + strId + '-cursor').css({ display: 'none' });
 
 			var panel = L.DomUtil.get('sidebar-panel');
 			if (width > 1)
@@ -546,12 +565,12 @@ L.Control.LokDialog = L.Control.extend({
 		var dlgInput = this._createDialogInput(strId);
 		this._setupWindowEvents(id, panelCanvas, dlgInput);
 
-		L.DomEvent.on(panelContainer, 'resize', function() {
+		L.DomEvent.on(panelContainer, 'resize', function () {
 			// Don't resize the window as we handle overflowing with scrollbars.
 			// this._map._socket.sendMessage('resizewindow ' + id + ' size=' + panelContainer.width + ',' + panelContainer.height);
 		}, this);
 
-		L.DomEvent.on(panelContainer, 'mouseleave', function() {
+		L.DomEvent.on(panelContainer, 'mouseleave', function () {
 			// Move the mouse off-screen when we leave the sidebar
 			// so we don't leave edge-elements highlighted as if
 			// the mouse is still over them.
@@ -561,17 +580,30 @@ L.Control.LokDialog = L.Control.extend({
 
 		// Render window.
 		this._sendPaintWindowRect(id);
+
+		//play slide from right animation on mobile and tablets
+		if (window.mode.isMobile() || window.mode.isTablet()) {
+			var sidebar = $('#sidebar-dock-wrapper');
+			var bottomBar = $('#toolbar-down');
+			sidebar.css('bottom', '0px');//to take the space occupied by the bottom menu
+			sidebar.css('position', 'fixed');//fixed position in order to prevent scrollbars to appear while opening/closing
+			bottomBar.animate({ 'opacity': 0 }, this.slideAnimationDuration);
+			sidebar.css('margin-right', -width * ratio + 'px').animate({ 'margin-right': '0px' }, this.slideAnimationDuration, function () {
+				$('#toolbar-down').hide();
+				sidebar.css('position', '');
+			});
+		}
 	},
 
-	_setupWindowEvents: function(id, canvas, dlgInput) {
+	_setupWindowEvents: function (id, canvas, dlgInput) {
 		L.DomEvent.on(canvas, 'contextmenu', L.DomEvent.preventDefault);
-		L.DomEvent.on(canvas, 'mousemove', function(e) {
+		L.DomEvent.on(canvas, 'mousemove', function (e) {
 			this._map.lastActiveTime = Date.now();
 			this._postWindowMouseEvent('move', id, e.offsetX, e.offsetY, 1, 0, 0);
 			// Keep map active while user is playing with sidebar/dialog.
 			this._map.lastActiveTime = Date.now();
 		}, this);
-		L.DomEvent.on(canvas, 'mousedown mouseup', function(e) {
+		L.DomEvent.on(canvas, 'mousedown mouseup', function (e) {
 			L.DomEvent.stopPropagation(e);
 			var buttons = 0;
 			buttons |= e.button === this._map['mouse'].JSButtons.left ? this._map['mouse'].LOButtons.left : 0;
@@ -585,22 +617,22 @@ L.Control.LokDialog = L.Control.extend({
 			this._map.lastActiveTime = Date.now();
 		}, this);
 		L.DomEvent.on(dlgInput,
-		              'keyup keypress keydown compositionstart compositionupdate compositionend textInput',
-		              function(e) {
-			              e.originalEvent = e; // _onKeyDown fn below requires real event in e.originalEvent
-			              this._map['keyboard']._onKeyDown(e,
-			                                         L.bind(this._postWindowKeyboardEvent,
-			                                                this,
-			                                                id),
-			                                         L.bind(this._postWindowCompositionEvent,
-			                                                this,
-			                                                id),
-			                                         dlgInput);
+			'keyup keypress keydown compositionstart compositionupdate compositionend textInput',
+			function (e) {
+				e.originalEvent = e; // _onKeyDown fn below requires real event in e.originalEvent
+				this._map['keyboard']._onKeyDown(e,
+					L.bind(this._postWindowKeyboardEvent,
+						this,
+						id),
+					L.bind(this._postWindowCompositionEvent,
+						this,
+						id),
+					dlgInput);
 
-			              // Keep map active while user is playing with sidebar/dialog.
-			              this._map.lastActiveTime = Date.now();
-		              }, this);
-		L.DomEvent.on(dlgInput, 'paste', function(e) {
+				// Keep map active while user is playing with sidebar/dialog.
+				this._map.lastActiveTime = Date.now();
+			}, this);
+		L.DomEvent.on(dlgInput, 'paste', function (e) {
 			var clipboardData = e.clipboardData || window.clipboardData;
 			var data, blob;
 
@@ -624,12 +656,12 @@ L.Control.LokDialog = L.Control.extend({
 				}
 			}
 		}, this);
-		L.DomEvent.on(dlgInput, 'contextmenu', function() {
+		L.DomEvent.on(dlgInput, 'contextmenu', function () {
 			return false;
 		});
 	},
 
-	_setupGestures: function(id, canvas) {
+	_setupGestures: function (id, canvas) {
 		var targetId = toZoomTargetId(canvas.id);
 		var zoomTarget = $('#' + targetId).parent().get(0);
 
@@ -663,7 +695,7 @@ L.Control.LokDialog = L.Control.extend({
 			removeZoomTarget(targetId);
 		}
 
-		zoomTargets.push({key: targetId, value: zoomTarget, transformation: transformation, initialState: state});
+		zoomTargets.push({ key: targetId, value: zoomTarget, transformation: transformation, initialState: state });
 
 		if (window.mode.isMobile() || window.mode.isTablet()) {
 			var hammerAll = new Hammer(canvas);
@@ -672,7 +704,7 @@ L.Control.LokDialog = L.Control.extend({
 
 			hammerAll.on('panstart panmove', this.onPan);
 			hammerAll.on('pinchstart pinchmove', this.onPinch);
-			hammerAll.on('hammer.input', function(ev) {
+			hammerAll.on('hammer.input', function (ev) {
 				if (ev.isFinal) {
 					var id = toZoomTargetId(ev.target.id);
 					var target = findZoomTarget(id);
@@ -687,36 +719,52 @@ L.Control.LokDialog = L.Control.extend({
 		updateTransformation(findZoomTarget(targetId));
 	},
 
-	_postWindowCompositionEvent: function(winid, type, text) {
+	_postWindowCompositionEvent: function (winid, type, text) {
 		this._map._docLayer._postCompositionEvent(winid, type, text);
 	},
 
-	_postWindowMouseEvent: function(type, winid, x, y, count, buttons, modifier) {
-		this._map._socket.sendMessage('windowmouse id=' + winid +  ' type=' + type +
-		                              ' x=' + x + ' y=' + y + ' count=' + count +
-		                              ' buttons=' + buttons + ' modifier=' + modifier);
+	_postWindowMouseEvent: function (type, winid, x, y, count, buttons, modifier) {
+		this._map._socket.sendMessage('windowmouse id=' + winid + ' type=' + type +
+			' x=' + x + ' y=' + y + ' count=' + count +
+			' buttons=' + buttons + ' modifier=' + modifier);
 	},
 
-	_postWindowGestureEvent: function(winid, type, x, y, offset) {
+	_postWindowGestureEvent: function (winid, type, x, y, offset) {
 		console.log('x ' + x + ' y ' + y + ' o ' + offset);
-		this._map._socket.sendMessage('windowgesture id=' + winid +  ' type=' + type +
-		                              ' x=' + x + ' y=' + y + ' offset=' + offset);
+		this._map._socket.sendMessage('windowgesture id=' + winid + ' type=' + type +
+			' x=' + x + ' y=' + y + ' offset=' + offset);
 	},
 
-	_postWindowKeyboardEvent: function(winid, type, charcode, keycode) {
+	_postWindowKeyboardEvent: function (winid, type, charcode, keycode) {
 		this._map._socket.sendMessage('windowkey id=' + winid + ' type=' + type +
-		                              ' char=' + charcode + ' key=' + keycode);
+			' char=' + charcode + ' key=' + keycode);
 	},
 
-	_onSidebarClose: function(dialogId) {
+	_onSidebarClose: function (dialogId) {
 		this._resizeSidebar(dialogId, 0);
 		$('#' + this._currentDeck.strId).remove();
 		this._map.focus();
 		delete this._dialogs[dialogId];
 		this._currentDeck = null;
+
+		//play slide animation to right if this is a mobile or tablet
+		if (window.mode.isMobile() || window.mode.isTablet()) {
+			var sidebar = $('#sidebar-dock-wrapper');
+			var bottomBar = $('#toolbar-down');
+			var sidebarWidth = $('#sidebar-dock-wrapper').width();
+			bottomBar.animate({ 'opacity': 1 }, this.slideAnimationDuration);
+			sidebar.css('position', 'fixed');//fixed position in order to prevent scrollbars to appear while opening/closing
+			sidebar.animate({ 'margin-right': -sidebarWidth + 'px' }, this.slideAnimationDuration, function () {
+				//remove artifacts from the animation
+				sidebar.css('margin-right', '');
+				sidebar.css('display', '');
+				sidebar.css('position', '');
+				$('#toolbar-down').show();
+			});
+		}
 	},
 
-	_onDialogClose: function(dialogId, notifyBackend) {
+	_onDialogClose: function (dialogId, notifyBackend) {
 		if (window.ThisIsTheiOSApp)
 			w2ui['editbar'].enable('closemobile');
 		if (notifyBackend)
@@ -729,30 +777,30 @@ L.Control.LokDialog = L.Control.extend({
 		removeZoomTarget(this._toStrId(dialogId));
 	},
 
-	onCloseCurrentPopUp: function() {
+	onCloseCurrentPopUp: function () {
 		// for title-less dialog only (context menu, pop-up)
 		if (!this._currentId || !this._isOpen(this._currentId) || this._dialogs[this._currentId].title)
 			return;
 		this._onDialogClose(this._currentId, true);
 	},
 
-	_closeSidebar: function() {
+	_closeSidebar: function () {
 		for (var dialog in this._dialogs) {
 			if (this._dialogs[dialog].isSidebar == true) {
 				this._onSidebarClose(dialog);
 			}
 		}
-		$('#sidebar-dock-wrapper').css({display: ''});
+		$('#sidebar-dock-wrapper').css({ display: '' });
 	},
 
-	_onEditorGotFocus: function() {
+	_onEditorGotFocus: function () {
 		// We need to lose focus on any dialogs/sidebars currently with focus.
 		for (var winId in this._dialogs) {
-			$('#' + this._dialogs[winId].strId + '-cursor').css({display: 'none'});
+			$('#' + this._dialogs[winId].strId + '-cursor').css({ display: 'none' });
 		}
 	},
 
-	_paintDialog: function(parentId, rectangle, imgData) {
+	_paintDialog: function (parentId, rectangle, imgData) {
 
 		var strId = this._toStrId(parentId);
 		var canvas = document.getElementById(strId + '-canvas');
@@ -763,7 +811,7 @@ L.Control.LokDialog = L.Control.extend({
 
 		var that = this;
 		var img = new Image();
-		img.onload = function() {
+		img.onload = function () {
 			var x = 0;
 			var y = 0;
 			if (rectangle) {
@@ -805,7 +853,7 @@ L.Control.LokDialog = L.Control.extend({
 
 	// Dialog Child Methods
 
-	_paintDialogChild: function(parentId, imgData) {
+	_paintDialogChild: function (parentId, imgData) {
 		var strId = this._toStrId(parentId);
 		var canvas = L.DomUtil.get(strId + '-floating');
 		if (!canvas)
@@ -816,18 +864,18 @@ L.Control.LokDialog = L.Control.extend({
 		// set the canvas to have the actual size, while
 		// the image is rendred with the HiDPI scale.
 		this._setCanvasWidthHeight(canvas, this._dialogs[parentId].childwidth,
-										   this._dialogs[parentId].childheight);
+			this._dialogs[parentId].childheight);
 
 		var ctx = canvas.getContext('2d');
 		var img = new Image();
-		img.onload = function() {
+		img.onload = function () {
 			ctx.drawImage(img, 0, 0);
 			$(canvas).show();
 		};
 		img.src = imgData;
 	},
 
-	_resizeSidebar: function(strId, width) {
+	_resizeSidebar: function (strId, width) {
 		this._currentDeck.width = width;
 		if (width > 1) {
 			// Add extra space for scrollbar only when visible
@@ -852,7 +900,7 @@ L.Control.LokDialog = L.Control.extend({
 		}
 	},
 
-	_onDialogChildClose: function(dialogId) {
+	_onDialogChildClose: function (dialogId) {
 		$('#' + this._toStrId(dialogId) + '-floating').remove();
 		if (!this._isSidebar(dialogId)) {
 			// Remove any extra height allocated for the parent container (only for floating dialogs).
@@ -867,11 +915,11 @@ L.Control.LokDialog = L.Control.extend({
 		}
 	},
 
-	_removeDialogChild: function(id) {
+	_removeDialogChild: function (id) {
 		$('#' + this._toStrId(id) + '-floating').remove();
 	},
 
-	_createDialogChild: function(childId, parentId, top, left) {
+	_createDialogChild: function (childId, parentId, top, left) {
 		var strId = this._toStrId(parentId);
 		var dialogContainer = L.DomUtil.get(strId).parentNode;
 		var floatingCanvas = L.DomUtil.create('canvas', 'lokdialogchild-canvas', dialogContainer);
@@ -898,24 +946,22 @@ L.Control.LokDialog = L.Control.extend({
 		this._setupChildEvents(childId, floatingCanvas);
 	},
 
-	_setupChildEvents: function(childId, canvas) {
+	_setupChildEvents: function (childId, canvas) {
 		L.DomEvent.on(canvas, 'contextmenu', L.DomEvent.preventDefault);
 
-		L.DomEvent.on(canvas, 'touchstart touchmove touchend', function(e) {
+		L.DomEvent.on(canvas, 'touchstart touchmove touchend', function (e) {
 			L.DomEvent.preventDefault(e);
 			var rect = canvas.getBoundingClientRect();
 			var touchX = (e.type === 'touchend') ? e.changedTouches[0].clientX : e.targetTouches[0].clientX;
 			var touchY = (e.type === 'touchend') ? e.changedTouches[0].clientY : e.targetTouches[0].clientY;
 			touchX = touchX - rect.x;
 			touchY = touchY - rect.y;
-			if (e.type === 'touchstart')
-			{
+			if (e.type === 'touchstart') {
 				firstTouchPositionX = touchX;
 				firstTouchPositionY = touchY;
 				this._postWindowGestureEvent(childId, 'panBegin', firstTouchPositionX, firstTouchPositionY, 0);
 			}
-			else if (e.type === 'touchend')
-			{
+			else if (e.type === 'touchend') {
 				this._postWindowGestureEvent(childId, 'panEnd', firstTouchPositionX, firstTouchPositionY, firstTouchPositionY - touchY);
 				if (previousTouchType === 'touchstart') {
 					// Simulate mouse click
@@ -926,14 +972,13 @@ L.Control.LokDialog = L.Control.extend({
 				firstTouchPositionY = null;
 
 			}
-			else if (e.type === 'touchmove')
-			{
+			else if (e.type === 'touchmove') {
 				this._postWindowGestureEvent(childId, 'panUpdate', firstTouchPositionX, firstTouchPositionY, firstTouchPositionY - touchY);
 			}
 			previousTouchType = e.type;
 		}, this);
 
-		L.DomEvent.on(canvas, 'mousedown mouseup', function(e) {
+		L.DomEvent.on(canvas, 'mousedown mouseup', function (e) {
 			var buttons = 0;
 			buttons |= e.button === this._map['mouse'].JSButtons.left ? this._map['mouse'].LOButtons.left : 0;
 			buttons |= e.button === this._map['mouse'].JSButtons.middle ? this._map['mouse'].LOButtons.middle : 0;
@@ -941,10 +986,10 @@ L.Control.LokDialog = L.Control.extend({
 			var lokEventType = e.type.replace('mouse', 'button');
 			this._postWindowMouseEvent(lokEventType, childId, e.offsetX, e.offsetY, 1, buttons, 0);
 		}, this);
-		L.DomEvent.on(canvas, 'mousemove', function(e) {
+		L.DomEvent.on(canvas, 'mousemove', function (e) {
 			this._postWindowMouseEvent('move', childId, e.offsetX, e.offsetY, 1, 0, 0);
 		}, this);
-		L.DomEvent.on(canvas, 'contextmenu', function() {
+		L.DomEvent.on(canvas, 'contextmenu', function () {
 			return false;
 		});
 	}
