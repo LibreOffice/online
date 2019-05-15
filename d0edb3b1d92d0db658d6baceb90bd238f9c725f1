@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_8770a974",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-05-15T12:09:08Z",
+      "side": 1,
+      "message": "please avoid whitespace at the end of line",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_476aa180",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-05-15T12:09:08Z",
+      "side": 1,
+      "message": "what about tablet also?",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
