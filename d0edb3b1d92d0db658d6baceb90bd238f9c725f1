@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3fa0c359_07c1f954",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-05-15T13:00:40Z",
+      "side": 1,
+      "message": "I used somewhere hammerjs library for gesture support:\nhttps://opengrok.libreoffice.org/xref/online/loleaflet/src/control/Control.LokDialog.js?r\u003d07f924ba#527\n\nIt should have that kind of problems fixed?\n\nhttp://hammerjs.github.io/touch-action/",
+      "parentUuid": "3fa0c359_475141d8",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa0c359_276d1598",
         "filename": "loleaflet/src/control/Control.LokDialog.js",
         "patchSetId": 1
