@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "3fa0c359_475141d8",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-15T12:21:30Z",
+      "side": 1,
+      "message": "This is calculating the swipe distance on page initialization - but if the user changes orientation of the device (e.g. turns a tablet 90 degrees from portrait to landscape orientation), the same value will be used. This leads to inconsistent behaviour depending on how the device was oriented when loading the page.",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_276d1598",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-15T12:21:30Z",
+      "side": 1,
+      "message": "I personally prefer to \u0027.bind(this)\u0027 functions, or use ES5 arrow functions, but is mostly a matter of taste.",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_c75eb1e5",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-15T12:21:30Z",
+      "side": 1,
+      "message": "Using \u0027touchstart\u0027/\u0027touchend\u0027 will not work on Edge12-18 on laptops with touchscreen. Consider using \u0027pointerdown\u0027/\u0027pointerup\u0027. See also \u0027touchcancel\u0027, as an user might enable screenlock/screensaver or switch applications during a touch gesture.",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_e7040dc9",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-15T12:21:30Z",
+      "side": 1,
+      "message": "It\u0027s not clear if this swipe gesture should be triggered only when starting a touch gesture on the edge of the screen, or when starting a touch gesture on any point of the screen. Please ellaborate.",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_070a59d1",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-15T12:21:30Z",
+      "side": 1,
+      "message": "This change seems to be unrelated. It\u0027s advisable to have a look at the output of \u0027git diff\u0027 to avoid this.",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_67f8fdc3",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-15T12:21:30Z",
+      "side": 1,
+      "message": "Be aware that the return value might change on some edge cases, like tablets switching from full-screen applications to split-screen applications.",
+      "revId": "d0edb3b1d92d0db658d6baceb90bd238f9c725f1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa0c359_8770a974",
         "filename": "loleaflet/src/control/Control.LokDialog.js",
         "patchSetId": 1
