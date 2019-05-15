@@ -61,6 +61,7 @@ L.Control.Menubar = L.Control.extend({
 				{name: _UNO('.uno:ZoomPlus', 'text'), id: 'zoomin', type: 'action'},
 				{name: _UNO('.uno:ZoomMinus', 'text'), id: 'zoomout', type: 'action'},
 				{name: _('Reset zoom'), id: 'zoomreset', type: 'action'},
+				{name: _('Toggle Ruler'), id: 'toggleruler', type: 'action'},
 				{type: 'separator'},
 				{uno: '.uno:ControlCodes'}
 			]
@@ -750,6 +751,8 @@ L.Control.Menubar = L.Control.extend({
 			this._map.setZoom(this._map.options.zoom);
 		} else if (id === 'fullscreen') {
 			L.toggleFullScreen();
+		} else if (id === 'toggleruler') {
+			this._map.toggleRuler();
 		} else if (id === 'fullscreen-presentation' && this._map.getDocType() === 'presentation') {
 			this._map.fire('fullscreen');
 		} else if (id === 'insertpage') {
