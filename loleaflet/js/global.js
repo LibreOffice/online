@@ -51,6 +51,9 @@
 
 	var docParams, wopiParams;
 	var filePath = global.getParameterByName('file_path');
+	var timestamp = global.getParameterByName('timestamp');
+	var permission = global.getParameterByName('permission') || 'edit';
+	var lang = global.getParameterByName('lang');
 	var wopiSrc = global.getParameterByName('WOPISrc');
 	if (wopiSrc != '') {
 		global.docURL = decodeURIComponent(wopiSrc);
@@ -61,11 +64,14 @@
 		else if (global.accessHeader !== '') {
 			wopiParams = { 'access_header': global.accessHeader };
 		}
+
+		wopiParams['permission'] = permission;
 		docParams = Object.keys(wopiParams).map(function(key) {
 			return encodeURIComponent(key) + '=' + encodeURIComponent(wopiParams[key])
 		}).join('&');
 	} else {
 		global.docURL = filePath;
+		docParams = 'permission=' + permission;
 	}
 
 	var websocketURI = global.host + global.serviceRoot + '/lool/' + encodeURIComponent(global.docURL + (docParams ? '?' + docParams : '')) + '/ws' + wopiSrc;
@@ -81,8 +87,16 @@
 		global.socket.onopen = function () {
 			if (global.socket.readyState === 1) {
 				var ProtocolVersionNumber = '0.1';
+				var msg = 'load url=' + encodeURIComponent(global.docURL);
 				global.socket.send('loolclient ' + ProtocolVersionNumber);
-				global.socket.send('load url=' + encodeURIComponent(global.docURL));
+				if (timestamp) {
+					msg += ' timestamp=' + timestamp;
+				}
+				if (lang) {
+					msg += ' lang=' + lang;
+				}
+				// renderingOptions?
+				global.socket.send(msg);
 			}
 		}
 
