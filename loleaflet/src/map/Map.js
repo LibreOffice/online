@@ -1508,6 +1508,17 @@ L.Map = L.Evented.extend({
 
 	hideRuler: function() {
 		$('.loleaflet-ruler').hide();
+	},
+
+	toggleRuler: function() {
+		if (this.isRulerVisible())
+			this.hideRuler();
+		else
+			this.showRuler();
+	},
+
+	isRulerVisible: function() {
+		return $('.loleaflet-ruler').is(':visible');
 	}
 });
 
