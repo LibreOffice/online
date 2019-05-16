@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_9de6b8e8",
+        "filename": "loleaflet/src/map/handler/Map.WOPI.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-05-16T14:15:21Z",
+      "side": 1,
+      "message": "Do we want to allow only the parent frame or are there other valid use cases (maybe multiple levels of parent frames)?",
+      "range": {
+        "startLine": 139,
+        "startChar": 52,
+        "endLine": 139,
+        "endChar": 72
+      },
+      "revId": "16d1e12a058dada7bb572ce2dbef19ecf3c6b298",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
