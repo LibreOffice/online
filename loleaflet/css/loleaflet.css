@@ -308,6 +308,14 @@ body {
 	display: inline-block;
 }
 
+.leaflet-container .leaflet-pane.leaflet-calc-background-pane {
+	z-index: 0;
+}
+
+.leaflet-tile-loaded {
+	opacity: 0;
+}
+
 .avatar-img {
 	border: solid 2px;
 	border-radius: 50%;
