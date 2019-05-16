@@ -279,17 +279,24 @@ L.Control.Header = L.Control.extend({
 
 		var mouseOverIndex = this._mouseOverEntry ? this._mouseOverEntry.index : undefined;
 
-		this._tickMap.forEachGap(function(gap) {
-			if (gap.start < pos && pos > gap.end) {
-				mouseOverIndex = gap.index + 1;
-			}
-		});
+		if (this._tickMap) {
+			this._tickMap.forEachGap(function(gap) {
+				if (gap.start < pos && pos > gap.end) {
+					mouseOverIndex = gap.index + 1;
+				}
+			});
 
-		this._tickMap.forEachTick(function(i, tick) {
-			if (Math.abs(tick - pos) < 3) {
-				isMouseOverResizeArea = true;
-			}
-		});
+			this._tickMap.forEachTick(function(i, tick) {
+				if (Math.abs(tick - pos) < 3) {
+					isMouseOverResizeArea = true;
+					if (pos > tick) {
+						// When hovering over a boundary, just on the right/bottom
+						// row/col, resize handle should go to the left/top col/row
+						mouseOverIndex--;
+					}
+				}
+			});
+		}
 
 		if (mouseOverIndex && (!this._mouseOverEntry || mouseOverIndex !== this._mouseOverEntry.index)) {
 			this.drawHeaderEntry(this._mouseOverEntry, false);
@@ -468,7 +475,7 @@ L.Control.Header = L.Control.extend({
 			canvas.width = value * scale;
 			if (!isCorner)
 				this._canvasWidth = value;
-			console.log('Header._setCanvasSizeImpl: _canvasWidth' + this._canvasWidth);
+// 			console.log('Header._setCanvasSizeImpl: _canvasWidth' + this._canvasWidth);
 		}
 		else if (property === 'height') {
 			canvas.height = value * scale;
