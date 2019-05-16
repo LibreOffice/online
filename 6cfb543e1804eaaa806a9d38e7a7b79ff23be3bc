@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_bd2cd447",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-16T13:21:45Z",
+      "side": 1,
+      "message": "Consider refactoring this into \u0027L.Browser.mobile\u0027 - see lines 10-30 of src/control/Control.Toolbar.js",
+      "revId": "6cfb543e1804eaaa806a9d38e7a7b79ff23be3bc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
