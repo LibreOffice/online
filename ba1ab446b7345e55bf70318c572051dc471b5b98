@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_bdba94db",
+        "filename": "loleaflet/src/control/Control.Header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-05-16T13:39:02Z",
+      "side": 1,
+      "message": "Love the documentation: typo there in \u0027abotu\u0027 though \u003d)",
+      "revId": "ba1ab446b7345e55bf70318c572051dc471b5b98",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
