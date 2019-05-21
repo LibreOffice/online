@@ -13,16 +13,21 @@ L.Map.Mouse = L.Handler.extend({
 		this._map = map;
 		this._mouseEventsQueue = [];
 		this._prevMousePos = null;
+		this._prevMouseButtons = null;
 	},
 
 	addHooks: function () {
 		this._map.on('mousedown mouseup mouseover mouseout mousemove dblclick trplclick qdrplclick',
 			this._onMouseEvent, this);
+
+		L.DomEvent.on(this._map.getContainer(), 'contextmenu', this._onContextMenu, this);
 	},
 
 	removeHooks: function () {
 		this._map.off('mousedown mouseup mouseover mouseout mousemove dblclick trplclick qdrplclick',
 			this._onMouseEvent, this);
+
+		L.DomEvent.off(this._map.getContainer(), 'contextmenu', this._onContextMenu, this);
 	},
 
 	LOButtons: {
@@ -31,10 +36,23 @@ L.Map.Mouse = L.Handler.extend({
 		right: 4
 	},
 
+	// See values from https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 	JSButtons: {
 		left: 0,
 		middle: 1,
 		right: 2
+	},
+
+	_onContextMenu: function(ev) {
+		this._stopQueue();
+
+		var mapCoords = this._map.mouseEventToLatLng(ev);
+		if (!this._prevMousePos) {
+			this._prevMousePos = mapCoords;
+		}
+		var twipCoords = this._map._docLayer._latLngToTwips(mapCoords);
+
+		this._queueMouseEvent(['contextmenu', twipCoords.x, twipCoords.y], 100);
 	},
 
 	_onMouseEvent: function (e) {
@@ -98,13 +116,10 @@ L.Map.Mouse = L.Handler.extend({
 			docLayer._resetPreFetching();
 			this._mouseDown = true;
 			if (this._holdMouseEvent) {
-				clearTimeout(this._holdMouseEvent);
+				this._stopQueue();
 			}
 			var mousePos = docLayer._latLngToTwips(e.latlng);
-			this._mouseEventsQueue.push(L.bind(function() {
-				this._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, buttons, modifier);
-			}, docLayer));
-			this._holdMouseEvent = setTimeout(L.bind(this._executeMouseEvents, this), 500);
+			this._queueMouseEvent(['buttondown', mousePos.x, mousePos.y, 1, buttons, modifier], 500);
 		}
 		else if (e.type === 'mouseup') {
 			this._mouseDown = false;
@@ -114,8 +129,7 @@ L.Map.Mouse = L.Handler.extend({
 					return;
 				}
 			}
-			clearTimeout(this._holdMouseEvent);
-			this._holdMouseEvent = null;
+			this._stopQueue();
 			if (this._clickTime && Date.now() - this._clickTime <= 250) {
 				// double click, a click was sent already
 				this._mouseEventsQueue = [];
@@ -140,12 +154,7 @@ L.Map.Mouse = L.Handler.extend({
 				if (this._map._permission === 'edit') {
 					timeOut = 0;
 				}
-				this._mouseEventsQueue.push(L.bind(function() {
-					var docLayer = this._map._docLayer;
-					this._mouseEventsQueue = [];
-					docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, buttons, modifier);
-					this._map.focus();
-				}, this));
+				this._queueMouseEvent(['buttonup', mousePos.x, mousePos.y, 1, buttons, modifier]);
 				this._holdMouseEvent = setTimeout(L.bind(this._executeMouseEvents, this), timeOut);
 
 				for (key in docLayer._selectionHandles) {
@@ -160,23 +169,18 @@ L.Map.Mouse = L.Handler.extend({
 		}
 		else if (e.type === 'mousemove' && this._mouseDown) {
 			if (this._holdMouseEvent) {
-				clearTimeout(this._holdMouseEvent);
-				this._holdMouseEvent = null;
 				if (this._map.dragging.enabled()) {
 					// The user just panned the document
 					this._mouseEventsQueue = [];
 					return;
 				}
-				for (var i = 0; i < this._mouseEventsQueue.length; i++) {
-					// synchronously execute old mouse events so we know that
-					// they arrive to the server before the move command
-					this._mouseEventsQueue[i]();
-				}
-				this._mouseEventsQueue = [];
+				// synchronously execute old mouse events so we know that
+				// they arrive to the server before the move command
+				this._executeMouseEvents();
 			}
 			if (!this._map.dragging.enabled()) {
 				mousePos = docLayer._latLngToTwips(e.latlng);
-				docLayer._postMouseEvent('move', mousePos.x, mousePos.y, 1, buttons, modifier);
+				this._queueMouseEvent(['move', mousePos.x, mousePos.y, 1, buttons, modifier]);
 
 				for (key in docLayer._selectionHandles) {
 					handle = docLayer._selectionHandles[key];
@@ -189,12 +193,8 @@ L.Map.Mouse = L.Handler.extend({
 			}
 		}
 		else if (e.type === 'mousemove' && !this._mouseDown) {
-			clearTimeout(this._mouseOverTimeout);
 			mousePos = docLayer._latLngToTwips(e.latlng);
-			this._mouseOverTimeout = setTimeout(L.bind(function() {
-				docLayer._postMouseEvent('move', mousePos.x, mousePos.y, 1, 0, modifier);
-			  }, this),
-			  100);
+			this._queueMouseEvent(['move', mousePos.x, mousePos.y, 1, 0, modifier], 100);
 		}
 		else if (e.type === 'dblclick' || e.type === 'trplclick' || e.type === 'qdrplclick') {
 			mousePos = docLayer._latLngToTwips(e.latlng);
@@ -216,10 +216,72 @@ L.Map.Mouse = L.Handler.extend({
 		}
 	},
 
-	_executeMouseEvents: function () {
+	// Adds a mouse event message (an array) to the internal queue
+	// If 'timeout' is zero, will trigger sending all events to lowsd immediately.
+	// If 'timeout' is not zero, it will set a timeout to send all events.
+	// If 'timeout' is not given, it will only push to the queue.
+	_queueMouseEvent: function(me, timeout) {
+		if (!this._holdMouseEvent && timeout) {
+			this._holdMouseEvent = setTimeout(this._executeMouseEvents.bind(this), timeout);
+		}
+		this._mouseEventsQueue.push(me);
+		if (!this._holdMouseEvent && timeout === 0) {
+			this._executeMouseEvents();
+		}
+	},
+
+	// Pauses the queue, preventing it from being sent to lowsd.
+	_stopQueue: function() {
+		clearTimeout(this._holdMouseEvent);
 		this._holdMouseEvent = null;
+	},
+
+	// Sends all items from the queue to lowsd. Typically called from a timeout.
+	_executeMouseEvents: function () {
+		console.log('Flushing: ', this._mouseEventsQueue);
+
+		this._stopQueue();
+
+		// Mac-specific filter pass: Remove ctrl-right clicks
+		// These trigger a 'contextmenu' event already, filtering
+		// them out is needed to prevent double-handling. If this was not
+		// being done, selecting a block of text and then ctrl-clicking
+		// to display the context menu would de-select the text.
+		if (navigator.platform === 'MacIntel') {
+			if (this._mouseEventsQueue.some(function(item) {
+				return item[0] === 'contextmenu'
+			})) {
+				this._mouseEventsQueue = this._mouseEventsQueue.filter(function(item) {
+					return !(item[4] === this.LOButtons.left && item[5] === this._map.keyboard.keyModifier.ctrl);
+				}.bind(this));
+			}
+		}
+
 		for (var i = 0; i < this._mouseEventsQueue.length; i++) {
-			this._mouseEventsQueue[i]();
+			var ev = this._mouseEventsQueue[i];
+
+			if (ev[0] === 'buttondown' || ev[0] === 'buttonup' || ev[0] === 'move') {
+				this._map._docLayer._postMouseEvent.apply(this._map._docLayer, ev);
+			}
+
+			if (ev[0] === 'buttonup') {
+				this._map.focus();
+			}
+
+			if (ev[0] === 'contextmenu') {
+				// Check if there are right-click events queued.
+				if (!this._mouseEventsQueue.some(
+					function(item) { return item[0] === 'buttondown' && item[4] === this.LOButtons.right }.bind(this)
+				)) {
+					// If not, then this is either a ctrl+click on a mac, a keypress
+					// of the context menu key, a long touchscreen tap, or otherwise
+					// a non-right-click way of triggering a context menu.
+					// Unfortunately lowsd/lokit only understands right-clicks as triggers
+					// for context menus, so this sends a synthetic right click message.
+					this._map._docLayer._postMouseEvent('buttondown', ev[1], ev[2], 1, 4, 0);
+					this._map._docLayer._postMouseEvent('buttonup', ev[1], ev[2], 1, 4, 0);
+				}
+			}
 		}
 		this._mouseEventsQueue = [];
 	},
