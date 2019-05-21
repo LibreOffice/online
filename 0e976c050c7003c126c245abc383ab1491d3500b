@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_58d35739",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2019-05-21T08:49:04Z",
+      "side": 1,
+      "message": "Here only \"#\" is encoded, and the bug was about \"%\". The patch has no effect on the original bug. \n\nCan you please write a unit test, too?",
+      "range": {
+        "startLine": 742,
+        "startChar": 37,
+        "endLine": 742,
+        "endChar": 41
+      },
+      "revId": "0e976c050c7003c126c245abc383ab1491d3500b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_b8185b1d",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2019-05-21T08:49:04Z",
+      "side": 1,
+      "message": "Makes sense...",
+      "range": {
+        "startLine": 744,
+        "startChar": 108,
+        "endLine": 744,
+        "endChar": 111
+      },
+      "revId": "0e976c050c7003c126c245abc383ab1491d3500b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
