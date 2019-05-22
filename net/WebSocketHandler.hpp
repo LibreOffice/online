@@ -588,7 +588,7 @@ protected:
         LOG_TRC("Incoming client websocket upgrade response: " << std::string(&socket->getInBuffer()[0], socket->getInBuffer().size()));
 
         bool bOk = false;
-        size_t responseSize = 0;
+        StreamSocket::MessageMap map;
 
         try
         {
@@ -604,7 +604,7 @@ protected:
                                           marker.begin(), marker.end());
 
                 if (itBody != socket->getInBuffer().end())
-                    responseSize = itBody - socket->getInBuffer().begin() + marker.size();
+                    map._headerSize = itBody - socket->getInBuffer().begin() + marker.size();
             }
 
             if (response.getStatus() == Poco::Net::HTTPResponse::HTTP_SWITCHING_PROTOCOLS &&
@@ -633,7 +633,7 @@ protected:
             LOG_DBG("handleClientUpgrade exception caught.");
         }
 
-        if (!bOk || responseSize == 0)
+        if (!bOk || map._headerSize == 0)
         {
             LOG_ERR("Bad websocker server response.");
 
@@ -642,7 +642,7 @@ protected:
         }
 
         setWebSocket();
-        socket->eraseFirstInputBytes(responseSize);
+        socket->eraseFirstInputBytes(map);
     }
 #endif
 
