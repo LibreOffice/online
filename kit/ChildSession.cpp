@@ -545,8 +545,8 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, const s
         return false;
     }
 
-    std::string timestamp;
-    parseDocOptions(tokens, part, timestamp);
+    std::string timestamp, doctemplate;
+    parseDocOptions(tokens, part, timestamp, doctemplate);
 
     std::string renderOpts;
     if (!getDocOptions().empty())
@@ -567,7 +567,7 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, const s
     const bool loaded = _docManager.onLoad(getId(), getJailedFilePath(), getJailedFilePathAnonym(),
                                            getUserName(), getUserNameAnonym(),
                                            getDocPassword(), renderOpts, getHaveDocPassword(),
-                                           getLang(), getWatermarkText());
+                                           getLang(), getWatermarkText(), doctemplate);
     if (!loaded || _viewId < 0)
     {
         LOG_ERR("Failed to get LoKitDocument instance for [" << getJailedFilePathAnonym() << "].");
@@ -578,6 +578,17 @@ bool ChildSession::loadDocument(const char * /*buffer*/, int /*length*/, const s
             getUserNameAnonym() << "] in session: [" << getId() << "].");
 
     std::unique_lock<std::mutex> lockLokDoc(_docManager.getDocumentMutex());
+
+    if (!doctemplate.empty())
+    {
+        std::string url = getJailedFilePath();
+        bool success = getLOKitDocument()->saveAs(url.c_str(), nullptr, nullptr);
+        if (!success)
+        {
+            LOG_ERR("Failed to save template [" << getJailedFilePath() << "].");
+            return false;
+        }
+    }
 
     getLOKitDocument()->setView(_viewId);
 
@@ -678,7 +689,7 @@ bool ChildSession::getStatus(const char* /*buffer*/, int /*length*/)
     {
         std::unique_lock<std::mutex> lock(_docManager.getDocumentMutex());
 
-        getLOKitDocument()->setView(_viewId);
+    getLOKitDocument()->setView(_viewId);
 
         status = LOKitHelper::documentStatus(getLOKitDocument()->get());
     }
@@ -905,7 +916,7 @@ std::string ChildSession::getTextSelectionInternal(const std::string& mimeType)
     {
         std::unique_lock<std::mutex> lock(_docManager.getDocumentMutex());
 
-        getLOKitDocument()->setView(_viewId);
+    getLOKitDocument()->setView(_viewId);
 
         textSelection = getLOKitDocument()->getTextSelection(mimeType.c_str(), nullptr);
     }
@@ -1721,43 +1732,43 @@ bool ChildSession::saveAs(const char* /*buffer*/, int /*length*/, const std::vec
     {
         std::unique_lock<std::mutex> lock(_docManager.getDocumentMutex());
 
-        if (filterOptions.empty() && format == "html")
+    if (filterOptions.empty() && format == "html")
+    {
+        // Opt-in to avoid linked images, those would not leave the chroot.
+        filterOptions = "EmbedImages";
+    }
+
+    // We don't have the FileId at this point, just a new filename to save-as.
+    // So here the filename will be obfuscated with some hashing, which later will
+    // get a proper FileId that we will use going forward.
+    LOG_DBG("Calling LOK's saveAs with: '" << anonymizeUrl(wopiFilename) << "', '" <<
+            (format.size() == 0 ? "(nullptr)" : format.c_str()) << "', '" <<
+            (filterOptions.size() == 0 ? "(nullptr)" : filterOptions.c_str()) << "'.");
+
+    getLOKitDocument()->setView(_viewId);
+
+    success = getLOKitDocument()->saveAs(url.c_str(),
+                                         format.empty() ? nullptr : format.c_str(),
+                                         filterOptions.empty() ? nullptr : filterOptions.c_str());
+
+    if (!success)
+    {
+        // a desperate try - add an extension hoping that it'll help
+        bool retry = true;
+        switch (getLOKitDocument()->getDocumentType())
         {
-            // Opt-in to avoid linked images, those would not leave the chroot.
-            filterOptions = "EmbedImages";
+            case LOK_DOCTYPE_TEXT:         url += ".odt"; wopiFilename += ".odt"; break;
+            case LOK_DOCTYPE_SPREADSHEET:  url += ".ods"; wopiFilename += ".ods"; break;
+            case LOK_DOCTYPE_PRESENTATION: url += ".odp"; wopiFilename += ".odp"; break;
+            case LOK_DOCTYPE_DRAWING:      url += ".odg"; wopiFilename += ".odg"; break;
+            default:                       retry = false; break;
         }
 
-        // We don't have the FileId at this point, just a new filename to save-as.
-        // So here the filename will be obfuscated with some hashing, which later will
-        // get a proper FileId that we will use going forward.
-        LOG_DBG("Calling LOK's saveAs with: '" << anonymizeUrl(wopiFilename) << "', '" <<
-                (format.size() == 0 ? "(nullptr)" : format.c_str()) << "', '" <<
-                (filterOptions.size() == 0 ? "(nullptr)" : filterOptions.c_str()) << "'.");
-
-        getLOKitDocument()->setView(_viewId);
-
-        success = getLOKitDocument()->saveAs(url.c_str(),
-                                             format.empty() ? nullptr : format.c_str(),
-                                             filterOptions.empty() ? nullptr : filterOptions.c_str());
-
-        if (!success)
+        if (retry)
         {
-            // a desperate try - add an extension hoping that it'll help
-            bool retry = true;
-            switch (getLOKitDocument()->getDocumentType())
-            {
-                case LOK_DOCTYPE_TEXT:         url += ".odt"; wopiFilename += ".odt"; break;
-                case LOK_DOCTYPE_SPREADSHEET:  url += ".ods"; wopiFilename += ".ods"; break;
-                case LOK_DOCTYPE_PRESENTATION: url += ".odp"; wopiFilename += ".odp"; break;
-                case LOK_DOCTYPE_DRAWING:      url += ".odg"; wopiFilename += ".odg"; break;
-                default:                       retry = false; break;
-            }
-
-            if (retry)
-            {
-                LOG_DBG("Retry: calling LOK's saveAs with: '" << url.c_str() << "', '" <<
-                        (format.size() == 0 ? "(nullptr)" : format.c_str()) << "', '" <<
-                        (filterOptions.size() == 0 ? "(nullptr)" : filterOptions.c_str()) << "'.");
+            LOG_DBG("Retry: calling LOK's saveAs with: '" << url.c_str() << "', '" <<
+                    (format.size() == 0 ? "(nullptr)" : format.c_str()) << "', '" <<
+                    (filterOptions.size() == 0 ? "(nullptr)" : filterOptions.c_str()) << "'.");
 
                 success = getLOKitDocument()->saveAs(url.c_str(),
                         format.size() == 0 ? nullptr :format.c_str(),
