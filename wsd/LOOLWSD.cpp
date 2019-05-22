@@ -3070,8 +3070,8 @@ private:
 
         if (!socket)
         {
-            LOG_FTL("Failed to listen on Server port(s) (" <<
-                    ClientPortNumber << '-' << port << "). Exiting.");
+            std::cerr << "Failed to listen on Server port(s) (" <<
+                    ClientPortNumber << '-' << port << "). Exiting." << std::endl;
             _exit(Application::EXIT_SOFTWARE);
         }
 
