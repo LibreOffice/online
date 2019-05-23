@@ -63,7 +63,10 @@ L.Control.Menubar = L.Control.extend({
 				{name: _('Reset zoom'), id: 'zoomreset', type: 'action'},
 				{name: _('Show Ruler'), id: 'showruler', type: 'action'},
 				{type: 'separator'},
-				{uno: '.uno:ControlCodes'}
+				{uno: '.uno:ControlCodes'},
+				{type: 'separator'},
+				{uno: '.uno:Sidebar'},
+				{name: _UNO('.uno:ShowResolvedAnnotations', 'text'), id: 'showresolved', type: 'action'}
 			]
 			},
 			{name: _UNO('.uno:InsertMenu', 'text'), type: 'menu', menu: [
@@ -445,7 +448,7 @@ L.Control.Menubar = L.Control.extend({
 			'downloadas-pdf', 'downloadas-odt', 'downloadas-doc', 'downloadas-docx', 'downloadas-rtf', // file menu
 			'downloadas-odp', 'downloadas-ppt', 'downloadas-pptx', 'print', // file menu
 			'downloadas-ods', 'downloadas-xls', 'downloadas-xlsx', 'closedocument', // file menu
-			'fullscreen', 'zoomin', 'zoomout', 'zoomreset', // view menu
+			'fullscreen', 'zoomin', 'zoomout', 'zoomreset', 'showresolved', // view menu
 			'about', 'keyboard-shortcuts' // help menu
 		]
 	},
@@ -761,6 +764,16 @@ L.Control.Menubar = L.Control.extend({
 			this._map.fire('postMessage', {msgId: 'UI_InsertGraphic'});
 		} else if (id === 'zoomin' && this._map.getZoom() < this._map.getMaxZoom()) {
 			this._map.zoomIn(1);
+		} else if (id === 'showresolved') {
+			var unoCommand = '.uno:ShowResolvedAnnotations';
+			var on = $(item).hasClass('lo-menu-item-checked');
+			this._map.sendUnoCommand(unoCommand);
+			this._map._docLayer._annotations.setViewResolved(!on);
+			if (on) {
+				$(item).removeClass('lo-menu-item-checked');
+			} else {
+				$(item).addClass('lo-menu-item-checked');
+			}
 		} else if (id === 'zoomout' && this._map.getZoom() > this._map.getMinZoom()) {
 			this._map.zoomOut(1);
 		} else if (id === 'zoomreset') {
