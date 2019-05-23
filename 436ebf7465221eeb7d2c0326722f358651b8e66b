@@ -16,6 +16,24 @@
       "revId": "436ebf7465221eeb7d2c0326722f358651b8e66b",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_27d666c7",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 1000863
+      },
+      "writtenOn": "2019-05-23T12:17:45Z",
+      "side": 1,
+      "message": "In the vex version used on master, yes, however the older version in this branch does not support unsafeMessage.",
+      "parentUuid": "3fa0c359_075c8a7c",
+      "revId": "436ebf7465221eeb7d2c0326722f358651b8e66b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
