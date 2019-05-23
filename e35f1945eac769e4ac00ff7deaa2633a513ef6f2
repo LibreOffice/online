@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_4c63991b",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-05-23T07:18:45Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be:\nunsafeMessage: _(\u0027...\u0027)\nto keep translations working?",
+      "revId": "e35f1945eac769e4ac00ff7deaa2633a513ef6f2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
