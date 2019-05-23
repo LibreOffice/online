@@ -16,6 +16,24 @@
       "revId": "fa6105881904f9954791b49930bf97f51f34622a",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_2c196d84",
+        "filename": "loleaflet/src/layer/CalcGridLines.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002141
+      },
+      "writtenOn": "2019-05-23T08:03:43Z",
+      "side": 1,
+      "message": "That\u0027s a leftover after testing. Will change back to #c0c0c0.",
+      "parentUuid": "3fa0c359_8c80c18d",
+      "revId": "fa6105881904f9954791b49930bf97f51f34622a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
