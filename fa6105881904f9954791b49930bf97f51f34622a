@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_8c80c18d",
+        "filename": "loleaflet/src/layer/CalcGridLines.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-05-23T07:40:48Z",
+      "side": 1,
+      "message": "is that a leftover after testing or do we want to see how it works for now?",
+      "revId": "fa6105881904f9954791b49930bf97f51f34622a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
