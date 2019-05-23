@@ -441,6 +441,18 @@ L.Map = L.Evented.extend({
 		return this.setView(newCenter, zoom, {zoom: options});
 	},
 
+	showResolvedComments: function(item) {
+		var unoCommand = '.uno:ShowResolvedAnnotations';
+		var on = $(item).hasClass('lo-menu-item-checked');
+		this.sendUnoCommand(unoCommand);
+		this._docLayer._annotations.setViewResolved(!on);
+		if (on) {
+			$(item).removeClass('lo-menu-item-checked');
+		} else {
+			$(item).addClass('lo-menu-item-checked');
+		}
+	},
+
 	fitBounds: function (bounds, options) {
 
 		options = options || {};

@@ -16,6 +16,7 @@ L.AnnotationManager = L.Class.extend({
 	initialize: function (map, options) {
 		this._map = map;
 		this._items = [];
+		this._hiddenItems = [];
 		this._selected = null;
 		L.setOptions(this, options);
 		this._arrow = L.polyline([], {color: 'darkblue', weight: 1});
@@ -23,10 +24,10 @@ L.AnnotationManager = L.Class.extend({
 		this._map.on('AnnotationCancel', this._onAnnotationCancel, this);
 		this._map.on('AnnotationClick', this._onAnnotationClick, this);
 		this._map.on('AnnotationReply', this._onAnnotationReply, this);
-		this._map.on('AnnotationResolve', this._onAnnotationResolve, this);
 		this._map.on('AnnotationSave', this._onAnnotationSave, this);
 		this._map.on('RedlineAccept', this._onRedlineAccept, this);
 		this._map.on('RedlineReject', this._onRedlineReject, this);
+		this._showResolved = false;
 	},
 
 	// Remove only text comments from the document (excluding change tracking comments)
@@ -210,7 +211,7 @@ L.AnnotationManager = L.Class.extend({
 	},
 
 	getBounds: function () {
-		if (this._items.length <= 0)
+		if (this._items.length <= 0 || this._items.length === this._hiddenItems.length)
 			return null;
 
 		var allCommentsBounds;
@@ -283,7 +284,7 @@ L.AnnotationManager = L.Class.extend({
 	},
 
 	updateDocBounds: function () {
-		if (this._items.length === 0) {
+		if (this._items.length === 0 || this._items.length === this._hiddenItems.length) {
 			this._map.fire('updatemaxbounds', {sizeChanged: true});
 		}
 	},
@@ -343,13 +344,15 @@ L.AnnotationManager = L.Class.extend({
 
 		idx = 0;
 		for (idx = 0; idx < commentThread.length; ++idx) {
-			latLng = this._map.layerPointToLatLng(pt);
-			(new L.PosAnimation()).run(commentThread[idx]._container, this._map.latLngToLayerPoint(latLng));
-			commentThread[idx].setLatLng(latLng, /*skip check bounds*/ true);
-			commentThread[idx].show();
+			if (commentThread[idx]._data.resolved != 'true' || this._showResolved) {
+				latLng = this._map.layerPointToLatLng(pt);
+				(new L.PosAnimation()).run(commentThread[idx]._container, this._map.latLngToLayerPoint(latLng));
+				commentThread[idx].setLatLng(latLng, /*skip check bounds*/ true);
+				commentThread[idx].show();
 
-			var commentBounds = commentThread[idx].getBounds();
-			pt = pt.add([0, commentBounds.getSize().y]);
+				var commentBounds = commentThread[idx].getBounds();
+				pt = pt.add([0, commentBounds.getSize().y]);
+			}
 		}
 	},
 
@@ -383,13 +386,15 @@ L.AnnotationManager = L.Class.extend({
 
 		idx = 0;
 		for (idx = 0; idx < commentThread.length; ++idx) {
-			latLng = this._map.layerPointToLatLng(pt);
-			(new L.PosAnimation()).run(commentThread[idx]._container, this._map.latLngToLayerPoint(latLng));
-			commentThread[idx].setLatLng(latLng, /*skip check bounds*/ true);
-			commentThread[idx].show();
+			if (commentThread[idx]._data.resolved != 'true' || this._showResolved) {
+				latLng = this._map.layerPointToLatLng(pt);
+				(new L.PosAnimation()).run(commentThread[idx]._container, this._map.latLngToLayerPoint(latLng));
+				commentThread[idx].setLatLng(latLng, /*skip check bounds*/ true);
+				commentThread[idx].show();
 
-			var commentBounds = commentThread[idx].getBounds();
-			pt = pt.add([0, commentBounds.getSize().y]);
+				var commentBounds = commentThread[idx].getBounds();
+				pt = pt.add([0, commentBounds.getSize().y]);
+			}
 		}
 	},
 
@@ -457,21 +462,23 @@ L.AnnotationManager = L.Class.extend({
 
 			// Adjust child comments too, if any
 			for (idx = selectIndexFirst + 1; idx <= selectIndexLast; idx++) {
-				if (zoom) {
-					this._items[idx]._data.anchorPix = this._map._docLayer._twipsToPixels(this._items[idx]._data.anchorPos.min);
+				if (this._items[idx]._data.resolved != 'true' || this._showResolved) {
+					if (zoom) {
+						this._items[idx]._data.anchorPix = this._map._docLayer._twipsToPixels(this._items[idx]._data.anchorPos.min);
+					}
+					latlng = this._map.layerPointToLatLng(layoutBounds.getBottomLeft());
+					(new L.PosAnimation()).run(this._items[idx]._container, layoutBounds.getBottomLeft());
+					this._items[idx].setLatLng(latlng, /*skip check bounds*/ true);
+					var commentBounds = this._items[idx].getBounds();
+					layoutBounds.extend(layoutBounds.max.add([0, commentBounds.getSize().y]));
 				}
-				latlng = this._map.layerPointToLatLng(layoutBounds.getBottomLeft());
-				(new L.PosAnimation()).run(this._items[idx]._container, layoutBounds.getBottomLeft());
-				this._items[idx].setLatLng(latlng, /*skip check bounds*/ true);
-
-				var commentBounds = this._items[idx].getBounds();
-				layoutBounds.extend(layoutBounds.max.add([0, commentBounds.getSize().y]));
 			}
 
 			layoutBounds.min = layoutBounds.min.add([this.options.marginX, 0]);
 			layoutBounds.max = layoutBounds.max.add([this.options.marginX, 0]);
 			layoutBounds.extend(layoutBounds.min.subtract([0, this.options.marginY]));
 			layoutBounds.extend(layoutBounds.max.add([0, this.options.marginY]));
+
 			for (idx = selectIndexFirst - 1; idx >= 0;) {
 				var commentThread = [];
 				var tmpIdx = idx;
@@ -479,15 +486,23 @@ L.AnnotationManager = L.Class.extend({
 					if (zoom) {
 						this._items[idx]._data.anchorPix = this._map._docLayer._twipsToPixels(this._items[idx]._data.anchorPos.min);
 					}
-					commentThread.push(this._items[tmpIdx]);
+					if (this._items[tmpIdx]._data.resolved != 'true' || this._showResolved) {
+						commentThread.push(this._items[tmpIdx]);
+					}
+
 					tmpIdx = tmpIdx - 1;
 				} while (tmpIdx >= 0 && this._items[tmpIdx]._data.id === this._items[tmpIdx + 1]._data.parent);
 
-				commentThread.reverse();
-				// All will have some anchor position
-				this.layoutUp(commentThread, this._map.unproject(L.point(topRight.x, commentThread[0]._data.anchorPix.y)), layoutBounds);
-				idx = idx - commentThread.length;
+				if (commentThread.length > 0) {
+					commentThread.reverse();
+					// All will have some anchor position
+					this.layoutUp(commentThread, this._map.unproject(L.point(topRight.x, commentThread[0]._data.anchorPix.y)), layoutBounds);
+					idx = idx - commentThread.length;
+				} else {
+					idx = tmpIdx;
+				}
 			}
+
 			for (idx = selectIndexLast + 1; idx < this._items.length;) {
 				commentThread = [];
 				tmpIdx = idx;
@@ -495,20 +510,29 @@ L.AnnotationManager = L.Class.extend({
 					if (zoom) {
 						this._items[idx]._data.anchorPix = this._map._docLayer._twipsToPixels(this._items[idx]._data.anchorPos.min);
 					}
-					commentThread.push(this._items[tmpIdx]);
+					if (this._items[tmpIdx]._data.resolved != 'true' || this._showResolved) {
+						commentThread.push(this._items[tmpIdx]);
+					}
+
 					tmpIdx = tmpIdx + 1;
 				} while (tmpIdx < this._items.length && this._items[tmpIdx]._data.parent === this._items[tmpIdx - 1]._data.id);
 
+
 				// All will have some anchor position
-				this.layoutDown(commentThread, this._map.unproject(L.point(topRight.x, commentThread[0]._data.anchorPix.y)), layoutBounds);
-				idx = idx + commentThread.length;
+				if (commentThread.length > 0) {
+					this.layoutDown(commentThread, this._map.unproject(L.point(topRight.x, commentThread[0]._data.anchorPix.y)), layoutBounds);
+					idx = idx + commentThread.length;
+				} else {
+					idx = tmpIdx;
+				}
 			}
 			if (!this._selected.isEdit()) {
 				this._selected.show();
 			}
-		} else if (this._items.length > 0) {
+		} else if (this._items.length > 0) { // If nothing is selected, but there are comments:
 			point = this._map.latLngToLayerPoint(this._map.unproject(L.point(topRight.x, this._items[0]._data.anchorPix.y)));
 			layoutBounds = L.bounds(point, point);
+			// Pass over all comments present
 			for (idx = 0; idx < this._items.length;) {
 				commentThread = [];
 				tmpIdx = idx;
@@ -516,12 +540,20 @@ L.AnnotationManager = L.Class.extend({
 					if (zoom) {
 						this._items[tmpIdx]._data.anchorPix = this._map._docLayer._twipsToPixels(this._items[tmpIdx]._data.anchorPos.min);
 					}
-					commentThread.push(this._items[tmpIdx]);
+					// Add this item to the list of comments.
+					if (this._items[tmpIdx]._data.resolved != 'true' || this._showResolved) {
+						commentThread.push(this._items[tmpIdx]);
+					}
 					tmpIdx = tmpIdx + 1;
+					// Continue this loop, until we reach the last item, or an item which is not a direct descendant of the previous item.
 				} while (tmpIdx < this._items.length && this._items[tmpIdx]._data.parent === this._items[tmpIdx - 1]._data.id);
 
-				this.layoutDown(commentThread, this._map.unproject(L.point(topRight.x, commentThread[0]._data.anchorPix.y)), layoutBounds);
-				idx = idx + commentThread.length;
+				if (commentThread.length > 0) {
+					this.layoutDown(commentThread, this._map.unproject(L.point(topRight.x, commentThread[0]._data.anchorPix.y)), layoutBounds);
+					idx = idx + commentThread.length;
+				} else {
+					idx = tmpIdx;
+				}
 			}
 		}
 		this._checkBounds();
@@ -582,9 +614,28 @@ L.AnnotationManager = L.Class.extend({
 				value: annotation._data.id
 			}
 		};
+
+		var threadIndexFirst = this.getRootIndexOf(annotation._data.id);
+		var threadIndexLast = this.getLastChildIndexOf(annotation._data.id);
+
 		this._map.sendUnoCommand('.uno:ResolveComment', comment);
-		annotation.update();
-		this.update();
+
+		// This manually hides comments, but we need to do this for the entire thread
+		// Don't need to worry about showing as comments can't be toggled to unresolved
+		// if they're not visible
+		if (!this._showResolved) {
+			for (var idx = threadIndexFirst; idx <= threadIndexLast; idx++) {
+				if (this._selected == this._items[idx]) {
+					this.unselect();
+				}
+				this._items[idx].hide();
+				this._hiddenItems.push(this._items[idx]);
+				this._items[idx].update();
+			}
+			this.layout();
+			this.update();
+			this.updateDocBounds();
+		}
 	},
 
 	remove: function (id) {
@@ -747,22 +798,6 @@ L.AnnotationManager = L.Class.extend({
 		this._map.focus();
 	},
 
-	_onAnnotationResolve: function (e) {
-		var comment = {
-			Id: {
-				type: 'string',
-				value: e.annotation._data.id
-			},
-			Text: {
-				type: 'string',
-				value: e.annotation._data.reply
-			}
-		};
-		this._map.sendUnoCommand('.uno:ResolveComment', comment);
-		this.unselect();
-		this._map.focus();
-	},
-
 	_onAnnotationSave: function (e) {
 		var comment;
 		if (e.annotation._data.id === 'new') {
@@ -881,6 +916,30 @@ L.AnnotationManager = L.Class.extend({
 				this._items[idx]._updateScaling(scaleFactor, this._initialLayoutData);
 			}
 		}
+	},
+
+	setViewResolved: function(state) {
+		this._showResolved = state;
+
+		for (var idx = 0; idx < this._items.length;idx++) {
+			if (this._items[idx]._data.resolved == 'true') {
+				if (state==false) {
+					if (this._selected == this._items[idx]) {
+						this.unselect();
+					}
+					this._items[idx].hide();
+					this._hiddenItems.push(this._items[idx]);
+				} else {
+					this._items[idx].show();
+					this._hiddenItems.splice(this._hiddenItems.indexOf(this._items[idx]), 1);
+				}
+			}
+			this._items[idx].update();
+		}
+		this.layout();
+		this.update();
+		if (state === false)
+			this.updateDocBounds();
 	}
 });
 
