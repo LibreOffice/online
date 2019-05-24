@@ -22,6 +22,30 @@
       "revId": "16d1e12a058dada7bb572ce2dbef19ecf3c6b298",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_21e2d604",
+        "filename": "loleaflet/src/map/handler/Map.WOPI.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002071
+      },
+      "writtenOn": "2019-05-24T06:50:41Z",
+      "side": 1,
+      "message": "I cannot think of a valid use case for this. Even if there were multiple levels of parent frames one could go \u0027down the tree\u0027 to the actual parent if he really wants to send a post message to Libreoffice online frontend.",
+      "parentUuid": "3fa0c359_9de6b8e8",
+      "range": {
+        "startLine": 139,
+        "startChar": 52,
+        "endLine": 139,
+        "endChar": 72
+      },
+      "revId": "16d1e12a058dada7bb572ce2dbef19ecf3c6b298",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
