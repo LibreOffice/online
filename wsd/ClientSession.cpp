@@ -692,6 +692,8 @@ bool ClientSession::handleKitToClientMessage(const char* buffer, const int lengt
         return false;
     }
 
+    const bool isConvertTo = static_cast<bool>(_saveAsSocket);
+
 #if !MOBILEAPP
     LOOLWSD::dumpOutgoingTrace(docBroker->getJailId(), getId(), firstLine);
 #endif
@@ -741,21 +743,35 @@ bool ClientSession::handleKitToClientMessage(const char* buffer, const int lengt
         if (getTokenString(tokens[1], "cmd", errorCommand) &&
             getTokenString(tokens[2], "kind", errorKind) )
         {
-            if (errorCommand == "load")
+            if (errorCommand == "load" && (errorKind == "passwordrequired:to-view" ||
+                    errorKind == "passwordrequired:to-modify" ||
+                    errorKind == "wrongpassword"))
             {
                 LOG_WRN("Document load failed: " << errorKind);
-                if (errorKind == "passwordrequired:to-view" ||
-                    errorKind == "passwordrequired:to-modify" ||
-                    errorKind == "wrongpassword")
+
+                if (isConvertTo) {
+                    Poco::Net::HTTPResponse response;
+                    response.setStatusAndReason(Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED);
+                    response.set("X-ERROR-KIND", errorKind);
+                    _saveAsSocket->send(response);
+
+                    // Conversion failed, cleanup fake session.
+                    LOG_TRC("Removing save-as ClientSession after conversion error.");
+                    // Remove us.
+                    docBroker->removeSession(getId());
+                    // Now terminate.
+                    docBroker->stop("Aborting saveas handler.");
+                }
+                else
                 {
                     forwardToClient(payload);
-                    return false;
                 }
             }
             else
             {
-                LOG_WRN("Other than load failure: " << errorKind);
+                LOG_WRN(errorCommand << " error failure: " << errorKind);
             }
+            return false;
         }
     }
     else if (tokens[0] == "curpart:" && tokens.size() == 2)
@@ -786,7 +802,6 @@ bool ClientSession::handleKitToClientMessage(const char* buffer, const int lengt
 #if !MOBILEAPP
     else if (tokens.size() == 3 && tokens[0] == "saveas:")
     {
-        bool isConvertTo = static_cast<bool>(_saveAsSocket);
 
         std::string encodedURL;
         if (!getTokenString(tokens[1], "url", encodedURL))
