@@ -2397,7 +2397,9 @@ L.TileLayer = L.GridLayer.extend({
 		}
 	},
 
-	_onCopy: function (e) {
+	//current solution, it uses clipboardData.setData('text/plain', text) to copy
+	//the selected text into the clipboard. No rich copy, only simple text.
+	_onCopy1: function (e) {
 		e = e.originalEvent;
 		e.preventDefault();
 		if (this._map._clipboardContainer.getValue() !== '') {
@@ -2411,6 +2413,27 @@ L.TileLayer = L.GridLayer.extend({
 		}
 
 		this._map._socket.sendMessage('uno .uno:Copy');
+	},
+
+
+
+	//proposed solution to copy rich text into the clipboard.
+	//doesn't work async :( so all the HTML that will be copied
+	//needs to be prepared in advance (similar to the existent solution)
+
+	//not much to change here, only add clipboardData.setData("text/html",htmlToCopy) also.
+
+	//in order to improve a little bit the performance, I suggest to send
+	//the HTML formatted text from LO to client only onMouseUp/onPointerUp
+
+	//works in Chrome, Opera, Edge and Firefox
+
+	//press ctrl+c and it will copy a dummy html text, then ctrl+v to paste it.
+	_onCopy: function (e) {
+		var htmlToCopy = 'some normal text <b>some bold text</b><i>some italic text</i><img src="https://via.placeholder.com/350x150"> <div style=\'color:red\'>asd</div>';
+		e.originalEvent.clipboardData.setData('text/html', htmlToCopy);
+		e.originalEvent.clipboardData.setData('text/plain', htmlToCopy);
+		e.originalEvent.preventDefault();
 	},
 
 	_onCut: function (e) {
@@ -2429,6 +2452,7 @@ L.TileLayer = L.GridLayer.extend({
 		this._map._socket.sendMessage('uno .uno:Cut');
 	},
 
+	//paste works fine without any changes even with the rich text content in the clipboard
 	_onPaste: function (e) {
 		e = e.originalEvent;
 		e.preventDefault();
