@@ -261,9 +261,12 @@ std::unique_ptr<LocalStorage::LocalFileInfo> LocalStorage::getLocalFileInfo()
     const Poco::Path path = Poco::Path(getUri().getPath());
     LOG_DBG("Getting info for local uri [" << LOOLWSD::anonymizeUrl(getUri().toString()) << "], path [" << LOOLWSD::anonymizeUrl(path.toString()) << "].");
 
+    Poco::Path::Style style = Poco::Path::Style::PATH_NATIVE;
+    std::string str_path = path.toString(style);
+
     const auto& filename = path.getFileName();
     const Poco::File file = Poco::File(path);
-    const Poco::Timestamp lastModified = file.getLastModified();
+    std::chrono::high_resolution_clock::time_point lastModified = Util::getFileTimestamp(str_path);
     const size_t size = file.getSize();
 
     setFileInfo(FileInfo({filename, "localhost", lastModified, size}));
@@ -350,7 +353,10 @@ StorageBase::SaveResult LocalStorage::saveLocalFileToStorage(const Authorization
 
         // update its fileinfo object. This is used later to check if someone else changed the
         // document while we are/were editing it
-        getFileInfo().setModifiedTime(Poco::File(getUri().getPath()).getLastModified());
+        const Poco::Path path = Poco::Path(getUri().getPath());
+        Poco::Path::Style style = Poco::Path::Style::PATH_NATIVE;
+        std::string str_path = path.toString(style);
+        getFileInfo().setModifiedTime(Util::getFileTimestamp(str_path));
         LOG_TRC("New FileInfo modified time in storage " << getFileInfo().getModifiedTime());
     }
     catch (const Poco::Exception& exc)
@@ -397,26 +403,28 @@ void addStorageDebugCookie(Poco::Net::HTTPRequest& request)
 #endif
 }
 
-Poco::Timestamp iso8601ToTimestamp(const std::string& iso8601Time, const std::string& name)
+std::chrono::high_resolution_clock::time_point iso8601ToTimestamp(const std::string& iso8601Time, const std::string& name)
 {
-    Poco::Timestamp timestamp = Poco::Timestamp::fromEpochTime(0);
-    try
-    {
-        if (!iso8601Time.empty())
-        {
-            int timeZoneDifferential;
-            Poco::DateTime dateTime;
-            Poco::DateTimeParser::parse(Poco::DateTimeFormat::ISO8601_FRAC_FORMAT, iso8601Time, dateTime, timeZoneDifferential);
-            timestamp = dateTime.timestamp();
-        }
-    }
-    catch (const Poco::SyntaxException& exc)
-    {
-        LOG_WRN(name << " [" << iso8601Time << "] is in invalid format: " << exc.displayText() <<
-                (exc.nested() ? " (" + exc.nested()->displayText() + ")" : "") << ". Returning " << timestamp);
-    }
+    std::chrono::high_resolution_clock::time_point timestamp = Util::getTimeNow();
 
     return timestamp;
+}
+
+std::string iso8601Formatter(std::chrono::high_resolution_clock::time_point lastModified)
+{
+    char time_modified[50];
+
+    auto lastModified_us = std::chrono::time_point_cast<std::chrono::microseconds>(lastModified);
+    std::time_t lastModified_us_t = std::chrono::high_resolution_clock::to_time_t(lastModified_us);
+    std::tm lastModified_tm = *std::gmtime(&lastModified_us_t);
+    strftime(time_modified, 50, "%FT%T.", &lastModified_tm);
+
+    auto lastModified_s = std::chrono::time_point_cast<std::chrono::seconds>(lastModified);
+
+    std::string str_time = std::string(time_modified);
+    str_time += std::to_string((lastModified_us - lastModified_s).count()) + "Z";
+
+    return str_time;
 }
 
 } // anonymous namespace
@@ -609,7 +617,7 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
         throw UnauthorizedRequestException("Access denied. WOPI::CheckFileInfo failed on: " + uriAnonym);
     }
 
-    const Poco::Timestamp modifiedTime = iso8601ToTimestamp(lastModifiedTime, "LastModifiedTime");
+    const std::chrono::high_resolution_clock::time_point modifiedTime = iso8601ToTimestamp(lastModifiedTime, "LastModifiedTime");
     setFileInfo(FileInfo({filename, ownerId, modifiedTime, size}));
 
     return std::unique_ptr<WopiStorage::WOPIFileInfo>(new WOPIFileInfo(
@@ -733,9 +741,7 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
             if (!getForceSave())
             {
                 // Request WOPI host to not overwrite if timestamps mismatch
-                request.set("X-LOOL-WOPI-Timestamp",
-                            Poco::DateTimeFormatter::format(Poco::DateTime(getFileInfo().getModifiedTime()),
-                                                            Poco::DateTimeFormat::ISO8601_FRAC_FORMAT));
+                request.set("X-LOOL-WOPI-Timestamp", iso8601Formatter(getFileInfo().getModifiedTime));
             }
         }
         else

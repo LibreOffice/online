@@ -884,6 +884,12 @@ int main(int argc, char**argv)
 
     //// Return current time in HTTP format.
     std::string getHttpTimeNow();
+
+    //// Return current time
+    std::chrono::high_resolution_clock::time_point getTimeNow();
+
+    //// Return timestamp of file
+    std::chrono::high_resolution_clock::time_point getFileTimestamp(std::string str_path);
 } // end namespace Util
 
 #endif

@@ -20,7 +20,14 @@
 #elif defined IOS
 #import <Foundation/Foundation.h>
 #endif
+#include <sys/types.h>
 #include <sys/stat.h>
+#ifdef WIN32
+#define stat _stat
+#endif
+#ifdef __APPLE__
+#define stmtim st_mtimespec
+#endif
 #include <sys/uio.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -738,6 +745,23 @@ namespace Util
         strftime(time_now, 50, "%a, %d %b %Y %T", &now_tm);
 
         return time_now;
+    }
+
+    std::chrono::high_resolution_clock::time_point getTimeNow()
+    {
+        std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();
+
+        return now;
+    }
+
+    std::chrono::high_resolution_clock::time_point getFileTimestamp(std::string str_path)
+    {
+        struct stat file;
+        stat(str_path.c_str(), &file);
+        std::time_t mod_time = file.st_mtim.tv_nsec;
+        std::chrono::high_resolution_clock::time_point mod_time_point = std::chrono::high_resolution_clock::from_time_t(mod_time);
+
+        return mod_time_point;
     }
 }
 
