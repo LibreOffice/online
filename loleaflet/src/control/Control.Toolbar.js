@@ -1965,7 +1965,7 @@ function onUpdatePermission(e) {
 	var toolbar = w2ui['editbar'];
 	if (toolbar) {
 		// always enabled items
-		var enabledButtons = ['closemobile', 'undo', 'redo'];
+		var enabledButtons = ['closemobile', 'undo', 'redo', 'hamburger-tablet'];
 
 		// copy the first array
 		var items = toolbar.items.slice();
