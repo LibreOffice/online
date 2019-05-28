@@ -32,7 +32,7 @@ L.SVGGroup = L.Layer.extend({
 		if (doc.lastChild.localName !== 'svg')
 			return;
 
-		if (svgString.indexOf('XTEXT_PAINTSHAPE_BEGIN') !== -1) {
+		if (svgString.indexOf('class="TextShape"') !== -1) {
 			this._svg = this._path.insertBefore(doc.lastChild, this._rect._path);
 			this._rect._path.setAttribute('pointer-events', 'visibleStroke');
 			this._svg.setAttribute('pointer-events', 'none');
