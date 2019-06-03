@@ -1956,6 +1956,9 @@ function onCommandStateChanged(e) {
 		if (_inMobileMode()) {
 			toolbarUp = statusbar;
 		}
+		if (map.getDocType() === 'presentation' && (id === 'deletepage' || id === 'insertpage' || id === 'duplicatepage')) {
+			toolbarUp = w2ui['presentation-toolbar'];
+		}
 		if (state === 'enabled') {
 			toolbarUp.enable(id);
 		} else {
@@ -2183,11 +2186,6 @@ function onUpdatePermission(e) {
 
 		toolbar = w2ui['spreadsheet-toolbar'];
 		spreadsheetButtons.forEach(function(id) {
-			toolbar.enable(id);
-		});
-
-		toolbar = w2ui['presentation-toolbar'];
-		presentationButtons.forEach(function(id) {
 			toolbar.enable(id);
 		});
 
