@@ -1404,7 +1404,9 @@ function updateFontSizeList(font) {
 	var found = false;
 	$('.fontsizes-select').find('option').remove();
 	var data = [''];
-	data = data.concat(map.getToolbarCommandValues('.uno:CharFontName')[font]);
+	var charFontNameCommandValue = map.getToolbarCommandValues('.uno:CharFontName');
+	if (charFontNameCommandValue !== undefined)
+		data = data.concat(charFontNameCommandValue[font]);
 	$('.fontsizes-select').select2({
 		data: data,
 		placeholder: ' ',
