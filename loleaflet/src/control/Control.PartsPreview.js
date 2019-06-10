@@ -3,7 +3,7 @@
  * L.Control.PartsPreview
  */
 
-/* global $ */
+/* global $ Hammer */
 L.Control.PartsPreview = L.Control.extend({
 	options: {
 		autoUpdate: true
@@ -33,10 +33,6 @@ L.Control.PartsPreview = L.Control.extend({
 		}
 
 		if (docType === 'presentation' || docType === 'drawing') {
-			var presentationControlWrapperElem = L.DomUtil.get('presentation-controls-wrapper');
-			var visible = L.DomUtil.getStyle(presentationControlWrapperElem, 'display');
-			if (visible === 'none')
-				return;
 			if (!this._previewInitialized)
 			{
 				// make room for the preview
@@ -94,6 +90,77 @@ L.Control.PartsPreview = L.Control.extend({
 					this._previewTiles.push(this._createPreview(i, e.partNames[i], bottomBound));
 				}
 				L.DomUtil.addClass(this._previewTiles[selectedPart], 'preview-img-currentpart');
+
+				//-------------------open/close slide sorter with swipes------------
+				if (L.Browser.mobile) {
+					this.slideAnimationDuration = 250;//slide sorter open animation duration
+					var presentationControlWrapper = $('#presentation-controls-wrapper');
+					var documentContainerHammer = new Hammer(document.getElementById('document-container'));
+					var presentationControlWrapperHammer = new Hammer(document.getElementById('presentation-controls-wrapper'));
+
+					//open slide sorter on right swipe on document view
+					documentContainerHammer.on('swiperight', function (e) {
+
+						var startX = e.changedPointers[0].clientX - e.deltaX;
+						if (startX > window.screen.width * 0.2)//detect open swipes only near screen edge
+							return;
+
+						presentationControlWrapper.css({//first of all make it visible and move outside the screen
+							'z-index': 1001,//above bottom bar
+							'display': 'block',
+							'left': -screen.width + 'px',
+							'top': '40px',
+							'bottom': '0px',
+							'max-width': screen.width + "px",
+							'width': screen.width + "px"
+						}).animate({//then play an animation so it slides on screen
+							'left': '0px'
+						}, this.slideAnimationDuration, function () {
+							window.localStorage.setItem("slideSelectorActive", 1);
+						});
+					});
+
+					//close slide sorter on left swipe on it or the document view
+					var closeSwipeElements = [presentationControlWrapperHammer, documentContainerHammer];
+					closeSwipeElements.forEach(function (hammerElement) {
+						hammerElement.on('swipeleft', function () {
+							presentationControlWrapper.animate({//slide out of the screen
+								'left': -screen.width + 'px',
+							}, this.slideAnimationDuration, function () {
+								//when the animation is done reset css properties that where added when opening it
+								presentationControlWrapper.css({
+									'z-index': '',
+									'display': '',
+									'top': '',
+									'bottom': '',
+									'max-width': '',
+									'width': '',
+									'left': ''
+								});
+								window.localStorage.setItem("slideSelectorActive", 0);
+							});
+						})
+					});
+
+					//show the slide sorter by default when the document is opened
+					//show it only the first time, or if the user left it opened the last time
+					if (window.localStorage.getItem("slideSelectorActive") == 1 || window.localStorage.getItem("slideSelectorActive") == undefined) {
+						$(document).ready(function () {
+							presentationControlWrapper.css({
+								'z-index': 1001,
+								'display': 'block',
+								'top': '40px',
+								'bottom': '0px',
+								'max-width': screen.width + "px",
+								'width': screen.width + "px"
+							});
+						})
+						window.localStorage.setItem("slideSelectorActive", 1);
+					}
+
+				}
+				//-------------------------------------------------------------
+
 				this._previewInitialized = true;
 			}
 			else
