@@ -1182,7 +1182,9 @@ function documentNameConfirm() {
 			// file name must be without the extension
 			if (value.lastIndexOf('.') > 0)
 				value = value.substr(0, value.lastIndexOf('.'));
-			map.renameFile(value);
+			
+			map.sendUnoCommand('.uno:Save');
+			map._RenameFile = value;
 		} else {
 			// saveAs for rename
 			map.saveAs(value);
@@ -1947,6 +1949,12 @@ function onCommandResult(e) {
 		if (e.success) {
 			// Saved a new version; the document is modified.
 			map._everModified = true;
+
+			// document is saved for rename
+			if (map._RenameFile) {
+				map.renameFile(map._RenameFile);
+				map._RenameFile = '';
+			}
 		}
 		var postMessageObj = {
 			success: e.success
