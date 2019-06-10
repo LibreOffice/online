@@ -51,3 +51,16 @@
 .preview-img-dropsite {
     border-bottom: 2px solid red;
 }
+
+/* make the slide previews full width for the mobile devices,
+because on the mobile devices the slide sorter is full screen */
+@media (max-width: 767px),(max-device-height: 767px) {
+	.preview-img {
+		width: 95%;
+		max-width: none;
+	}
+	.preview-frame {
+		width: 100%;
+		max-width: none;
+	}
+}
