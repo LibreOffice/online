@@ -3,7 +3,7 @@
  * L.Control.PartsPreview
  */
 
-/* global $ */
+/* global $ Hammer */
 L.Control.PartsPreview = L.Control.extend({
 	options: {
 		autoUpdate: true
@@ -15,6 +15,7 @@ L.Control.PartsPreview = L.Control.extend({
 		this._previewTiles = [];
 		this._partsPreviewCont = L.DomUtil.get('slide-sorter');
 		this._scrollY = 0;
+		this.isMobileMode = window.matchMedia('(max-width: 767px)').matches;//mobile mode means the slide selector is full screen and can be opened/closed with swipes
 
 		map.on('updateparts', this._updateDisabled, this);
 		map.on('updatepart', this._updatePart, this);
@@ -33,10 +34,6 @@ L.Control.PartsPreview = L.Control.extend({
 		}
 
 		if (docType === 'presentation' || docType === 'drawing') {
-			var presentationControlWrapperElem = L.DomUtil.get('presentation-controls-wrapper');
-			var visible = L.DomUtil.getStyle(presentationControlWrapperElem, 'display');
-			if (visible === 'none')
-				return;
 			if (!this._previewInitialized)
 			{
 				// make room for the preview
@@ -94,6 +91,51 @@ L.Control.PartsPreview = L.Control.extend({
 					this._previewTiles.push(this._createPreview(i, e.partNames[i], bottomBound));
 				}
 				L.DomUtil.addClass(this._previewTiles[selectedPart], 'preview-img-currentpart');
+
+				//-------------------open/close slide sorter with swipes------------
+				//767px because at widths smaller than this the sidebar behaves like a mobile sidebar
+				if (this.isMobileMode) {
+					this.slideAnimationDuration = 250;//slide sorter open animation duration
+					var presentationControlWrapper = $('#presentation-controls-wrapper');
+					var documentContainerHammer = new Hammer(document.getElementById('document-container'));
+					var presentationControlWrapperHammer = new Hammer(document.getElementById('presentation-controls-wrapper'));
+					var self = this;
+					//open slide sorter on right swipe on document view
+					documentContainerHammer.on('swiperight', function (e) {
+						var startX = e.changedPointers[0].clientX - e.deltaX;
+						if (startX > window.screen.width * 0.2)//detect open swipes only near screen edge
+							return;
+						self._openMobileSidebar();
+					});
+
+					//close slide sorter on left swipe on it or the document view
+					var closeSwipeElements = [presentationControlWrapperHammer, documentContainerHammer];
+					closeSwipeElements.forEach(function (hammerElement) {
+						console.log('close swipe');
+						hammerElement.on('swipeleft', function () {
+							self._closeMobileSidebar();
+						})
+					});
+
+					//show the slide sorter by default when the document is opened
+					//show it only the first time, or if the user left it opened the last time
+					if (window.localStorage.getItem('slideSelectorActive') == 1 || window.localStorage.getItem('slideSelectorActive') == undefined) {
+						$(document).ready(function () {
+							presentationControlWrapper.css({
+								'z-index': 1001,
+								'display': 'block',
+								'top': '40px',
+								'bottom': '0px',
+								'max-width': screen.width + 'px',
+								'width': screen.width + 'px'
+							});
+						})
+						window.localStorage.setItem('slideSelectorActive', 1);
+					}
+
+				}
+				//-------------------------------------------------------------
+
 				this._previewInitialized = true;
 			}
 			else
@@ -115,10 +157,47 @@ L.Control.PartsPreview = L.Control.extend({
 		}
 	},
 
+	_openMobileSidebar: function () {
+		var presentationControlWrapper = $('#presentation-controls-wrapper');
+		presentationControlWrapper.css({//first of all make it visible and move outside the screen
+			'z-index': 1001,//above bottom bar
+			'display': 'block',
+			'left': -screen.width + 'px',
+			'top': '40px',
+			'bottom': '0px',
+			'max-width': screen.width + 'px',
+			'width': screen.width + 'px'
+		}).animate({//then play an animation so it slides on screen
+			'left': '0px'
+		}, this.slideAnimationDuration, function () {
+			window.localStorage.setItem('slideSelectorActive', 1);
+		});
+	},
+
+	_closeMobileSidebar: function () {
+		var presentationControlWrapper = $('#presentation-controls-wrapper');
+		presentationControlWrapper.animate({//slide out of the screen
+			'left': -screen.width + 'px',
+		}, this.slideAnimationDuration, function () {
+			//when the animation is done reset css properties that where added when opening it
+			presentationControlWrapper.css({
+				'z-index': '',
+				'display': '',
+				'top': '',
+				'bottom': '',
+				'max-width': '',
+				'width': '',
+				'left': ''
+			});
+			window.localStorage.setItem('slideSelectorActive', 0);
+		});
+	},
+
 	_createPreview: function (i, hashCode, bottomBound) {
 		var frame = L.DomUtil.create('div', 'preview-frame', this._scrollContainer);
 		this._addDnDHandlers(frame);
 		L.DomUtil.create('span', 'preview-helper', frame);
+		var self = this;
 
 		var imgClassName = 'preview-img';
 		var img = L.DomUtil.create('img', imgClassName, frame);
@@ -130,9 +209,13 @@ L.Control.PartsPreview = L.Control.extend({
 			.on(img, 'click', L.DomEvent.stop)
 			.on(img, 'click', this._setPart, this)
 			.on(img, 'click', this._map.focus, this._map)
-			.on(img, 'click', function() {
+			.on(img, 'click', function () {
 				this.partsFocused = true;
-			}, this);
+			}, this)
+			.on(img, 'click', function () {
+				if (self.isMobileMode)
+					self._closeMobileSidebar();
+			});
 
 		var topBound = this._previewContTop;
 		var previewFrameTop = 0;
@@ -145,12 +228,15 @@ L.Control.PartsPreview = L.Control.extend({
 			previewFrameTop = this._previewContTop + this._previewFrameMargin + i * (this._previewFrameHeight + this._previewFrameMargin);
 			previewFrameTop -= this._scrollY;
 			previewFrameBottom = previewFrameTop + this._previewFrameHeight;
-			L.DomUtil.setStyle(img, 'height', this._previewImgHeight + 'px');
+			//when the sidebar is full screen on mobile devices this breaks the slides
+			if (!this.isMobileMode)
+				L.DomUtil.setStyle(img, 'height', this._previewImgHeight + 'px');
 		}
 
 		var imgSize;
 		if (i === 0 || (previewFrameTop >= topBound && previewFrameTop <= bottomBound)
-			|| (previewFrameBottom >= topBound && previewFrameBottom <= bottomBound)) {
+			|| (previewFrameBottom >= topBound && previewFrameBottom <= bottomBound) || this.isMobileMode) {
+			//... || this.isMobileMode in the above if is required to get previews for all slides on mobile, otherwise only the first tile will have a preview
 			imgSize = this._map.getPreview(i, i, 180, 180, {autoUpdate: this.options.autoUpdate});
 			img.fetched = true;
 			L.DomUtil.setStyle(img, 'height', '');
