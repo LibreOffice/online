@@ -51,4 +51,74 @@ global._ = function (string) {
 	}
 };
 
+var docParams, wopiParams;
+var filePath = global.getParameterByName('file_path');
+var timestamp = global.getParameterByName('timestamp');
+var permission = global.getParameterByName('permission') || 'edit';
+var lang = global.getParameterByName('lang');
+var wopiSrc = global.getParameterByName('WOPISrc');
+
+if (wopiSrc != '') {
+	global.docURL = decodeURIComponent(wopiSrc);
+	wopiSrc = '?WOPISrc=' + wopiSrc + '&compat=/ws';
+	if (global.accessToken !== '') {
+		wopiParams = { 'access_token': global.accessToken, 'access_token_ttl': global.accessTokenTTL };
+	}
+	else if (global.accessHeader !== '') {
+		wopiParams = { 'access_header': global.accessHeader };
+	}
+
+	wopiParams['permission'] = permission;
+	docParams = Object.keys(wopiParams).map(function(key) {
+		return encodeURIComponent(key) + '=' + encodeURIComponent(wopiParams[key])
+	}).join('&');
+} else {
+	global.docURL = filePath;
+	docParams = 'permission=' + permission;
+}
+
+var websocketURI = global.host + global.serviceRoot + '/lool/' + encodeURIComponent(global.docURL + (docParams ? '?' + docParams : '')) + '/ws' + wopiSrc;
+
+try {
+	global.socket = new WebSocket(websocketURI);
+} catch (err) {
+	console.log(err);
+}
+
+global.queueMsg = [];
+if (global.socket && global.socket.readyState !== 3) {
+	global.socket.onopen = function () {
+		if (global.socket.readyState === 1) {
+			var ProtocolVersionNumber = '0.1';
+			var msg = 'load url=' + encodeURIComponent(global.docURL);
+			global.socket.send('loolclient ' + ProtocolVersionNumber);
+			if (timestamp) {
+				msg += ' timestamp=' + timestamp;
+			}
+			if (lang) {
+				msg += ' lang=' + lang;
+			}
+			// renderingOptions?
+			global.socket.send(msg);
+		}
+	}
+
+	global.socket.onerror = function (event) {
+		console.log(event);
+	}
+
+	global.socket.onclose = function (event) {
+		console.log(event);
+	}
+
+	global.socket.onmessage = function (event) {
+		if (global.L && global.socket instanceof global.L.Socket) {
+			global.socket._onMessage(event);
+		} else {
+			global.queueMsg.push(event.data);
+		}
+	}
+
+	global.socket.binaryType = 'arraybuffer';
+}
 }(window));

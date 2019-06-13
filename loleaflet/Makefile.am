@@ -121,9 +121,6 @@ endif
 NODE_MODULES_JS_SRC = $(patsubst %.js,$(builddir)/%.js,$(NODE_MODULES_JS))
 NODE_MODULES_JS_DST = $(patsubst %.js,$(builddir)/dist/%.js,$(NODE_MODULES_JS))
 
-GLOBAL_JS =\
-	global.js
-
 LOLEAFLET_JS = $(strip $(shell NODE_PATH=$(abs_builddir)/node_modules $(NODE) -e "try {console.log(require('$(1)').getFiles().join(' '))} catch(e) {}"))
 LOPLUGIN_JS = $(strip $(shell NODE_PATH=$(abs_builddir)/node_modules $(NODE) -e "try {console.log(require('$(1)').deps.join(' '))} catch(e) {}"))
 
@@ -220,14 +217,13 @@ $(builddir)/dist/bundle.css: $(LOLEAFLET_CSS)
 
 $(builddir)/dist/bundle.js: $(NODE_MODULES_JS_SRC) \
 	$(LOLEAFLET_PREFIX)/dist/loleaflet-src.js \
-	$(srcdir)/js/global.js \
+	$(builddir)/dist/global.js \
 	$(srcdir)/js/jquery.mCustomScrollbar.js \
 	$(srcdir)/js/w2ui-1.5.rc1.js \
 	$(srcdir)/js/toolbar.js \
 	$(srcdir)/js/main.js
 	@echo "Uglify loleaflet js files..."
 	NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-js/bin/uglifyjs \
-		$(srcdir)/js/global.js \
 		$(L10N_IOS_ALL_JS) \
 		$(NODE_MODULES_JS) \
 		$(srcdir)/js/jquery.mCustomScrollbar.js \

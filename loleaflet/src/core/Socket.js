@@ -50,13 +50,18 @@ L.Socket = L.Class.extend({
 		this._msgQueue = [];
 	},
 
-	connect: function() {
+	connect: function(socket) {
 		var map = this._map;
 		if (map.options.permission) {
 			map.options.docParams['permission'] = map.options.permission;
 		}
-		if (this.socket) {
-			this.close();
+		if (socket && (socket.readyState === 1 || socket.readyState === 0)) {
+			this.socket = socket;
+		} else  {
+			if (this.socket) {
+				this.close();
+			}
+			this.socket = new WebSocket(this.getWebSocketBaseURI(map) + wopiSrc);
 		}
 		if (window.ThisIsAMobileApp) {
 			this.socket = new FakeWebSocket();
@@ -103,7 +108,16 @@ L.Socket = L.Class.extend({
 			var tokenExpiryWarning = 900 * 1000; // Warn when 15 minutes remain
 			clearTimeout(this._accessTokenExpireTimeout);
 			this._accessTokenExpireTimeout = setTimeout(L.bind(this._sessionExpiredWarning, this),
-			                                            parseInt(map.options.docParams.access_token_ttl) - Date.now() - tokenExpiryWarning);
+														parseInt(map.options.docParams.access_token_ttl) - Date.now() - tokenExpiryWarning);
+		}
+
+		// process messages for early socket connection
+		if (socket && ((socket.readyState === 1 || socket.readyState === 0)) &&
+			window.queueMsg && window.queueMsg.length > 0) {
+			for (var it = 0; it < window.queueMsg.length; it++) {
+				this._onMessage({data: window.queueMsg[it]});
+			}
+			window.queueMsg = [];
 		}
 	},
 
@@ -118,7 +132,7 @@ L.Socket = L.Class.extend({
 
 		// If user still doesn't refresh the session, warn again periodically
 		this._accessTokenExpireTimeout = setTimeout(L.bind(this._sessionExpiredWarning, this),
-		                                            120 * 1000);
+													120 * 1000);
 	},
 
 	close: function () {
@@ -285,8 +299,8 @@ L.Socket = L.Class.extend({
 				h = '<a target="_blank" href="https://hub.libreoffice.org/git-core/' + h + '">' + h + '</a>';
 			}
 			$('#lokit-version').html(lokitVersionObj.ProductName + ' ' +
-			                         lokitVersionObj.ProductVersion + lokitVersionObj.ProductExtension.replace('.10.','-') +
-			                         ' (git hash: ' + h + ')');
+									 lokitVersionObj.ProductVersion + lokitVersionObj.ProductExtension.replace('.10.','-') +
+									 ' (git hash: ' + h + ')');
 		}
 		else if (textMsg.startsWith('perm:')) {
 			var perm = textMsg.substring('perm:'.length);
@@ -428,9 +442,9 @@ L.Socket = L.Class.extend({
 
 			var options = $.extend({}, vex.defaultOptions, {
 				contentCSS: {'background':'rgba(0, 0, 0, 0)',
-				             'font-size': 'xx-large',
-				             'color': '#fff',
-				             'text-align': 'center'},
+							 'font-size': 'xx-large',
+							 'color': '#fff',
+							 'text-align': 'center'},
 				content: message
 			});
 			options.id = vex.globalID;
@@ -514,20 +528,20 @@ L.Socket = L.Class.extend({
 					contentCSS: { width: '600px' },
 					buttons: [
 						$.extend({}, vex.dialog.buttons.YES, { text: _('Discard'),
-						                                      click: function($vexContent) {
-							                                      $vexContent.data().vex.value = 'discard';
-							                                      vex.close($vexContent.data().vex.id);
-						                                      }}),
+															  click: function($vexContent) {
+																  $vexContent.data().vex.value = 'discard';
+																  vex.close($vexContent.data().vex.id);
+															  }}),
 						$.extend({}, vex.dialog.buttons.YES, { text: _('Overwrite'),
-						                                      click: function($vexContent) {
-							                                      $vexContent.data().vex.value = 'overwrite';
-							                                      vex.close($vexContent.data().vex.id);
-						                                      }}),
+															  click: function($vexContent) {
+																  $vexContent.data().vex.value = 'overwrite';
+																  vex.close($vexContent.data().vex.id);
+															  }}),
 						$.extend({}, vex.dialog.buttons.YES, { text: _('Save to new file'),
-						                                      click: function($vexContent) {
-							                                      $vexContent.data().vex.value = 'saveas';
-							                                      vex.close($vexContent.data().vex.id);
-						                                      }})
+															  click: function($vexContent) {
+																  $vexContent.data().vex.value = 'saveas';
+																  vex.close($vexContent.data().vex.id);
+															  }})
 					],
 					callback: L.bind(function(value) {
 						if (value === 'discard') {
@@ -805,7 +819,7 @@ L.Socket = L.Class.extend({
 				}
 				else {
 					if (command.type === 'presentation' &&
-					    this._map.options.defaultZoom === this._map.options.zoom) {
+						this._map.options.defaultZoom === this._map.options.zoom) {
 						// If we have a presentation document and the zoom level has not been set
 						// in the options, resize the document so that it fits the viewing area.
 						// FIXME: Should this 256 be window.tileSize? Unclear to me.
