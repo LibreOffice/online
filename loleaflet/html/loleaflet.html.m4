@@ -52,7 +52,7 @@ ifelse(MOBILEAPP,[true],
   ifelse(DEBUG,[true],
     foreachq([fileCSS],[LOLEAFLET_CSS],[<link rel="stylesheet" href="%SERVICE_ROOT%/loleaflet/%VERSION%/fileCSS" />
   ]),
-    [<link rel="stylesheet" href="%SERVICE_ROOT%/loleaflet/%VERSION%/bundle.css" />
+    [<style>syscmd([cat ]BUNDLE_CSS)</style>
   ])dnl
 )dnl
 <!--%BRANDING_CSS%--> <!-- add your logo here -->
