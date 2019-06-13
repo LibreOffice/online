@@ -150,7 +150,7 @@ ifelse(MOBILEAPP,[true],
       <p>Copyright _YEAR_, Collabora Productivity Limited.</p>
     </div>
 
-    <script>
+    <script defer>
 ifelse(MOBILEAPP,[true],
      [window.host = '';
       window.serviceRoot = '';
@@ -193,14 +193,14 @@ ifelse(GTKAPP,[true],
 
 ifelse(MOBILEAPP,[true],
   ifelse(DEBUG,[true],foreachq([fileJS],[LOLEAFLET_JS],
-  [    <script src="fileJS"></script>
+  [    <script src="fileJS"i defer></script>
   ]),
-  [    <script src="bundle.js"></script>
+  [    <script src="bundle.js" defer></script>
   ]),
   ifelse(DEBUG,[true],foreachq([fileJS],[LOLEAFLET_JS],
-  [    <script src="%SERVICE_ROOT%/loleaflet/%VERSION%/fileJS"></script>
+  [    <script src="%SERVICE_ROOT%/loleaflet/%VERSION%/fileJS" defer></script>
   ]),
-  [    <script src="%SERVICE_ROOT%/loleaflet/%VERSION%/bundle.js"></script>
+  [    <script src="%SERVICE_ROOT%/loleaflet/%VERSION%/bundle.js" defer></script>
   ])
 )dnl
     <!--%BRANDING_JS%--> <!-- logo onclick handler -->
