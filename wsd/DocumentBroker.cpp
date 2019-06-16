@@ -1037,7 +1037,8 @@ bool DocumentBroker::autoSave(const bool force)
 }
 
 bool DocumentBroker::sendUnoSave(const std::string& sessionId, bool dontTerminateEdit,
-                                 bool dontSaveIfUnmodified, bool isAutosave, bool isExitSave)
+                                 bool dontSaveIfUnmodified, bool isAutosave, bool isExitSave,
+                                 const std::string& extendedData)
 {
     assertCorrectThread();
 
@@ -1081,6 +1082,7 @@ bool DocumentBroker::sendUnoSave(const std::string& sessionId, bool dontTerminat
         assert(_storage);
         _storage->setIsAutosave(isAutosave || UnitWSD::get().isAutosave());
         _storage->setIsExitSave(isExitSave);
+        _storage->setExtendedData(extendedData);
 
         const std::string saveArgs = oss.str();
         LOG_TRC(".uno:Save arguments: " << saveArgs);
