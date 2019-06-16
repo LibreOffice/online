@@ -703,7 +703,7 @@ L.Socket = L.Class.extend({
 				this._map.options.wopiSrc = encodeURIComponent(docUrl);
 				this._map.loadDocument();
 				this._map.sendInitUNOCommands();
-				
+
 				if (textMsg.startsWith('renamefile:')) {
 					this._map.fire('postMessage', {
 						msgId: 'File_Rename',
@@ -711,10 +711,14 @@ L.Socket = L.Class.extend({
 							NewName: command.filename
 						}
 					});
+				} else {
+					// Issue the save response to be consistent with normal save.
+					var postMessageObj = {
+						success: true
+					};
+					this._map.fire('postMessage', {msgId: 'Action_Save_Resp', args: postMessageObj});
 				}
-				
 			}
-			// var name = command.name; - ignored, we get the new name via the wopi's BaseFileName
 		}
 		else if (textMsg.startsWith('statusindicator:')) {
 			//FIXME: We should get statusindicator when saving too, no?
