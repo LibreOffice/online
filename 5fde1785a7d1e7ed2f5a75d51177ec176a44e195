@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa0c359_121d7f0e",
+        "filename": "loleaflet/src/layer/marker/Annotation.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-06-17T11:14:17Z",
+      "side": 1,
+      "message": "It\u0027s better to just push the needed code change and then add comments like this in the gerrit chat. We can see changelog here and difference between old and new code.",
+      "revId": "5fde1785a7d1e7ed2f5a75d51177ec176a44e195",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
