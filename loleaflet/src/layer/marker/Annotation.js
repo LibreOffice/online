@@ -194,12 +194,22 @@ L.Annotation = L.Layer.extend({
 		var tdImg = L.DomUtil.create(tagTd, 'loleaflet-annotation-img', tr);
 		var tdAuthor = L.DomUtil.create(tagTd, 'loleaflet-annotation-author', tr);
 		var imgAuthor = L.DomUtil.create('img', 'avatar-img', tdImg);
-		imgAuthor.setAttribute('src', L.Icon.Default.imagePath + '/user.png');
+/*Pedro: existent problem with L.Icon.Default.imagePath! it give some hammerjs directory. So I commented this line:
+		imgAuthor.setAttribute('src', L.Icon.Default.imagePath + '/user.png');*/
+		imgAuthor.setAttribute('src', 'images/user-default.png');
 		imgAuthor.setAttribute('width', this.options.imgSize.x);
 		imgAuthor.setAttribute('height', this.options.imgSize.y);
 		this._authorAvatarImg = imgAuthor;
 		this._contentAuthor = L.DomUtil.create(tagDiv, 'loleaflet-annotation-content-author', tdAuthor);
 		this._contentDate = L.DomUtil.create(tagDiv, 'loleaflet-annotation-date', tdAuthor);
+/*Pedro old patch - the problem was not in the verification but with the default path*/
+/*		if (!imgAuthor.complete || typeof imgAuthor.naturalWidth == 'undefined' || imgAuthor.naturalWidth == 0) {
+			// image is broken or does not exist, replace it with default
+			imgAuthor.setAttribute('src', 'images/user-default.png');
+			tdImg.setAttribute('style', 'border-color:' + L.LOUtil.rgbToHex(this._map.getViewColor(this._map.getViewId(this._data.author))));
+		}
+*/
+/*END-of-Pedro old patch - the problem was not in the verification but with the default path*/
 
 		if (this._data.trackchange && this._map._permission !== 'readonly') {
 			var tdAccept = L.DomUtil.create(tagTd, 'loleaflet-annotation-menubar', tr);
@@ -371,6 +381,7 @@ L.Annotation = L.Layer.extend({
 		if (this._data.trackchange) {
 			$(this._captionText).text(this._data.description);
 		}
+
 	},
 
 	_updatePosition: function () {
