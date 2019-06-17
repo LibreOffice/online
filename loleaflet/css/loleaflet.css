@@ -349,12 +349,15 @@ body {
 
 .loleaflet-annotation-img {
 	max-width: 32px;
+	max-height: 32px;
 	display: inline-block;
+	border: solid 2px;
+	border-radius: 50%;
+	overflow: hidden;
 }
 
 .avatar-img {
-	border: solid 2px;
-	border-radius: 50%;
+	padding-top: 4px;
 }
 
 .user-info {
