@@ -10,6 +10,9 @@
 package org.libreoffice.androidapp;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
@@ -78,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isDocEditable = false;
     private boolean isDocDebuggable = BuildConfig.DEBUG;
+
+    private ClipboardManager clipboardManager;
+    private ClipData clipData;
+    private Thread nativeMsgThread;
+    private Handler nativeHandler;
+    private Looper nativeLooper;
 
     private static boolean copyFromAssets(AssetManager assetManager,
                                           String fromAssetPath, String targetDir) {
@@ -225,6 +235,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mainHandler = new Handler(getMainLooper());
+        clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        nativeMsgThread = new Thread(() -> {
+            Looper.prepare();
+            nativeLooper = Looper.myLooper();
+            nativeHandler = new Handler(nativeLooper);
+            Looper.loop();
+        });
+        nativeMsgThread.start();
     }
 
 
@@ -323,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "Stop LOOLWSD instance");
+        nativeLooper.quit();
         postMobileMessageNative("BYE");
     }
 
@@ -402,20 +421,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * return true to pass the message to the native part and false to block the message
+     * return true to pass the message to the native part or false to block the message
      */
     boolean interceptMsgFromWebView(String message) {
-        if (message.equals("PRINT")) {
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    initiatePrint();
+        switch (message) {
+            case "PRINT":
+                mainHandler.post(this::initiatePrint);
+                return false;
+            case "SLIDESHOW":
+                initiateSlideShow();
+                return false;
+            case "uno .uno:Paste":
+                clipData = clipboardManager.getPrimaryClip();
+                if (clipData != null) {
+                    if (clipData.getDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                        ClipData.Item clipItem = clipData.getItemAt(0);
+                        nativeHandler.post(() -> paste("text/plain;charset=utf-16", clipItem.getText().toString()));
+                    }
+                    return false;
                 }
-            });
-            return false;
-        } else if (message.equals("SLIDESHOW")) {
-            initiateSlideShow();
-            return false;
+                break;
+            case "uno .uno:Copy": {
+                nativeHandler.post(() -> {
+                    String tempSelectedText = getTextSelection();
+                    if (!tempSelectedText.equals("")) {
+                        clipData = ClipData.newPlainText(ClipDescription.MIMETYPE_TEXT_PLAIN, tempSelectedText);
+                        clipboardManager.setPrimaryClip(clipData);
+                    }
+                });
+                break;
+            }
+            case "uno .uno:Cut": {
+                nativeHandler.post(() -> {
+                    String tempSelectedText = getTextSelection();
+                    if (!tempSelectedText.equals("")) {
+                        clipData = ClipData.newPlainText(ClipDescription.MIMETYPE_TEXT_PLAIN, tempSelectedText);
+                        clipboardManager.setPrimaryClip(clipData);
+                    }
+                });
+                break;
+            }
         }
         return true;
     }
@@ -431,33 +476,27 @@ public class MainActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setView(R.layout.dialog_loading)
                 .create();
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                slideShowProgress.show();
-            }
 
-            @Override
-            protected String doInBackground(Void... voids) {
-                Log.v(TAG, "saving svg for slideshow by " + Thread.currentThread().getName());
-                String slideShowFileUri = new File(getCacheDir(), "slideShow.svg").toURI().toString();
-                saveAs(slideShowFileUri, "svg");
-                return slideShowFileUri;
-            }
-
-            @Override
-            protected void onPostExecute(String slideShowFileUri) {
-                super.onPostExecute(slideShowFileUri);
+        nativeHandler.post(() -> {
+            runOnUiThread(slideShowProgress::show);
+            Log.v(TAG, "saving svg for slideshow by " + Thread.currentThread().getName());
+            String slideShowFileUri = new File(getCacheDir(), "slideShow.svg").toURI().toString();
+            saveAs(slideShowFileUri, "svg");
+            runOnUiThread(() -> {
                 slideShowProgress.dismiss();
                 Intent slideShowActIntent = new Intent(MainActivity.this, SlideShowActivity.class);
                 slideShowActIntent.putExtra(SlideShowActivity.SVG_URI_KEY, slideShowFileUri);
                 startActivity(slideShowActIntent);
-            }
-        }.execute();
+            });
+
+        });
     }
 
     public native void saveAs(String fileUri, String format);
+
+    public native String getTextSelection();
+
+    public native void paste(String mimeType, String data);
 
 }
 
