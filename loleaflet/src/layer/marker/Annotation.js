@@ -194,12 +194,14 @@ L.Annotation = L.Layer.extend({
 		var tdImg = L.DomUtil.create(tagTd, 'loleaflet-annotation-img', tr);
 		var tdAuthor = L.DomUtil.create(tagTd, 'loleaflet-annotation-author', tr);
 		var imgAuthor = L.DomUtil.create('img', 'avatar-img', tdImg);
-		imgAuthor.setAttribute('src', L.Icon.Default.imagePath + '/user.png');
+
+		imgAuthor.setAttribute('src', 'images/user.png');
 		imgAuthor.setAttribute('width', this.options.imgSize.x);
 		imgAuthor.setAttribute('height', this.options.imgSize.y);
 		this._authorAvatarImg = imgAuthor;
 		this._contentAuthor = L.DomUtil.create(tagDiv, 'loleaflet-annotation-content-author', tdAuthor);
 		this._contentDate = L.DomUtil.create(tagDiv, 'loleaflet-annotation-date', tdAuthor);
+
 
 		if (this._data.trackchange && this._map._permission !== 'readonly') {
 			var tdAccept = L.DomUtil.create(tagTd, 'loleaflet-annotation-menubar', tr);
@@ -371,6 +373,7 @@ L.Annotation = L.Layer.extend({
 		if (this._data.trackchange) {
 			$(this._captionText).text(this._data.description);
 		}
+
 	},
 
 	_updatePosition: function () {
