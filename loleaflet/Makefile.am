@@ -241,6 +241,7 @@ $(builddir)/dist/bundle.js: $(NODE_MODULES_JS_SRC) \
 		$(srcdir)/js/jquery.mCustomScrollbar.js \
 		$(srcdir)/js/w2ui-1.5.rc1.js \
 		$(builddir)/build/dist/loleaflet-src.js \
+		$(srcdir)/js/locale.js \
 		$(srcdir)/js/toolbar.js \
 		$(srcdir)/js/main.js \
 		--source-map --output $@
