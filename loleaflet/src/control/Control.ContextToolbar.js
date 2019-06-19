@@ -23,6 +23,10 @@ L.Control.ContextToolbar = L.Control.extend({
 			this._cut.style.display = 'none';
 			this._copy.style.display = 'none';
 		}
+		if (this._map.getPermission() !== 'edit') {
+			this._cut.style.display = 'none';
+			this._paste.style.display = 'none';
+		}
 
 		this._container.style.visibility = 'hidden';
 		return this._container;
