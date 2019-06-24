@@ -733,7 +733,11 @@ L.Control.Menubar = L.Control.extend({
 		} else if (id === 'saveas') {
 			this._map.fire('postMessage', {msgId: 'UI_SaveAs'});
 		} else if (id === 'shareas') {
-			this._map.fire('postMessage', {msgId: 'UI_Share'});
+			if (window.ThisIsTheAndroidApp) {
+				window.postMobileMessage('SHARE');
+			} else {
+				this._map.fire('postMessage', {msgId: 'UI_Share'});
+			}
 		} else if (id === 'print') {
 			this._map.print();
 		} else if (id.startsWith('downloadas-')) {

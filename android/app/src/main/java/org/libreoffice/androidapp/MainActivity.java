@@ -14,6 +14,7 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -32,10 +33,13 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.MimeTypeMap;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
@@ -48,6 +52,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,6 +61,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 public class MainActivity extends AppCompatActivity {
     final static String TAG = "MainActivity";
@@ -431,6 +438,9 @@ public class MainActivity extends AppCompatActivity {
             case "SLIDESHOW":
                 initiateSlideShow();
                 return false;
+            case "SHARE":
+                mainHandler.post(this::initiateShare);
+                return false;
             case "uno .uno:Paste":
                 clipData = clipboardManager.getPrimaryClip();
                 if (clipData != null) {
@@ -488,8 +498,78 @@ public class MainActivity extends AppCompatActivity {
                 slideShowActIntent.putExtra(SlideShowActivity.SVG_URI_KEY, slideShowFileUri);
                 startActivity(slideShowActIntent);
             });
-
         });
+    }
+
+    private void initiateShare() {
+        List<String> formats = new ArrayList<>();
+        formats.add(".pdf");
+        String extension = MimeTypeMap.getFileExtensionFromUrl(urlToLoad);
+        if (!(extension.equals("") || extension.equals("pdf") || extension.equals("tmp"))) {
+            formats.add("."+extension);
+        }
+        AlertDialog shareDialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.choose_a_format))
+                .setItems(formats.toArray(new String[0]), (dialog, which) -> {
+                    switch (which) {
+                        case 0: {
+                            View shareDialogFileNameView = getLayoutInflater().inflate(R.layout.dialog_share, null);
+                            EditText fileNameEditTxt = shareDialogFileNameView.findViewById(R.id.nameEditTxt);
+                            fileNameEditTxt.setText(getString(R.string.new_file_name, ".pdf"));
+                            AlertDialog shareFileNameDialog = new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle(getString(R.string.enter_filename))
+                                    .setView(shareDialogFileNameView)
+                                    .setPositiveButton(getString(R.string.share_dialog_positive), null)
+                                    .setNegativeButton(getString(R.string.share_dialog_negative), (dialog1, which1) -> dialog1.dismiss())
+                                    .create();
+                            shareFileNameDialog.setOnShowListener(dialog12 -> shareFileNameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                                    .setOnClickListener(v -> {
+                                        String fileName = fileNameEditTxt.getText().toString();
+                                        if (fileName.equals("")) {
+                                            Toast.makeText(MainActivity.this, getString(R.string.enter_valid_filename), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            shareFileNameDialog.dismiss();
+                                            AlertDialog shareProgress = new AlertDialog.Builder(MainActivity.this)
+                                                    .setCancelable(false)
+                                                    .setView(R.layout.dialog_loading)
+                                                    .create();
+
+                                            nativeHandler.post(() -> {
+                                                runOnUiThread(shareProgress::show);
+                                                Log.v(TAG, "saving file for sharing by " + Thread.currentThread().getName());
+                                                File shareFile = new File(getCacheDir(), fileName);
+                                                saveAs(shareFile.toURI().toString(), "pdf");
+                                                runOnUiThread(() -> {
+                                                    shareProgress.dismiss();
+                                                    Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+                                                    Uri finalDocUri = FileProvider.getUriForFile(MainActivity.this,
+                                                            MainActivity.this.getApplicationContext().getPackageName() + ".fileprovider",
+                                                            shareFile);
+                                                    intentShareFile.putExtra(Intent.EXTRA_STREAM, finalDocUri);
+                                                    intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                    intentShareFile.setDataAndType(finalDocUri, getContentResolver().getType(finalDocUri));
+                                                    startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_document)));
+                                                });
+                                            });
+                                        }
+                                    }));
+                            shareFileNameDialog.show();
+                            break;
+                        }
+                        case 1: {
+                            Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+                            Uri finalDocUri = FileProvider.getUriForFile(MainActivity.this,
+                                    MainActivity.this.getApplicationContext().getPackageName() + ".fileprovider",
+                                    new File(Uri.parse(urlToLoad).getPath()));
+                            intentShareFile.putExtra(Intent.EXTRA_STREAM, finalDocUri);
+                            intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            intentShareFile.setDataAndType(finalDocUri, getContentResolver().getType(finalDocUri));
+                            startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_document)));
+                            break;
+                        }
+                    }
+                }).create();
+        shareDialog.show();
     }
 
     public native void saveAs(String fileUri, String format);
@@ -499,5 +579,4 @@ public class MainActivity extends AppCompatActivity {
     public native void paste(String mimeType, String data);
 
 }
-
 /* vim:set shiftwidth=4 softtabstop=4 expandtab cinoptions=b1,g0,N-s cinkeys+=0=break: */

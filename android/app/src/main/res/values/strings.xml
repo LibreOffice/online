@@ -112,9 +112,18 @@
     <!-- Permission rationale alert dialog strings -->
     <string name="title_permission_required">Permission Required</string>
     <string name="reason_required_to_read_documents">Storage permission is required for reading your documents.</string>
-    <string name="positive_ok">OKAY</string>
+    <string name="positive_ok">OK</string>
     <string name="negative_im_sure">I\'M SURE</string>
-    <string name="negative_cancel">CANCEL</string>
+    <string name="negative_cancel">Cancel</string>
+
+    <!-- Share Alert dialog strings -->
+    <string name="choose_a_format">Choose a format</string>
+    <string name="new_file_name">New_Document%1$s</string>
+    <string name="share_dialog_positive">OK</string>
+    <string name="share_dialog_negative">Cancel</string>
+    <string name="enter_filename">Enter filename</string>
+    <string name="enter_valid_filename">Enter a valid filename</string>
+    <string name="share_document">Share Document</string>
 
     <!-- Save Alert dialog strings -->
     <string name="action_cancel">Cancel</string>
