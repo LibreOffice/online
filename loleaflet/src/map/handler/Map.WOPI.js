@@ -22,7 +22,7 @@ L.Map.WOPI = L.Handler.extend({
 	DownloadAsPostMessage: false,
 	UserCanNotWriteRelative: true,
 	EnableInsertRemoteImage: false,
-	EnableShare: false,
+	EnableShare: window.ThisIsTheAndroidApp ? true : false,
 	HideUserList: null,
 	CallPythonScriptSource: null,
 	SupportsRename: false,

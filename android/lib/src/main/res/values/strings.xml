@@ -7,4 +7,13 @@
 
     <!-- Loading SlideShow Dialog Strings -->
     <string name="loading">Loading...</string>
+
+    <!-- Share Alert dialog strings -->
+    <string name="choose_a_format">Choose a format</string>
+    <string name="new_file_name">New_Document%1$s</string>
+    <string name="share_dialog_positive">OK</string>
+    <string name="share_dialog_negative">Cancel</string>
+    <string name="enter_filename">Enter filename</string>
+    <string name="enter_valid_filename">Enter a valid filename</string>
+    <string name="share_document">Share Document</string>
 </resources>

@@ -15,6 +15,7 @@ import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -22,7 +23,6 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,11 +32,14 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
@@ -52,6 +55,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,6 +64,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 public class LOActivity extends AppCompatActivity {
     final static String TAG = "LOActivity";
@@ -538,6 +544,14 @@ public class LOActivity extends AppCompatActivity {
             case "SLIDESHOW":
                 initiateSlideShow();
                 return false;
+            case "SHARE":
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        initiateShare();
+                    }
+                });
+                return false;
             case "uno .uno:Paste":
                 clipData = clipboardManager.getPrimaryClip();
                 if (clipData != null) {
@@ -620,11 +634,140 @@ public class LOActivity extends AppCompatActivity {
         });
     }
 
+    private void initiateShare() {
+        /*List<String> formats = new ArrayList<>();
+        formats.add(".pdf");
+        String extension = MimeTypeMap.getFileExtensionFromUrl(urlToLoad);
+        if (!(extension.equals("") || extension.equals("pdf") || extension.equals("tmp"))) {
+            formats.add("."+extension);
+        }
+        AlertDialog shareDialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.choose_a_format))
+                .setItems(formats.toArray(new String[0]), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: {
+                                View shareDialogFileNameView = LOActivity.this.getLayoutInflater().inflate(R.layout.lolib_dialog_share, null);
+                                EditText fileNameEditTxt = shareDialogFileNameView.findViewById(R.id.nameEditTxt);
+                                fileNameEditTxt.setText(LOActivity.this.getString(R.string.new_file_name, ".pdf"));
+                                final AlertDialog shareFileNameDialog = new AlertDialog.Builder(LOActivity.this)
+                                        .setTitle(LOActivity.this.getString(R.string.enter_filename))
+                                        .setView(shareDialogFileNameView)
+                                        .setPositiveButton(LOActivity.this.getString(R.string.share_dialog_positive), null)
+                                        .setNegativeButton(LOActivity.this.getString(R.string.share_dialog_negative), new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog1, int which1) {
+                                                dialog1.dismiss();
+                                            }
+                                        })
+                                        .create();
+
+                                shareFileNameDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                    @Override
+                                    public void onShow(DialogInterface dialog) {
+                                        shareFileNameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                                                .setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        String fileName = fileNameEditTxt.getText().toString();
+                                                        if (fileName.equals("")) {
+                                                            Toast.makeText(LOActivity.this, LOActivity.this.getString(R.string.enter_valid_filename), Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            shareFileNameDialog.dismiss();
+                                                            final AlertDialog shareProgress = new AlertDialog.Builder(LOActivity.this)
+                                                                    .setCancelable(false)
+                                                                    .setView(R.layout.lolib_dialog_share)
+                                                                    .create();
+
+                                                            nativeHandler.post(() -> {
+                                                                LOActivity.this.runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        shareProgress.show();
+                                                                    }
+                                                                });
+                                                                Log.v(TAG, "saving file for sharing by " + Thread.currentThread().getName());
+                                                                File shareFile = new File(LOActivity.this.getCacheDir(), fileName);
+                                                                LOActivity.this.saveAs(shareFile.toURI().toString(), "pdf");
+                                                                LOActivity.this.runOnUiThread(() -> {
+                                                                    shareProgress.dismiss();
+                                                                    Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+                                                                    Uri finalDocUri = FileProvider.getUriForFile(LOActivity.this,
+                                                                            LOActivity.this.getApplicationContext().getPackageName() + ".fileprovider",
+                                                                            shareFile);
+                                                                    intentShareFile.putExtra(Intent.EXTRA_STREAM, finalDocUri);
+                                                                    intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                                    intentShareFile.setDataAndType(finalDocUri, LOActivity.this.getContentResolver().getType(finalDocUri));
+                                                                    LOActivity.this.startActivity(Intent.createChooser(intentShareFile, LOActivity.this.getString(R.string.share_document)));
+                                                                });
+                                                            });
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                });
+
+                                shareFileNameDialog.setOnShowListener(dialog12 -> shareFileNameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                                        .setOnClickListener(v -> {
+                                            String fileName = fileNameEditTxt.getText().toString();
+                                            if (fileName.equals("")) {
+                                                Toast.makeText(LOActivity.this, LOActivity.this.getString(R.string.enter_valid_filename), Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                shareFileNameDialog.dismiss();
+                                                final AlertDialog shareProgress = new AlertDialog.Builder(LOActivity.this)
+                                                        .setCancelable(false)
+                                                        .setView(R.layout.lolib_dialog_share)
+                                                        .create();
+
+                                                nativeHandler.post(() -> {
+                                                    LOActivity.this.runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            shareProgress.show();
+                                                        }
+                                                    });
+                                                    Log.v(TAG, "saving file for sharing by " + Thread.currentThread().getName());
+                                                    File shareFile = new File(LOActivity.this.getCacheDir(), fileName);
+                                                    LOActivity.this.saveAs(shareFile.toURI().toString(), "pdf");
+                                                    LOActivity.this.runOnUiThread(() -> {
+                                                        shareProgress.dismiss();
+                                                        Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+                                                        Uri finalDocUri = FileProvider.getUriForFile(LOActivity.this,
+                                                                LOActivity.this.getApplicationContext().getPackageName() + ".fileprovider",
+                                                                shareFile);
+                                                        intentShareFile.putExtra(Intent.EXTRA_STREAM, finalDocUri);
+                                                        intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                        intentShareFile.setDataAndType(finalDocUri, LOActivity.this.getContentResolver().getType(finalDocUri));
+                                                        LOActivity.this.startActivity(Intent.createChooser(intentShareFile, LOActivity.this.getString(R.string.share_document)));
+                                                    });
+                                                });
+                                            }
+                                        }));
+                                shareFileNameDialog.show();
+                                break;
+                            }
+                            case 1: {
+                                Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+                                Uri finalDocUri = FileProvider.getUriForFile(LOActivity.this,
+                                        LOActivity.this.getApplicationContext().getPackageName() + ".fileprovider",
+                                        new File(Uri.parse(urlToLoad).getPath()));
+                                intentShareFile.putExtra(Intent.EXTRA_STREAM, finalDocUri);
+                                intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                intentShareFile.setDataAndType(finalDocUri, LOActivity.this.getContentResolver().getType(finalDocUri));
+                                LOActivity.this.startActivity(Intent.createChooser(intentShareFile, LOActivity.this.getString(R.string.share_document)));
+                                break;
+                            }
+                        }
+                    }
+                }).create();
+        shareDialog.show();*/
+    }
+
     public native void saveAs(String fileUri, String format);
 
     public native String getTextSelection();
 
     public native void paste(String mimeType, String data);
 }
-
 /* vim:set shiftwidth=4 softtabstop=4 expandtab cinoptions=b1,g0,N-s cinkeys+=0=break: */

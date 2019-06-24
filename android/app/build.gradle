@@ -51,6 +51,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.1.0-alpha04'
     implementation(name: 'owncloud_android_lib', ext: 'aar')
+    implementation 'androidx.core:core:1.0.2'
 
     //before changing the version please see https://issuetracker.google.com/issues/111662669
     implementation 'androidx.preference:preference:1.1.0-alpha01'
