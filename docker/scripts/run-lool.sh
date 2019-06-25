@@ -39,7 +39,7 @@ perl -pi -e "s/<password (.*)>.*<\/password>/<password \1>${password}<\/password
 [ -x /usr/bin/inotifywait -a /usr/bin/killall ] && (
 	/usr/bin/inotifywait -e modify /etc/loolwsd/loolwsd.xml
 	echo "$(ls -l /etc/loolwsd/loolwsd.xml) modified --> restarting"
-	/usr/bin/killall -1 loolwsd
+	pkill -f loolwsd
 ) &
 
 # Start loolwsd
