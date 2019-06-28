@@ -12,7 +12,8 @@ L.Map.TouchGesture = L.Handler.extend({
 	statics: {
 		MAP: 1,
 		CURSOR: 2,
-		GRAPHIC: 4
+		GRAPHIC: 4,
+		MARKER: 8
 	},
 
 	initialize: function (map) {
@@ -118,7 +119,13 @@ L.Map.TouchGesture = L.Handler.extend({
 			    layerPoint = this._map.containerPointToLayerPoint(containerPoint),
 			    latlng = this._map.layerPointToLatLng(layerPoint);
 
-			if (this._map._docLayer._graphicMarker && this._map._docLayer._graphicMarker.getBounds().contains(latlng)) {
+			if (this._map._docLayer._graphicMarker) {
+				this._marker = this._map._docLayer._graphicMarker.transform.getMarker(layerPoint);
+			}
+
+			if (this._marker) {
+				this._state = L.Map.TouchGesture.MARKER;
+			} else if (this._map._docLayer._graphicMarker && this._map._docLayer._graphicMarker.getBounds().contains(latlng)) {
 				this._state = L.Map.TouchGesture.GRAPHIC;
 			} else if (this._map._docLayer._cellCursor && this._map._docLayer._cellCursor.contains(latlng)) {
 				this._state = L.Map.TouchGesture.CURSOR;
@@ -129,6 +136,7 @@ L.Map.TouchGesture = L.Handler.extend({
 
 		if (e.isLast && this._state !== L.Map.TouchGesture.MAP) {
 			this._state = L.Map.TouchGesture.hitTest.MAP;
+			this._marker = undefined;
 		}
 
 		if ($(e.srcEvent.target).has(this._map._mapPane)) {
@@ -232,7 +240,9 @@ L.Map.TouchGesture = L.Handler.extend({
 			}
 		}
 
-		if (this._state === L.Map.TouchGesture.GRAPHIC) {
+		if (this._state === L.Map.TouchGesture.MARKER) {
+			this._map._fireDOMEvent(this._marker, e.srcEvent, 'mousedown');
+		} else if (this._state === L.Map.TouchGesture.GRAPHIC) {
 			this._map._docLayer._graphicMarker._onDragStart(e.srcEvent);
 		} else if (this._state === L.Map.TouchGesture.CURSOR) {
 			this._map._docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, 1, 0);
@@ -248,7 +258,9 @@ L.Map.TouchGesture = L.Handler.extend({
 		    latlng = this._map.layerPointToLatLng(layerPoint),
 		    mousePos = this._map._docLayer._latLngToTwips(latlng);
 
-		if (this._state === L.Map.TouchGesture.GRAPHIC) {
+		if (this._state === L.Map.TouchGesture.MARKER) {
+			this._map._fireDOMEvent(this._map, e.srcEvent, 'mousemove');
+		} else if (this._state === L.Map.TouchGesture.GRAPHIC) {
 			this._map._docLayer._graphicMarker._onDrag(e.srcEvent);
 		} else if (this._state === L.Map.TouchGesture.CURSOR) {
 			this._map._docLayer._postMouseEvent('move', mousePos.x, mousePos.y, 1, 1, 0);
@@ -264,7 +276,9 @@ L.Map.TouchGesture = L.Handler.extend({
 		    latlng = this._map.layerPointToLatLng(layerPoint),
 		    mousePos = this._map._docLayer._latLngToTwips(latlng);
 
-		if (this._state === L.Map.TouchGesture.GRAPHIC) {
+		if (this._state === L.Map.TouchGesture.MARKER) {
+			this._map._fireDOMEvent(this._map, e.srcEvent, 'mouseup');
+		} else if (this._state === L.Map.TouchGesture.GRAPHIC) {
 			this._map._docLayer._graphicMarker._onDragEnd(e.srcEvent);
 		} else if (this._state === L.Map.TouchGesture.CURSOR) {
 			this._map._docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, 1, 0);
