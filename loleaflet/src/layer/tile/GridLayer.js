@@ -342,7 +342,7 @@ L.GridLayer = L.Layer.extend({
 			this._tileZoom = tileZoom;
 			if (tileZoomChanged) {
 				this._updateTileTwips();
-				this._updateMaxBounds(null, null, zoom);
+				this._updateMaxBounds(true, null, zoom);
 			}
 			this._updateLevels();
 			this._resetGrid();
