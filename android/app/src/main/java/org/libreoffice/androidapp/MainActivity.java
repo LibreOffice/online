@@ -43,6 +43,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -471,8 +472,52 @@ public class MainActivity extends AppCompatActivity {
                 });
                 break;
             }
+            case "SAVE_AS": {
+                initiateSaveAs();
+                return false;
+            }
         }
         return true;
+    }
+
+    private void initiateSaveAs() {
+        mainHandler.post(() -> {
+            SelectPathDialogFragment selectPathDialogFragment = SelectPathDialogFragment.getInstance(getString(R.string.new_file_name,
+                    "." + MimeTypeMap.getFileExtensionFromUrl(urlToLoad)));
+            selectPathDialogFragment.attachCallback(path -> {
+                Log.d(TAG, path);
+                selectPathDialogFragment.dismiss();
+                final AlertDialog saveAsProgress = new AlertDialog.Builder(this)
+                        .setCancelable(false)
+                        .setView(R.layout.dialog_loading)
+                        .create();
+
+                nativeHandler.post(() -> {
+                    File tempOutputFile = new File(path);
+                    if (!tempOutputFile.exists()) {
+                        runOnUiThread(saveAsProgress::show);
+                        try {
+                            tempOutputFile.createNewFile();
+                            FileInputStream inStream = new FileInputStream(urlToLoad);
+                            FileOutputStream outStream = new FileOutputStream(path);
+                            FileChannel inChannel = inStream.getChannel();
+                            FileChannel outChannel = outStream.getChannel();
+                            inChannel.transferTo(0, inChannel.size(), outChannel);
+                            inStream.close();
+                            outStream.close();
+                        } catch (IOException e) {
+                            Log.e(TAG, e.getMessage());
+                            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        runOnUiThread(saveAsProgress::dismiss);
+                        Toast.makeText(this, getString(R.string.file_saved_at_location, path), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, getString(R.string.err_file_already_exists), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+            selectPathDialogFragment.show(getSupportFragmentManager(), "select_path_dialog");
+        });
     }
 
     private void initiatePrint() {

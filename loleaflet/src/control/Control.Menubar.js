@@ -731,7 +731,11 @@ L.Control.Menubar = L.Control.extend({
 		if (id === 'save') {
 			this._map.save(true, true);
 		} else if (id === 'saveas') {
-			this._map.fire('postMessage', {msgId: 'UI_SaveAs'});
+			if (window.ThisIsTheAndroidApp) {
+				window.postMobileMessage('SAVE_AS');
+			} else {
+				this._map.fire('postMessage', {msgId: 'UI_SaveAs'});
+			}
 		} else if (id === 'shareas') {
 			if (window.ThisIsTheAndroidApp) {
 				window.postMobileMessage('SHARE');

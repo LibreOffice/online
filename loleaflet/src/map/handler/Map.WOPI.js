@@ -20,7 +20,7 @@ L.Map.WOPI = L.Handler.extend({
 	DisableCopy: false,
 	DisableInactiveMessages: false,
 	DownloadAsPostMessage: false,
-	UserCanNotWriteRelative: true,
+	UserCanNotWriteRelative: false,
 	EnableInsertRemoteImage: false,
 	EnableShare: true,
 	HideUserList: null,

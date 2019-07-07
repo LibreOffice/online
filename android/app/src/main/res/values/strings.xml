@@ -135,6 +135,13 @@
     <!-- Loading SlideShow Dialog Strings -->
     <string name="loading">Loading...</string>
 
+    <!-- Save_As dialog strings -->
+    <string name="err_storage_option_not_available">Storage option not available</string>
+    <string name="err_file_already_exists">File already exists</string>
+    <string name="choose_file_location">Choose File Location</string>
+    <string name="done">done</string>
+    <string name="file_saved_at_location">File saved at %1$s</string>
+
     <!-- Presentation Mode Strings -->
 
     <!-- Calc Header Menu Strings -->
