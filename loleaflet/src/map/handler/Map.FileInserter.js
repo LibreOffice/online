@@ -3,7 +3,7 @@
  * L.Map.FileInserter is handling the fileInserter action
  */
 
-/* global _ Uint8Array */
+/* global _ */
 
 L.Map.mergeOptions({
 	fileInserter: true
@@ -80,26 +80,9 @@ L.Map.FileInserter = L.Handler.extend({
 		var url = this.getWopiUrl(map);
 
 		if (window.ThisIsAMobileApp) {
-			// Pass the file contents as a base64-encoded parameter in an insertfile message
-			var reader = new FileReader();
-			reader.onload = (function(aFile) {
-				return function(e) {
-					var byteBuffer = new Uint8Array(e.target.result);
-					var strBytes = '';
-					for (var i = 0; i < byteBuffer.length; i++) {
-						strBytes += String.fromCharCode(byteBuffer[i]);
-					}
-					window.postMobileMessage('insertfile name=' + aFile.name + ' type=graphic' +
-										       ' data=' + window.btoa(strBytes));
-				};
-			})(file);
-			reader.onerror = function(e) {
-				window.postMobileError('Error when reading file: ' + e);
-			};
-			reader.onprogress = function(e) {
-				window.postMobileDebug('FileReader progress: ' + Math.round(e.loaded*100 / e.total) + '%');
-			};
-			reader.readAsArrayBuffer(file);
+			// On the mobile, everything is actually local, so the core can
+			// handle it directly
+			this._sendURL(name, file.url);
 		} else {
 			var xmlHttp = new XMLHttpRequest();
 			this._map.showBusy(_('Uploading...'), false);
