@@ -16,6 +16,24 @@
       "revId": "d3936ee5582a1418a991fca3e4d6a5e631d52c7c",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_88120358",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2019-07-18T12:35:15Z",
+      "side": 1,
+      "message": "Probably, but could it be initialised is some unobtrusive fashion then?",
+      "parentUuid": "bf659307_bd138766",
+      "revId": "d3936ee5582a1418a991fca3e4d6a5e631d52c7c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
