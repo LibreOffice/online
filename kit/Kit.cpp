@@ -2352,6 +2352,31 @@ public:
             return -1;
         }
 
+        // Is there really no std way to do this?
+        static int n = 0;
+        struct ScopedReentrancyCounter {
+            ScopedReentrancyCounter()
+            {
+                n++;
+                if (n > 1)
+                {
+                    LOG_WRN("Unusual nested main-loop, usually caused by a non-async dialog");
+                }
+            }
+            ~ScopedReentrancyCounter()
+            {
+                n--;
+            }
+        } reentrancyGuard;
+
+#ifndef MOBILEAPP
+        static pid_t = Util::getThreadId();
+        pid_t tn = Util::getThreadId();
+        if (tn != t) {
+            LOG_WRN("Perhaps unexpectedly, KitSocketPoll::kitPoll() is called from multiple threads");
+            t = tn;
+        }
+#endif
         // The maximum number of extra events to process beyond the first.
         int maxExtraEvents = 15;
         int eventsSignalled = 0;
