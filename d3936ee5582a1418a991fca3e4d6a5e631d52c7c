@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_bd138766",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-07-18T12:04:08Z",
+      "side": 1,
+      "message": "Does that belong inside the struct ?",
+      "revId": "d3936ee5582a1418a991fca3e4d6a5e631d52c7c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
