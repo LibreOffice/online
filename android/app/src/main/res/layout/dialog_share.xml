@@ -9,5 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:singleLine="true"
+        android:hint="@string/enter_filename"
         android:textSize="18sp"/>
 </FrameLayout>

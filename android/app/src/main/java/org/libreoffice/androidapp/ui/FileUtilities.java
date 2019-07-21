@@ -29,12 +29,12 @@ public class FileUtilities {
     static final int ALL = -1;
 
     // These have to be in sync with the file_view_modes resource.
-    static final int DOC = 0;
-    static final int CALC = 1;
-    static final int IMPRESS = 2;
-    static final int DRAWING = 3;
+    public static final int DOC = 0;
+    public static final int CALC = 1;
+    public static final int IMPRESS = 2;
+    public static final int DRAWING = 3;
 
-    static final int UNKNOWN = 10;
+    public static final int UNKNOWN = 10;
 
     static final int SORT_AZ = 0;
     static final int SORT_ZA = 1;
@@ -143,7 +143,7 @@ public class FileUtilities {
         return mExtnMap.get(extn);
     }
 
-    static int getType(String filename) {
+    public static int getType(String filename) {
         int type = lookupExtension (filename);
         Log.d(LOGTAG, "extn : " + filename + " -> " + type);
         return type;

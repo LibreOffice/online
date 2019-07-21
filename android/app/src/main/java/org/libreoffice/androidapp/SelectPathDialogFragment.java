@@ -79,7 +79,7 @@ public class SelectPathDialogFragment extends DialogFragment {
             if (fileName.getText().toString().equals("")) {
                 Toast.makeText(getContext(), getString(R.string.enter_filename), Toast.LENGTH_SHORT).show();
             } else {
-                onCompleteListener.onComplete(currentDirectory.getUri().getPath() + File.separator + fileName.getText().toString());
+                onCompleteListener.onComplete(currentDirectory.getUri().getPath() + fileName.getText().toString());
             }
         });
         storageOptions.clear();

@@ -34,6 +34,7 @@ import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.webkit.WebSettings;
@@ -63,6 +64,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.util.Pair;
+
+import org.libreoffice.androidapp.ui.FileUtilities;
 
 public class MainActivity extends AppCompatActivity {
     final static String TAG = "MainActivity";
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_DOCUMENT_URI = "documentUri";
     private static final String KEY_IS_EDITABLE = "isEditable";
     private static final String KEY_INTENT_URI = "intentUri";
+    private static final String KEY_DOCUMENT_EXT = "documentExtension";
 
     private File mTempFile = null;
 
@@ -82,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Nullable
     private URI documentUri;
+
+    private String documentExtension;
 
     private String urlToLoad;
     private WebView mWebView;
@@ -96,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
     private Thread nativeMsgThread;
     private Handler nativeHandler;
     private Looper nativeLooper;
+
+    private Pair<List<String>, List<String>> availableExportOptionsPair;
+    private AlertDialog loadingAlertDialog;
 
     private static boolean copyFromAssets(AssetManager assetManager,
                                           String fromAssetPath, String targetDir) {
@@ -191,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 if (copyFileToTemp() && mTempFile != null) {
                     documentUri = mTempFile.toURI();
                     urlToLoad = documentUri.toString();
+                    documentExtension = "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(getIntent().getType());
                     Log.d(TAG, "SCHEME_CONTENT: getPath(): " + getIntent().getData().getPath());
                 } else {
                     // TODO: can't open the file
@@ -205,12 +216,14 @@ public class MainActivity extends AppCompatActivity {
                         "org.libreoffice.document_provider_id", 0);
                 documentUri = (URI) getIntent().getSerializableExtra(
                         "org.libreoffice.document_uri");
+                documentExtension = FileUtilities.getExtension(documentUri.toString());
             }
         } else if (savedInstanceState != null) {
             getIntent().setAction(Intent.ACTION_VIEW)
                     .setData(Uri.parse(savedInstanceState.getString(KEY_INTENT_URI)));
             urlToLoad = getIntent().getData().toString();
             providerId = savedInstanceState.getInt(KEY_PROVIDER_ID);
+            documentExtension = savedInstanceState.getString(KEY_DOCUMENT_EXT);
             if (savedInstanceState.getString(KEY_DOCUMENT_URI) != null) {
                 try {
                     documentUri = new URI(savedInstanceState.getString(KEY_DOCUMENT_URI));
@@ -272,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_INTENT_URI, getIntent().getData().toString());
         outState.putInt(KEY_PROVIDER_ID, providerId);
+        outState.putString(KEY_DOCUMENT_EXT, documentExtension);
         if (documentUri != null) {
             outState.putString(KEY_DOCUMENT_URI, documentUri.toString());
         }
@@ -481,43 +495,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initiateSaveAs() {
-        mainHandler.post(() -> {
-            SelectPathDialogFragment selectPathDialogFragment = SelectPathDialogFragment.getInstance(getString(R.string.new_file_name,
-                    "." + MimeTypeMap.getFileExtensionFromUrl(urlToLoad)));
-            selectPathDialogFragment.attachCallback(path -> {
-                Log.d(TAG, path);
-                selectPathDialogFragment.dismiss();
-                final AlertDialog saveAsProgress = new AlertDialog.Builder(this)
-                        .setCancelable(false)
-                        .setView(R.layout.dialog_loading)
-                        .create();
+        mainHandler.post(() -> new AlertDialog.Builder(MainActivity.this)
+                .setItems(getAvailableExportOptions().second.toArray(new String[0]), (dialog, which) -> {
+                    SelectPathDialogFragment selectPathDialogFragment = SelectPathDialogFragment.getInstance(getString(R.string.new_file_name,
+                            "." + getAvailableExportOptions().first.get(which)));
+                    selectPathDialogFragment.attachCallback(path -> {
+                        Log.d(TAG, path);
 
-                nativeHandler.post(() -> {
-                    File tempOutputFile = new File(path);
-                    if (!tempOutputFile.exists()) {
-                        runOnUiThread(saveAsProgress::show);
-                        try {
-                            tempOutputFile.createNewFile();
-                            FileInputStream inStream = new FileInputStream(urlToLoad);
-                            FileOutputStream outStream = new FileOutputStream(path);
-                            FileChannel inChannel = inStream.getChannel();
-                            FileChannel outChannel = outStream.getChannel();
-                            inChannel.transferTo(0, inChannel.size(), outChannel);
-                            inStream.close();
-                            outStream.close();
-                        } catch (IOException e) {
-                            Log.e(TAG, e.getMessage());
-                            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        runOnUiThread(saveAsProgress::dismiss);
-                        Toast.makeText(this, getString(R.string.file_saved_at_location, path), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, getString(R.string.err_file_already_exists), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            });
-            selectPathDialogFragment.show(getSupportFragmentManager(), "select_path_dialog");
-        });
+                        nativeHandler.post(() -> {
+                            runOnUiThread(() -> getLoadingDialog().show());
+                            File tmpFile = new File(path);
+                            if (!tmpFile.exists()) {
+                                selectPathDialogFragment.dismiss();
+                                saveAs(path, getAvailableExportOptions().first.get(which));
+                                runOnUiThread(() -> Toast.makeText(MainActivity.this, getString(R.string.file_saved_at_location, path), Toast.LENGTH_SHORT).show());
+                            } else {
+                                runOnUiThread(() -> Toast.makeText(MainActivity.this, getString(R.string.err_file_already_exists), Toast.LENGTH_SHORT).show());
+                            }
+                            runOnUiThread(() -> getLoadingDialog().dismiss());
+                        });
+
+                    });
+                    selectPathDialogFragment.show(getSupportFragmentManager(), "select_path_dialog");
+                })
+                .setTitle(getString(R.string.choose_a_format))
+                .create()
+                .show());
+
     }
 
     private void initiatePrint() {
@@ -547,74 +551,141 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initiateShare() {
-        List<String> formats = new ArrayList<>();
-        formats.add(".pdf");
-        String extension = MimeTypeMap.getFileExtensionFromUrl(urlToLoad);
-        if (!(extension.equals("") || extension.equals("pdf") || extension.equals("tmp"))) {
-            formats.add("."+extension);
-        }
-        AlertDialog shareDialog = new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.choose_a_format))
-                .setItems(formats.toArray(new String[0]), (dialog, which) -> {
-                    switch (which) {
-                        case 0: {
-                            View shareDialogFileNameView = getLayoutInflater().inflate(R.layout.dialog_share, null);
-                            EditText fileNameEditTxt = shareDialogFileNameView.findViewById(R.id.nameEditTxt);
-                            fileNameEditTxt.setText(getString(R.string.new_file_name, ".pdf"));
-                            AlertDialog shareFileNameDialog = new AlertDialog.Builder(MainActivity.this)
-                                    .setTitle(getString(R.string.enter_filename))
-                                    .setView(shareDialogFileNameView)
-                                    .setPositiveButton(getString(R.string.share_dialog_positive), null)
-                                    .setNegativeButton(getString(R.string.share_dialog_negative), (dialog1, which1) -> dialog1.dismiss())
-                                    .create();
-                            shareFileNameDialog.setOnShowListener(dialog12 -> shareFileNameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                                    .setOnClickListener(v -> {
-                                        String fileName = fileNameEditTxt.getText().toString();
-                                        if (fileName.equals("")) {
-                                            Toast.makeText(MainActivity.this, getString(R.string.enter_valid_filename), Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            shareFileNameDialog.dismiss();
-                                            AlertDialog shareProgress = new AlertDialog.Builder(MainActivity.this)
-                                                    .setCancelable(false)
-                                                    .setView(R.layout.dialog_loading)
-                                                    .create();
+        mainHandler.post(() -> new AlertDialog.Builder(MainActivity.this)
+                .setItems(getAvailableExportOptions().second.toArray(new String[0]), (dialog, which) -> {
 
-                                            nativeHandler.post(() -> {
-                                                runOnUiThread(shareProgress::show);
-                                                Log.v(TAG, "saving file for sharing by " + Thread.currentThread().getName());
-                                                File shareFile = new File(getCacheDir(), fileName);
-                                                saveAs(shareFile.toURI().toString(), "pdf");
-                                                runOnUiThread(() -> {
-                                                    shareProgress.dismiss();
-                                                    Intent intentShareFile = new Intent(Intent.ACTION_SEND);
-                                                    Uri finalDocUri = FileProvider.getUriForFile(MainActivity.this,
-                                                            MainActivity.this.getApplicationContext().getPackageName() + ".fileprovider",
-                                                            shareFile);
-                                                    intentShareFile.putExtra(Intent.EXTRA_STREAM, finalDocUri);
-                                                    intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                    intentShareFile.setDataAndType(finalDocUri, getContentResolver().getType(finalDocUri));
-                                                    startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_document)));
-                                                });
+                    View shareDialogFileNameView = getLayoutInflater().inflate(R.layout.dialog_share, null);
+                    EditText fileNameEditTxt = shareDialogFileNameView.findViewById(R.id.nameEditTxt);
+                    String defaultFileName = getString(R.string.new_file_name, "." + getAvailableExportOptions().first.get(which));
+                    fileNameEditTxt.setText(defaultFileName);
+                    fileNameEditTxt.setOnFocusChangeListener((v, hasFocus) -> {
+                        if (hasFocus) {
+                            fileNameEditTxt.setSelection(0, defaultFileName.length() - getAvailableExportOptions().first.get(which).length() - 1);
+                        }
+                    });
+
+                    AlertDialog shareFileNameDialog = new AlertDialog.Builder(MainActivity.this)
+                            .setTitle(getString(R.string.enter_filename))
+                            .setView(shareDialogFileNameView)
+                            .setPositiveButton(getString(R.string.share_dialog_positive), null)
+                            .setNegativeButton(getString(R.string.share_dialog_negative), (dialog1, which1) -> dialog1.dismiss())
+                            .create();
+
+                    shareFileNameDialog.setOnShowListener(dialog1 -> {
+                        fileNameEditTxt.requestFocus();
+                        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+                        //didn't add the following in setPositiveButton because it's a workaround to stop alert dialog from dismissing when "ok" is pressed.
+                        // which is required to ask the user to re-enter the filename(if it is invalid)
+
+                        shareFileNameDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                                .setOnClickListener(v -> {
+                                    String fileName = fileNameEditTxt.getText().toString();
+
+                                    if (fileName.equals("") || fileName.equals("." + getAvailableExportOptions().first.get(which))) {
+                                        Toast.makeText(MainActivity.this, getString(R.string.enter_valid_filename), Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        shareFileNameDialog.dismiss();
+
+                                        nativeHandler.post(() -> {
+                                            runOnUiThread(() -> getLoadingDialog().show());
+                                            Log.v(TAG, "saving file for sharing by " + Thread.currentThread().getName());
+                                            File shareFile = new File(getCacheDir(), fileName);
+                                            saveAs(shareFile.toURI().toString(), getAvailableExportOptions().first.get(which));
+                                            runOnUiThread(() -> getLoadingDialog().dismiss());
+                                            runOnUiThread(() -> {
+                                                Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+                                                Uri finalDocUri = FileProvider.getUriForFile(MainActivity.this,
+                                                        MainActivity.this.getApplicationContext().getPackageName() + ".fileprovider",
+                                                        shareFile);
+                                                intentShareFile.putExtra(Intent.EXTRA_STREAM, finalDocUri);
+                                                intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                intentShareFile.setDataAndType(finalDocUri, getContentResolver().getType(finalDocUri));
+                                                startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_document)));
                                             });
-                                        }
-                                    }));
-                            shareFileNameDialog.show();
-                            break;
-                        }
-                        case 1: {
-                            Intent intentShareFile = new Intent(Intent.ACTION_SEND);
-                            Uri finalDocUri = FileProvider.getUriForFile(MainActivity.this,
-                                    MainActivity.this.getApplicationContext().getPackageName() + ".fileprovider",
-                                    new File(Uri.parse(urlToLoad).getPath()));
-                            intentShareFile.putExtra(Intent.EXTRA_STREAM, finalDocUri);
-                            intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            intentShareFile.setDataAndType(finalDocUri, getContentResolver().getType(finalDocUri));
-                            startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_document)));
-                            break;
-                        }
-                    }
-                }).create();
-        shareDialog.show();
+                                        });
+
+                                    }
+
+                                });
+                    });
+                    shareFileNameDialog.show();
+                })
+                .setTitle(getString(R.string.choose_a_format))
+                .create()
+                .show());
+    }
+
+    private AlertDialog getLoadingDialog() {
+        if (loadingAlertDialog != null) {
+            return loadingAlertDialog;
+        }
+        loadingAlertDialog = new AlertDialog.Builder(MainActivity.this)
+                .setCancelable(false)
+                .setView(R.layout.dialog_loading)
+                .create();
+        return loadingAlertDialog;
+    }
+
+
+    private Pair<List<String>, List<String>> getAvailableExportOptions() {
+        if (availableExportOptionsPair != null) {
+            return availableExportOptionsPair;
+        }
+
+        List<String> formats = new ArrayList<>();
+        List<String> formatNames = new ArrayList<>();
+        formats.add("pdf");
+        formatNames.add(".pdf, Portable Document Format");
+
+        switch (FileUtilities.getType(documentExtension)) {
+            case FileUtilities.DOC: {
+                formats.add("odt");
+                formatNames.add(".odt, OpenDocument format");
+
+                formats.add("txt");
+                formatNames.add(".txt, Plain text");
+
+                formats.add("rtf");
+                formatNames.add(".rtf, Rich Text format");
+
+                break;
+            }
+
+            case FileUtilities.CALC: {
+                formats.add("xlsx");
+                formatNames.add(".xlsx, Excel");
+
+                formats.add("ods");
+                formatNames.add(".ods, OpenDocument format");
+
+                formats.add("csv");
+                formatNames.add(".csv, Comma-separated values");
+
+                break;
+            }
+
+            case FileUtilities.IMPRESS: {
+                formats.add("pptx");
+                formatNames.add(".pptx, PowerPoint");
+
+                formats.add("odp");
+                formatNames.add(".odp, OpenDocument format");
+
+                break;
+            }
+
+            case FileUtilities.DRAWING: {
+                //Todo: add formats for drawing
+            }
+
+            case FileUtilities.UNKNOWN: {
+                //¯\_(ツ)_/¯
+            }
+        }
+
+        availableExportOptionsPair = new Pair<>(formats, formatNames);
+        return availableExportOptionsPair;
     }
 
     public native void saveAs(String fileUri, String format);
