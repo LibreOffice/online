@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_cf4a3a7f",
+        "filename": "loleaflet/src/map/handler/Map.WOPI.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-07-22T10:27:48Z",
+      "side": 1,
+      "message": "You cannot do this for all, there are integrations that don\u0027t have the Save As support, and this would make the it available in the menu nevertheless.  Can you please change to ThisIsTheAndroidApp?",
+      "range": {
+        "startLine": 23,
+        "startChar": 26,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "9473b77aa1b19b5bc40af1931f99e3a6d95c868e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
