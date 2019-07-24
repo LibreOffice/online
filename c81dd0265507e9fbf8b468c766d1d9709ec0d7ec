@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_095a6bf2",
+        "filename": "loleaflet/admin/admin.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-07-24T09:47:15Z",
+      "side": 1,
+      "message": "for master, can you also add \"col-md-2\" please?\nSee how the other elements look in master for reference.",
+      "revId": "c81dd0265507e9fbf8b468c766d1d9709ec0d7ec",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}

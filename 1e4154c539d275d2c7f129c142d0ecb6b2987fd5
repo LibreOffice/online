@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_696527b5",
+        "filename": "scripts/unocommands.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-07-24T09:47:15Z",
+      "side": 0,
+      "message": "any reason this requires python2 and not python3?",
+      "revId": "1e4154c539d275d2c7f129c142d0ecb6b2987fd5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
