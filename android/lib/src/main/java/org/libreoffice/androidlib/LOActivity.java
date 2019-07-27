@@ -32,6 +32,8 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -96,6 +98,7 @@ public class LOActivity extends AppCompatActivity {
 
     private ValueCallback<Uri[]> valueCallback;
     public static final int REQUEST_SELECT_FILE = 555;
+    private boolean isScreenDim = false;
 
     private static boolean copyFromAssets(AssetManager assetManager,
                                           String fromAssetPath, String targetDir) {
@@ -154,9 +157,10 @@ public class LOActivity extends AppCompatActivity {
         }
     }
 
-    /** Copies fonts except the NotoSans from the system to our location.
-     *  This is necessary because the NotoSans is huge and fontconfig needs
-     *  ages to parse them.
+    /**
+     * Copies fonts except the NotoSans from the system to our location.
+     * This is necessary because the NotoSans is huge and fontconfig needs
+     * ages to parse them.
      */
     private static boolean copyFonts(String fromPath, String targetDir) {
         try {
@@ -171,8 +175,7 @@ public class LOActivity extends AppCompatActivity {
                 if (!fontFileName.equals("Roboto-Regular.ttf")) {
                     Log.i(TAG, "Ignored font file: " + fontFile);
                     continue;
-                }
-                else {
+                } else {
                     Log.i(TAG, "Copying font file: " + fontFile);
                 }
 
@@ -214,6 +217,7 @@ public class LOActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         sPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         updatePreferences();
 
@@ -433,6 +437,18 @@ public class LOActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (isScreenDim) {
+            isScreenDim = false;
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.screenBrightness = -1f;
+            getWindow().setAttributes(params);
+            return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
     private void loadDocument() {
         // setup the LOOLWSD
         ApplicationInfo applicationInfo = getApplicationInfo();
@@ -578,6 +594,17 @@ public class LOActivity extends AppCompatActivity {
                     }
                 });
                 break;
+            }
+            case "DIM_SCREEN": {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        isScreenDim = true;
+                        WindowManager.LayoutParams params = getWindow().getAttributes();
+                        params.screenBrightness = 0f;
+                        getWindow().setAttributes(params);
+                    }
+                });
             }
         }
         return true;

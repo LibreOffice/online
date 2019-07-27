@@ -1089,6 +1089,11 @@ L.Map = L.Evented.extend({
 		this._active = false;
 		clearTimeout(vex.timer);
 
+		if (window.ThisIsTheAndroidApp) {
+			window.postMobileMessage('DIM_SCREEN');
+			return;
+		}
+
 		var message = '';
 		var map = this;
 		if (!map['wopi'].DisableInactiveMessages) {
