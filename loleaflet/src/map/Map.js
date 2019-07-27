@@ -1039,6 +1039,11 @@ L.Map = L.Evented.extend({
 		console.debug('_activate:');
 		clearTimeout(vex.timer);
 
+		if (window.ThisIsTheAndroidApp) {
+			window.postMobileMessage('LIGHT_SCREEN');
+			return true;
+		}
+
 		if (!this._active) {
 			// Only activate when we are connected.
 			if (this._socket.connected()) {
@@ -1088,6 +1093,11 @@ L.Map = L.Evented.extend({
 
 		this._active = false;
 		clearTimeout(vex.timer);
+
+		if (window.ThisIsTheAndroidApp) {
+			window.postMobileMessage('DIM_SCREEN');
+			return;
+		}
 
 		var message = '';
 		var map = this;
