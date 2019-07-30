@@ -111,7 +111,7 @@ L.Control.Menubar = L.Control.extend({
 					{uno: '.uno:InsertAuthoritiesEntry'},
 					{uno: '.uno:InsertMultiIndex'}]},
 			]},
-			{name: _UNO('.uno:FormatMenu', 'text'), type: 'menu', menu: [
+			{name: _UNO('.uno:FormatMenu', 'text'), id: 'format', type: 'menu', menu: [
 				{name: _UNO('.uno:FormatTextMenu', 'text'), type: 'menu', menu: [
 					{uno: '.uno:Bold'},
 					{uno: '.uno:Italic'},
