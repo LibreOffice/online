@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_5d8484b1",
+        "filename": "loleaflet/po/ui-en_GB.po",
+        "patchSetId": 1
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T09:51:36Z",
+      "side": 1,
+      "message": "No need to add a translation, it will be overwritten from Pootle anyway.",
+      "range": {
+        "startLine": 1026,
+        "startChar": 0,
+        "endLine": 1026,
+        "endChar": 16
+      },
+      "revId": "497dc945e8b4207a89d811908eed2bdc4976cf5a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_bdbe0063",
+        "filename": "loleaflet/src/layer/marker/Annotation.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T09:51:36Z",
+      "side": 1,
+      "message": "Can you move this to the .css, instead of setting the style programmatically please?",
+      "range": {
+        "startLine": 196,
+        "startChar": 2,
+        "endLine": 196,
+        "endChar": 49
+      },
+      "revId": "497dc945e8b4207a89d811908eed2bdc4976cf5a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_fd9238f6",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T09:51:36Z",
+      "side": 1,
+      "message": "Nit: No need for the additional newline here :-)",
+      "revId": "497dc945e8b4207a89d811908eed2bdc4976cf5a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
