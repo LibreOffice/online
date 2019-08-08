@@ -1,0 +1,221 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_fdab181a",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "Why does this add the .uno:Sidebar please?  Some kind of mismerge (?)",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_1da7ec51",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "Looks like something that would deserve an own function?",
+      "range": {
+        "startLine": 768,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 4
+      },
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_dd66542a",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "Looks like something that would deserve an own function?",
+      "range": {
+        "startLine": 768,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 4
+      },
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_7d6dc802",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "I think best to move it to a place that is actually a good one, or kill the comment? :-)  It\u0027ll look confusing in a year from now.",
+      "range": {
+        "startLine": 30,
+        "startChar": 33,
+        "endLine": 30,
+        "endChar": 76
+      },
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_9d70dcde",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "Nit: extra newline",
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_5d7244e5",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "nit: extra newline",
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_fd80f88d",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "Comments for the ending of conditions tend to bitrot (often the conditions become more complicated over time), best not to add this I think :-)",
+      "range": {
+        "startLine": 454,
+        "startChar": 5,
+        "endLine": 454,
+        "endChar": 17
+      },
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_1d7cccb3",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "nit: extra newline",
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_bd4cc09e",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "nit: extra newline (2 nl\u0027s instead of 1)",
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_dd4f3490",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "nit: extra nl",
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_7d46287f",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-08-08T10:06:57Z",
+      "side": 1,
+      "message": "nit: 2 nl\u0027s instead of 1 :-)",
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
