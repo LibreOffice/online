@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf659307_20188773",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002188
+      },
+      "writtenOn": "2019-08-08T11:11:34Z",
+      "side": 1,
+      "message": "I think this and a few other things were overlooked in my initial confusion having taken over this work from a colleague. I\u0027ve sorted it now.",
+      "parentUuid": "bf659307_fdab181a",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf659307_1da7ec51",
         "filename": "loleaflet/src/control/Control.Menubar.js",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2019-08-08T10:06:57Z",
       "side": 1,
       "message": "Looks like something that would deserve an own function?",
+      "range": {
+        "startLine": 768,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 4
+      },
+      "revId": "4d516c9fb66da99f8a61d25ec0ed97f597c5e974",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_e02b6f7f",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1002188
+      },
+      "writtenOn": "2019-08-08T11:11:34Z",
+      "side": 1,
+      "message": "I\u0027ve moved this into its own function in the Map.js file, however it could also go in the AnnotationManager.js file if it\u0027s more appropriate, just let me know.",
+      "parentUuid": "bf659307_dd66542a",
       "range": {
         "startLine": 768,
         "startChar": 0,
