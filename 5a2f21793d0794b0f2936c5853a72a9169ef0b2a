@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_1608292a",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2019-08-10T22:09:21Z",
+      "side": 1,
+      "message": "That should be [access \"refs/for/refs/heads/distro/*\"] (see latest changes in core)",
+      "revId": "5a2f21793d0794b0f2936c5853a72a9169ef0b2a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
