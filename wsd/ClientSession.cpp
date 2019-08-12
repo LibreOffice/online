@@ -416,7 +416,9 @@ bool ClientSession::_handleInput(const char *buffer, int length)
              tokens[0] != "exportsignanduploaddocument" &&
              tokens[0] != "rendershapeselection" &&
              tokens[0] != "removesession" &&
-             tokens[0] != "renamefile")
+             tokens[0] != "renamefile" &&
+             tokens[0] != "changecurrentobjectproperties"
+             )
     {
         sendTextFrame("error: cmd=" + tokens[0] + " kind=unknown");
         return false;

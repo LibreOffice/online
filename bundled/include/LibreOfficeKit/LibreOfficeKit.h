@@ -378,6 +378,10 @@ struct _LibreOfficeKitDocumentClass
     /// @see lok::Document::createViewWithOptions().
     int (*createViewWithOptions) (LibreOfficeKitDocument* pThis, const char* pOptions);
 
+    /// @see lok::Document::changeCurrentObjectProperties
+    void (*changeCurrentObjectProperties) (LibreOfficeKitDocument* pThis, const char* pJsonPropertiesString);
+
+
 #endif // defined LOK_USE_UNSTABLE_API || defined LIBO_INTERNAL_ONLY
 };
 

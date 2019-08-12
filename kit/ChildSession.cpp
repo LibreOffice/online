@@ -277,7 +277,8 @@ bool ChildSession::_handleInput(const char *buffer, int length)
                tokens[0] == "signdocument" ||
                tokens[0] == "uploadsigneddocument" ||
                tokens[0] == "exportsignanduploaddocument" ||
-               tokens[0] == "rendershapeselection");
+               tokens[0] == "rendershapeselection" ||
+               tokens[0] == "changecurrentobjectproperties" );
 
         if (tokens[0] == "clientzoom")
         {
@@ -396,6 +397,10 @@ bool ChildSession::_handleInput(const char *buffer, int length)
         else if (tokens[0] == "rendershapeselection")
         {
             return renderShapeSelection(buffer, length, tokens);
+        }
+        else if (tokens[0] == "changecurrentobjectproperties")
+        {
+            return changeCurrentObjectProperties(buffer, length, tokens);
         }
         else
         {
@@ -531,6 +536,18 @@ bool ChildSession::uploadSignedDocument(const char* buffer, int length, const st
 
         return false;
     }
+
+    return true;
+}
+
+bool ChildSession::changeCurrentObjectProperties(const char* buffer, int length, const std::vector<std::string>& /*tokens*/)
+{
+    const std::string firstLine = getFirstLine(buffer, length);
+    const char* data = buffer + firstLine.size() + 1;
+    const int size = length - firstLine.size() - 1;
+    std::string json(data, size);
+
+    getLOKitDocument()->changeCurrentObjectProperties(json.c_str());
 
     return true;
 }
@@ -2295,6 +2312,9 @@ void ChildSession::loKitCallback(const int type, const std::string& payload)
         break;
     case LOK_CALLBACK_CELL_AUTO_FILL_AREA:
         sendTextFrame("cellautofillarea: " + payload);
+        break;
+    case LOK_CALLBACK_TABLE_SELECTED:
+        sendTextFrame("tableselected: " + payload);
         break;
 
 #if !ENABLE_DEBUG

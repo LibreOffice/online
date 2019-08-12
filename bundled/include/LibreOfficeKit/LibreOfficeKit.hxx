@@ -436,7 +436,7 @@ public:
     /**
      * Returns a json mapping of the possible values for the given command
      * e.g. {commandName: ".uno:StyleApply", commandValues: {"familyName1" : ["list of style names in the family1"], etc.}}
-     * @param pCommand a uno command for which the possible values are requested
+     * @param pCommand a UNO command for which the possible values are requested
      * @return {commandName: unoCmd, commandValues: {possible_values}}
      */
     char* getCommandValues(const char* pCommand)
@@ -676,7 +676,7 @@ public:
     /**
      * Gets an image of the selected shapes.
      * @param pOutput contains the result; use free to deallocate.
-     * @return the size ouf *pOutput in bytes.
+     * @return the size of *pOutput in bytes.
      */
     size_t renderShapeSelection(char** pOutput)
     {
@@ -698,6 +698,18 @@ public:
     {
         return mpDoc->pClass->postWindowGestureEvent(mpDoc, nWindowId, pType, nX, nY, nOffset);
     }
+
+    /**
+     * Change current object properties. Properties are send as a JSON string.
+     *
+     * @param pJsonPropertiesString JSON properties in a string
+     */
+    void changeCurrentObjectProperties(const char* pJsonPropertiesString)
+    {
+        mpDoc->pClass->changeCurrentObjectProperties(mpDoc, pJsonPropertiesString);
+    }
+
+
 #endif // defined LOK_USE_UNSTABLE_API || defined LIBO_INTERNAL_ONLY
 };
 
@@ -719,7 +731,7 @@ public:
     }
 
     /**
-     * Loads a document from an URL.
+     * Loads a document from a URL.
      *
      * @param pUrl the URL of the document to load
      * @param pFilterOptions options for the import filter, e.g. SkipImages.
