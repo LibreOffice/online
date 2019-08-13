@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_982ea3f8",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2019-08-13T14:08:06Z",
+      "side": 1,
+      "message": "cosmetic changes !\u003d\u003d",
+      "revId": "d081ad3a17d873abfd5144ab09f0900925943859",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_38351747",
+        "filename": "loleaflet/src/layer/AnnotationManager.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2019-08-13T14:08:06Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d",
+      "revId": "d081ad3a17d873abfd5144ab09f0900925943859",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
