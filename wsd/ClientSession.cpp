@@ -257,23 +257,30 @@ bool ClientSession::_handleInput(const char *buffer, int length)
     }
     else if (tokens[0] == "save")
     {
-        int dontTerminateEdit = 1;
-        if (tokens.size() > 1)
-            getTokenInteger(tokens[1], "dontTerminateEdit", dontTerminateEdit);
+        if (isReadOnly())
+        {
+            LOG_WRN("The document is read-only, cannot save.");
+        }
+        else
+        {
+            int dontTerminateEdit = 1;
+            if (tokens.size() > 1)
+                getTokenInteger(tokens[1], "dontTerminateEdit", dontTerminateEdit);
 
-        // Don't save unmodified docs by default, or when read-only.
-        int dontSaveIfUnmodified = 1;
-        if (!isReadOnly() && tokens.size() > 2)
-            getTokenInteger(tokens[2], "dontSaveIfUnmodified", dontSaveIfUnmodified);
+            // Don't save unmodified docs by default.
+            int dontSaveIfUnmodified = 1;
+            if (tokens.size() > 2)
+                getTokenInteger(tokens[2], "dontSaveIfUnmodified", dontSaveIfUnmodified);
 
-        std::string extendedData;
-        if (tokens.size() > 3)
-            getTokenString(tokens[3], "extendedData", extendedData);
+            std::string extendedData;
+            if (tokens.size() > 3)
+                getTokenString(tokens[3], "extendedData", extendedData);
 
-        constexpr bool isAutosave = false;
-        constexpr bool isExitSave = false;
-        docBroker->sendUnoSave(getId(), dontTerminateEdit != 0, dontSaveIfUnmodified != 0,
-                                isAutosave, isExitSave, extendedData);
+            constexpr bool isAutosave = false;
+            constexpr bool isExitSave = false;
+            docBroker->sendUnoSave(getId(), dontTerminateEdit != 0, dontSaveIfUnmodified != 0,
+                                   isAutosave, isExitSave, extendedData);
+        }
     }
     else if (tokens[0] == "savetostorage")
     {
