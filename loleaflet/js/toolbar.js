@@ -137,7 +137,7 @@ function onClick(e, id, item, subItem) {
 		map.print();
 	}
 	else if (id === 'save') {
-		map.fire('postMessage', {msgId: 'UI_Save'});
+		map.fire('postMessage', {msgId: 'UI_Save', args: {Source: 'toolbar'}});
 		if (!map._disableDefaultAction['UI_Save']) {
 			map.save(false /* An explicit save should terminate cell edit */, false /* An explicit save should save it again */);
 		}

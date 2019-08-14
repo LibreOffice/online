@@ -539,7 +539,7 @@ L.Map.Keyboard = L.Handler.extend({
 			this._map.print();
 			return true;
 		case 83: // s
-			this._map.fire('postMessage', {msgId: 'UI_Save'});
+			this._map.fire('postMessage', {msgId: 'UI_Save', args: {Source: 'keyboard'}});
 			if (!this._map._disableDefaultAction['UI_Save']) {
 				this._map.save(false /* An explicit save should terminate cell edit */,
 				               false /* An explicit save should save it again */);

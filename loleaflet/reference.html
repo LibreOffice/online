@@ -3253,6 +3253,37 @@ Editor to WOPI host
 		</td>
 	</tr>
 	<tr>
+		<td><code><b>UI_Close</b></code></td>
+		<td></td>
+		<td>
+		Notification to the client when the user closes the document.
+		The 'EverModified' argument will disclose whether or not
+		the document had ever been modified (as a boolean value),
+		regardless of whether when it was last saved. This is helpful
+		for versioning and archiving documents after they have been closed.
+
+		Arguments is a dictionary by the name of 'Values' in the event.data.
+
+		Response to this query is sent via <code>Action_Save</code> message,
+		if the default handler is disabled, otherwise, by default Action_Save
+		is already invoked.
+		</td>
+	</tr>
+	<tr>
+		<td><code><b>UI_Save</b></code></td>
+		<td></td>
+		<td>
+		Notification to the client when the user invokes the save function.
+		The 'Source' argument will disclose the source of the event, for
+		example 'keyboard', 'menu', or 'toolbar'. Arguments is a dictionary
+		by the name of 'Values' in the event.data.
+
+		Response to this query is sent via <code>Action_Save</code> message,
+		if the default handler is disabled, otherwise, by default Action_Save
+		is already invoked.
+		</td>
+	</tr>
+	<tr>
 		<td><code><b>UI_SaveAs</b></code></td>
 		<td></td>
 		<td>

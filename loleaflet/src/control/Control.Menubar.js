@@ -726,7 +726,7 @@ L.Control.Menubar = L.Control.extend({
 	_executeAction: function(item) {
 		var id = $(item).data('id');
 		if (id === 'save') {
-			this._map.fire('postMessage', {msgId: 'UI_Save'});
+			this._map.fire('postMessage', {msgId: 'UI_Save', args: {Source: 'menu'}});
 			if (!this._map._disableDefaultAction['UI_Save']) {
 				this._map.save(true, true);
 			}
