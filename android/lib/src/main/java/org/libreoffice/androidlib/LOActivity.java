@@ -32,6 +32,7 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -154,9 +155,10 @@ public class LOActivity extends AppCompatActivity {
         }
     }
 
-    /** Copies fonts except the NotoSans from the system to our location.
-     *  This is necessary because the NotoSans is huge and fontconfig needs
-     *  ages to parse them.
+    /**
+     * Copies fonts except the NotoSans from the system to our location.
+     * This is necessary because the NotoSans is huge and fontconfig needs
+     * ages to parse them.
      */
     private static boolean copyFonts(String fromPath, String targetDir) {
         try {
@@ -171,8 +173,7 @@ public class LOActivity extends AppCompatActivity {
                 if (!fontFileName.equals("Roboto-Regular.ttf")) {
                     Log.i(TAG, "Ignored font file: " + fontFile);
                     continue;
-                }
-                else {
+                } else {
                     Log.i(TAG, "Copying font file: " + fontFile);
                 }
 
@@ -578,6 +579,16 @@ public class LOActivity extends AppCompatActivity {
                     }
                 });
                 break;
+            }
+            case "CLOSE_KEYBOARD": {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(mWebView.getWindowToken(), 0);
+                    }
+                });
+                return false;
             }
         }
         return true;

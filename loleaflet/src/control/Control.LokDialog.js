@@ -523,6 +523,10 @@ L.Control.LokDialog = L.Control.extend({
 		    && this._map._permission != 'edit')
 			return;
 
+		if (window.ThisIsTheAndroidApp) {
+			window.postMobileMessage('CLOSE_KEYBOARD');
+		}
+
 		$('#sidebar-dock-wrapper').css('display', 'block');
 
 		var ratio = 1.0;
