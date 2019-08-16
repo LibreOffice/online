@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_39d676c5",
+        "filename": "net/Ssl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-08-16T14:26:20Z",
+      "side": 0,
+      "message": "I\u0027d leave this here, since it\u0027s an implementation detail what the default is. LOOLWSD doesn\u0027t need to know what library we are using and worry about the default magic string.",
+      "revId": "f2c6facb296e79a9747f866a94f0ae2269dddc45",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
