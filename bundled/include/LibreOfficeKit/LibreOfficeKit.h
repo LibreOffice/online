@@ -104,6 +104,12 @@ struct _LibreOfficeKitClass
                            const int nCertificateBinarySize,
                            const unsigned char* pPrivateKeyBinary,
                            const int nPrivateKeyBinarySize);
+
+    /// @see lok::Office::runLoop()
+    void (*runLoop) (LibreOfficeKit* pThis,
+                     LibreOfficeKitPollCallback pPollCallback,
+                     LibreOfficeKitWakeCallback pWakeCallback,
+                     void* pData);
 };
 
 #define LIBREOFFICEKIT_DOCUMENT_HAS(pDoc,member) LIBREOFFICEKIT_HAS_MEMBER(LibreOfficeKitDocumentClass,member,(pDoc)->pClass->nSize)
@@ -365,6 +371,11 @@ struct _LibreOfficeKitDocumentClass
 
     /// @see lok::Document::moveSelectedParts().
     void (*moveSelectedParts) (LibreOfficeKitDocument* pThis, int nPosition, bool bDuplicate);
+
+    /// Resize window with given id.
+    /// @see lok::Document::resizeWindow().
+    void (*resizeWindow) (LibreOfficeKitDocument* pThis, unsigned nWindowId,
+                          const int width, const int height);
 
 #endif // defined LOK_USE_UNSTABLE_API || defined LIBO_INTERNAL_ONLY
 };

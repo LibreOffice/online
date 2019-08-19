@@ -155,7 +155,8 @@ bool ChildSession::_handleInput(const char *buffer, int length)
             for (const auto& eventPair : viewPair.second)
             {
                 const RecordedEvent& event = eventPair.second;
-                LOG_TRC("Replaying missed view event: " <<  viewPair.first << " " << LOKitHelper::kitCallbackTypeToString(event.getType())
+                LOG_TRC("Replaying missed view event: " << viewPair.first << ' '
+                                                        << lokCallbackTypeToString(event.getType())
                                                         << ": " << event.getPayload());
                 loKitCallback(event.getType(), event.getPayload());
             }
@@ -164,7 +165,8 @@ bool ChildSession::_handleInput(const char *buffer, int length)
         for (const auto& eventPair : _stateRecorder.getRecordedEvents())
         {
             const RecordedEvent& event = eventPair.second;
-            LOG_TRC("Replaying missed event: " << LOKitHelper::kitCallbackTypeToString(event.getType()) << ": " << event.getPayload());
+            LOG_TRC("Replaying missed event: " << lokCallbackTypeToString(event.getType()) << ": "
+                                               << event.getPayload());
             loKitCallback(event.getType(), event.getPayload());
         }
 
@@ -176,7 +178,8 @@ bool ChildSession::_handleInput(const char *buffer, int length)
 
         for (const auto& event : _stateRecorder.getRecordedEventsVector())
         {
-            LOG_TRC("Replaying missed event (part of sequence): " << LOKitHelper::kitCallbackTypeToString(event.getType()) << ": " << event.getPayload());
+            LOG_TRC("Replaying missed event (part of sequence): "
+                    << lokCallbackTypeToString(event.getType()) << ": " << event.getPayload());
             loKitCallback(event.getType(), event.getPayload());
         }
 
@@ -1930,7 +1933,7 @@ int ChildSession::getSpeed() {
 
 void ChildSession::loKitCallback(const int type, const std::string& payload)
 {
-    const std::string typeName = LOKitHelper::kitCallbackTypeToString(type);
+    const char* typeName = lokCallbackTypeToString(type);
     LOG_TRC("ChildSession::loKitCallback [" << getName() << "]: " <<
             typeName << " [" << payload << "].");
 
@@ -2156,6 +2159,15 @@ void ChildSession::loKitCallback(const int type, const std::string& payload)
     case LOK_CALLBACK_DOCUMENT_PASSWORD:
     case LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY:
         // these are not handled here.
+        break;
+    case LOK_CALLBACK_CELL_SELECTION_AREA:
+        sendTextFrame("cellselectionarea: " + payload);
+        break;
+    case LOK_CALLBACK_CELL_AUTO_FILL_AREA:
+        sendTextFrame("cellautofillarea: " + payload);
+        break;
+    case LOK_CALLBACK_TABLE_SELECTED:
+        sendTextFrame("tableselected: " + payload);
         break;
 
 #if !ENABLE_DEBUG
