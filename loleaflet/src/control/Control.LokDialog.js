@@ -361,7 +361,10 @@ L.Control.LokDialog = L.Control.extend({
 		if (!this._isOpen(dlgId) || !this._dialogs[dlgId].input)
 			return;
 
-		this._dialogs[dlgId].input.focus();
+		if (this._dialogs[dlgId].cursorVisible)
+			this._dialogs[dlgId].input.focus();
+		else
+			this._dialogs[dlgId].input.blur();
 	},
 
 	_setCanvasWidthHeight: function(canvas, width, height) {
