@@ -95,7 +95,7 @@ L.Control.Menubar = L.Control.extend({
 				{type: 'separator'},
 				{uno: '.uno:HyperlinkDialog'},
 				{uno: '.uno:InsertSymbol'},
-				{name: _UNO('.uno:FormattingMarkMenu', 'text'), type: 'menu', menu: [
+				{name: _UNO('.uno:FormattingMarkMenu', 'text'), id: 'format', type: 'menu', menu: [
 					{uno: '.uno:InsertNonBreakingSpace'},
 					{uno: '.uno:InsertHardHyphen'},
 					{uno: '.uno:InsertSoftHyphen'},
