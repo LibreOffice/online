@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_f9f6acf9",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-08-26T15:23:57Z",
+      "side": 1,
+      "message": "missing a this.map ?",
+      "revId": "d87956977b58f56863bd44de2129a655fd674be4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
