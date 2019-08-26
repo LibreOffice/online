@@ -27,6 +27,9 @@
     "uglifyify": "3.0.2",
     "vex-js": "4.1.0"
   },
+  "dependencies": {
+    "eslint-plugin-compat": "^3.3.0"
+  },
   "repository": {
     "type": "git",
     "url": "git://gerrit.libreoffice.org/online.git"
