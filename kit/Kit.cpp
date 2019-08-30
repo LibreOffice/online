@@ -1242,7 +1242,7 @@ public:
         }
 
         const std::string payload = p ? p : "(nil)";
-        LOG_TRC("Document::GlobalCallback " << LOKitHelper::kitCallbackTypeToString(type) <<
+        LOG_TRC("Document::GlobalCallback " << lokCallbackTypeToString(type) <<
                 " [" << payload << "].");
         Document* self = static_cast<Document*>(data);
         if (type == LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY ||
@@ -1287,7 +1287,7 @@ public:
 
         const std::string payload = p ? p : "(nil)";
         LOG_TRC("Document::ViewCallback [" << descriptor->getViewId() <<
-                "] [" << LOKitHelper::kitCallbackTypeToString(type) <<
+                "] [" << lokCallbackTypeToString(type) <<
                 "] [" << payload << "].");
 
         // when we examine the content of the JSON
@@ -2002,7 +2002,7 @@ private:
                                 else
                                 {
                                     LOG_ERR("Session-thread of session [" << session->getId() << "] for view [" <<
-                                            viewId << "] is not running. Dropping [" << LOKitHelper::kitCallbackTypeToString(type) <<
+                                            viewId << "] is not running. Dropping [" << lokCallbackTypeToString(type) <<
                                             "] payload [" << payload << "].");
                                 }
 
@@ -2016,7 +2016,7 @@ private:
                         if (!isFound)
                         {
                             LOG_WRN("Document::ViewCallback. Session [" << viewId <<
-                                    "] is no longer active to process [" << LOKitHelper::kitCallbackTypeToString(type) <<
+                                    "] is no longer active to process [" << lokCallbackTypeToString(type) <<
                                     "] [" << payload << "] message to Master Session.");
                         }
                     }

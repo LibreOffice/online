@@ -88,7 +88,6 @@ extern "C"
 
 
 #else
-    #pragma warning(disable:4996)
     #if !defined WIN32_LEAN_AND_MEAN
         #define WIN32_LEAN_AND_MEAN
     #endif
@@ -287,13 +286,22 @@ static LibreOfficeKit *lok_init_2( const char *install_path,  const char *user_p
         }
         free( imp_lib );
         // dlhandle is "leaked"
-        // coverity[leaked_storage]
+        // coverity[leaked_storage] - on purpose
         return pSym( install_path );
+    }
+
+    if (user_profile_url != NULL && user_profile_url[0] == '/')
+    {
+        // It should be either a file: URL or a vnd.sun.star.pathname: URL.
+        fprintf( stderr, "second parameter to lok_init_2 '%s' should be a URL, not a pathname\n", user_profile_url );
+        lok_dlclose( dlhandle );
+        free( imp_lib );
+        return NULL;
     }
 
     free( imp_lib );
     // dlhandle is "leaked"
-    // coverity[leaked_storage]
+    // coverity[leaked_storage] - on purpose
     return pSym2( install_path, user_profile_url );
 #else
     return libreofficekit_hook_2( install_path, user_profile_url );
@@ -330,7 +338,7 @@ int lok_preinit( const char *install_path,  const char *user_profile_url )
     free( imp_lib );
 
     // dlhandle is "leaked"
-    // coverity[leaked_storage]
+    // coverity[leaked_storage] - on purpose
     return pSym( install_path, user_profile_url );
 }
 #endif
