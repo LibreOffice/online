@@ -23,6 +23,9 @@
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <sys/types.h>
+#ifdef _WIN32
+#define stat _stat
+#endif
 #include <unistd.h>
 #include <dirent.h>
 
@@ -783,6 +786,33 @@ namespace Util
                 return i;
         }
         return std::string::npos;
+    }
+
+    std::chrono::system_clock::time_point getFileTimestamp(std::string str_path)
+    {
+        struct stat file;
+        stat(str_path.c_str(), &file);
+        std::chrono::seconds ns{file.st_mtime};
+        std::chrono::system_clock::time_point mod_time_point{ns};
+
+        return mod_time_point;
+    }
+
+    std::string getIso8601FracformatTime(std::chrono::system_clock::time_point time){
+        char time_modified[50];														
+        std::time_t lastModified_us_t = std::chrono::high_resolution_clock::to_time_t(time);
+        std::tm lastModified_tm = *std::gmtime(&lastModified_us_t);
+        strftime(time_modified, 50, "%FT%T.", &lastModified_tm);
+
+        auto lastModified_s = std::chrono::time_point_cast<std::chrono::seconds>(time);
+        
+        std::ostringstream oss;
+        oss << time_modified
+            << (time - lastModified_s).count() / 1000
+            << "Z";
+        //cout<<"chrono: "<<oss.str()<<endl;
+
+        return oss.str();
     }
 }
 
