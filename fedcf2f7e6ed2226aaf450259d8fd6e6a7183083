@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_f1255cac",
+        "filename": "common/Util.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-08-31T11:25:54Z",
+      "side": 1,
+      "message": "whitespace at end of line can we kill that; also a bigger buffer is no problem for this ~leaf node - 64 characters etc. \u003d)",
+      "revId": "fedcf2f7e6ed2226aaf450259d8fd6e6a7183083",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_114ed06e",
+        "filename": "common/Util.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-08-31T11:25:54Z",
+      "side": 1,
+      "message": "lets use sizeof(time_modified) here instead of 50",
+      "revId": "fedcf2f7e6ed2226aaf450259d8fd6e6a7183083",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_3151940f",
+        "filename": "common/Util.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-08-31T11:25:54Z",
+      "side": 1,
+      "message": "trailing whitespace \u003d)",
+      "revId": "fedcf2f7e6ed2226aaf450259d8fd6e6a7183083",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_d157f801",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-08-31T11:25:54Z",
+      "side": 1,
+      "message": "Online is Linux only - we don\u0027t need to care about windows.",
+      "revId": "fedcf2f7e6ed2226aaf450259d8fd6e6a7183083",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
