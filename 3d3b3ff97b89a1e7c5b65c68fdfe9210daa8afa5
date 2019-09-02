@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf659307_77ecdcf2",
+        "filename": "common/Util.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-09-02T19:26:51Z",
+      "side": 1,
+      "message": "sizeof(time_now) - should be 50 and doesn\u0027t hard-code something. does sizeof(50) even compile ? \u003d) it probably shouldn\u0027t.",
+      "revId": "3d3b3ff97b89a1e7c5b65c68fdfe9210daa8afa5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_37c0a450",
+        "filename": "test/WhiteBoxTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-09-02T19:26:51Z",
+      "side": 1,
+      "message": "nice unit test - good stuff ...",
+      "revId": "3d3b3ff97b89a1e7c5b65c68fdfe9210daa8afa5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf659307_17bd60d7",
+        "filename": "test/WhiteBoxTests.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-09-02T19:26:51Z",
+      "side": 1,
+      "message": "trailing whitespace - good to get your editor to highlight \u0026 catch that \u003d)",
+      "revId": "3d3b3ff97b89a1e7c5b65c68fdfe9210daa8afa5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
