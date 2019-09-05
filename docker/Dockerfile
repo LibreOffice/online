@@ -6,9 +6,6 @@
 
 FROM ubuntu:18.04
 
-# get the latest fixes
-RUN apt-get update && apt-get upgrade -y
-
 # install LibreOffice run-time dependencies
 # install adduser, findutils, openssl and cpio that we need later
 # install an editor
