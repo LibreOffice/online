@@ -97,7 +97,6 @@ using Poco::JSON::Object;
 using Poco::JSON::Parser;
 using Poco::StringTokenizer;
 using Poco::Thread;
-using Poco::Timestamp;
 using Poco::URI;
 using Poco::Util::Application;
 
@@ -1120,17 +1119,20 @@ public:
 
         // Render the whole area
         const double area = pixmapWidth * pixmapHeight;
-        Timestamp timestamp;
+        auto timestamp = std::chrono::system_clock::now();
         LOG_TRC("Calling paintPartTile(" << (void*)pixmap.data() << ")");
         _loKitDocument->paintPartTile(pixmap.data(),
                                       tileCombined.getPart(),
                                       pixmapWidth, pixmapHeight,
                                       renderArea.getLeft(), renderArea.getTop(),
                                       renderArea.getWidth(), renderArea.getHeight());
-        Timestamp::TimeDiff elapsed = timestamp.elapsed();
+        auto duration = std::chrono::system_clock::now() - timestamp;
+        std::chrono::microseconds::rep elapsed = std::chrono::duration_cast<std::chrono
+                                                            ::microseconds>(duration).count();
+        double totalTime = elapsed/1000.;
         LOG_DBG("paintTile (combined) at (" << renderArea.getLeft() << ", " << renderArea.getTop() << "), (" <<
                 renderArea.getWidth() << ", " << renderArea.getHeight() << ") " <<
-                " rendered in " << (elapsed/1000.) << " ms (" << area / elapsed << " MP/s).");
+                " rendered in " << totalTime << " ms (" << area / elapsed << " MP/s).");
         const auto mode = static_cast<LibreOfficeKitTileMode>(_loKitDocument->getTileMode());
 
         std::vector<char> output;
@@ -1268,10 +1270,13 @@ public:
 
         _pngCache.balanceCache();
 
-        elapsed = timestamp.elapsed();
+        duration = std::chrono::system_clock::now() - timestamp;
+        elapsed = std::chrono::duration_cast<std::chrono
+                                                            ::microseconds>(duration).count();
+        totalTime = elapsed/1000.;
         LOG_DBG("renderCombinedTiles at (" << renderArea.getLeft() << ", " << renderArea.getTop() << "), (" <<
                 renderArea.getWidth() << ", " << renderArea.getHeight() << ") " <<
-                " took " << (elapsed/1000.) << " ms (including the paintTile).");
+                " took " << totalTime << " ms (including the paintTile).");
 
         if (tileIndex == 0)
         {
@@ -1767,9 +1772,13 @@ private:
             _isDocPasswordProtected = false;
 
             LOG_DBG("Calling lokit::documentLoad(" << uriAnonym << ", \"" << options << "\").");
-            Timestamp timestamp;
+            auto timestamp = std::chrono::system_clock::now();
             _loKitDocument.reset(_loKit->documentLoad(docTemplate.empty() ? uri.c_str() : docTemplate.c_str(), options.c_str()));
-            LOG_DBG("Returned lokit::documentLoad(" << uriAnonym << ") in " << (timestamp.elapsed() / 1000.) << "ms.");
+            auto duration = std::chrono::system_clock::now() - timestamp;
+            std::chrono::microseconds::rep elapsed = std::chrono::duration_cast<std::chrono
+                                                                ::microseconds>(duration).count();
+            const double totalTime = elapsed/1000.;
+            LOG_DBG("Returned lokit::documentLoad(" << uriAnonym << ") in " << totalTime << "ms.");
 #ifdef IOS
             // The iOS app (and the Android one) has max one document open at a time, so we can keep
             // a pointer to it in a global.
