@@ -61,6 +61,8 @@ namespace Log
     void shutdown();
     /// Was shutdown() called?
     bool isShutdown();
+#else
+    constexpr bool isShutdown() { return false; }
 #endif
 
     char* prefix(char* buffer, std::size_t len, const char* level);
