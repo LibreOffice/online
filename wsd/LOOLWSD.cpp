@@ -217,7 +217,7 @@ std::set<std::string> LOOLWSD::EditFileExtensions;
 
 #if MOBILEAPP
 
-// Or can this be retrieved in some other way?
+// Or can this be retreieved in some other way?
 int LOOLWSD::prisonerServerSocketFD;
 
 #else
@@ -281,6 +281,7 @@ inline void checkSessionLimitsAndWarnClients()
 /// connected to any document.
 void alertAllUsersInternal(const std::string& msg)
 {
+
     std::lock_guard<std::mutex> docBrokersLock(DocBrokersMutex);
 
     LOG_INF("Alerting all users: [" << msg << "]");
@@ -688,7 +689,7 @@ inline std::string getAdminURI(const Poco::Util::LayeredConfiguration &config)
 
 #endif // MOBILEAPP
 
-std::atomic<uint64_t> LOOLWSD::NextSessionId;
+std::atomic<uint64_t> LOOLWSD::NextConnectionId(1);
 
 #ifndef KIT_IN_PROCESS
 std::atomic<int> LOOLWSD::ForKitWritePipe(-1);
@@ -2077,7 +2078,7 @@ private:
     /// Set the socket associated with this ResponseClient.
     void onConnect(const std::shared_ptr<StreamSocket>& socket) override
     {
-        _id = LOOLWSD::GenSessionId();
+        _id = LOOLWSD::GetConnectionId();
         _socket = socket;
         LOG_TRC("#" << socket->getFD() << " Connected to ClientRequestDispatcher.");
     }
