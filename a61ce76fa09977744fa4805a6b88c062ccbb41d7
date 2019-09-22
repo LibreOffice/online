@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_2cabdcd6",
+        "filename": "kit/ForKit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2019-09-22T10:38:51Z",
+      "side": 1,
+      "message": "this method is called when locked by something?\nelse you might need std::atomic\u003csize_t\u003e",
+      "revId": "a61ce76fa09977744fa4805a6b88c062ccbb41d7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
