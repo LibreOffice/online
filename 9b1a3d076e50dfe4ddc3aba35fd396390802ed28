@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_6ce1d4fe",
+        "filename": "kit/ChildSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-09-22T16:56:23Z",
+      "side": 1,
+      "message": "Can be const. Also \u0027start\u0027 is probably better name than timestamp.",
+      "revId": "9b1a3d076e50dfe4ddc3aba35fd396390802ed28",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_0ce62018",
+        "filename": "kit/ChildSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-09-22T16:56:23Z",
+      "side": 1,
+      "message": "Can be const.",
+      "revId": "9b1a3d076e50dfe4ddc3aba35fd396390802ed28",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_acc04c52",
+        "filename": "kit/ChildSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-09-22T16:56:23Z",
+      "side": 1,
+      "message": "Can be const. Also, probably more consistent to use auto here too, otherwise, better to have explicit types for duration and timestamp too.",
+      "revId": "9b1a3d076e50dfe4ddc3aba35fd396390802ed28",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_2ce3dc07",
+        "filename": "kit/ChildSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-09-22T16:56:23Z",
+      "side": 1,
+      "message": "Can use std::chrono::milliseconds here and avoid dividing by 1000. below.",
+      "revId": "9b1a3d076e50dfe4ddc3aba35fd396390802ed28",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_ecec04f5",
+        "filename": "kit/ChildSession.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-09-22T16:56:23Z",
+      "side": 1,
+      "message": "Can use elapsed directly, once it is in milliseconds.",
+      "revId": "9b1a3d076e50dfe4ddc3aba35fd396390802ed28",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
