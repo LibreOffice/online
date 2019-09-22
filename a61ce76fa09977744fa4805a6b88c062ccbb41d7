@@ -16,6 +16,24 @@
       "revId": "a61ce76fa09977744fa4805a6b88c062ccbb41d7",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_ecc5e45c",
+        "filename": "kit/ForKit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-09-22T18:21:39Z",
+      "side": 1,
+      "message": "This function is only ever called from the sole thread in the forkit process, so should be safe without atomic.",
+      "parentUuid": "7f7f9b97_2cabdcd6",
+      "revId": "a61ce76fa09977744fa4805a6b88c062ccbb41d7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
