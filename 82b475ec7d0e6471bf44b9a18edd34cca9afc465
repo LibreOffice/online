@@ -16,6 +16,24 @@
       "revId": "82b475ec7d0e6471bf44b9a18edd34cca9afc465",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_803bbecf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2019-10-02T06:21:18Z",
+      "side": 1,
+      "message": "Packages do not overwrite config files by default, that\u0027s important in order to keep users\u0027 settings. \n\nWhen the user upgrades from e.g. LibreOffice 6.3 to LibreOffice 6.4, the path lo_template_path has to be adjusted from /opt/libreoffice6.3 to /opt/libreoffice6.4. \n\nIf we decide the path compile-time, a given loolwsd binary will always look for the corresponding core path.",
+      "parentUuid": "7f7f9b97_fdbd7f68",
+      "revId": "82b475ec7d0e6471bf44b9a18edd34cca9afc465",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
