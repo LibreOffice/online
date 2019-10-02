@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_fdbd7f68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-10-02T02:03:20Z",
+      "side": 1,
+      "message": "Does this mean that the path can change after upgrading?\n\nAnd do I understand correctly that with compile-time path we will guarantee that after an upgrade, Online will always have the correct path where Core is installed?",
+      "revId": "82b475ec7d0e6471bf44b9a18edd34cca9afc465",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
