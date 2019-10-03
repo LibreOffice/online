@@ -6,248 +6,284 @@
 }
 
 #document-container.spreadsheet-document.readonly {
-	top: 56px;
+  top: 56px;
 }
 
 #document-container.spreadsheet-document.tablet {
-	border-top: 1px solid #B6B6B6;
-	top: 100px;
-	left: 50px;
-	bottom: 68px;
+  border-top: 1px solid #B6B6B6;
+  top: 100px;
+  left: 50px;
+  bottom: 68px;
 }
 
 .spreadsheet-tabs-container {
-	margin: 0;
-	padding: 0;
-	left: 142px;
-	right: 0;
-	bottom: 33px;
-	position: absolute;
-	cursor: pointer;
-	height: 32px;
-	overflow: hidden;
-	white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  left: 142px;
+  right: 0;
+  bottom: 33px;
+  position: absolute;
+  cursor: pointer;
+  height: 32px;
+  overflow: hidden;
+  white-space: nowrap;
 
-	background-color: #efefef;
-	}
+  background-color: #efefef;
+  }
 
 .spreadsheet-tab-scroll {
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	padding-bottom: 20px; /* to hide the scroolbar */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding-bottom: 20px; /* to hide the scroolbar */
 
-	margin-left: 6px;
-	}
+  margin-left: 6px;
+  }
 
 .spreadsheet-tab {
-	margin: 0px;
-	margin-top: 2px;
-	margin-right: 3px;
-	padding-left: 9px;
-	padding-right: 9px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+  margin: 0px;
+  margin-top: 2px;
+  margin-right: 3px;
+  padding-left: 9px;
+  padding-right: 9px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 
-	font: 12px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
-	display: inline-block;
-	border: 1px solid darkgrey;
-	background-color: lightgrey;
-	color: black;
-	}
+  font: 12px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
+  display: inline-block;
+  border: 1px solid darkgrey;
+  background-color: lightgrey;
+  color: black;
+  }
 
 .spreadsheet-tab-selected {
-	background: white !important;
-	color: black !important;
-	margin-top: 0px;
-	padding-top: 6px;
-	border: 1px solid #dfdfdf;
-	border-top: 0px;
-	}
+  background: white !important;
+  color: black !important;
+  margin-top: 0px;
+  padding-top: 6px;
+  border: 1px solid #dfdfdf;
+  border-top: 0px;
+  }
 
 #spreadsheet-row-column-frame {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 117px;
-	bottom: 65px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 117px;
+  bottom: 65px;
 }
 
 #spreadsheet-row-column-frame.readonly {
-		top: 36px;
-		bottom: 0px;
+    top: 36px;
+    bottom: 0px;
 }
 
 #spreadsheet-row-column-frame.tablet {
-	top: 80px;
+  top: 80px;
 }
 
 #spreadsheet-header-corner-container {
-	border: 1px solid darkgrey;
-	background-color: lightgrey;
-	cursor: pointer;
+  border: 1px solid darkgrey;
+  background-color: lightgrey;
+  cursor: pointer;
 
-	position: absolute;
-	padding: 0px;
-	margin: 0px;
-	left: 0px;
-	top: 0;
-	width: 48px;
-	height: 19px;
-	}
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  left: 0px;
+  top: 0;
+  width: 48px;
+  height: 19px;
+  }
 
 #spreadsheet-header-corner {
-	display: inline-block;
-	white-space: nowrap;
-	width: 100%;
-	height: 100%;
-	border-spacing: 0px !important;
-	position: relative;
-	margin: 0px;
-	padding: 0px;
-	}
+  display: inline-block;
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+  border-spacing: 0px !important;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  }
 
 .spreadsheet-header-corner-styles {
-	border: 1px solid darkgray;
-	font: 12px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
-	color: black;
-	background-color: lightgray;
-	cursor: pointer;
-	}
+  border: 1px solid darkgray;
+  font: 12px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
+  color: black;
+  background-color: lightgray;
+  cursor: pointer;
+  }
 
 #spreadsheet-header-columns-container {
-	border: 1px solid darkgrey;
-	background-color: lightgrey;
+  border: 1px solid darkgrey;
+  background-color: lightgrey;
 
-	position: absolute;
-	display: inline-block;
-	white-space: nowrap;
-	left: 49px;
-	top: 0;
-	right: 0;
-	height: 19px;
-	overflow: hidden;
-	}
+  position: absolute;
+  display: inline-block;
+  white-space: nowrap;
+  left: 49px;
+  top: 0;
+  right: 0;
+  height: 19px;
+  overflow: hidden;
+  }
 
 .spreadsheet-header-columns {
-	display: inline-block;
-	white-space: nowrap;
-	width: 100%;
-	height: 100%;
-	border-spacing: 0px !important;
-	position: relative;
-	margin: 0px;
-	padding: 0px;
-	}
+  display: inline-block;
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+  border-spacing: 0px !important;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  }
 
 .spreadsheet-header-column {
-	border: 1px solid darkgray;
-	font: 12px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
-	color: black;
-	background-color: lightgray;
-	cursor: pointer;
+  border: 1px solid darkgray;
+  font: 12px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
+  color: black;
+  background-color: lightgray;
+  cursor: pointer;
 }
 
 .spreadsheet-header-column-hover {
-	background-color: #DDD;
+  background-color: #DDD;
 }
 
 .spreadsheet-header-column-selected {
-	color: white;
-	background: linear-gradient(#3465A4, #729FCF, #004586);
+  color: white;
+  background: linear-gradient(#3465A4, #729FCF, #004586);
 }
 
 .spreadsheet-header-column-resize {
-	cursor: col-resize;
+  cursor: col-resize;
 }
 
 #spreadsheet-header-rows-container {
-	border: 1px solid darkgrey;
-	background-color: lightgrey;
+  border: 1px solid darkgrey;
+  background-color: lightgrey;
 
-	position: absolute;
-	left: 0;
-	top: 20px;
-	width: 48px;
-	bottom: 0;
-	overflow: hidden;
-	}
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 48px;
+  bottom: 0;
+  overflow: hidden;
+  }
 
 .spreadsheet-header-rows {
-	width: 100%;
-	height: 100%;
-	border-spacing: 0px !important;
-	position: relative;
-	margin: 0px;
-	padding: 0px;
-	}
+  width: 100%;
+  height: 100%;
+  border-spacing: 0px !important;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  }
 
 .spreadsheet-header-row {
-	border: 1px solid darkgray;
-	font: 12px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
-	color: black;
-	background-color: lightgray;
-	cursor: pointer;
-	}
+  border: 1px solid darkgray;
+  font: 12px/1.5 "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
+  color: black;
+  background-color: lightgray;
+  cursor: pointer;
+  }
 
 .spreadsheet-header-row-hover {
-	background-color: #DDD;
-	}
+  background-color: #DDD;
+  }
 
 .spreadsheet-header-row-selected {
-	color: white;
-	background: linear-gradient(#3465A4, #729FCF, #004586);
-	}
+  color: white;
+  background: linear-gradient(#3465A4, #729FCF, #004586);
+  }
 
 .spreadsheet-header-row-resize {
-	cursor: row-resize;
-	}
+  cursor: row-resize;
+  }
 
 .spreadsheet-cell-resize-marker {
-	margin-left: 0px;
-	margin-top: 0px;
-	width: 16px;
-	height: 16px;
-	background-image: url('images/cell-resize-marker.svg');
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
+  margin-left: 0px;
+  margin-top: 0px;
+  width: 16px;
+  height: 16px;
+  background-image: url('images/cell-resize-marker.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .spreadsheet-cell-autofill-marker {
-	margin-left: 0px;
-	margin-top: 0px;
-	width: 16px;
-	height: 16px;
-	background-image: url('images/cell-autofill-marker.svg');
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
+  margin-left: 0px;
+  margin-top: 0px;
+  width: 16px;
+  height: 16px;
+  background-image: url('images/cell-autofill-marker.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .spreadsheet-drop-down-marker {
-	margin-left: 0px;
-	margin-top: 0px;
-	width: 18px;
-	height: 17px;
-	background-image: url('images/drop-down-button.svg');
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	}
+  margin-left: 0px;
+  margin-top: 0px;
+  width: 18px;
+  height: 17px;
+  background-image: url('images/drop-down-button.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  }
 
 @media (max-width: 767px) {
-	#spreadsheet-toolbar {
-		bottom: 0;
-	}
+  #spreadsheet-toolbar {
+    bottom: 0;
+  }
 
-	.spreadsheet-tabs-container {
-		bottom: 0;
-	}
+  .spreadsheet-tabs-container {
+    bottom: 0;
+  }
 
-	#spreadsheet-row-column-frame {
-		top: 73px;
-		bottom: 36px;
-	}
+  #spreadsheet-row-column-frame {
+    top: 73px;
+    bottom: 36px;
+  }
 
-	#spreadsheet-row-column-frame.readonly {
-		top: 30px;
-	}
+  #spreadsheet-row-column-frame.readonly {
+    top: 30px;
+  }
+
+  .spreadsheet-tab{
+    background-color: #eaf5ff;
+    color: #4c4c4c;
+    border-radius: 3px;
+    border-color: #fbfbfb;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 4px;
+  }
+
+  .spreadsheet-tab-selected{
+    color: #0b87e7 !important;
+    border-color: #0b87e7;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    margin-top: 2px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+  }
+
+  .spreadsheet-tabs-container, #spreadsheet-toolbar{
+    background-color: #fff;
+    border-top: 1px solid #eceff4;
+  }
+  #spreadsheet-toolbar{
+    background-color: #fbfbfb;
+    border-top: 1px solid #eceff4;
+    height: 33px;
+  }
+  #spreadsheet-toolbar .w2ui-tb-image{
+    padding-top: 0px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    height: 32px !important;
+  }
 }
