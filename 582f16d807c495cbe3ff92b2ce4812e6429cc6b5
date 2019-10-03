@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_ee12a3b1",
+        "filename": "loleaflet/css/spreadsheet.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-10-03T08:32:05Z",
+      "side": 1,
+      "message": "inconsistent padding (tabs and spaces in one file)",
+      "revId": "582f16d807c495cbe3ff92b2ce4812e6429cc6b5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
