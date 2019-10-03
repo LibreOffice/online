@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_e9137d0c",
+        "filename": "loleaflet/css/toolbar.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-10-03T13:44:08Z",
+      "side": 1,
+      "message": "spaces are here",
+      "revId": "ef163e38554a8d819f611f14e07e1ad1605c917d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
