@@ -843,3 +843,22 @@ tr.useritem > td > img {
 	min-height: 32px;
 	margin-right: 5px;
 }
+.mobile-wizard select{
+ padding: 0.8em !important;
+ border-radius: 4px !important;
+ margin-right: 0.8em !important;
+}
+.mobile-wizard select:focus{
+ background-color: #eee !important;
+ outline: none !important;
+ border-color: #fff;
+ color: #1385de;
+}
+.mobile-wizard select option{
+	background-color: white;
+	color: black;
+}
+.mobile-wizard select option:checked{
+	background-color: #eee;
+	color: black;
+}
