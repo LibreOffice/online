@@ -862,3 +862,10 @@ tr.useritem > td > img {
 	background-color: #eee;
 	color: black;
 }
+.mobile-wizard img{
+	margin-top: 32px !important;
+}
+
+#mobile-wizard-content .ui-content > table > tr > td > table > table > tr:first-child > td > img{
+	margin-top: 0px !important;
+}
