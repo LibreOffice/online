@@ -54,6 +54,7 @@ using std::size_t;
 
 bool StorageBase::FilesystemEnabled;
 bool StorageBase::WopiEnabled;
+bool StorageBase::SSLEnabled;
 Util::RegexListMatcher StorageBase::WopiHosts;
 
 #if !MOBILEAPP
@@ -124,8 +125,43 @@ void StorageBase::initialize()
     // Init client
     Poco::Net::Context::Params sslClientParams;
 
-    // TODO: Be more strict and setup SSL key/certs for remote server and us
-    sslClientParams.verificationMode = Poco::Net::Context::VERIFY_NONE;
+#if ENABLE_DEBUG
+    //In case the system reinitializes without closing the process
+    //the storage SSL settings will not be reloaded from configuration file.
+    //For now this is not happening so it's safe to reuse the
+    //environment variable
+    char *StorageSSLEnabled = getenv("STORAGE_SSL_ENABLE");
+    if (StorageSSLEnabled != NULL)
+    {
+        if (strcasecmp(StorageSSLEnabled, "true"))
+        {
+            if (strcasecmp(StorageSSLEnabled, "false"))
+                SSLEnabled = LOOLWSD::getConfigValue<bool>("storage.ssl.enable", true);
+            else
+                SSLEnabled = false;
+        }
+        else
+            SSLEnabled = true;
+    }
+    else
+#endif
+    SSLEnabled = LOOLWSD::getConfigValue<bool>("storage.ssl.enable", true);
+
+    if (SSLEnabled)
+    {
+        sslClientParams.certificateFile = LOOLWSD::getPathFromConfig("storage.ssl.cert_file_path");
+        sslClientParams.privateKeyFile = LOOLWSD::getPathFromConfig("storage.ssl.key_file_path");
+        sslClientParams.caLocation = LOOLWSD::getPathFromConfig("storage.ssl.ca_file_path");
+
+        std::string cipherList = LOOLWSD::getPathFromConfig("storage.ssl.cipher_list");
+        //If empty use default
+        if (!cipherList.empty())
+            sslClientParams.cipherList = cipherList;
+
+        sslClientParams.verificationMode = (sslClientParams.caLocation.empty() ? Poco::Net::Context::VERIFY_NONE : Poco::Net::Context::VERIFY_STRICT);
+    }
+    else
+        sslClientParams.verificationMode = Poco::Net::Context::VERIFY_NONE;
 
     Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> consoleClientHandler = new Poco::Net::KeyConsoleHandler(false);
     Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidClientCertHandler = new Poco::Net::AcceptCertificateHandler(false);
@@ -365,19 +401,19 @@ StorageBase::SaveResult LocalStorage::saveLocalFileToStorage(const Authorization
 
 #if !MOBILEAPP
 
+Poco::Net::HTTPClientSession* StorageBase::getHTTPClientSession(const Poco::URI& uri)
+ {
+    // We decoupled the Wopi communication from client communcation because
+    // the Wopi communication must have an independent policy.
+    // So, we will use here only Storage settings.
+    return (SSLEnabled)
+         ? new Poco::Net::HTTPSClientSession(uri.getHost(), uri.getPort(),
+                                             Poco::Net::SSLManager::instance().defaultClientContext())
+         : new Poco::Net::HTTPClientSession(uri.getHost(), uri.getPort());
+ }
+ 
 namespace
 {
-
-inline
-Poco::Net::HTTPClientSession* getHTTPClientSession(const Poco::URI& uri)
-{
-    // FIXME: if we're configured for http - we can still use an https:// wopi
-    // host surely; of course - the converse is not true / sensible.
-    return (LOOLWSD::isSSLEnabled() || LOOLWSD::isSSLTermination())
-        ? new Poco::Net::HTTPSClientSession(uri.getHost(), uri.getPort(),
-                                            Poco::Net::SSLManager::instance().defaultClientContext())
-        : new Poco::Net::HTTPClientSession(uri.getHost(), uri.getPort());
-}
 
 void addStorageDebugCookie(Poco::Net::HTTPRequest& request)
 {
