@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_157e07e4",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-10-07T17:39:30Z",
+      "side": 1,
+      "message": "Hmm - I was hoping that these keys would not be set here (ie. no default), and also have no values set in the actual XML either.\nThen we can detect empty values and fall-back to the existing SSL bits in the current configuration. This has the advantage of being a much nicer upgrade path for people who configured that to non-defaults in the past (?)\n\u003d)",
+      "revId": "dbd793f2c44958760e23733f0eb961dbfa48f5b6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_b582b3c7",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-10-07T17:39:30Z",
+      "side": 1,
+      "message": "Of course, we\u0027d need to check for empty and fallback to another key here - presumably via a helper function to do that (?)",
+      "revId": "dbd793f2c44958760e23733f0eb961dbfa48f5b6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
