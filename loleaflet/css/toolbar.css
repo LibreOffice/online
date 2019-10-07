@@ -1,4 +1,7 @@
 @media (max-width: 767px), (max-device-height: 767px) {
+	.w2ui-icon.prev, .w2ui-icon.next{
+		display: none !important;
+	}
 	#formulabar {
 		padding: 0px !important;
 		border-top: 1px solid #bbbbbb !important;
