@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_5518ff1b",
+        "filename": "loleaflet/src/control/Toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-10-07T14:08:02Z",
+      "side": 1,
+      "message": "I think it should be _(...) for translations",
+      "revId": "43aa1cbbe3866fba1dca7f8d24ba316dcf4d298e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_75217b4d",
+        "filename": "loleaflet/src/control/Toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-10-07T14:08:02Z",
+      "side": 1,
+      "message": "_(\u0027Link\u0027) + \u0027\u003cinput ...\u0027",
+      "revId": "43aa1cbbe3866fba1dca7f8d24ba316dcf4d298e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_951e970a",
+        "filename": "loleaflet/src/control/Toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-10-07T14:08:02Z",
+      "side": 1,
+      "message": "_(...)",
+      "revId": "43aa1cbbe3866fba1dca7f8d24ba316dcf4d298e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
