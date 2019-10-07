@@ -346,5 +346,35 @@ L.Map.include({
 				map.focus();
 			}
 		});
+	},
+
+	showHyperlinkDialog: function() {
+		var map = this;
+		vex.dialog.open({
+			message: 'Insert hyperlink',
+			input: [
+				'Text<input name="text" type="text"/>',
+				'Link<input name="link" type="text"/>'
+			].join(''),
+			buttons: [
+				$.extend({}, vex.dialog.buttons.YES, { text: 'OK' }),
+				$.extend({}, vex.dialog.buttons.NO, { text: 'Cancel' })
+			],
+			callback: function(data) {
+				if (data && data.link != '') {
+					var command = {
+						'Hyperlink.Text': {
+							type: 'string',
+							value: data.text
+						},
+						'Hyperlink.URL': {
+							type: 'string',
+							value: data.link
+						}
+					};
+					map.sendUnoCommand('.uno:SetHyperlink', command);
+				}
+			}
+		});
 	}
 });
