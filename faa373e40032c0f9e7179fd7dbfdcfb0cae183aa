@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_ba4aa27d",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-10-07T12:00:01Z",
+      "side": 1,
+      "message": "would prefer the env. var check inside:\n\n#if ENABLE_DEBUG\n\nAnd ideally the common code split out - can we not fetch SSLEnabled at the top of the block, and override later ? \u003d)",
+      "revId": "faa373e40032c0f9e7179fd7dbfdcfb0cae183aa",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_7a5c0a4b",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-10-07T12:00:01Z",
+      "side": 1,
+      "message": "surely we\u0027d want a !strcasecmp() for a match ? or are you in-lining the \u0027not true\u0027 behavior or ?",
+      "revId": "faa373e40032c0f9e7179fd7dbfdcfb0cae183aa",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
