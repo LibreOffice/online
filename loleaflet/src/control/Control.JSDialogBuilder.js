@@ -427,8 +427,14 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			$(menuEntry).click(function() {
 				if (data.executionType === 'action') {
 					builder.map.menubar._executeAction(undefined, data.id);
+					window.insertionMobileWizard = false;
+					builder.map.fire('closemobilewizard');
+					w2ui['actionbar'].uncheck('insertion_mobile_wizard');
 				} else {
-					builder.map.sendUnoCommand(data.command)
+					builder.map.sendUnoCommand(data.command);
+					window.insertionMobileWizard = false;
+					builder.map.fire('closemobilewizard');
+					w2ui['actionbar'].uncheck('insertion_mobile_wizard');
 				}
 			});
 		} else {
