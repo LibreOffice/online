@@ -551,6 +551,7 @@ bool ClientSession::sendTile(const char * /*buffer*/, int /*length*/, const std:
     try
     {
         TileDesc tileDesc = TileDesc::parse(tokens);
+        tileDesc.setNormalizedViewId(getHash());
         docBroker->handleTileRequest(tileDesc, shared_from_this());
     }
     catch (const std::exception& exc)
@@ -568,6 +569,7 @@ bool ClientSession::sendCombinedTiles(const char* /*buffer*/, int /*length*/, co
     try
     {
         TileCombined tileCombined = TileCombined::parse(tokens);
+        tileCombined.setNormalizedViewId(getHash());
         docBroker->handleTileCombinedRequest(tileCombined, shared_from_this());
     }
     catch (const std::exception& exc)
@@ -1282,7 +1284,7 @@ void ClientSession::handleTileInvalidation(const std::string& message,
     if( part == -1 ) // If no part is specifed we use the part used by the client
         part = _clientSelectedPart;
 
-    int normalizedViewId=0;
+    int normalizedViewId=getHash();
 
     std::vector<TileDesc> invalidTiles;
     if(part == _clientSelectedPart || _isTextDocument)
@@ -1315,6 +1317,7 @@ void ClientSession::handleTileInvalidation(const std::string& message,
     if(!invalidTiles.empty())
     {
         TileCombined tileCombined = TileCombined::create(invalidTiles);
+        tileCombined.setNormalizedViewId(getHash());
         docBroker->handleTileCombinedRequest(tileCombined, shared_from_this());
     }
 }
@@ -1389,7 +1392,7 @@ std::string ClientSession::generateTileID(const TileDesc& tile) const
 {
     std::ostringstream tileID;
     tileID << tile.getPart() << ":" << tile.getTilePosX() << ":" << tile.getTilePosY() << ":"
-           << tile.getTileWidth() << ":" << tile.getTileHeight();
+           << tile.getTileWidth() << ":" << tile.getTileHeight() << ":" << tile.getNormalizedViewId();
     return tileID.str();
 }
 
