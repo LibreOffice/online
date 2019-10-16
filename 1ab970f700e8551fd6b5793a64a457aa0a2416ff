@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_a3402b37",
+        "filename": "loleaflet/css/toolbar.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2019-10-16T08:36:41Z",
+      "side": 1,
+      "message": "why do you add this to toolbar.css?",
+      "revId": "1ab970f700e8551fd6b5793a64a457aa0a2416ff",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
