@@ -1,0 +1,6 @@
+@media (max-width: 767px), (max-device-height: 767px) {
+  span.menu-entry-icon img {
+    width: 24px;
+    margin: 4px;
+  }
+}
