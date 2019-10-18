@@ -127,13 +127,15 @@ void StorageBase::initialize()
     // Init client
     Poco::Net::Context::Params sslClientParams;
 
-    // TODO: Be more strict and setup SSL key/certs for remote server and us
-    sslClientParams.verificationMode = Poco::Net::Context::VERIFY_NONE;
+    sslClientParams.loadDefaultCAs = true;
 
     Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> consoleClientHandler = new Poco::Net::KeyConsoleHandler(false);
     Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> invalidClientCertHandler = new Poco::Net::AcceptCertificateHandler(false);
 
     Poco::Net::Context::Ptr sslClientContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, sslClientParams);
+    sslClientContext->disableProtocols(Poco::Net::Context::Protocols::PROTO_SSLV2 |
+                                       Poco::Net::Context::Protocols::PROTO_SSLV3 |
+                                       Poco::Net::Context::Protocols::PROTO_TLSV1);
     Poco::Net::SSLManager::instance().initializeClient(consoleClientHandler, invalidClientCertHandler, sslClientContext);
 #endif
 #else
