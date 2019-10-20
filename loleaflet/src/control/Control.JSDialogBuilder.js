@@ -96,12 +96,13 @@ L.Control.JSDialogBuilder = L.Control.extend({
 
 	// by default send new state to the core
 	_defaultCallbackHandler: function(objectType, eventType, object, data, builder) {
-		console.debug('control: \'' + objectType + '\' id:\'' + object.id + '\' event: \'' + eventType + '\' state: \'' + data + '\'');
+		var cmd = JSON.stringify(data);
+		console.debug('control: \'' + objectType + '\' id:\'' + object.id + '\' event: \'' + eventType + '\' state: \'' + cmd + '\'');
 
 		if (objectType == 'toolbutton' && eventType == 'click') {
 			builder.map.sendUnoCommand(data);
 		} else if (object) {
-			builder.map._socket.sendMessage('dialogevent ' + window.sidebarId + ' ' + object.id + ' ' + eventType + ' ' + data);
+			builder.map._socket.sendMessage('dialogevent ' + window.sidebarId + ' ' + cmd);
 		}
 	},
 
@@ -529,8 +530,9 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			image = image.substr(0, image.lastIndexOf('.'));
 			image = image.substr(image.lastIndexOf('/') + 1);
 			elem = L.DomUtil.create('div', 'layout ' + image, parentContainer);
+			$(elem).data('id', data.entries[index].id);
 			$(elem).click(function () {
-				builder.callback('valueset', 'selected', data.pos);
+				builder.callback('valueset', 'selected', { id: data.id }, { ctrl: data.id, cmd: 'SELECT', ID: $(this).data('id') }, builder);
 			});
 		}
 
