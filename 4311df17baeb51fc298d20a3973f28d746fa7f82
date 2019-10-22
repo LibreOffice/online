@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_85140950",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 3000,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2019-10-22T19:08:08Z",
+      "side": 1,
+      "message": "I suppose that we could instead use Poco\u0027s XMLWriter to write it:\n\n    #include \u003cPoco/XML/XMLWriter.h\u003e\n    ...\n    writer.setOptions(Poco::XML::XMLWriter::WRITE_XML_DECLARATION);",
+      "revId": "4311df17baeb51fc298d20a3973f28d746fa7f82",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
