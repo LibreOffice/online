@@ -2996,6 +2996,7 @@ private:
         }
 
         std::ostringstream ostrXML;
+        ostrXML << "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
         DOMWriter writer;
         writer.writeNode(ostrXML, docXML);
         return ostrXML.str();
