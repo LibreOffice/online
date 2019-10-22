@@ -2091,7 +2091,7 @@ protected:
         else if (tokens.size() == 3 && tokens[0] == "setconfig")
         {
 #ifndef MOBILEAPP
-            // Currently onlly rlimit entries are supported.
+            // Currently only rlimit entries are supported.
             if (!Rlimit::handleSetrlimitCommand(tokens))
             {
                 LOG_ERR("Unknown setconfig command: " << message);
