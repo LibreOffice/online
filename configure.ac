@@ -50,6 +50,15 @@ AS_IF([test `uname -s` = Linux],
        AS_IF([test -z "$SETCAP"],
        [AC_MSG_ERROR([The setcap command is needed. It might be in a package called libcap-progs.])]))
 
+# check for python module
+AC_MSG_CHECKING([for polib for python3])
+if /usr/bin/env python3 -c "import polib" 2> /dev/null ; then
+    AC_MSG_RESULT([yes])
+else
+    AC_MSG_RESULT([no])
+    AC_MSG_ERROR([polib for python3 is needed. It might be in a package called python3-polib.])
+fi
+
 # Declare options
 AC_ARG_ENABLE([debug],
               AS_HELP_STRING([--enable-debug],
