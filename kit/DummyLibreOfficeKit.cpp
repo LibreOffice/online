@@ -121,7 +121,8 @@ static unsigned char* doc_renderFont(LibreOfficeKitDocument* pThis,
                           const char *pFontName,
                           const char *pChar,
                           int* pFontWidth,
-                          int* pFontHeight);
+                          int* pFontHeight,
+                          int pOrientation=0);
 static char* doc_getPartHash(LibreOfficeKitDocument* pThis, int nPart);
 
 static size_t doc_renderShapeSelection(LibreOfficeKitDocument* pThis, char** pOutput);
@@ -517,12 +518,14 @@ unsigned char* doc_renderFont(LibreOfficeKitDocument* /*pThis*/,
                     const char* pFontName,
                     const char* pChar,
                     int* pFontWidth,
-                    int* pFontHeight)
+                    int* pFontHeight,
+                    int pOrientation)
 {
     (void) pFontName;
     (void) pChar;
     (void) pFontWidth;
     (void) pFontHeight;
+    (void) pOrientation;
 
     return nullptr;
 }
