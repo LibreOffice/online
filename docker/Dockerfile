@@ -12,7 +12,8 @@ RUN apt-get update && apt-get upgrade -y
 # install LibreOffice run-time dependencies
 # install adduser, findutils, openssl and cpio that we need later
 # install an editor
-RUN apt-get -y install locales-all libpng16-16 fontconfig adduser cpio findutils nano libpocoxml50 libpocoutil50 libpoconetssl50 libpoconet50 libpocojson50 libpocofoundation50 libpococrypto50 libcap2-bin openssl inotify-tools procps
+# install required python modules
+RUN apt-get -y install locales-all libpng16-16 fontconfig adduser cpio findutils nano libpocoxml50 libpocoutil50 libpoconetssl50 libpoconet50 libpocojson50 libpocofoundation50 libpococrypto50 libcap2-bin openssl inotify-tools procps python3-lxml python3-polib
 
 # tdf#117557 - Add CJK Fonts to LibreOffice Online Docker Image
 RUN apt-get -y install fonts-wqy-zenhei fonts-wqy-microhei fonts-droid-fallback fonts-noto-cjk
