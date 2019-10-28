@@ -10,7 +10,7 @@
     "browserify": "13.1.0",
     "browserify-css": "0.9.1",
     "d3": "3.5.17",
-    "eslint": "3.0.0",
+    "eslint": "6.6.0",
     "exorcist": "0.4.0",
     "hammerjs": "2.0.8",
     "jquery": "2.2.4",
