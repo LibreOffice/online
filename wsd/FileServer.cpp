@@ -385,7 +385,7 @@ void FileServerRequestHandler::handleRequest(const HTTPRequest& request, Poco::M
             }
 
             response.set("User-Agent", HTTP_AGENT_STRING);
-            response.set("Date", Util::getHttpTimeNow());
+            response.set("Date", Util::getHttpTime(std::chrono::system_clock::now()));
 
             bool gzip = request.hasToken("Accept-Encoding", "gzip");
             const std::string *content;
@@ -454,7 +454,7 @@ void FileServerRequestHandler::sendError(int errorCode, const Poco::Net::HTTPReq
     std::ostringstream oss;
     oss << "HTTP/1.1 " << errorCode << "\r\n"
         "Content-Type: text/html charset=UTF-8\r\n"
-        "Date: " << Util::getHttpTimeNow() << "\r\n"
+        "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
         "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
         << extraHeader
         << "\r\n";
@@ -696,8 +696,8 @@ void FileServerRequestHandler::preprocessFile(const HTTPRequest& request, Poco::
 
     std::ostringstream oss;
     oss << "HTTP/1.1 200 OK\r\n"
-        "Date: " << Util::getHttpTimeNow() << "\r\n"
-        "Last-Modified: " << Util::getHttpTimeNow() << "\r\n"
+        "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
+        "Last-Modified: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
         "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
         "Cache-Control:max-age=11059200\r\n"
         "ETag: \"" LOOLWSD_VERSION_HASH "\"\r\n"
@@ -886,7 +886,7 @@ void FileServerRequestHandler::preprocessAdminFile(const HTTPRequest& request,co
     response.add("Referrer-Policy", "no-referrer");
     response.add("X-Content-Type-Options", "nosniff");
     response.set("User-Agent", HTTP_AGENT_STRING);
-    response.set("Date", Util::getHttpTimeNow());
+    response.set("Date", Util::getHttpTime(std::chrono::system_clock::now()));
 
     response.setContentType("text/html");
     response.setChunkedTransferEncoding(false);

@@ -773,17 +773,6 @@ namespace Util
         return base + Util::anonymize(filename, nAnonymizationSalt) + ext + params;
     }
 
-    std::string getHttpTimeNow()
-    {
-        char time_now[64];
-        std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-        std::time_t now_c = std::chrono::system_clock::to_time_t(now);
-        std::tm now_tm = *std::gmtime(&now_c);
-        strftime(time_now, sizeof(time_now), "%a, %d %b %Y %T", &now_tm);
-
-        return time_now;
-    }
-
     std::string getHttpTime(std::chrono::system_clock::time_point time)
     {
         char http_time[64];

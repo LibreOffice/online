@@ -161,7 +161,7 @@ private:
             // Bad request.
             std::ostringstream oss;
             oss << "HTTP/1.1 400\r\n"
-                << "Date: " << Util::getHttpTimeNow() << "\r\n"
+                << "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
                 << "User-Agent: LOOLWSD WOPI Agent\r\n"
                 << "Content-Length: 0\r\n"
                 << "\r\n";

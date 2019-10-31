@@ -2107,7 +2107,7 @@ private:
             LOG_ERR("Looks like SSL/TLS traffic on plain http port");
             std::ostringstream oss;
             oss << "HTTP/1.1 400\r\n"
-                "Date: " << Util::getHttpTimeNow() << "\r\n"
+                "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
                 "User-Agent: " WOPI_AGENT_STRING "\r\n"
                 "Content-Length: 0\r\n"
                 "\r\n";
@@ -2218,7 +2218,7 @@ private:
                     // Bad request.
                     std::ostringstream oss;
                     oss << "HTTP/1.1 400\r\n"
-                        "Date: " << Util::getHttpTimeNow() << "\r\n"
+                        "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
                         "User-Agent: " WOPI_AGENT_STRING "\r\n"
                         "Content-Length: 0\r\n"
                         "\r\n";
@@ -2233,7 +2233,7 @@ private:
             // Bad request.
             std::ostringstream oss;
             oss << "HTTP/1.1 400\r\n"
-                << "Date: " << Util::getHttpTimeNow() << "\r\n"
+                << "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
                 << "User-Agent: LOOLWSD WOPI Agent\r\n"
                 << "Content-Length: 0\r\n"
                 << "\r\n";
@@ -2284,7 +2284,7 @@ private:
 
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n"
-            "Last-Modified: " << Util::getHttpTimeNow() << "\r\n"
+            "Last-Modified: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
             "User-Agent: " WOPI_AGENT_STRING "\r\n"
             "Content-Length: " << responseString.size() << "\r\n"
             "Content-Type: " << mimeType << "\r\n"
@@ -2328,7 +2328,7 @@ private:
         // TODO: Refactor this to some common handler.
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n"
-            "Last-Modified: " << Util::getHttpTimeNow() << "\r\n"
+            "Last-Modified: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
             "User-Agent: " WOPI_AGENT_STRING "\r\n"
             "Content-Length: " << xml.size() << "\r\n"
             "Content-Type: text/xml\r\n"
@@ -2350,7 +2350,7 @@ private:
 
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n"
-            "Last-Modified: " << Util::getHttpTimeNow() << "\r\n"
+            "Last-Modified: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
             "User-Agent: " WOPI_AGENT_STRING "\r\n"
             "Content-Length: " << capabilities.size() << "\r\n"
             "Content-Type: application/json\r\n"
@@ -2451,7 +2451,7 @@ private:
             // Bad request.
             std::ostringstream oss;
             oss << "HTTP/1.1 400\r\n"
-                << "Date: " << Util::getHttpTimeNow() << "\r\n"
+                << "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
                 << "User-Agent: LOOLWSD WOPI Agent\r\n"
                 << "Content-Length: 0\r\n"
                 << "\r\n"
@@ -2470,7 +2470,7 @@ private:
 
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n"
-            "Last-Modified: " << Util::getHttpTimeNow() << "\r\n"
+            "Last-Modified: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
             "User-Agent: " WOPI_AGENT_STRING "\r\n"
             "Content-Length: " << responseString.size() << "\r\n"
             "Content-Type: " << mimeType << "\r\n"
@@ -2543,7 +2543,7 @@ private:
                 LOG_WRN("Conversion requests not allowed from this address: " << socket->clientAddress());
                 std::ostringstream oss;
                 oss << "HTTP/1.1 403\r\n"
-                    "Date: " << Util::getHttpTimeNow() << "\r\n"
+                    "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
                     "User-Agent: " HTTP_AGENT_STRING "\r\n"
                     "Content-Length: 0\r\n"
                     "\r\n";
@@ -2777,7 +2777,7 @@ private:
                 LOG_ERR("Download file [" << filePathAnonym << "] not found.");
                 std::ostringstream oss;
                 oss << "HTTP/1.1 404 Not Found\r\n"
-                    << "Date: " << Util::getHttpTimeNow() << "\r\n"
+                    << "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
                     << "User-Agent: " << HTTP_AGENT_STRING << "\r\n"
                     << "Content-Length: 0\r\n"
                     << "\r\n";

@@ -1614,7 +1614,7 @@ bool DocumentBroker::lookupSendClipboardTag(const std::shared_ptr<StreamSocket> 
     {
             std::ostringstream oss;
             oss << "HTTP/1.1 200 OK\r\n"
-                << "Last-Modified: " << Util::getHttpTimeNow() << "\r\n"
+                << "Last-Modified: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
                 << "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
                 << "Content-Length: " << saved->length() << "\r\n"
                 << "Content-Type: application/octet-stream\r\n"
@@ -1637,7 +1637,7 @@ bool DocumentBroker::lookupSendClipboardTag(const std::shared_ptr<StreamSocket> 
     // Bad request.
     std::ostringstream oss;
     oss << "HTTP/1.1 400\r\n"
-        << "Date: " << Util::getHttpTimeNow() << "\r\n"
+        << "Date: " << Util::getHttpTime(std::chrono::system_clock::now()) << "\r\n"
         << "User-Agent: LOOLWSD WOPI Agent\r\n"
         << "Content-Length: 0\r\n"
         << "\r\n"
