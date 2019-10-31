@@ -200,8 +200,8 @@ L.TileLayer = L.GridLayer.extend({
 		this._selections = new L.LayerGroup();
 		this._references = new L.LayerGroup();
 		this._referencesAll = [];
+		map.addLayer(this._selections);
 		if (this.options.permission !== 'readonly') {
-			map.addLayer(this._selections);
 			map.addLayer(this._references);
 		}
 
@@ -1323,6 +1323,9 @@ L.TileLayer = L.GridLayer.extend({
 		this._searchResults = null;
 		this._searchTerm = null;
 		this._searchResultsLayer.clearLayers();
+		if (this.options.permission === 'readonly') {
+			this._selections.clearLayers();
+		}
 	},
 
 	_drawSearchResults: function() {
