@@ -414,10 +414,8 @@ L.ImpressTileLayer = L.TileLayer.extend({
 	onUpdatePermission: function (e) {
 		if (window.mode.isMobile()) {
 			if (e.perm === 'edit') {
-				$(this._map.options.documentContainer).css('bottom', '95px');
 				this._addButton.addTo(this._map);
 			} else {
-				$(this._map.options.documentContainer).css('bottom', '60px');
 				this._addButton.remove();
 			}
 		}
