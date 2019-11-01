@@ -190,6 +190,14 @@ L.DomUtil = {
 		// so it's safe to cache the position for performance
 
 		return el._leaflet_pos;
+	},
+
+	isLandscape: function() {
+		return !this.isPortrait();
+	},
+
+	isPortrait: function() {
+		return window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
 	}
 };
 
