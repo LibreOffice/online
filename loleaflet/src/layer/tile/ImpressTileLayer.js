@@ -48,7 +48,7 @@ L.ImpressTileLayer = L.TileLayer.extend({
 		map.on('AnnotationScrollDown', this.onAnnotationScrollDown, this);
 		map.on('resize', this.onResize, this);
 		if (window.mode.isMobile()) {
-			map.on('doclayerinit', this.onMobileInit, this);
+			this.onMobileInit(map);
 			L.Control.MobileWizard.mergeOptions({maxHeight: '55%'});
 			var mobileWizard = L.DomUtil.get('mobile-wizard');
 			var container = L.DomUtil.createWithId('div', 'mobile-wizard-header', mobileWizard);
@@ -108,8 +108,7 @@ L.ImpressTileLayer = L.TileLayer.extend({
 		this._isSlidePaneVisible = !(visible === 'none');
 	},
 
-	onMobileInit: function () {
-		var map = this._map;
+	onMobileInit: function (map) {
 		var toolItems = [
 			{type: 'button',  id: 'showsearchbar',  img: 'search', hint: _('Show the search bar')},
 			{type: 'break'},
@@ -278,7 +277,7 @@ L.ImpressTileLayer = L.TileLayer.extend({
 			}
 		});
 
-		this._map.on('updatepermission', window.onUpdatePermission);
+		map.on('updatepermission', window.onUpdatePermission);
 	},
 
 	onAdd: function (map) {
