@@ -20,3 +20,21 @@
 #setgamma input.spinfield {
 	width: 140px !important;
 }
+#toolbar-search #tb_searchbar_item_search *{
+	width: 100% !important;
+}
+#toolbar-search input#search-input{
+	font-size: 16px;
+}
+#toolbar-search #tb_searchbar_item_left, #tb_searchbar_right {
+	display: none;
+}
+#toolbar-search #tb_searchbar_item_hidesearchbar{
+	padding: 1px 8px !important;
+}
+#toolbar-search #tb_searchbar_item_search{
+	width: 80%;
+}
+#toolbar-search #search-input-group > label{
+	display: none;
+}
