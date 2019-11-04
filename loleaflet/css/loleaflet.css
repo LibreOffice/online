@@ -198,19 +198,6 @@ body {
 }
 
 @media (max-width: 767px),(max-device-height: 767px) {
-	/* Show slidesorter beyond 768px only */
-	#presentation-controls-wrapper {
-		top: initial;
-		left: initial;
-		bottom: 33px;
-		max-width: initial;
-	}
-
-	#presentation-controls-wrapper.readonly {
-		top: initial;
-		bottom: 0px;
-	}
-
 	/* Show sidebar beyond 768px only */
 	#sidebar-dock-wrapper {
 		display: none;
@@ -226,18 +213,9 @@ body {
 		bottom: 0px;
 	}
 
-	#document-container.readonly.parts-preview-document {
-		bottom: 65px;
-	}
-
 	#document-container.readonly.spreadsheet-document {
 		top: 61px !important;
 		bottom: 35px;
-	}
-
-	#document-container.parts-preview-document {
-		left: 0px !important;
-		bottom: 95px;
 	}
 
 	#document-container.spreadsheet-document {
@@ -270,6 +248,54 @@ body {
 	/* Show menubar even if folded */
 	.main-nav {
 		display: block !important;
+	}
+}
+
+@media (max-width: 767px) and (orientation: portrait),(max-device-height: 767px) and (orientation: portrait) {
+	#presentation-controls-wrapper {
+		top: initial;
+		left: initial;
+		bottom: 33px;
+		max-width: initial;
+	}
+
+	#presentation-controls-wrapper.readonly {
+		top: initial;
+		bottom: 0px;
+		width: 100%;
+	}
+
+	#document-container.readonly.parts-preview-document {
+		bottom: 65px;
+	}
+
+	#document-container.parts-preview-document {
+		left: 0px !important;
+		bottom: 95px;
+	}
+}
+
+@media (max-width: 767px) and (orientation: landscape),(max-device-height: 767px) and (orientation: landscape)  {
+	#document-container.parts-preview-document {
+		left: 66px !important;
+		bottom: 33px;
+	}
+
+	#document-container.readonly.parts-preview-document {
+		top: 41px;
+		bottom: 0px;
+		width: initial;
+	}
+
+	#presentation-controls-wrapper {
+		top: 41px;
+		bottom: 33px;
+	}
+
+	#presentation-controls-wrapper.readonly {
+		top: 41px;
+		bottom: 0px;
+		max-width: 120px;
 	}
 }
 
