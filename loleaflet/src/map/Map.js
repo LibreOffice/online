@@ -213,7 +213,7 @@ L.Map = L.Evented.extend({
 				elem.parentNode.removeChild(elem);
 			}
 
-			if (L.Browser.mobile)
+			if (L.Browser.mobile && screen.width < 768)
 			{
 				this._size = new L.Point(0,0);
 				this._onResize();
