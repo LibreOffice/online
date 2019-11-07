@@ -1164,7 +1164,7 @@ tr.useritem > td > img {
 	line-height: 32px;
 	display: table;
 }
-
+#SetBorderStyle, div[id^=NumberFormat]{padding-left: 4%;}
 .ui-content.unolabel {
 	display: table-cell;
 	vertical-align: middle;
