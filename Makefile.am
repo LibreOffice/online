@@ -38,6 +38,7 @@ dist_doc_DATA = wsd/README \
 loolwsddatadir = @LOOLWSD_DATADIR@
 
 loolwsddata_DATA = discovery.xml \
+                   WOPI_proof_key
                    favicon.ico
 
 loolwsdconfigdir = @LOOLWSD_CONFIGDIR@
@@ -109,7 +110,8 @@ loolwsd_sources = common/Crypto.cpp \
                   wsd/ClientSession.cpp \
                   wsd/FileServer.cpp \
                   wsd/Storage.cpp \
-                  wsd/TileCache.cpp
+                  wsd/TileCache.cpp \
+                  wsd/WOPISec.cpp
 
 loolwsd_SOURCES = $(loolwsd_sources) \
                   $(shared_sources)
