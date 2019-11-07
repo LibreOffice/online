@@ -25,6 +25,7 @@
 #include <Poco/Net/PrivateKeyPassphraseHandler.h>
 #include <Poco/Net/SSLManager.h>
 #include <Poco/RegularExpression.h>
+#include <Poco/SAX/InputSource.h>
 #include <Poco/StreamCopier.h>
 #include <Poco/URI.h>
 
