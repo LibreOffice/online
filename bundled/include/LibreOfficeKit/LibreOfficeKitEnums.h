@@ -180,7 +180,7 @@ typedef enum
     /**
      * The size and/or the position of the graphic selection changed,
      * the rotation angle of the embedded graphic object, and a property list
-     * which can be used for informing the client about several properties.
+     * which can be used for informing the client about severl properties.
      *
      * Format is "x, y, width, height, angle, { list of properties }",
      * where angle is in 100th of degree, and the property list is optional.
@@ -211,7 +211,7 @@ typedef enum
      *      }
      *
      *      where the "svg" property is a string containing an svg document
-     *      which is a representation of the pie segment.
+     *      which is a rapresentation of the pie segment.
      */
     LOK_CALLBACK_GRAPHIC_SELECTION = 6,
 
@@ -267,6 +267,10 @@ typedef enum
      *
      * Payload format is "width, height", i.e. clients get the new size without
      * having to do an explicit lok::Document::getDocumentSize() call.
+     *
+     * A size change is always preceeded by a series of
+     * LOK_CALLBACK_INVALIDATE_TILES events invalidating any areas
+     * need re-rendering to adapt.
      */
     LOK_CALLBACK_DOCUMENT_SIZE_CHANGED = 13,
 
