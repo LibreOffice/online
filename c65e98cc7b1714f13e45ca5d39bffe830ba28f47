@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_dc04014d",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1363,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-11-10T22:45:27Z",
+      "side": 1,
+      "message": "We add the selections layer unconditionally (i.e. for both readonly and non-readonly), but why are we clearing only in readonly and not both ?",
+      "revId": "c65e98cc7b1714f13e45ca5d39bffe830ba28f47",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
