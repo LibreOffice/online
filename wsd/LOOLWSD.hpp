@@ -52,6 +52,7 @@ public:
     static bool NoSeccomp;
     static bool AdminEnabled;
     static std::atomic<int> ForKitWritePipe;
+    static std::atomic<int> ForKitReadPipe;
     static std::atomic<int> ForKitProcId;
     static bool DummyLOK;
     static std::string FuzzFileName;

@@ -57,6 +57,15 @@ int Document::expireView(const std::string& sessionId)
     return _activeViews;
 }
 
+void Document::setViewLoadDuration(const std::string& sessionId, std::chrono::milliseconds viewLoadDuration)
+{
+    std::map<std::string, View>::iterator it = _views.find(sessionId);
+    if (it != _views.end())
+    {
+        it->second.setLoadDuration(viewLoadDuration);
+    }
+}
+
 std::pair<std::time_t, std::string> Document::getSnapshot() const
 {
     std::time_t ct = std::time(nullptr);
@@ -530,7 +539,7 @@ void AdminModel::removeDocument(const std::string& docKey, const std::string& se
         // to the admin console with views.
         if (docIt->second.expireView(sessionId) == 0)
         {
-            _expiredDocuments.emplace(*docIt);
+            _expiredDocuments.emplace(docIt->first + std::to_string(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count()), docIt->second);
             _documents.erase(docIt);
         }
     }
@@ -556,7 +565,7 @@ void AdminModel::removeDocument(const std::string& docKey)
         }
 
         LOG_DBG("Removed admin document [" << docKey << "].");
-        _expiredDocuments.emplace(*docIt);
+        _expiredDocuments.emplace(docIt->first + std::to_string(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count()), docIt->second);
         _documents.erase(docIt);
     }
 }
@@ -739,6 +748,372 @@ double AdminModel::getServerUptime()
     auto currentTime = std::chrono::system_clock::now();
     std::chrono::duration<double> uptime = currentTime - LOOLWSD::StartTime;
     return uptime.count();
+}
+
+void AdminModel::setViewLoadDuration(const std::string& docKey, const std::string& sessionId, std::chrono::milliseconds viewLoadDuration)
+{
+    std::map<std::string, Document>::iterator it = _documents.find(docKey);
+    if (it != _documents.end())
+    {
+        it->second.setViewLoadDuration(sessionId, viewLoadDuration);
+    }
+}
+
+void AdminModel::setDocWopiDownloadDuration(const std::string& docKey, std::chrono::milliseconds wopiDownloadDuration)
+{
+    std::map<std::string, Document>::iterator it = _documents.find(docKey);
+    if (it != _documents.end())
+    {
+        it->second.setWopiDownloadDuration(wopiDownloadDuration);
+    }
+}
+
+void AdminModel::setDocWopiUploadDuration(const std::string& docKey, const std::chrono::milliseconds wopiUploadDuration)
+{
+    std::map<std::string, Document>::iterator it = _documents.find(docKey);
+    if (it != _documents.end())
+    {
+        it->second.setWopiUploadDuration(wopiUploadDuration);
+    }
+}
+
+void AdminModel::addSegFaultCount(unsigned segFaultCount)
+{
+    _segFaultCount += segFaultCount;
+}
+
+void AdminModel::updateDocumentStats(const Document &d, DocumentStats &stats)
+{
+    uint64_t usedMemory;
+    uint64_t bytesSentToClients, bytesReceivedFromClients;
+    uint64_t wopiDownloadDuration, wopiUploadDuration;
+    uint64_t viewLoadDuration;
+
+    //Used memory
+    usedMemory = d.getMemoryDirty();
+    stats.totalUsedMemory += usedMemory;
+    if (stats.maxUsedMemory < usedMemory)
+    {
+        stats.maxUsedMemory = usedMemory;
+    }
+    if (stats.minUsedMemory > usedMemory)
+    {
+        stats.minUsedMemory = usedMemory;
+    }
+
+    //Sent bytes to clients
+    bytesSentToClients = d.getSentBytes();
+    stats.totalBytesSentToClients += bytesSentToClients;
+    if (stats.maxBytesSentToClients < bytesSentToClients)
+    {
+        stats.maxBytesSentToClients = bytesSentToClients;
+    }
+    if (stats.minBytesSentToClients > bytesSentToClients)
+    {
+        stats.minBytesSentToClients = bytesSentToClients;
+    }
+
+    //Received bytes from clients
+    bytesReceivedFromClients = d.getRecvBytes();
+    stats.totalBytesReceivedFromClients += bytesReceivedFromClients;
+    if (stats.maxBytesReceivedFromClients < bytesReceivedFromClients)
+    {
+        stats.maxBytesReceivedFromClients = bytesReceivedFromClients;
+    }
+    if (stats.minBytesReceivedFromClients > bytesReceivedFromClients)
+    {
+        stats.minBytesReceivedFromClients = bytesReceivedFromClients;
+    }
+
+    //Wopi download duration
+    wopiDownloadDuration = d.getWopiDownloadDuration().count();
+    stats.totalWopiDownloadDuration += wopiDownloadDuration;
+    if (stats.maxWopiDownloadDuration < wopiDownloadDuration)
+    {
+        stats.maxWopiDownloadDuration = wopiDownloadDuration;
+    }
+    if (stats.minWopiDownloadDuration > wopiDownloadDuration)
+    {
+        stats.minWopiDownloadDuration = wopiDownloadDuration;
+    }
+
+    //Wopi upload duration
+    wopiUploadDuration = d.getWopiUploadDuration().count();
+    if (wopiUploadDuration > 0)
+    {
+        stats.totalUploadedDocs ++;
+        stats.totalWopiUploadDuration += wopiUploadDuration;
+        if (stats.maxWopiUploadDuration < wopiUploadDuration)
+        {
+            stats.maxWopiUploadDuration = wopiUploadDuration;
+        }
+        if (stats.minWopiUploadDuration > wopiUploadDuration)
+        {
+            stats.minWopiUploadDuration = wopiUploadDuration;
+        }
+    }
+
+    //View first load duration
+    for (const auto& v : d.getViews())
+    {
+        viewLoadDuration = v.second.getLoadDuration().count();
+        stats.totalViewLoadDuration += viewLoadDuration;
+        if (stats.maxViewLoadDuration < viewLoadDuration)
+        {
+            stats.maxViewLoadDuration = viewLoadDuration;
+        }
+        if (stats.minViewLoadDuration > viewLoadDuration)
+        {
+            stats.minViewLoadDuration = viewLoadDuration;
+        }
+    }
+}
+
+#define MIN_ABS_TO_0(val) ((val) == 0xFFFFFFFFFFFFFFFF ? 0 : (val))
+
+void AdminModel::getMetrics(AdminMetrics &metrics)
+{
+    int activeDocsCount = _documents.size();
+    int expiredDocsCount = _expiredDocuments.size();
+    int totalDocsCount = activeDocsCount + expiredDocsCount;
+    int totalActiveDocAllViews = 0, totalActiveDocActiveViews = 0, maxActiveDocAllViews = 0, maxActiveDocActiveViews = 0;
+    int totalActiveDocExpiredViews = 0, maxActiveDocExpiredViews = 0;
+    int totalExpiredDocAllViews = 0, maxExpiredDocAllViews = 0;
+    int totalAllViews = 0, maxAllViews = 0, views = 0;
+    int totalThreadCount = 0, maxThreadCount = 0, threadCount = 0;
+    uint64_t totalCpuTime = 0, minCpuTime = 0xFFFFFFFFFFFFFFFF, maxCpuTime = 0, cpuTime = 0xFFFFFFFFFFFFFFFF;
+    int totalActiveProcCount = 0;
+    DocumentStats activeStats, expiredStats, totalStats;
+    uint64_t openTime;
+
+    for (auto& d : _documents)
+    {
+        //Views count
+        views = d.second.getViews().size();
+        totalActiveDocAllViews += views;
+        if (maxActiveDocAllViews < views)
+        {
+            maxActiveDocAllViews = views;
+        }
+        views = d.second.getActiveViews();
+        totalActiveDocActiveViews += views;
+        if (maxActiveDocActiveViews < views)
+        {
+            maxActiveDocActiveViews = views;
+        }
+        views = d.second.getViews().size() - views;
+        totalActiveDocExpiredViews += views;
+        if (maxActiveDocExpiredViews < views)
+        {
+            maxActiveDocExpiredViews = views;
+        }
+
+        updateDocumentStats(d.second, activeStats);
+
+        //Open time
+        openTime = (uint64_t)d.second.getElapsedTime();
+        activeStats.totalOpenTime += openTime;
+        if (activeStats.maxOpenTime < openTime)
+        {
+            activeStats.maxOpenTime = openTime;
+        }
+        if (activeStats.minOpenTime > openTime)
+        {
+            activeStats.minOpenTime = openTime;
+        }
+    }
+    activeStats.minUsedMemory = MIN_ABS_TO_0(activeStats.minUsedMemory) * 1024;
+    activeStats.maxUsedMemory *= 1024;
+    activeStats.totalUsedMemory *= 1024;
+
+    for (auto& d : _expiredDocuments)
+    {
+        //Views
+        views = d.second.getViews().size();
+        totalExpiredDocAllViews += views;
+        if (maxExpiredDocAllViews < views)
+        {
+            maxExpiredDocAllViews = views;
+        }
+
+        updateDocumentStats(d.second, expiredStats);
+
+        //Open time
+        openTime = d.second.getOpenTime();
+        expiredStats.totalOpenTime += openTime;
+        if (expiredStats.maxOpenTime < openTime)
+        {
+            expiredStats.maxOpenTime = openTime;
+        }
+        if (expiredStats.minOpenTime > openTime)
+        {
+            expiredStats.minOpenTime = openTime;
+        }
+    }
+    expiredStats.minUsedMemory = MIN_ABS_TO_0(expiredStats.minUsedMemory) * 1024;
+    expiredStats.maxUsedMemory *= 1024;
+    expiredStats.totalUsedMemory *= 1024;
+    totalAllViews = totalActiveDocAllViews + totalExpiredDocAllViews;
+    maxAllViews = (maxActiveDocAllViews < maxExpiredDocAllViews ? maxExpiredDocAllViews : maxActiveDocAllViews);
+
+    //Number of documents
+    metrics.global_all_document_count = totalDocsCount;
+    metrics.global_active_document_count = activeDocsCount;
+    metrics.global_expired_document_count = expiredDocsCount;
+
+    //Total active views count
+    metrics.global_all_views_count = totalAllViews;
+    metrics.global_active_views_count = totalActiveDocActiveViews;
+    metrics.global_expired_views_count = totalActiveDocExpiredViews + totalExpiredDocAllViews;
+
+    //Total bytes sent/received to/from the clients
+    metrics.global_bytes_sent_to_clients_bytes = getSentBytesTotal();
+    metrics.global_bytes_received_from_clients_bytes = getRecvBytesTotal();
+
+    //loolkit processes
+    std::vector<int> childProcs;
+
+    //processes in different states
+    int unassignedProcCount = Util::getPidsFromProcName(std::regex("kit_spare_[0-9]*"), &childProcs);
+    int assignedProcCount = Util::getPidsFromProcName(std::regex("kitbroker_[0-9]*"), &childProcs);
+
+    //processes count
+    metrics.kit_count = totalActiveProcCount = unassignedProcCount + assignedProcCount;
+
+    for (int& pid : childProcs)
+    {
+        threadCount = Util::getStatFromPid(pid, 19);
+        totalThreadCount += threadCount;
+        if (maxThreadCount < threadCount)
+        {
+            maxThreadCount = threadCount;
+        }
+
+        cpuTime = Util::getCpuUsage(pid);
+        totalCpuTime += cpuTime;
+        if (maxCpuTime < cpuTime)
+        {
+            maxCpuTime = cpuTime;
+        }
+        if (minCpuTime > cpuTime)
+        {
+            minCpuTime = cpuTime;
+        }
+    }
+
+    totalCpuTime /= sysconf (_SC_CLK_TCK);
+    maxCpuTime /= sysconf (_SC_CLK_TCK);
+    minCpuTime = MIN_ABS_TO_0(minCpuTime) / sysconf (_SC_CLK_TCK);
+
+    totalStats.totalUsedMemory = activeStats.totalUsedMemory + expiredStats.totalUsedMemory;
+    totalStats.minUsedMemory = (activeStats.minUsedMemory < expiredStats.minUsedMemory ? activeStats.minUsedMemory : expiredStats.minUsedMemory);
+    totalStats.maxUsedMemory = (activeStats.maxUsedMemory > expiredStats.maxUsedMemory ? activeStats.maxUsedMemory : expiredStats.maxUsedMemory);
+    totalStats.totalOpenTime = activeStats.totalOpenTime + expiredStats.totalOpenTime;
+    totalStats.minOpenTime = (activeStats.minOpenTime < expiredStats.minOpenTime ? activeStats.minOpenTime : expiredStats.minOpenTime);
+    totalStats.maxOpenTime = (activeStats.maxOpenTime > expiredStats.maxOpenTime ? activeStats.maxOpenTime : expiredStats.maxOpenTime);
+    totalStats.totalBytesSentToClients = activeStats.totalBytesSentToClients + expiredStats.totalBytesSentToClients;
+    totalStats.minBytesSentToClients = (activeStats.minBytesSentToClients < expiredStats.minBytesSentToClients ? activeStats.minBytesSentToClients : expiredStats.minBytesSentToClients);
+    totalStats.maxBytesSentToClients = (activeStats.maxBytesSentToClients > expiredStats.maxBytesSentToClients ? activeStats.maxBytesSentToClients : expiredStats.maxBytesSentToClients);
+    totalStats.totalBytesReceivedFromClients = activeStats.totalBytesReceivedFromClients + expiredStats.totalBytesReceivedFromClients;
+    totalStats.minBytesReceivedFromClients = (activeStats.minBytesReceivedFromClients < expiredStats.minBytesReceivedFromClients ? activeStats.minBytesReceivedFromClients : expiredStats.minBytesReceivedFromClients);
+    totalStats.maxBytesReceivedFromClients = (activeStats.maxBytesReceivedFromClients > expiredStats.maxBytesReceivedFromClients ? activeStats.maxBytesReceivedFromClients : expiredStats.maxBytesReceivedFromClients);
+    totalStats.totalWopiDownloadDuration = activeStats.totalWopiDownloadDuration + expiredStats.totalWopiDownloadDuration;
+    totalStats.minWopiDownloadDuration = (activeStats.minWopiDownloadDuration < expiredStats.minWopiDownloadDuration ? activeStats.minWopiDownloadDuration : expiredStats.minWopiDownloadDuration);
+    totalStats.maxWopiDownloadDuration = (activeStats.maxWopiDownloadDuration > expiredStats.maxWopiDownloadDuration ? activeStats.maxWopiDownloadDuration : expiredStats.maxWopiDownloadDuration);
+    totalStats.totalWopiUploadDuration = activeStats.totalWopiUploadDuration + expiredStats.totalWopiUploadDuration;
+    totalStats.minWopiUploadDuration = (activeStats.minWopiUploadDuration < expiredStats.minWopiUploadDuration ? activeStats.minWopiUploadDuration : expiredStats.minWopiUploadDuration);
+    totalStats.maxWopiUploadDuration = (activeStats.maxWopiUploadDuration > expiredStats.maxWopiUploadDuration ? activeStats.maxWopiUploadDuration : expiredStats.maxWopiUploadDuration);
+    totalStats.totalViewLoadDuration = activeStats.totalViewLoadDuration + expiredStats.totalViewLoadDuration;
+    totalStats.minViewLoadDuration = (activeStats.minViewLoadDuration < expiredStats.minViewLoadDuration ? activeStats.minViewLoadDuration : expiredStats.minViewLoadDuration);
+    totalStats.maxViewLoadDuration = (activeStats.maxViewLoadDuration > expiredStats.maxViewLoadDuration ? activeStats.maxViewLoadDuration : expiredStats.maxViewLoadDuration);
+    totalStats.totalUploadedDocs = activeStats.totalUploadedDocs + expiredStats.totalUploadedDocs;
+
+    metrics.kit_unassigned_count = unassignedProcCount;
+    metrics.kit_assigned_count = assignedProcCount;
+    metrics.kit_segfaulted_count = _segFaultCount;
+    metrics.kit_thread_count_average = (totalActiveProcCount ? totalThreadCount / totalActiveProcCount : 0);
+    metrics.kit_thread_count_max = maxThreadCount;
+    metrics.kit_memory_used_total_bytes = activeStats.totalUsedMemory;
+    metrics.kit_memory_used_average_bytes = (activeDocsCount ? activeStats.totalUsedMemory / activeDocsCount : 0);
+    metrics.kit_memory_used_min_bytes = activeStats.minUsedMemory;
+    metrics.kit_memory_used_max_bytes = activeStats.maxUsedMemory;
+    metrics.kit_cpu_time_total_seconds = totalCpuTime;
+    metrics.kit_cpu_time_average_seconds = (totalActiveProcCount ? totalCpuTime / totalActiveProcCount : 0);
+    metrics.kit_cpu_time_min_seconds = minCpuTime;
+    metrics.kit_cpu_time_max_seconds = maxCpuTime;
+
+    metrics.document_all_views_all_count_average = (totalDocsCount ? totalAllViews / totalDocsCount : 0);
+    metrics.document_all_views_all_count_max = maxAllViews;
+    metrics.document_active_views_all_count_average = (activeDocsCount ? totalActiveDocAllViews / activeDocsCount : 0);
+    metrics.document_active_views_all_count_max = maxActiveDocAllViews;
+    metrics.document_active_views_active_count = totalActiveDocActiveViews;
+    metrics.document_active_views_active_count_average = (activeDocsCount ? totalActiveDocActiveViews / activeDocsCount : 0);
+    metrics.document_active_views_active_count_max = maxActiveDocActiveViews;
+    metrics.document_active_views_expired_count = totalActiveDocExpiredViews;
+    metrics.document_active_views_expired_count_average = (activeDocsCount ? totalActiveDocExpiredViews / activeDocsCount : 0);
+    metrics.document_active_views_expired_count_max = maxActiveDocExpiredViews;
+    metrics.document_expired_views_all_count_average = (expiredDocsCount ? totalExpiredDocAllViews / expiredDocsCount : 0);
+    metrics.document_expired_views_all_count_max = maxExpiredDocAllViews;
+
+    metrics.document_all_opened_time_average_seconds = (totalDocsCount ? totalStats.totalOpenTime / totalDocsCount : 0);
+    metrics.document_all_opened_time_min_seconds = MIN_ABS_TO_0(totalStats.minOpenTime);
+    metrics.document_all_opened_time_max_seconds = totalStats.maxOpenTime;
+    metrics.document_active_opened_time_average_seconds = (activeDocsCount ? activeStats.totalOpenTime / activeDocsCount : 0);
+    metrics.document_active_opened_time_min_seconds = MIN_ABS_TO_0(activeStats.minOpenTime);
+    metrics.document_active_opened_time_max_seconds = activeStats.maxOpenTime;
+    metrics.document_expired_opened_time_average_seconds = (expiredDocsCount ? expiredStats.totalOpenTime / expiredDocsCount : 0);
+    metrics.document_expired_opened_time_min_seconds = MIN_ABS_TO_0(expiredStats.minOpenTime);
+    metrics.document_expired_opened_time_max_seconds = expiredStats.maxOpenTime;
+
+    metrics.document_all_sent_to_clients_average_bytes = (totalDocsCount ? totalStats.totalBytesSentToClients / totalDocsCount : 0);
+    metrics.document_all_sent_to_clients_min_bytes = MIN_ABS_TO_0(totalStats.minBytesSentToClients);
+    metrics.document_all_sent_to_clients_max_bytes = totalStats.maxBytesSentToClients;
+    metrics.document_active_sent_to_clients_average_bytes = (activeDocsCount ? activeStats.totalBytesSentToClients / activeDocsCount : 0);
+    metrics.document_active_sent_to_clients_min_bytes = MIN_ABS_TO_0(activeStats.minBytesSentToClients);
+    metrics.document_active_sent_to_clients_max_bytes = activeStats.maxBytesSentToClients;
+    metrics.document_expired_sent_to_clients_average_bytes = (expiredDocsCount ? expiredStats.totalBytesSentToClients / expiredDocsCount : 0);
+    metrics.document_expired_sent_to_clients_min_bytes = MIN_ABS_TO_0(expiredStats.minBytesSentToClients);
+    metrics.document_expired_sent_to_clients_max_bytes = expiredStats.maxBytesSentToClients;
+
+    metrics.document_all_received_from_clients_average_bytes = (totalDocsCount ? totalStats.totalBytesReceivedFromClients / totalDocsCount : 0);
+    metrics.document_all_received_from_clients_min_bytes = MIN_ABS_TO_0(totalStats.minBytesReceivedFromClients);
+    metrics.document_all_received_from_clients_max_bytes = totalStats.maxBytesReceivedFromClients;
+    metrics.document_active_received_from_clients_average_bytes = (activeDocsCount ? activeStats.totalBytesReceivedFromClients / activeDocsCount : 0);
+    metrics.document_active_received_from_clients_min_bytes = MIN_ABS_TO_0(activeStats.minBytesReceivedFromClients);
+    metrics.document_active_received_from_clients_max_bytes = activeStats.maxBytesReceivedFromClients;
+    metrics.document_expired_received_from_clients_average_bytes = (expiredDocsCount ? expiredStats.totalBytesReceivedFromClients / expiredDocsCount : 0);
+    metrics.document_expired_received_from_clients_min_bytes = MIN_ABS_TO_0(expiredStats.minBytesReceivedFromClients);
+    metrics.document_expired_received_from_clients_max_bytes = expiredStats.maxBytesReceivedFromClients;
+
+    metrics.document_all_wopi_download_duration_average_seconds = (totalDocsCount ? totalStats.totalWopiDownloadDuration / totalDocsCount : 0) / (double)1000;
+    metrics.document_all_wopi_download_duration_min_seconds = MIN_ABS_TO_0(totalStats.minWopiDownloadDuration) / (double)1000;
+    metrics.document_all_wopi_download_duration_max_seconds = totalStats.maxWopiDownloadDuration / (double)1000;
+    metrics.document_active_wopi_download_duration_average_seconds = (activeDocsCount ? activeStats.totalWopiDownloadDuration / activeDocsCount : 0) / (double)1000;
+    metrics.document_active_wopi_download_duration_min_seconds = MIN_ABS_TO_0(activeStats.minWopiDownloadDuration) / (double)1000;
+    metrics.document_active_wopi_download_duration_max_seconds = activeStats.maxWopiDownloadDuration / (double)1000;
+    metrics.document_expired_wopi_download_duration_average_seconds = (expiredDocsCount ? expiredStats.totalWopiDownloadDuration / expiredDocsCount : 0) / (double)1000;
+    metrics.document_expired_wopi_download_duration_min_seconds = MIN_ABS_TO_0(expiredStats.minWopiDownloadDuration) / (double)1000;
+    metrics.document_expired_wopi_download_duration_max_seconds = expiredStats.maxWopiDownloadDuration / (double)1000;
+
+    metrics.document_all_wopi_upload_duration_average_seconds = (totalStats.totalUploadedDocs ? totalStats.totalWopiUploadDuration / totalStats.totalUploadedDocs : 0) / (double)1000;
+    metrics.document_all_wopi_upload_duration_min_seconds = MIN_ABS_TO_0(totalStats.minWopiUploadDuration) / (double)1000;
+    metrics.document_all_wopi_upload_duration_max_seconds = totalStats.maxWopiUploadDuration / (double)1000;
+    metrics.document_active_wopi_upload_duration_average_seconds = (activeStats.totalUploadedDocs ? activeStats.totalWopiUploadDuration / activeStats.totalUploadedDocs : 0) / (double)1000;
+    metrics.document_active_wopi_upload_duration_min_seconds = MIN_ABS_TO_0(activeStats.minWopiUploadDuration) / (double)1000;
+    metrics.document_active_wopi_upload_duration_max_seconds = activeStats.maxWopiUploadDuration / (double)1000;
+    metrics.document_expired_wopi_upload_duration_average_seconds = (expiredStats.totalUploadedDocs ? expiredStats.totalWopiUploadDuration / expiredStats.totalUploadedDocs : 0) / (double)1000;
+    metrics.document_expired_wopi_upload_duration_min_seconds = MIN_ABS_TO_0(expiredStats.minWopiUploadDuration) / (double)1000;
+    metrics.document_expired_wopi_upload_duration_max_seconds = expiredStats.maxWopiUploadDuration / (double)1000;
+
+    metrics.document_all_view_load_duration_average_seconds = (totalAllViews ? totalStats.totalViewLoadDuration / totalAllViews : 0) / (double)1000;
+    metrics.document_all_view_load_duration_min_seconds = MIN_ABS_TO_0(totalStats.minViewLoadDuration) / (double)1000;
+    metrics.document_all_view_load_duration_max_seconds = totalStats.maxViewLoadDuration / (double)1000;
+    metrics.document_active_view_load_duration_average_seconds = (totalActiveDocAllViews ? activeStats.totalViewLoadDuration / totalActiveDocAllViews : 0) / (double)1000;
+    metrics.document_active_view_load_duration_min_seconds = MIN_ABS_TO_0(activeStats.minViewLoadDuration) / (double)1000;
+    metrics.document_active_view_load_duration_max_seconds = activeStats.maxViewLoadDuration / (double)1000;
+    metrics.document_expired_view_load_duration_average_seconds = (totalExpiredDocAllViews ? expiredStats.totalViewLoadDuration / totalExpiredDocAllViews : 0) / (double)1000;
+    metrics.document_expired_view_load_duration_min_seconds = MIN_ABS_TO_0(expiredStats.minViewLoadDuration) / (double)1000;
+    metrics.document_expired_view_load_duration_max_seconds = expiredStats.maxViewLoadDuration / (double)1000;
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
