@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7f7f9b97_5f36a0e8",
+        "filename": "common/SigUtil.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1002093
+      },
+      "writtenOn": "2019-11-12T16:09:42Z",
+      "side": 1,
+      "message": "waitpid from forkit won\u0027t return signaled state of it\u0027s child kit process if we use \u0027kill\u0027 call here. We need the signaled state in forkit for detecting segmentation fault signals for \u0027kit_segfaulted_count\u0027 metric.",
+      "parentUuid": "7f7f9b97_2c2f0040",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f7f9b97_0c2c8445",
         "filename": "common/Util.cpp",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-11-12T10:25:57Z",
       "side": 1,
       "message": "Urk - this looks really horrible - why are we doing regexp matching on tons of /proc files ? looks like a problem for running unit tests in parallel, and having multiple loolwsds on the same machine.\nIs there a need for this ? we worked reasonably hard to avoid it in the past \u003d)",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_df287035",
+        "filename": "common/Util.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1002093
+      },
+      "writtenOn": "2019-11-12T16:09:42Z",
+      "side": 1,
+      "message": "Just easiest way for implementing the search. What are the drawbacks for this approach beside performance ? Is performance so bad with it ?\nWhy you think that this is  \"a problem for running unit tests in parallel, and having multiple loolwsds on the same machine\" ?",
+      "parentUuid": "7f7f9b97_0c2c8445",
       "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -104,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "7f7f9b97_df7070a8",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1002093
+      },
+      "writtenOn": "2019-11-12T16:09:42Z",
+      "side": 1,
+      "message": "We need explicitly this format for our tools that interrogate this endpoint.\n1. Maybe we should support different formats and add a setting that allows you to choose between formats.\n2. Or define different endpoints for each format.\n3. Or add parameters to the endpoint to differentiate between formats.\nWhat you think ?",
+      "parentUuid": "7f7f9b97_6c1c1812",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f7f9b97_8c1734ee",
         "filename": "wsd/Admin.cpp",
         "patchSetId": 1
@@ -149,6 +203,24 @@
       "writtenOn": "2019-11-12T10:25:57Z",
       "side": 1,
       "message": "This make me wonder - if the only time we calculate all of this is to generate JSON from it - do we need the intermediate object at all to store it in before printing ? perhaps we could simplify life rather a lot by streaming straight to JSON ?",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_bf6574e3",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1002093
+      },
+      "writtenOn": "2019-11-12T16:09:42Z",
+      "side": 1,
+      "message": ":) My first implementation was to just directly print. I\u0027m thinking that this is more flexible and maybe some of these metrics could be used internally in binary format. It\u0027ll be a nonsense to parse them back.",
+      "parentUuid": "7f7f9b97_ace79012",
       "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
