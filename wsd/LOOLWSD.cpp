@@ -695,6 +695,7 @@ std::atomic<uint64_t> LOOLWSD::NextConnectionId(1);
 
 #ifndef KIT_IN_PROCESS
 std::atomic<int> LOOLWSD::ForKitWritePipe(-1);
+std::atomic<int> LOOLWSD::ForKitReadPipe(-1);
 std::atomic<int> LOOLWSD::ForKitProcId(-1);
 #endif
 bool LOOLWSD::NoSeccomp = false;
@@ -1542,6 +1543,70 @@ void LOOLWSD::autoSave(const std::string& docKey)
     }
 }
 
+class ForKitCommandDispatcher : public IoUtil::PipeReader
+{
+public:
+    ForKitCommandDispatcher(const int pipe) :
+        PipeReader("ForKitReadPipe", pipe)
+    {
+    }
+
+    /// Polls LoolForKit commands and handles them.
+    bool pollAndDispatch()
+    {
+        std::string message;
+        const int ready = readLine(message, [](){ return (int)SigUtil::getTerminationFlag(); });
+        if (ready <= 0)
+        {
+            // Termination is done via SIGTERM, which breaks the wait.
+            if (ready < 0)
+            {
+                if (SigUtil::getTerminationFlag())
+                {
+                    LOG_INF("Poll interrupted in " << getName() << " and Termination flag set.");
+                }
+
+                // Break.
+                return false;
+            }
+
+            // Timeout.
+            return true;
+        }
+
+        LOG_INF("ForKit command: [" << message << "].");
+        try
+        {
+            std::vector<std::string> tokens = LOOLProtocol::tokenize(message);
+            if (tokens.size() == 2 && tokens[0] == "SegFaultCount")
+            {
+                int count = std::stoi(tokens[1]);
+                if (count >= 0)
+                {
+#if !MOBILEAPP
+                    Admin::instance().addSegFaultCount(count);
+#endif
+                    LOG_INF(count << "loolkit processes crashed with segmentation fault");
+                }
+                else
+                {
+                    LOG_WRN("Invalid format for SegFaultCount message");
+                }
+            }
+            else
+            {
+                LOG_ERR("Unknown command: " << message);
+            }
+        }
+        catch (const std::exception& exc)
+        {
+            LOG_ERR("Error while processing forkit request [" << message << "]: " << exc.what());
+        }
+
+        return true;
+    }
+};
+
 /// Really do the house-keeping
 void PrisonerPoll::wakeupHook()
 {
@@ -1655,6 +1720,12 @@ bool LOOLWSD::createForKit()
         Admin::instance().setForKitWritePipe(ForKitWritePipe);
     }
 
+    if (ForKitReadPipe != -1)
+    {
+        close(ForKitReadPipe);
+        ForKitReadPipe = -1;
+    }
+
     // ForKit always spawns one.
     ++OutstandingForks;
 
@@ -1663,7 +1734,18 @@ bool LOOLWSD::createForKit()
 
     LastForkRequestTime = std::chrono::steady_clock::now();
     int childStdin = -1;
-    int child = Util::spawnProcess(forKitPath, args, &childStdin);
+    int outPipe[2];
+    if (pipe(outPipe) < 0)
+    {
+        LOG_ERR("Out of file descriptors when creating out pipe for forkit process");
+        throw Poco::SystemException("Out of file descriptors");
+    }
+    ForKitReadPipe = outPipe[0];
+    std::vector<int> fdsToKeep;
+    fdsToKeep.push_back(outPipe[1]);
+    args.push_back("--ForKitOutPipeWriteFd=" + std::to_string(outPipe[1]));
+    int child = Util::spawnProcess(forKitPath, args, &fdsToKeep, &childStdin);
+    close (outPipe[1]);
 
     ForKitWritePipe = childStdin;
     ForKitProcId = child;
@@ -2162,6 +2244,48 @@ private:
                         });
                 }
 
+            }
+            else if (reqPathSegs.size() >= 2 && reqPathSegs[0] == "lool" && reqPathSegs[1] == "getMetrics")
+            {
+                std::shared_ptr<Poco::Net::HTTPResponse> response(new Poco::Net::HTTPResponse());
+
+                if (!LOOLWSD::AdminEnabled)
+                    throw Poco::FileAccessDeniedException("Admin console disabled");
+
+                try{
+                    if (!FileServerRequestHandler::isAdminLoggedIn(request, *response.get()))
+                    {
+                        throw Poco::Net::NotAuthenticatedException("Invalid admin login");
+                    }
+                }
+                catch (const Poco::Net::NotAuthenticatedException& exc)
+                {
+                    //LOG_ERR("FileServerRequestHandler::NotAuthenticated: " << exc.displayText());
+                    std::ostringstream oss;
+                    oss << "HTTP/1.1 401 \r\n"
+                        << "Content-Type: text/html charset=UTF-8\r\n"
+                        << "Date: " << Poco::DateTimeFormatter::format(Poco::Timestamp(), Poco::DateTimeFormat::HTTP_FORMAT) << "\r\n"
+                        << "User-Agent: " << WOPI_AGENT_STRING << "\r\n"
+                        << "WWW-authenticate: Basic realm=\"online\"\r\n"
+                        << "\r\n";
+                    socket->send(oss.str());
+                    socket->shutdown();
+                    return;
+                }
+
+                response->add("Last-Modified", Poco::DateTimeFormatter::format(Poco::Timestamp(), Poco::DateTimeFormat::HTTP_FORMAT));
+                // Ask UAs to block if they detect any XSS attempt
+                response->add("X-XSS-Protection", "1; mode=block");
+                // No referrer-policy
+                response->add("Referrer-Policy", "no-referrer");
+                response->add("User-Agent", HTTP_AGENT_STRING);
+                response->add("Content-Type", "text/plain");
+                response->add("X-Content-Type-Options", "nosniff");
+
+                disposition.setMove([response](const std::shared_ptr<Socket> &moveSocket){
+                            const std::shared_ptr<StreamSocket> streamSocket = std::static_pointer_cast<StreamSocket>(moveSocket);
+                            Admin::instance().sendMetricsAsync(streamSocket, response);
+                        });
             }
             // Client post and websocket connections
             else if ((request.getMethod() == HTTPRequest::HTTP_GET ||
@@ -3465,6 +3589,27 @@ int LOOLWSD::innerMain()
 
     const auto startStamp = std::chrono::steady_clock::now();
 
+#ifndef KIT_IN_PROCESS
+    std::thread ForKitReadPipeThread([]{
+        while (!SigUtil::getTerminationFlag() && !SigUtil::getShutdownRequestFlag())
+        {
+            //Double while and below sleep are needed to handle cases when forkit process was killed
+            ::sleep(1);
+            ForKitCommandDispatcher commandDispatcher((int)ForKitReadPipe);
+            int oldForKitReadPipe = ForKitReadPipe;
+            int oldForKitProcId = ForKitProcId;
+            bool pollSuccess = true;
+            while (!SigUtil::getTerminationFlag() && !SigUtil::getShutdownRequestFlag() &&
+                    oldForKitReadPipe == ForKitReadPipe &&
+                    oldForKitProcId == ForKitProcId &&
+                    pollSuccess)
+            {
+                pollSuccess = commandDispatcher.pollAndDispatch();
+            }
+        }
+    });
+#endif
+
     while (!SigUtil::getTerminationFlag() && !SigUtil::getShutdownRequestFlag())
     {
         UnitWSD::get().invokeTest();
@@ -3504,7 +3649,7 @@ int LOOLWSD::innerMain()
 
     // atexit handlers tend to free Admin before Documents
     LOG_INF("Exiting. Cleaning up lingering documents.");
-#ifndef MOBILEAPP
+#if !MOBILEAPP
     if (!SigUtil::getShutdownRequestFlag())
     {
         // This shouldn't happen, but it's fail safe to always cleanup properly.
@@ -3575,6 +3720,7 @@ int LOOLWSD::innerMain()
     int status = 0;
     waitpid(ForKitProcId, &status, WUNTRACED);
     close(ForKitWritePipe);
+    close(ForKitReadPipe);
 #endif
 
     // In case forkit didn't cleanup properly, don't leave jails behind.

@@ -236,7 +236,7 @@ namespace SigUtil
         dumpBacktrace();
 
         // let default handler process the signal
-        kill(getpid(), signal);
+        ::raise(signal);
     }
 
     void dumpBacktrace()

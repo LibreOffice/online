@@ -28,7 +28,8 @@ public:
         _sessionId(sessionId),
         _userName(userName),
         _userId(userId),
-        _start(std::time(nullptr))
+        _start(std::time(nullptr)),
+        _loadDuration(0)
     {
     }
 
@@ -37,6 +38,8 @@ public:
     std::string getUserId() const { return _userId; }
     std::string getSessionId() const { return _sessionId; }
     bool isExpired() const { return _end != 0 && std::time(nullptr) >= _end; }
+    std::chrono::milliseconds getLoadDuration() const { return _loadDuration; }
+    void setLoadDuration(std::chrono::milliseconds loadDuration) { _loadDuration = loadDuration; }
 
 private:
     const std::string _sessionId;
@@ -44,6 +47,7 @@ private:
     const std::string _userId;
     const std::time_t _start;
     std::time_t _end = 0;
+    std::chrono::milliseconds _loadDuration;
 };
 
 struct DocProcSettings
@@ -108,6 +112,8 @@ public:
           _end(0),
           _sentBytes(0),
           _recvBytes(0),
+          _wopiDownloadDuration(0),
+          _wopiUploadDuration(0),
           _isModified(false)
     {
     }
@@ -155,6 +161,15 @@ public:
     const DocProcSettings& getDocProcSettings() const { return _docProcSettings; }
     void setDocProcSettings(const DocProcSettings& docProcSettings) { _docProcSettings = docProcSettings; }
 
+    std::time_t getOpenTime(){ return _end - _start; }
+    uint64_t getSentBytes() const { return _sentBytes; }
+    uint64_t getRecvBytes() const { return _recvBytes; }
+    void setViewLoadDuration(const std::string& sessionId, std::chrono::milliseconds viewLoadDuration);
+    void setWopiDownloadDuration(std::chrono::milliseconds wopiDownloadDuration) { _wopiDownloadDuration = wopiDownloadDuration; }
+    std::chrono::milliseconds getWopiDownloadDuration() const { return _wopiDownloadDuration; }
+    void setWopiUploadDuration(const std::chrono::milliseconds wopiUploadDuration) { _wopiUploadDuration = wopiUploadDuration; }
+    std::chrono::milliseconds getWopiUploadDuration() const { return _wopiUploadDuration; }
+
     std::string to_string() const;
 
 private:
@@ -178,6 +193,10 @@ private:
 
     /// Total bytes sent and recv'd by this document.
     uint64_t _sentBytes, _recvBytes;
+
+    //Download/upload duration from/to storage for this document
+    std::chrono::milliseconds _wopiDownloadDuration;
+    std::chrono::milliseconds _wopiUploadDuration;
 
     /// Per-doc kit process settings.
     DocProcSettings _docProcSettings;
@@ -220,11 +239,300 @@ private:
     std::time_t _end = 0;
 };
 
+struct AdminMetrics
+{
+    AdminMetrics()
+    :
+    global_host_system_memory_bytes(0),
+    global_memory_available_bytes(0),
+    global_memory_used_bytes(0),
+    global_memory_free_bytes(0),
+    loolwsd_count(0),
+    loolwsd_thread_count(0),
+    loolwsd_cpu_time_seconds(0),
+    loolwsd_memory_used_bytes(0),
+    forkit_count(0),
+    forkit_thread_count(0),
+    forkit_cpu_time_seconds(0),
+    forkit_memory_used_bytes(0),
+    global_all_document_count(0),
+    global_active_document_count(0),
+    global_idle_document_count(0),
+    global_expired_document_count(0),
+
+    global_all_views_count(0),
+    global_active_views_count(0),
+    global_expired_views_count(0),
+
+    global_bytes_sent_to_clients_bytes(0),
+    global_bytes_received_from_clients_bytes(0),
+
+    kit_count(0),
+    kit_unassigned_count(0),
+    kit_assigned_count(0),
+    kit_segfaulted_count(0),
+    kit_thread_count_average(0),
+    kit_thread_count_max(0),
+    kit_memory_used_total_bytes(0),
+    kit_memory_used_average_bytes(0),
+    kit_memory_used_min_bytes(0),
+    kit_memory_used_max_bytes(0),
+    kit_cpu_time_total_seconds(0),
+    kit_cpu_time_average_seconds(0),
+    kit_cpu_time_min_seconds(0),
+    kit_cpu_time_max_seconds(0),
+
+    document_all_views_all_count_average(0),
+    document_all_views_all_count_max(0),
+    document_active_views_all_count_average(0),
+    document_active_views_all_count_max(0),
+    document_active_views_active_count(0),
+    document_active_views_active_count_average(0),
+    document_active_views_active_count_max(0),
+    document_active_views_expired_count(0),
+    document_active_views_expired_count_average(0),
+    document_active_views_expired_count_max(0),
+    document_expired_views_all_count_average(0),
+    document_expired_views_all_count_max(0),
+
+    document_all_opened_time_average_seconds(0),
+    document_all_opened_time_min_seconds(0),
+    document_all_opened_time_max_seconds(0),
+    document_active_opened_time_average_seconds(0),
+    document_active_opened_time_min_seconds(0),
+    document_active_opened_time_max_seconds(0),
+    document_expired_opened_time_average_seconds(0),
+    document_expired_opened_time_min_seconds(0),
+    document_expired_opened_time_max_seconds(0),
+
+    document_all_sent_to_clients_average_bytes(0),
+    document_all_sent_to_clients_min_bytes(0),
+    document_all_sent_to_clients_max_bytes(0),
+    document_active_sent_to_clients_average_bytes(0),
+    document_active_sent_to_clients_min_bytes(0),
+    document_active_sent_to_clients_max_bytes(0),
+    document_expired_sent_to_clients_average_bytes(0),
+    document_expired_sent_to_clients_min_bytes(0),
+    document_expired_sent_to_clients_max_bytes(0),
+
+    document_all_received_from_clients_average_bytes(0),
+    document_all_received_from_clients_min_bytes(0),
+    document_all_received_from_clients_max_bytes(0),
+    document_active_received_from_clients_average_bytes(0),
+    document_active_received_from_clients_min_bytes(0),
+    document_active_received_from_clients_max_bytes(0),
+    document_expired_received_from_clients_average_bytes(0),
+    document_expired_received_from_clients_min_bytes(0),
+    document_expired_received_from_clients_max_bytes(0),
+
+    document_all_wopi_download_duration_average_seconds(0),
+    document_all_wopi_download_duration_min_seconds(0),
+    document_all_wopi_download_duration_max_seconds(0),
+    document_active_wopi_download_duration_average_seconds(0),
+    document_active_wopi_download_duration_min_seconds(0),
+    document_active_wopi_download_duration_max_seconds(0),
+    document_expired_wopi_download_duration_average_seconds(0),
+    document_expired_wopi_download_duration_min_seconds(0),
+    document_expired_wopi_download_duration_max_seconds(0),
+
+    document_all_wopi_upload_duration_average_seconds(0),
+    document_all_wopi_upload_duration_min_seconds(0),
+    document_all_wopi_upload_duration_max_seconds(0),
+    document_active_wopi_upload_duration_average_seconds(0),
+    document_active_wopi_upload_duration_min_seconds(0),
+    document_active_wopi_upload_duration_max_seconds(0),
+    document_expired_wopi_upload_duration_average_seconds(0),
+    document_expired_wopi_upload_duration_min_seconds(0),
+    document_expired_wopi_upload_duration_max_seconds(0),
+
+    document_all_view_load_duration_average_seconds(0),
+    document_all_view_load_duration_min_seconds(0),
+    document_all_view_load_duration_max_seconds(0),
+    document_active_view_load_duration_average_seconds(0),
+    document_active_view_load_duration_min_seconds(0),
+    document_active_view_load_duration_max_seconds(0),
+    document_expired_view_load_duration_average_seconds(0),
+    document_expired_view_load_duration_min_seconds(0),
+    document_expired_view_load_duration_max_seconds(0)
+
+    {}
+
+    uint64_t global_host_system_memory_bytes;
+    uint64_t global_memory_available_bytes;
+    uint64_t global_memory_used_bytes;
+    uint64_t global_memory_free_bytes;
+
+    uint32_t loolwsd_count;
+    uint32_t loolwsd_thread_count;
+    uint32_t loolwsd_cpu_time_seconds;
+    uint64_t loolwsd_memory_used_bytes;
+
+    uint32_t forkit_count;
+    uint32_t forkit_thread_count;
+    uint32_t forkit_cpu_time_seconds;
+    uint64_t forkit_memory_used_bytes;
+
+    uint32_t global_all_document_count;
+    uint32_t global_active_document_count;
+    uint32_t global_idle_document_count;
+    uint32_t global_expired_document_count;
+
+    uint32_t global_all_views_count;
+    uint32_t global_active_views_count;
+    uint32_t global_expired_views_count;
+
+    uint64_t global_bytes_sent_to_clients_bytes;
+    uint64_t global_bytes_received_from_clients_bytes;
+
+    uint32_t kit_count;
+    uint32_t kit_unassigned_count;
+    uint32_t kit_assigned_count;
+    uint32_t kit_segfaulted_count;
+    uint32_t kit_thread_count_average;
+    uint32_t kit_thread_count_max;
+    uint64_t kit_memory_used_total_bytes;
+    uint64_t kit_memory_used_average_bytes;
+    uint64_t kit_memory_used_min_bytes;
+    uint64_t kit_memory_used_max_bytes;
+    uint32_t kit_cpu_time_total_seconds;
+    uint32_t kit_cpu_time_average_seconds;
+    uint32_t kit_cpu_time_min_seconds;
+    uint32_t kit_cpu_time_max_seconds;
+
+    uint32_t document_all_views_all_count_average;
+    uint32_t document_all_views_all_count_max;
+    uint32_t document_active_views_all_count_average;
+    uint32_t document_active_views_all_count_max;
+    uint32_t document_active_views_active_count;
+    uint32_t document_active_views_active_count_average;
+    uint32_t document_active_views_active_count_max;
+    uint32_t document_active_views_expired_count;
+    uint32_t document_active_views_expired_count_average;
+    uint32_t document_active_views_expired_count_max;
+    uint32_t document_expired_views_all_count_average;
+    uint32_t document_expired_views_all_count_max;
+
+    uint32_t document_all_opened_time_average_seconds;
+    uint32_t document_all_opened_time_min_seconds;
+    uint32_t document_all_opened_time_max_seconds;
+    uint32_t document_active_opened_time_average_seconds;
+    uint32_t document_active_opened_time_min_seconds;
+    uint32_t document_active_opened_time_max_seconds;
+    uint32_t document_expired_opened_time_average_seconds;
+    uint32_t document_expired_opened_time_min_seconds;
+    uint32_t document_expired_opened_time_max_seconds;
+
+    uint64_t document_all_sent_to_clients_average_bytes;
+    uint64_t document_all_sent_to_clients_min_bytes;
+    uint64_t document_all_sent_to_clients_max_bytes;
+    uint64_t document_active_sent_to_clients_average_bytes;
+    uint64_t document_active_sent_to_clients_min_bytes;
+    uint64_t document_active_sent_to_clients_max_bytes;
+    uint64_t document_expired_sent_to_clients_average_bytes;
+    uint64_t document_expired_sent_to_clients_min_bytes;
+    uint64_t document_expired_sent_to_clients_max_bytes;
+
+    uint64_t document_all_received_from_clients_average_bytes;
+    uint64_t document_all_received_from_clients_min_bytes;
+    uint64_t document_all_received_from_clients_max_bytes;
+    uint64_t document_active_received_from_clients_average_bytes;
+    uint64_t document_active_received_from_clients_min_bytes;
+    uint64_t document_active_received_from_clients_max_bytes;
+    uint64_t document_expired_received_from_clients_average_bytes;
+    uint64_t document_expired_received_from_clients_min_bytes;
+    uint64_t document_expired_received_from_clients_max_bytes;
+
+    double document_all_wopi_download_duration_average_seconds;
+    double document_all_wopi_download_duration_min_seconds;
+    double document_all_wopi_download_duration_max_seconds;
+    double document_active_wopi_download_duration_average_seconds;
+    double document_active_wopi_download_duration_min_seconds;
+    double document_active_wopi_download_duration_max_seconds;
+    double document_expired_wopi_download_duration_average_seconds;
+    double document_expired_wopi_download_duration_min_seconds;
+    double document_expired_wopi_download_duration_max_seconds;
+
+    double document_all_wopi_upload_duration_average_seconds;
+    double document_all_wopi_upload_duration_min_seconds;
+    double document_all_wopi_upload_duration_max_seconds;
+    double document_active_wopi_upload_duration_average_seconds;
+    double document_active_wopi_upload_duration_min_seconds;
+    double document_active_wopi_upload_duration_max_seconds;
+    double document_expired_wopi_upload_duration_average_seconds;
+    double document_expired_wopi_upload_duration_min_seconds;
+    double document_expired_wopi_upload_duration_max_seconds;
+
+    double document_all_view_load_duration_average_seconds;
+    double document_all_view_load_duration_min_seconds;
+    double document_all_view_load_duration_max_seconds;
+    double document_active_view_load_duration_average_seconds;
+    double document_active_view_load_duration_min_seconds;
+    double document_active_view_load_duration_max_seconds;
+    double document_expired_view_load_duration_average_seconds;
+    double document_expired_view_load_duration_min_seconds;
+    double document_expired_view_load_duration_max_seconds;
+
+    void toString(std::string &metrics);
+};
+
 /// The Admin controller implementation.
 class AdminModel
 {
 public:
+
+typedef struct _DocumentStats
+    {
+        _DocumentStats()
+        : totalUsedMemory(0),
+        minUsedMemory(0xFFFFFFFFFFFFFFFF),
+        maxUsedMemory(0),
+        totalOpenTime(0),
+        minOpenTime(0xFFFFFFFFFFFFFFFF),
+        maxOpenTime(0),
+        totalBytesSentToClients(0),
+        minBytesSentToClients(0xFFFFFFFFFFFFFFFF),
+        maxBytesSentToClients(0),
+        totalBytesReceivedFromClients(0),
+        minBytesReceivedFromClients(0xFFFFFFFFFFFFFFFF),
+        maxBytesReceivedFromClients(0),
+        totalWopiDownloadDuration(0),
+        minWopiDownloadDuration(0xFFFFFFFFFFFFFFFF),
+        maxWopiDownloadDuration(0),
+        totalWopiUploadDuration(0),
+        minWopiUploadDuration(0xFFFFFFFFFFFFFFFF),
+        maxWopiUploadDuration(0),
+        totalViewLoadDuration(0),
+        minViewLoadDuration(0xFFFFFFFFFFFFFFFF),
+        maxViewLoadDuration(0),
+        totalUploadedDocs(0)
+        {}
+
+        uint64_t totalUsedMemory;
+        uint64_t minUsedMemory;
+        uint64_t maxUsedMemory;
+        uint64_t totalOpenTime;
+        uint64_t minOpenTime;
+        uint64_t maxOpenTime;
+        uint64_t totalBytesSentToClients;
+        uint64_t minBytesSentToClients;
+        uint64_t maxBytesSentToClients;
+        uint64_t totalBytesReceivedFromClients;
+        uint64_t minBytesReceivedFromClients;
+        uint64_t maxBytesReceivedFromClients;
+        uint64_t totalWopiDownloadDuration;
+        uint64_t minWopiDownloadDuration;
+        uint64_t maxWopiDownloadDuration;
+        uint64_t totalWopiUploadDuration;
+        uint64_t minWopiUploadDuration;
+        uint64_t maxWopiUploadDuration;
+        uint64_t totalViewLoadDuration;
+        uint64_t minViewLoadDuration;
+        uint64_t maxViewLoadDuration;
+        int totalUploadedDocs;
+    }DocumentStats;
+
     AdminModel() :
+        _segFaultCount(0),
         _owner(std::this_thread::get_id())
     {
         LOG_INF("AdminModel ctor.");
@@ -289,6 +597,15 @@ public:
     /// Document basic info list sorted by most idle time
     std::vector<DocBasicInfo> getDocumentsSortedByIdle() const;
 
+    void setViewLoadDuration(const std::string& docKey, const std::string& sessionId, std::chrono::milliseconds viewLoadDuration);
+    void setDocWopiDownloadDuration(const std::string& docKey, std::chrono::milliseconds wopiDownloadDuration);
+    void setDocWopiUploadDuration(const std::string& docKey, const std::chrono::milliseconds wopiUploadDuration);
+    void addSegFaultCount(unsigned segFaultCount);
+
+    void updateDocumentStats(const Document &d, DocumentStats &stats);
+    void getMetrics(AdminMetrics &metrics);
+    void getMetrics(std::string &metrics);
+
 private:
     std::string getMemStats();
 
@@ -322,6 +639,8 @@ private:
 
     uint64_t _sentBytesTotal;
     uint64_t _recvBytesTotal;
+
+    uint64_t _segFaultCount;
 
     /// We check the owner even in the release builds, needs to be always correct.
     std::thread::id _owner;

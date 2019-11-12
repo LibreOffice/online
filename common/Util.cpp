@@ -42,6 +42,7 @@
 #include <sstream>
 #include <string>
 #include <thread>
+#include <fnmatch.h>
 
 #include <Poco/Base64Encoder.h>
 #include <Poco/HexBinaryEncoder.h>
@@ -195,7 +196,7 @@ namespace Util
     }
 
     // close what we have - far faster than going up to a 1m open_max eg.
-    static bool closeFdsFromProc()
+    static bool closeFdsFromProc(std::map<int, int> *mapFdsToKeep = nullptr)
     {
           DIR *fdDir = opendir("/proc/self/fd");
           if (!fdDir)
@@ -219,6 +220,11 @@ namespace Util
               if (fd < 3)
                   continue;
 
+              if (mapFdsToKeep && mapFdsToKeep->find(fd) != mapFdsToKeep->end())
+              {
+                  continue;
+              }
+
               if (close(fd) < 0)
                   std::cerr << "Unexpected failure to close fd " << fd << std::endl;
           }
@@ -227,17 +233,22 @@ namespace Util
           return true;
     }
 
-    static void closeFds()
+    static void closeFds(std::map<int, int> *mapFdsToKeep = nullptr)
     {
-        if (!closeFdsFromProc())
+        if (!closeFdsFromProc(mapFdsToKeep))
         {
             std::cerr << "Couldn't close fds efficiently from /proc" << std::endl;
             for (int fd = 3; fd < sysconf(_SC_OPEN_MAX); ++fd)
-                close(fd);
+            {
+                if (mapFdsToKeep->find(fd) != mapFdsToKeep->end())
+                {
+                    close(fd);
+                }
+            }
         }
     }
 
-    int spawnProcess(const std::string &cmd, const std::vector<std::string> &args, int *stdInput)
+    int spawnProcess(const std::string &cmd, const std::vector<std::string> &args, const std::vector<int>* fdsToKeep, int *stdInput)
     {
         int pipeFds[2] = { -1, -1 };
         if (stdInput)
@@ -255,6 +266,16 @@ namespace Util
             params.push_back(const_cast<char *>(i.c_str()));
         params.push_back(nullptr);
 
+        std::map<int, int> mapFdsToKeep;
+
+        if (fdsToKeep)
+        {
+            for (const auto& i : *fdsToKeep)
+            {
+                mapFdsToKeep[i] = i;
+            }
+        }
+
         int pid = fork();
         if (pid < 0)
         {
@@ -266,7 +287,7 @@ namespace Util
             if (stdInput)
                 dup2(pipeFds[0], STDIN_FILENO);
 
-            closeFds();
+            closeFds(&mapFdsToKeep);
 
             int ret = execvp(params[0], &params[0]);
             if (ret < 0)
@@ -282,6 +303,63 @@ namespace Util
         }
         return pid;
     }
+
+    int filterNumberName(const struct dirent *dir)
+    {
+        return !fnmatch("[0-9]*", dir->d_name, 0);
+    }
+
+    int getPidsFromProcName(const std::regex& procNameRegEx, std::vector<int> *pids)
+    {
+        struct dirent **namelist = NULL;
+	    int n = scandir("/proc", &namelist, filterNumberName, 0);
+        int pidCount = 0;
+
+        if (n < 0)
+        {
+            return n;
+        }
+
+        std::string comm;
+        char line[256] = { 0 }; //Here we need only 16 bytes but for safety reasons we use file name max length
+
+        if (pids != NULL)
+        {
+            pids->clear();
+        }
+	    while (n--)
+        {
+		    comm = "/proc/";
+		    comm += namelist[n]->d_name;
+		    comm += "/comm";
+            FILE* fp = fopen(comm.c_str(), "r");
+		    if (fp != nullptr)
+		    {
+			    if (fgets(line, sizeof (line), fp))
+			    {
+				    char *nl = strchr(line, '\n');
+				    if (nl != NULL)
+				    {
+    					*nl = 0;
+	    			}
+				    if (regex_match(line, procNameRegEx))
+				    {
+                        pidCount ++;
+                        if (pids)
+                        {
+               			    pids->push_back(strtol(namelist[n]->d_name, NULL, 10));
+                        }
+				    }
+			    }
+			    fclose(fp);
+		    }
+            free(namelist[n]);
+        }
+        free(namelist);
+
+        return pidCount;
+    }
+
 #endif
 
     bool dataFromHexString(const std::string& hexString, std::vector<unsigned char>& data)
