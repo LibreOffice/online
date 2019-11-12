@@ -506,7 +506,7 @@ size_t Admin::getTotalMemoryUsage()
     // memory to the forkit; and then count only dirty pages in the clients
     // since we know that they share everything else with the forkit.
     const size_t forkitRssKb = Util::getMemoryUsageRSS(_forKitPid);
-    const size_t wsdPssKb = Util::getMemoryUsagePSS(Poco::Process::id());
+    const size_t wsdPssKb = Util::getMemoryUsagePSS(getpid());
     const size_t kitsDirtyKb = _model.getKitsMemoryUsage();
     const size_t totalMem = wsdPssKb + forkitRssKb + kitsDirtyKb;
 
@@ -516,7 +516,7 @@ size_t Admin::getTotalMemoryUsage()
 size_t Admin::getTotalCpuUsage()
 {
     const size_t forkitJ = Util::getCpuUsage(_forKitPid);
-    const size_t wsdJ = Util::getCpuUsage(Poco::Process::id());
+    const size_t wsdJ = Util::getCpuUsage(getpid());
     const size_t kitsJ = _model.getKitsJiffies();
 
     if (_lastJiffies == 0)
@@ -564,6 +564,26 @@ void Admin::updateMemoryDirty(const std::string& docKey, int dirty)
 void Admin::addBytes(const std::string& docKey, uint64_t sent, uint64_t recv)
 {
     addCallback([=] { _model.addBytes(docKey, sent, recv); });
+}
+
+void Admin::setViewLoadDuration(const std::string& docKey, const std::string& sessionId, std::chrono::milliseconds viewLoadDuration)
+{
+    addCallback([=]{ _model.setViewLoadDuration(docKey, sessionId, viewLoadDuration); });
+}
+
+void Admin::setDocWopiDownloadDuration(const std::string& docKey, std::chrono::milliseconds wopiDownloadDuration)
+{
+    addCallback([=]{ _model.setDocWopiDownloadDuration(docKey, wopiDownloadDuration); });
+}
+
+void Admin::setDocWopiUploadDuration(const std::string& docKey, const std::chrono::milliseconds uploadDuration)
+{
+    addCallback([=]{ _model.setDocWopiUploadDuration(docKey, uploadDuration); });
+}
+
+void Admin::addSegFaultCount(unsigned segFaultCount)
+{
+    addCallback([=]{ _model.addSegFaultCount(segFaultCount); });
 }
 
 void Admin::notifyForkit()
@@ -688,6 +708,177 @@ void Admin::scheduleMonitorConnect(const std::string &uri, std::chrono::steady_c
     todo.setWhen(when);
     todo.setUri(uri);
     _pendingConnects.push_back(todo);
+}
+
+void AdminMetrics::toString(std::string &metrics)
+{
+    std::ostringstream oss;
+
+    oss << "global_host_system_memory_bytes " << global_host_system_memory_bytes << std::endl;
+    oss << "global_memory_available_bytes " << global_memory_available_bytes << std::endl;
+    oss << "global_memory_used_bytes " << global_memory_used_bytes << std::endl;
+    oss << "global_memory_free_bytes " << global_memory_free_bytes << std::endl;
+    oss << "global_all_document_count " << global_all_document_count << std::endl;
+    oss << "global_active_document_count " << global_active_document_count << std::endl;
+    oss << "global_expired_document_count " << global_expired_document_count << std::endl;
+    oss << "global_all_views_count " << global_all_views_count << std::endl;
+    oss << "global_active_views_count " << global_active_views_count << std::endl;
+    oss << "global_expired_views_count " << global_expired_views_count << std::endl;
+    oss << "global_bytes_sent_to_clients_bytes " << global_bytes_sent_to_clients_bytes << std::endl;
+    oss << "global_bytes_received_from_clients_bytes " << global_bytes_received_from_clients_bytes << std::endl;
+    oss << std::endl;
+
+    oss << "loolwsd_count " << loolwsd_count << std::endl;
+    oss << "loolwsd_thread_count " << loolwsd_thread_count << std::endl;
+    oss << "loolwsd_cpu_time_seconds " << loolwsd_cpu_time_seconds << std::endl;
+    oss << "loolwsd_memory_used_bytes " << loolwsd_memory_used_bytes << std::endl;
+    oss << std::endl;
+
+    oss << "forkit_count " << forkit_count << std::endl;
+    oss << "forkit_thread_count " << forkit_thread_count << std::endl;
+    oss << "forkit_cpu_time_seconds " << forkit_cpu_time_seconds << std::endl;
+    oss << "forkit_memory_used_bytes " << forkit_memory_used_bytes << std::endl;
+    oss << std::endl;
+
+    oss << "kit_count " << kit_count << std::endl;
+    oss << "kit_unassigned_count " << kit_unassigned_count << std::endl;
+    oss << "kit_assigned_count " << kit_assigned_count << std::endl;
+    oss << "kit_segfaulted_count " << kit_segfaulted_count << std::endl;
+    oss << "kit_thread_count_average " << kit_thread_count_average << std::endl;
+    oss << "kit_thread_count_max " << kit_thread_count_max << std::endl;
+    oss << "kit_memory_used_total_bytes " << kit_memory_used_total_bytes << std::endl;
+    oss << "kit_memory_used_average_bytes " << kit_memory_used_average_bytes << std::endl;
+    oss << "kit_memory_used_min_bytes " << kit_memory_used_min_bytes << std::endl;
+    oss << "kit_memory_used_max_bytes " << kit_memory_used_max_bytes << std::endl;
+    oss << "kit_cpu_time_total_seconds " << kit_cpu_time_total_seconds << std::endl;
+    oss << "kit_cpu_time_average_seconds " << kit_cpu_time_average_seconds << std::endl;
+    oss << "kit_cpu_time_min_seconds " << kit_cpu_time_min_seconds << std::endl;
+    oss << "kit_cpu_time_max_seconds " << kit_cpu_time_max_seconds << std::endl;
+    oss << std::endl;
+
+    oss << "document_all_views_all_count_average " << document_all_views_all_count_average << std::endl;
+    oss << "document_all_views_all_count_max " << document_all_views_all_count_max << std::endl;
+    oss << "document_active_views_all_count_average " << document_active_views_all_count_average << std::endl;
+    oss << "document_active_views_all_count_max " << document_active_views_all_count_max << std::endl;
+    oss << "document_active_views_active_count " << document_active_views_active_count << std::endl;
+    oss << "document_active_views_active_count_average " << document_active_views_active_count_average << std::endl;
+    oss << "document_active_views_active_count_max " << document_active_views_active_count_max << std::endl;
+    oss << "document_active_views_expired_count " << document_active_views_expired_count << std::endl;
+    oss << "document_active_views_expired_count_average " << document_active_views_expired_count_average << std::endl;
+    oss << "document_active_views_expired_count_max " << document_active_views_expired_count_max << std::endl;
+    oss << "document_expired_views_all_count_average " << document_expired_views_all_count_average << std::endl;
+    oss << "document_expired_views_all_count_max " << document_expired_views_all_count_max << std::endl;
+    oss << std::endl;
+
+    oss << "document_all_opened_time_average_seconds " << document_all_opened_time_average_seconds << std::endl;
+    oss << "document_all_opened_time_min_seconds " << document_all_opened_time_min_seconds << std::endl;
+    oss << "document_all_opened_time_max_seconds " << document_all_opened_time_max_seconds << std::endl;
+    oss << "document_active_opened_time_average_seconds " << document_active_opened_time_average_seconds << std::endl;
+    oss << "document_active_opened_time_min_seconds " << document_active_opened_time_min_seconds << std::endl;
+    oss << "document_active_opened_time_max_seconds " << document_active_opened_time_max_seconds << std::endl;
+    oss << "document_expired_opened_time_average_seconds " << document_expired_opened_time_average_seconds << std::endl;
+    oss << "document_expired_opened_time_min_seconds " << document_expired_opened_time_min_seconds << std::endl;
+    oss << "document_expired_opened_time_max_seconds " << document_expired_opened_time_max_seconds << std::endl;
+    oss << std::endl;
+
+    oss << "document_all_sent_to_clients_average_bytes " << document_all_sent_to_clients_average_bytes << std::endl;
+    oss << "document_all_sent_to_clients_min_bytes " << document_all_sent_to_clients_min_bytes << std::endl;
+    oss << "document_all_sent_to_clients_max_bytes " << document_all_sent_to_clients_max_bytes << std::endl;
+    oss << "document_active_sent_to_clients_average_bytes " << document_active_sent_to_clients_average_bytes << std::endl;
+    oss << "document_active_sent_to_clients_min_bytes " << document_active_sent_to_clients_min_bytes << std::endl;
+    oss << "document_active_sent_to_clients_max_bytes " << document_active_sent_to_clients_max_bytes << std::endl;
+    oss << "document_expired_sent_to_clients_average_bytes " << document_expired_sent_to_clients_average_bytes << std::endl;
+    oss << "document_expired_sent_to_clients_min_bytes " << document_expired_sent_to_clients_min_bytes << std::endl;
+    oss << "document_expired_sent_to_clients_max_bytes " << document_expired_sent_to_clients_max_bytes << std::endl;
+    oss << std::endl;
+
+    oss << "document_all_received_from_clients_average_bytes " << document_all_received_from_clients_average_bytes << std::endl;
+    oss << "document_all_received_from_clients_min_bytes " << document_all_received_from_clients_min_bytes << std::endl;
+    oss << "document_all_received_from_clients_max_bytes " << document_all_received_from_clients_max_bytes << std::endl;
+    oss << "document_active_received_from_clients_average_bytes " << document_active_received_from_clients_average_bytes << std::endl;
+    oss << "document_active_received_from_clients_min_bytes " << document_active_received_from_clients_min_bytes << std::endl;
+    oss << "document_active_received_from_clients_max_bytes " << document_active_received_from_clients_max_bytes << std::endl;
+    oss << "document_expired_received_from_clients_average_bytes " << document_expired_received_from_clients_average_bytes << std::endl;
+    oss << "document_expired_received_from_clients_min_bytes " << document_expired_received_from_clients_min_bytes << std::endl;
+    oss << "document_expired_received_from_clients_max_bytes " << document_expired_received_from_clients_max_bytes << std::endl;
+    oss << std::endl;
+
+    oss << "document_all_wopi_download_duration_average_seconds " << document_all_wopi_download_duration_average_seconds << std::endl;
+    oss << "document_all_wopi_download_duration_min_seconds " << document_all_wopi_download_duration_min_seconds << std::endl;
+    oss << "document_all_wopi_download_duration_max_seconds " << document_all_wopi_download_duration_max_seconds << std::endl;
+    oss << "document_active_wopi_download_duration_average_seconds " << document_active_wopi_download_duration_average_seconds << std::endl;
+    oss << "document_active_wopi_download_duration_min_seconds " << document_active_wopi_download_duration_min_seconds << std::endl;
+    oss << "document_active_wopi_download_duration_max_seconds " << document_active_wopi_download_duration_max_seconds << std::endl;
+    oss << "document_expired_wopi_download_duration_average_seconds " << document_expired_wopi_download_duration_average_seconds << std::endl;
+    oss << "document_expired_wopi_download_duration_min_seconds " << document_expired_wopi_download_duration_min_seconds << std::endl;
+    oss << "document_expired_wopi_download_duration_max_seconds " << document_expired_wopi_download_duration_max_seconds << std::endl;
+    oss << std::endl;
+
+    oss << "document_all_wopi_upload_duration_average_seconds " << document_all_wopi_upload_duration_average_seconds << std::endl;
+    oss << "document_all_wopi_upload_duration_min_seconds " << document_all_wopi_upload_duration_min_seconds << std::endl;
+    oss << "document_all_wopi_upload_duration_max_seconds " << document_all_wopi_upload_duration_max_seconds << std::endl;
+    oss << "document_active_wopi_upload_duration_average_seconds " << document_active_wopi_upload_duration_average_seconds << std::endl;
+    oss << "document_active_wopi_upload_duration_min_seconds " << document_active_wopi_upload_duration_min_seconds << std::endl;
+    oss << "document_active_wopi_upload_duration_max_seconds " << document_active_wopi_upload_duration_max_seconds << std::endl;
+    oss << "document_expired_wopi_upload_duration_average_seconds " << document_expired_wopi_upload_duration_average_seconds << std::endl;
+    oss << "document_expired_wopi_upload_duration_min_seconds " << document_expired_wopi_upload_duration_min_seconds << std::endl;
+    oss << "document_expired_wopi_upload_duration_max_seconds " << document_expired_wopi_upload_duration_max_seconds << std::endl;
+    oss << std::endl;
+
+    oss << "document_all_view_load_duration_average_seconds " << document_all_view_load_duration_average_seconds << std::endl;
+    oss << "document_all_view_load_duration_min_seconds " << document_all_view_load_duration_min_seconds << std::endl;
+    oss << "document_all_view_load_duration_max_seconds " << document_all_view_load_duration_max_seconds << std::endl;
+    oss << "document_active_view_load_duration_average_seconds " << document_active_view_load_duration_average_seconds << std::endl;
+    oss << "document_active_view_load_duration_min_seconds " << document_active_view_load_duration_min_seconds << std::endl;
+    oss << "document_active_view_load_duration_max_seconds " << document_active_view_load_duration_max_seconds << std::endl;
+    oss << "document_expired_view_load_duration_average_seconds " << document_expired_view_load_duration_average_seconds << std::endl;
+    oss << "document_expired_view_load_duration_min_seconds " << document_expired_view_load_duration_min_seconds << std::endl;
+    oss << "document_expired_view_load_duration_max_seconds " << document_expired_view_load_duration_max_seconds << std::endl;
+
+    metrics = oss.str();
+}
+
+void Admin::getMetrics(AdminMetrics &metrics)
+{
+    size_t memAvail =  getTotalAvailableMemory();
+    size_t memUsed = getTotalMemoryUsage();
+
+    metrics.global_host_system_memory_bytes = _totalSysMemKb * 1024;
+    metrics.global_memory_available_bytes = memAvail * 1024;
+    metrics.global_memory_used_bytes = memUsed * 1024;
+    metrics.global_memory_free_bytes = (memAvail - memUsed) * 1024;
+
+    metrics.loolwsd_count = AdminModel::getPidsFromProcName(std::regex("loolwsd"), nullptr);
+    metrics.loolwsd_thread_count = Util::getStatFromPid(getpid(), 19);
+    metrics.loolwsd_cpu_time_seconds = Util::getCpuUsage(getpid()) / sysconf (_SC_CLK_TCK);
+    metrics.loolwsd_memory_used_bytes = Util::getMemoryUsagePSS(getpid()) * 1024;
+
+    metrics.forkit_count = AdminModel::getPidsFromProcName(std::regex("forkit"), nullptr);
+    metrics.forkit_thread_count = Util::getStatFromPid(_forKitPid, 19);
+    metrics.forkit_cpu_time_seconds = Util::getCpuUsage(_forKitPid) / sysconf (_SC_CLK_TCK);
+    metrics.forkit_memory_used_bytes = Util::getMemoryUsageRSS(_forKitPid) * 1024;
+
+    _model.getMetrics(metrics);
+}
+
+void Admin::sendMetrics(const std::shared_ptr<StreamSocket>& socket, const std::shared_ptr<Poco::Net::HTTPResponse>& response)
+{
+    AdminMetrics metrics;
+    std::string metricsString;
+
+    getMetrics(metrics);
+    metrics.toString(metricsString);
+
+    std::ostringstream oss;
+    response->write(oss);
+    oss << metricsString;
+    socket->send(oss.str());
+    socket->shutdown();
+}
+
+void Admin::sendMetricsAsync(const std::shared_ptr<StreamSocket>& socket, const std::shared_ptr<Poco::Net::HTTPResponse>& response)
+{
+    addCallback([this, socket, response]{ sendMetrics(socket, response); });
 }
 
 void Admin::start()

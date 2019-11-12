@@ -41,6 +41,10 @@
 #include <common/SigUtil.hpp>
 #include <security.h>
 
+#if defined KIT_IN_PROCESS || MOBILEAPP
+#include "Admin.hpp"
+#endif
+
 using Poco::Process;
 using Poco::Thread;
 
@@ -52,6 +56,7 @@ static bool DisplayVersion = false;
 static std::string UnitTestLibrary;
 static std::string LogLevel;
 static std::atomic<unsigned> ForkCounter(0);
+static std::atomic<int> ForKitOutPipeWriteFd(-1);
 
 static std::map<Process::PID, std::string> childJails;
 
@@ -209,6 +214,8 @@ static void cleanupChildren()
     std::vector<std::string> jails;
     Process::PID exitedChildPid;
     int status;
+    static int segFaultCount = 0;
+
     // Reap quickly without doing slow cleanup so WSD can spawn more rapidly.
     while ((exitedChildPid = waitpid(-1, &status, WUNTRACED | WNOHANG)) > 0)
     {
@@ -223,11 +230,36 @@ static void cleanupChildren()
                 // We ran out of kits and we aren't terminating.
                 LOG_WRN("No live Kits exist, and we are not terminating yet.");
             }
+
+            if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGSEGV || WTERMSIG(status) == SIGBUS))
+                segFaultCount ++;
         }
         else
         {
             LOG_ERR("Unknown child " << exitedChildPid << " has exited");
         }
+    }
+
+    if (segFaultCount)
+    {
+#ifdef KIT_IN_PROCESS
+#if !MOBILEAPP
+        Admin::instance().addSegFaultCount(segFaultCount);
+#endif
+#else
+        std::stringstream stream;
+        stream << "SegFaultCount " << segFaultCount << "\n";
+        std::string mess = stream.str();
+        int ret = write(ForKitOutPipeWriteFd, mess.c_str(), mess.length());
+        if (ret > 0)
+        {
+            segFaultCount = 0;
+        }
+        else
+        {
+            LOG_WRN("Could not write message to ForKitOutPipe");
+        }
+#endif
     }
 
     // Now delete the jails.
@@ -459,6 +491,11 @@ int main(int argc, char** argv)
                     LOG_ERR("Unknown rlimits command: " << cmdLimit);
                 }
             }
+        }
+        else if (strstr(cmd, "--ForKitOutPipeWriteFd") == cmd)
+        {
+            eq = std::strchr(cmd, '=');
+            ForKitOutPipeWriteFd = std::stoll(std::string(eq+1));
         }
 #if ENABLE_DEBUG
         // this process has various privileges - don't run arbitrary code.

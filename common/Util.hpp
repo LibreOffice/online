@@ -23,6 +23,7 @@
 #include <sstream>
 #include <string>
 #include <inttypes.h>
+#include <regex>
 
 #include <memory.h>
 
@@ -69,7 +70,8 @@ namespace Util
     /// Spawn a process if stdInput is non-NULL it contains a writable descriptor
     /// to send data to the child.
     int spawnProcess(const std::string &cmd, const std::vector<std::string> &args,
-                     int *stdInput = nullptr);
+                     const std::vector<int>* fdsToKeep = nullptr, int *stdInput = nullptr);
+    
 #endif
 
     /// Hex to unsigned char
