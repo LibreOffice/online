@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_2c2f0040",
+        "filename": "common/SigUtil.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "potentially changes which thread gets the signal (?) - why ?",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_0c2c8445",
+        "filename": "common/Util.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "Urk - this looks really horrible - why are we doing regexp matching on tons of /proc files ? looks like a problem for running unit tests in parallel, and having multiple loolwsds on the same machine.\nIs there a need for this ? we worked reasonably hard to avoid it in the past \u003d)",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_ac223051",
+        "filename": "kit/ForKit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "Nice - good to count those \u003d)",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_8cc5f45d",
+        "filename": "kit/ForKit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "With a synchronous write, that potentially blocks our ability to read down the pipe - I worry about producer/consumer deadlock, whereby the other end is trying to synchronously write and the other end is trying to synchronously write, and no-one is available to read to clear the buffers that block them (?) - hence (FWIW) liking the net/Socket code at the other end. At least in theory ;-) it\u0027s really not much data obviously.",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_cc1d2c10",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "love the de-poco-ization \u003d)",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_6c1c1812",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "Is it normal / useful / helpful to dump things like this - if so fine, but isn\u0027t (perhaps pretty-printed) JSON the modern way ? \u003d)",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_8c1734ee",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "We have a convention for GlobalVariableNaming and also for _memberNaming - that we should continue to follow.",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_0ce1e4fe",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "Perhaps best to stick with the convention here of preserving our precious, non-renewable vertical space \u003d) ie. skip \u0027{\u0027 for easy-to-read one-line conditionals.",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_ace79012",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "This make me wonder - if the only time we calculate all of this is to generate JSON from it - do we need the intermediate object at all to store it in before printing ? perhaps we could simplify life rather a lot by streaming straight to JSON ?",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_4cd7dc24",
+        "filename": "wsd/AdminModel.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "Like to see a nice separate class for this; but lets use the _memberVariable; naming convention.",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_acd0f020",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2285,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "Good - great to see this done right and injected into the correct thread.",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_ecb6e8fa",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 3593,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-12T10:25:57Z",
+      "side": 1,
+      "message": "Why do we add a thread here ? can we not re-use a net/Socket Poll to read/write to the forkit control pipe (?) would be more elegant I think to have a more standard polling loop to control the forkit (?)",
+      "revId": "299cd6014e64b497b11dc741182e604bfae0ce20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
