@@ -10,11 +10,12 @@
 #include <config.h>
 
 #include "Authorization.hpp"
+#include "Protocol.hpp"
 
 #include <cstdlib>
 #include <cassert>
+#include <regex>
 
-#include <Poco/StringTokenizer.h>
 
 void Authorization::authorizeURI(Poco::URI& uri) const
 {
@@ -50,7 +51,8 @@ void Authorization::authorizeRequest(Poco::Net::HTTPRequest& request) const
             // there might be more headers in here; like
             //   Authorization: Basic ....
             //   X-Something-Custom: Huh
-            Poco::StringTokenizer tokens(_data, "\n\r", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+            //Regular expression eveluates and finds "\n\r" and tokenizes accordingly
+            std::vector<std::string> tokens(LOOLProtocol::tokenize(_data, std::regex(R"(\s*[\n\r]\s*)"), /*skipEmpty =*/ true));
             for (const auto& token : tokens)
             {
                 size_t i = token.find_first_of(':');
@@ -60,9 +62,14 @@ void Authorization::authorizeRequest(Poco::Net::HTTPRequest& request) const
                     for (++i; i < token.length() && token[i] == ' ';)
                         ++i;
 
+                    size_t end_space_count = 0;
+                    for (size_t reverse_i = token.length()-1; token[reverse_i] == ' ' && reverse_i < token.length(); --reverse_i)
+                        ++end_space_count;
+
+                    size_t value_length = token.length() - i - end_space_count;
                     // set the header
                     if (i < token.length())
-                        request.set(token.substr(0, separator), token.substr(i));
+                        request.set(token.substr(0, separator), token.substr(i, value_length));
                 }
             }
             break;
