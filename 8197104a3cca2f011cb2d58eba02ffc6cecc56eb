@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_3d964cf2",
+        "filename": "loleaflet/src/map/handler/Map.StateChanges.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-11-13T14:16:11Z",
+      "side": 1,
+      "message": "please get value one time and compare later with variable:\nvar slideMasterPageItem \u003d this._map[\u0027stateChangeHandler\u0027].getItemValue(\u0027.uno:SlideMasterPage\u0027);\n\n\nthen if (!slideMasterPageItem || slideMasterPageItem \u003d\u003d ...) etc",
+      "revId": "8197104a3cca2f011cb2d58eba02ffc6cecc56eb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
