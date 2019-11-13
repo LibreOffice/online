@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_7de5a4a7",
+        "filename": "loleaflet/src/map/handler/Map.StateChanges.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-11-13T14:15:35Z",
+      "side": 1,
+      "message": "please delete this console.debug",
+      "revId": "280a1e3c490c29ceb36967b4bcde63516ffe87df",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_9de0c098",
+        "filename": "loleaflet/src/map/handler/Map.StateChanges.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-11-13T14:15:35Z",
+      "side": 1,
+      "message": "this one too",
+      "revId": "280a1e3c490c29ceb36967b4bcde63516ffe87df",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_1deef087",
+        "filename": "loleaflet/src/map/handler/Map.StateChanges.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2019-11-13T14:15:35Z",
+      "side": 1,
+      "message": "please get value one time and compare later with variable:\nvar slideMasterPageItem \u003d this._map[\u0027stateChangeHandler\u0027].getItemValue(\u0027.uno:SlideMasterPage\u0027);\n\n\nthen if (!slideMasterPageItem || slideMasterPageItem \u003d\u003d ...) etc",
+      "revId": "280a1e3c490c29ceb36967b4bcde63516ffe87df",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
