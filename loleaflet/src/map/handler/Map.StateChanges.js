@@ -3,7 +3,8 @@
  * L.Map.StateChanges stores the state changes commands coming from core
  * LOK_CALLBACK_STATE_CHANGED callback
  */
-
+ /* global $ */
+ /*eslint no-extend-native:0*/
 L.Map.mergeOptions({
 	stateChangeHandler: true
 });
@@ -26,12 +27,24 @@ L.Map.StateChangeHandler = L.Handler.extend({
 	},
 
 	_onStateChanged: function(e) {
+		console.debug('e.commandName === uno:SlideMasterPage with state= ' + this._map['stateChangeHandler'].getItemValue('.uno:SlideMasterPage'));
 		var index = e.state.indexOf('{');
 		var state = index !== -1 ? JSON.parse(e.state.substring(index)) : e.state;
 		this._items[e.commandName] = state;
 		if (e.commandName === '.uno:CurrentTrackedChangeId') {
 			var redlineId = 'change-' + state;
 			this._map._docLayer._annotations.selectById(redlineId);
+		}
+		console.debug('e.commandName === uno:SlideMasterPage with state= ' + this._map['stateChangeHandler'].getItemValue('.uno:SlideMasterPage'));
+		$('#document-container').removeClass('slide-master-mode');
+		$('#document-container').addClass('slide-normal-mode');
+		if (this._map['stateChangeHandler'].getItemValue('.uno:SlideMasterPage')) {
+			$('#document-container').removeClass('slide-normal-mode');
+			$('#document-container').addClass('slide-master-mode');
+		}
+		if (!this._map['stateChangeHandler'].getItemValue('.uno:SlideMasterPage') || this._map['stateChangeHandler'].getItemValue('.uno:SlideMasterPage') == 'false' || this._map['stateChangeHandler'].getItemValue('.uno:SlideMasterPage') == 'undefined') {
+			$('#document-container').removeClass('slide-master-mode');
+			$('#document-container').addClass('slide-normal-mode');
 		}
 	},
 
