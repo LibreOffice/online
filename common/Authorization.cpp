@@ -10,11 +10,12 @@
 #include <config.h>
 
 #include "Authorization.hpp"
+#include "Protocol.hpp"
 
 #include <cstdlib>
 #include <cassert>
+#include <regex>
 
-#include <Poco/StringTokenizer.h>
 
 void Authorization::authorizeURI(Poco::URI& uri) const
 {
@@ -50,7 +51,8 @@ void Authorization::authorizeRequest(Poco::Net::HTTPRequest& request) const
             // there might be more headers in here; like
             //   Authorization: Basic ....
             //   X-Something-Custom: Huh
-            Poco::StringTokenizer tokens(_data, "\n\r", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+            //Regular expression eveluates and finds "\n\r" and tokenizes accordingly
+            std::vector<std::string> tokens(LOOLProtocol::tokenize(_data, std::regex(R"(.*[\n\r].*)"), /*skipEmpty =*/ true));
             for (const auto& token : tokens)
             {
                 size_t i = token.find_first_of(':');
