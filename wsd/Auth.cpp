@@ -10,6 +10,7 @@
 #include <config.h>
 
 #include "Auth.hpp"
+#include "Protocol.hpp"
 
 #include <cstdlib>
 #include <string>
@@ -26,7 +27,6 @@
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/NetException.h>
-#include <Poco/StringTokenizer.h>
 #include <Poco/Timestamp.h>
 #include <Poco/URI.h>
 
@@ -94,7 +94,7 @@ const std::string JWTAuth::getAccessToken()
 
 bool JWTAuth::verify(const std::string& accessToken)
 {
-    Poco::StringTokenizer tokens(accessToken, ".", Poco::StringTokenizer::TOK_IGNORE_EMPTY | Poco::StringTokenizer::TOK_TRIM);
+    std::vector<std::string> tokens(LOOLProtocol::tokenize(accessToken, '.'));
 
     try
     {
