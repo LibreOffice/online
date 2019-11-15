@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_337d18e7",
+        "filename": "loleaflet/src/control/Toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2019-11-15T10:33:31Z",
+      "side": 1,
+      "message": "We should urlencode the extendedData here, there is no guarantee that the integrations will make sure that there are no spaces or other stuff in there.\n\nAnd then it would remain that way in the http header too, and the integrations would urldecode this themselves.\n\nCan you please amend this or (probably better) provide a follow-up patch please?\n\nThank you!",
+      "range": {
+        "startLine": 152,
+        "startChar": 29,
+        "endLine": 152,
+        "endChar": 41
+      },
+      "revId": "ac3530e42b3529b8da73d9d82b3e9374c7e4a152",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
