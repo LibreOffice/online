@@ -83,13 +83,37 @@ namespace SigUtil
 }
 
 #if !MOBILEAPP
-std::mutex SigHandlerTrap;
-
 namespace SigUtil
 {
-    std::mutex& getSigHandlerTrap()
+    /// This traps the signal-handler so we don't _Exit
+    /// while dumping stack trace. It's re-entrant.
+    /// Used to safely increment and decrement the signal-handler trap.
+    class SigHandlerTrap
     {
-        return SigHandlerTrap;
+        static std::atomic<int> SigHandling;
+    public:
+        SigHandlerTrap() { ++SigHandlerTrap::SigHandling; }
+        ~SigHandlerTrap() { --SigHandlerTrap::SigHandling; }
+
+        /// Take ownership of the trap, to guarantee we are alone.
+        void tryLock(int timeoutSecs = 60) const
+        {
+            while (SigHandlerTrap::SigHandling > 1 && timeoutSecs--)
+                sleep(1);
+        }
+
+        /// Wait for the trap to clear.
+        static void wait()
+        {
+            while (SigHandlerTrap::SigHandling)
+                sleep(1);
+        }
+    };
+    std::atomic<int> SigHandlerTrap::SigHandling;
+
+    void waitSigHandlerTrap()
+    {
+        SigHandlerTrap::wait();
     }
 
     const char *signalName(const int signo)
@@ -211,7 +235,8 @@ namespace SigUtil
     static
     void handleFatalSignal(const int signal)
     {
-        std::unique_lock<std::mutex> lock(SigHandlerTrap);
+        SigHandlerTrap guard;
+        guard.tryLock();
 
         Log::signalLogPrefix();
         Log::signalLog(" Fatal signal received: ");

@@ -2641,11 +2641,10 @@ void lokit_main(
 
 #if !MOBILEAPP
 
-    // Trap the signal handler, if invoked,
-    // to prevent exiting.
     LOG_INF("Process finished.");
     Log::shutdown();
-    std::unique_lock<std::mutex> lock(SigUtil::getSigHandlerTrap());
+    // Trap the signal handler, if invoked, to prevent exiting.
+    SigUtil::waitSigHandlerTrap();
     std::_Exit(EX_OK);
 
 #endif
