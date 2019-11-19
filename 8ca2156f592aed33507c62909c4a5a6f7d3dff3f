@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_0dd6b050",
+        "filename": "common/SigUtil.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-19T06:42:46Z",
+      "side": 1,
+      "message": "Can we rename this to make its function clearer; and what is its function ? surely we don\u0027t want to be waiting 60 seconds if we re-enter a signal handler during signal handling processing - probably instead we want to panic and bail out fast [!]\n\nWe do want to wait at exit of course, a much improved \u0027waitSigHandlerTrap\u0027 method naming there: good.",
+      "revId": "8ca2156f592aed33507c62909c4a5a6f7d3dff3f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_adcc5cbc",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2646,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-19T06:42:46Z",
+      "side": 1,
+      "message": "Its not really a trap - can we just say \u0027wait for the signal handler to dump a trace before exiting\u0027 ?",
+      "revId": "8ca2156f592aed33507c62909c4a5a6f7d3dff3f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
