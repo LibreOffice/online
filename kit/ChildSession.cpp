@@ -8,6 +8,7 @@
  */
 
 #include <config.h>
+#include <cctype>
 
 #include "ChildSession.hpp"
 
@@ -1388,6 +1389,13 @@ bool ChildSession::mouseEvent(const char* /*buffer*/, int /*length*/,
     return true;
 }
 
+void lcl_clearNotPrintableChars(std::string& rString)
+{
+    for (unsigned int i = 0; i < rString.length(); i++)
+        rString[i] = (std::isprint(rString[i]) || rString[i] == '\n' || rString[i] == '\r')
+                            ? rString[i] : '_';
+}
+
 bool ChildSession::dialogEvent(const char* /*buffer*/, int /*length*/, const std::vector<std::string>& tokens)
 {
     if (tokens.size() <= 2)
@@ -1399,8 +1407,15 @@ bool ChildSession::dialogEvent(const char* /*buffer*/, int /*length*/, const std
     getLOKitDocument()->setView(_viewId);
 
     unsigned nLOKWindowId = std::stoi(tokens[1].c_str());
-    getLOKitDocument()->sendDialogEvent(nLOKWindowId,
+    const char* pOutput = getLOKitDocument()->sendDialogEvent(nLOKWindowId,
         Poco::cat(std::string(" "), tokens.begin() + 2, tokens.end()).c_str());
+
+    if (pOutput)
+    {
+        std::string aStr(pOutput);
+        lcl_clearNotPrintableChars(aStr);
+        sendTextFrame(aStr.c_str());
+    }
 
     return true;
 }
