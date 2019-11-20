@@ -8,6 +8,7 @@
  */
 
 #include <config.h>
+#include <ctype.h>
 
 #include "ChildSession.hpp"
 
@@ -1399,8 +1400,16 @@ bool ChildSession::dialogEvent(const char* /*buffer*/, int /*length*/, const std
     getLOKitDocument()->setView(_viewId);
 
     unsigned nLOKWindowId = std::stoi(tokens[1].c_str());
-    getLOKitDocument()->sendDialogEvent(nLOKWindowId,
+    const char* pOutput = getLOKitDocument()->sendDialogEvent(nLOKWindowId,
         Poco::cat(std::string(" "), tokens.begin() + 2, tokens.end()).c_str());
+
+    if (pOutput)
+    {
+        std::string aStr(pOutput);
+        for(unsigned int i=0;i<aStr.length();i++)
+            aStr[i] = (isalnum(aStr[i]) || aStr[i] == ' ' || aStr[i] == '\n' || aStr[i] == ':') ? aStr[i] : '_';
+        sendTextFrame(aStr.c_str());
+    }
 
     return true;
 }

@@ -682,4 +682,13 @@
 	#fillstyle div img {
 		display: none;
 	}
+
+	.hidden-from-event {
+		display: none !important;
+	}
+
+	#bmpimport {
+		display: none !important;
+	}
+
 }
