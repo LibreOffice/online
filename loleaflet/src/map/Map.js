@@ -912,7 +912,7 @@ L.Map = L.Evented.extend({
 	},
 
 	hasFocus: function () {
-		return this._textInput.hasFocus();
+		return document.activeElement === this._textInput.activeElement();
 	},
 
 	setHelpTarget: function(page) {
