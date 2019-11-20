@@ -354,6 +354,23 @@ L.Socket = L.Class.extend({
 			}
 			return;
 		}
+		else if (textMsg.startsWith('dialogeventlogs')) {
+			textMsg = textMsg.substring('dialogeventlogs '.length);
+
+			var dialogEvents = textMsg.split('\n');
+			for (var item = 0; item < dialogEvents.length; item++) {
+				var tokens = dialogEvents[item].split(' ');
+
+				var id = tokens.length > 2 ? tokens[2].split(':') : [];
+				id = id.length > 1 ? id[1] : null;
+
+				if (tokens[1] == 'Action:SHOW') {
+					$('#'+id).removeClass('hidden-from-event');
+				} else if (tokens[1] == 'Action:HIDE') {
+					$('#'+id).addClass('hidden-from-event');
+				}
+			}
+		}
 		else if (textMsg.startsWith('close: ')) {
 			textMsg = textMsg.substring('close: '.length);
 			msg = '';
