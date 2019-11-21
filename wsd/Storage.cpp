@@ -690,7 +690,7 @@ bool WopiStorage::updateLockState(const Authorization &auth, LockContext &lockCt
     Poco::URI uriObject(getUri());
     auth.authorizeURI(uriObject);
 
-    std::string reuseStorageCookies = getReuseCookies(uriObject);
+    std::string reuseStorageCookies = GetQueryParams(uriObject)["reuse_cookies"];
 
     Poco::URI uriObjectAnonym(getUri());
     uriObjectAnonym.setPath(LOOLWSD::anonymizeUrl(uriObjectAnonym.getPath()));
