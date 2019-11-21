@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_e6c4aef7",
+        "filename": "wsd/ProofKey.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-21T09:37:42Z",
+      "side": 1,
+      "message": "Lets tweak the names and descripton.",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_86b5ba80",
+        "filename": "wsd/ProofKey.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-21T09:37:42Z",
+      "side": 1,
+      "message": "I worry a little about performance.\nI would prefer to encapsulate the Key \u0026 proof-ness with an object. It can be a global instance but I\u0027d prefer to construct, and load that thing just once, and cache the pieces here rather than re-generating them.",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_a6ba366b",
+        "filename": "wsd/ProofKey.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-21T09:37:42Z",
+      "side": 1,
+      "message": "lets drop those.",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_c6bf325f",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-21T09:37:42Z",
+      "side": 1,
+      "message": "Is this conditional ? we only want to do this if we have a key file; and surely the access_token is always there.",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_66873eb7",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-11-21T09:37:42Z",
+      "side": 1,
+      "message": "Lets not mash this re-work into this - good to focus the patch on one thing. If we are re-working this too - we should do the extraction from the uriObject inside the addStorageReuseCookie() method I think to encapsulate more of that.",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
