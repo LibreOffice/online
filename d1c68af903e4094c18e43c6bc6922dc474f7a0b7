@@ -138,6 +138,24 @@
       "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_4626c2d0",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2019-11-21T10:02:39Z",
+      "side": 1,
+      "message": "In fact, I do ~what you say \"we should do the extraction from the uriObject inside the addStorageReuseCookie() method I think to encapsulate more of that\" (modulo it\u0027s getReuseCookies that did the job): I reimplemented it to return not a single string, but a map, to allow using any of available params, and renamed to GetQueryParams",
+      "parentUuid": "7f7f9b97_c64df29a",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
