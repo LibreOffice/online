@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "7f7f9b97_067e8aae",
+        "filename": "wsd/ProofKey.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2019-11-21T09:57:19Z",
+      "side": 1,
+      "message": "The things are cached all the way ... ?",
+      "parentUuid": "7f7f9b97_86b5ba80",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f7f9b97_a6ba366b",
         "filename": "wsd/ProofKey.hpp",
         "patchSetId": 11
@@ -47,6 +65,24 @@
       "writtenOn": "2019-11-21T09:37:42Z",
       "side": 1,
       "message": "lets drop those.",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_6675feca",
+        "filename": "wsd/ProofKey.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2019-11-21T09:57:19Z",
+      "side": 1,
+      "message": "Sorry, drop what? comments? Or do you mean drop all the functions?\n\nLet me update how I see it",
+      "parentUuid": "7f7f9b97_a6ba366b",
       "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
@@ -81,6 +117,24 @@
       "writtenOn": "2019-11-21T09:37:42Z",
       "side": 1,
       "message": "Lets not mash this re-work into this - good to focus the patch on one thing. If we are re-working this too - we should do the extraction from the uriObject inside the addStorageReuseCookie() method I think to encapsulate more of that.",
+      "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7f9b97_c64df29a",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2019-11-21T09:57:19Z",
+      "side": 1,
+      "message": "I only touch this because getReuseCookies parses the uri, and I worry about performance if I add another method to parse the URI to extract yet another param. Instead, I just extract all params, and access them from the map.",
+      "parentUuid": "7f7f9b97_66873eb7",
       "revId": "d1c68af903e4094c18e43c6bc6922dc474f7a0b7",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
