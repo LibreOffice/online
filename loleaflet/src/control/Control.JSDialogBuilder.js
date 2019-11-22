@@ -229,9 +229,9 @@ L.Control.JSDialogBuilder = L.Control.extend({
 
 		var updateFunction = function() {
 			var state = null;
-			if (data.command) {
+			if (data.id)
 				state = builder._getUnoStateForItemId(data.id, builder);
-			}
+
 			if (state) {
 				titleSpan.innerHTML = state;
 			} else {
@@ -241,12 +241,10 @@ L.Control.JSDialogBuilder = L.Control.extend({
 
 		updateFunction();
 
-		if (data.command) {
-			builder.map.on('commandstatechanged', function(e) {
-				if (e.commandName === data.command)
-					updateFunction();
-			}, this);
-		}
+		builder.map.on('commandstatechanged', function(e) {
+			if (e.commandName === data.command || e.commandName === builder._mapWindowIdToUnoCommand(data.id))
+				updateFunction();
+		}, this);
 
 		var contentDiv = L.DomUtil.create('div', 'ui-content level-' + builder._currentDepth + ' mobile-wizard', parentContainer);
 		contentDiv.title = data.text;
@@ -505,6 +503,9 @@ L.Control.JSDialogBuilder = L.Control.extend({
 
 		case 'FIELD_TRANSPARENCY':
 			return '.uno:FillShadowTransparency';
+
+		case 'gradientstyle':
+			return '.uno:FillGradient';
 		}
 
 		return null;
@@ -635,6 +636,28 @@ L.Control.JSDialogBuilder = L.Control.extend({
 					// FIXME: can be bitmap or pattern, for now we cant import bitmap
 					return _('Pattern');
 				}
+			}
+			break;
+
+		case 'fillattr':
+			var hatch = items.getItemValue('.uno:FillHatch');
+			var bitmap = items.getItemValue('.uno:FillBitmap');
+			if (hatch || bitmap) {
+				// TODO
+			}
+			break;
+
+		case 'gradientstyle':
+			state = items.getItemValue('.uno:FillGradient');
+			if (state) {
+				return state.style;
+			}
+			break;
+
+		case 'gradangle':
+			state = items.getItemValue('.uno:FillGradient');
+			if (state) {
+				return state.angle;
 			}
 			break;
 		}
