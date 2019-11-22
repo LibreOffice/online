@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7f9b97_cc1bd37e",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-11-22T00:42:32Z",
+      "side": 1,
+      "message": "I suppose the \" Error: \" at the end is not useful and can be dropped.",
+      "revId": "5d7083e8b6d7d2cd938247ea8ed2a13281c65206",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
