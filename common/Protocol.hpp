@@ -136,23 +136,42 @@ namespace LOOLProtocol
     }
 
     inline
+    std::vector<std::string> tokenize(const std::string& s, const char* delimiter)
+    {
+        std::vector<std::string> tokens;
+        if (s.size() == 0)
+        {
+            return tokens;
+        }
+
+        size_t start = 0;
+        size_t end = s.find(delimiter, start);
+        
+        tokens.emplace_back(s.substr(start, end));
+        start = end + std::strlen(delimiter);
+        
+        while(end != std::string::npos)
+        {
+            end = s.find(delimiter, start);
+            tokens.emplace_back(s.substr(start, end - start));
+            start = end + std::strlen(delimiter);
+        }
+
+        return tokens;
+    }
+
+    inline
     std::vector<std::string> tokenize(const std::string& s, const char delimiter = ' ')
     {
         return tokenize(s.data(), s.size(), delimiter);
     }
 
-    /// Tokenize according to the regex, potentially skip empty tokens.
     inline
-    std::vector<std::string> tokenize(const std::string& s, const std::regex& pattern, bool skipEmpty = false)
+    std::vector<int> tokenizeInts(const std::string& s, const char delimiter = ',')
     {
-        std::vector<std::string> tokens;
-        if (skipEmpty)
-            std::copy_if(std::sregex_token_iterator(s.begin(), s.end(), pattern, -1), std::sregex_token_iterator(), std::back_inserter(tokens), [](std::string in) { return !in.empty(); });
-        else
-            std::copy(std::sregex_token_iterator(s.begin(), s.end(), pattern, -1), std::sregex_token_iterator(), std::back_inserter(tokens));
-        return tokens;
+        return tokenizeInts(s.data(), s.size(), delimiter);
     }
-
+    
     inline
     std::vector<int> tokenizeInts(const char* data, const size_t size, const char delimiter = ',')
     {
@@ -179,12 +198,6 @@ namespace LOOLProtocol
             tokens.emplace_back(std::atoi(start));
 
         return tokens;
-    }
-
-    inline
-    std::vector<int> tokenizeInts(const std::string& s, const char delimiter = ',')
-    {
-        return tokenizeInts(s.data(), s.size(), delimiter);
     }
 
     inline bool getTokenIntegerFromMessage(const std::string& message, const std::string& name, int& value)
