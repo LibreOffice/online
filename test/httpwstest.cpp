@@ -11,13 +11,14 @@
 
 #include <algorithm>
 #include <vector>
+#include <iterator>
+#include <regex>
 
 #include <Poco/Net/AcceptCertificateHandler.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/InvalidCertificateHandler.h>
 #include <Poco/Net/SSLManager.h>
-#include <Poco/RegularExpression.h>
 #include <Poco/URI.h>
 
 #include <cppunit/extensions/HelperMacros.h>
@@ -681,22 +682,22 @@ void HTTPWSTest::getPartHashCodes(const std::string& testname,
     const int totalParts = std::stoi(tokens[1].substr(std::string("parts=").size()));
     TST_LOG("Status reports " << totalParts << " parts.");
 
-    Poco::RegularExpression endLine("[^\n\r]+");
-    Poco::RegularExpression number("^[0-9]+$");
-    Poco::RegularExpression::MatchVec matches;
+    std::regex endLine("[^\n\r]+");
+    std::regex number("^[0-9]+$");
+    std::sregex_iterator matches;
     int offset = 0;
 
     parts.clear();
-    while (endLine.match(response, offset, matches) > 0)
+    while ((matches = std::sregex_iterator(response.begin() + offset, response.end(), endLine)) != std::sregex_iterator())
     {
-        CPPUNIT_ASSERT_EQUAL(1, (int)matches.size());
-        const std::string str = response.substr(matches[0].offset, matches[0].length);
-        if (number.match(str, 0))
+        CPPUNIT_ASSERT_EQUAL(1, static_cast<int>(std::distance(matches, std::sregex_iterator())));
+        const std::string str = response.substr(matches->position(), matches->length());
+        if(std::regex_match(str, number))
         {
             parts.push_back(str);
         }
 
-        offset = static_cast<int>(matches[0].offset + matches[0].length);
+        offset = static_cast<int>(matches->position() + matches->length());
     }
 
     TST_LOG("Found " << parts.size() << " part names/codes.");
