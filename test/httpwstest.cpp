@@ -11,13 +11,13 @@
 
 #include <algorithm>
 #include <vector>
+#include <iterator>
 
 #include <Poco/Net/AcceptCertificateHandler.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/InvalidCertificateHandler.h>
 #include <Poco/Net/SSLManager.h>
-#include <Poco/RegularExpression.h>
 #include <Poco/URI.h>
 
 #include <cppunit/extensions/HelperMacros.h>
