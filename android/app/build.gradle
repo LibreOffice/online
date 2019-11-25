@@ -18,7 +18,7 @@ android {
             manifestPlaceholders = [ appIcon: "${liboLauncherIcon}" ]
             ndk {
                 //abiFilters "x86", "armeabi-v7a", "armeabi"
-                abiFilters "armeabi-v7a"
+                abiFilters "armeabi-v7a", "arm64-v8a"
             }
             applicationIdSuffix '.debug'
             versionNameSuffix '-debug'
@@ -30,7 +30,7 @@ android {
             resValue "string", "info_url", "${liboInfoURL}"
             manifestPlaceholders = [ appIcon: "${liboLauncherIcon}" ]
             ndk {
-                abiFilters "armeabi-v7a"
+                abiFilters "armeabi-v7a", "arm64-v8a"
             }
             minifyEnabled false // FIXME disabled before we get a good proguardRules for callFakeWebsocketOnMessage calling from C++
             shrinkResources false // FIXME cannot be enabled when minifyEnabled is turned off
