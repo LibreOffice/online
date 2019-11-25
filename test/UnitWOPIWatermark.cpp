@@ -35,12 +35,12 @@ public:
     virtual bool handleHttpRequest(const Poco::Net::HTTPRequest& request, Poco::MemoryInputStream& /*message*/, std::shared_ptr<StreamSocket>& socket) override
     {
         Poco::URI uriReq(request.getURI());
-        Poco::RegularExpression regInfo("/wopi/files/[0-9]");
-        Poco::RegularExpression regContent("/wopi/files/[0-9]/contents");
+        std::regex regInfo("/wopi/files/[0-9]");
+        std::regex regContent("/wopi/files/[0-9]/contents");
         LOG_INF("Fake wopi host request: " << uriReq.toString());
 
         // CheckFileInfo
-        if (request.getMethod() == "GET" && regInfo.match(uriReq.getPath()))
+        if (request.getMethod() == "GET" && std::regex_match(uriReq.getPath(), regInfo))
         {
             LOG_INF("Fake wopi host request, handling CheckFileInfo: " << uriReq.getPath());
 
@@ -82,7 +82,7 @@ public:
             return true;
         }
         // GetFile
-        else if (request.getMethod() == "GET" && regContent.match(uriReq.getPath()))
+        else if (request.getMethod() == "GET" && std::regex_match(uriReq.getPath(), regContent))
         {
             LOG_INF("Fake wopi host request, handling GetFile: " << uriReq.getPath());
 
