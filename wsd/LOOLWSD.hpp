@@ -18,7 +18,6 @@
 #include <string>
 
 #include <Poco/Path.h>
-#include <Poco/Process.h>
 #include <Poco/Util/AbstractConfiguration.h>
 #include <Poco/Util/OptionSet.h>
 #include <Poco/Util/ServerApplication.h>

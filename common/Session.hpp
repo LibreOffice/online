@@ -18,7 +18,6 @@
 
 #include <Poco/Buffer.h>
 #include <Poco/Path.h>
-#include <Poco/Process.h>
 #include <Poco/Types.h>
 
 #include "Protocol.hpp"
