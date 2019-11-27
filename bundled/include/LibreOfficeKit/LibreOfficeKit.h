@@ -104,6 +104,12 @@ struct _LibreOfficeKitClass
                            const int nCertificateBinarySize,
                            const unsigned char* pPrivateKeyBinary,
                            const int nPrivateKeyBinarySize);
+
+    /// @see lok::Office::runLoop()
+    void (*runLoop) (LibreOfficeKit* pThis,
+                     LibreOfficeKitPollCallback pPollCallback,
+                     LibreOfficeKitWakeCallback pWakeCallback,
+                     void* pData);
 };
 
 #define LIBREOFFICEKIT_DOCUMENT_HAS(pDoc,member) LIBREOFFICEKIT_HAS_MEMBER(LibreOfficeKitDocumentClass,member,(pDoc)->pClass->nSize)
@@ -256,14 +262,6 @@ struct _LibreOfficeKitDocumentClass
                        int* pFontWidth,
                        int* pFontHeight);
 
-    /// @see lok::Document::renderFontOrientation().
-    unsigned char* (*renderFontOrientation) (LibreOfficeKitDocument* pThis,
-                       const char* pFontName,
-                       const char* pChar,
-                       int* pFontWidth,
-                       int* pFontHeight,
-                       int pOrientation);
-
     /// @see lok::Document::getPartHash().
     char* (*getPartHash) (LibreOfficeKitDocument* pThis,
                           int nPart);
@@ -374,6 +372,19 @@ struct _LibreOfficeKitDocumentClass
     /// @see lok::Document::moveSelectedParts().
     void (*moveSelectedParts) (LibreOfficeKitDocument* pThis, int nPosition, bool bDuplicate);
 
+    /// Resize window with given id.
+    /// @see lok::Document::resizeWindow().
+    void (*resizeWindow) (LibreOfficeKitDocument* pThis, unsigned nWindowId,
+                          const int width, const int height);
+
+
+    /// @see lok::Document::renderFontOrientation().
+    unsigned char* (*renderFontOrientation) (LibreOfficeKitDocument* pThis,
+                       const char* pFontName,
+                       const char* pChar,
+                       int* pFontWidth,
+                       int* pFontHeight,
+                       int pOrientation);
 #endif // defined LOK_USE_UNSTABLE_API || defined LIBO_INTERNAL_ONLY
 };
 

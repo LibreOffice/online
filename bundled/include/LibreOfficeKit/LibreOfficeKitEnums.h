@@ -10,6 +10,8 @@
 #ifndef INCLUDED_LIBREOFFICEKIT_LIBREOFFICEKITENUMS_H
 #define INCLUDED_LIBREOFFICEKIT_LIBREOFFICEKITENUMS_H
 
+#include <assert.h>
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -162,11 +164,40 @@ typedef enum
      */
     LOK_CALLBACK_CURSOR_VISIBLE = 5,
     /**
-     * The size and/or the position of the graphic selection changed and
-     * the rotation angle of the embedded graphic object
+     * The size and/or the position of the graphic selection changed,
+     * the rotation angle of the embedded graphic object, and a property list
+     * which can be used for informing the client about severl properties.
      *
-     * Format is "x, y, width, height, angle", where angle is in 100th
-     * of degree.
+     * Format is "x, y, width, height, angle, { list of properties }",
+     * where angle is in 100th of degree, and the property list is optional.
+     *
+     * The "{ list of properties }" part is in JSON format.
+     * Follow some examples of the property list part:
+     *
+     * 1) when the selected object is an image inserted in Writer:
+     *
+     *      { "isWriterGraphic": true }
+     *
+     * 2) when the selected object is a chart legend:
+     *
+     *      { "isDraggable": true, "isResizable": true, "isRotatable": false }
+     *
+     * 3) when the selected object is a pie segment in a chart:
+     *
+     *      {
+     *          "isDraggable": true,
+     *          "isResizable": false,
+     *          "isRotatable": false,
+     *          "dragInfo": {
+     *              "dragMethod": "PieSegmentDragging",
+     *              "initialOffset": 50,
+     *              "dragDirection": [x, y],
+     *              "svg": "<svg ..."
+     *          }
+     *      }
+     *
+     *      where the "svg" property is a string containing an svg document
+     *      which is a rapresentation of the pie segment.
      */
     LOK_CALLBACK_GRAPHIC_SELECTION = 6,
 
@@ -222,6 +253,10 @@ typedef enum
      *
      * Payload format is "width, height", i.e. clients get the new size without
      * having to do an explicit lok::Document::getDocumentSize() call.
+     *
+     * A size change is always preceeded by a series of
+     * LOK_CALLBACK_INVALIDATE_TILES events invalidating any areas
+     * need re-rendering to adapt.
      */
     LOK_CALLBACK_DOCUMENT_SIZE_CHANGED = 13,
 
@@ -576,6 +611,8 @@ typedef enum
      * - "cursor_visible" - cursor visible status is changed. Status is available
      *    in "visible" field
      * - "close" - window is closed
+     * - "show" - show the window
+     * - "hide" - hide the window
      */
     LOK_CALLBACK_WINDOW = 36,
 
@@ -617,7 +654,32 @@ typedef enum
      * Profiling tracing information single string of multiple lines
      * containing <pid> <timestamp> and zone start/stop information
      */
-    LOK_CALLBACK_PROFILE_FRAME = 41
+    LOK_CALLBACK_PROFILE_FRAME = 41,
+
+    /**
+     * The position and size of the cell selection area. It is used to
+     * draw the selection handles for cells in Calc documents.
+     *
+     * Rectangle format is the same as LOK_CALLBACK_INVALIDATE_TILES.
+     */
+    LOK_CALLBACK_CELL_SELECTION_AREA = 42,
+
+    /**
+     * The position and size of the cell auto fill area. It is used to
+     * trigger auto fill functionality if that area is hit.
+     *
+     * Rectangle format is the same as LOK_CALLBACK_INVALIDATE_TILES.
+     */
+    LOK_CALLBACK_CELL_AUTO_FILL_AREA = 43,
+
+    /**
+     * When the cursor is in a table or a table is selected in the
+     * document, this sends the table's column and row border positions
+     * to the client. If the payload is empty (empty JSON object), then
+     * no table is currently selected or the cursor is not inside a table
+     * cell.
+     */
+    LOK_CALLBACK_TABLE_SELECTED = 44,
 }
 LibreOfficeKitCallbackType;
 
@@ -640,6 +702,107 @@ typedef enum
     LOK_EXT_TEXTINPUT_END
 }
 LibreOfficeKitExtTextInputType;
+
+/// Returns the string representation of a LibreOfficeKitCallbackType enumeration element.
+static inline const char* lokCallbackTypeToString(int nType)
+{
+    switch (static_cast<LibreOfficeKitCallbackType>(nType))
+    {
+    case LOK_CALLBACK_INVALIDATE_TILES:
+        return "LOK_CALLBACK_INVALIDATE_TILES";
+    case LOK_CALLBACK_INVALIDATE_VISIBLE_CURSOR:
+        return "LOK_CALLBACK_INVALIDATE_VISIBLE_CURSOR";
+    case LOK_CALLBACK_TEXT_SELECTION:
+        return "LOK_CALLBACK_TEXT_SELECTION";
+    case LOK_CALLBACK_TEXT_SELECTION_START:
+        return "LOK_CALLBACK_TEXT_SELECTION_START";
+    case LOK_CALLBACK_TEXT_SELECTION_END:
+        return "LOK_CALLBACK_TEXT_SELECTION_END";
+    case LOK_CALLBACK_CURSOR_VISIBLE:
+        return "LOK_CALLBACK_CURSOR_VISIBLE";
+    case LOK_CALLBACK_VIEW_CURSOR_VISIBLE:
+        return "LOK_CALLBACK_VIEW_CURSOR_VISIBLE";
+    case LOK_CALLBACK_GRAPHIC_SELECTION:
+        return "LOK_CALLBACK_GRAPHIC_SELECTION";
+    case LOK_CALLBACK_GRAPHIC_VIEW_SELECTION:
+        return "LOK_CALLBACK_GRAPHIC_VIEW_SELECTION";
+    case LOK_CALLBACK_CELL_CURSOR:
+        return "LOK_CALLBACK_CELL_CURSOR";
+    case LOK_CALLBACK_HYPERLINK_CLICKED:
+        return "LOK_CALLBACK_HYPERLINK_CLICKED";
+    case LOK_CALLBACK_MOUSE_POINTER:
+        return "LOK_CALLBACK_MOUSE_POINTER";
+    case LOK_CALLBACK_STATE_CHANGED:
+        return "LOK_CALLBACK_STATE_CHANGED";
+    case LOK_CALLBACK_STATUS_INDICATOR_START:
+        return "LOK_CALLBACK_STATUS_INDICATOR_START";
+    case LOK_CALLBACK_STATUS_INDICATOR_SET_VALUE:
+        return "LOK_CALLBACK_STATUS_INDICATOR_SET_VALUE";
+    case LOK_CALLBACK_STATUS_INDICATOR_FINISH:
+        return "LOK_CALLBACK_STATUS_INDICATOR_FINISH";
+    case LOK_CALLBACK_SEARCH_NOT_FOUND:
+        return "LOK_CALLBACK_SEARCH_NOT_FOUND";
+    case LOK_CALLBACK_DOCUMENT_SIZE_CHANGED:
+        return "LOK_CALLBACK_DOCUMENT_SIZE_CHANGED";
+    case LOK_CALLBACK_SET_PART:
+        return "LOK_CALLBACK_SET_PART";
+    case LOK_CALLBACK_SEARCH_RESULT_SELECTION:
+        return "LOK_CALLBACK_SEARCH_RESULT_SELECTION";
+    case LOK_CALLBACK_DOCUMENT_PASSWORD:
+        return "LOK_CALLBACK_DOCUMENT_PASSWORD";
+    case LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY:
+        return "LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY";
+    case LOK_CALLBACK_CONTEXT_MENU:
+        return "LOK_CALLBACK_CONTEXT_MENU";
+    case LOK_CALLBACK_INVALIDATE_VIEW_CURSOR:
+        return "LOK_CALLBACK_INVALIDATE_VIEW_CURSOR";
+    case LOK_CALLBACK_TEXT_VIEW_SELECTION:
+        return "LOK_CALLBACK_TEXT_VIEW_SELECTION";
+    case LOK_CALLBACK_CELL_VIEW_CURSOR:
+        return "LOK_CALLBACK_CELL_VIEW_CURSOR";
+    case LOK_CALLBACK_CELL_ADDRESS:
+        return "LOK_CALLBACK_CELL_ADDRESS";
+    case LOK_CALLBACK_CELL_FORMULA:
+        return "LOK_CALLBACK_CELL_FORMULA";
+    case LOK_CALLBACK_UNO_COMMAND_RESULT:
+        return "LOK_CALLBACK_UNO_COMMAND_RESULT";
+    case LOK_CALLBACK_ERROR:
+        return "LOK_CALLBACK_ERROR";
+    case LOK_CALLBACK_VIEW_LOCK:
+        return "LOK_CALLBACK_VIEW_LOCK";
+    case LOK_CALLBACK_REDLINE_TABLE_SIZE_CHANGED:
+        return "LOK_CALLBACK_REDLINE_TABLE_SIZE_CHANGED";
+    case LOK_CALLBACK_REDLINE_TABLE_ENTRY_MODIFIED:
+        return "LOK_CALLBACK_REDLINE_TABLE_ENTRY_MODIFIED";
+    case LOK_CALLBACK_INVALIDATE_HEADER:
+        return "LOK_CALLBACK_INVALIDATE_HEADER";
+    case LOK_CALLBACK_COMMENT:
+        return "LOK_CALLBACK_COMMENT";
+    case LOK_CALLBACK_RULER_UPDATE:
+        return "LOK_CALLBACK_RULER_UPDATE";
+    case LOK_CALLBACK_WINDOW:
+        return "LOK_CALLBACK_WINDOW";
+    case LOK_CALLBACK_VALIDITY_LIST_BUTTON:
+        return "LOK_CALLBACK_VALIDITY_LIST_BUTTON";
+    case LOK_CALLBACK_CLIPBOARD_CHANGED:
+        return "LOK_CALLBACK_CLIPBOARD_CHANGED";
+    case LOK_CALLBACK_CONTEXT_CHANGED:
+        return "LOK_CALLBACK_CONTEXT_CHANGED";
+    case LOK_CALLBACK_SIGNATURE_STATUS:
+        return "LOK_CALLBACK_SIGNATURE_STATUS";
+    case LOK_CALLBACK_PROFILE_FRAME:
+        return "LOK_CALLBACK_PROFILE_FRAME";
+    case LOK_CALLBACK_CELL_SELECTION_AREA:
+        return "LOK_CALLBACK_CELL_SELECTION_AREA";
+    case LOK_CALLBACK_CELL_AUTO_FILL_AREA:
+        return "LOK_CALLBACK_CELL_AUTO_FILL_AREA";
+    case LOK_CALLBACK_TABLE_SELECTED:
+        return "LOK_CALLBACK_TABLE_SELECTED";
+    }
+
+    assert(!"Unknown LibreOfficeKitCallbackType type.");
+    return nullptr;
+}
 
 typedef enum
 {

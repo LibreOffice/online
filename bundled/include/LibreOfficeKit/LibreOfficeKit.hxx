@@ -188,7 +188,7 @@ public:
      *
      * @param nWindowid
      */
-    void postWindow(unsigned nWindowId, int nAction, const char* pData)
+    void postWindow(unsigned nWindowId, int nAction, const char* pData = nullptr)
     {
         return mpDoc->pClass->postWindow(mpDoc, nWindowId, nAction, pData);
     }
@@ -495,9 +495,13 @@ public:
     unsigned char* renderFont(const char *pFontName,
                           const char *pChar,
                           int *pFontWidth,
-                          int *pFontHeight)
+                          int *pFontHeight,
+                          int pOrientation=0)
     {
-        return mpDoc->pClass->renderFont(mpDoc, pFontName, pChar, pFontWidth, pFontHeight);
+        if (LIBREOFFICEKIT_DOCUMENT_HAS(mpDoc, renderFontOrientation))
+            return mpDoc->pClass->renderFontOrientation(mpDoc, pFontName, pChar, pFontWidth, pFontHeight, pOrientation);
+        else
+            return mpDoc->pClass->renderFont(mpDoc, pFontName, pChar, pFontWidth, pFontHeight);
     }
 
     /**
@@ -634,6 +638,20 @@ public:
     void moveSelectedParts(int nPosition, bool bDuplicate)
     {
         mpDoc->pClass->moveSelectedParts(mpDoc, nPosition, bDuplicate);
+    }
+
+    /**
+     * Resize a window (dialog, popup, etc.) with give id.
+     *
+     * @param nWindowId
+     * @param width The width of the window.
+     * @param height The height of the window.
+     */
+    void resizeWindow(unsigned nWindowId,
+                      const int width,
+                      const int height)
+    {
+        return mpDoc->pClass->resizeWindow(mpDoc, nWindowId, width, height);
     }
 
 #endif // defined LOK_USE_UNSTABLE_API || defined LIBO_INTERNAL_ONLY
@@ -809,6 +827,24 @@ public:
         return mpThis->pClass->signDocument(mpThis, pURL,
                                             pCertificateBinary, nCertificateBinarySize,
                                             pPrivateKeyBinary, nPrivateKeyBinarySize);
+    }
+
+    /**
+     * Runs the main-loop in the current thread. To trigger this
+     * mode you need to putenv a SAL_LOK_OPTIONS containing 'unipoll'.
+     * The @pPollCallback is called to poll for events from the Kit client
+     * and the @pWakeCallback can be called by internal LibreOfficeKit threads
+     * to wake the caller of 'runLoop' ie. the main thread.
+     *
+     * it is expected that runLoop does not return until Kit exit.
+     *
+     * @pData is a context/closure passed to both methods.
+     */
+    void runLoop(LibreOfficeKitPollCallback pPollCallback,
+                 LibreOfficeKitWakeCallback pWakeCallback,
+                 void* pData)
+    {
+        mpThis->pClass->runLoop(mpThis, pPollCallback, pWakeCallback, pData);
     }
 };
 
