@@ -33,7 +33,9 @@
 
 #include "common/SigUtil.hpp"
 
+#if !MOBILEAPP
 #include "Admin.hpp"
+#endif
 
 // Forwards.
 class PrisonerRequestDispatcher;
@@ -372,7 +374,9 @@ private:
     /// get the session id of a session that can write the document for save / locking.
     std::string getWriteableSessionId() const;
 
+#if !MOBILEAPP
     void refreshLock();
+#endif
 
     /// Loads a document from the public URI into the jail.
     bool load(const std::shared_ptr<ClientSession>& session, const std::string& jailId);

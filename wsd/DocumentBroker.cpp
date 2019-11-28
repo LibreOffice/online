@@ -1106,6 +1106,8 @@ std::string DocumentBroker::getWriteableSessionId() const
     return savingSessionId;
 }
 
+#if !MOBILEAPP
+
 void DocumentBroker::refreshLock()
 {
     assertCorrectThread();
@@ -1123,6 +1125,8 @@ void DocumentBroker::refreshLock()
             LOG_ERR("Failed to refresh lock");
     }
 }
+
+#endif
 
 bool DocumentBroker::autoSave(const bool force, const bool dontSaveIfUnmodified)
 {
@@ -1382,7 +1386,6 @@ void DocumentBroker::disconnectSessionInternal(const std::string& id)
         {
 #if !MOBILEAPP
             LOOLWSD::dumpEndSessionTrace(getJailId(), id, _uriOrig);
-#endif
 
             LOG_TRC("Disconnect session internal " << id <<
                     " destroy? " << _markToDestroy <<
@@ -1394,6 +1397,7 @@ void DocumentBroker::disconnectSessionInternal(const std::string& id)
                 if (!_storage->updateLockState(it->second->getAuthorization(), *_lockCtx, false))
                     LOG_ERR("Failed to unlock!");
             }
+#endif
 
             bool hardDisconnect;
             if (it->second->inWaitDisconnected())
@@ -2254,7 +2258,9 @@ void DocumentBroker::dumpState(std::ostream& os)
     os << "\n  idle time: " << getIdleTimeSecs();
     os << "\n  cursor " << _cursorPosX << ", " << _cursorPosY
       << "( " << _cursorWidth << "," << _cursorHeight << ")\n";
+#if !MOBILEAPP
     _lockCtx->dumpState(os);
+#endif
     if (_tileCache)
         _tileCache->dumpState(os);
 

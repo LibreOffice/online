@@ -25,6 +25,15 @@
 #include "Util.hpp"
 #include <common/Authorization.hpp>
 
+#if MOBILEAPP
+
+// Dummy.
+struct LockContext
+{
+};
+
+#else
+
 /// Represents whether the underlying file is locked
 /// and with what token.
 struct LockContext
@@ -48,6 +57,8 @@ struct LockContext
 
     void dumpState(std::ostream& os);
 };
+
+#endif
 
 /// Base class of all Storage abstractions.
 class StorageBase
