@@ -33,7 +33,7 @@ struct SupportKeyImpl
     std::string _key;
     std::string _data;
     std::string _signature;
-    DateTime _expiry;
+    std::chrono::system_clock::time_point _expiry;
     // Key format: iso-expiry-date:field1:field2:field:...:<signature>
     SupportKeyImpl(const std::string &key)
         : _invalid(true), _key(key)
@@ -47,7 +47,7 @@ struct SupportKeyImpl
 
             try {
                 int timeZoneDifferential = 0;
-                Poco::DateTimeParser::parse(expiry, _expiry, timeZoneDifferential);
+                _expiry = isoMilliSecToTimestamp(expiry);
 
                 size_t lastColon = key.rfind(":");
                 if (lastColon != std::string::npos)
@@ -117,8 +117,9 @@ int SupportKey::validDaysRemaining()
         LOG_ERR("Support key signature is invalid.");
         return 0;
     }
-    Timespan remaining = _impl->_expiry - DateTime();
-    int days = remaining.days();
+    auto remaining = std::chrono::duration_cast<std::chrono::duration<int, std::ratio<86400> > >
+                                        (_expiry - std::chrono::system_clock::now());
+    int days = remaining.count();
     if (days > 0)
         LOG_INF("Support key has " << days << " remaining");
     else
@@ -127,7 +128,7 @@ int SupportKey::validDaysRemaining()
     return days;
 }
 
-DateTime SupportKey::expiry() const
+std::chrono::system_clock::time_point SupportKey::expiry() const
 {
     return _impl->_expiry;
 }

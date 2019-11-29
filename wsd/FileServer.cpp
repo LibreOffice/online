@@ -21,9 +21,6 @@
 
 #include <openssl/evp.h>
 
-#include <Poco/DateTime.h>
-#include <Poco/DateTimeFormat.h>
-#include <Poco/DateTimeFormatter.h>
 #include <Poco/Exception.h>
 #include <Poco/FileStream.h>
 #include <Poco/Net/HTMLForm.h>
@@ -367,13 +364,12 @@ void FileServerRequestHandler::handleRequest(const HTTPRequest& request, Poco::M
                 {
                     // TESTME: harder ... - do we even want ETag support ?
                     std::ostringstream oss;
-                    Poco::DateTime now;
-                    Poco::DateTime later(now.utcTime(), int64_t(1000)*1000 * 60 * 60 * 24 * 128);
+                    auto now = std::chrono::system_clock::now();
+                    std::chrono::system_clock::time_point later(std::chrono::microseconds(int64_t(1000)*1000 * 60 * 60 * 24 * 128));
+                    later += now.time_since_epoch();
                     oss << "HTTP/1.1 304 Not Modified\r\n"
-                        "Date: " << Poco::DateTimeFormatter::format(
-                            now, Poco::DateTimeFormat::HTTP_FORMAT) << "\r\n"
-                        "Expires: " << Poco::DateTimeFormatter::format(
-                            later, Poco::DateTimeFormat::HTTP_FORMAT) << "\r\n"
+                        "Date: " << Util::getHttpTime(now) << "\r\n"
+                        "Expires: " << Util::getHttpTime(later) << "\r\n"
                         "User-Agent: " WOPI_AGENT_STRING "\r\n"
                         "Cache-Control: max-age=11059200\r\n"
                         "\r\n";
@@ -877,7 +873,9 @@ void FileServerRequestHandler::preprocessAdminFile(const HTTPRequest& request,co
     if (!key.verify() || key.validDaysRemaining() <= 0)
     {
         brandJS = Poco::format(scriptJS, std::string(BRANDING_UNSUPPORTED));
-        brandFooter = Poco::format(footerPage, key.data(), Poco::DateTimeFormatter::format(key.expiry(), Poco::DateTimeFormat::RFC822_FORMAT));
+        char buffer[300];
+        snprintf(buffer, sizeof(buffer), footerPage.c_str(), key.data(), Util::time_point_to_rfc822(key.expiry()));
+        brandFooter = buffer;
     }
 #endif
 
