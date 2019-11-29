@@ -909,6 +909,47 @@ namespace Util
                 std::chrono::system_clock::now() + (time - now)));
         return std::ctime(&t);
     }
+    std::chrono::system_clock::time_point isoMilliSecToTimestamp(const std::string& isoTime){
+        std::chrono::system_clock::time_point timestamp;
+        std::tm tm;
+        const char* cstr = isoTime.c_str();
+        const char* trailing;
+        if (!(trailing = strptime(cstr, "%Y-%m-%dT%H:%M:%S", &tm)))
+        {
+            LOG_ERR("Invalid support key expiry '" << isoTime << "'");
+            return timestamp;
+        }
+
+        timestamp += std::chrono::seconds(timegm(&tm));
+        if (trailing[0] == '\0')
+            return timestamp;
+
+        if (trailing[0] != '.')
+        {
+            LOG_ERR("Invalid support key expiry '" << isoTime << "'");
+            return timestamp;
+        }
+
+        char* end = nullptr;
+        const size_t ms = strtoul(trailing + 1, &end, 10); // Skip the '.' and read as integer.
+        const std::size_t seconds_ms = ms * std::chrono::system_clock::period::den
+                                       / std::chrono::system_clock::period::num / 1000000;
+
+        timestamp += std::chrono::system_clock::duration(seconds_ms);
+
+        return timestamp;
+    }
+
+    std::string time_point_to_rfc822(std::chrono::system_clock::time_point tp){
+        const std::time_t tt = std::chrono::system_clock::to_time_t(tp);
+        std::tm tm;
+        gmtime_r(&tt, &tm);
+
+        std::ostringstream oss;
+        oss << std::put_time(&tm, "%a, %d %b %Y %T Z");
+
+        return oss.str();
+    }
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
