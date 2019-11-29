@@ -691,4 +691,8 @@
 		display: none !important;
 	}
 
+	#fillgrad1:not(.hidden-from-event), #fillgrad2:not(.hidden-from-event) {
+		display: flex !important;
+	}
+
 }
