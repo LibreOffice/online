@@ -944,6 +944,11 @@ int main(int argc, char**argv)
 
     /// conversion from steady_clock for debugging / tracing
     std::string getSteadyClockAsString(const std::chrono::steady_clock::time_point &time);
+    //// Convert time from ISO8601 fraction format in millisecond
+    std::chrono::system_clock::time_point isoMilliSecToTimestamp(const std::string& isoTime);
+
+    //// Convert time from time_point to RFC822 string
+    std::string time_point_to_rfc822(std::chrono::system_clock::time_point tp);
 
     /// Automatically execute code at end of current scope.
     /// Used for exception-safe code.
