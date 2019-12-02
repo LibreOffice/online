@@ -237,6 +237,9 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		if (data && data.id)
 			sectionTitle.id = data.id;
 
+		if (!contentNode.children || contentNode.children.length === 0)
+			$(sectionTitle).addClass('hidden-from-event');
+
 		var leftDiv = L.DomUtil.create('div', 'ui-header-left', sectionTitle);
 		var titleClass = '';
 		if (iconPath) {
@@ -1009,9 +1012,6 @@ L.Control.JSDialogBuilder = L.Control.extend({
 	_comboboxControl: function(parentContainer, data, builder) {
 		// TODO: event listener in the next level...
 
-		if (!data.entries || data.entries.length === 0)
-			return false;
-
 		builder._setIconAndNameForCombobox(data);
 
 		var title = data.text;
@@ -1029,15 +1029,18 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		data.text = title;
 
 		var entries = [];
-		for (var index in data.entries) {
-			var style = 'ui-combobox-text';
-			if ((data.selectedEntries && index == data.selectedEntries[0])
-				|| data.entries[index] == title) {
-				style += ' selected';
-			}
+		if (data.entries)
+		{
+			for (var index in data.entries) {
+				var style = 'ui-combobox-text';
+				if ((data.selectedEntries && index == data.selectedEntries[0])
+					|| data.entries[index] == title) {
+					style += ' selected';
+				}
 
-			var entry = { type: 'comboboxentry', text: data.entries[index], pos: index, parent: data, style: style };
-			entries.push(entry);
+				var entry = { type: 'comboboxentry', text: data.entries[index], pos: index, parent: data, style: style };
+				entries.push(entry);
+			}
 		}
 
 		var contentNode = {type: 'container', children: entries};
