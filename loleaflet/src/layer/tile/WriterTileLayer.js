@@ -116,6 +116,7 @@ L.WriterTileLayer = L.TileLayer.extend({
 				var showUserList = map['wopi'].HideUserList !== null &&
 									map['wopi'].HideUserList !== undefined &&
 									$.inArray('true', map['wopi'].HideUserList) < 0 &&
+									!window.ThisIsAMobileApp &&
 									((window.mode.isMobile() && $.inArray('mobile', map['wopi'].HideUserList) < 0) ||
 									(window.mode.isTablet() && $.inArray('tablet', map['wopi'].HideUserList) < 0));
 				if (this.get('userlist').hidden == true && showUserList) {
