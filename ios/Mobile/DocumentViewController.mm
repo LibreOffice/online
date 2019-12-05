@@ -16,6 +16,7 @@
 
 #import "ios.h"
 #import "FakeSocket.hpp"
+#import "LOOLWSD.hpp"
 #import "Log.hpp"
 #import "SigUtil.hpp"
 #import "Util.hpp"
@@ -370,7 +371,7 @@ static DocumentViewController* theSingleton = nil;
            }];
 
     // Wait for lokit_main thread to exit
-    std::lock_guard<std::mutex> lock(lokit_main_mutex);
+    std::lock_guard<std::mutex> lock(LOOLWSD::lokit_main_mutex);
 
     theSingleton = nil;
 
