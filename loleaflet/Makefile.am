@@ -110,7 +110,7 @@ NODE_MODULES_JS =\
 	node_modules/json-js/json2.js \
 	node_modules/select2/dist/js/select2.js \
 	node_modules/vex-js/dist/js/vex.combined.js \
-	node_modules/@braintree/sanitize-url/dist.js
+	node_modules/@braintree/sanitize-url/index.js
 
 LOLEAFLET_LIBS_JS =\
 	jquery.mCustomScrollbar.js \
