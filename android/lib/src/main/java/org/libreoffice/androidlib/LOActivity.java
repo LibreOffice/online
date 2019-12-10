@@ -635,12 +635,6 @@ public class LOActivity extends AppCompatActivity {
         nativeHandler.post(new Runnable() {
             @Override
             public void run() {
-                LOActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        slideShowProgress.show();
-                    }
-                });
                 Log.v(TAG, "saving svg for slideshow by " + Thread.currentThread().getName());
                 final String slideShowFileUri = new File(LOActivity.this.getCacheDir(), "slideShow.svg").toURI().toString();
                 LOActivity.this.saveAs(slideShowFileUri, "svg");
@@ -655,6 +649,8 @@ public class LOActivity extends AppCompatActivity {
                 });
             }
         });
+
+        slideShowProgress.show();
     }
 
     /** Send message back to the shell (for example for the cloud save). */
