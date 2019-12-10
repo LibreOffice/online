@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f7c97a3_a9f28599",
+        "filename": "net/Socket.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-12-10T11:56:57Z",
+      "side": 1,
+      "message": "Perhaps we should LOG_WRN when either of the buffers is not empty?",
+      "revId": "d6e014003256e89a892a9d3ef870e99da854d86d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f7c97a3_e93ddd2c",
+        "filename": "net/SslSocket.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2019-12-10T11:56:57Z",
+      "side": 1,
+      "message": "Perhaps we should have local bio and assign it to _bio only here, when it\u0027s a keeper ? (More readable, less error-prone, I guess).",
+      "revId": "d6e014003256e89a892a9d3ef870e99da854d86d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
