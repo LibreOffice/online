@@ -346,7 +346,14 @@ function onClick(e, id, item, subItem) {
 			if (window.insertionMobileWizard)
 				this.onClick(null, 'insertion_mobile_wizard');
 			window.mobileWizard = true;
-			map.fire('showmobilewizard');
+			if (!map._sidebarVisible) {
+				map._sidebarVisible = true;
+				map.sendUnoCommand('.uno:Sidebar');
+			} else {
+				map.sendUnoCommand('.uno:Sidebar');
+				map.sendUnoCommand('.uno:Sidebar');
+			}
+			map.fire('showwizardsidebar');
 			toolbar.check(id);
 		}
 	}
