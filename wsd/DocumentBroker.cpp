@@ -631,7 +631,7 @@ bool DocumentBroker::load(const std::shared_ptr<ClientSession>& session, const s
             wopiInfo->set("TemplateSaveAs", wopifileinfo->getTemplateSaveAs());
 
         if (!templateSource.empty())
-                wopiInfo->set("TemplateSource", templateSource);
+            wopiInfo->set("TemplateSource", templateSource);
 
         wopiInfo->set("HidePrintOption", wopifileinfo->getHidePrintOption());
         wopiInfo->set("HideSaveOption", wopifileinfo->getHideSaveOption());
@@ -837,8 +837,7 @@ bool DocumentBroker::load(const std::shared_ptr<ClientSession>& session, const s
         _filename = fileInfo.getFilename();
 
         // Use the local temp file's timestamp.
-        _lastFileModifiedTime = templateSource.empty() ? Util::getFileTimestamp(_storage->getRootFilePath()) :
-                std::chrono::system_clock::time_point();
+        _lastFileModifiedTime = Util::getFileTimestamp(_storage->getRootFilePath());
 
         bool dontUseCache = false;
 #if MOBILEAPP

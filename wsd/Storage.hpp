@@ -559,6 +559,9 @@ public:
     std::chrono::duration<double> getWopiLoadDuration() const { return _wopiLoadDuration; }
     std::chrono::duration<double> getWopiSaveDuration() const { return _wopiSaveDuration; }
 
+    std::string requestFile(const Authorization& auth, LockContext &lockCtx);
+    std::string requestTemplate(const std::string& templateUri);
+
 private:
     // Time spend in loading the file from storage
     std::chrono::duration<double> _wopiLoadDuration;

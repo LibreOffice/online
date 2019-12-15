@@ -35,6 +35,7 @@
 #include <Poco/Net/NameValueCollection.h>
 #include <Poco/Net/NetworkInterface.h>
 #include <Poco/Net/SSLManager.h>
+#include <LibreOfficeKit/LibreOfficeKit.hxx>
 
 #endif
 
@@ -778,7 +779,22 @@ bool WopiStorage::updateLockState(const Authorization &auth, LockContext &lockCt
 }
 
 /// uri format: http://server/<...>/wopi*/files/<id>/content
-std::string WopiStorage::loadStorageFileToLocal(const Authorization& auth, LockContext &/* lockCtx */, const std::string& templateUri)
+std::string WopiStorage::loadStorageFileToLocal(const Authorization& auth, LockContext& lockCtx, const std::string& templateUri)
+{
+    std::string result;
+
+    if (!templateUri.empty())
+    {
+        result = requestTemplate(templateUri);
+    }
+    else
+    {
+        result = requestFile(auth, lockCtx);
+    }
+    return result;
+}
+
+std::string WopiStorage::requestFile(const Authorization& auth, LockContext& /*lockCtx*/)
 {
     // WOPI URI to download files ends in '/contents'.
     // Add it here to get the payload instead of file info.
@@ -791,17 +807,6 @@ std::string WopiStorage::loadStorageFileToLocal(const Authorization& auth, LockC
     Poco::URI uriObjectAnonym(getUri());
     uriObjectAnonym.setPath(LOOLWSD::anonymizeUrl(uriObjectAnonym.getPath()) + "/contents");
     const std::string uriAnonym = uriObjectAnonym.toString();
-
-    if (!templateUri.empty())
-    {
-        // template are created in kit process, so just obtain a reference
-        setRootFilePath(Poco::Path(getLocalRootPath(), getFileInfo().getFilename()).toString());
-        setRootFilePathAnonym(LOOLWSD::anonymizeUrl(getRootFilePath()));
-        LOG_INF("Template reference " << getRootFilePathAnonym());
-
-        setLoaded(true);
-        return Poco::Path(getJailPath(), getFileInfo().getFilename()).toString();
-    }
 
     LOG_DBG("Wopi requesting: " << uriAnonym);
 
@@ -862,6 +867,63 @@ std::string WopiStorage::loadStorageFileToLocal(const Authorization& auth, LockC
     {
         LOG_ERR("Cannot load document from WOPI storage uri [" + uriAnonym + "]. Error: " <<
                 pexc.displayText() << (pexc.nested() ? " (" + pexc.nested()->displayText() + ")" : ""));
+        throw;
+    }
+
+    return "";
+}
+
+std::string WopiStorage::requestTemplate(const std::string& templateUri)
+{
+    try
+    {
+        Poco::URI uriObject(templateUri);
+
+        LOG_DBG("Wopi template requesting: " << uriObject.toString());
+
+        std::unique_ptr<Poco::Net::HTTPClientSession> psession(getHTTPClientSession(uriObject));
+        Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, uriObject.getPathAndQuery(), Poco::Net::HTTPMessage::HTTP_1_1);
+        request.set("User-Agent", WOPI_AGENT_STRING);
+        psession->sendRequest(request);
+
+        Poco::Net::HTTPResponse response;
+        std::istream& rs = psession->receiveResponse(response);
+
+        if (response.getStatus() != Poco::Net::HTTPResponse::HTTP_OK)
+        {
+            LOG_ERR("WOPI::GetTemplate failed with " << response.getStatus() << ' ' << response.getReason());
+            throw StorageConnectionException("WOPI::GetTemplate failed");
+        }
+        else
+        {
+            setRootFilePath(Poco::Path(getLocalRootPath(), getFileInfo().getFilename()).toString());
+
+            const std::string docTemplate = Poco::Path(getLocalRootPath(), "docTemplate").toString();
+            const std::string uriTemplate = Poco::URI(Poco::Path(docTemplate)).toString();
+            const std::string uriFile = Poco::URI(Poco::Path(getRootFilePath())).toString();
+
+            std::ofstream ofs(docTemplate);
+            std::copy(std::istreambuf_iterator<char>(rs),
+            std::istreambuf_iterator<char>(),
+            std::ostreambuf_iterator<char>(ofs));
+            ofs.close();
+
+            LOG_INF("WOPI::GetTemplate downloaded " << getFileSize(docTemplate));
+            setLoaded(true);
+
+            if (!LOOLWSD::UNO->unoComCall(SaveTemplate, uriTemplate.data(), uriTemplate.length(), uriFile.data(), uriFile.length()))
+            {
+                throw std::runtime_error("Error saving document template.");
+            }
+
+            // Now return the jailed path.
+            return Poco::Path(getJailPath(), getFileInfo().getFilename()).toString();
+        }
+    }
+    catch (const Poco::Exception& pexc)
+    {
+        LOG_ERR("Cannot load template document from WOPI storage uri [" + templateUri + "]. Error: " <<
+        pexc.displayText() << (pexc.nested() ? " (" + pexc.nested()->displayText() + ")" : ""));
         throw;
     }
 
