@@ -30,6 +30,11 @@ class TraceFileWriter;
 class DocumentBroker;
 class ClipboardCache;
 
+namespace lok
+{
+    class Uno;
+}
+
 std::shared_ptr<ChildProcess> getNewChild_Blocks(
 #if MOBILEAPP
                                                  const std::string& uri
@@ -73,6 +78,7 @@ public:
 #if !MOBILEAPP
     static std::unique_ptr<ClipboardCache> SavedClipboards;
 #endif
+    static std::unique_ptr<lok::Uno> UNO;
     static std::set<std::string> EditFileExtensions;
     static unsigned MaxConnections;
     static unsigned MaxDocuments;

@@ -71,6 +71,8 @@
 #include <Poco/Net/PartHandler.h>
 #include <Poco/Net/SocketAddress.h>
 
+#include <LibreOfficeKit/LibreOfficeKit.hxx>
+
 using Poco::Net::HTMLForm;
 using Poco::Net::PartHandler;
 
@@ -216,6 +218,7 @@ static int careerSpanMs = 0;
 /// The timeout for a child to spawn, initially high, then reset to the default.
 int ChildSpawnTimeoutMs = CHILD_TIMEOUT_MS * 4;
 bool LOOLWSD::NoCapsForKit = false;
+
 std::atomic<unsigned> LOOLWSD::NumConnections;
 std::set<std::string> LOOLWSD::EditFileExtensions;
 
@@ -734,6 +737,7 @@ std::unique_ptr<TraceFileWriter> LOOLWSD::TraceDumper;
 #if !MOBILEAPP
 std::unique_ptr<ClipboardCache> LOOLWSD::SavedClipboards;
 #endif
+std::unique_ptr<lok::Uno> LOOLWSD::UNO;
 
 /// This thread polls basic web serving, and handling of
 /// websockets before upgrade: when upgraded they go to the
@@ -3387,6 +3391,26 @@ int LOOLWSD::innerMain()
         FileServerRoot = Poco::Path(Application::instance().commandPath()).parent().toString();
     FileServerRoot = Poco::Path(FileServerRoot).absolute().toString();
     LOG_DBG("FileServerRoot: " << FileServerRoot);
+#endif
+
+
+#if !MOBILEAPP
+    // bootstrap limited UNO Services
+    // this is only useful as a library repository
+    // TODO. restrict only usable implementations
+    UnoKit *unoKit;
+    {
+        std::string instDir = "/" + LoTemplate + "/program";
+        std::string userDir = "file:///" + ChildRoot + "user";
+
+        unoKit = uno_bootstrap(instDir.c_str(), userDir.c_str());
+
+        UNO.reset(new lok::Uno(unoKit));
+        if (!UNO)
+        {
+            throw MissingOptionException("UnoKit");
+        }
+    }
 #endif
 
     ClientRequestDispatcher::InitStaticFileContentCache();
