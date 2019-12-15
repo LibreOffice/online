@@ -759,9 +759,9 @@ bool ClientSession::loadDocument(const char* /*buffer*/, int /*length*/,
     LOG_INF("Requesting document load from child.");
     try
     {
-        std::string timestamp, doctemplate;
+        std::string timestamp;
         int loadPart = -1;
-        parseDocOptions(tokens, loadPart, timestamp, doctemplate);
+        parseDocOptions(tokens, loadPart, timestamp);
 
         std::ostringstream oss;
         oss << "load";
@@ -819,11 +819,6 @@ bool ClientSession::loadDocument(const char* /*buffer*/, int /*length*/,
         if (!getDocOptions().empty())
         {
             oss << " options=" << getDocOptions();
-        }
-
-        if (_wopiFileInfo && !_wopiFileInfo->getTemplateSource().empty())
-        {
-            oss << " template=" << _wopiFileInfo->getTemplateSource();
         }
 
         return forwardToChild(oss.str(), docBroker);

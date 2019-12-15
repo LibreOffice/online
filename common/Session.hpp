@@ -133,7 +133,7 @@ protected:
 
     /// Parses the options of the "load" command,
     /// shared between MasterProcessSession::loadDocument() and ChildProcessSession::loadDocument().
-    void parseDocOptions(const std::vector<std::string>& tokens, int& part, std::string& timestamp, std::string& doctemplate);
+    void parseDocOptions(const std::vector<std::string>& tokens, int& part, std::string& timestamp);
 
     void updateLastActivityTime()
     {

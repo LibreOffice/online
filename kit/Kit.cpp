@@ -1306,8 +1306,7 @@ private:
     /// Load a document (or view) and register callbacks.
     bool onLoad(const std::string& sessionId,
                 const std::string& uriAnonym,
-                const std::string& renderOpts,
-                const std::string& docTemplate) override
+                const std::string& renderOpts) override
     {
         std::unique_lock<std::mutex> lock(_mutex);
 
@@ -1341,7 +1340,7 @@ private:
 
         try
         {
-            if (!load(session, renderOpts, docTemplate))
+            if (!load(session, renderOpts))
                 return false;
         }
         catch (const std::exception &exc)
@@ -1580,8 +1579,7 @@ private:
     }
 
     std::shared_ptr<lok::Document> load(const std::shared_ptr<ChildSession>& session,
-                                        const std::string& renderOpts,
-                                        const std::string& docTemplate)
+                                        const std::string& renderOpts)
     {
         const std::string sessionId = session->getId();
 
@@ -1620,7 +1618,7 @@ private:
 
             LOG_DBG("Calling lokit::documentLoad(" << uriAnonym << ", \"" << options << "\").");
             const auto start = std::chrono::system_clock::now();
-            _loKitDocument.reset(_loKit->documentLoad(docTemplate.empty() ? uri.c_str() : docTemplate.c_str(), options.c_str()));
+            _loKitDocument.reset(_loKit->documentLoad(uri.c_str(), options.c_str()));
             const auto duration = std::chrono::system_clock::now() - start;
             const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
             const double totalTime = elapsed/1000.;
