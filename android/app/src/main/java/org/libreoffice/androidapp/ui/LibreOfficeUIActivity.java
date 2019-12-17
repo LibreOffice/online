@@ -593,6 +593,8 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
         // file name input
         final EditText input = (EditText)view.findViewById(R.id.fileName);
         input.setText(defaultFileName);
+        input.requestFocus();
+        input.setSelection(0, input.getText().toString().lastIndexOf('.'));
 
         // warning text to notify the user that such a file already exists
         final TextView warningText = (TextView)view.findViewById(R.id.overwriteWarning);
