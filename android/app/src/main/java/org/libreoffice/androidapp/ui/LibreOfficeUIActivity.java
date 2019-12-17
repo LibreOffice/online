@@ -47,6 +47,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
+import android.view.inputmethod.InputMethod;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -593,6 +595,10 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
         // file name input
         final EditText input = (EditText)view.findViewById(R.id.fileName);
         input.setText(defaultFileName);
+        input.setSelection(0, input.getText().toString().lastIndexOf('.'));
+        input.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
         // warning text to notify the user that such a file already exists
         final TextView warningText = (TextView)view.findViewById(R.id.overwriteWarning);
