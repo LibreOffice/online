@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f7c97a3_b675eb9a",
+        "filename": "common/Authorization.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2019-12-20T18:49:38Z",
+      "side": 1,
+      "message": "Great - good style to have a \"break;\" in that clause as well. Please can you check that whatever calls this metod is also happy and that the authorization process genuinely does fail cleanly in this case - do we need to throw an exception instead or something ?\n\nCan you separate this commit from the other change to the HTML - I\u0027m less convinced on the HTML-side \u003d) and it\u0027s a separate piece.\n\nOtherwise good stuff.\n\nThanks !",
+      "revId": "6b806f3db162532ff820e7b87bd46334cada2a38",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
