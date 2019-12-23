@@ -11,6 +11,7 @@
 
 #include "Authorization.hpp"
 #include "Protocol.hpp"
+#include "Log.hpp"
 
 #include <cstdlib>
 #include <cassert>
@@ -77,7 +78,10 @@ void Authorization::authorizeRequest(Poco::Net::HTTPRequest& request) const
             break;
         }
         default:
-            assert(false);
+            // assert(false);
+            LOG_ERR("Request authentication failed!");
+            throw;
+            break;
     }
 }
 
