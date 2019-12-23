@@ -554,6 +554,10 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
                 pexc.displayText() << (pexc.nested() ? " (" + pexc.nested()->displayText() + ")" : ""));
         throw;
     }
+    catch (const BadRequestException& exc)
+    {
+        LOG_ERR("Cannot get file info from WOPI storage uri [" << uriAnonym << "]. Error:  Failed HTPP request authorization");
+    }
 
     // Parse the response.
     std::string filename;
@@ -774,6 +778,10 @@ bool WopiStorage::updateLockState(const Authorization &auth, LockContext &lockCt
         LOG_ERR("Cannot " << wopiLog << " uri [" << uriAnonym << "]. Error: " <<
                 pexc.displayText() << (pexc.nested() ? " (" + pexc.nested()->displayText() + ")" : ""));
     }
+    catch (const BadRequestException& exc)
+    {
+        LOG_ERR("Cannot " << wopiLog << " uri [" << uriAnonym << "]. Error: Failed HTPP request authorization");
+    }
     return false;
 }
 
@@ -863,6 +871,10 @@ std::string WopiStorage::loadStorageFileToLocal(const Authorization& auth, LockC
         LOG_ERR("Cannot load document from WOPI storage uri [" + uriAnonym + "]. Error: " <<
                 pexc.displayText() << (pexc.nested() ? " (" + pexc.nested()->displayText() + ")" : ""));
         throw;
+    }
+    catch (const BadRequestException& exc)
+    {
+        LOG_ERR("Cannot load document from WOPI storage uri [" + uriAnonym + "]. Error: Failed HTPP request authorization");
     }
 
     return "";
@@ -1089,6 +1101,10 @@ StorageBase::SaveResult WopiStorage::saveLocalFileToStorage(const Authorization&
         LOG_ERR("Cannot save file to WOPI storage uri [" << uriAnonym << "]. Error: " <<
                 pexc.displayText() << (pexc.nested() ? " (" + pexc.nested()->displayText() + ")" : ""));
         saveResult.setResult(StorageBase::SaveResult::FAILED);
+    }
+    catch (const BadRequestException& exc)
+    {
+        LOG_ERR("Cannot save file to WOPI storage uri [" + uriAnonym + "]. Error: Failed HTPP request authorization");
     }
 
     return saveResult;
