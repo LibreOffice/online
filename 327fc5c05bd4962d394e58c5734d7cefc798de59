@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f7c97a3_7c3bb1d0",
+        "filename": "loleaflet/po/ui-es.po",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000321
+      },
+      "writtenOn": "2019-12-23T06:59:32Z",
+      "side": 1,
+      "message": "“Eclosión” is the act of a bird to come out of its egg. In LibreOffice, it’s translated as “Tramado”.\n\nPlease have your translators talk to me (and Olivier in the case of Brazilian Portuguese). CIB employees who translated into Spanish did collaborate with me in the past.",
+      "revId": "327fc5c05bd4962d394e58c5734d7cefc798de59",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
