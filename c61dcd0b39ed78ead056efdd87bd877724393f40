@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f7c97a3_9f00ff36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000321
+      },
+      "writtenOn": "2019-12-24T12:05:31Z",
+      "side": 1,
+      "message": "Are you missing a tdf# bug number?",
+      "revId": "c61dcd0b39ed78ead056efdd87bd877724393f40",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    }
+  ]
+}
