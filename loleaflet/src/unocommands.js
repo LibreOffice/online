@@ -140,7 +140,7 @@ var unoCommandsArray = {
 	InsertAxis:{global:{menu:_('Insert Axis'),},},
 	InsertAxisTitle:{global:{menu:_('Insert Axis Title'),},},
 	InsertBreakMenu:{spreadsheet:{menu:_('Insert Page ~Break'),},},
-	InsertColumnBreak:{spreadsheet:{menu:_('~Column Break'),},text:{menu:_('Insert Column Break'),},},
+	InsertColumnBreak:{spreadsheet:{menu:_('~Column Break'),},text:{menu:_('Column Break'),},},
 	InsertColumnsAfter:{presentation:{menu:_('Insert Column After'),},spreadsheet:{context:_('Insert Columns ~After'),menu:_('Columns ~After'),},text:{menu:_('Columns ~After'),},},
 	InsertColumnsBefore:{presentation:{menu:_('Insert Column Before'),},spreadsheet:{context:_('Insert Columns ~Before'),menu:_('Columns ~Before'),},text:{menu:_('Columns ~Before'),},},
 	InsertColumnsMenu:{spreadsheet:{menu:_('Insert Co~lumns'),},},
