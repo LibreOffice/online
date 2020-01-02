@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-02 15:48+0100\n"
-"PO-Revision-Date: 2019-12-31 09:37+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
+"PO-Revision-Date: 2020-01-02 17:09+0000\n"
+"Last-Translator: Olivier Hallot <olivier.hallot@documentfoundation.org>\n"
 "Language-Team: Portuguese (Brazil) <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -584,10 +584,8 @@ msgid "Insert shapes"
 msgstr "Inserir formas"
 
 #: src/control/Control.Toolbar.js:958 src/layer/tile/WriterTileLayer.js:76
-#, fuzzy
-#| msgid "Text orientation"
 msgid "Toggle Page Orientation"
-msgstr "Orientação do texto"
+msgstr "Alternar orientação do texto"
 
 #: src/control/Control.Toolbar.js:1078 src/layer/tile/CalcTileLayer.js:180
 msgid "First sheet"
