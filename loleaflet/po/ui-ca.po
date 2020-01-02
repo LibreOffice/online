@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-02 15:48+0100\n"
-"PO-Revision-Date: 2019-12-31 09:37+0000\n"
+"PO-Revision-Date: 2020-01-02 17:09+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ca/>\n"
 "Language: ca\n"
@@ -344,11 +344,11 @@ msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:882
 msgid "From"
-msgstr ""
+msgstr "De"
 
 #: src/control/Control.JSDialogBuilder.js:885
 msgid "To"
-msgstr ""
+msgstr "A"
 
 #: src/control/Control.JSDialogBuilder.js:1017
 msgid "Font Name"
@@ -585,10 +585,8 @@ msgid "Insert shapes"
 msgstr "Insereix formes"
 
 #: src/control/Control.Toolbar.js:958 src/layer/tile/WriterTileLayer.js:76
-#, fuzzy
-#| msgid "Text orientation"
 msgid "Toggle Page Orientation"
-msgstr "Orientació del text"
+msgstr "Commuta l'orientació del text"
 
 #: src/control/Control.Toolbar.js:1078 src/layer/tile/CalcTileLayer.js:180
 msgid "First sheet"
