@@ -16,6 +16,29 @@
       "revId": "c61dcd0b39ed78ead056efdd87bd877724393f40",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23f8b776_e4ca6fc3",
+        "filename": "loleaflet/html/loleaflet-help.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2020-01-03T11:56:50Z",
+      "side": 1,
+      "message": "missing closing \u003c/button\u003e tag",
+      "range": {
+        "startLine": 234,
+        "startChar": 107,
+        "endLine": 234,
+        "endChar": 108
+      },
+      "revId": "c61dcd0b39ed78ead056efdd87bd877724393f40",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
