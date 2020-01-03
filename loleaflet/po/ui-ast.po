@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-02 15:48+0100\n"
-"PO-Revision-Date: 2019-12-31 09:37+0000\n"
+"PO-Revision-Date: 2020-01-03 10:08+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Asturian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ast/>\n"
 "Language: ast\n"
@@ -307,7 +307,7 @@ msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:160
 msgid "Ellipsoid"
-msgstr ""
+msgstr "Elipsoidal"
 
 #: src/control/Control.JSDialogBuilder.js:164
 msgid "Quadratic"
@@ -586,11 +586,11 @@ msgstr ""
 
 #: src/control/Control.Toolbar.js:958 src/layer/tile/WriterTileLayer.js:76
 msgid "Toggle Page Orientation"
-msgstr ""
+msgstr "Alternar orientación del testu"
 
 #: src/control/Control.Toolbar.js:1078 src/layer/tile/CalcTileLayer.js:180
 msgid "First sheet"
-msgstr ""
+msgstr "Primera fueya"
 
 #: src/control/Control.Toolbar.js:1079 src/layer/tile/CalcTileLayer.js:181
 msgid "Previous sheet"
@@ -610,7 +610,7 @@ msgstr ""
 
 #: src/control/Control.Toolbar.js:1124
 msgid "Search"
-msgstr ""
+msgstr "Guetar"
 
 #: src/control/Control.Toolbar.js:1130
 msgid "Cancel the search"
@@ -636,7 +636,7 @@ msgstr ""
 
 #: src/control/Control.Toolbar.js:1531
 msgid "Number of Sheets"
-msgstr ""
+msgstr "Númberu de fueyes"
 
 #: src/control/Control.Toolbar.js:1536
 msgid "Selected range of cells"
@@ -648,7 +648,7 @@ msgstr ""
 
 #: src/control/Control.Toolbar.js:1550 src/control/Control.Toolbar.js:1603
 msgid "Selection Mode"
-msgstr ""
+msgstr "Mou d'esbilla"
 
 #: src/control/Control.Toolbar.js:1555
 msgid "Choice of functions"
@@ -884,7 +884,7 @@ msgstr ""
 
 #: src/control/Toolbar.js:458
 msgid "Insert hyperlink"
-msgstr ""
+msgstr "Inxertar hiperenllaz"
 
 #: src/control/Toolbar.js:460
 msgid "Text"
