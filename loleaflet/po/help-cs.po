@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-15 17:50+0200\n"
-"PO-Revision-Date: 2020-01-02 13:23+0000\n"
+"PO-Revision-Date: 2020-01-03 13:19+0000\n"
 "Last-Translator: Stanislav Horáček <stanislav.horacek@gmail.com>\n"
 "Language-Team: Czech <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/cs/>\n"
 "Language: cs\n"
@@ -1319,197 +1319,195 @@ msgstr "Zvolte <span class=\"ui\">Platnost</span> z nabídky <span class=\"ui\">
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:368-11
 msgid "Select the validity criterion in the <span class=\"ui\">Allow</span> drop-box list. Depending on the criterion, more options shows. Fill the required data."
-msgstr ""
+msgstr "Vyberte kritérium platnosti v rozbalovacím poli <span class=\"ui\">Povolit</span>. Podle zvoleného kritéria se zobrazí další možnosti. Vyplňte požadované údaje."
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:370-9
 msgid "Use the <span class=\"ui\">Input Help</span> and <span class=\"ui\">Error Alert</span> tabs to enhance the user interactions. Click <span class=\"ui\">OK</span> to close the dialog."
-msgstr ""
+msgstr "Chcete-li nastavit informace zobrazované uživateli, použijte karty <span class=\"ui\">Nápověda při vstupu</span> a <span class=\"ui\">Chybové hlášení</span>. Dialogové okno uzavřete klepnutím na <span class=\"ui\">OK</span>."
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:373-11
 msgid "To remove the validity of the cell, open the dialog and set the <span class=\"ui\">Allow</span> list to “All values”."
-msgstr ""
+msgstr "Chcete-li platnost buňky odstranit, otevřete toto dialogové okno a nastavte v seznamu <span class=\"ui\">Povolit</span> „Všechny hodnoty“."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:375-5
 msgid "<span class=\"def\">Comments:</span> In a spreadsheet you can insert one comment per cell. When you select <span class=\"ui\">Insert comment</span>, a popup appears that allows you to write the content for the comment. A red dot shows on the top right corner of the cell when it has a comment. Hover the mouse on the cell to display comments."
-msgstr ""
+msgstr "<span class=\"def\">Komentáře:</span> V sešitu můžete vložit jeden komentář na buňku. Jestliže zvolíte <span class=\"ui\">Vložit komentář</span>, zobrazí se vyskakovací okno, v němž můžete napsat obsah komentáře. Obsahuje-li buňka komentář, v jejím pravém horním rohu se objeví červená tečka. Komentář zobrazíte najetím myši nad buňku."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:377-5
 msgid "<span class=\"def\">Conditional formatting:</span> <span class=\"productname\">%productName</span> adds symbols to each cell of a range based on cells conditions. Select the cell range and click the <span class=\"ui\">Conditional Formatting</span> icon on the toolbar. Select the symbol set to apply on the range."
-msgstr ""
+msgstr "<span class=\"def\">Podmíněné formátování:</span><span class=\"productname\">%productName</span> přidá ke každé buňce oblasti symbol, a to podle stanovených podmínek. Vyberte oblast buněk a na nástrojové liště klepněte na ikonu <span class=\"ui\">Podmíněné formátování</span>. Vyberte symbol, který se má v oblasti použít."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:385-5
 msgid "<span class=\"productname\">%productName</span> edits text documents in the same way you edit a desktop document. It provides a What You See Is What You Get (WYSIWYG) layout – that conveniently lays out the document as it will be printed. Operations like typing text, cut, copy and pasting contents, selecting text, inserting, resizing, anchoring images, adding and handling tables and charts, are similar to a desktop word processor. Use the keyboard, menus and toolbars to interact with your document."
-msgstr ""
+msgstr "V <span class=\"productname\">%productName</span> upravujete textové dokumenty stejným způsobem jako v desktopové aplikaci. Způsob úprav je označován jako WYSIWYG (What You See Is What You Get; „dostaneš, co vidíš“) – rozvržení dokumentu odpovídá tomu, jak bude vytištěn. Operace jako psaní textu, vyjímání, kopírování a vkládání obsahu, výběr textu, vkládání, změna velikost a ukotvování obrázků či přidávání a práce s tabulkami a grafy jsou podobné jako v desktopovém textovém procesoru. S dokumentem pracujete pomocí klávesnice, nabídek a nástrojových lišt."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:388-5
 msgid "Context menus are available on clicking the right mouse button. The commands available in the context menu are related - not extensively - to the underlying object in the document."
-msgstr ""
+msgstr "Po klepnutí pravým tlačítkem myši se zobrazují místní nabídky. Příkazy v nich se zpravidla vztahují k objektu dokumentu na místě ukazatele myši."
 
 #: html/loleaflet-help.html%2Bdiv.div.h3:390-5
-#, fuzzy
-#| msgid "Text formatting"
 msgid "Formatting text"
 msgstr "Formátování textu"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:391-5
 msgid "<span class=\"productname\">%productName</span> supports modern techniques for paragraph formatting through styles. A style is a set of text properties (font, color, background and many more) labeled with a name, the style name. Use style to apply the same set of properties to many paragraphs in the document and produce a uniform, professional look. Also, if you change one of the style formatting properties, all paragraphs with the same style changes formatting as well, simplifying the effort of formatting many paragraph individually."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> nabízí moderní způsob formátování odstavců: styly. Styl je soubor vlastností textu (písmo, barva, pozadí a mnohé další) označených názvem (název stylu). Použijete-li styl na více odstavců, získají tyto odstavce stejné vlastnosti a dokument bude vypadat jednotně a profesionálně. Pokud navíc změníte některou z vlastností stylu, změní se formát všech odstavců daného stylu. Tím si ušetříte práci s formátováním množství jednotlivých odstavců."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:392-5
 msgid "In contrast, direct formatting applies formatting to selected excerpts of the document contents. On a long document, direct formatting must be applied in every text excerpt, turning text formatting a long task, subject to errors and delays."
-msgstr ""
+msgstr "Naproti tomu přímé formátování mění vlastnosti textu u vybraných částí dokumentu. V rozsáhlých dokumentech je tak nutno přímé formátování použít pro každou příslušnou část textu. Pak je formátování textu zdlouhavé a náchylné k chybám."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:393-5
 msgid "<span class=\"def\">Direct formatting:</span> You can format text document objects by formatting directly from the menus, toolbar or context menus. Direct formatting applies only to the current object selected."
-msgstr ""
+msgstr "<span class=\"def\">Přímé formátování:</span> Objekty textového dokumentu můžete formátovat přímo příkazy z nabídek, nástrojové lišty nebo místních nabídek. Přímé formátování se použije pouze na aktuálně vybraný objekt."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:394-5
 msgid "<span class=\"def\">Style formatting:</span> <span class=\"productname\">%productName</span> support paragraph styles. You can apply an existing paragraph style to a paragraph. Choose menu <span class=\"ui\">Edit</span> → <span class=\"ui\">Edit styles</span> to change style."
-msgstr ""
+msgstr "<span class=\"def\">Formátování stylu:</span> <span class=\"productname\">%productName</span> podporuje styly odstavce. Na odstavec můžete použít jakýkoliv stávající styl odstavce. Styl změníte volbou z nabídky <span class=\"ui\">Úpravy</span> → <span class=\"ui\">Upravit styl</span>."
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:398-5
 msgid "Handling Tables"
-msgstr ""
+msgstr "Práce s tabulkami"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:399-5
 msgid "Insert tables with proper icon in the toolbar. Select the initial number of rows and columns. Add rows and columns with the cell context menu. Merge cells with the <span class=\"ui\">Table</span> menu. The default paragraph style inside cells is “Table contents”."
-msgstr ""
+msgstr "Tabulku vložíte pomocí příslušné ikony na nástrojové liště. Vyberte výchozí počet řádků a sloupců. Další řádky a sloupce přidáte pomocí místní nabídky pro buňku tabulky. Buňky sloučíte volbou z nabídky <span class=\"ui\">Tabulka</span>. Buňky tabulky mají jako výchozí styl odstavce „Obsah tabulky“."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:401-5
 msgid "<span class=\"def\">Formatting cells:</span> Click in the cell or range of cells and choose menu <span class=\"ui\">Table</span> → <span class=\"ui\">Properties</span>. Fine tune the table with the properties dialog."
-msgstr ""
+msgstr "<span class=\"def\">Formátování buněk:</span> Klepněte na buňku nebo oblast a zvolte z nabídky <span class=\"ui\">Tabulka</span> → <span class=\"ui\">Vlastnosti</span>. V dialogovém okně upravte vlastnosti tabulky."
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:402-5
 msgid "Track changes"
-msgstr ""
+msgstr "Sledování změn"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:403-5
 msgid "When you turn on Track Changes, <span class=\"productname\">%productName</span> marks up new changes made to the document. Select this option again to turn it off."
-msgstr ""
+msgstr "Pokud zapnete sledování změn, <span class=\"productname\">%productName</span>  označí nové změny provedené v dokumentu. Sledování vypnete opětovnou volbou této možnosti."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:405-5
 msgid "Changes made by different people are shown in different colors and each tracked change can be accepted or rejected, using the box the appears on the right. You can also add a comment there."
-msgstr ""
+msgstr "Změny vytvořené jinými lidmi se zobrazí jinou barvou. Každou sledovanou změnu je možné přijmout, nebo odmítnout pomocí pole zobrazeného vpravo. V něm můžete také doplnit komentář."
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:406-5
 msgid "Other advanced features"
-msgstr ""
+msgstr "Další pokročilé funkce"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:407-5
 msgid "<span class=\"def\">Comments:</span> Comments are inserted in the text and displayed on the right side of the screen."
-msgstr ""
+msgstr "<span class=\"def\">Komentáře:</span> Komentáře se vkládají do textu a zobrazují se na pravé straně uživatelského rozhraní."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:408-5
 msgid "<span class=\"def\">Formatting marks:</span> Paragraph, page and unbreakable spaces are shown as marks to assisting text alignment, editing and formatting."
-msgstr ""
+msgstr "<span class=\"def\">Řídicí znaky:</span> Odstavec, stránka a nezlomitelné mezery jsou vyznačeny znaky, které pomáhají zarovnávat, upravovat a formátovat text."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:409-5
 msgid "<span class=\"def\">Fields:</span> A basic set of fields is available to insert in the document."
-msgstr ""
+msgstr "<span class=\"def\">Pole:</span> Do dokumentu lze vkládat základní soubor polí."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:410-5
 msgid "<span class=\"def\">Alphabetical index:</span> Existing alphabetical index can be updated with new entries."
-msgstr ""
+msgstr "<span class=\"def\">Abecední rejstřík:</span> Stávající abecední rejstřík lze rozšířit o nové položky."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:411-5
 msgid "<span class=\"def\">Page header and footer:</span> Headers and footers are available for the existing page style applied in the document at the cursor position."
-msgstr ""
+msgstr "<span class=\"def\">Záhlaví a zápatí stránky:</span> Záhlaví a zápatí jsou k dispozici pro styl stránky, který se používá v dokumentu na pozici kurzoru."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:412-5
 msgid "<span class=\"def\">Footnotes and endnotes:</span> Footnotes and endnotes are supported, being rendered as they are shown."
-msgstr ""
+msgstr "<span class=\"def\">Poznámky pod čarou a vysvětlivky:</span> Podporovány jsou poznámky pod čarou a vysvětlivky."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:419-5
 msgid "<span class=\"productname\">%productName</span> Impress edits presentations in a way that should be familiar to people. Operations like typing text, cut, copy and pasting contents, selecting text , inserting, resizing, anchoring images, adding and handling tables, are similar to a desktop presentation application. Use the keyboard, menus and toolbars to perform actions in your document."
-msgstr ""
+msgstr "V <span class=\"productname\">%productName</span> upravujete prezentace obvyklým způsobem. Operace jako psaní textu, vyjímání, kopírování a vkládání obsahu, výběr textu, vkládání, změna velikost a ukotvování obrázků či přidávání a práce s tabulkami jsou podobné jako v desktopové aplikaci pro prezentace. S dokumentem pracujete pomocí klávesnice, nabídek a nástrojových lišt."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:422-5
 msgid "<span class=\"productname\">%productName</span> displays presentation slide shows, including a subset of slide transitions and object animations. Choose the slide show from the menu or click on icon in the bottom left toolbar in the slide pane."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> umožňuje prezentace spouštět, a to včetně určité části přechodů mezi snímky a animací objektů. Prezentaci spustíte volbou z nabídky nebo klepnutím na ikonu na levé dolní nástrojové liště na panelu snímků."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:423-5
 msgid "To exit a <span class=\"productname\">%productName</span> slide show, press the <span class=\"kbd\">Esc</span> key to return to the presentation edit mode."
-msgstr ""
+msgstr "Chcete-li prezentaci v <span class=\"productname\">%productName</span> ukončit, stiskněte klávesu <span class=\"kbd\">Esc</span>. Vrátíte se tím do režimu úprav prezentace."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:426-5
 msgid "Click on any slide thumbnail in the pane to switch to this slide to view or edit it."
-msgstr ""
+msgstr "Klepnutím na náhled snímku na panelu se na tento snímek přepnete, zobrazíte jej a můžete jej upravovat."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:427-5
 msgid "Use the slide pane toolbar in the bottom to start the slideshow, add slide, duplicate or delete the current slide."
-msgstr ""
+msgstr "Pomocí nástrojové lišty v dolní části panelu snímků můžete spustit prezentaci a vložit nový snímek nebo duplikovat či smazat aktuální snímek."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:430-5
 msgid "<span class=\"def\">Slide layouts:</span> <span class=\"productname\">%productName</span> Impress let you change the slide layout. Select the desired slide layout in the drop-down layout list."
-msgstr ""
+msgstr "<span class=\"def\">Rozvržení snímku:</span> <span class=\"productname\">%productName</span> umožňuje změnit rozvržení snímku. Požadované rozvržení vyberte v rozbalovacím seznamu."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:432-5
 msgid "<span class=\"def\">Master slide:</span> Select the master slide associated to the current slide. Format and arrange slide elements in the master slide."
-msgstr ""
+msgstr "<span class=\"def\">Předloha snímku:</span> Vyberte předlohu snímku přiřazenou k aktuálnímu snímku. Upravte formát a prvky předlohy."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:433-5
 msgid "<span class=\"def\">Slide transitions:</span> <span class=\"productname\">%productName</span> Impress provides visual effects when displaying a new slide in the slide show. Slide transitions are property of the slide, use the side bar to set the slide transition when in edit mode."
-msgstr ""
+msgstr "<span class=\"def\">Přechod mezi snímky::</span> <span class=\"productname\">%productName</span> Impress podporuje vizuální efekty, které se objeví při zobrazení nového snímku prezentace. Přechod mezi snímky je vlastností snímku, nastavíte jej v režimu úprav na postranní liště."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:434-5
 msgid "<span class=\"def\">Object animation:</span> Individual object in the slide can have animation. Use the side bar to configure the slide transition for a selected object or set of objects."
-msgstr ""
+msgstr "<span class=\"def\">Animace objektu:</span> Jednotlivé objekty na snímku mohou být animované. Animaci vybraného objektu či skupiny objektů nastavíte na postranní liště."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:435-5
 msgid "<span class=\"def\">Tables:</span> Insert tables in the presentation. Use the sidebar to select the table theme."
-msgstr ""
+msgstr "<span class=\"def\">Tabulky:</span> Vkládá do prezentace tabulky. Motiv vzhledu tabulky vyberete pomocí postranní lišty."
 
 #: html/loleaflet-help.html%2Bdiv.h4:439-5
 msgid "What are the documents file formats supported by <span class=\"productname\">%productName</span>?"
-msgstr ""
+msgstr "Jaké formáty souboru jsou v <span class=\"productname\">%productName</span> podporovány?"
 
 #: html/loleaflet-help.html%2Bdiv.p:440-5
 msgid "<span class=\"productname\">%productName</span> supports both reading and writing for the following file formats:"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> podporuje pro čtení a zápis následující formáty souboru:"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:442-11
 msgid "Text documents: Microsoft formats DOC, DOCX, RTF. OpenDocument Format ODT"
-msgstr ""
+msgstr "Textové dokumenty: Formáty Microsoft DOC, DOCX, RTF, formát OpenDocument ODT"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:443-11
 msgid "Spreadsheets: Microsoft formats XLS, XLSX, OpenDocument Format ODS"
-msgstr ""
+msgstr "Sešity: Formáty Microsoft XLS, XLSX, formát OpenDocument ODS"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:444-11
 msgid "Presentations: Microsoft formats PPT, PPTX, OpenDocument Format ODP"
-msgstr ""
+msgstr "Prezentace: formát Microsoft PPT, PPTX, formát OpenDocument ODP"
 
 #: html/loleaflet-help.html%2Bdiv.p:446-5
 msgid "In addition it can provide viewing for Visio, Keynote, Numbers, and Pages formats."
-msgstr ""
+msgstr "Kromě toho umožňuje zobrazovat formáty Visio, Keynote, Numbers a Pages."
 
 #: html/loleaflet-help.html%2Bdiv.h4:447-5
 msgid "How do I save a document with another name?"
-msgstr ""
+msgstr "Jak uložím dokument pod jiným názvem?"
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:449-11
 msgid "Hover the mouse on the document name in the menu bar."
-msgstr ""
+msgstr "Najeďte myší na název dokumentu v hlavní nabídce."
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:450-11
 msgid "Type the new file name in the text box and press <span class=\"kbd\">Enter</span>."
-msgstr ""
+msgstr "Zadejte nový název souboru do textového pole a stiskněte <span class=\"kbd\">Enter</span>."
 
 #: html/loleaflet-help.html%2Bdiv.p:452-5
 msgid "A copy of the document is saved with the new name in the same folder."
-msgstr ""
+msgstr "Kopie dokumentu se uloží pod novým názvem do téže složky."
 
 #: html/loleaflet-help.html%2Bdiv.h4:453-5
 msgid "How can I quit <span class=\"productname\">%productName</span> without saving my edits?"
-msgstr ""
+msgstr "Jak ukončím <span class=\"productname\">%productName</span> , aniž by se uložily úpravy?"
 
 #: html/loleaflet-help.html%2Bdiv.p:454-5
 msgid "<span class=\"productname\">%productName</span> saves the document in the background regularly, you can't just close without saving it. To abandon your changes, you must either undo them, or use the <span class=\"ui\">Revision History </span> in the <span class=\"ui\">File</span> menu."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> ukládá dokument pravidelně automaticky, nelze jej proto zavřít bez uložení. Chcete-li svoje změny zrušit, buď je musíte vrátit zpátky, nebo použít funkci <span class=\"ui\">Historie revizí</span> v nabídce <span class=\"ui\">Soubor</span>."
 
 #: html/loleaflet-help.html%2Bdiv.h4:455-5
 msgid "Can <span class=\"productname\">%productName</span> open a password-protected document?"
-msgstr ""
+msgstr "Je možné v <span class=\"productname\">%productName</span> otevřít dokument chráněný heslem?"
 
 #: html/loleaflet-help.html%2Bdiv.p:456-5
 msgid "Yes. <span class=\"productname\">%productName</span> opens password-protected documents, but it is necessary to supply the password in the “Enter password” prompt at load time."
