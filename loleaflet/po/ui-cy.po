@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-02 15:48+0100\n"
+"POT-Creation-Date: 2020-01-03 15:11+0100\n"
 "PO-Revision-Date: 2019-12-24 18:45+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Welsh <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/cy/>\n"
@@ -269,7 +269,7 @@ msgstr "Stamp amser"
 msgid "Jump to state"
 msgstr "Symud i'r cyflwr"
 
-#: src/control/Control.DocumentRepair.js:95 src/control/Control.Toolbar.js:2437
+#: src/control/Control.DocumentRepair.js:95 src/control/Control.Toolbar.js:2459
 msgid "You"
 msgstr "Chi"
 
@@ -322,7 +322,7 @@ msgid "Fixed size"
 msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:736
-#: src/control/Control.Toolbar.js:1566
+#: src/control/Control.Toolbar.js:1588
 msgid "None"
 msgstr "Dim"
 
@@ -371,7 +371,6 @@ msgid "Columns"
 msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:1494
-#: src/control/Control.Menubar.js:616 src/control/Control.Menubar.js:667
 #: src/control/Control.Toolbar.js:945
 msgid "Insert table"
 msgstr "Mewnosod tudalen"
@@ -379,11 +378,11 @@ msgstr "Mewnosod tudalen"
 #: src/control/Control.LanguageDialog.js:69 src/control/Control.Menubar.js:227
 #: src/control/Control.Menubar.js:229 src/control/Control.Menubar.js:231
 #: src/control/Control.Menubar.js:337 src/control/Control.Menubar.js:451
-#: src/control/Control.Toolbar.js:1953
+#: src/control/Control.Toolbar.js:1975
 msgid "None (Do not check spelling)"
 msgstr "Dim (Peidio gwirio sillafu)"
 
-#: src/control/Control.LanguageDialog.js:86 src/control/Toolbar.js:465
+#: src/control/Control.LanguageDialog.js:86 src/control/Toolbar.js:456
 #: src/layer/marker/Annotation.js:183 src/layer/tile/TileLayer.js:384
 msgid "Cancel"
 msgstr "Diddymu"
@@ -523,14 +522,7 @@ msgstr "Taenlen Excel (.xlsx)"
 msgid "Export as"
 msgstr ""
 
-#: src/control/Control.Menubar.js:640 src/control/Control.Menubar.js:659
-#: src/control/Control.Menubar.js:669
-#, fuzzy
-#| msgid "Insert shapes"
-msgid "Insert Shape"
-msgstr "Mewnosod siapiau"
-
-#: src/control/Control.Menubar.js:739 src/control/Control.Toolbar.js:1952
+#: src/control/Control.Menubar.js:739 src/control/Control.Toolbar.js:1974
 msgid "Reset to Default Language"
 msgstr "Ailosod i'r Iaith Ragosodedig"
 
@@ -634,107 +626,107 @@ msgstr "Dilyn y golygydd bob tro"
 msgid "Current"
 msgstr "Cyfredol"
 
-#: src/control/Control.Toolbar.js:1217
+#: src/control/Control.Toolbar.js:1223
 msgid "%user has joined"
 msgstr "Mae %user wedi ymuno"
 
-#: src/control/Control.Toolbar.js:1218
+#: src/control/Control.Toolbar.js:1224
 msgid "%user has left"
 msgstr "Mae %user wedi gadael"
 
-#: src/control/Control.Toolbar.js:1531
+#: src/control/Control.Toolbar.js:1553
 msgid "Number of Sheets"
 msgstr "Nifer y Dalenni"
 
-#: src/control/Control.Toolbar.js:1536
+#: src/control/Control.Toolbar.js:1558
 msgid "Selected range of cells"
 msgstr "Ystod y celloedd wedi eu dewis"
 
-#: src/control/Control.Toolbar.js:1541 src/control/Control.Toolbar.js:1598
+#: src/control/Control.Toolbar.js:1563 src/control/Control.Toolbar.js:1620
 msgid "Entering text mode"
 msgstr "Mynd i'r modd testun"
 
-#: src/control/Control.Toolbar.js:1550 src/control/Control.Toolbar.js:1603
+#: src/control/Control.Toolbar.js:1572 src/control/Control.Toolbar.js:1625
 msgid "Selection Mode"
 msgstr "Y Modd Dewis"
 
-#: src/control/Control.Toolbar.js:1555
+#: src/control/Control.Toolbar.js:1577
 msgid "Choice of functions"
 msgstr "Y dewis o swyddogaethau"
 
-#: src/control/Control.Toolbar.js:1559
+#: src/control/Control.Toolbar.js:1581
 msgid "Average"
 msgstr "Cyfartaledd"
 
-#: src/control/Control.Toolbar.js:1560
+#: src/control/Control.Toolbar.js:1582
 msgid "CountA"
 msgstr "CyfrifA"
 
-#: src/control/Control.Toolbar.js:1561
+#: src/control/Control.Toolbar.js:1583
 msgid "Count"
 msgstr "Cyfrif"
 
-#: src/control/Control.Toolbar.js:1562
+#: src/control/Control.Toolbar.js:1584
 msgid "Maximum"
 msgstr "Uchafswm"
 
-#: src/control/Control.Toolbar.js:1563
+#: src/control/Control.Toolbar.js:1585
 msgid "Minimum"
 msgstr "Lleiafswm"
 
-#: src/control/Control.Toolbar.js:1564
+#: src/control/Control.Toolbar.js:1586
 msgid "Sum"
 msgstr "Swm"
 
-#: src/control/Control.Toolbar.js:1565
+#: src/control/Control.Toolbar.js:1587
 msgid "Selection count"
 msgstr "Cyfrif y dewis"
 
-#: src/control/Control.Toolbar.js:1588
+#: src/control/Control.Toolbar.js:1610
 msgid "Number of Pages"
 msgstr "Nifer o Dudalennau"
 
-#: src/control/Control.Toolbar.js:1593
+#: src/control/Control.Toolbar.js:1615
 msgid "Word Counter"
 msgstr "Cyfrifydd Geiriau"
 
-#: src/control/Control.Toolbar.js:1628
+#: src/control/Control.Toolbar.js:1650
 msgid "Number of Slides"
 msgstr "Nifer y Sleidiau"
 
-#: src/control/Control.Toolbar.js:1665
+#: src/control/Control.Toolbar.js:1687
 msgid "%n users"
 msgstr "%n defnyddiwr"
 
-#: src/control/Control.Toolbar.js:1666
+#: src/control/Control.Toolbar.js:1688
 msgid "1 user"
 msgstr "1 defnyddiwr"
 
-#: src/control/Control.Toolbar.js:1667
+#: src/control/Control.Toolbar.js:1689
 msgid "0 users"
 msgstr "0 defnyddwyr"
 
-#: src/control/Control.Toolbar.js:2048
+#: src/control/Control.Toolbar.js:2070
 msgid "Style"
 msgstr "Arddull"
 
-#: src/control/Control.Toolbar.js:2071
+#: src/control/Control.Toolbar.js:2093
 msgid "Font"
 msgstr "Ffont"
 
-#: src/control/Control.Toolbar.js:2097
+#: src/control/Control.Toolbar.js:2119
 msgid "Previous slide"
 msgstr "Sleid flaenorol"
 
-#: src/control/Control.Toolbar.js:2098
+#: src/control/Control.Toolbar.js:2120
 msgid "Next slide"
 msgstr "Sleid nesaf"
 
-#: src/control/Control.Toolbar.js:2156
+#: src/control/Control.Toolbar.js:2178
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Gwrthdaro Dadwneud/Ail-wneud oherwydd defnyddwyr luosog. Defnyddiwch trwsio'r ddogfen i'w ddatrys"
 
-#: src/control/Control.Toolbar.js:2443
+#: src/control/Control.Toolbar.js:2465
 msgid "Readonly"
 msgstr "Darllen y unig"
 
@@ -886,23 +878,23 @@ msgstr "Yn cadw..."
 msgid "Renaming..."
 msgstr "Ailenwi..."
 
-#: src/control/Toolbar.js:363
+#: src/control/Toolbar.js:359
 msgid "This version of %productName is powered by"
 msgstr "Mae'r fersiwn yma o %productName yn cael ei yrru gan"
 
-#: src/control/Toolbar.js:458
+#: src/control/Toolbar.js:449
 msgid "Insert hyperlink"
 msgstr ""
 
-#: src/control/Toolbar.js:460
+#: src/control/Toolbar.js:451
 msgid "Text"
 msgstr ""
 
-#: src/control/Toolbar.js:461
+#: src/control/Toolbar.js:452
 msgid "Link"
 msgstr ""
 
-#: src/control/Toolbar.js:464
+#: src/control/Toolbar.js:455
 msgid "OK"
 msgstr ""
 
@@ -1209,6 +1201,11 @@ msgstr "Creu ffeil newydd o dempled..."
 #: src/map/handler/Map.WOPI.js:374
 msgid "Creating copy..."
 msgstr "Creu copi..."
+
+#, fuzzy
+#~| msgid "Insert shapes"
+#~ msgid "Insert Shape"
+#~ msgstr "Mewnosod siapiau"
 
 #~ msgid "Function"
 #~ msgstr "Swyddogaeth"
