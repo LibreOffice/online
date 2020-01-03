@@ -5,16 +5,16 @@ msgstr ""
 "Project-Id-Version: LibreOffice Online UI\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-02 15:48+0100\n"
-"PO-Revision-Date: 2019-11-05 17:53+0100\n"
+"PO-Revision-Date: 2020-01-03 12:23+0000\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"Language-Team: sl.libreoffice.org <users@sl.libreoffice.org>\n"
+"Language-Team: Slovenian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
-"X-Generator: Poedit 2.2.4\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;\n"
 "X-Accelerator-Marker: ~\n"
+"X-Generator: Weblate 3.9.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: admin/admin.strings.js:6
@@ -292,31 +292,31 @@ msgstr "Brez barve"
 
 #: src/control/Control.JSDialogBuilder.js:151
 msgid "Linear"
-msgstr ""
+msgstr "Linearno"
 
 #: src/control/Control.JSDialogBuilder.js:154
 msgid "Axial"
-msgstr ""
+msgstr "Osno"
 
 #: src/control/Control.JSDialogBuilder.js:157
 msgid "Radial"
-msgstr ""
+msgstr "Radialno"
 
 #: src/control/Control.JSDialogBuilder.js:160
 msgid "Ellipsoid"
-msgstr ""
+msgstr "Elipsoidno"
 
 #: src/control/Control.JSDialogBuilder.js:164
 msgid "Quadratic"
-msgstr ""
+msgstr "Pravokotno"
 
 #: src/control/Control.JSDialogBuilder.js:167
 msgid "Square"
-msgstr ""
+msgstr "Kvadratno"
 
 #: src/control/Control.JSDialogBuilder.js:170
 msgid "Fixed size"
-msgstr ""
+msgstr "Fiksna velikost"
 
 #: src/control/Control.JSDialogBuilder.js:736
 #: src/control/Control.Toolbar.js:1566
@@ -324,30 +324,28 @@ msgid "None"
 msgstr "Brez"
 
 #: src/control/Control.JSDialogBuilder.js:739
-#, fuzzy
-#| msgid "No color"
 msgid "Color"
-msgstr "Brez barve"
+msgstr "Barvno"
 
 #: src/control/Control.JSDialogBuilder.js:742
 msgid "Gradient"
-msgstr ""
+msgstr "Preliv"
 
 #: src/control/Control.JSDialogBuilder.js:745
 msgid "Hatching"
-msgstr ""
+msgstr "Šrafiranje"
 
 #: src/control/Control.JSDialogBuilder.js:749
 msgid "Pattern"
-msgstr ""
+msgstr "Vzorec"
 
 #: src/control/Control.JSDialogBuilder.js:882
 msgid "From"
-msgstr ""
+msgstr "Od"
 
 #: src/control/Control.JSDialogBuilder.js:885
 msgid "To"
-msgstr ""
+msgstr "Do"
 
 #: src/control/Control.JSDialogBuilder.js:1017
 msgid "Font Name"
@@ -565,7 +563,7 @@ msgstr "Ali ste prepričani, da želite izbrisati to stran?"
 
 #: src/control/Control.Toolbar.js:838
 msgid "Default Style"
-msgstr ""
+msgstr "Privzeti slog"
 
 #: src/control/Control.Toolbar.js:889
 msgid "Borders"
@@ -584,10 +582,8 @@ msgid "Insert shapes"
 msgstr "Vstavi like"
 
 #: src/control/Control.Toolbar.js:958 src/layer/tile/WriterTileLayer.js:76
-#, fuzzy
-#| msgid "Text orientation"
 msgid "Toggle Page Orientation"
-msgstr "Usmerjenost besedila"
+msgstr "Preklopi usmerjenost strani"
 
 #: src/control/Control.Toolbar.js:1078 src/layer/tile/CalcTileLayer.js:180
 msgid "First sheet"
@@ -909,7 +905,7 @@ msgstr "Pri povezovanju z LibreOffice Online je prišlo do težave: "
 
 #: src/core/Socket.js:294
 msgid "Served by:"
-msgstr ""
+msgstr "Streže:"
 
 #: src/core/Socket.js:299
 msgid "Unsupported server version."

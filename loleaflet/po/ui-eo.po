@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-02 15:48+0100\n"
-"PO-Revision-Date: 2019-12-24 18:45+0000\n"
+"PO-Revision-Date: 2020-01-03 10:08+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Esperanto <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/eo/>\n"
 "Language: eo\n"
@@ -295,19 +295,19 @@ msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:151
 msgid "Linear"
-msgstr ""
+msgstr "Linia"
 
 #: src/control/Control.JSDialogBuilder.js:154
 msgid "Axial"
-msgstr ""
+msgstr "Aksa"
 
 #: src/control/Control.JSDialogBuilder.js:157
 msgid "Radial"
-msgstr ""
+msgstr "Radiusa"
 
 #: src/control/Control.JSDialogBuilder.js:160
 msgid "Ellipsoid"
-msgstr ""
+msgstr "Elipsoida"
 
 #: src/control/Control.JSDialogBuilder.js:164
 msgid "Quadratic"
@@ -328,7 +328,7 @@ msgstr "Neniu"
 
 #: src/control/Control.JSDialogBuilder.js:739
 msgid "Color"
-msgstr ""
+msgstr "Koloro"
 
 #: src/control/Control.JSDialogBuilder.js:742
 msgid "Gradient"
