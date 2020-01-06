@@ -605,8 +605,17 @@ L.Control.LokDialog = L.Control.extend({
 			// if dialog is hidden, show it
 			var container = L.DomUtil.get(strId);
 			if (container)
+<<<<<<< HEAD   (4d7142 Avoid taking address over the end of a vector if reading 0 b)
 				$(container).parent().show();
 			that.focus(parentId);
+=======
+				 $(container).parent().show();
+
+			if (parentId in that._dialogs) {
+				// We might have closed the dialog by the time we render.
+				that._dialogs[parentId].isPainting = false;
+			}
+>>>>>>> CHANGE (e416ca wsd: prevent sidebar from stealing focus on painting)
 		};
 		img.src = imgData;
 	},
