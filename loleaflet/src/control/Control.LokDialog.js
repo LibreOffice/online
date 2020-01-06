@@ -605,8 +605,7 @@ L.Control.LokDialog = L.Control.extend({
 			// if dialog is hidden, show it
 			var container = L.DomUtil.get(strId);
 			if (container)
-				$(container).parent().show();
-			that.focus(parentId);
+				 $(container).parent().show();
 		};
 		img.src = imgData;
 	},
