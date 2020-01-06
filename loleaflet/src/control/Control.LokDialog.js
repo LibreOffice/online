@@ -606,7 +606,6 @@ L.Control.LokDialog = L.Control.extend({
 			var container = L.DomUtil.get(strId);
 			if (container)
 				$(container).parent().show();
-			that.focus(parentId);
 		};
 		img.src = imgData;
 	},
