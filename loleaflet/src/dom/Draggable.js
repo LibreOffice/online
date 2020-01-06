@@ -2,6 +2,7 @@
 /*
  * L.Draggable allows you to add dragging capabilities to any element. Supports mobile devices too.
  */
+var _timeStamp, _docPos, _velocityY, _velocityX, _ticker,  _amplitudeY, _amplitudeX,  _targetY;
 
 L.Draggable = L.Evented.extend({
 
@@ -54,15 +55,51 @@ L.Draggable = L.Evented.extend({
 		this._moved = false;
 	},
 
+	_velocityTracker: function() {
+		var now, elepsed, delta, v, mapPanRect, offset;
+		
+		now = Date.now();
+		elepsed = now - _timeStamp;
+		_timeStamp = now;
+
+		mapPanRect = document.getElementsByClassName('leaflet-pane leaflet-map-pane')[0].getBoundingClientRect();
+		offset = new L.Point(mapPanRect.x, mapPanRect.y);
+		delta = offset.subtract(_docPos);
+		
+		_docPos = offset;
+
+		v = 1000 * delta.y / (1 + elepsed);
+		_velocityY = 0.8 * v + 0.2 * _velocityY;
+
+		v = 1000 * delta.x / (1 + elepsed);
+		_velocityX = 0.8 * v + 0.2 * _velocityX;
+	},
+
 	_onDown: function (e) {
 		this._moved = false;
 
-		if (e.shiftKey || ((e.which !== 1) && (e.button !== 0) && !e.touches)) { return; }
+		if (e.shiftKey || ((e.which !== 1) && (e.button !== 0) && !e.touches)) { return; } 
 
 		// enable propagation of the mousedown event from map pane to parent elements in view mode
 		// see bug bccu1446
 		if (!L.DomUtil.hasClass(this._element, 'leaflet-map-pane')) {
 			L.DomEvent.stopPropagation(e);
+		}
+
+		if (document.getElementsByClassName('leaflet-pane leaflet-map-pane')[0].contains(e.target)) {
+			console.log('Pranam:Tap');
+			_velocityX = _amplitudeX = _velocityY = _amplitudeY = 0;
+			_timeStamp = Date.now();
+			
+			_amplitudeX = _velocityX;
+			_velocityX = _amplitudeX;
+
+			var mapPanRect = document.getElementsByClassName('leaflet-pane leaflet-map-pane')[0].getBoundingClientRect();
+			_docPos = new L.Point(mapPanRect.x, mapPanRect.y);
+
+			clearInterval(this._ticker);
+			_ticker = setInterval(this._velocityTracker, 100);
+			// return;
 		}
 
 		if (this._preventOutline) {
@@ -104,6 +141,11 @@ L.Draggable = L.Evented.extend({
 		if (e.touches && e.touches.length > 1) {
 			this._moved = true;
 			return;
+		}
+
+		if (document.getElementsByClassName('leaflet-pane leaflet-map-pane')[0].contains(e.target)) {
+			console.log('Pranam:Move');
+			// return;
 		}
 
 		var first = (e.touches && e.touches.length === 1 ? e.touches[0] : e),
@@ -170,6 +212,23 @@ L.Draggable = L.Evented.extend({
 		this.fire('drag', e);
 	},
 
+	_autoScroll: function() {
+		console.log('Pranam: autoscroll');
+		var elepsed, delta, timeconstan = 325;
+	
+		if (_amplitudeY) {
+			elepsed = Date.now() - _timeStamp;
+			delta = -_amplitudeY * Math.exp(-elepsed / timeconstan);
+			if (delta > 0.5 || delta < -0.5) {
+				L.DomUtil.setPosition(document.getElementsByClassName('leaflet-pane leaflet-map-pane')[0], _targetY + delta);
+				requestAnimationFrame(this._autoScroll);
+			} else {
+				L.DomUtil.setPosition(document.getElementsByClassName('leaflet-pane leaflet-map-pane')[0], _targetY);
+			}
+		}
+	
+	},
+
 	_onUp: function (e) {
 		L.DomUtil.removeClass(document.body, 'leaflet-dragging');
 
@@ -177,6 +236,18 @@ L.Draggable = L.Evented.extend({
 			L.DomUtil.removeClass(this._lastTarget, 'leaflet-drag-target');
 			this._lastTarget = null;
 		}
+		if (document.getElementsByClassName('leaflet-pane leaflet-map-pane')[0].contains(e.target)) {
+			console.log('Pranam:Up');
+			clearInterval(_ticker);
+
+			if (_velocityY > 10 || _velocityY < 10) {
+				_amplitudeY = 0.8 * _velocityY;
+				_targetY = Math.round(_docPos.y + _amplitudeY);
+				_timeStamp = Date.now();
+				requestAnimationFrame(this._autoScroll);
+			}
+			return;
+		} 
 
 		for (var i in L.Draggable.MOVE) {
 			L.DomEvent
