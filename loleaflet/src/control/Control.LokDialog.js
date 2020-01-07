@@ -58,6 +58,7 @@ function toZoomTargetId(id) {
 L.Control.LokDialog = L.Control.extend({
 
 	dialogIdPrefix: 'lokdialog-',
+	_nextPaintMessage: '',
 
 	onPan: function (ev) {
 		if (!draggedObject)
@@ -216,8 +217,36 @@ L.Control.LokDialog = L.Control.extend({
 			return; // Don't request rendering an empty area.
 
 		var dpiscale = L.getDpiScaleFactor();
-		//console.log('_sendPaintWindow: rectangle: ' + rectangle + ', dpiscale: ' + dpiscale);
-		this._map._socket.sendMessage('paintwindow ' + id + ' rectangle=' + rectangle + ' dpiscale=' + dpiscale);
+		var newMessage = 'paintwindow ' + id + ' rectangle=' + rectangle + ' dpiscale=' + dpiscale;
+
+		var prevMessage = this._nextPaintMessage;
+
+		// If the new message is identical to the last, it's already queued up.
+		if (prevMessage !== newMessage) {
+			if (prevMessage !== '') {
+				// Send the previous one now, and queue up the new one.
+				clearInterval(this._paintTimer);
+				this._nextPaintMessage = '';
+				//console.log('_sendPaintWindow: ' + prevMessage);
+				this._map._socket.sendMessage(prevMessage);
+			}
+
+			// Queue up the new message.
+			this._nextPaintMessage = newMessage;
+			var that = this;
+			this._paintTimer = setInterval(L.bind(function() {
+				clearInterval(that._paintTimer);
+				var prevMessage = that._nextPaintMessage;
+				if (prevMessage !== '') {
+					that._nextPaintMessage = '';
+					//console.log('_sendPaintWindow: ' + prevMessage);
+					that._map._socket.sendMessage(prevMessage);
+				}
+			}, this), 250);
+		}
+		else {
+			// console.log('_sendPaintWindow: SKIPPING ' + prevMessage);
+		}
 
 		if (this._map._docLayer && this._map._docLayer._debug)
 			this._debugPaintWindow(id, rectangle);
