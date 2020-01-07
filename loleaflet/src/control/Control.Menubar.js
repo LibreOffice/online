@@ -1475,6 +1475,8 @@ L.Control.Menubar = L.Control.extend({
 		} else {
 			if (item.mobileapp == true && !window.ThisIsAMobileApp)
 				return undefined;
+			if (item.mobileapp === false && window.ThisIsAMobileApp)
+				return undefined;
 			if (!item.menu) {
 				itemType = 'menuitem';
 			} else {
