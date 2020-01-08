@@ -14,9 +14,9 @@
     <string name="failed_to_load_file">No se pudo determinar el archivo para cargar</string>
     <string name="list_view">Lista</string>
     <string name="grid_view">Cuadrícula</string>
-    <string name="pref_category_explorer">Configuración del explorador de archivos</string>
-    <string name="pref_show_hidden_files">Archivos/Carpetas Ocultas</string>
-    <string name="pref_show_hidden_files_summary">Habilitar para mostrar archivos/carpetas ocultas</string>
+    <string name="pref_category_explorer">Configuración del gestor de archivos</string>
+    <string name="pref_show_hidden_files">Archivos/carpetas ocultos</string>
+    <string name="pref_show_hidden_files_summary">Actívela para mostrar archivos y carpetas ocultos</string>
     <string name="pref_sort_summary">Seleccione cómo ordenar los archivos: A-Z, por tamaño o por fecha.</string>
     <string name="pref_viewmode_summary">Ver archivos como una cuadrícula o en una lista.</string>
     <string name="pref_file_explorer_title">Disposición de gestor de archivos</string>
