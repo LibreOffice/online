@@ -33,6 +33,13 @@ import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.util.Log;
 import android.view.WindowManager;
+import android.view.textservice.SentenceSuggestionsInfo;
+import android.view.textservice.SpellCheckerInfo;
+import android.view.textservice.SpellCheckerSession;
+import android.view.textservice.SpellCheckerSubtype;
+import android.view.textservice.SuggestionsInfo;
+import android.view.textservice.TextInfo;
+import android.view.textservice.TextServicesManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -53,6 +60,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,7 +70,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class LOActivity extends AppCompatActivity {
+public class LOActivity extends AppCompatActivity implements SpellCheckerSession.SpellCheckerSessionListener {
     final static String TAG = "LOActivity";
 
     private static final String ASSETS_EXTRACTED_GIT_COMMIT = "ASSETS_EXTRACTED_GIT_COMMIT";
@@ -98,6 +106,9 @@ public class LOActivity extends AppCompatActivity {
     private Thread nativeMsgThread;
     private Handler nativeHandler;
     private Looper nativeLooper;
+
+    /// Session for the spell checking.
+    SpellCheckerSession mSpellChecker;
 
     private ValueCallback<Uri[]> valueCallback;
     public static final int REQUEST_SELECT_FILE = 555;
@@ -458,7 +469,7 @@ public class LOActivity extends AppCompatActivity {
         String apkFile = getApplication().getPackageResourcePath();
         AssetManager assetManager = getResources().getAssets();
 
-        createLOOLWSD(dataDir, cacheDir, apkFile, assetManager, urlToLoad);
+        createLOOLWSD(dataDir, cacheDir, apkFile, assetManager, urlToLoad, getSpellCheckingLocales());
 
         // trigger the load of the document
         String finalUrlToLoad = "file:///android_asset/dist/loleaflet.html?file_path=" +
@@ -485,6 +496,66 @@ public class LOActivity extends AppCompatActivity {
         loadDocumentMillis = android.os.SystemClock.uptimeMillis();
     }
 
+    /**
+     * Init the spell checking service and return the supported locales for the core.
+     */
+    public String[] getSpellCheckingLocales() {
+        // spell checking service
+        if (mSpellChecker == null) {
+            TextServicesManager textServicesManager = (TextServicesManager) getSystemService(TEXT_SERVICES_MANAGER_SERVICE);
+            mSpellChecker = textServicesManager.newSpellCheckerSession(null, null, this, true);
+        }
+
+        if (mSpellChecker == null) {
+            // failed to init
+            Toast.makeText(LOActivity.this, getString(R.string.no_spell_checking), Toast.LENGTH_LONG).show();
+            return new String[0];
+        }
+
+        /*
+        FIXME turn this test into a real thing
+        mSpellChecker.getSentenceSuggestions(new TextInfo[]{ new TextInfo("hllo") }, 5);
+        */
+
+        // send the list of locales to the core
+        SpellCheckerInfo spellCheckerInfo = mSpellChecker.getSpellChecker();
+
+        String[] locales = new String[spellCheckerInfo.getSubtypeCount()];
+
+        for (int i = 0; i < spellCheckerInfo.getSubtypeCount(); ++i) {
+            final SpellCheckerSubtype subtype = spellCheckerInfo.getSubtypeAt(i);
+            locales[i] = subtype.getLocale();
+        }
+
+        return locales;
+    }
+
+    /**
+     * For the spell checking - when the suggestions are returned.
+     */
+    @Override
+    public void onGetSuggestions(SuggestionsInfo[] results) {
+        Log.d(TAG, "Spell suggestion: via onGetSuggestions (?)");
+    }
+
+    /**
+     * For the spell checking - when the suggestions are returned.
+     */
+    @Override
+    public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
+        // TODO FIXME real stuff here
+        for (SentenceSuggestionsInfo result : results) {
+            int n = result.getSuggestionsCount();
+            for (int i=0; i < n; i++) {
+                int m = result.getSuggestionsInfoAt(i).getSuggestionsCount();
+
+                for (int k=0; k < m; k++) {
+                    Log.d(TAG, "Spell suggestion: " + result.getSuggestionsInfoAt(i).getSuggestionAt(k));
+                }
+            }
+        }
+    }
+
     static {
         System.loadLibrary("androidapp");
     }
@@ -492,7 +563,7 @@ public class LOActivity extends AppCompatActivity {
     /**
      * Initialize the LOOLWSD to load 'loadFileURL'.
      */
-    public native void createLOOLWSD(String dataDir, String cacheDir, String apkFile, AssetManager assetManager, String loadFileURL);
+    public native void createLOOLWSD(String dataDir, String cacheDir, String apkFile, AssetManager assetManager, String loadFileURL, String[] spellCheckingLocales);
 
     /**
      * Passing messages from JS (instead of the websocket communication).

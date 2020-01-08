@@ -288,10 +288,11 @@ Java_org_libreoffice_androidlib_LOActivity_postMobileMessageNative(JNIEnv *env, 
 }
 
 extern "C" jboolean libreofficekit_initialize(JNIEnv* env, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager);
+extern "C" void libreofficekit_spell_checking_initialize(JNIEnv *env, jobject instance, jobjectArray locales);
 
 /// Create the LOOLWSD instance.
 extern "C" JNIEXPORT void JNICALL
-Java_org_libreoffice_androidlib_LOActivity_createLOOLWSD(JNIEnv *env, jobject, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager, jstring loadFileURL)
+Java_org_libreoffice_androidlib_LOActivity_createLOOLWSD(JNIEnv *env, jobject instance, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager, jstring loadFileURL, jobjectArray spellCheckingLocales)
 {
     fileURL = std::string(env->GetStringUTFChars(loadFileURL, nullptr));
 
@@ -305,6 +306,7 @@ Java_org_libreoffice_androidlib_LOActivity_createLOOLWSD(JNIEnv *env, jobject, j
 
     lokInitialized = true;
     libreofficekit_initialize(env, dataDir, cacheDir, apkFile, assetManager);
+    libreofficekit_spell_checking_initialize(env, instance, spellCheckingLocales);
 
     Util::setThreadName("main");
 
@@ -394,7 +396,8 @@ Java_org_libreoffice_androidlib_LOActivity_getClipboardContent(JNIEnv *env, jobj
 extern "C"
 JNIEXPORT void JNICALL
 Java_org_libreoffice_androidlib_LOActivity_paste(JNIEnv *env, jobject instance, jstring mimeType_,
-                                                   jstring data_) {
+                                                   jstring data_)
+{
     const char *mimeType = env->GetStringUTFChars(mimeType_, 0);
     const char *data = env->GetStringUTFChars(data_, 0);
     const size_t nSize = env->GetStringLength(data_);
@@ -404,4 +407,5 @@ Java_org_libreoffice_androidlib_LOActivity_paste(JNIEnv *env, jobject instance, 
     env->ReleaseStringUTFChars(mimeType_, mimeType);
     env->ReleaseStringUTFChars(data_, data);
 }
+
 /* vim:set shiftwidth=4 softtabstop=4 expandtab cinoptions=b1,g0,N-s cinkeys+=0=break: */
