@@ -68,7 +68,11 @@ L.DomEvent.enableLongTap = function enableLongTap(el, tolerance, timeout) {
 			if (isTapValid()) {
 				fireClick = false;
 				onUp();
-				simulateEvent('contextmenu', first);
+				if (window.mode.isMobile()) {
+					simulateEvent('mobilewizard', first);
+				} else {
+					simulateEvent('contextmenu', first);
+				}
 			}
 		}, timeout);
 
