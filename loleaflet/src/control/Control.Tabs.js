@@ -43,15 +43,15 @@ L.Control.Tabs = L.Control.extend({
 		var docContainer = map.options.documentContainer;
 		this._tabsCont = L.DomUtil.create('div', 'spreadsheet-tabs-container', docContainer.parentElement);
 
-		L.installContextMenu({
+		this._tabMenu = {
 			selector: '.spreadsheet-tab',
 			className: 'loleaflet-font',
 			callback: (function(key) {
 				if (key === 'insertsheetbefore') {
-					map.insertPage(this._tabForContextMenu);
+					this._map.insertPage(this._tabForContextMenu);
 				}
 				if (key === 'insertsheetafter') {
-					map.insertPage(this._tabForContextMenu + 1);
+					this._map.insertPage(this._tabForContextMenu + 1);
 				}
 			}).bind(this),
 			items: {
@@ -64,12 +64,12 @@ L.Control.Tabs = L.Control.extend({
 								message: _('Are you sure you want to delete sheet, %sheet% ?').replace('%sheet%', options.$trigger.text()),
 								callback: function(data) {
 									if (data) {
-										map.deletePage(nPos);
+										this._map.deletePage(nPos);
 									}
 								}
 							});
 						}).bind(this)
-				 },
+				},
 				'renamesheet': {name: _UNO('.uno:RenameTable', 'spreadsheet', true),
 							callback: (function(key, options) {
 								var nPos = this._tabForContextMenu;
@@ -77,7 +77,7 @@ L.Control.Tabs = L.Control.extend({
 									message: _('Enter new sheet name'),
 									input: '<input name="sheetname" type="text" value="' + options.$trigger.text() + '" required />',
 									callback: function(data) {
-										map.renamePage(data.sheetname, nPos);
+										this._map.renamePage(data.sheetname, nPos);
 									}
 								});
 							}).bind(this)
@@ -85,18 +85,22 @@ L.Control.Tabs = L.Control.extend({
 				'showsheets': {
 					name: _UNO('.uno:Show', 'spreadsheet', true),
 					callback: (function() {
-						map.showPage();
+						this._map.showPage();
 					}).bind(this)
 				},
 				'hiddensheets': {
 					name: _UNO('.uno:Hide', 'spreadsheet', true),
 					callback: (function() {
-						map.hidePage();
+						this._map.hidePage();
 					}).bind(this)
 				}
 			},
 			zIndex: 1000
-		});
+		};
+
+		if (!window.mode.isMobile()) {
+			L.installContextMenu(this._tabMenu);
+		}
 
 		map.on('updateparts', this._updateDisabled, this);
 	},
@@ -127,6 +131,8 @@ L.Control.Tabs = L.Control.extend({
 				var ssTabScroll = L.DomUtil.create('div', 'spreadsheet-tab-scroll', this._tabsCont);
 				ssTabScroll.id = 'spreadsheet-tab-scroll';
 
+				
+
 				for (var i = 0; i < parts; i++) {
 					if (e.hiddenParts.indexOf(i) !== -1)
 						continue;
@@ -136,11 +142,17 @@ L.Control.Tabs = L.Control.extend({
 					
 					L.DomEvent.on(tab, 'contextmenu', function(j) {
 						return function() {
-							this._tabForContextMenu = j;
-							$('spreadsheet-tab' + j).contextMenu();
+							if (window.mode.isMobile()) {
+								window.contextMenuWizard = true;
+								var menuData = this._map.getMenuStructureForMobileWizard(this._tabMenu.items, true, '');
+								this._map.fire('mobilewizard', menuData);
+							} else {
+								this._tabForContextMenu = j;
+								$('spreadsheet-tab' + j).contextMenu();
+							}
 						}
 					}(i).bind(this));
-					
+
 					tab.textContent = e.partNames[i];
 					tab.id = id;
 
