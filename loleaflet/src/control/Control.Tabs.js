@@ -42,8 +42,7 @@ L.Control.Tabs = L.Control.extend({
 		var map = this._map;
 		var docContainer = map.options.documentContainer;
 		this._tabsCont = L.DomUtil.create('div', 'spreadsheet-tabs-container', docContainer.parentElement);
-
-		L.installContextMenu({
+		var tabMenu = {
 			selector: '.spreadsheet-tab',
 			className: 'loleaflet-font',
 			callback: (function(key) {
@@ -69,7 +68,7 @@ L.Control.Tabs = L.Control.extend({
 								}
 							});
 						}).bind(this)
-				 },
+				},
 				'renamesheet': {name: _UNO('.uno:RenameTable', 'spreadsheet', true),
 							callback: (function(key, options) {
 								var nPos = this._tabForContextMenu;
@@ -96,7 +95,15 @@ L.Control.Tabs = L.Control.extend({
 				}
 			},
 			zIndex: 1000
-		});
+		};
+
+		if (window.mode.isMobile()) {
+			window.contextMenuWizard = true;
+			var menuData = L.Control.getMenuStructureForMobileWizard(tabMenu, true, '');
+			map.fire('mobilewizard', menuData);
+		} else {
+			L.installContextMenu(tabMenu);
+		}
 
 		map.on('updateparts', this._updateDisabled, this);
 	},
