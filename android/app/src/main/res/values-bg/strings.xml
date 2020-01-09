@@ -1,2 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_description">$APP_NAME е съвременен, лесен за употреба софтуерен пакет с отворен код за работа с текст, електронни таблици, презентации и други документи.</string>
+    <string name="app_name_settings">Настройки</string>
+    <string name="pref_filter_title">Подразбиран филтър за файлове</string>
+    <string name="pref_sort_title">Подреждане на файловете</string>
+    <string name="pref_file_explorer_title">Оформление на файловия мениджър</string>
+    <string name="pref_viewmode_summary">Показване на файловете в мрежа или в списък.</string>
+    <string name="pref_sort_summary">Изберете как да се сортират файловете: A-Z, по размер или по дата.</string>
+    <string name="pref_show_hidden_files_summary">Показване на скритите файлове/папки</string>
+    <string name="pref_show_hidden_files">Скрити файлове/папки</string>
+    <string name="pref_category_explorer">Настройки за управление на файлове</string>
+    <string name="grid_view">Мрежа</string>
+    <string name="list_view">Списък</string>
+    <string name="failed_to_load_file">Неуспешно определяне на файла за зареждане</string>
+    <string name="storage_permission_required">Изисква се разрешение за съхранение</string>
+    <string name="file_creation_failed">Грешка при създаване на файл</string>
+    <string name="file_exists_warning">Файл с това име вече съществува и ще бъде презаписан.</string>
+    <string name="temp_file_saving_disabled">Този файл е само за четене, записването е изключено.</string>
+    <string name="no_items">Няма елементи</string>
+    <string name="no_recent_items">Няма последни елементи</string>
+    <string name="app_vendor">Това издание е предоставено от $VENDOR.</string>
+</resources>
