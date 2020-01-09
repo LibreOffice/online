@@ -469,7 +469,7 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
         String apkFile = getApplication().getPackageResourcePath();
         AssetManager assetManager = getResources().getAssets();
 
-        createLOOLWSD(dataDir, cacheDir, apkFile, assetManager, urlToLoad, getSpellCheckingLocales());
+        createLOOLWSD(dataDir, cacheDir, apkFile, assetManager, urlToLoad);
 
         // trigger the load of the document
         String finalUrlToLoad = "file:///android_asset/dist/loleaflet.html?file_path=" +
@@ -512,11 +512,6 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
             return new String[0];
         }
 
-        /*
-        FIXME turn this test into a real thing
-        mSpellChecker.getSentenceSuggestions(new TextInfo[]{ new TextInfo("hllo") }, 5);
-        */
-
         // send the list of locales to the core
         SpellCheckerInfo spellCheckerInfo = mSpellChecker.getSpellChecker();
 
@@ -528,6 +523,16 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
         }
 
         return locales;
+    }
+
+    static int mSequenceNumber = 0;
+
+    /**
+     * This is to be called from the core when asking for spell checking suggestions.
+     */
+    void getSpellCheckingSuggestions(final String word) {
+        Log.d(TAG, "Spell suggestion sequence for word '" + word + "': " + mSequenceNumber);
+        mSpellChecker.getSentenceSuggestions(new TextInfo[]{ new TextInfo(word, 1, mSequenceNumber++) }, 5);
     }
 
     /**
@@ -545,8 +550,25 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
     public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
         // TODO FIXME real stuff here
         for (SentenceSuggestionsInfo result : results) {
-            int n = result.getSuggestionsCount();
-            for (int i=0; i < n; i++) {
+            if (result == null)
+                continue;
+
+            int count = result.getSuggestionsCount();
+            for (int i = 0; i < count; ++i) {
+                final SuggestionsInfo suggestionsInfo = result.getSuggestionsInfoAt(i);
+                if (suggestionsInfo == null)
+                    continue;
+
+                Log.d(TAG, "Spell suggestion sequence: " + suggestionsInfo.getSequence());
+
+                int attributes = suggestionsInfo.getSuggestionsAttributes();
+                if ((attributes & SuggestionsInfo.RESULT_ATTR_HAS_RECOMMENDED_SUGGESTIONS) > 0)
+                    Log.d(TAG, "Spell suggestion attribute: has recommended suggestions");
+                if ((attributes & SuggestionsInfo.RESULT_ATTR_IN_THE_DICTIONARY) > 0)
+                    Log.d(TAG, "Spell suggestion attribute: in the dictionary");
+                if ((attributes & SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) > 0)
+                    Log.d(TAG, "Spell suggestion attribute: looks like typo");
+
                 int m = result.getSuggestionsInfoAt(i).getSuggestionsCount();
 
                 for (int k=0; k < m; k++) {
@@ -563,7 +585,12 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
     /**
      * Initialize the LOOLWSD to load 'loadFileURL'.
      */
-    public native void createLOOLWSD(String dataDir, String cacheDir, String apkFile, AssetManager assetManager, String loadFileURL, String[] spellCheckingLocales);
+    public native void createLOOLWSD(String dataDir, String cacheDir, String apkFile, AssetManager assetManager, String loadFileURL);
+
+    /**
+     * Initialize the spell checking in the core.
+     */
+    public native void initializeSpellCheckingNative(String[] spellCheckingLocales);
 
     /**
      * Passing messages from JS (instead of the websocket communication).
@@ -623,6 +650,10 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
     boolean interceptMsgFromWebView(String message) {
         String[] messageAndParam = message.split(" ", 2); // the command and the rest (that can potentially contain spaces too)
         switch (messageAndParam[0]) {
+            case "HULLO":
+                initializeSpellCheckingNative(getSpellCheckingLocales());
+                // 'HULLO' still needs to be passed to the native part
+                return true;
             case "PRINT":
                 mainHandler.post(new Runnable() {
                     @Override

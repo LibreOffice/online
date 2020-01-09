@@ -36,6 +36,11 @@ static JavaVM* javaVM = nullptr;
 static bool lokInitialized = false;
 static std::mutex loolwsdRunningMutex;
 
+// Functions exported from the core
+extern "C" jboolean libreofficekit_initialize(JNIEnv* env, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager);
+extern "C" void libreofficekit_spell_checking_initialize(JNIEnv *env, jobject instance, jobjectArray locales);
+extern "C" void libreofficekit_spell_checking_destroy(JNIEnv *env);
+
 extern "C" JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM* vm, void*) {
     javaVM = vm;
@@ -158,8 +163,10 @@ static void send2JS(const JNIThreadContext &jctx, jclass loActivityClz, jobject 
 }
 
 /// Close the document.
-void closeDocument()
+void closeDocument(JNIEnv *env)
 {
+    libreofficekit_spell_checking_destroy(env);
+
     // Close one end of the socket pair, that will wake up the forwarding thread that was constructed in HULLO
     if (fakeSocketClose(closeNotificationPipeForForwardingThread[0]) == 0)
     {
@@ -267,7 +274,7 @@ Java_org_libreoffice_androidlib_LOActivity_postMobileMessageNative(JNIEnv *env, 
         {
             LOG_DBG("Document window terminating on JavaScript side. Closing our end of the socket.");
 
-            closeDocument();
+            closeDocument(env);
         }
         else
         {
@@ -287,12 +294,9 @@ Java_org_libreoffice_androidlib_LOActivity_postMobileMessageNative(JNIEnv *env, 
         LOG_DBG("From JS: lool: some object");
 }
 
-extern "C" jboolean libreofficekit_initialize(JNIEnv* env, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager);
-extern "C" void libreofficekit_spell_checking_initialize(JNIEnv *env, jobject instance, jobjectArray locales);
-
 /// Create the LOOLWSD instance.
 extern "C" JNIEXPORT void JNICALL
-Java_org_libreoffice_androidlib_LOActivity_createLOOLWSD(JNIEnv *env, jobject instance, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager, jstring loadFileURL, jobjectArray spellCheckingLocales)
+Java_org_libreoffice_androidlib_LOActivity_createLOOLWSD(JNIEnv *env, jobject, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager, jstring loadFileURL)
 {
     fileURL = std::string(env->GetStringUTFChars(loadFileURL, nullptr));
 
@@ -300,13 +304,12 @@ Java_org_libreoffice_androidlib_LOActivity_createLOOLWSD(JNIEnv *env, jobject in
     if (lokInitialized)
     {
         // close the previous document so that we can wait for the new HULLO
-        closeDocument();
+        closeDocument(env);
         return;
     }
 
     lokInitialized = true;
     libreofficekit_initialize(env, dataDir, cacheDir, apkFile, assetManager);
-    libreofficekit_spell_checking_initialize(env, instance, spellCheckingLocales);
 
     Util::setThreadName("main");
 
@@ -335,6 +338,14 @@ Java_org_libreoffice_androidlib_LOActivity_createLOOLWSD(JNIEnv *env, jobject in
                         std::this_thread::sleep_for(std::chrono::milliseconds(100));
                     }
                 }).detach();
+}
+
+/// Initialize the spell checking for the current LOActivity instance.
+extern "C" JNIEXPORT void JNICALL
+Java_org_libreoffice_androidlib_LOActivity_initializeSpellCheckingNative(JNIEnv *env, jobject instance, jobjectArray spellCheckingLocales)
+{
+    // initialize spell checking before we try to load the document
+    libreofficekit_spell_checking_initialize(env, instance, spellCheckingLocales);
 }
 
 extern "C"
