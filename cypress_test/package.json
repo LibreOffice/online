@@ -1,0 +1,14 @@
+{
+  "name": "cypress_test",
+  "version": "1.0.0",
+  "description": "Cypress integration test suit",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "cypress": "3.8.1",
+    "eslint": "6.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://gerrit.libreoffice.org/online.git"
+  }
+}

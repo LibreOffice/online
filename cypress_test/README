@@ -1,0 +1,46 @@
+Cypress based test framework for LibreOffice Online
+====================================================
+
+Running tests
+------------------
+
+All tests are part of the make check build. So you can
+just execute it from the root folder or under the
+cypress_test folder to run cypress tests only.
+
+    make check
+
+To run cypress test cases selectively, you need to
+go in to the cypress_test folder first and run one of
+the following commands.
+
+To run all desktop tests:
+
+    make check-desktop
+
+To run all mobile tests:
+
+    make check-mobile
+
+To run one specific test suit of desktop tests:
+
+    make check-desktop spec=example_desktop_test_spec.js
+
+To run one specific test suit of mobile tests:
+
+    make check-mobile spec=toolbar_spec.js
+
+You can also open cypress tests in the browser, so you can
+check what happens during test run. It's useful for writing
+new tests or checking why an existing test fails.
+
+To open desktop tests in browser:
+
+    make run-desktop
+
+To open mobile tests in browser:
+
+    make run-mobile
+
+During the build we run the tests with Chrome browser, so make sure
+you select Chrome browser on the GUI while checking tests.
