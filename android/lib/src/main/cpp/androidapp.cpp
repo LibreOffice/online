@@ -40,6 +40,7 @@ static std::mutex loolwsdRunningMutex;
 extern "C" jboolean libreofficekit_initialize(JNIEnv* env, jstring dataDir, jstring cacheDir, jstring apkFile, jobject assetManager);
 extern "C" void libreofficekit_spell_checking_initialize(JNIEnv *env, jobject instance, jobjectArray locales);
 extern "C" void libreofficekit_spell_checking_destroy(JNIEnv *env);
+extern "C" void libreofficekit_spell_checking_is_valid(int sequenceNumber, int isValid);
 
 extern "C" JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM* vm, void*) {
@@ -346,6 +347,13 @@ Java_org_libreoffice_androidlib_LOActivity_initializeSpellCheckingNative(JNIEnv 
 {
     // initialize spell checking before we try to load the document
     libreofficekit_spell_checking_initialize(env, instance, spellCheckingLocales);
+}
+
+/// Notify the core whether the word with the given sequenceNumber was valid (or not).
+extern "C" JNIEXPORT void JNICALL
+Java_org_libreoffice_androidlib_LOActivity_onIsSpellingValidNative(JNIEnv* /*env*/, jobject /*instance*/, jint sequenceNumber, jboolean isValid)
+{
+    libreofficekit_spell_checking_is_valid(static_cast<int>(sequenceNumber), static_cast<int>(isValid));
 }
 
 extern "C"

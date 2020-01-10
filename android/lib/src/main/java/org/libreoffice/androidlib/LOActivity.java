@@ -525,6 +525,19 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
         return locales;
     }
 
+    /** Only checking validity. */
+    final int SPELLING_COOKIE_IS_VALID = 1;
+
+    /** Need suggestions. */
+    final int SPELLING_COOKIE_SUGGESTIONS = 2;
+
+    /**
+     * This is to be called from the core when checking whether the word is correct.
+     */
+    void isSpellingValid(final String word, int sequenceNumber) {
+        mSpellChecker.getSentenceSuggestions(new TextInfo[]{ new TextInfo(word, SPELLING_COOKIE_IS_VALID, sequenceNumber) }, 0);
+    }
+
     static int mSequenceNumber = 0;
 
     /**
@@ -532,7 +545,7 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
      */
     void getSpellCheckingSuggestions(final String word) {
         Log.d(TAG, "Spell suggestion sequence for word '" + word + "': " + mSequenceNumber);
-        mSpellChecker.getSentenceSuggestions(new TextInfo[]{ new TextInfo(word, 1, mSequenceNumber++) }, 5);
+        mSpellChecker.getSentenceSuggestions(new TextInfo[]{ new TextInfo(word, SPELLING_COOKIE_SUGGESTIONS, mSequenceNumber++) }, 5);
     }
 
     /**
@@ -540,7 +553,7 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
      */
     @Override
     public void onGetSuggestions(SuggestionsInfo[] results) {
-        Log.d(TAG, "Spell suggestion: via onGetSuggestions (?)");
+        Log.e(TAG, "onGetSuggestions is deprecated");
     }
 
     /**
@@ -548,7 +561,6 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
      */
     @Override
     public void onGetSentenceSuggestions(SentenceSuggestionsInfo[] results) {
-        // TODO FIXME real stuff here
         for (SentenceSuggestionsInfo result : results) {
             if (result == null)
                 continue;
@@ -559,9 +571,8 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
                 if (suggestionsInfo == null)
                     continue;
 
-                Log.d(TAG, "Spell suggestion sequence: " + suggestionsInfo.getSequence());
-
                 int attributes = suggestionsInfo.getSuggestionsAttributes();
+                Log.d(TAG, "Spell attributes: " + attributes);
                 if ((attributes & SuggestionsInfo.RESULT_ATTR_HAS_RECOMMENDED_SUGGESTIONS) > 0)
                     Log.d(TAG, "Spell suggestion attribute: has recommended suggestions");
                 if ((attributes & SuggestionsInfo.RESULT_ATTR_IN_THE_DICTIONARY) > 0)
@@ -569,10 +580,31 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
                 if ((attributes & SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) > 0)
                     Log.d(TAG, "Spell suggestion attribute: looks like typo");
 
-                int m = result.getSuggestionsInfoAt(i).getSuggestionsCount();
+                if (suggestionsInfo.getCookie() == SPELLING_COOKIE_IS_VALID) {
+                    Log.d(TAG, "Spell suggestion sequence: " + suggestionsInfo.getSequence());
 
-                for (int k=0; k < m; k++) {
-                    Log.d(TAG, "Spell suggestion: " + result.getSuggestionsInfoAt(i).getSuggestionAt(k));
+                    // handle isSpellingValid() request
+                    boolean isValid = (attributes & SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) == 0;
+                    Log.d(TAG, "Spell suggestion is valid: " + isValid);
+                    onIsSpellingValidNative(suggestionsInfo.getSequence(), isValid);
+                }
+                else if (suggestionsInfo.getCookie() == SPELLING_COOKIE_SUGGESTIONS) {
+                    // TODO FIXME
+                    // handle getSpellCheckingSuggestions() request
+                    Log.d(TAG, "Spell suggestion sequence: " + suggestionsInfo.getSequence());
+
+                    if ((attributes & SuggestionsInfo.RESULT_ATTR_HAS_RECOMMENDED_SUGGESTIONS) > 0)
+                        Log.d(TAG, "Spell suggestion attribute: has recommended suggestions");
+                    if ((attributes & SuggestionsInfo.RESULT_ATTR_IN_THE_DICTIONARY) > 0)
+                        Log.d(TAG, "Spell suggestion attribute: in the dictionary");
+                    if ((attributes & SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO) > 0)
+                        Log.d(TAG, "Spell suggestion attribute: looks like typo");
+
+                    int m = result.getSuggestionsInfoAt(i).getSuggestionsCount();
+
+                    for (int k=0; k < m; k++) {
+                        Log.d(TAG, "Spell suggestion: " + result.getSuggestionsInfoAt(i).getSuggestionAt(k));
+                    }
                 }
             }
         }
@@ -591,6 +623,12 @@ public class LOActivity extends AppCompatActivity implements SpellCheckerSession
      * Initialize the spell checking in the core.
      */
     public native void initializeSpellCheckingNative(String[] spellCheckingLocales);
+
+    /**
+     * Notify the core that the word identified by sequenceNumber was valid
+     * (or not).
+     */
+    public native void onIsSpellingValidNative(int sequenceNumber, boolean isValid);
 
     /**
      * Passing messages from JS (instead of the websocket communication).
