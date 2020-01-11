@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-15 17:50+0200\n"
-"PO-Revision-Date: 2020-01-03 10:08+0000\n"
+"PO-Revision-Date: 2020-01-07 10:58+0000\n"
 "Last-Translator: Andras Timar <timar74@gmail.com>\n"
 "Language-Team: Hungarian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/hu/>\n"
 "Language: hu\n"
@@ -1539,7 +1539,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:463-5
 msgid "Is here a thesaurus?"
-msgstr ""
+msgstr "Van szókincstár?"
 
 #: html/loleaflet-help.html%2Bdiv.p:464-5
 msgid "Yes. Click in the word you want and choose <span class=\"ui\">Tools</span> → <span class=\"ui\">Thesaurus</span>. A dialog opens with many suggestions for replacements."
