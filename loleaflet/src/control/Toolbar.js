@@ -437,7 +437,14 @@ L.Map.include({
 		var map = this;
 		var text = '';
 		var link = '';
-		if (this.hyperlinkUnderCursor && this.hyperlinkUnderCursor.text && this.hyperlinkUnderCursor.link) {
+
+		if (this._docLayer._lastFormula && this._docLayer._cellCursorMarker && this._docLayer._lastFormula.substring(0, 10) == '=HYPERLINK') {
+			var formula = this._docLayer._lastFormula;
+			var textURLPair = formula.substring(11, formula.length - 1).split(',');
+			text = textURLPair[1].trim().split('"').join('');
+			link = textURLPair[0].trim().split('"').join('');
+		}
+		else if (this.hyperlinkUnderCursor && this.hyperlinkUnderCursor.text && this.hyperlinkUnderCursor.link) {
 			text = this.hyperlinkUnderCursor.text;
 			link = this.hyperlinkUnderCursor.link;
 		} else if (this._clip && this._clip._selectionType == 'text') {
