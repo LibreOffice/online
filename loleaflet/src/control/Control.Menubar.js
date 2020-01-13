@@ -494,6 +494,9 @@ L.Control.Menubar = L.Control.extend({
 				{uno: '.uno:PreviousTrackedChange'},
 				{uno: '.uno:NextTrackedChange'}
 			]},
+			{name: _('Page Setup'), id: 'pagesetup', type: 'menu', menu: [
+				{name: _('Toggle Page Orientation'), uno: '.uno:ToggleOrientation'},
+			]},
 			{name: _UNO('.uno:ViewMenu', 'text'), id: 'view', type: 'menu', menu: [
 				{uno: '.uno:ControlCodes'},
 				{uno: '.uno:SpellOnline'},
