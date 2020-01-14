@@ -141,12 +141,48 @@ L.Map.WOPI = L.Handler.extend({
 		this._map.fire('postMessage', {msgId: 'App_LoadingStatus', args: {Status: 'Document_Loaded', DocumentLoadedTime: this.DocumentLoadedTime}});
 	},
 
-	_postMessageListener: function(e) {
-
-		// e.origin === 'null' when sandboxed (i.e. when the parent is a file on local filesystem).
-		if (e.origin !== 'null' && e.origin !== window.parent.origin) {
-			return;
+	// IE11 ... oh dear.
+	_arrayIncludes: function(arr,val) {
+		for (var i = 0; i < arr.length; i++) {
+			if (arr[i] == val)
+				return true;
 		}
+		return false;
+	},
+
+	// Naturally we set a CSP to catch badness, but check here as well.
+	// Checking whether a message came from our iframe's parents is
+	// un-necessarily difficult.
+	_allowMessageOrigin: function(e) {
+		// e.origin === 'null' when sandboxed (i.e. when the parent is a file on local filesystem).
+		if (e.origin === 'null')
+			return true;
+		try {
+			if (e.origin === window.parent.origin)
+				return true;
+		} catch (secErr) { // security error de-referencing window.parent.origin.
+		}
+		// sent from the server
+		if (!this._allowedOrigins) {
+			this._allowedOrigins = window.frameAncestors.split(':\* ');
+			for (var i = 0; i < this._allowedOrigins.length; i++)
+				this._allowedOrigins[i] = this._allowedOrigins[i].trim();
+		}
+		if (this._allowedOrigins &&
+		    this._arrayIncludes(this._allowedOrigins[i], e.origin))
+			return true;
+
+		// chrome only
+		if (window.location.ancestorOrigins &&
+		    window.location.ancestorOrigins.contains(e.origin))
+			return true;
+
+		return false;
+	},
+
+	_postMessageListener: function(e) {
+		if (!this._allowMessageOrigin(e))
+			return;
 
 		var msg;
 		try {
