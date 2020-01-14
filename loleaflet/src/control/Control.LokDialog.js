@@ -1032,6 +1032,8 @@ L.Control.LokDialog = L.Control.extend({
 			if (parentId in that._dialogs) {
 				// We might have closed the dialog by the time we render.
 				that._dialogs[parentId].isPainting = false;
+				if (!that._isSidebar(parentId))
+					that._map.fire('changefocuswidget', {winId: parentId, dialog: this});
 			}
 		};
 		img.src = imgData;
