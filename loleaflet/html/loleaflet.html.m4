@@ -139,7 +139,7 @@ ifelse(MOBILEAPP,[true],
        <ul id="main-menu" class="sm sm-simple lo-menu readonly"></ul>
        <div id="document-titlebar">
          <div class="document-title">
-           <input id="document-name-input" type="text" disabled="true" style="display: none"/>
+           <input id="document-name-input" type="text" disabled="true" style="display: none" onkeypress="this.style.width = ((this.value.length + 1) * 10) + 'px';"/>
          </div>
        </div>
      </nav>
