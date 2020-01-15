@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-15 17:50+0200\n"
-"PO-Revision-Date: 2020-01-10 19:01+0000\n"
+"PO-Revision-Date: 2020-01-15 12:41+0000\n"
 "Last-Translator: sophie <gautier.sophie@gmail.com>\n"
 "Language-Team: French <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/fr/>\n"
 "Language: fr\n"
@@ -1083,7 +1083,7 @@ msgstr "Annuler la recherche (apparaît uniquement lorsqu'un texte a été reche
 
 #: html/loleaflet-help.html%2Bdiv.p:269-5
 msgid "<span class=\"def\">The zoom bar:</span> At the right of the status bar, there is a set of buttons that allow you to zoom to 100%, zoom out and zoom in. The zoom applies to the document area, the user interface is not affected. The current level of zoom is shown in this area."
-msgstr ""
+msgstr "<span class=\"def\">La barre de zoom :</span> à la droite de la barre d'état, il y a un ensemble de boutons qui permettent de zoomer à 100%, de diminuer ou d'augmenter le zoom. Le zoom s'applique à la zone du document, l'interface utilisateur n'est pas affectée. Le niveau de zoom actif est affiché dans cette zone."
 
 #: html/loleaflet-help.html%2Bdiv.p:270-5
 msgid "Text, charts, shapes and svg images will stay sharp, when zooming in, you will only see pixels appear at inserted images, such as jpg’s or png’s."
