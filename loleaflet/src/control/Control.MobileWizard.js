@@ -57,7 +57,15 @@ L.Control.MobileWizard = L.Control.extend({
 	},
 
 	_showWizard: function() {
+		$('#mobile-wizard-content').prepend('<div id="mobile-wizard-scroll-indicator" style="width: 100%;height: 40px;position: fixed;z-index: 2;bottom: 0;background: linear-gradient(#fff0 20%, #0b87e7 400%);"></div>');
 		$('#mobile-wizard').show();
+		$('#mobile-wizard-content').on('scroll', function() {
+			var mWizardContentScroll = $('#mobile-wizard-content').scrollTop();
+			var height = $('#mobile-wizard-content').prop('scrollHeight');
+			var scrolled = (mWizardContentScroll / height) * 100;
+			if (scrolled > 56) {$('#mobile-wizard-scroll-indicator').css('display','none');}
+			else {$('#mobile-wizard-scroll-indicator').css('display','block');}
+		});
 		$('#toolbar-down').hide();
 		if (window.ThisIsTheAndroidApp)
 			window.postMobileMessage('MOBILEWIZARD show');
