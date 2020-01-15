@@ -22,7 +22,6 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,6 +52,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.Charset;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +61,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import org.libreoffice.androidlib.lok.LokClipboardData;
+import org.libreoffice.androidlib.lok.LokClipboardEntry;
 
 public class LOActivity extends AppCompatActivity {
     final static String TAG = "LOActivity";
@@ -73,6 +76,7 @@ public class LOActivity extends AppCompatActivity {
     private static final String KEY_DOCUMENT_URI = "documentUri";
     private static final String KEY_IS_EDITABLE = "isEditable";
     private static final String KEY_INTENT_URI = "intentUri";
+    private static final String CLIPBOARD_FILE_PATH = "LibreofficeClipboardFile.data";
 
     private File mTempFile = null;
 
@@ -643,9 +647,9 @@ public class LOActivity extends AppCompatActivity {
 
     public native void saveAs(String fileUri, String format);
 
-    public native String[] getClipboardContent();
+    public native boolean getClipboardContent(LokClipboardData aData);
 
-    public native void paste(String mimeType, String data);
+    public native void paste(String mimeType, byte[] data);
 
     /// Returns a magic that specifies this application - and this document.
     private final String getClipboardMagic() {
@@ -659,29 +663,38 @@ public class LOActivity extends AppCompatActivity {
         nativeHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    // text[0], html[1]
-                    String[] clipStrings = LOActivity.this.getClipboardContent();
-                    if (clipStrings.length < 2 ||
-                        (clipStrings[0].length() == 0 && clipStrings[1].length() == 0))
+                    File clipboardFile = new File(getApplicationContext().getCacheDir(), CLIPBOARD_FILE_PATH);
+                    if (clipboardFile.exists())
+                        clipboardFile.delete();
+
+                    LokClipboardData clipboardData = new LokClipboardData();
+                    if (!LOActivity.this.getClipboardContent(clipboardData))
                         Log.e(TAG, "no clipboard to copy");
                     else
                     {
-                        String text = clipStrings[0];
-                        String html = clipStrings[1];
+                        clipboardData.writeToFile(clipboardFile);
 
-                        int idx = html.indexOf("<meta name=\"generator\" content=\"");
-                        if (idx < 0)
-                            idx = html.indexOf("<meta http-equiv=\"content-type\" content=\"text/html;");
-                        if (idx >= 0) { // inject our magic
-                            StringBuffer newHtml = new StringBuffer(html);
-                            newHtml.insert(idx, "<meta name=\"origin\" content=\"" + getClipboardMagic() + "\"/>\n");
-                            html = newHtml.toString();
+                        String text = clipboardData.getText();
+                        String html = clipboardData.getHtml();
+
+                        if (html != null) {
+                            int idx = html.indexOf("<meta name=\"generator\" content=\"");
+
+                            if (idx < 0)
+                                idx = html.indexOf("<meta http-equiv=\"content-type\" content=\"text/html;");
+
+                            if (idx >= 0) { // inject our magic
+                                StringBuffer newHtml = new StringBuffer(html);
+                                newHtml.insert(idx, "<meta name=\"origin\" content=\"" + getClipboardMagic() + "\"/>\n");
+                                html = newHtml.toString();
+                            }
+
+                            if (text == null || text.length() == 0)
+                                Log.i(TAG, "set text to clipoard with: text '" + text + "' and html '" + html + "'");
+
+                            clipData = ClipData.newHtmlText(ClipDescription.MIMETYPE_TEXT_HTML, text, html);
+                            clipboardManager.setPrimaryClip(clipData);
                         }
-
-                        if (text == null || text.length() == 0)
-                            Log.i(TAG, "set text to clipoard with: text '" + text + "' and html '" + html + "'");
-                        clipData = ClipData.newHtmlText(ClipDescription.MIMETYPE_TEXT_HTML, text, html);
-                        clipboardManager.setPrimaryClip(clipData);
                     }
                 }
             });
@@ -703,7 +716,21 @@ public class LOActivity extends AppCompatActivity {
                     nativeHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            LOActivity.this.paste("text/html", html);
+                            // Let's see if we have the clipboard file
+                            File clipboardFile = new File(getApplicationContext().getCacheDir(), CLIPBOARD_FILE_PATH);
+                            LokClipboardEntry aClipboardEntry = null;
+                            if (clipboardFile.exists()) {
+                                LokClipboardData clipboardData = new LokClipboardData();
+                                clipboardData.loadFromFile(clipboardFile);
+                                aClipboardEntry = clipboardData.getBest();
+                            }
+
+                            if (aClipboardEntry != null) {
+                                LOActivity.this.paste(aClipboardEntry.mime, aClipboardEntry.data);
+                            } else {
+                                byte[] htmlByteArray = html.getBytes(Charset.forName("UTF-8"));
+                                LOActivity.this.paste("text/html", htmlByteArray);
+                            }
                         }
                     });
                 }
@@ -713,7 +740,9 @@ public class LOActivity extends AppCompatActivity {
                 nativeHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        LOActivity.this.paste("text/plain;charset=utf-16", clipItem.getText().toString());
+                        String text = clipItem.getText().toString();
+                        byte[] textByteArray = text.getBytes(Charset.forName("UTF-16"));
+                        LOActivity.this.paste("text/plain;charset=utf-16", textByteArray);
                     }
                 });
             }

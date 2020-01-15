@@ -358,50 +358,112 @@ static jstring tojstringAndFree(JNIEnv *env, char *str)
 }
 
 extern "C"
-JNIEXPORT jobjectArray JNICALL
-Java_org_libreoffice_androidlib_LOActivity_getClipboardContent(JNIEnv *env, jobject instance)
+JNIEXPORT jboolean JNICALL
+Java_org_libreoffice_androidlib_LOActivity_getClipboardContent(JNIEnv *env, jobject instance, jobject lokClipboardData)
 {
-    const char *mimeTypes[] = { "text/plain;charset=utf-8", "text/html", nullptr };
+    const char** mimeTypes = nullptr;
     size_t outCount = 0;
     char  **outMimeTypes = nullptr;
     size_t *outSizes = nullptr;
     char  **outStreams = nullptr;
+    bool bResult = false;
 
-    jobjectArray values = (jobjectArray)env->NewObjectArray(2,env->FindClass("java/lang/String"),env->NewStringUTF(""));
+    jclass jclazz = env->FindClass("java/util/ArrayList");
+    jmethodID methodId_ArrayList_Add = env->GetMethodID(jclazz, "add", "(Ljava/lang/Object;)Z");
+
+    jclass class_LokClipboardEntry = env->FindClass("org/libreoffice/androidlib/lok/LokClipboardEntry");
+    jmethodID methodId_LokClipboardEntry_Constructor = env->GetMethodID(class_LokClipboardEntry, "<init>", "()V");
+    jfieldID fieldId_LokClipboardEntry_Mime = env->GetFieldID(class_LokClipboardEntry , "mime", "Ljava/lang/String;");
+    jfieldID fieldId_LokClipboardEntry_Data = env->GetFieldID(class_LokClipboardEntry, "data", "[B");
+
+    jclass class_LokClipboardData = env->GetObjectClass(lokClipboardData);
+    jfieldID fieldId_LokClipboardData_clipboardEntries = env->GetFieldID(class_LokClipboardData , "clipboardEntries", "Ljava/util/ArrayList;");
 
     if (getLOKDocument()->getClipboard(mimeTypes,
                                        &outCount, &outMimeTypes,
                                        &outSizes, &outStreams))
     {
-        if (outCount != 2)
-            LOG_DBG("clipboard fetch produced wrong results");
-        else
+        // return early
+        if (outCount == 0)
+            return bResult;
+
+        for (size_t i = 0; i < outCount; ++i)
         {
-            env->SetObjectArrayElement(values,0,tojstringAndFree(env, outStreams[0]));
-            env->SetObjectArrayElement(values,1,tojstringAndFree(env, outStreams[1]));
-            free (outMimeTypes[0]);
-            free (outMimeTypes[1]);
-            free (outMimeTypes);
-            free (outStreams);
+            // Create new LokClipboardEntry instance
+            jobject clipboardEntry = env->NewObject(class_LokClipboardEntry, methodId_LokClipboardEntry_Constructor);
+
+            jstring mimeType = tojstringAndFree(env, outMimeTypes[i]);
+            // clipboardEntry.mime= mimeType
+            env->SetObjectField(clipboardEntry, fieldId_LokClipboardEntry_Mime, mimeType);
+
+            size_t aByteArraySize = outSizes[i];
+            jbyteArray aByteArray = env->NewByteArray(aByteArraySize);
+            // Copy char* to bytearray
+            env->SetByteArrayRegion(aByteArray, 0, aByteArraySize, (jbyte*) outStreams[i]);
+            // clipboardEntry.data = aByteArray
+            env->SetObjectField(clipboardEntry, fieldId_LokClipboardEntry_Data, aByteArray);
+
+            // clipboardData.clipboardEntries
+            jobject lokClipboardData_clipboardEntries = env->GetObjectField(lokClipboardData, fieldId_LokClipboardData_clipboardEntries);
+
+            // clipboardEntries.add(clipboardEntry)
+            env->CallBooleanMethod(lokClipboardData_clipboardEntries, methodId_ArrayList_Add, clipboardEntry);
         }
+        bResult = true;
     }
     else
         LOG_DBG("failed to fetch mime-types");
 
-    return values;
+    const char* mimeTypesHTML[] = { "text/plain;charset=utf-8", "text/html", nullptr };
+
+    if (getLOKDocument()->getClipboard(mimeTypesHTML,
+                                       &outCount, &outMimeTypes,
+                                       &outSizes, &outStreams))
+    {
+        // return early
+        if (outCount == 0)
+            return bResult;
+
+        for (size_t i = 0; i < outCount; ++i)
+        {
+            // Create new LokClipboardEntry instance
+            jobject clipboardEntry = env->NewObject(class_LokClipboardEntry, methodId_LokClipboardEntry_Constructor);
+
+            jstring mimeType = tojstringAndFree(env, outMimeTypes[i]);
+            // clipboardEntry.mime= mimeType
+            env->SetObjectField(clipboardEntry, fieldId_LokClipboardEntry_Mime, mimeType);
+
+            size_t aByteArraySize = outSizes[i];
+            jbyteArray aByteArray = env->NewByteArray(aByteArraySize);
+            // Copy char* to bytearray
+            env->SetByteArrayRegion(aByteArray, 0, aByteArraySize, (jbyte*) outStreams[i]);
+            // clipboardEntry.data = aByteArray
+            env->SetObjectField(clipboardEntry, fieldId_LokClipboardEntry_Data, aByteArray);
+
+            // clipboardData.clipboardEntries
+            jobject lokClipboardData_clipboardEntries = env->GetObjectField(lokClipboardData, fieldId_LokClipboardData_clipboardEntries);
+
+            // clipboardEntries.add(clipboardEntry)
+            env->CallBooleanMethod(lokClipboardData_clipboardEntries, methodId_ArrayList_Add, clipboardEntry);
+        }
+        bResult = true;
+    }
+    else
+        LOG_DBG("failed to fetch mime-types");
+
+    return bResult;
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_org_libreoffice_androidlib_LOActivity_paste(JNIEnv *env, jobject instance, jstring mimeType_,
-                                                   jstring data_) {
-    const char *mimeType = env->GetStringUTFChars(mimeType_, 0);
-    const char *data = env->GetStringUTFChars(data_, 0);
-    const size_t nSize = env->GetStringLength(data_);
+Java_org_libreoffice_androidlib_LOActivity_paste(JNIEnv *env, jobject instance, jstring inMimeType, jbyteArray inData) {
+    const char* mimeType = env->GetStringUTFChars(inMimeType, 0);
 
-    getLOKDocument()->paste(mimeType, data, nSize);
-
-    env->ReleaseStringUTFChars(mimeType_, mimeType);
-    env->ReleaseStringUTFChars(data_, data);
+    size_t dataArrayLength = env->GetArrayLength(inData);
+    char* dataArray = new char[dataArrayLength];
+    env->GetByteArrayRegion (inData, 0, dataArrayLength, reinterpret_cast<jbyte*>(dataArray));
+    getLOKDocument()->paste(mimeType, dataArray, dataArrayLength);
+    env->ReleaseStringUTFChars(inMimeType, mimeType);
 }
+
 /* vim:set shiftwidth=4 softtabstop=4 expandtab cinoptions=b1,g0,N-s cinkeys+=0=break: */
