@@ -21,11 +21,6 @@ L.Map.TouchGesture = L.Handler.extend({
 		L.Handler.prototype.initialize.call(this, map);
 		this._state = L.Map.TouchGesture.MAP;
 
-		if (window.ThisIsTheiOSApp && !this._toolbar) {
-			this._toolbar = L.control.contextToolbar();
-			this._toolbarAdded = 0;
-		}
-
 		if (!this._hammer) {
 			this._hammer = new Hammer(this._map._mapPane);
 			this._hammer.get('swipe').set({
@@ -93,8 +88,6 @@ L.Map.TouchGesture = L.Handler.extend({
 		this._hammer.on('pinchmove', L.bind(this._onPinch, this));
 		this._hammer.on('pinchend', L.bind(this._onPinchEnd, this));
 		this._hammer.on('tripletap', L.bind(this._onTripleTap, this));
-		if (window.ThisIsTheiOSApp)
-			this._map.on('input.press', this._onInputPressiOSOnly, this);
 		this._map.on('updatepermission', this._onPermission, this);
 		this._onPermission({perm: this._map._permission});
 	},
@@ -206,81 +199,64 @@ L.Map.TouchGesture = L.Handler.extend({
 		var that = this;
 		var docLayer = this._map._docLayer;
 
-		if (window.ThisIsTheiOSApp) {
-			// console.log('==> ' + e.timeStamp);
-			if (!this._toolbar._map && this._map._docLayer.containsSelection(latlng)) {
-				this._toolbar._pos = containerPoint;
-				// console.log('==> Adding context toolbar ' + e.timeStamp);
-				this._toolbar.addTo(this._map);
-				this._toolbarAdded = e.timeStamp;
-			} else if (this._toolbarAdded && e.timeStamp - this._toolbarAdded >= 1000) {
-				// console.log('==> Removing context toolbar ' + e.timeStamp);
-				this._toolbar.remove();
-				this._map._contextMenu._onMouseDown({originalEvent: e.srcEvent});
-				// send right click to trigger context menus
-				this._map._docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, 4, 0);
-				this._map._docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, 4, 0);
-			}
-		} else {
-			var singleClick = function () {
-				docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, 1, 0);
-				docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, 1, 0);
-			};
+		var singleClick = function () {
+			docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, 1, 0);
+			docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, 1, 0);
+		};
 
-			var doubleClick = function () {
-				docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 2, 1, 0);
-				docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 2, 1, 0);
-			};
+		var doubleClick = function () {
+			docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 2, 1, 0);
+			docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 2, 1, 0);
+		};
 
-			var rightClick = function () {
-				docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, 4, 0);
-				docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, 4, 0);
-			};
+		var rightClick = function () {
+			docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, 4, 0);
+			docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, 4, 0);
+		};
 
-			var waitForSelectionMsg = function () {
-				// check new selection if any
-				var graphicSelection = docLayer._graphicSelection;
-				var cellCursor = docLayer._cellCursor;
-				if (!docLayer._cursorAtMispelledWord
-					&& (!graphicSelection || !graphicSelection.contains(latlng))
-					&& (!cellCursor || !cellCursor.contains(latlng))) {
-					// try to select text
-					doubleClick();
-				}
-				// send right click to trigger context menus
-				that._map._contextMenu._onMouseDown({originalEvent: e.srcEvent});
-				rightClick();
-			};
-
-			// we want to select the long touched object before triggering the context menu;
-			// for selecting text we need to simulate a double click, anyway for a graphic object
-			// a single click is enough, while a double click can lead to switch to edit mode
-			// (not only for an embedded ole object, even for entering text inside a shape);
-			// a similar problem regards spreadsheet cell: a single click moves the cell cursor,
-			// while a double click enables text input;
-			// in order to avoid these cases, we send a single click and wait for a few milliseconds
-			// before checking if we received a possible selection message; if no such message is received
-			// we simulate a double click for trying to select text and finally, in any case,
-			// we trigger the context menu by sending a right click
+		var waitForSelectionMsg = function () {
+			// check new selection if any
 			var graphicSelection = docLayer._graphicSelection;
 			var cellCursor = docLayer._cellCursor;
-			var textSelection;
-			if (docLayer._textSelectionStart && docLayer._textSelectionEnd)
-				textSelection = new L.LatLngBounds(docLayer._textSelectionStart.getSouthWest(), docLayer._textSelectionEnd.getNorthEast());
+			if (!docLayer._cursorAtMispelledWord
+				&& (!graphicSelection || !graphicSelection.contains(latlng))
+				&& (!cellCursor || !cellCursor.contains(latlng))) {
+				// try to select text
+				doubleClick();
+			}
+			// send right click to trigger context menus
+			that._map._contextMenu._onMouseDown({originalEvent: e.srcEvent});
+			rightClick();
+		};
 
-			if ((textSelection && textSelection.inBand(latlng))
-				|| (graphicSelection && graphicSelection.contains(latlng))
-				|| (cellCursor && cellCursor.contains(latlng))) {
-				// long touched an already selected object
-				// send right click to trigger context menus
-				this._map._contextMenu._onMouseDown({originalEvent: e.srcEvent});
-				rightClick();
-			}
-			else {
-				// try to select a graphic object or move the cell cursor
-				singleClick();
-				setTimeout(waitForSelectionMsg, 300);
-			}
+		// we want to select the long touched object before triggering the context menu;
+		// for selecting text we need to simulate a double click, anyway for a graphic object
+		// a single click is enough, while a double click can lead to switch to edit mode
+		// (not only for an embedded ole object, even for entering text inside a shape);
+		// a similar problem regards spreadsheet cell: a single click moves the cell cursor,
+		// while a double click enables text input;
+		// in order to avoid these cases, we send a single click and wait for a few milliseconds
+		// before checking if we received a possible selection message; if no such message is received
+		// we simulate a double click for trying to select text and finally, in any case,
+		// we trigger the context menu by sending a right click
+		var graphicSelection = docLayer._graphicSelection;
+		var cellCursor = docLayer._cellCursor;
+		var textSelection;
+		if (docLayer._textSelectionStart && docLayer._textSelectionEnd)
+			textSelection = new L.LatLngBounds(docLayer._textSelectionStart.getSouthWest(), docLayer._textSelectionEnd.getNorthEast());
+
+		if ((textSelection && textSelection.inBand(latlng))
+			|| (graphicSelection && graphicSelection.contains(latlng))
+			|| (cellCursor && cellCursor.contains(latlng))) {
+			// long touched an already selected object
+			// send right click to trigger context menus
+			this._map._contextMenu._onMouseDown({originalEvent: e.srcEvent});
+			rightClick();
+		}
+		else {
+			// try to select a graphic object or move the cell cursor
+			singleClick();
+			setTimeout(waitForSelectionMsg, 300);
 		}
 
 		this._map.notifyActive();
@@ -293,9 +269,6 @@ L.Map.TouchGesture = L.Handler.extend({
 		    layerPoint = this._map.containerPointToLayerPoint(containerPoint),
 		    latlng = this._map.layerPointToLatLng(layerPoint),
 		    mousePos = this._map._docLayer._latLngToTwips(latlng);
-
-		if (window.ThisIsTheiOSApp)
-			this._toolbar.remove();
 
 		// clicked a hyperlink popup - not really designed for this.
 		if (this._map.hyperlinkPopup && e.target &&
@@ -520,13 +493,6 @@ L.Map.TouchGesture = L.Handler.extend({
 					annotations.update();
 				}, 250 /* ms */);
 		}
-	},
-
-	_onInputPressiOSOnly: function (e) {
-		var pos = this._map.latLngToContainerPoint(e);
-		this._toolbar.remove();
-		this._toolbar._pos = pos;
-		this._toolbar.addTo(this._map);
 	},
 
 	_constructFakeEvent: function (evt, type) {
