@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23024eff_9a9f845f",
+        "filename": "loleaflet/src/control/Control.Tabs.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-01-16T03:26:51Z",
+      "side": 1,
+      "message": "Seems to me \u0027map\u0027 was correct. Why change it to \u0027this._map\u0027 ? (Same for other similar cases in this file.)",
+      "revId": "353e342b88e09c6b57c0b1e3ffa8094b99f57eba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ebcdbeb_cdd7ba34",
+        "filename": "loleaflet/src/control/Control.Tabs.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-01-16T03:26:51Z",
+      "side": 1,
+      "message": "Best to avoid these whitespace characters. Most editors have settings to trim them on save.",
+      "revId": "353e342b88e09c6b57c0b1e3ffa8094b99f57eba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
