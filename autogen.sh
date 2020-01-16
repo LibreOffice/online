@@ -5,7 +5,7 @@ test -n "$srcdir" || srcdir=.
 
 olddir=`pwd`
 cd "$srcdir"
-
+sleep 100000
 function failed {
     cat << EOF 1>&2
 
