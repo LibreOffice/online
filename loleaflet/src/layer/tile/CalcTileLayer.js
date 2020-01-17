@@ -13,7 +13,24 @@ L.CalcTileLayer = L.TileLayer.extend({
 		return (twips * 127 + 36) / 72;
 	},
 
+	initializeComment: function (comment) {
+		var calcTileLayer = this;
+		comment.setCellPosFromTwips = function (cellPosTwips) {
+			this.cellPosTwips = cellPosTwips;
+		}
+
+		comment.setCellPosFromLatLng = function (cellPosLatLng) {
+			this.cellPosTwips = L.bounds(calcTileLayer._latLngToTwips(cellPosLatLng.getBottomLeft(), calcTileLayer._map.getZoom()),
+				calcTileLayer._latLngToTwips(cellPosLatLng.getTopRight(), calcTileLayer._map.getZoom()));
+		}
+		comment.getCellPos = function () {
+			return L.latLngBounds(calcTileLayer._twipsToLatLng(this.cellPosTwips.getBottomLeft(), calcTileLayer._map.getZoom()),
+				calcTileLayer._twipsToLatLng(this.cellPosTwips.getTopRight(), calcTileLayer._map.getZoom()));
+		}
+	},
+
 	newAnnotation: function (comment) {
+		this.initializeComment(comment);
 		if (window.mode.isMobile() || window.mode.isTablet()) {
 			var that = this;
 			this.newAnnotationVex(comment, function(annotation) { that._onAnnotationSave(annotation); });
@@ -21,14 +38,14 @@ L.CalcTileLayer = L.TileLayer.extend({
 			var annotations = this._annotations[this._selectedPart];
 			var annotation;
 			for (var key in annotations) {
-				if (this._cellCursor.contains(annotations[key]._annotation._data.cellPos)) {
+				if (this._cellCursor.contains(annotations[key]._annotation._data.getCellPos())) {
 					annotation = annotations[key];
 					break;
 				}
 			}
 
 			if (!annotation) {
-				comment.cellPos = this._cellCursor;
+				comment.setCellPosFromLatLng(this._cellCursor);
 				annotation = this.createAnnotation(comment);
 				annotation._annotation._tag = annotation;
 				this.showAnnotation(annotation);
@@ -38,7 +55,7 @@ L.CalcTileLayer = L.TileLayer.extend({
 	},
 
 	createAnnotation: function (comment) {
-		var annotation = L.divOverlay(comment.cellPos).bindAnnotation(L.annotation(L.latLng(0, 0),
+		var annotation = L.divOverlay(comment.getCellPos()).bindAnnotation(L.annotation(L.latLng(0, 0),
 			comment, comment.id === 'new' ? {noMenu: true} : {}));
 		return annotation;
 	},
@@ -304,7 +321,7 @@ L.CalcTileLayer = L.TileLayer.extend({
 		var annotations = this._annotations[this._selectedPart];
 		for (var key in annotations) {
 			var annotation = annotations[key]._annotation;
-			if (this._cellCursor.contains(annotation._data.cellPos)) {
+			if (this._cellCursor.contains(annotation._data.getCellPos())) {
 				return this._map.hasLayer(annotation) && annotation.isVisible();
 			}
 		}
@@ -315,7 +332,7 @@ L.CalcTileLayer = L.TileLayer.extend({
 		var annotations = this._annotations[this._selectedPart];
 		for (var key in annotations) {
 			var annotation = annotations[key]._annotation;
-			if (this._cellCursor.contains(annotation._data.cellPos)) {
+			if (this._cellCursor.contains(annotation._data.getCellPos())) {
 				this._map.addLayer(annotation);
 				annotation.show();
 			}
@@ -326,7 +343,7 @@ L.CalcTileLayer = L.TileLayer.extend({
 		var annotations = this._annotations[this._selectedPart];
 		for (var key in annotations) {
 			var annotation = annotations[key]._annotation;
-			if (this._cellCursor.contains(annotation._data.cellPos)) {
+			if (this._cellCursor.contains(annotation._data.getCellPos())) {
 				annotation.hide();
 				this._map.removeLayer(annotation);
 			}
@@ -445,9 +462,10 @@ L.CalcTileLayer = L.TileLayer.extend({
 			var obj = JSON.parse(textMsg.substring('comment:'.length + 1));
 			obj.comment.tab = parseInt(obj.comment.tab);
 			if (obj.comment.action === 'Add') {
-				obj.comment.cellPos = L.LOUtil.stringToBounds(obj.comment.cellPos);
-				obj.comment.cellPos = L.latLngBounds(this._twipsToLatLng(obj.comment.cellPos.getBottomLeft()),
-					this._twipsToLatLng(obj.comment.cellPos.getTopRight()));
+				this.initializeComment(obj.comment);
+				var cellPosTwips = L.LOUtil.stringToBounds(obj.comment.cellPos);
+				delete obj.comment.cellPos;
+				obj.comment.setCellPosFromTwips(cellPosTwips);
 				if (!this._annotations[obj.comment.tab]) {
 					this._annotations[obj.comment.tab] = {};
 				}
@@ -463,12 +481,13 @@ L.CalcTileLayer = L.TileLayer.extend({
 				}
 			} else if (obj.comment.action === 'Modify') {
 				var modified = this._annotations[obj.comment.tab][obj.comment.id];
-				obj.comment.cellPos = L.LOUtil.stringToBounds(obj.comment.cellPos);
-				obj.comment.cellPos = L.latLngBounds(this._twipsToLatLng(obj.comment.cellPos.getBottomLeft()),
-					this._twipsToLatLng(obj.comment.cellPos.getTopRight()));
+				this.initializeComment(obj.comment);
+				cellPosTwips = L.LOUtil.stringToBounds(obj.comment.cellPos);
+				delete obj.comment.cellPos;
+				obj.comment.setCellPosFromTwips(cellPosTwips);
 				if (modified) {
 					modified._annotation._data = obj.comment;
-					modified.setLatLngBounds(obj.comment.cellPos);
+					modified.setLatLngBounds(obj.comment.getCellPos());
 				}
 			}
 		} else if (textMsg.startsWith('invalidateheader: column')) {
@@ -573,10 +592,19 @@ L.CalcTileLayer = L.TileLayer.extend({
 		}
 	},
 
+	_adjustAnnotationOverlayForZoom: function() {
+		var annotations = this._annotations[this._selectedPart];
+		for (var key in annotations) {
+			var annotation = annotations[key];
+			annotation.setLatLngBounds(annotation._annotation._data.getCellPos());
+		}
+	},
+
 	_onZoomRowColumns: function () {
 		this._sendClientZoom();
 		// TODO: test it!
 		this._map.fire('updaterowcolumnheaders');
+		this._adjustAnnotationOverlayForZoom();
 	},
 
 	_onUpdateCurrentHeader: function() {
@@ -672,9 +700,10 @@ L.CalcTileLayer = L.TileLayer.extend({
 			for (var index in values.comments) {
 				comment = values.comments[index];
 				comment.tab = parseInt(comment.tab);
-				comment.cellPos = L.LOUtil.stringToBounds(comment.cellPos);
-				comment.cellPos = L.latLngBounds(this._twipsToLatLng(comment.cellPos.getBottomLeft()),
-					this._twipsToLatLng(comment.cellPos.getTopRight()));
+				this.initializeComment(comment);
+				var cellPosTwips = L.LOUtil.stringToBounds(comment.cellPos);
+				delete comment.cellPos;
+				comment.setCellPosFromTwips(cellPosTwips);
 				if (!this._annotations[comment.tab]) {
 					this._annotations[comment.tab] = {};
 				}
@@ -686,14 +715,15 @@ L.CalcTileLayer = L.TileLayer.extend({
 			for (index in values.commentsPos) {
 				comment = values.commentsPos[index];
 				comment.tab = parseInt(comment.tab);
-				comment.cellPos = L.LOUtil.stringToBounds(comment.cellPos);
-				comment.cellPos = L.latLngBounds(this._twipsToLatLng(comment.cellPos.getBottomLeft()),
-					this._twipsToLatLng(comment.cellPos.getTopRight()));
+				this.initializeComment(comment);
+				cellPosTwips = L.LOUtil.stringToBounds(comment.cellPos);
+				delete comment.cellPos;
+				comment.setCellPosFromTwips(cellPosTwips);
 				var annotation = this._annotations[comment.tab][comment.id];
 				if (annotation) {
-					annotation.setLatLngBounds(comment.cellPos);
+					annotation.setLatLngBounds(comment.getCellPos());
 					if (annotation.mark) {
-						annotation.mark.setLatLng(comment.cellPos.getNorthEast());
+						annotation.mark.setLatLng(comment.getCellPos().getNorthEast());
 					}
 				}
 			}
