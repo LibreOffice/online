@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dba3ab00_0389b68c",
+        "filename": "loleaflet/src/control/Control.Tabs.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-01-18T12:23:40Z",
+      "side": 1,
+      "message": "So - this code appears to be copy/pasted from above.\nCopy/paste coding is a deadly serious sign of appalling programming.\nThat has to be fixed and as much as possible of this shared before we push this \u003d)\nJust split out the functionality to be a method on the tabs object itself that we can invoke via a small stub here. I would prefer that even for small things like \u0027insertsheetafter\u0027\n\nIn addition copy/pasting translatable strings is also sub-optimal; so if we can take the original data structure from the non-mobile thing; and have a local method:\n\nthis.insertContextMenu() - that backends onto L.insertContextMenu() - and/or programatically re-writes the context menu to use JSDialog that would be awesome (and really useful to re-use elsewhere).\n\nCan you look into that ?",
+      "revId": "8c19975160c20983f5b203f5626c4b87f9665dcb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
