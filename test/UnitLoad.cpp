@@ -136,7 +136,7 @@ UnitBase::TestResult UnitLoad::testBadLoad()
         helpers::sendTextFrame(socket, "status");
 
         const auto line = helpers::assertResponseString(socket, "error:", testname);
-        CPPUNIT_ASSERT_EQUAL(std::string("error: cmd=status kind=nodocloaded"), line);
+        LOK_ASSERT_EQUAL(std::string("error: cmd=status kind=nodocloaded"), line);
     }
     catch (const Poco::Exception& exc)
     {
@@ -160,7 +160,7 @@ UnitBase::TestResult UnitLoad::testExcelLoad()
 
         // Expected format is something like 'status: type=text parts=2 current=0 width=12808 height=1142 viewid=0\n...'.
         std::vector<std::string> tokens(LOOLProtocol::tokenize(status, ' '));
-        CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(7), tokens.size());
+        LOK_ASSERT_EQUAL(static_cast<size_t>(7), tokens.size());
     }
     catch (const Poco::Exception& exc)
     {

@@ -52,14 +52,14 @@ UnitBase::TestResult UnitPasswordProtected::testPasswordProtectedDocumentWithout
 
         const auto response = helpers::getResponseString(socket, "error:", testname);
         std::vector<std::string> tokens(LOOLProtocol::tokenize(response, ' '));
-        CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), tokens.size());
+        LOK_ASSERT_EQUAL(static_cast<size_t>(3), tokens.size());
 
         std::string errorCommand;
         std::string errorKind;
         LOOLProtocol::getTokenString(tokens[1], "cmd", errorCommand);
         LOOLProtocol::getTokenString(tokens[2], "kind", errorKind);
-        CPPUNIT_ASSERT_EQUAL(std::string("load"), errorCommand);
-        CPPUNIT_ASSERT_EQUAL(std::string("passwordrequired:to-view"), errorKind);
+        LOK_ASSERT_EQUAL(std::string("load"), errorCommand);
+        LOK_ASSERT_EQUAL(std::string("passwordrequired:to-view"), errorKind);
     }
     catch (const Poco::Exception& exc)
     {
@@ -88,14 +88,14 @@ UnitBase::TestResult UnitPasswordProtected::testPasswordProtectedDocumentWithWro
 
         const auto response = helpers::getResponseString(socket, "error:", testname);
         std::vector<std::string> tokens(LOOLProtocol::tokenize(response, ' '));
-        CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), tokens.size());
+        LOK_ASSERT_EQUAL(static_cast<size_t>(3), tokens.size());
 
         std::string errorCommand;
         std::string errorKind;
         LOOLProtocol::getTokenString(tokens[1], "cmd", errorCommand);
         LOOLProtocol::getTokenString(tokens[2], "kind", errorKind);
-        CPPUNIT_ASSERT_EQUAL(std::string("load"), errorCommand);
-        CPPUNIT_ASSERT_EQUAL(std::string("wrongpassword"), errorKind);
+        LOK_ASSERT_EQUAL(std::string("load"), errorCommand);
+        LOK_ASSERT_EQUAL(std::string("wrongpassword"), errorKind);
     }
     catch (const Poco::Exception& exc)
     {
