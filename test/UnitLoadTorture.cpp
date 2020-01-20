@@ -136,7 +136,7 @@ UnitBase::TestResult UnitLoadTorture::testLoadTortureODT()
     // This only works when the first view-ID is 0 and increments monotonously.
     const int number_of_loads = thread_count;
     const int exp_sum_view_ids = number_of_loads * (number_of_loads - 1) / 2; // 0-based view-ids.
-    CPPUNIT_ASSERT_EQUAL(exp_sum_view_ids, sum_view_ids);
+    LOK_ASSERT_EQUAL(exp_sum_view_ids, sum_view_ids);
     return TestResult::Ok;
 }
 
@@ -151,7 +151,7 @@ UnitBase::TestResult UnitLoadTorture::testLoadTortureODS()
     // This only works when the first view-ID is 0 and increments monotonously.
     const int number_of_loads = thread_count;
     const int exp_sum_view_ids = number_of_loads * (number_of_loads - 1) / 2; // 0-based view-ids.
-    CPPUNIT_ASSERT_EQUAL(exp_sum_view_ids, sum_view_ids);
+    LOK_ASSERT_EQUAL(exp_sum_view_ids, sum_view_ids);
     return TestResult::Ok;
 }
 
@@ -166,7 +166,7 @@ UnitBase::TestResult UnitLoadTorture::testLoadTortureODP()
     // For ODP the view-id is always odd, and we expect not to skip any ids.
     const int number_of_loads = thread_count;
     const int exp_sum_view_ids = number_of_loads * (number_of_loads - 1) / 2; // 0-based view-ids.
-    CPPUNIT_ASSERT_EQUAL(exp_sum_view_ids, sum_view_ids);
+    LOK_ASSERT_EQUAL(exp_sum_view_ids, sum_view_ids);
     return TestResult::Ok;
 }
 

@@ -58,14 +58,14 @@ UnitBase::TestResult UnitBadDocLoad::testBadDocLoadFail()
 
         const auto response = helpers::getResponseString(socket, "error:", testname);
         std::vector<std::string> tokens(LOOLProtocol::tokenize(response, ' '));
-        CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), tokens.size());
+        LOK_ASSERT_EQUAL(static_cast<size_t>(3), tokens.size());
 
         std::string errorCommand;
         std::string errorKind;
         LOOLProtocol::getTokenString(tokens[1], "cmd", errorCommand);
         LOOLProtocol::getTokenString(tokens[2], "kind", errorKind);
-        CPPUNIT_ASSERT_EQUAL(std::string("load"), errorCommand);
-        CPPUNIT_ASSERT_EQUAL(std::string("faileddocloading"), errorKind);
+        LOK_ASSERT_EQUAL(std::string("load"), errorCommand);
+        LOK_ASSERT_EQUAL(std::string("faileddocloading"), errorKind);
     }
     catch (const Poco::Exception& exc)
     {
@@ -119,7 +119,7 @@ UnitBase::TestResult UnitBadDocLoad::testMaxDocuments()
 
         std::string message;
         const int statusCode = helpers::getErrorCode(socket, message, testname);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
+        LOK_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
                              statusCode);
 
         socket->shutdown();
@@ -181,7 +181,7 @@ UnitBase::TestResult UnitBadDocLoad::testMaxConnections()
 
         std::string message;
         const int statusCode = helpers::getErrorCode(socketN, message, testname);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
+        LOK_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
                              statusCode);
 
         socketN->shutdown();
@@ -239,7 +239,7 @@ UnitBase::TestResult UnitBadDocLoad::testMaxViews()
 
         std::string message;
         const int statusCode = helpers::getErrorCode(socketN, message, testname);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
+        LOK_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_POLICY_VIOLATION),
                              statusCode);
     }
     catch (const Poco::Exception& exc)
