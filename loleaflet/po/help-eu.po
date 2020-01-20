@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-15 17:50+0200\n"
-"PO-Revision-Date: 2020-01-20 09:13+0000\n"
+"PO-Revision-Date: 2020-01-20 16:58+0000\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersar@yahoo.com>\n"
 "Language-Team: Basque <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/eu/>\n"
 "Language: eu\n"
@@ -1591,7 +1591,7 @@ msgstr "Sakatu <span class=\"ui\">Txertatu</span> botoia. Elkarrizketa-koadroa i
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:486-5
 msgid "Why can't I delete text? It just gets a strike-through?"
-msgstr ""
+msgstr "Zergatik ezin da testua ezabatu? Marratuta ageri da."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:487-5
 msgid "You have the Track Changes feature enabled for the document. Track Changes records all changes in the text and shows the editions for later revision. Useful for marking changes in text and spreadsheets. Track changes are enabled choosing <span class=\"ui\">Edit</span> → <span class=\"ui\">Track Changes </span> → <span class=\"ui\">Record</span>."
@@ -1655,11 +1655,11 @@ msgstr "Nola aldatu orrialde-orientazioa modu horizontalera dokumentuaren barrua
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:510-11
 msgid "Place the cursor at the place where the page orientation is to change. Add an empty paragraph."
-msgstr ""
+msgstr "Kokatu kurtsorea orrialdearen orientazioa aldatuko den tokian. Gehitu paragrafo hutsa."
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:511-11
 msgid "Choose <span class=\"ui\">Format</span> → <span class=\"ui\">Paragraph</span>, <span class=\"ui\">Text Flow </span> tab"
-msgstr ""
+msgstr "Aukeratu <span class=\"ui\">Formatua</span> → <span class=\"ui\">Paragrafoa</span>, <span class=\"ui\">Testu-fluxua</span> fitxa"
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:512-11
 msgid "In the <span class=\"ui\">Breaks</span> area, mark Insert, Type: Page Break, Position: Before."
