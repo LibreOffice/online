@@ -34,7 +34,7 @@ std::string getFontList(const std::string& message)
     const Poco::Dynamic::Var result = parser.parse(message);
     const auto& command = result.extract<Poco::JSON::Object::Ptr>();
     std::string text = command->get("commandName").toString();
-    CPPUNIT_ASSERT_EQUAL(std::string(".uno:CharFontName"), text);
+    LOK_ASSERT_EQUAL(std::string(".uno:CharFontName"), text);
     text = command->get("commandValues").toString();
     return text;
 }
@@ -89,8 +89,8 @@ UnitBase::TestResult UnitClose::testCloseAfterClose()
             // no more messages is received.
             bytes = socket->receiveFrame(buffer, sizeof(buffer), flags);
             TST_LOG("Received " << bytes << " bytes, flags: " << std::hex << flags << std::dec);
-            CPPUNIT_ASSERT_EQUAL(0, bytes);
-            CPPUNIT_ASSERT_EQUAL(0, flags);
+            LOK_ASSERT_EQUAL(0, bytes);
+            LOK_ASSERT_EQUAL(0, flags);
         }
         catch (const Poco::Exception& exc)
         {
@@ -196,10 +196,10 @@ UnitBase::TestResult UnitClose::testAlertAllUsers()
             std::vector<std::string> tokens(LOOLProtocol::tokenize(response.substr(6), ' '));
             std::string cmd;
             LOOLProtocol::getTokenString(tokens, "cmd", cmd);
-            CPPUNIT_ASSERT_EQUAL(std::string("internal"), cmd);
+            LOK_ASSERT_EQUAL(std::string("internal"), cmd);
             std::string kind;
             LOOLProtocol::getTokenString(tokens, "kind", kind);
-            CPPUNIT_ASSERT_EQUAL(std::string("diskfull"), kind);
+            LOK_ASSERT_EQUAL(std::string("diskfull"), kind);
         }
     }
     catch (const Poco::Exception& exc)

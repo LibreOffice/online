@@ -9,7 +9,7 @@
 
 #include <config.h>
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <test/assert.hpp>
 
 #include <Delta.hpp>
 #include <Util.hpp>
@@ -71,8 +71,8 @@ std::vector<char> DeltaTests::applyDelta(
 
     // start with the same state.
     std::vector<char> output = pixmap;
-    CPPUNIT_ASSERT_EQUAL(output.size(), size_t(pixmap.size()));
-    CPPUNIT_ASSERT_EQUAL(output.size(), size_t(width * height * 4));
+    LOK_ASSERT_EQUAL(output.size(), size_t(pixmap.size()));
+    LOK_ASSERT_EQUAL(output.size(), size_t(width * height * 4));
 
     size_t offset = 0, i;
     for (i = 1; i < delta.size() && offset < output.size();)
@@ -117,7 +117,7 @@ std::vector<char> DeltaTests::applyDelta(
             break;
         }
     }
-    CPPUNIT_ASSERT_EQUAL(delta.size(), i);
+    LOK_ASSERT_EQUAL(delta.size(), i);
     return output;
 }
 
@@ -125,7 +125,7 @@ void DeltaTests::assertEqual(const std::vector<char> &a,
                              const std::vector<char> &b,
                              int width, int /* height */)
 {
-    CPPUNIT_ASSERT_EQUAL(a.size(), b.size());
+    LOK_ASSERT_EQUAL(a.size(), b.size());
     for (size_t i = 0; i < a.size(); ++i)
     {
         if (a[i] != b[i])
@@ -156,14 +156,14 @@ void DeltaTests::testDeltaSequence()
         DeltaTests::loadPng(TDOC "/delta-text.png",
                             height, width, rowBytes);
     CPPUNIT_ASSERT(height == 256 && width == 256 && rowBytes == 256*4);
-    CPPUNIT_ASSERT_EQUAL(size_t(256 * 256 * 4), text.size());
+    LOK_ASSERT_EQUAL(size_t(256 * 256 * 4), text.size());
 
     const TileWireId text2Wid = 2;
     std::vector<char> text2 =
         DeltaTests::loadPng(TDOC "/delta-text2.png",
                             height, width, rowBytes);
     CPPUNIT_ASSERT(height == 256 && width == 256 && rowBytes == 256*4);
-    CPPUNIT_ASSERT_EQUAL(size_t(256 * 256 * 4), text2.size());
+    LOK_ASSERT_EQUAL(size_t(256 * 256 * 4), text2.size());
 
     std::vector<char> delta;
     // Stash it in the cache
