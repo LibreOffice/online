@@ -94,7 +94,7 @@ public:
     {
         std::vector<char> buffer(str.size() + 64);
         const int got = socket->receiveBytes(buffer.data(), str.size());
-        CPPUNIT_ASSERT_EQUAL(str, std::string(buffer.data(), got));
+        LOK_ASSERT_EQUAL(str, std::string(buffer.data(), got));
 
         if (got != (int)str.size() ||
             strncmp(buffer.data(), str.c_str(), got))

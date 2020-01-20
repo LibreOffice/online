@@ -118,7 +118,7 @@ public:
             socket->send(oss.str());
             socket->shutdown();
 
-            CPPUNIT_ASSERT_EQUAL(static_cast<int>(Phase::SaveDoc), static_cast<int>(_phase));
+            LOK_ASSERT_EQUAL(static_cast<int>(Phase::SaveDoc), static_cast<int>(_phase));
             _phase = Phase::CloseDoc;
 
             return true;
