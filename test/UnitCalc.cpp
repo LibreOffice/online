@@ -32,7 +32,7 @@ double getColRowSize(const std::string& property, const std::string& message, in
     const auto& command = result.extract<Poco::JSON::Object::Ptr>();
     std::string text = command->get("commandName").toString();
 
-    CPPUNIT_ASSERT_EQUAL(std::string(".uno:ViewRowColumnHeaders"), text);
+    LOK_ASSERT_EQUAL(std::string(".uno:ViewRowColumnHeaders"), text);
     CPPUNIT_ASSERT(command->isArray(property));
 
     Poco::JSON::Array::Ptr array = command->getArray(property);
@@ -124,9 +124,9 @@ UnitBase::TestResult UnitCalc::testCalcEditRendering()
     png_uint_32 rowBytesExp = 0;
     std::vector<png_bytep> rowsExp = Png::decodePNG(streamExp, heightExp, widthExp, rowBytesExp);
 
-    CPPUNIT_ASSERT_EQUAL(heightExp, height);
-    CPPUNIT_ASSERT_EQUAL(widthExp, width);
-    CPPUNIT_ASSERT_EQUAL(rowBytesExp, rowBytes);
+    LOK_ASSERT_EQUAL(heightExp, height);
+    LOK_ASSERT_EQUAL(widthExp, width);
+    LOK_ASSERT_EQUAL(rowBytesExp, rowBytes);
 
     for (png_uint_32 itRow = 0; itRow < height; ++itRow)
     {
