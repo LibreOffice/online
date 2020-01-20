@@ -50,16 +50,16 @@ UnitBase::TestResult UnitHosting::testDiscovery()
 
     Poco::Net::HTTPResponse response;
     session->receiveResponse(response);
-    CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
-    CPPUNIT_ASSERT_EQUAL(std::string("text/xml"), response.getContentType());
+    LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
+    LOK_ASSERT_EQUAL(std::string("text/xml"), response.getContentType());
 
     Poco::Net::HTTPRequest request2(Poco::Net::HTTPRequest::HTTP_GET, "/hosting/discovery/");
     session->sendRequest(request2);
 
     Poco::Net::HTTPResponse response2;
     session->receiveResponse(response2);
-    CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response2.getStatus());
-    CPPUNIT_ASSERT_EQUAL(std::string("text/xml"), response2.getContentType());
+    LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response2.getStatus());
+    LOK_ASSERT_EQUAL(std::string("text/xml"), response2.getContentType());
     return TestResult::Ok;
 }
 
@@ -76,8 +76,8 @@ UnitBase::TestResult UnitHosting::testCapabilities()
 
         Poco::Net::HTTPResponse response;
         std::istream& rs = session->receiveResponse(response);
-        CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
-        CPPUNIT_ASSERT_EQUAL(std::string("text/xml"), response.getContentType());
+        LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
+        LOK_ASSERT_EQUAL(std::string("text/xml"), response.getContentType());
 
         std::string discoveryXML;
         Poco::StreamCopier::copyToString(rs, discoveryXML);
@@ -101,7 +101,7 @@ UnitBase::TestResult UnitHosting::testCapabilities()
         }
 
         CPPUNIT_ASSERT(foundCapabilities);
-        CPPUNIT_ASSERT_EQUAL(uri.toString() + CAPABILITIES_END_POINT, capabilitiesURI);
+        LOK_ASSERT_EQUAL(uri.toString() + CAPABILITIES_END_POINT, capabilitiesURI);
     }
 
     // Then get the capabilities json
@@ -111,8 +111,8 @@ UnitBase::TestResult UnitHosting::testCapabilities()
 
         Poco::Net::HTTPResponse response;
         std::istream& rs = session->receiveResponse(response);
-        CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
-        CPPUNIT_ASSERT_EQUAL(std::string("application/json"), response.getContentType());
+        LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
+        LOK_ASSERT_EQUAL(std::string("application/json"), response.getContentType());
 
         std::ostringstream oss;
         Poco::StreamCopier::copyStream(rs, oss);
