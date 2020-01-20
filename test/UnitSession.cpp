@@ -81,7 +81,7 @@ UnitBase::TestResult UnitSession::testBadRequest()
         session->setKeepAlive(true);
         session->sendRequest(request);
         session->receiveResponse(response);
-        CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTPResponse::HTTP_BAD_REQUEST,
+        LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTPResponse::HTTP_BAD_REQUEST,
                              response.getStatus());
     }
     catch (const Poco::Exception& exc)
@@ -111,20 +111,20 @@ UnitBase::TestResult UnitSession::testHandshake()
         char buffer[1024] = { 0 };
         int bytes = socket.receiveFrame(buffer, sizeof(buffer), flags);
         TST_LOG("Got " << LOOLProtocol::getAbbreviatedFrameDump(buffer, bytes, flags));
-        CPPUNIT_ASSERT_EQUAL(std::string("statusindicator: find"), std::string(buffer, bytes));
+        LOK_ASSERT_EQUAL(std::string("statusindicator: find"), std::string(buffer, bytes));
 
         bytes = socket.receiveFrame(buffer, sizeof(buffer), flags);
         TST_LOG("Got " << LOOLProtocol::getAbbreviatedFrameDump(buffer, bytes, flags));
         if (bytes > 0 && !std::strstr(buffer, "error:"))
         {
-            CPPUNIT_ASSERT_EQUAL(std::string("statusindicator: connect"),
+            LOK_ASSERT_EQUAL(std::string("statusindicator: connect"),
                                  std::string(buffer, bytes));
 
             bytes = socket.receiveFrame(buffer, sizeof(buffer), flags);
             TST_LOG("Got " << LOOLProtocol::getAbbreviatedFrameDump(buffer, bytes, flags));
             if (!std::strstr(buffer, "error:"))
             {
-                CPPUNIT_ASSERT_EQUAL(std::string("statusindicator: ready"),
+                LOK_ASSERT_EQUAL(std::string("statusindicator: ready"),
                                      std::string(buffer, bytes));
             }
             else
@@ -193,10 +193,10 @@ UnitBase::TestResult UnitSession::testSlideShow()
         const std::string id = tokens[4].substr(std::string("id=").size());
         CPPUNIT_ASSERT(!jail.empty());
         CPPUNIT_ASSERT(!dir.empty());
-        CPPUNIT_ASSERT_EQUAL(std::string("slideshow.svg"), name);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::URI(helpers::getTestServerURI()).getPort()),
+        LOK_ASSERT_EQUAL(std::string("slideshow.svg"), name);
+        LOK_ASSERT_EQUAL(static_cast<int>(Poco::URI(helpers::getTestServerURI()).getPort()),
                              port);
-        CPPUNIT_ASSERT_EQUAL(std::string("slideshow"), id);
+        LOK_ASSERT_EQUAL(std::string("slideshow"), id);
 
         std::string encodedDoc;
         Poco::URI::encode(documentPath, ":/?", encodedDoc);
@@ -209,8 +209,8 @@ UnitBase::TestResult UnitSession::testSlideShow()
 
         Poco::Net::HTTPResponse responseSVG;
         std::istream& rs = session->receiveResponse(responseSVG);
-        CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK /* 200 */, responseSVG.getStatus());
-        CPPUNIT_ASSERT_EQUAL(std::string("image/svg+xml"), responseSVG.getContentType());
+        LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK /* 200 */, responseSVG.getStatus());
+        LOK_ASSERT_EQUAL(std::string("image/svg+xml"), responseSVG.getContentType());
         TST_LOG("SVG file size: " << responseSVG.getContentLength());
 
         //        std::ofstream ofs("/tmp/slide.svg");
@@ -235,7 +235,7 @@ UnitBase::TestResult UnitSession::testSlideShow()
 
         // Do we have plausible content ?
         int countText = findInDOM(doc, "text", true, Poco::XML::NodeFilter::SHOW_ELEMENT);
-        CPPUNIT_ASSERT_EQUAL(countText, 93);
+        LOK_ASSERT_EQUAL(countText, 93);
     }
     catch (const Poco::Exception& exc)
     {

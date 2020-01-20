@@ -115,8 +115,8 @@ void HTTPServerTest::testLoleafletGet()
 
     Poco::Net::HTTPResponse response;
     std::istream& rs = session->receiveResponse(response);
-    CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
-    CPPUNIT_ASSERT_EQUAL(std::string("text/html"), response.getContentType());
+    LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
+    LOK_ASSERT_EQUAL(std::string("text/html"), response.getContentType());
 
     std::string html;
     Poco::StreamCopier::copyToString(rs, html);
@@ -139,7 +139,7 @@ void HTTPServerTest::testLoleafletPost()
 
     Poco::Net::HTTPResponse response;
     std::istream& rs = session->receiveResponse(response);
-    CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
+    LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
 
     std::string html;
     Poco::StreamCopier::copyToString(rs, html);
@@ -159,7 +159,7 @@ void assertHTTPFilesExist(const Poco::URI& uri, Poco::RegularExpression& expr, c
     for (int offset = 0; expr.match(html, offset, matches) > 0; offset = static_cast<int>(matches[0].offset + matches[0].length))
     {
         found = true;
-        CPPUNIT_ASSERT_EQUAL(2, (int)matches.size());
+        LOK_ASSERT_EQUAL(2, (int)matches.size());
         Poco::URI uriScript(html.substr(matches[1].offset, matches[1].length));
         if (uriScript.getHost().empty())
         {
@@ -176,10 +176,10 @@ void assertHTTPFilesExist(const Poco::URI& uri, Poco::RegularExpression& expr, c
 
             Poco::Net::HTTPResponse responseScript;
             session->receiveResponse(responseScript);
-            CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, responseScript.getStatus());
+            LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, responseScript.getStatus());
 
             if (!mimetype.empty())
-            CPPUNIT_ASSERT_EQUAL(mimetype, responseScript.getContentType());
+            LOK_ASSERT_EQUAL(mimetype, responseScript.getContentType());
         }
     }
 
@@ -197,7 +197,7 @@ void HTTPServerTest::testScriptsAndLinksGet()
 
     Poco::Net::HTTPResponse response;
     std::istream& rs = session->receiveResponse(response);
-    CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
+    LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
 
     std::string html;
     Poco::StreamCopier::copyToString(rs, html);
@@ -220,7 +220,7 @@ void HTTPServerTest::testScriptsAndLinksPost()
 
     Poco::Net::HTTPResponse response;
     std::istream& rs = session->receiveResponse(response);
-    CPPUNIT_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
+    LOK_ASSERT_EQUAL(Poco::Net::HTTPResponse::HTTP_OK, response.getStatus());
 
     std::string html;
     Poco::StreamCopier::copyToString(rs, html);
@@ -275,7 +275,7 @@ void HTTPServerTest::testConvertTo()
     std::string actualString = actualStream.str();
     if (actualString.size() > 3 && actualString[0] == '\xEF' && actualString[1] == '\xBB' && actualString[2] == '\xBF')
         actualString = actualString.substr(3);
-    CPPUNIT_ASSERT_EQUAL(expectedStream.str(), actualString);
+    LOK_ASSERT_EQUAL(expectedStream.str(), actualString);
 }
 
 void HTTPServerTest::testConvertTo2()
@@ -314,10 +314,10 @@ void HTTPServerTest::testConvertTo2()
 
     std::string actualString = actualStream.str();
     CPPUNIT_ASSERT(actualString.size() >= 100);
-//  CPPUNIT_ASSERT_EQUAL(actualString[0], 0x89);
-    CPPUNIT_ASSERT_EQUAL(actualString[1], 'P');
-    CPPUNIT_ASSERT_EQUAL(actualString[2], 'N');
-    CPPUNIT_ASSERT_EQUAL(actualString[3], 'G');
+//  LOK_ASSERT_EQUAL(actualString[0], 0x89);
+    LOK_ASSERT_EQUAL(actualString[1], 'P');
+    LOK_ASSERT_EQUAL(actualString[2], 'N');
+    LOK_ASSERT_EQUAL(actualString[3], 'G');
 }
 
 void HTTPServerTest::testConvertToWithForwardedClientIP()
@@ -405,7 +405,7 @@ void HTTPServerTest::testConvertToWithForwardedClientIP()
         std::string actualString = actualStream.str();
         if (actualString.size() > 3 && actualString[0] == '\xEF' && actualString[1] == '\xBB' && actualString[2] == '\xBF')
             actualString = actualString.substr(3);
-        CPPUNIT_ASSERT_EQUAL(expectedStream.str(), actualString); // <- we got the converted file
+        LOK_ASSERT_EQUAL(expectedStream.str(), actualString); // <- we got the converted file
     }
     catch(const Poco::Exception& exc)
     {
