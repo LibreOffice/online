@@ -31,7 +31,7 @@ void getCursor(const std::string& message, int& cursorX, int& cursorY, int& curs
     const Poco::Dynamic::Var result = parser.parse(message);
     const auto& command = result.extract<Poco::JSON::Object::Ptr>();
     std::string text = command->get("commandName").toString();
-    CPPUNIT_ASSERT_EQUAL(std::string(".uno:CellCursor"), text);
+    LOK_ASSERT_EQUAL(std::string(".uno:CellCursor"), text);
     text = command->get("commandValues").toString();
     CPPUNIT_ASSERT(!text.empty());
     std::vector<std::string> position(LOOLProtocol::tokenize(text, ','));
@@ -99,8 +99,8 @@ void limitCursor(const std::function<void(const std::shared_ptr<LOOLWebSocket>& 
     helpers::parseDocSize(response.substr(7), "spreadsheet", newSheet, newSheets, newWidth,
                           newHeight, docViewId);
 
-    CPPUNIT_ASSERT_EQUAL(docSheets, newSheets);
-    CPPUNIT_ASSERT_EQUAL(docSheet, newSheet);
+    LOK_ASSERT_EQUAL(docSheets, newSheets);
+    LOK_ASSERT_EQUAL(docSheet, newSheet);
 
     // check new document size
     checkhandler(docWidth, docHeight, newWidth, newHeight);
@@ -144,7 +144,7 @@ UnitBase::TestResult UnitCursor::testMaxColumn()
             },
             // check new document width
             [](int docWidth, int docHeight, int newWidth, int newHeight) {
-                CPPUNIT_ASSERT_EQUAL(docHeight, newHeight);
+                LOK_ASSERT_EQUAL(docHeight, newHeight);
                 CPPUNIT_ASSERT(newWidth > docWidth);
             },
             "maxColumn");
@@ -180,7 +180,7 @@ UnitBase::TestResult UnitCursor::testMaxRow()
             },
             // check new document height
             [](int docWidth, int docHeight, int newWidth, int newHeight) {
-                CPPUNIT_ASSERT_EQUAL(docWidth, newWidth);
+                LOK_ASSERT_EQUAL(docWidth, newWidth);
                 CPPUNIT_ASSERT(newHeight > docHeight);
             },
             "maxRow");
@@ -214,12 +214,12 @@ UnitBase::TestResult UnitCursor::testInsertAnnotationWriter()
 
     // Read it back.
     std::string res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: xxx yyy zzzz"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: xxx yyy zzzz"), res);
     // Can we edit the comment?
     helpers::sendTextFrame(socket, "paste mimetype=text/plain;charset=utf-8\naaa bbb ccc",
                            testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: aaa bbb ccc"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: aaa bbb ccc"), res);
 
     // Confirm that the text is in the comment and not doc body.
     // Click in the body.
@@ -229,7 +229,7 @@ UnitBase::TestResult UnitCursor::testInsertAnnotationWriter()
                            testname);
     // Read body text.
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
 
     // Confirm that the comment is still intact.
     helpers::sendTextFrame(
@@ -237,7 +237,7 @@ UnitBase::TestResult UnitCursor::testInsertAnnotationWriter()
     helpers::sendTextFrame(
         socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: aaa bbb ccc"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: aaa bbb ccc"), res);
 
     // Can we still edit the comment?
     helpers::sendTextFrame(
@@ -245,7 +245,7 @@ UnitBase::TestResult UnitCursor::testInsertAnnotationWriter()
         "paste mimetype=text/plain;charset=utf-8\nand now for something completely different",
         testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(
+    LOK_ASSERT_EQUAL(
         std::string("textselectioncontent: and now for something completely different"), res);
 
     // Close and reopen the same document and test again.
@@ -265,7 +265,7 @@ UnitBase::TestResult UnitCursor::testInsertAnnotationWriter()
                            testname);
     // Read body text.
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
 
     // Confirm that the comment is still intact.
     helpers::sendTextFrame(
@@ -273,14 +273,14 @@ UnitBase::TestResult UnitCursor::testInsertAnnotationWriter()
     helpers::sendTextFrame(
         socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(
+    LOK_ASSERT_EQUAL(
         std::string("textselectioncontent: and now for something completely different"), res);
 
     // Can we still edit the comment?
     helpers::sendTextFrame(socket, "paste mimetype=text/plain;charset=utf-8\nblah blah xyz",
                            testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: blah blah xyz"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: blah blah xyz"), res);
     return TestResult::Ok;
 }
 
@@ -302,7 +302,7 @@ UnitBase::TestResult UnitCursor::testEditAnnotationWriter()
                            testname);
     // Read body text.
     std::string res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
 
     // Confirm that the comment is intact.
     helpers::sendTextFrame(
@@ -310,7 +310,7 @@ UnitBase::TestResult UnitCursor::testEditAnnotationWriter()
     helpers::sendTextFrame(
         socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: blah blah xyz"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: blah blah xyz"), res);
 
     // Can we still edit the comment?
     helpers::sendTextFrame(
@@ -318,7 +318,7 @@ UnitBase::TestResult UnitCursor::testEditAnnotationWriter()
         "paste mimetype=text/plain;charset=utf-8\nand now for something completely different",
         testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(
+    LOK_ASSERT_EQUAL(
         std::string("textselectioncontent: and now for something completely different"), res);
 
     // const int kitcount = getLoolKitProcessCount();
@@ -331,7 +331,7 @@ UnitBase::TestResult UnitCursor::testEditAnnotationWriter()
     socket = helpers::loadDocAndGetSocket(uri, documentURL, testname);
 
     // Should have no new instances.
-    // CPPUNIT_ASSERT_EQUAL(kitcount, countLoolKitProcesses(kitcount));
+    // LOK_ASSERT_EQUAL(kitcount, countLoolKitProcesses(kitcount));
 
     // Confirm that the text is in the comment and not doc body.
     // Click in the body.
@@ -341,7 +341,7 @@ UnitBase::TestResult UnitCursor::testEditAnnotationWriter()
                            testname);
     // Read body text.
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: Hello world"), res);
 
     // Confirm that the comment is still intact.
     helpers::sendTextFrame(
@@ -349,14 +349,14 @@ UnitBase::TestResult UnitCursor::testEditAnnotationWriter()
     helpers::sendTextFrame(
         socket, "mouse type=buttonup x=13855 y=1893 count=1 buttons=1 modifier=0", testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(
+    LOK_ASSERT_EQUAL(
         std::string("textselectioncontent: and now for something completely different"), res);
 
     // Can we still edit the comment?
     helpers::sendTextFrame(socket, "paste mimetype=text/plain;charset=utf-8\nnew text different",
                            testname);
     res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: new text different"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: new text different"), res);
     return TestResult::Ok;
 }
 
@@ -376,7 +376,7 @@ UnitBase::TestResult UnitCursor::testInsertAnnotationCalc()
 
     // Read it back.
     std::string res = helpers::getAllText(socket, testname);
-    CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: aaa bbb ccc"), res);
+    LOK_ASSERT_EQUAL(std::string("textselectioncontent: aaa bbb ccc"), res);
     return TestResult::Ok;
 }
 

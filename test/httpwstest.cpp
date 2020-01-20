@@ -116,7 +116,7 @@ void HTTPWSTest::testSaveOnDisconnect()
 
         // Check if the document contains the pasted text.
         const std::string selection = getAllText(socket, testname);
-        CPPUNIT_ASSERT_EQUAL("textselectioncontent: " + text, selection);
+        LOK_ASSERT_EQUAL("textselectioncontent: " + text, selection);
 
         // Closing connection too fast might not flush buffers.
         // Often nothing more than the SelectAll reaches the server before
@@ -144,11 +144,11 @@ void HTTPWSTest::testSaveOnDisconnect()
         std::shared_ptr<LOOLWebSocket> socket = loadDocAndGetSocket(_uri, documentURL, testname);
 
         // Should have no new instances.
-        CPPUNIT_ASSERT_EQUAL(kitcount, countLoolKitProcesses(kitcount));
+        LOK_ASSERT_EQUAL(kitcount, countLoolKitProcesses(kitcount));
 
         // Check if the document contains the pasted text.
         const std::string selection = getAllText(socket, testname, text);
-        CPPUNIT_ASSERT_EQUAL("textselectioncontent: " + text, selection);
+        LOK_ASSERT_EQUAL("textselectioncontent: " + text, selection);
     }
     catch (const Poco::Exception& exc)
     {
@@ -182,7 +182,7 @@ void HTTPWSTest::testSavePassiveOnDisconnect()
 
         // Check if the document contains the pasted text.
         const std::string selection = getAllText(socket, testname);
-        CPPUNIT_ASSERT_EQUAL("textselectioncontent: " + text, selection);
+        LOK_ASSERT_EQUAL("textselectioncontent: " + text, selection);
 
         // Closing connection too fast might not flush buffers.
         // Often nothing more than the SelectAll reaches the server before
@@ -211,11 +211,11 @@ void HTTPWSTest::testSavePassiveOnDisconnect()
         getResponseMessage(socket, "textselection", testname);
 
         // Should have no new instances.
-        CPPUNIT_ASSERT_EQUAL(kitcount, countLoolKitProcesses(kitcount));
+        LOK_ASSERT_EQUAL(kitcount, countLoolKitProcesses(kitcount));
 
         // Check if the document contains the pasted text.
         const std::string selection = getAllText(socket, testname);
-        CPPUNIT_ASSERT_EQUAL("textselectioncontent: " + text, selection);
+        LOK_ASSERT_EQUAL("textselectioncontent: " + text, selection);
     }
     catch (const Poco::Exception& exc)
     {
@@ -252,12 +252,12 @@ void HTTPWSTest::testReloadWhileDisconnecting()
         socket = loadDocAndGetSocket(_uri, documentURL, testname);
 
         // Should have no new instances.
-        CPPUNIT_ASSERT_EQUAL(kitcount, countLoolKitProcesses(kitcount));
+        LOK_ASSERT_EQUAL(kitcount, countLoolKitProcesses(kitcount));
 
         // Check if the document contains the pasted text.
         const std::string expected = "aaa bbb ccc";
         const std::string selection = getAllText(socket, testname, expected);
-        CPPUNIT_ASSERT_EQUAL(std::string("textselectioncontent: ") + expected, selection);
+        LOK_ASSERT_EQUAL(std::string("textselectioncontent: ") + expected, selection);
     }
     catch (const Poco::Exception& exc)
     {
@@ -354,11 +354,11 @@ void HTTPWSTest::testViewInfoMsg()
         response = getResponseString(socket0, "viewinfo: ", testname + "0 ");
         Poco::JSON::Parser parser0;
         Poco::JSON::Array::Ptr array = parser0.parse(response.substr(9)).extract<Poco::JSON::Array::Ptr>();
-        CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(1), array->size());
+        LOK_ASSERT_EQUAL(static_cast<size_t>(1), array->size());
 
         Poco::JSON::Object::Ptr viewInfoObj0 = array->getObject(0);
         int viewid0 = viewInfoObj0->get("id").convert<int>();
-        CPPUNIT_ASSERT_EQUAL(viewid[0], viewid0);
+        LOK_ASSERT_EQUAL(viewid[0], viewid0);
 
         // Load second view and remember the viewid
         sendTextFrame(socket1, "load url=" + docURL);
@@ -370,7 +370,7 @@ void HTTPWSTest::testViewInfoMsg()
         response = getResponseString(socket1, "viewinfo: ", testname + "1 ");
         Poco::JSON::Parser parser1;
         array = parser1.parse(response.substr(9)).extract<Poco::JSON::Array::Ptr>();
-        CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), array->size());
+        LOK_ASSERT_EQUAL(static_cast<size_t>(2), array->size());
 
         viewInfoObj0 = array->getObject(0);
         Poco::JSON::Object::Ptr viewInfoObj1 = array->getObject(1);
@@ -378,15 +378,15 @@ void HTTPWSTest::testViewInfoMsg()
         int viewid1 = viewInfoObj1->get("id").convert<int>();
 
         if (viewid[0] == viewid0)
-            CPPUNIT_ASSERT_EQUAL(viewid[1], viewid1);
+            LOK_ASSERT_EQUAL(viewid[1], viewid1);
         else if (viewid[0] == viewid1)
-            CPPUNIT_ASSERT_EQUAL(viewid[1], viewid0);
+            LOK_ASSERT_EQUAL(viewid[1], viewid0);
         else
             CPPUNIT_FAIL("Inconsistent viewid in viewinfo and status messages");
 
         // Check if first view also got the same viewinfo message
         const auto response1 = getResponseString(socket0, "viewinfo: ", testname + "0 ");
-        CPPUNIT_ASSERT_EQUAL(response, response1);
+        LOK_ASSERT_EQUAL(response, response1);
     }
     catch(const Poco::Exception& exc)
     {
@@ -435,12 +435,12 @@ void HTTPWSTest::testUndoConflict()
         // undo conflict
         response = getResponseString(socket0, "unocommandresult:", testname + "0 ");
         Poco::JSON::Object::Ptr objJSON = parser.parse(response.substr(17)).extract<Poco::JSON::Object::Ptr>();
-        CPPUNIT_ASSERT_EQUAL(std::string(".uno:Undo"), objJSON->get("commandName").toString());
-        CPPUNIT_ASSERT_EQUAL(std::string("true"), objJSON->get("success").toString());
+        LOK_ASSERT_EQUAL(std::string(".uno:Undo"), objJSON->get("commandName").toString());
+        LOK_ASSERT_EQUAL(std::string("true"), objJSON->get("success").toString());
         CPPUNIT_ASSERT(objJSON->has("result"));
         const Poco::Dynamic::Var parsedResultJSON = objJSON->get("result");
         const auto& resultObj = parsedResultJSON.extract<Poco::JSON::Object::Ptr>();
-        CPPUNIT_ASSERT_EQUAL(std::string("long"), resultObj->get("type").toString());
+        LOK_ASSERT_EQUAL(std::string("long"), resultObj->get("type").toString());
         CPPUNIT_ASSERT(Poco::strToInt(resultObj->get("value").toString(), conflict, 10));
         CPPUNIT_ASSERT(conflict > 0); /*UNDO_CONFLICT*/
     }

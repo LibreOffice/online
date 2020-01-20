@@ -154,7 +154,7 @@ void HTTPCrashTest::testCrashKit()
 
         std::string message;
         const int statusCode = getErrorCode(socket, message, testname);
-        CPPUNIT_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_ENDPOINT_GOING_AWAY), statusCode);
+        LOK_ASSERT_EQUAL(static_cast<int>(Poco::Net::WebSocket::WS_ENDPOINT_GOING_AWAY), statusCode);
 
         // respond close frame
         TST_LOG("Shutting down socket.");
@@ -174,7 +174,7 @@ void HTTPCrashTest::testCrashKit()
         // returns a BINARY frame with the next payload sent by wsd.
         // This is an oddity of Poco and is not something we need to validate here.
         //CPPUNIT_ASSERT_MESSAGE("Expected no more data", bytes <= 2); // The 2-byte marker is ok.
-        //CPPUNIT_ASSERT_EQUAL(0x88, flags);
+        //LOK_ASSERT_EQUAL(0x88, flags);
     }
     catch (const Poco::Exception& exc)
     {
