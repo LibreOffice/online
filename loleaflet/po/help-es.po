@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-15 17:50+0200\n"
-"PO-Revision-Date: 2020-01-18 16:24+0000\n"
+"PO-Revision-Date: 2020-01-20 10:55+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/es/>\n"
 "Language: es\n"
@@ -1027,7 +1027,7 @@ msgstr "Presentaciones"
 
 #: html/loleaflet-help.html%2Bdiv.p:246-5
 msgid "<span class=\"productname\">%productName</span> allows you to create and edit office documents text documents, spreadsheets and presentations directly in your browser, in a simple and straight-forward way. You can work alone on a document, or collaboratively as part of a team."
-msgstr "El <span class=\"productname\">%productName</span> permite crear y editar documentos de oficina, hojas de cálculo y presentaciones directamente en su navegador de Internet, de forma sencilla y directa. Usted puede trabajar solo en el documento o de forma colaborativa como parte de un equipo."
+msgstr "<span class=\"productname\">%productName</span> permite crear y editar documentos de oficina, hojas de cálculo y presentaciones directamente en su navegador de Internet, de forma sencilla y directa. Puede trabajar tanto de forma individual como colaborativa, como parte de un equipo."
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:250-11
 msgid "Each user gets assigned a color. The cursor of each user will be shown in the assigned color. Note: you will see your cursor as black, blinking cursor, although others will see you with a different color."
@@ -1043,7 +1043,7 @@ msgstr "En la parte superior derecha de la pantalla del <span class=\"productnam
 
 #: html/loleaflet-help.html%2Bdiv.p:256-5
 msgid "<span class=\"productname\">%productName</span> uses modern browser resources to adapt the user interface to the size of the viewing area, including small screens found in mobile devices. The interface is composed of:"
-msgstr "El <span class=\"productname\">%productName</span> las modernas características de los navegadores web para adaptar la interfaz de usuario al tamaño del área de visualización, incluyendo pantallas pequeñas de los dispositivos móviles. La interfaz está compuesta de:"
+msgstr "<span class=\"productname\">%productName</span> utiliza características modernas de los navegadores web para adaptar la interfaz de usuario al tamaño del área de visualización, incluidas las pantallas pequeñas de los dispositivos móviles. La interfaz se compone de:"
 
 #: html/loleaflet-help.html%2Bdiv.p:257-5
 msgid "<span class=\"def\">The document area:</span> The application area shows the document contents, either spreadsheets, presentations or text documents."
@@ -1107,7 +1107,7 @@ msgstr "Para descargar un documento, descárguelo desde el menú <span class=\"u
 
 #: html/loleaflet-help.html%2Bdiv.p:278-5
 msgid "To open document, click on the file to open the <span class=\"productname\">%productName</span> module associated to the document format."
-msgstr "Para abrir un documento, haga clic en el archivo para abrirlo en el módulo de <span class=\"productname\">%productName</span> asociado a ese formato de documento."
+msgstr "Para abrir un documento, pulse en el archivo para abrirlo en el programa de <span class=\"productname\">%productName</span> asociado a ese formato de documento."
 
 #: html/loleaflet-help.html%2Bdiv.p:279-5
 msgid "Documents in <span class=\"productname\">%productName</span> save automatically, but if you are concerned that a document is synchronized as quickly as possible you can also force saving using the <span class=\"ui\">File</span> menu’s <span class=\"ui\">Save</span> entry."
