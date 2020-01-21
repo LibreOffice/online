@@ -12,10 +12,12 @@
 #include "ProofKey.hpp"
 #include "LOOLWSD.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <chrono>
 #include <cstdlib>
 #include <memory>
+#include <vector>
 
 #include <Poco/Base64Decoder.h>
 #include <Poco/Base64Encoder.h>
@@ -39,6 +41,38 @@
 #include <Util.hpp>
 
 namespace{
+
+std::vector<unsigned char> getBytesLE(const unsigned char* bytesInSystemOrder, const size_t n)
+{
+    std::vector<unsigned char> ret(n);
+#if !defined __BYTE_ORDER__
+    static_assert(false, "Byte order is not detected on this platform!");
+#elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+    std::copy_n(bytesInSystemOrder, n, ret.begin());
+#else
+    std::copy_n(bytesInSystemOrder, n, ret.rbegin());
+#endif
+    return ret;
+}
+
+// Returns a number as vector of bytes (little-endian)
+template <typename T>
+std::vector<unsigned char> getBytesLE(const T& x)
+{
+    return getBytesLE(reinterpret_cast<const unsigned char*>(&x), sizeof(x));
+}
+
+std::string BytesToBase64(std::vector<unsigned char> bytes)
+{
+    std::ostringstream oss;
+    // The signature generated contains CRLF line endings.
+    // Use a line ending converter to remove these CRLF
+    Poco::OutputLineEndingConverter lineEndingConv(oss, "");
+    Poco::Base64Encoder encoder(lineEndingConv);
+    encoder << std::string(bytes.begin(), bytes.end());
+    encoder.close();
+    return oss.str();
+}
 
 class Proof {
 public:
@@ -84,46 +118,37 @@ Proof::Proof()
 {
     if (m_pKey)
     {
-        {
-            // TODO: This is definitely not correct at the moment. The proof key must be
-            // base64-encoded blob in "unmanaged Microsoft Cryptographic API (CAPI)" format
-            // (as .Net's RSACryptoServiceProvider::ExportCspBlob returns).
-            std::ostringstream oss;
-            Poco::OutputLineEndingConverter lineEndingConv(oss, "");
-            m_pKey->save(&lineEndingConv);
-            std::string sKey = oss.str();
-            const std::string sBegin = "-----BEGIN RSA PUBLIC KEY-----";
-            const std::string sEnd = "-----END RSA PUBLIC KEY-----";
-            auto pos = sKey.find(sBegin);
-            if (pos != std::string::npos)
-                sKey = sKey.substr(pos + sBegin.length());
-            pos = sKey.find(sEnd);
-            if (pos != std::string::npos)
-                sKey = sKey.substr(0, pos);
-            m_aAttribs.emplace_back("value", sKey);
-        }
-        {
-            std::ostringstream oss;
-            // The signature generated contains CRLF line endings.
-            // Use a line ending converter to remove these CRLF
-            Poco::OutputLineEndingConverter lineEndingConv(oss, "");
-            Poco::Base64Encoder encoder(lineEndingConv);
-            const auto m = m_pKey->modulus();
-            encoder << std::string(m.begin(), m.end());
-            encoder.close();
-            m_aAttribs.emplace_back("modulus", oss.str());
-        }
-        {
-            std::ostringstream oss;
-            // The signature generated contains CRLF line endings.
-            // Use a line ending converter to remove these CRLF
-            Poco::OutputLineEndingConverter lineEndingConv(oss, "");
-            Poco::Base64Encoder encoder(lineEndingConv);
-            const auto e = m_pKey->encryptionExponent();
-            encoder << std::string(e.begin(), e.end());
-            encoder.close();
-            m_aAttribs.emplace_back("exponent", oss.str());
-        }
+        const auto m = m_pKey->modulus();
+        const auto e = m_pKey->encryptionExponent();
+
+        // See ExportCspBlob in mono's mcs/class/corlib/System.Security.Cryptography/RSACryptoServiceProvider.cs
+        // and ToCapiPublicKeyBlob in mcs/class/Mono.Security/Mono.Security.Cryptography/CryptoConvert.cs
+        std::vector<unsigned char> capiBlob = {
+            0x06, // Type - PUBLICKEYBLOB (0x06)
+            0x02, // Version - Always CUR_BLOB_VERSION (0x02)
+            0x00, // RESERVED - Always 0
+            0x00, // RESERVED - Always 0
+            0x00, // ALGID - 00 A4 00 00 for CALG_RSA_KEYX
+            0xA4,
+            0x00,
+            0x00,
+            0x52, // Magic - RSA1 (ASCII in hex)
+            0x53,
+            0x41,
+            0x31,
+        };
+        capiBlob.reserve(m.size() + 20);
+        // modulus size in bits - 4 bytes
+        const auto sizeBytes = getBytesLE<std::uint32_t>(m.size() * 8);
+        std::copy(sizeBytes.begin(), sizeBytes.end(), std::back_inserter(capiBlob));
+        // exponent - 4 bytes (insert in reverse order)
+        std::copy(e.rbegin(), e.rend(), std::back_inserter(capiBlob));
+        // modulus (insert in reverse order)
+        std::copy(m.rbegin(), m.rend(), std::back_inserter(capiBlob));
+
+        m_aAttribs.emplace_back("value", BytesToBase64(capiBlob));
+        m_aAttribs.emplace_back("modulus", BytesToBase64(m));
+        m_aAttribs.emplace_back("exponent", BytesToBase64(e));
     }
 }
 
