@@ -349,6 +349,7 @@ L.Control.MobileWizard = L.Control.extend({
 				textIdx = this._findIdxInParentById(deck, textName); // re-lookup
 				deck.children[textIdx].children = moveContent.concat(deck.children[textIdx].children);
 			}
+			this._findItemsAndRemoveByIdRecursive(deck, data, ['cellbordertype', 'borderlinestyle', 'borderlinecolor']);
 		}
 
 		this._removeItems(data, ['editcontour']);
@@ -364,6 +365,21 @@ L.Control.MobileWizard = L.Control.extend({
 				found = this._findItemByTypeRecursive(data.children[i], t);
 		}
 		return found;
+	},
+
+	_findItemsAndRemoveByIdRecursive: function(data, parent, items, index, elemIndex) {
+		index = index || 0;
+		elemIndex = elemIndex || 0;
+		var found = null;
+		if (data.id === items[index])
+			parent.children.splice(elemIndex, 1);
+		if (data.children) {
+			for (var i = 0; i < items.length; i++) {
+				for (var j = 0; !found && j < data.children.length; j++) {
+					found = this._findItemsAndRemoveByIdRecursive(data.children[j], data, items, i, j);
+				}
+			}
+		}
 	},
 
 	_findIdxInParentById: function(data, id) {
