@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "568d80ad_cfc13b65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2020-01-23T09:17:13Z",
+      "side": 1,
+      "message": "We don\u0027t do signed-off-by.",
+      "revId": "15fad40bd242c003ef7132114e4a981b274749ef",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8df76e2_ec5495ca",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 3140,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2020-01-23T09:17:13Z",
+      "side": 1,
+      "message": "serverSocket was renamed, not startThread, I think. :-)",
+      "revId": "15fad40bd242c003ef7132114e4a981b274749ef",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
