@@ -971,7 +971,7 @@ if test "$enable_cypress" = "yes"; then
    AC_DEFINE([ENABLE_CYPRESS],1,[Whether to enable cypress tests])
 else
    cypress_msg="cypress is disabled"
-   ENABLE_CYPRESS=false
+   ENABLE_CYPRESS=true
    AC_DEFINE([ENABLE_CYPRESS],0,[Whether to enable cypress tests])
 fi
 AM_CONDITIONAL([ENABLE_CYPRESS], [$ENABLE_CYPRESS])
