@@ -3137,7 +3137,7 @@ public:
         loolwsd_server_socket_fd = serverSocket->getFD();
 #endif
 
-        WebServerPoll.startThread();
+        WebServerPoll._startThread();
 
 #if !MOBILEAPP
         Admin::instance().start();
