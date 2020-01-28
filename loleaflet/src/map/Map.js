@@ -1681,8 +1681,8 @@ L.Map = L.Evented.extend({
 		}
 
 		var obj = $('.unfold');
-		obj.removeClass('unfold');
-		obj.addClass('fold');
+		obj.removeClass('w2ui-icon unfold');
+		obj.addClass('w2ui-icon fold');
 
 		moveObjectVertically($('#spreadsheet-row-column-frame'), 36);
 		moveObjectVertically($(this.options.documentContainer), 36);
@@ -1699,8 +1699,8 @@ L.Map = L.Evented.extend({
 		}
 
 		var obj = $('.fold');
-		obj.removeClass('fold');
-		obj.addClass('unfold');
+		obj.removeClass('w2ui-icon fold');
+		obj.addClass('w2ui-icon unfold');
 
 		moveObjectVertically($('#spreadsheet-row-column-frame'), -36);
 		moveObjectVertically($(this.options.documentContainer), -36);
