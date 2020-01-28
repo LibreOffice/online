@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_description">$APP_NAME é unha suite de produtividade informática moderna, doada de utilizar e de código aberto para procesamento de textos, follas de cálculo, presentacións e máis.</string>
+    <string name="app_version">Versión: %1$s, Identificador da construción: %2$s</string>
+    <string name="app_name_settings">Definicións</string>
+</resources>
