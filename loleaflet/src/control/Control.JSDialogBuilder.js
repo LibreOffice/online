@@ -344,11 +344,28 @@ L.Control.JSDialogBuilder = L.Control.extend({
 	},
 
 	_explorableMenu: function(parentContainer, title, children, builder, customContent) {
+		var icon = null;
 		var sectionTitle = L.DomUtil.create('div', 'ui-header level-' + builder._currentDepth + ' mobile-wizard ui-widget', parentContainer);
 		$(sectionTitle).css('justify-content', 'space-between');
 
-		var titleSpan = L.DomUtil.create('span', 'sub-menu-title', sectionTitle);
-		titleSpan.innerHTML = title;
+
+		if (title == 'Table') {
+			var iconSpan = L.DomUtil.create('span', 'menu-entry-icon inserttable', sectionTitle);
+			var iconPath = 'images/lc_inserttable_mono.svg';
+			icon = L.DomUtil.create('img', '', iconSpan);
+			icon.src = iconPath;
+			icon.alt = '';
+			icon.addEventListener('error', function() {
+				icon.style.display = 'none';
+			});
+
+			var titleSpan2 = L.DomUtil.create('span', 'menu-entry-with-icon flex-fullwidth', sectionTitle);
+			titleSpan2.innerHTML = title;
+		}
+		else {
+			var titleSpan = L.DomUtil.create('span', 'sub-menu-title', sectionTitle);
+			titleSpan.innerHTML = title;
+		}
 		var arrowSpan = L.DomUtil.create('span', 'sub-menu-arrow', sectionTitle);
 		arrowSpan.innerHTML = '>';
 
