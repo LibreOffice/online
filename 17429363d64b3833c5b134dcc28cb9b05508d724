@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33a63f5c_72149dfe",
+        "filename": "loleaflet/src/control/Control.MobileWizard.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-01-28T13:26:50Z",
+      "side": 1,
+      "message": "This looks very unusual. Why do we recurse three times looking for each of these attributes with this extraordinary extra index parameter ? that looks ... unusual \u003d)\nWhy can we not have a simple loop over the \u0027items\u0027 here - comparing data.id with all of them ?\nSurely that saves a lot of computation, and a parameter to the function ?",
+      "revId": "17429363d64b3833c5b134dcc28cb9b05508d724",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
