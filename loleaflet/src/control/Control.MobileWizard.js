@@ -271,6 +271,7 @@ L.Control.MobileWizard = L.Control.extend({
 
 	_onMobileWizard: function(data) {
 		if (data) {
+			console.log('mert', data);
 			var isSidebar = (data.children && data.children.length >= 1 &&
 					 data.children[0].type == 'deck');
 
@@ -344,10 +345,9 @@ L.Control.MobileWizard = L.Control.extend({
 			var textIdx = this._findIdxInParentById(deck, textName);
 			if (stylesIdx >= 0 && textIdx >= 0)
 			{
-				var moveContent = deck.children[stylesIdx].children;
-				deck.children.splice(stylesIdx, 1); // remove
-				textIdx = this._findIdxInParentById(deck, textName); // re-lookup
-				deck.children[textIdx].children = moveContent.concat(deck.children[textIdx].children);
+				var moveContent = deck.children[stylesIdx].children[0].children;
+				deck.children[textIdx].children[0].children = moveContent.concat(deck.children[textIdx].children[0].children);
+				deck.children.splice(stylesIdx, 1); //remove the styles property
 			}
 			this._findItemsAndRemoveByIdRecursive(deck, data, ['cellbordertype', 'borderlinestyle', 'borderlinecolor']);
 		}
