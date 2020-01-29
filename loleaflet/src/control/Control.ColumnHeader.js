@@ -391,10 +391,12 @@ L.Control.ColumnHeader = L.Control.Header.extend({
 		this._canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
 		// Reset state
-		this._current = -1;
-		this._selection.start = this._selection.end = -1;
-		this._mouseOverEntry = null;
-		this._lastMouseOverIndex = undefined;
+		if (!window.contextMenuWizard) {
+			this._current = -1;
+			this._selection.start = this._selection.end = -1;
+			this._mouseOverEntry = null;
+			this._lastMouseOverIndex = undefined;
+		}
 
 		// create data structure for column widths
 		this._tickMap = new L.Control.Header.GapTickMap(this._map, columns);
