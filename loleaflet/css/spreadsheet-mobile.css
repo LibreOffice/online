@@ -55,6 +55,9 @@
 
 	.spreadsheet-tabs-container {
 		left: 24px;
+	}
+
+	.spreadsheet-tab-scroll {
 		overflow-x: scroll;
 		scrollbar-width: none; /*css draft (firefox only)*/
 		-ms-scrollbar: none; /*ie*/
