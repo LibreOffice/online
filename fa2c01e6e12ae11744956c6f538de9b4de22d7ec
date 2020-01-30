@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e823894_ae6583ae",
+        "filename": "loleaflet/src/control/Control.ColumnHeader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-01-30T07:57:24Z",
+      "side": 1,
+      "message": "Not a fan. We should capture the state that we want - at the point that we launch the popup menu perhaps into another this._popupTimeSelection or whatever - and not avoid clearing it like this.",
+      "revId": "fa2c01e6e12ae11744956c6f538de9b4de22d7ec",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
