@@ -322,8 +322,10 @@ L.Map.TouchGesture = L.Handler.extend({
 			docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, 1, 0);
 			docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, 1, 0);
 
-			// Take focus, but keyboard show only in Writer (double-tap to edit Calc/Impress).
-			this._map.focus(this._map._docLayer._docType === 'text');
+			// Take focus, but keyboard show only in Writer (double-tap to edit Calc/Impress)
+			// and only when we don't have graphic selection.
+			var acceptInput = (this._map._docLayer._docType === 'text' && !docLayer._graphicSelection);
+			this._map.focus(acceptInput);
 		}
 	},
 
@@ -339,8 +341,8 @@ L.Map.TouchGesture = L.Handler.extend({
 			docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 2, 1, 0);
 			docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 2, 1, 0);
 
-			// Show keyboard.
-			this._map.focus(true);
+			// Show keyboard, if no graphic is selected.
+			this._map.focus(!docLayer._graphicSelection);
 		}
 	},
 
