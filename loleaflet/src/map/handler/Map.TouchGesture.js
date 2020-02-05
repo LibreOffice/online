@@ -318,15 +318,25 @@ L.Map.TouchGesture = L.Handler.extend({
 		}
 		this._map._contextMenu._onMouseDown({originalEvent: e.srcEvent});
 
+		var acceptInput = false; // No keyboard by default.
 		if (docLayer) {
 			docLayer._postMouseEvent('buttondown', mousePos.x, mousePos.y, 1, 1, 0);
 			docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 1, 1, 0);
 
-			// Take focus, but keyboard show only in Writer (double-tap to edit Calc/Impress)
-			// and only when we don't have graphic selection.
-			var acceptInput = (this._map._docLayer._docType === 'text' && !docLayer._graphicSelection);
-			this._map.focus(acceptInput);
+			if (docLayer.hasGraphicSelection()) {
+				acceptInput = false; // No keyboard for graphic selection.
+			} else if (docLayer._docType === 'text') {
+				acceptInput = true; // Always show the keyboard in Writer on tap.
+			} else {
+				// If the tap is in the current cell, start editing.
+				var cellCursor = docLayer._cellCursor;
+				acceptInput = (cellCursor && cellCursor.contains(latlng));
+			}
 		}
+
+		// Always move the focus to the document on tap,
+		// but only show the keyboard when we need editing.
+		this._map.focus(acceptInput);
 	},
 
 	_onDoubleTap: function (e) {
@@ -342,7 +352,7 @@ L.Map.TouchGesture = L.Handler.extend({
 			docLayer._postMouseEvent('buttonup', mousePos.x, mousePos.y, 2, 1, 0);
 
 			// Show keyboard, if no graphic is selected.
-			this._map.focus(!docLayer._graphicSelection);
+			this._map.focus(!docLayer.hasGraphicSelection());
 		}
 	},
 
