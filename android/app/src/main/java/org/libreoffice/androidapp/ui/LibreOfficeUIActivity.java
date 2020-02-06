@@ -584,18 +584,24 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
             @Override
             protected void onPostExecute(File file) {
                 if (file != null) {
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file));
-                    String packageName = getApplicationContext().getPackageName();
-                    ComponentName componentName = new ComponentName(packageName, LOActivity.class.getName());
-                    i.setComponent(componentName);
+                    if (LOActivity.canOpenTheDocument) {
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file));
+                        String packageName = getApplicationContext().getPackageName();
+                        ComponentName componentName = new ComponentName(packageName, LOActivity.class.getName());
+                        i.setComponent(componentName);
 
-                    // these extras allow to rebuild the IFile object in LOActivity
-                    i.putExtra("org.libreoffice.document_provider_id",
-                            documentProvider.getId());
-                    i.putExtra("org.libreoffice.document_uri",
-                            document.getUri());
+                        // these extras allow to rebuild the IFile object in LOActivity
+                        i.putExtra("org.libreoffice.document_provider_id",
+                                documentProvider.getId());
+                        i.putExtra("org.libreoffice.document_uri",
+                                document.getUri());
 
-                    startActivityForResult(i, LO_ACTIVITY_REQUEST_CODE);
+                        startActivityForResult(i, LO_ACTIVITY_REQUEST_CODE);
+                        LOActivity.canOpenTheDocument = false;
+                    } else {
+                        Toast.makeText(LibreOfficeUIActivity.this, LibreOfficeUIActivity.this.getString(R.string.wait_the_document_is_closed), Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         }.execute(document);
