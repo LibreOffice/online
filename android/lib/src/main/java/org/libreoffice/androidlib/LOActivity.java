@@ -31,12 +31,15 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -118,6 +121,7 @@ public class LOActivity extends AppCompatActivity {
 
     /** Data description for passing info back to the shell. */
     public static final String LO_ACTION_DATA = "LOData";
+    private AlertDialog savingProgress;
 
     private static boolean copyFromAssets(AssetManager assetManager,
                                           String fromAssetPath, String targetDir) {
@@ -316,6 +320,16 @@ public class LOActivity extends AppCompatActivity {
         });
         nativeMsgThread.start();
 
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View loadingView = inflater.inflate(R.layout.lolib_dialog_loading, null);
+        TextView loadingText = loadingView.findViewById(R.id.lolib_loding_dialog_text);
+        loadingText.setText(getText(R.string.saving));
+        savingProgress = new AlertDialog.Builder(LOActivity.this)
+                .setView(loadingView)
+                .setCancelable(true)
+                .create();
+
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
@@ -445,6 +459,7 @@ public class LOActivity extends AppCompatActivity {
         mWebView.destroy();
         postMobileMessageNative("BYE");
         canOpenTheDocument = true;
+        sendBroadcast("SAVE_COMPLETE", "");
     }
 
     @Override
@@ -467,7 +482,7 @@ public class LOActivity extends AppCompatActivity {
             callFakeWebsocketOnMessage("'mobile: mobilewizardback'");
             return;
         }
-
+        savingProgress.show();
         canOpenTheDocument = false;
         super.onBackPressed();
     }
@@ -591,6 +606,7 @@ public class LOActivity extends AppCompatActivity {
                 return false;
             case "SAVE":
                 sendBroadcast(messageAndParam[0], messageAndParam[1]);
+                savingProgress.dismiss();
                 return false;
             case "uno":
                 switch (messageAndParam[1]) {
