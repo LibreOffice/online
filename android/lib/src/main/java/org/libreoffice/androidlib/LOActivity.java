@@ -102,6 +102,7 @@ public class LOActivity extends AppCompatActivity {
     private Thread nativeMsgThread;
     private Handler nativeHandler;
     private Looper nativeLooper;
+    public static boolean canOpenTheDocument = true;
 
     /** In case the mobile-wizard is visible, we have to intercept the Android's Back button. */
     private boolean mMobileWizardVisible = false;
@@ -443,6 +444,7 @@ public class LOActivity extends AppCompatActivity {
         nativeLooper.quit();
         mWebView.destroy();
         postMobileMessageNative("BYE");
+        canOpenTheDocument = true;
     }
 
     @Override
@@ -466,6 +468,7 @@ public class LOActivity extends AppCompatActivity {
             return;
         }
 
+        canOpenTheDocument = false;
         super.onBackPressed();
     }
 
