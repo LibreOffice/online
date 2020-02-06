@@ -11,5 +11,24 @@ User=lool
 KillMode=control-group
 Restart=always
 
+ProtectSystem=strict
+ReadWritePaths=/opt/lool
+
+ProtectHome=yes
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=yes
+LockPersonality=yes
+#MemoryDenyWriteExecute=yes # probably breaks java
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+
+AmbientCapabilities=CAP_FOWNER CAP_MKNOD CAP_SYS_CHROOT
+CapabilityBoundingSet=CAP_FOWNER CAP_MKNOD CAP_SYS_CHROOT
+
 [Install]
 WantedBy=multi-user.target
