@@ -2,6 +2,26 @@
 /*
  * L.Draggable allows you to add dragging capabilities to any element. Supports mobile devices too.
  */
+/* global Hammer */
+// var deltaX = 0;
+// var deltaY = 0;
+// var doc = undefined;
+// var translate3d, timeStamp, velocityY;
+// function autoscroll()
+// {
+// 	var elepsed;
+// 	// L.DomUtil.addClass(doc, 'is-animating');
+// 	// translate3d = 'translate3d(' + '0' + 'px,' + deltaY + 'px, 0)';
+// 	L.DomUtil.setPosition(doc, new L.Point(0, deltaY));
+// 	doc.style.transform = translate3d;
+// 	velocityY *= 0.8;
+// 	if (velocityY > 0.01 || velocityY < -0.01) {
+// 		elepsed = Date.now() - timeStamp;
+// 		deltaY += (velocityY*elepsed*0.5);
+// 		L.Util.requestAnimFrame(autoscroll, this, true);
+// 	}
+// 	// L.DomUtil.setPosition(doc, new L.Point(0, deltaY));
+// }
 
 L.Draggable = L.Evented.extend({
 
@@ -27,6 +47,29 @@ L.Draggable = L.Evented.extend({
 		this._preventOutline = preventOutline;
 		this._freezeX = false;
 		this._freezeY = false;
+
+		this._mapPan = document.querySelector('.leaflet-pane.leaflet-map-pane');
+		var manager = new Hammer.Manager(this._mapPan);
+		var Swipe = new Hammer.Swipe({threshold: 5});
+		manager.add(Swipe);
+		manager.on('swipe', function(e) {
+			this._velocity = new L.Point(e.velocityX, e.velocityY);
+			this._amplitude = this._velocity.multiplyBy(0.8);
+			this._timeStamp = Date.now();
+			this._newPos = L.DomUtil.getPosition(document.querySelector('.leaflet-pane.leaflet-map-pane')).add(new L.Point(e.deltaX, e.deltaY));
+			L.Util.requestAnimFrame(this.autoscroll, this, true);
+		});
+	},
+
+	autoscroll: function() {
+		var elapsed, delta;
+		if (this._velocity.x > 0.01 || this._velocity.x < -0.01 || this._velocity.y > 0.01 || this._velocity.y < -0.01) {
+			elapsed = Date.now() - this._timeStamp;
+			delta = -this._amplitude.multiplyBy(Math.exp(-elapsed / 325));
+			this._newPos._add(delta);
+			L.DomUtil.setPosition(this._mapPan, this._newPos);
+			L.Util.requestAnimFrame(this.autoscroll, this, true);
+		}
 	},
 
 	freezeX: function (boolChoice) {
