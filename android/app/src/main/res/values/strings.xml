@@ -87,6 +87,8 @@
     <!-- Edit action names -->
 
     <!-- Feedback messages -->
+    <string name="document_is_saving">Document is saving..</string>
+    <string name="save_completed">Save is completed..</string>
 
     <!-- Document provider settings -->
     <string name="storage_provider_settings">Storage provider settings</string>

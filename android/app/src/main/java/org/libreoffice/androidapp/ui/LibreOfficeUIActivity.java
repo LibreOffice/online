@@ -56,6 +56,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.libreoffice.androidapp.AboutDialogFragment;
 import org.libreoffice.androidapp.LibreOfficeApplication;
@@ -1057,6 +1058,9 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
             // Handle various events from LOActivity
             if (event.equals("SAVE")) {
                 LibreOfficeUIActivity.this.saveFileToCloud();
+                Snackbar.make(findViewById(R.id.documentBrowserLayout), getString(R.string.document_is_saving), Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+            } else if (event.equals("SAVE_COMPLETE")) {
+                Snackbar.make(findViewById(R.id.documentBrowserLayout), getString(R.string.save_completed), Snackbar.LENGTH_SHORT).setAction("Action", null).show();
             }
         }
     };

@@ -445,6 +445,7 @@ public class LOActivity extends AppCompatActivity {
         mWebView.destroy();
         postMobileMessageNative("BYE");
         canOpenTheDocument = true;
+        sendBroadcast("SAVE_COMPLETE", "");
     }
 
     @Override
