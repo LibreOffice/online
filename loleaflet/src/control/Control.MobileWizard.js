@@ -110,6 +110,10 @@ L.Control.MobileWizard = L.Control.extend({
 		if (!this.map.hasFocus()) {
 			this.map.focus();
 		}
+		// reset the panning
+		if (this._map.getDocType() === 'presentation')
+			this.map.zoomOut(0, null);
+
 	},
 
 	_hideKeyboard: function() {
@@ -281,6 +285,10 @@ L.Control.MobileWizard = L.Control.extend({
 			if (isSidebar && !this.map.showSidebar) {
 				return;
 			}
+			var offsetY = (this._map.getPixelBounds().min.y < 0) ? Math.abs(this._map.getPixelBounds().min.y) : 0;
+			//pan the document area to the top most
+			if (!this._isActive && this._map.getDocType() === 'presentation')
+				this.map._rawPanBy(new L.Point(0, offsetY));
 
 			this._isActive = true;
 			var currentPath = null;
@@ -300,6 +308,7 @@ L.Control.MobileWizard = L.Control.extend({
 
 			this._showWizard(mWizardContentLength);
 			this._hideKeyboard();
+
 
 			// Morph the sidebar into something prettier
 			if (isSidebar)
