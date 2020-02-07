@@ -97,7 +97,10 @@ L.Draggable = L.Evented.extend({
 	},
 
 	_onMove: function (e) {
-		if (!this._startPoint) {
+		if (e._startPoint) {
+			this._startPoint = e._startPoint;
+		}
+		else if (!this._startPoint) {
 			return;
 		}
 
@@ -132,7 +135,7 @@ L.Draggable = L.Evented.extend({
 			}
 		}
 		if (!offset.x && !offset.y) { return; }
-		if (L.Browser.touch && Math.abs(offset.x) + Math.abs(offset.y) < 3) { return; }
+		if (L.Browser.touch && Math.abs(offset.x) + Math.abs(offset.y) < 3 && !e._startPoint) { return; }
 
 		L.DomEvent.preventDefault(e);
 
@@ -148,6 +151,7 @@ L.Draggable = L.Evented.extend({
 			L.DomUtil.addClass(this._lastTarget, 'leaflet-drag-target');
 		}
 
+		if (e._startPos) { this._startPos = e._startPos; }
 		this._newPos = this._startPos.add(offset);
 
 		if (this._freezeY)
