@@ -26,10 +26,11 @@ describe('Shape operations', function() {
 
 		// Check whether the rectangle was inserted as an SVG
 		cy.get('.leaflet-pane.leaflet-overlay-pane svg')
+			.should('have.class', 'leaflet-zoom-animated')
 			.then(function(svg) {
-				expect(svg).to.have.lengthOf(1);
+				expect(svg.length).to.be.greaterThan(0);
 				expect(svg[0].getBBox().width).to.be.greaterThan(0);
-				expect(svg[0].getBBox().height).to.be.greaterThan(0);            
+				expect(svg[0].getBBox().height).to.be.greaterThan(0);
 			});
 	});
 });

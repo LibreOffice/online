@@ -68,7 +68,7 @@ function copyTextToClipboard() {
 		.then(function(marker) {
 			expect(marker).to.have.lengthOf(2);
 			var XPos =  (marker[0].getBoundingClientRect().right + marker[1].getBoundingClientRect().left) / 2;
-			var YPos = marker[0].getBoundingClientRect().top - 5;
+			var YPos = marker[0].getBoundingClientRect().top - 3;
 			longPressOnDocument(XPos, YPos);
 		});
 
