@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-12-15 17:50+0200\n"
-"PO-Revision-Date: 2020-01-23 08:20+0000\n"
+"PO-Revision-Date: 2020-02-08 13:15+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/ca/>\n"
 "Language: ca\n"
@@ -1047,15 +1047,15 @@ msgstr "El <span class=\"productname\">%productName</span> utilitza tecnologies 
 
 #: html/loleaflet-help.html%2Bdiv.p:257-5
 msgid "<span class=\"def\">The document area:</span> The application area shows the document contents, either spreadsheets, presentations or text documents."
-msgstr ""
+msgstr "<span class=\"def\">L'àrea del document:</span> L'àrea de l'aplicació mostra el contingut del document, sigui un full de càlcul, una presentació o un document de text."
 
 #: html/loleaflet-help.html%2Bdiv.p.img:258-5
 msgid "<span class=\"def\">The menu bar:</span> The main menu is placed on the top and includes many options, commands for printing, editing, viewing and other advanced commands. You can hide the menu bar clicking on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/fold.svg\"> icon on the far right. Click on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/unfold.svg\"> icon to show the menu."
-msgstr ""
+msgstr "<span class=\"def\">La barra de menús:</span> el menú principal és a la part superior i inclou nombroses opcions i ordres per a imprimir, editar i visualitzar documents, entre altres funcionalitats avançades. Podeu amagar la barra de menús fent clic a la icona <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/fold.svg\"> que apareix a l'extrem dret. Feu clic a la icona <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/unfold.svg\"> per a mostrar el menú."
 
 #: html/loleaflet-help.html%2Bdiv.p:259-5
 msgid "<span class=\"def\">Context menus:</span> On clicking with the right mouse button, a menu appears with commands associated with the underlying object."
-msgstr ""
+msgstr "<span class=\"def\">Menús contextuals:</span> en fer clic amb el botó dret del ratolí a un objecte, es mostra un menú que inclou ordres associades amb aquest objecte."
 
 #: html/loleaflet-help.html%2Bdiv.p:260-5
 msgid "<span class=\"def\">The toolbar:</span> The toolbar contains the most used options for daily editing. Toolbar buttons are dynamic, meaning that their state (on or off) depends on different factors."
