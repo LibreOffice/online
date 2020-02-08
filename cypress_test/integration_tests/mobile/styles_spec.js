@@ -1,4 +1,4 @@
-/* global describe it cy beforeEach require afterEach*/
+/* global describe it cy beforeEach require afterEach expect*/
 
 var helper = require('../common/helper');
 
@@ -76,13 +76,30 @@ describe('Apply/modify styles.', function() {
 		cy.get('#copy-paste-container p font font')
 			.should('have.attr', 'style', 'font-size: 28pt');
 
+		helper.selectAllMobile();
+
+		var selectionOrigLeft = 0;
+		var selectionOrigRight = 0;
+		cy.get('.leaflet-marker-icon')
+			.then(function(marker) {
+				expect(marker).to.have.lengthOf(2);
+				selectionOrigLeft = marker[0].getBoundingClientRect().left;
+				selectionOrigRight = marker[1].getBoundingClientRect().right;
+			});
+
 		// Clear formatting
 		applyStyle('Clear formatting');
 
-		helper.copyTextToClipboard();
+		helper.selectAllMobile();
 
-		cy.get('#copy-paste-container p')
-			.should('have.attr', 'style', 'margin-bottom: 0in; line-height: 100%');
+		cy.get('.leaflet-marker-icon')
+			.then(function(marker) {
+				expect(marker).to.have.lengthOf(2);
+				expect(marker[0].getBoundingClientRect().left).to.be.lessThan(selectionOrigLeft);
+				expect(marker[1].getBoundingClientRect().right).to.be.lessThan(selectionOrigRight);
+				expect(marker[1].getBoundingClientRect().right - marker[0].getBoundingClientRect().left)
+					.to.be.lessThan(selectionOrigRight - selectionOrigLeft);
+			});
 	});
 
 	it('Modify existing style.', function() {
@@ -121,17 +138,6 @@ describe('Apply/modify styles.', function() {
 
 		cy.get('#StyleUpdateByExample')
 			.click();
-
-		// Clear formatting
-		applyStyle('Clear formatting');
-
-		// Apply Title style with italic font
-		applyStyle('Title');
-
-		helper.copyTextToClipboard();
-
-		cy.get('#copy-paste-container p i')
-			.should('exist');
 	});
 
 	it('New style item is hidden.', function() {
