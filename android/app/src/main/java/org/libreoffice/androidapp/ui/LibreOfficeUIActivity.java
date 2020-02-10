@@ -841,10 +841,6 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
             case FileUtilities.IMPRESS:
                 menu.findItem(R.id.menu_filter_presentations).setChecked(true);
                 break;
-
-            case FileUtilities.DRAWING:
-                menu.findItem(R.id.menu_filter_drawings).setChecked(true);
-                break;
         }
 
         return true;
@@ -885,12 +881,6 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
             case R.id.menu_filter_presentations:
                 item.setChecked(true);
                 filterMode = FileUtilities.IMPRESS;
-                openDirectory(currentDirectory);
-                break;
-
-            case R.id.menu_filter_drawings:
-                item.setChecked(true);
-                filterMode = FileUtilities.DRAWING;
                 openDirectory(currentDirectory);
                 break;
 
