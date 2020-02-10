@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bea262c_418518ba",
+        "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-02-10T19:47:38Z",
+      "side": 1,
+      "message": "can you try with \nthis._map.dragging._draggable._startPoint \u003d this._startSwipePoint; ?",
+      "revId": "18e24428f77284abf861614cb1843c4789f3dfea",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
