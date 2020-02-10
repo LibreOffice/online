@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe4f6478_bdbe7b01",
+        "filename": "loleaflet/src/map/Map.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-02-10T13:10:37Z",
+      "side": 1,
+      "message": "I wish we can use distinguishing names for these two cases. Is it obvious to everyone but me what each of these two flags represent? Is one more generic than the other? Then we should only use the more generic here, I guess. (Sorry if I missed some documentation somewhere.)\n\nI\u0027m happy to rename them if there are better names.",
+      "revId": "4d0e7cbff7e9f0668ff2fb1ee1ab6184fd2bc3a8",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
