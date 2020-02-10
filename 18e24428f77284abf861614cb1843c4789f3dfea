@@ -16,6 +16,24 @@
       "revId": "18e24428f77284abf861614cb1843c4789f3dfea",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4242c8c4_4f27633a",
+        "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1002266
+      },
+      "writtenOn": "2020-02-10T21:29:33Z",
+      "side": 1,
+      "message": "resolved",
+      "parentUuid": "3bea262c_418518ba",
+      "revId": "18e24428f77284abf861614cb1843c4789f3dfea",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
