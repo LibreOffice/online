@@ -575,7 +575,7 @@ L.Map.TouchGesture = L.Handler.extend({
 	},
 
 	_autoscroll: function() {
-		var elapsed, delta;
+		var elapsed, delta, docSize = this._map.getLayerMaxBounds().getSize().subtract(this._map.getSize());
 		elapsed = Date.now() - this._timeStamp;
 		delta = this._amplitude.multiplyBy(Math.exp(-elapsed / 325));
 		var e = this._constructFakeEvent({
@@ -588,17 +588,21 @@ L.Map.TouchGesture = L.Handler.extend({
 			if (this._map.getDocSize().x < this._map.getSize().x) {
 				//don't scroll horizontally if document fits the view
 				delta.x = 0;
+				docSize.x = this._map.getLayerMaxBounds().getSize().x;
 			}
 			if (this._map.getDocSize().y < this._map.getSize().y) {
 				//don't scroll vertically if document fits the view
 				delta.y = 0;
+				docSize.y = this._map.getLayerMaxBounds().getSize().y;
 			}
 
 			this._map.dragging._draggable._startPoint = this._startSwipePoint;
 			this._map.dragging._draggable._startPos = this._newPos;
 			this._newPos._add(delta);
 			this._map.dragging._draggable._onMove(e);
-			this.autoscrollAnimReq = L.Util.requestAnimFrame(this._autoscroll, this, true);
+			if (!(this._newPos.y > 0 || this._newPos.y < -docSize.y || this._newPos.x > 0 || this._newPos.x < -docSize.x) && (delta.x !== 0 || delta.y !== 0)) {
+				this.autoscrollAnimReq = L.Util.requestAnimFrame(this._autoscroll, this, true);
+			}
 		}
 		else {
 			this._map.dragging._draggable._onUp(e);
