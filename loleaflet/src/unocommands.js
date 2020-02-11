@@ -57,6 +57,7 @@ var unoCommandsArray = {
 	DefaultBullet:{global:{context:_('Toggle Bulleted List'),menu:_('~Bulleted List'),},},
 	DefaultNumbering:{global:{context:_('Toggle Numbered List'),menu:_('~Numbered List'),},},
 	DelBreakMenu:{spreadsheet:{menu:_('Delete Page ~Break'),},},
+	Delete:{global:{context:_('Delete'),},},
 	DeleteAllNotes:{global:{menu:_('Delete All Comments'),},spreadsheet:{menu:_('Delete All Comments'),},},
 	DeleteAuthor:{global:{menu:_('Delete All Comments by This Author'),},},
 	DeleteAxis:{global:{menu:_('Delete Axis'),},},
