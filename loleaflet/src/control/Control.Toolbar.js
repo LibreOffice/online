@@ -982,10 +982,10 @@ function initNormalToolbar() {
 		{type: 'spacer'},
 		{type: 'button',  id: 'edit',  img: 'edit'},
 		{type: 'button',  id: 'sidebar', img: 'sidebar_modify_page', hint: _UNO('.uno:Sidebar', '', true), uno: '.uno:Sidebar', hidden: true},
-		{type: 'button',  id: 'modifypage', img: 'sidebar_modify_page', hint: _UNO('.uno:ModifyPage', 'presentation', true), uno: '.uno:ModifyPage', hidden: true},
-		{type: 'button',  id: 'slidechangewindow', img: 'sidebar_slide_change', hint: _UNO('.uno:SlideChangeWindow', 'presentation', true), uno: '.uno:SlideChangeWindow', hidden: true},
-		{type: 'button',  id: 'customanimation', img: 'sidebar_custom_animation', hint: _UNO('.uno:CustomAnimation', 'presentation', true), uno: '.uno:CustomAnimation', hidden: true},
-		{type: 'button',  id: 'masterslidespanel', img: 'sidebar_master_slides', hint: _UNO('.uno:MasterSlidesPanel', 'presentation', true), uno: '.uno:MasterSlidesPanel', hidden: true},
+		{type: 'button',  id: 'sidebar-modify-page', img: 'sidebar_modify_page', hint: _UNO('.uno:ModifyPage', 'presentation', true), uno: 'ModifyPage', hidden: true},
+		{type: 'button',  id: 'sidebar-slide-change', img: 'sidebar_slide_change', hint: _UNO('.uno:SlideChangeWindow', 'presentation', true), uno: 'SlideChangeWindow', hidden: true},
+		{type: 'button',  id: 'sidebar-custom-animation', img: 'sidebar_custom_animation', hint: _UNO('.uno:CustomAnimation', 'presentation', true), uno: 'CustomAnimation', hidden: true},
+		{type: 'button',  id: 'sidebar-master-slides', img: 'sidebar_master_slides', hint: _UNO('.uno:MasterSlidesPanel', 'presentation', true), uno: 'MasterSlidesPanel', hidden: true},
 		{type: 'break', id: 'breaksidebar', hidden: true},
 		{type: 'button',  id: 'fold',  img: 'fold', desktop: true, mobile: false, hidden: true},
 		{type: 'button',  id: 'hamburger-tablet',  img: 'hamburger', desktop: false, mobile: false, tablet: true, iosapptablet: false, hidden: true},
@@ -1691,7 +1691,7 @@ function onDocLayerInit() {
 		break;
 	case 'presentation':
 		if (toolbarUp) {
-			toolbarUp.show('breaksidebar', 'sidebar', 'modifypage');
+			toolbarUp.show('breaksidebar', 'sidebar-modify-page');
 		}
 
 		var presentationToolbar = w2ui['presentation-toolbar'];
@@ -1718,7 +1718,7 @@ function onDocLayerInit() {
 		if (toolbarUp)
 			toolbarUp.show('leftpara', 'centerpara', 'rightpara', 'justifypara', 'breakpara', 'linespacing',
 			'breakspacing', 'defaultbullet', 'defaultnumbering', 'breakbullet', 'inserttextbox', 'inserttable', 'backcolor',
-			'breaksidebar', 'sidebar', 'modifypage', 'slidechangewindow', 'customanimation', 'masterslidespanel');
+			'breaksidebar', 'sidebar-modify-page', 'sidebar-slide-change', 'sidebar-custom-animation', 'sidebar-master-slides');
 		if (statusbar)
 			statusbar.show('prev', 'next');
 
