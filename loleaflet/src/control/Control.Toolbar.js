@@ -349,15 +349,21 @@ function onClick(e, id, item, subItem) {
 		L.toggleFullScreen();
 	}
 	else if (id === 'close' || id === 'closemobile') {
-		if (window.ThisIsAMobileApp) {
-			window.postMobileMessage('BYE');
+		if (map._permission == 'edit') {
+			map.setPermission('edit');
+			toolbar.uncheck(id);
 		} else {
-			map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
-			map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
+			if (window.ThisIsAMobileApp) {
+				window.postMobileMessage('BYE');
+			} else {
+				map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
+				map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
+			}
+			if (!map._disableDefaultAction['UI_Close']) {
+				map.remove();
+			}
 		}
-		if (!map._disableDefaultAction['UI_Close']) {
-			map.remove();
-		}
+
 	}
 	else if (id === 'mobile_wizard') {
 		if (window.mobileWizard) {
