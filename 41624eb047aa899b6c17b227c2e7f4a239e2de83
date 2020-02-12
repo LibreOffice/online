@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4e7e7ef_88f89173",
+        "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-02-12T16:05:19Z",
+      "side": 1,
+      "message": "// to cancel the timer\nclearInterval(this._tilesPreFetcher);\n\n// ensure to reset to re-compute\nthis._preFetchBorder \u003d null;",
+      "revId": "41624eb047aa899b6c17b227c2e7f4a239e2de83",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82eeacbb_cc5a084f",
+        "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-02-12T16:05:19Z",
+      "side": 1,
+      "message": "Not need it anymore, please remove it",
+      "revId": "41624eb047aa899b6c17b227c2e7f4a239e2de83",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
