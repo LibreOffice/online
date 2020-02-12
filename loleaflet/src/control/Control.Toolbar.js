@@ -142,7 +142,14 @@ function onClick(e, id, item) {
 		map.uiManager.toggleMenubar();
 	}
 	else if (id === 'close' || id === 'closemobile') {
-		onClose();
+		if (map._permission == 'edit') {
+			// in edit mode, passing 'edit' actually enters readonly mode
+			// and bring the blue circle editmode button back
+			map.setPermission('edit');
+			toolbar.uncheck(id);
+		} else {
+			onClose();
+		}
 	}
 	else if (id === 'link') {
 		map.showHyperlinkDialog();
@@ -971,6 +978,12 @@ function onUpdatePermission(e) {
 				toolbar.disable(items[idx].id);
 			}
 		}
+		if (e.perm === 'edit') {
+			toolbar.set('closemobile', {img: 'editmode'});
+		} else {
+			toolbar.set('closemobile', {img: 'closebutton'});
+		}
+
 	}
 }
 
