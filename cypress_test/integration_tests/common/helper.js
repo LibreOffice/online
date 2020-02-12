@@ -90,18 +90,25 @@ function copyTextToClipboard() {
 			longPressOnDocument(XPos, YPos);
 		});
 
-	// Execute copy
-	cy.get('.ui-header.level-0.mobile-wizard.ui-widget .menu-entry-with-icon .context-menu-link', {timeout : 10000})
-		.contains('Copy')
-		.click();
+	cy.window()
+		.then(function(win) {
+			// Execute copy
+			var copyElement = (win.mode.isMobile() ?
+				cy.get('.ui-header.level-0.mobile-wizard.ui-widget .context-menu-link .menu-entry-with-icon', {timeout : 10000}) :
+				cy.get('.ui-header.level-0.mobile-wizard.ui-widget .menu-entry-with-icon .context-menu-link', {timeout : 10000}));
 
-	// Close warning about clipboard operations
-	cy.get('.vex-dialog-button-primary.vex-dialog-button.vex-first')
-		.click();
+			// Execute copy
+			copyElement.contains('Copy')
+				.click();
 
-	// Wait until it's closed
-	cy.get('.vex-overlay')
-		.should('not.exist');
+			// Close warning about clipboard operations
+			cy.get('.vex-dialog-button-primary.vex-dialog-button.vex-first')
+				.click();
+
+			// Wait until it's closed
+			cy.get('.vex-overlay')
+				.should('not.exist');
+		});
 }
 
 function copyTableToClipboard() {
@@ -125,18 +132,24 @@ function copyTableToClipboard() {
 			longPressOnDocument(XPos, YPos);
 		});
 
-	// Execute copy
-	cy.get('.ui-header.level-0.mobile-wizard.ui-widget .menu-entry-with-icon .context-menu-link')
-		.contains('Copy')
-		.click();
+	cy.window()
+		.then(function(win) {
+			// Execute copy
+			var copyElement = (win.mode.isMobile() ?
+				cy.get('.ui-header.level-0.mobile-wizard.ui-widget .context-menu-link .menu-entry-with-icon') :
+				cy.get('.ui-header.level-0.mobile-wizard.ui-widget .menu-entry-with-icon .context-menu-link'));
 
-	// Close warning about clipboard operations
-	cy.get('.vex-dialog-button-primary.vex-dialog-button.vex-first')
-		.click();
+			copyElement.contains('Copy')
+				.click();
 
-	// Wait until it's closed
-	cy.get('.vex-overlay')
-		.should('not.exist');
+			// Close warning about clipboard operations
+			cy.get('.vex-dialog-button-primary.vex-dialog-button.vex-first')
+				.click();
+
+			// Wait until it's closed
+			cy.get('.vex-overlay')
+				.should('not.exist');
+		});
 }
 
 function beforeAllMobile(fileName, subFolder) {
