@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -41,6 +42,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -109,6 +111,7 @@ public class LOActivity extends AppCompatActivity {
     private Thread nativeMsgThread;
     private Handler nativeHandler;
     private Looper nativeLooper;
+    private Bundle savedInstanceState;
 
     /** In case the mobile-wizard is visible, we have to intercept the Android's Back button. */
     private boolean mMobileWizardVisible = false;
@@ -141,7 +144,6 @@ public class LOActivity extends AppCompatActivity {
                                           String fromAssetPath, String targetDir) {
         try {
             String[] files = assetManager.list(fromAssetPath);
-
             boolean res = true;
             for (String file : files) {
                 String[] dirOrFile = assetManager.list(fromAssetPath + "/" + file);
@@ -254,12 +256,33 @@ public class LOActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         sPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        updatePreferences();
-
         setContentView(R.layout.lolib_activity_main);
+        init();
+    }
 
+    private void init() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                updatePreferences();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                initUI();
+            }
+        }.execute();
+    }
+
+    private void initUI() {
+        TextView assetsTextView = findViewById(R.id.assetsTextView);
+        ProgressBar assetsProgressbar = findViewById(R.id.assetsProgressbar);
+        assetsProgressbar.setVisibility(View.GONE);
+        assetsTextView.setVisibility(View.GONE);
         isDocDebuggable = sPrefs.getBoolean(KEY_ENABLE_SHOW_DEBUG_INFO, false) && BuildConfig.DEBUG;
 
         if (getIntent().getData() != null) {
@@ -442,7 +465,8 @@ public class LOActivity extends AppCompatActivity {
         Log.i(TAG, "onResume..");
 
         // check for config change
-        updatePreferences();
+        if (documentLoaded)
+            updatePreferences();
     }
 
     @Override
