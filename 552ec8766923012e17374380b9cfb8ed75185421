@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cac8be01_0e9fce78",
+        "filename": "loleaflet/src/control/Control.ContextMenu.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2020-02-12T09:03:55Z",
+      "side": 1,
+      "message": "unlocalisable text, it rather should be:\ntext: _UNO(\u0027.uno:Delete\u0027)",
+      "range": {
+        "startLine": 174,
+        "startChar": 15,
+        "endLine": 174,
+        "endChar": 21
+      },
+      "revId": "552ec8766923012e17374380b9cfb8ed75185421",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63613cfb_f5d0f580",
+        "filename": "loleaflet/src/unocommands.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2020-02-12T09:03:55Z",
+      "side": 1,
+      "message": "manually inserted line to the generated file?",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 7
+      },
+      "revId": "552ec8766923012e17374380b9cfb8ed75185421",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
