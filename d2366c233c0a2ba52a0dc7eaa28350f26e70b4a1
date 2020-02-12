@@ -22,6 +22,30 @@
       "revId": "d2366c233c0a2ba52a0dc7eaa28350f26e70b4a1",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d077ade7_532dee95",
+        "filename": "loleaflet/src/control/Control.MobileWizard.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1001306
+      },
+      "writtenOn": "2020-02-12T18:16:58Z",
+      "side": 1,
+      "message": "I had tried it. It doesn\u0027t work because there is not scroll",
+      "parentUuid": "391e7199_39cfb057",
+      "range": {
+        "startLine": 291,
+        "startChar": 13,
+        "endLine": 291,
+        "endChar": 22
+      },
+      "revId": "d2366c233c0a2ba52a0dc7eaa28350f26e70b4a1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
