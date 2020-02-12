@@ -608,6 +608,7 @@ L.Map.TouchGesture = L.Handler.extend({
 		},'mousedown');
 		this._startSwipePoint = new L.Point(evt.clientX, evt.clientY);
 		this._map.dragging._draggable._onDown(evt);
+		this._map._docLayer._preFetchTiles();
 		this._timeStamp = Date.now();
 		L.Util.requestAnimFrame(this._autoscroll, this, true);
 	},
@@ -636,6 +637,8 @@ L.Map.TouchGesture = L.Handler.extend({
 			this._map.dragging._draggable._startPos = this._newPos;
 			this._newPos._add(delta);
 			this._map.dragging._draggable._onMove(e);
+			this._map.fire('moveend');
+			this._map._docLayer._preFetchTiles();
 			this.autoscrollAnimReq = L.Util.requestAnimFrame(this._autoscroll, this, true);
 		}
 		else {
