@@ -115,6 +115,7 @@ public class LOActivity extends AppCompatActivity {
 
     /** In case the mobile-wizard is visible, we have to intercept the Android's Back button. */
     private boolean mMobileWizardVisible = false;
+    private boolean mIsEditModeActive = false;
 
     private ValueCallback<Uri[]> valueCallback;
 
@@ -598,6 +599,9 @@ public class LOActivity extends AppCompatActivity {
             // just return one level up in the mobile-wizard (or close it)
             callFakeWebsocketOnMessage("'mobile: mobilewizardback'");
             return;
+        } else if (mIsEditModeActive) {
+            callFakeWebsocketOnMessage("'mobile: readonlymode'");
+            return;
         }
 
         finishWithProgress();
@@ -758,6 +762,17 @@ public class LOActivity extends AppCompatActivity {
                         break;
                     case "hide":
                         mMobileWizardVisible = false;
+                        break;
+                }
+                return false;
+            }
+            case "EDITMODE": {
+                switch (messageAndParam[1]) {
+                    case "on":
+                        mIsEditModeActive = true;
+                        break;
+                    case "off":
+                        mIsEditModeActive = false;
                         break;
                 }
                 return false;

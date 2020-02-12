@@ -50,6 +50,8 @@ L.Map.include({
 		}
 
 		this.fire('updatepermission', {perm : perm});
+		if (window.ThisIsTheAndroidApp)
+			window.postMobileMessage('EDITMODE on');
 	},
 
 	_enterReadOnlyMode: function (perm) {
@@ -62,6 +64,8 @@ L.Map.include({
 		this._docLayer._onUpdateTextSelection();
 
 		this.fire('updatepermission', {perm : perm});
+		if (window.ThisIsTheAndroidApp)
+			window.postMobileMessage('EDITMODE off');
 	},
 
 	enableSelection: function () {
