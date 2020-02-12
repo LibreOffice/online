@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "391e7199_39cfb057",
+        "filename": "loleaflet/src/control/Control.MobileWizard.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-02-12T00:55:12Z",
+      "side": 1,
+      "message": "can you try this._map.scrollTop() ?",
+      "range": {
+        "startLine": 291,
+        "startChar": 13,
+        "endLine": 291,
+        "endChar": 22
+      },
+      "revId": "d2366c233c0a2ba52a0dc7eaa28350f26e70b4a1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
