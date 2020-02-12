@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae1c50f6_4b87e244",
+        "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-02-12T13:02:28Z",
+      "side": 1,
+      "message": "this._map._docLayer._preFetchBorder \u003d calculate the border doc approximation based on velocity\ncall this._map._docLayer._preFetchTiles() before autoscroll is called",
+      "revId": "442cd9ea4386e8f55e9dfc089bfe3322ae13080e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d438a1_1df411be",
+        "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-02-12T13:02:28Z",
+      "side": 1,
+      "message": "I think this is called implicitly when called this._map.dragging._draggable._onUp()\n\ncan you please verify?",
+      "revId": "442cd9ea4386e8f55e9dfc089bfe3322ae13080e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
