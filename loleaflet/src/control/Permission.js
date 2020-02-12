@@ -54,7 +54,10 @@ L.Map.include({
 		if (this._docLayer._docType === 'text') {
 			this.setZoom(10);
 		}
+		$('.closemobile').addClass('editmode');
 
+		if (window.ThisIsTheAndroidApp)
+			window.postMobileMessage('EDITMODE on');
 	},
 
 	_enterReadOnlyMode: function (perm) {
@@ -67,6 +70,10 @@ L.Map.include({
 		this._docLayer._onUpdateTextSelection();
 
 		this.fire('updatepermission', {perm : perm});
+		$('.closemobile').removeClass('editmode');
+
+		if (window.ThisIsTheAndroidApp)
+			window.postMobileMessage('EDITMODE off');
 	},
 
 	enableSelection: function () {

@@ -349,15 +349,23 @@ function onClick(e, id, item, subItem) {
 		L.toggleFullScreen();
 	}
 	else if (id === 'close' || id === 'closemobile') {
-		if (window.ThisIsAMobileApp) {
-			window.postMobileMessage('BYE');
+		if (map._permission == 'edit') {
+			// in edit mode, passing 'edit' actually enters readonly mode
+			// and bring the blue circle editmode button back
+			map.setPermission('edit');
+			toolbar.uncheck(id);
 		} else {
-			map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
-			map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
+			if (window.ThisIsAMobileApp) {
+				window.postMobileMessage('BYE');
+			} else {
+				map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
+				map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
+			}
+			if (!map._disableDefaultAction['UI_Close']) {
+				map.remove();
+			}
 		}
-		if (!map._disableDefaultAction['UI_Close']) {
-			map.remove();
-		}
+
 	}
 	else if (id === 'mobile_wizard') {
 		if (window.mobileWizard) {
@@ -847,7 +855,14 @@ function createToolbar() {
 
 function initNormalToolbar() {
 	var toolItems = [
-		{type: 'button',  id: 'closemobile',  img: 'closemobile', desktop: false, mobile: false, tablet: true, hidden: true},
+		{type: 'button',  id: 'closemobile',  img: 'closemobile', desktop: false, mobile: false, tablet: true, hidden: true, 
+			onRefresh: function(edata) {
+				if (map.getPermission() === 'edit') {
+					edata.item.img = 'editmode';
+				} else {
+					edata.item.img = 'closemobile';
+				}
+			}},
 		{type: 'button',  id: 'save', img: 'save', hint: _UNO('.uno:Save')},
 		{type: 'button',  id: 'print', img: 'print', hint: _UNO('.uno:Print', 'text'), mobile: false, tablet: false},
 		{type: 'break', id: 'savebreak', mobile: false},
