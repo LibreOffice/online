@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3136de_31f0a218",
+        "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1002266
+      },
+      "writtenOn": "2020-02-12T14:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae1c50f6_4b87e244",
+      "revId": "442cd9ea4386e8f55e9dfc089bfe3322ae13080e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49d438a1_1df411be",
         "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "442cd9ea4386e8f55e9dfc089bfe3322ae13080e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d398c1b7_e20f1547",
+        "filename": "loleaflet/src/map/handler/Map.TouchGesture.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1002266
+      },
+      "writtenOn": "2020-02-12T14:29:45Z",
+      "side": 1,
+      "message": "Yes, It is called by this._map.dragging._draggable._onUp() and I found this from there only. The reason behind calling this explicitly was autoscrolling mimics the dragging event and _onUp() is not called until the scrolling stops so new tiles were not loaded until the scrolling stopped.",
+      "parentUuid": "49d438a1_1df411be",
+      "revId": "442cd9ea4386e8f55e9dfc089bfe3322ae13080e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
