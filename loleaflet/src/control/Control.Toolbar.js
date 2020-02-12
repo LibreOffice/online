@@ -351,15 +351,23 @@ function onClick(e, id, item, subItem) {
 		L.toggleFullScreen();
 	}
 	else if (id === 'close' || id === 'closemobile') {
-		if (window.ThisIsAMobileApp) {
-			window.postMobileMessage('BYE');
+		if (map._permission == 'edit') {
+			// in edit mode, passing 'edit' actually enters readonly mode
+			// and bring the blue circle editmode button back
+			map.setPermission('edit');
+			toolbar.uncheck(id);
 		} else {
-			map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
-			map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
+			if (window.ThisIsAMobileApp) {
+				window.postMobileMessage('BYE');
+			} else {
+				map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
+				map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
+			}
+			if (!map._disableDefaultAction['UI_Close']) {
+				map.remove();
+			}
 		}
-		if (!map._disableDefaultAction['UI_Close']) {
-			map.remove();
-		}
+
 	}
 	else if (id === 'mobile_wizard') {
 		if (window.mobileWizard) {
@@ -2288,6 +2296,12 @@ function onUpdatePermission(e) {
 				toolbar.disable(items[idx].id);
 			}
 		}
+		if (e.perm === 'edit') {
+			toolbar.set('closemobile', {img: 'editmode'});
+		} else {
+			toolbar.set('closemobile', {img: 'closebutton'});
+		}
+
 	}
 
 	var spreadsheetButtons = ['insertsheet'];
@@ -2349,6 +2363,7 @@ function onUpdatePermission(e) {
 			toolbarDownButtons.forEach(function(id) {
 				toolbar.enable(id);
 			});
+			toolbar.set('closemobile', {img: 'editmode'});
 		}
 		$('#search-input').prop('disabled', false);
 
@@ -2392,6 +2407,7 @@ function onUpdatePermission(e) {
 			toolbarDownButtons.forEach(function(id) {
 				toolbar.disable(id);
 			});
+			toolbar.set('closemobile', {img: 'closemobile'});
 		}
 		$('#search-input').prop('disabled', true);
 

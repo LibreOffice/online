@@ -244,6 +244,11 @@ L.Map = L.Evented.extend({
 				this._fireInitComplete('CharFontName');
 			}
 		});
+		if (window.ThisIsTheAndroidApp) {
+			this.on('readonlymode', function() {
+				this.setPermission('edit');
+			});
+		}
 
 		this.showBusy(_('Initializing...'), false);
 		this.on('statusindicator', this._onUpdateProgress, this);
