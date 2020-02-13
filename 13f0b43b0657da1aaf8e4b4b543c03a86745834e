@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69c0aeb9_ab61bf33",
+        "filename": "cypress_test/integration_tests/common/helper.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-02-13T16:55:36Z",
+      "side": 1,
+      "message": "This method works only for mobile, even if the method name is not saying that. So you don\u0027t need to check win.mode.isMobile() here. You need only update the css selector without any additional condition.",
+      "revId": "13f0b43b0657da1aaf8e4b4b543c03a86745834e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
