@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-12 11:04+0200\n"
-"PO-Revision-Date: 2020-02-12 10:18+0000\n"
+"PO-Revision-Date: 2020-02-12 19:04+0000\n"
 "Last-Translator: Xosé <xosecalvo@gmail.com>\n"
 "Language-Team: Galician <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/gl/>\n"
 "Language: gl\n"
@@ -1327,15 +1327,15 @@ msgstr "Empregue as lapelas <span class=\"ui\">Axuda coa introdución de datos</
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:376-11
 msgid "To remove the validity of the cell, open the dialog and set the <span class=\"ui\">Allow</span> list to “All values”."
-msgstr ""
+msgstr "Para eliminar a validación da cela, abra o diálogo e configure a lista <span class=\"ui\">Permitir</span> como «Todos os valores»."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:378-5
 msgid "<span class=\"def\">Comments:</span> In a spreadsheet you can insert one comment per cell. When you select <span class=\"ui\">Insert comment</span>, a popup appears that allows you to write the content for the comment. A red dot shows on the top right corner of the cell when it has a comment. Hover the mouse on the cell to display comments."
-msgstr ""
+msgstr "<span class=\"def\">Comentarios:</span> Nunha folla de cálculo pódese inserir un comentario por cela. Ao seleccionar <span class=\"ui\">Inserir comentario</span> aparece unha xaneliña que permite escribir o contido do comentario. Un punto vermello no recanto superior dereito mostra que unha cela ten un comentario. Pase o rato por riba da cela para mostrar os comentarios."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:380-5
 msgid "<span class=\"def\">Conditional formatting:</span> <span class=\"productname\">%productName</span> adds symbols to each cell of a range based on cells conditions. Select the cell range and click the <span class=\"ui\">Conditional Formatting</span> icon on the toolbar. Select the symbol set to apply on the range."
-msgstr ""
+msgstr "<span class=\"def\">Formato condicional:</span> O <span class=\"productname\">%productName</span> engade símbolos a cada cela dun intervalo baseándose nas condicións das celas. Seleccione o intervalo de celas e prema na icona  <span class=\"ui\">Formato condicional</span> da barra de ferramentas. Seleccione o conxunto de símbolos que desexe aplicar ao intervalo."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:388-5
 msgid "<span class=\"productname\">%productName</span> edits text documents in the same way you edit a desktop document. It provides a What You See Is What You Get (WYSIWYG) layout – that conveniently lays out the document as it will be printed. Operations like typing text, cut, copy and pasting contents, selecting text, inserting, resizing, anchoring images, adding and handling tables and charts, are similar to a desktop word processor. Use the keyboard, menus and toolbars to interact with your document."
