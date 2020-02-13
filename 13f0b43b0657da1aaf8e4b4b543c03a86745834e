@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3df8110a_cde858b8",
+        "filename": "cypress_test/integration_tests/common/helper.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-02-13T17:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69c0aeb9_ab61bf33",
+      "revId": "13f0b43b0657da1aaf8e4b4b543c03a86745834e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75e30723_7f31b606",
         "filename": "cypress_test/integration_tests/common/helper.js",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "13f0b43b0657da1aaf8e4b4b543c03a86745834e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df26de11_fefd4376",
+        "filename": "cypress_test/integration_tests/common/helper.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-02-13T17:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75e30723_7f31b606",
+      "revId": "13f0b43b0657da1aaf8e4b4b543c03a86745834e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
