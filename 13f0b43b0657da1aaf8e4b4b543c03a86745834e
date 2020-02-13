@@ -16,6 +16,23 @@
       "revId": "13f0b43b0657da1aaf8e4b4b543c03a86745834e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75e30723_7f31b606",
+        "filename": "cypress_test/integration_tests/common/helper.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-02-13T17:07:44Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "13f0b43b0657da1aaf8e4b4b543c03a86745834e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
