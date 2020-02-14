@@ -235,12 +235,18 @@ std::string Proof::SignProof(const std::vector<unsigned char>& proof) const
 
 VecOfStringPairs Proof::GetProofHeaders(const std::string& access_token, const std::string& uri) const
 {
+    std::string msg = "GetProofHeaders called: access_token is\n" + access_token + "\nuri is\n" + uri + "\n";
+    LOG_WRN(msg);
     VecOfStringPairs vec;
     if (m_pKey)
     {
         int64_t ticks = DotNetTicks(std::chrono::system_clock::now());
         vec.emplace_back("X-WOPI-TimeStamp", std::to_string(ticks));
         vec.emplace_back("X-WOPI-Proof", SignProof(GetProof(access_token, uri, ticks)));
+        msg = "Returning WOPI security headers:\n";
+        for (const auto& i : vec)
+            msg += i.first + ":" + i.second + "\n";
+        LOG_WRN(msg);
     }
     return vec;
 }
