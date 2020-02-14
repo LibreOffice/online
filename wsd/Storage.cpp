@@ -535,8 +535,7 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
         std::istream& rs = psession->receiveResponse(response);
         callDuration = (std::chrono::steady_clock::now() - startTime);
 
-        Log::StreamLogger logger = Log::trace();
-        if (logger.enabled())
+        if (Log::StreamLogger logger = Log::trace(); logger.enabled())
         {
             logger << "WOPI::CheckFileInfo header for URI [" << uriAnonym << "]:\n";
             for (const auto& pair : response)
