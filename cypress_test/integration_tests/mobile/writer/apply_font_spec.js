@@ -36,7 +36,7 @@ describe('Apply font changes.', function() {
 
 		// Combobox entry contains the selected font name
 		cy.get('#fontnamecombobox .ui-header-right')
-			.contains('Linux Libertine G');
+			.contains('Linux Libertine Gx');
 
 		// Close mobile wizard
 		cy.get('#tb_actionbar_item_mobile_wizard')
