@@ -526,6 +526,17 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
         if (_reuseCookies)
             addStorageReuseCookie(request, cookies);
         addWopiProof(request, params["access_token"]);
+
+        {
+            std::stringstream ss;
+            ss << "WOPI::CheckFileInfo request header for URI [" << uriAnonym << "]:\n";
+            for (const auto& pair : request)
+            {
+                ss << '\t' << pair.first << ": " << pair.second << " / ";
+            }
+            LOG_TRC(ss.str());
+        }
+
         const auto startTime = std::chrono::steady_clock::now();
 
         std::unique_ptr<Poco::Net::HTTPClientSession> psession(getHTTPClientSession(uriObject));
