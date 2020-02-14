@@ -451,9 +451,10 @@ static void addStorageReuseCookie(Poco::Net::HTTPRequest& request, const std::st
     }
 }
 
-void addWopiProof(Poco::Net::HTTPRequest& request, const std::string& access_token)
+void addWopiProof(Poco::Net::HTTPRequest& request, const std::string& uri,
+                  const std::string& access_token)
 {
-    for (const auto& header : GetProofHeaders(access_token, request.getURI()))
+    for (const auto& header : GetProofHeaders(access_token, uri))
         request.set(header.first, header.second);
 }
 
@@ -525,21 +526,16 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
         addStorageDebugCookie(request);
         if (_reuseCookies)
             addStorageReuseCookie(request, cookies);
-        addWopiProof(request, params["access_token"]);
+        addWopiProof(request, uriObject.toString(), params["access_token"]);
 
         {
-            Log::StreamLogger logger = Log::trace();
-            if (logger.enabled())
+            std::stringstream ss;
+            ss << "WOPI::CheckFileInfo request header for URI [" << uriAnonym << "]:\n";
+            for (const auto& pair : request)
             {
-                logger << "WOPI::CheckFileInfo request header for URI [" << uriAnonym << "]:\n";
-                for (const auto& pair : request)
-                {
-                    logger << '\t' << pair.first << ": " << pair.second << " / ";
-                }
-
-                LOG_END(logger, true);
-                logger.flush();
+                ss << '\t' << pair.first << ": " << pair.second << " / ";
             }
+            LOG_TRC(ss.str());
         }
 
         const auto startTime = std::chrono::steady_clock::now();
@@ -773,7 +769,7 @@ bool WopiStorage::updateLockState(const Authorization& auth, const std::string& 
         addStorageDebugCookie(request);
         if (_reuseCookies)
             addStorageReuseCookie(request, cookies);
-        addWopiProof(request, params["access_token"]);
+        addWopiProof(request, uriObject.toString(), params["access_token"]);
 
         psession->sendRequest(request);
         Poco::Net::HTTPResponse response;
@@ -852,7 +848,7 @@ std::string WopiStorage::loadStorageFileToLocal(const Authorization& auth,
         addStorageDebugCookie(request);
         if (_reuseCookies)
             addStorageReuseCookie(request, cookies);
-        addWopiProof(request, params["access_token"]);
+        addWopiProof(request, uriObject.toString(), params["access_token"]);
         psession->sendRequest(request);
 
         Poco::Net::HTTPResponse response;
@@ -1011,7 +1007,7 @@ WopiStorage::saveLocalFileToStorage(const Authorization& auth, const std::string
         addStorageDebugCookie(request);
         if (_reuseCookies)
             addStorageReuseCookie(request, cookies);
-        addWopiProof(request, params["access_token"]);
+        addWopiProof(request, uriObject.toString(), params["access_token"]);
         std::ostream& os = psession->sendRequest(request);
 
         std::ifstream ifs(filePath);
