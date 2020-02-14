@@ -528,18 +528,13 @@ std::unique_ptr<WopiStorage::WOPIFileInfo> WopiStorage::getWOPIFileInfo(const Au
         addWopiProof(request, params["access_token"]);
 
         {
-            Log::StreamLogger logger = Log::trace();
-            if (logger.enabled())
+            std::stringstream ss;
+            ss << "WOPI::CheckFileInfo request header for URI [" << uriAnonym << "]:\n";
+            for (const auto& pair : request)
             {
-                logger << "WOPI::CheckFileInfo request header for URI [" << uriAnonym << "]:\n";
-                for (const auto& pair : request)
-                {
-                    logger << '\t' << pair.first << ": " << pair.second << " / ";
-                }
-
-                LOG_END(logger, true);
-                logger.flush();
+                ss << '\t' << pair.first << ": " << pair.second << " / ";
             }
+            LOG_TRC(ss.str());
         }
 
         const auto startTime = std::chrono::steady_clock::now();
