@@ -87,6 +87,10 @@ task copyUnpackAssets(type: Copy) {
             includes = ['**']
         }
     }
+    into('etc/loolwsd') {
+        from('/android/loolkitconfig.xcu')
+            includes = [ 'loolkitconfig.xcu' ]
+    }
     into('user/fonts') {
         from "${liboInstdir}/share/fonts/truetype"
         // Note: restrict list of fonts due to size considerations - no technical reason anymore
