@@ -187,7 +187,7 @@ static void updateTemplates(NSData *data, NSURLResponse *response)
     if (!trace)
         trace = strdup("warning");
 
-    setenv("SAL_LOK_OPTIONS", "unipoll", 0);
+    setupKitEnvironment();
 
     Log::initialize("Mobile", trace, false, false, {});
     Util::setThreadName("main");
@@ -202,6 +202,7 @@ static void updateTemplates(NSData *data, NSURLResponse *response)
     else
         app_locale = [[NSLocale preferredLanguages] firstObject];
 
+#error why are there IOS conditionals in Kit.cpp::lokit_main - and we don't use that ?
     lo_kit = lok_init_2(nullptr, nullptr);
 
     comphelper::LibreOfficeKit::setLanguageTag(LanguageTag(OUString::fromUtf8(OString([app_locale UTF8String])), true));
