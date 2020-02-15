@@ -193,9 +193,9 @@ std::vector<unsigned char> Proof::RSA2CapiBlob(const std::vector<unsigned char>&
     capiBlob.reserve(capiBlob.size() + bitLen.size() + exponent.size() + modulus.size());
     std::copy(bitLen.begin(), bitLen.end(), std::back_inserter(capiBlob));
     // exponent - 4 bytes (little-endian)
-    std::copy(exponent.rbegin(), exponent.rend(), std::back_inserter(capiBlob));
+    std::copy(exponent.begin(), exponent.end(), std::back_inserter(capiBlob));
     // modulus (little-endian)
-    std::copy(modulus.rbegin(), modulus.rend(), std::back_inserter(capiBlob));
+    std::copy(modulus.begin(), modulus.end(), std::back_inserter(capiBlob));
     return capiBlob;
 }
 
