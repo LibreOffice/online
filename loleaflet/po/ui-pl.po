@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-12 11:04+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-02-14 09:04+0000\n"
+"Last-Translator: Piotr Roszkowski <piotrekr1@gmail.com>\n"
+"Language-Team: Polish <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/pl/>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 2.2.5\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.9.1\n"
 "X-Pootle-Path: /pl/libo_online/loleaflet-ui-pl.po\n"
 "X-Pootle-Revision: 3938085\n"
 
@@ -242,11 +243,11 @@ msgstr "Serwer napotkał błąd %0 podczas analizowania polecenia %1."
 
 #: src/control/Control.ContextMenu.js:174
 msgid "Delete"
-msgstr ""
+msgstr "Usuń"
 
 #: src/control/Control.ContextMenu.js:259
 msgid "Paste Special"
-msgstr ""
+msgstr "Wklej specjalnie"
 
 #: src/control/Control.DocumentRepair.js:33
 msgid "Repair Document"
@@ -314,15 +315,15 @@ msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:160
 msgid "Ellipsoid"
-msgstr ""
+msgstr "Eliptyczna"
 
 #: src/control/Control.JSDialogBuilder.js:164
 msgid "Quadratic"
-msgstr ""
+msgstr "Tetragonalna"
 
 #: src/control/Control.JSDialogBuilder.js:167
 msgid "Square"
-msgstr ""
+msgstr "Kwadrat"
 
 #: src/control/Control.JSDialogBuilder.js:170
 msgid "Fixed size"
@@ -335,19 +336,19 @@ msgstr "Brak"
 
 #: src/control/Control.JSDialogBuilder.js:762
 msgid "Color"
-msgstr ""
+msgstr "Kolor"
 
 #: src/control/Control.JSDialogBuilder.js:765
 msgid "Gradient"
-msgstr ""
+msgstr "Gradient"
 
 #: src/control/Control.JSDialogBuilder.js:768
 msgid "Hatching"
-msgstr ""
+msgstr "Kreskowanie"
 
 #: src/control/Control.JSDialogBuilder.js:772
 msgid "Pattern"
-msgstr ""
+msgstr "Deseń"
 
 #: src/control/Control.JSDialogBuilder.js:905
 msgid "From"
@@ -358,24 +359,20 @@ msgid "To"
 msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:1040
-#, fuzzy
-#| msgid "Font"
 msgid "Font Name"
-msgstr "Czcionka"
+msgstr "Nazwa czcionki"
 
 #: src/control/Control.JSDialogBuilder.js:1042
-#, fuzzy
-#| msgid "Not Signed"
 msgid "Font Size"
-msgstr "Nie podpisany"
+msgstr "Rozmiar czcionki"
 
 #: src/control/Control.JSDialogBuilder.js:1518
 msgid "Rows"
-msgstr ""
+msgstr "Wiersze"
 
 #: src/control/Control.JSDialogBuilder.js:1519
 msgid "Columns"
-msgstr ""
+msgstr "Kolumny"
 
 #: src/control/Control.JSDialogBuilder.js:1539
 #: src/control/Control.Toolbar.js:969
@@ -457,7 +454,7 @@ msgstr "Wyzeruj przybliżenie"
 
 #: src/control/Control.Menubar.js:64
 msgid "Show Ruler"
-msgstr ""
+msgstr "Pokaż linijkę"
 
 #: src/control/Control.Menubar.js:74 src/control/Control.Menubar.js:291
 #: src/control/Control.Menubar.js:382 src/control/Control.Menubar.js:623
@@ -532,19 +529,19 @@ msgstr "Skoroszyt Excel (.xlsx)"
 #: src/control/Control.Menubar.js:474 src/control/Control.Menubar.js:521
 #: src/control/Control.Menubar.js:566
 msgid "Export as"
-msgstr ""
+msgstr "Eksportuj jako"
 
 #: src/control/Control.Menubar.js:500
 msgid "Page Setup"
-msgstr ""
+msgstr "Ustawienia strony"
 
 #: src/control/Control.Menubar.js:501
 msgid "Portrait"
-msgstr ""
+msgstr "Orientacja pionowa"
 
 #: src/control/Control.Menubar.js:502
 msgid "Landscape"
-msgstr ""
+msgstr "Orientacja pozioma"
 
 #: src/control/Control.Menubar.js:763 src/control/Control.Toolbar.js:2054
 msgid "Reset to Default Language"
