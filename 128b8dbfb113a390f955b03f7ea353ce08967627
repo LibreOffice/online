@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "859286ec_9a566d0e",
+        "filename": "wsd/Storage.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2020-02-18T15:42:39Z",
+      "side": 1,
+      "message": "I suppose that throwing here somehow drops it, or maybe postpones to some future where it\u0027s hard to see, while I expect the output to come before the LOG_ERR above.",
+      "range": {
+        "startLine": 553,
+        "startChar": 8,
+        "endLine": 553,
+        "endChar": 69
+      },
+      "revId": "128b8dbfb113a390f955b03f7ea353ce08967627",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
