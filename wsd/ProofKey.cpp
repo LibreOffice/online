@@ -37,6 +37,7 @@
 #include <Poco/URI.h>
 #include <Poco/Util/Application.h>
 
+#include "Exceptions.hpp"
 #include <Log.hpp>
 #include <Util.hpp>
 
@@ -177,6 +178,13 @@ std::string Proof::ProofKeyPath()
 std::vector<unsigned char> Proof::RSA2CapiBlob(const std::vector<unsigned char>& modulus,
                                                const std::vector<unsigned char>& exponent)
 {
+    // Exponent might have arbitrary length in OpenSSL; we need exactly 4
+    if (exponent.size() > 4)
+        throw ParseError("Proof key public exponent is longer than 4 bytes.");
+    // make sure exponent length is correct; assume we are passed little-endian vectors
+    std::vector<unsigned char> exponent32LE(4);
+    std::copy(exponent.begin(), exponent.end(), exponent32LE.begin());
+
     std::vector<unsigned char> capiBlob = {
         0x06, 0x02, 0x00, 0x00,
         0x00, 0xA4, 0x00, 0x00,
@@ -184,12 +192,12 @@ std::vector<unsigned char> Proof::RSA2CapiBlob(const std::vector<unsigned char>&
     };
     // modulus size in bits - 4 bytes (little-endian)
     const auto bitLen = ToLEBytes<std::uint32_t>(modulus.size() * 8);
-    capiBlob.reserve(capiBlob.size() + bitLen.size() + exponent.size() + modulus.size());
+    capiBlob.reserve(capiBlob.size() + bitLen.size() + exponent32LE.size() + modulus.size());
     std::copy(bitLen.begin(), bitLen.end(), std::back_inserter(capiBlob));
     // exponent - 4 bytes (little-endian)
-    std::copy(exponent.rbegin(), exponent.rend(), std::back_inserter(capiBlob));
+    std::copy(exponent32LE.begin(), exponent32LE.end(), std::back_inserter(capiBlob));
     // modulus (little-endian)
-    std::copy(modulus.rbegin(), modulus.rend(), std::back_inserter(capiBlob));
+    std::copy(modulus.begin(), modulus.end(), std::back_inserter(capiBlob));
     return capiBlob;
 }
 
