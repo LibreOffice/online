@@ -8,14 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-12 11:04+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-02-18 10:32+0000\n"
+"Last-Translator: Andras Timar <timar74@gmail.com>\n"
+"Language-Team: Russian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ru/>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 2.2.5\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.10.3\n"
 "X-Pootle-Path: /ru/libo_online/loleaflet-ui-ru.po\n"
 "X-Pootle-Revision: 3938105\n"
 
@@ -170,7 +171,7 @@ msgstr "Выключить сервер"
 
 #: admin/admin.strings.js:43
 msgid "Server uptime"
-msgstr ""
+msgstr "Время работы сервера"
 
 #: admin/src/AdminSocketAnalytics.js:219
 msgid "Received"
@@ -242,7 +243,7 @@ msgstr "Сервер столкнулся с ошибкой %0 при анали
 
 #: src/control/Control.ContextMenu.js:174
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: src/control/Control.ContextMenu.js:259
 msgid "Paste Special"
@@ -282,51 +283,51 @@ msgstr "Вы"
 
 #: src/control/Control.DownloadProgress.js:36
 msgid "Start download"
-msgstr ""
+msgstr "Начать скачивание"
 
 #: src/control/Control.DownloadProgress.js:51
 msgid "Confirm copy to clipboard"
-msgstr ""
+msgstr "Подтвердить копирование в буфер обмена"
 
 #: src/control/Control.DownloadProgress.js:209
 msgid "Start upload"
-msgstr ""
+msgstr "Начать загрузку"
 
 #: src/control/Control.DownloadProgress.js:314
 msgid "Start cross copy/paste"
-msgstr ""
+msgstr "Начать кросс-копирование / вставку"
 
 #: src/control/ColorPicker.js:121
 msgid "No color"
-msgstr ""
+msgstr "Нет цвета"
 
 #: src/control/Control.JSDialogBuilder.js:151
 msgid "Linear"
-msgstr ""
+msgstr "Линейный"
 
 #: src/control/Control.JSDialogBuilder.js:154
 msgid "Axial"
-msgstr ""
+msgstr "Осевой"
 
 #: src/control/Control.JSDialogBuilder.js:157
 msgid "Radial"
-msgstr ""
+msgstr "Радиальный"
 
 #: src/control/Control.JSDialogBuilder.js:160
 msgid "Ellipsoid"
-msgstr ""
+msgstr "Эллипсоидный"
 
 #: src/control/Control.JSDialogBuilder.js:164
 msgid "Quadratic"
-msgstr ""
+msgstr "Квадратный"
 
 #: src/control/Control.JSDialogBuilder.js:167
 msgid "Square"
-msgstr ""
+msgstr "Прямоугольный"
 
 #: src/control/Control.JSDialogBuilder.js:170
 msgid "Fixed size"
-msgstr ""
+msgstr "Фиксированный размер"
 
 #: src/control/Control.JSDialogBuilder.js:759
 #: src/control/Control.Toolbar.js:1644
@@ -335,47 +336,43 @@ msgstr "Нет"
 
 #: src/control/Control.JSDialogBuilder.js:762
 msgid "Color"
-msgstr ""
+msgstr "Цвет"
 
 #: src/control/Control.JSDialogBuilder.js:765
 msgid "Gradient"
-msgstr ""
+msgstr "Градиент"
 
 #: src/control/Control.JSDialogBuilder.js:768
 msgid "Hatching"
-msgstr ""
+msgstr "Штриховка"
 
 #: src/control/Control.JSDialogBuilder.js:772
 msgid "Pattern"
-msgstr ""
+msgstr "Орнамент"
 
 #: src/control/Control.JSDialogBuilder.js:905
 msgid "From"
-msgstr ""
+msgstr "От"
 
 #: src/control/Control.JSDialogBuilder.js:908
 msgid "To"
-msgstr ""
+msgstr "До"
 
 #: src/control/Control.JSDialogBuilder.js:1040
-#, fuzzy
-#| msgid "Font"
 msgid "Font Name"
 msgstr "Шрифт"
 
 #: src/control/Control.JSDialogBuilder.js:1042
-#, fuzzy
-#| msgid "Not Signed"
 msgid "Font Size"
-msgstr "Не подписано"
+msgstr "Кегль"
 
 #: src/control/Control.JSDialogBuilder.js:1518
 msgid "Rows"
-msgstr ""
+msgstr "Строки"
 
 #: src/control/Control.JSDialogBuilder.js:1519
 msgid "Columns"
-msgstr ""
+msgstr "Столбцы"
 
 #: src/control/Control.JSDialogBuilder.js:1539
 #: src/control/Control.Toolbar.js:969
@@ -457,7 +454,7 @@ msgstr "Сбросить масштаб"
 
 #: src/control/Control.Menubar.js:64
 msgid "Show Ruler"
-msgstr ""
+msgstr "Показать линейку"
 
 #: src/control/Control.Menubar.js:74 src/control/Control.Menubar.js:291
 #: src/control/Control.Menubar.js:382 src/control/Control.Menubar.js:623
@@ -477,7 +474,7 @@ msgstr "Ориентация текста"
 #: src/control/Control.Menubar.js:239 src/control/Control.Menubar.js:341
 #: src/control/Control.Menubar.js:457
 msgid "Online Help"
-msgstr ""
+msgstr "Справка"
 
 #: src/control/Control.Menubar.js:240 src/control/Control.Menubar.js:342
 #: src/control/Control.Menubar.js:458
@@ -532,19 +529,19 @@ msgstr "Таблица Excel (.xlsx)"
 #: src/control/Control.Menubar.js:474 src/control/Control.Menubar.js:521
 #: src/control/Control.Menubar.js:566
 msgid "Export as"
-msgstr ""
+msgstr "Экспортировать как"
 
 #: src/control/Control.Menubar.js:500
 msgid "Page Setup"
-msgstr ""
+msgstr "Параметры страницы"
 
 #: src/control/Control.Menubar.js:501
 msgid "Portrait"
-msgstr ""
+msgstr "Книжная"
 
 #: src/control/Control.Menubar.js:502
 msgid "Landscape"
-msgstr ""
+msgstr "Альбомная"
 
 #: src/control/Control.Menubar.js:763 src/control/Control.Toolbar.js:2054
 msgid "Reset to Default Language"
@@ -555,9 +552,8 @@ msgid "Are you sure you want to delete this slide?"
 msgstr "Действительно удалить этот слайд?"
 
 #: src/control/Control.Menubar.js:1182 src/map/Clipboard.js:769
-#, fuzzy
 msgid "<p>Your browser has very limited access to the clipboard, so use these keyboard shortcuts:<ul><li><b>Ctrl+C</b>: For copying.</li><li><b>Ctrl+X</b>: For cutting.</li><li><b>Ctrl+V</b>: For pasting.</li></ul></p>"
-msgstr "<p>У вашего браузера очень ограниченный доступ к буферу обмена, так что используйте сочетания клавиш:<ul><li><b>Ctrl+C</b>: Для копирования.</li><li><b>Ctrl+X</b>: Для вырезания.</li><li><b>Ctrl+P</b>: Для вставки.</li></ul></p>"
+msgstr "<p>У вашего браузера очень ограниченный доступ к буферу обмена, так что используйте сочетания клавиш:<ul><li><b>Ctrl+C</b>: Для копирования.</li><li><b>Ctrl+X</b>: Для вырезания.</li><li><b>Ctrl+V</b>: Для вставки.</li></ul></p>"
 
 #: src/control/Control.Scroll.Annotation.js:10
 msgid "Scroll up annotations"
@@ -589,7 +585,7 @@ msgstr "Действительно удалить эту страницу?"
 
 #: src/control/Control.Toolbar.js:856
 msgid "Default Style"
-msgstr ""
+msgstr "Базовый"
 
 #: src/control/Control.Toolbar.js:913
 msgid "Borders"
@@ -608,10 +604,8 @@ msgid "Insert shapes"
 msgstr "Вставить фигуры"
 
 #: src/control/Control.Toolbar.js:1057
-#, fuzzy
-#| msgid "Function"
 msgid "Function Wizard"
-msgstr "Функция"
+msgstr "Мастер функций"
 
 #: src/control/Control.Toolbar.js:1101
 msgid "First sheet"
@@ -905,19 +899,19 @@ msgstr "Эта версия %productName работает на"
 
 #: src/control/Toolbar.js:449
 msgid "Insert hyperlink"
-msgstr ""
+msgstr "Вставить гиперссылку"
 
 #: src/control/Toolbar.js:451
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: src/control/Toolbar.js:452
 msgid "Link"
-msgstr ""
+msgstr "Связь"
 
 #: src/control/Toolbar.js:455
 msgid "OK"
-msgstr ""
+msgstr "ОК"
 
 #: src/core/Socket.js:59
 msgid "IE11 has reached its maximum number of connections. Please see this document to increase this limit if needed: https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/general-info/ee330736(v=vs.85)#websocket-maximum-server-connections"
