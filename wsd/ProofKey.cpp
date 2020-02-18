@@ -185,6 +185,9 @@ std::vector<unsigned char> Proof::RSA2CapiBlob(const std::vector<unsigned char>&
     // modulus size in bits - 4 bytes (little-endian)
     const auto bitLen = ToLEBytes<std::uint32_t>(modulus.size() * 8);
     capiBlob.reserve(capiBlob.size() + bitLen.size() + exponent.size() + modulus.size());
+    LOG_DBG("capiBlob.size(): " << capiBlob.size() << "; bitLen.size(): " << bitLen.size()
+                                << "; exponent.size(): " << exponent.size()
+                                << "; modulus.size(): " << modulus.size());
     std::copy(bitLen.begin(), bitLen.end(), std::back_inserter(capiBlob));
     // exponent - 4 bytes (little-endian)
     std::copy(exponent.rbegin(), exponent.rend(), std::back_inserter(capiBlob));
