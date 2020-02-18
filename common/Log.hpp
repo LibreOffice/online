@@ -223,7 +223,6 @@ namespace Log
 
     inline void operator<<(StreamLogger& lhs, const _end_marker&)
     {
-        (void)end;
         lhs.flush();
     }
 
@@ -265,6 +264,7 @@ namespace Log
     {                                                   \
         if (FILEP)                                      \
             LOG << "| " << LOG_FILE_NAME(__FILE__) << ':' << __LINE__; \
+        LOG << Log::end;                                \
     } while (false)
 
 #ifdef __ANDROID__
