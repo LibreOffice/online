@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac54451c_dcd464ab",
+        "filename": "wsd/ProofKey.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2020-02-18T21:56:38Z",
+      "side": 1,
+      "message": "If elements in the vectors are already little-endian, then these should be begin/end, not rbegin/rend",
+      "range": {
+        "startLine": 194,
+        "startChar": 23,
+        "endLine": 194,
+        "endChar": 73
+      },
+      "revId": "cfd8a680dbc0f30c0072fa097a7724ca59883b53",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
