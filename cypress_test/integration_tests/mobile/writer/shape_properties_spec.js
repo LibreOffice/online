@@ -323,4 +323,24 @@ describe('Change shape properties via mobile wizard.', function() {
 		cy.get('.leaflet-pane.leaflet-overlay-pane svg g svg g g g defs mask linearGradient')
 			.should('exist');
 	});
+
+	it('Arrow style items are hidden.', function() {
+		// Open mobile wizard
+		cy.get('#tb_actionbar_item_mobile_wizard')
+			.click();
+
+		// Change line transparency
+		cy.get('#LinePropertyPanel')
+			.click();
+
+		cy.get('#linestyle')
+			.should('be.visible');
+
+		cy.get('#beginarrowstyle')
+			.should('not.exist');
+
+		cy.get('#endarrowstyle')
+			.should('not.exist');
+
+	});
 });
