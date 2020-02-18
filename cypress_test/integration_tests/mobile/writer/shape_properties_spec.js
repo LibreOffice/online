@@ -269,6 +269,9 @@ describe('Change shape properties via mobile wizard.', function() {
 		cy.get('#LinePropertyPanel')
 			.click();
 
+		cy.get('#linewidth .spinfield')
+			.should('have.attr', 'readonly', 'readonly');
+
 		cy.get('#linewidth .plus')
 			.click();
 
