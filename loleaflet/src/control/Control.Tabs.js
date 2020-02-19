@@ -169,6 +169,58 @@ L.Control.Tabs = L.Control.extend({
 		if (part !== null) {
 			this._map.setPart(parseInt(part), /*external:*/ false, /*calledFromSetPartHandler:*/ true);
 		}
+<<<<<<< HEAD   (f324e5 Fix 1 fuzzy in Polish translation)
+=======
+	},
+
+	_insertSheetBefore: function() {
+		this._map.insertPage(this._tabForContextMenu);
+	},
+
+	_insertSheetAfter: function() {
+		this._map.insertPage(this._tabForContextMenu + 1);
+	},
+
+	_deleteSheet: function() {
+		var map = this._map;
+		var nPos = this._tabForContextMenu;
+		vex.dialog.confirm({
+			message: _('Are you sure you want to delete sheet, %sheet% ?').replace('%sheet%', $('#spreadsheet-tab' + this._tabForContextMenu).text()),
+			buttons: [
+				$.extend({}, vex.dialog.buttons.YES, { text: _('OK') }),
+				$.extend({}, vex.dialog.buttons.NO, { text: _('Cancel') })
+			],
+			callback: function(data) {
+				if (data) {
+					map.deletePage(nPos);
+				}
+			}
+		});
+	},
+
+	_renameSheet: function() {
+		var map = this._map;
+		var nPos = this._tabForContextMenu;
+		vex.dialog.open({
+			message: _('Enter new sheet name'),
+			buttons: [
+				$.extend({}, vex.dialog.buttons.YES, { text: _('OK') }),
+				$.extend({}, vex.dialog.buttons.NO, { text: _('Cancel') })
+			],
+			input: '<input name="sheetname" type="text" value="' + $('#spreadsheet-tab' + this._tabForContextMenu).text() + '" required />',
+			callback: function(data) {
+				map.renamePage(data.sheetname, nPos);
+			}
+		});
+	},
+
+	_showSheet: function() {
+		this._map.showPage();
+	},
+
+	_hideSheet: function() {
+		this._map.hidePage();
+>>>>>>> CHANGE (278ff6 localize the buttons on 'Rename sheet' dialog)
 	}
 });
 
