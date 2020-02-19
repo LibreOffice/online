@@ -19,19 +19,19 @@ check-local: @JAILS_PATH@ node_modules
 	$(call start_loolwsd)
 	$(call run_desktop_tests)
 	$(call run_mobile_tests)
-	@pkill loolwsd || true
+	@pkill --signal SIGKILL loolwsd || true
 
 check-desktop: @JAILS_PATH@ node_modules
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
 	$(call run_desktop_tests,$(spec))
-	@pkill loolwsd || true
+	@pkill --signal SIGKILL loolwsd || true
 
 check-mobile: @JAILS_PATH@ node_modules
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
 	$(call run_mobile_tests,$(spec))
-	@pkill loolwsd || true
+	@pkill --signal SIGKILL loolwsd || true
 
 run-desktop: @JAILS_PATH@ node_modules
 	$(call start_loolwsd)
@@ -41,7 +41,7 @@ run-desktop: @JAILS_PATH@ node_modules
 	$(CYPRESS_BINARY) open --config integrationFolder=$(DESKTOP_TEST_FOLDER),userAgent=$(DESKTOP_USER_AGENT) \
 			--env DATA_FOLDER=$(DESKTOP_DATA_FOLDER),WORKDIR=$(DESKTOP_WORKDIR),WSD_VERSION_HASH=$(LOOLWSD_VERSION_HASH) \
 			|| true
-	@pkill loolwsd || true
+	@pkill --signal SIGKILL loolwsd || true
 
 run-mobile: @JAILS_PATH@ node_modules
 	$(call start_loolwsd)
@@ -51,7 +51,7 @@ run-mobile: @JAILS_PATH@ node_modules
 	$(CYPRESS_BINARY) open --config integrationFolder=$(MOBILE_TEST_FOLDER),userAgent=$(MOBILE_USER_AGENT) \
 			--env DATA_FOLDER=$(MOBILE_DATA_FOLDER),WORKDIR=$(MOBILE_WORKDIR),WSD_VERSION_HASH=$(LOOLWSD_VERSION_HASH) \
 			|| true
-	@pkill loolwsd || true
+	@pkill --signal SIGKILL loolwsd || true
 
 define run_JS_error_check
 	@echo "Checking for JS errors in test code..."
@@ -62,7 +62,7 @@ define run_JS_error_check
 endef
 
 define start_loolwsd
-	@pkill loolwsd || true
+	@pkill --signal SIGKILL loolwsd || true
 	@echo "Launching loolwsd for testing..."
 	@fc-cache "@LO_PATH@"/share/fonts/truetype
 	@echo
@@ -84,7 +84,7 @@ define run_desktop_tests
 			--headless \
 			--env DATA_FOLDER=$(DESKTOP_DATA_FOLDER),WORKDIR=$(DESKTOP_WORKDIR),WSD_VERSION_HASH=$(LOOLWSD_VERSION_HASH) \
 			$(if $(1), --spec=${abs_dir}/integration_tests/desktop/$(1)) \
-			|| (pkill loolwsd && false)
+			|| (pkill --signal SIGKILL loolwsd && false)
 endef
 
 define run_mobile_tests
@@ -96,7 +96,7 @@ define run_mobile_tests
 			--headless \
 			--env DATA_FOLDER=$(MOBILE_DATA_FOLDER),WORKDIR=$(MOBILE_WORKDIR),WSD_VERSION_HASH=$(LOOLWSD_VERSION_HASH) \
 			$(if $(1), --spec=$(abs_dir)/integration_tests/mobile/$(1)) \
-			|| (pkill loolwsd && false)
+			|| (pkill --signal SIGKILL loolwsd && false)
 endef
 
 node_modules:
