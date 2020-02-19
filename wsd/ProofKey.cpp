@@ -83,16 +83,28 @@ std::vector<unsigned char> ToNetworkOrderBytes(const T& x)
     return getBytesBE(reinterpret_cast<const unsigned char*>(&x), sizeof(x));
 }
 
-std::string BytesToBase64(const std::vector<unsigned char>& bytes)
+std::string BytesToBase64_Impl(const std::string& bytes)
 {
     std::ostringstream oss;
     // The signature generated contains CRLF line endings.
     // Use a line ending converter to remove these CRLF
     Poco::OutputLineEndingConverter lineEndingConv(oss, "");
     Poco::Base64Encoder encoder(lineEndingConv);
-    encoder << std::string(bytes.begin(), bytes.end());
+    encoder << bytes;
     encoder.close();
     return oss.str();
+}
+
+// Encodes bytes in original order to Base64
+std::string BytesToBase64(const std::vector<unsigned char>& bytes)
+{
+    return BytesToBase64_Impl(std::string(bytes.begin(), bytes.end()));
+}
+
+// Reverts bytes and encodes to Base64
+std::string BytesRevToBase64(const std::vector<unsigned char>& bytes)
+{
+    return BytesToBase64_Impl(std::string(bytes.rbegin(), bytes.rend()));
 }
 
 class Proof {
@@ -241,7 +253,7 @@ std::string Proof::SignProof(const std::vector<unsigned char>& proof) const
     assert(m_pKey);
     static Poco::Crypto::RSADigestEngine digestEngine(*m_pKey, "SHA256");
     digestEngine.update(proof.data(), proof.size());
-    return BytesToBase64(digestEngine.signature());
+    return BytesRevToBase64(digestEngine.signature());
 }
 
 VecOfStringPairs Proof::GetProofHeaders(const std::string& access_token, const std::string& uri) const
