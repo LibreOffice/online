@@ -356,6 +356,12 @@
 	.sub-menu-title {
 		padding-left: 14%;
 	}
+	.ui-header-file .sub-menu-title::before {
+		background: url('images/lc_newdoc.svg');
+	}
+	.ui-header-downloadas  .sub-menu-title::before{
+		background: url('images/lc_exportto.svg');
+	}
 	.sub-menu-title::before {
 		width: 22px;
 		height: 22px;
