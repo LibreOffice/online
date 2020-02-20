@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d915ba_ac63bead",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2020-02-20T10:34:47Z",
+      "side": 1,
+      "message": "please don\u0027t change this. it breaks existing scripts",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "0a19017c9a936a6212ab18fc742e5a0f11bd31f2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e1d9b54_690b5005",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2020-02-20T10:34:47Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "0a19017c9a936a6212ab18fc742e5a0f11bd31f2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
