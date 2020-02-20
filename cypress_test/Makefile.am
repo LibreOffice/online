@@ -12,24 +12,62 @@ DESKTOP_USER_AGENT = "cypress"
 DESKTOP_TEST_FOLDER = ${abs_srcdir}/integration_tests/desktop
 DESKTOP_DATA_FOLDER = ${abs_srcdir}/data/desktop/
 DESKTOP_WORKDIR = ${abs_builddir}/workdir/desktop/
+DESKTOP_TRACK_FOLDER=$(abs_builddir)/workdir/track/desktop
 
 MOBILE_USER_AGENT = "cypress mobile"
 MOBILE_TEST_FOLDER = ${abs_srcdir}/integration_tests/mobile
 MOBILE_DATA_FOLDER = ${abs_srcdir}/data/mobile/
 MOBILE_WORKDIR = ${abs_builddir}/workdir/mobile/
+MOBILE_TRACK_FOLDER=$(abs_builddir)/workdir/track/mobile
 
 ALLOWED_PORTS = $(shell seq 9900 1 9980)
-FREE_PORT=$(shell $(GET_PORT_BINARY) --host=127.0.0.1 $(ALLOWED_PORTS))
-
 KILL_COMMAND=pkill -F $(PID_FILE) || pkill --signal SIGKILL -F $(PID_FILE)
 
-if HAVE_LO_PATH
-check-local: @JAILS_PATH@ $(NODE_BINS)
-	$(call run_JS_error_check)
-	$(call start_loolwsd)
-	$(call run_desktop_tests)
-	$(call run_mobile_tests)
+MOBILE_TEST_FILES= \
+	calc/calc_focus_spec.js \
+	impress/impress_focus_spec.js \
+	writer/apply_font_spec.js \
+	writer/apply_paragraph_properties_spec.js \
+	writer/bottom_toolbar_spec.js \
+	writer/focus_spec.js \
+	writer/insert_field_spec.js \
+	writer/insert_formatting_mark_spec.js \
+	writer/insert_object_spec.js \
+	writer/mobile_wizard_state_spec.js \
+	writer/shape_properties_spec.js \
+	writer/spellchecking_spec.js \
+	writer/styles_spec.js \
+	writer/table_properties_spec.js \
+	writer/toolbar_spec.js
+
+DEKSTOP_TEST_FILES= \
+	copy_paste_spec.js \
+	example_desktop_test_spec.js \
+	shape_operations_spec.js
+
+MOBILE_TEST_FILES_DONE= \
+	$(foreach test_file,$(MOBILE_TEST_FILES),$(MOBILE_TRACK_FOLDER)/$(test_file).done)
+
+DESKTOP_TEST_FILES_DONE= \
+	$(foreach test_file,$(DEKSTOP_TEST_FILES),$(DESKTOP_TRACK_FOLDER)/$(test_file).done)
+
+check-local: $(MOBILE_TEST_FILES_DONE) $(DESKTOP_TEST_FILES_DONE)
 	@$(KILL_COMMAND) || true
+
+$(PID_FILE): @JAILS_PATH@ node_modules
+	$(call run_JS_error_check)
+	$(eval FREE_PORT:=$(shell $(GET_PORT_BINARY) --host=127.0.0.1 $(ALLOWED_PORTS)))
+	$(call start_loolwsd)
+
+$(MOBILE_TEST_FILES_DONE): $(PID_FILE)
+	$(call run_mobile_tests,$(subst $(MOBILE_TRACK_FOLDER),,$(basename $@)))
+	@mkdir -p $(dir $@)
+	@touch $@
+
+$(DESKTOP_TEST_FILES_DONE): $(PID_FILE)
+	$(call run_desktop_tests,$(subst $(DESKTOP_TRACK_FOLDER),,$(basename $@)))
+	@mkdir -p $(dir $@)
+	@touch $@
 
 check-desktop: @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
