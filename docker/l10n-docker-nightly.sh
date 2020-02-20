@@ -8,11 +8,13 @@
 # -- Available env vars --
 # * DOCKER_HUB_REPO - which Docker Hub repo to use
 # * DOCKER_HUB_TAG  - which Docker Hub tag to create
-# * LIBREOFFICE_BRANCH  - which branch to build in core
-# * LIBREOFFICE_ONLINE_BRANCH - which branch to build in online
+# * CORE_BRANCH  - which branch to build (for CORE)
+# * ONLINE_BRANCH - which branch to build (for ONLINE)
 # * LIBREOFFICE_BUILD_TARGET - which make target to run (in core repo)
+# * SKIP_CORE_COMPILE - do not compile the core another time (userful if you're compiling for the 2nd or more time)
 # * ONLINE_EXTRA_BUILD_OPTIONS - extra build options for online
 # * NO_DOCKER_IMAGE - if set, don't build the docker image itself, just do all the preps
+# * NO_DOCKER_PUSH - don't push to docker hub
 
 # check we can sudo without asking a pwd
 echo "Trying if sudo works without a password"
@@ -33,13 +35,13 @@ echo "Using Docker Hub Repository: '$DOCKER_HUB_REPO' with tag '$DOCKER_HUB_TAG'
 
 if [ -z "$LIBREOFFICE_BRANCH" ]; then
   LIBREOFFICE_BRANCH="master"
+if [ -z "$CORE_BRANCH" ]; then
+  CORE_BRANCH="master"
 fi;
-echo "Building core branch '$LIBREOFFICE_BRANCH'"
-
-if [ -z "$LIBREOFFICE_ONLINE_BRANCH" ]; then
-  LIBREOFFICE_ONLINE_BRANCH="master"
+if [ -z "$ONLINE_BRANCH" ]; then
+  ONLINE_BRANCH="master"
 fi;
-echo "Building online branch '$LIBREOFFICE_ONLINE_BRANCH'"
+echo "Building branch core: '$CORE_BRANCH' online: '$ONLINE_BRANCH'"
 
 if [ -z "$LIBREOFFICE_BUILD_TARGET" ]; then
   LIBREOFFICE_BUILD_TARGET=""
@@ -64,20 +66,22 @@ if test ! -d libreoffice ; then
     git clone https://git.libreoffice.org/core libreoffice || exit 1
 fi
 
-( cd libreoffice && git fetch --all && git checkout $LIBREOFFICE_BRANCH && ./g pull -r ) || exit 1
+( cd libreoffice && git fetch --all && git checkout $CORE_BRANCH && ./g pull -r ) || exit 1
 
 # online repo
 if test ! -d online ; then
     git clone https://git.libreoffice.org/online online || exit 1
 fi
 
-( cd online && git fetch --all && git checkout -f $LIBREOFFICE_ONLINE_BRANCH && git clean -f -d && git pull -r ) || exit 1
+( cd online && git fetch --all && git checkout -f $ONLINE_BRANCH && git clean -f -d && git pull -r ) || exit 1
 
 ##### LibreOffice #####
 
 # build LibreOffice
-( cd libreoffice && ./autogen.sh --with-distro=LibreOfficeOnline) || exit 1
-( cd libreoffice && make $LIBREOFFICE_BUILD_TARGET ) || exit 1
+if [ -z "$SKIP_CORE_COMPILE" ]; then
+  ( cd libreoffice && ./autogen.sh --with-distro=LibreOfficeOnline) || exit 1
+  ( cd libreoffice && make $LIBREOFFICE_BUILD_TARGET ) || exit 1
+fi;
 
 # copy stuff
 mkdir -p "$INSTDIR"/opt/
@@ -100,7 +104,9 @@ cp -a libreoffice/instdir "$INSTDIR"/opt/libreoffice
 if [ -z "$NO_DOCKER_IMAGE" ]; then
   cd "$SRCDIR"
   docker build --no-cache -t $DOCKER_HUB_REPO:$DOCKER_HUB_TAG . || exit 1
-  docker push $DOCKER_HUB_REPO:$DOCKER_HUB_TAG || exit 1
+  if [ -z "$NO_DOCKER_PUSH" ]; then
+    docker push $DOCKER_HUB_REPO:$DOCKER_HUB_TAG || exit 1
+  fi;
 else
   echo "Skipping docker image build"
 fi;
