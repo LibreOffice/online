@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa011e58_5e19df91",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-02-20T15:57:32Z",
+      "side": 1,
+      "message": "Is this reliable ? - are we sure that the string is always this length ? even for large / small / differening co-ordinate positions ?",
+      "revId": "5cabba597ca947e46faf575a97cb442132f4e697",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
