@@ -263,6 +263,14 @@ function onClick(e, id, item, subItem) {
 	else if (id === 'backgroundcolor' && typeof e.color !== 'undefined') {
 		onColorPick(id, e.color);
 	}
+	else if (id === 'functiondialog') {
+		if (window.mode.isMobile() && map._functionWizardData) {
+			map._docLayer._closeMobileWizard();
+			map._docLayer._openMobileWizard(map._functionWizardData);
+		} else {
+			map.sendUnoCommand('.uno:FunctionDialog');
+		}
+	}
 	else if (id === 'sum') {
 		map.sendUnoCommand('.uno:AutoSum');
 	}
@@ -1018,7 +1026,7 @@ function initNormalToolbar() {
 			{type: 'html',  id: 'left'},
 			{type: 'html', id: 'address', html: '<input id="addressInput" type="text">'},
 			{type: 'break'},
-			{type: 'button',  id: 'functiondialog', img: 'functiondialog', hint: _('Function Wizard'), uno: '.uno:FunctionDialog'},
+			{type: 'button',  id: 'functiondialog', img: 'functiondialog', hint: _('Function Wizard')},
 			{type: 'html', id: 'formula', html: '<div id="calc-inputbar-wrapper"><div id="calc-inputbar"></div></div>'}
 		],
 		onClick: function (e) {
