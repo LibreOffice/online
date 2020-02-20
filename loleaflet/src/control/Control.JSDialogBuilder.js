@@ -346,7 +346,8 @@ L.Control.JSDialogBuilder = L.Control.extend({
 	_explorableMenu: function(parentContainer, title, children, builder, customContent, dataid) {
 		dataid = dataid || 0;
 		var icon = null;
-		var sectionTitle = L.DomUtil.create('div', 'ui-header level-' + builder._currentDepth + ' mobile-wizard ui-widget', parentContainer);
+
+		var sectionTitle = L.DomUtil.create('div', 'ui-header level-' + builder._currentDepth + ' mobile-wizard ui-widget ui-header-' + dataid, parentContainer);
 		$(sectionTitle).css('justify-content', 'space-between');
 
 
@@ -1436,7 +1437,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 
 	_subMenuHandler: function(parentContainer, data, builder) {
 		var title = data.text;
-		builder._explorableMenu(parentContainer, title, data.children, builder);
+		builder._explorableMenu(parentContainer, title, data.children, builder, '' , data.id);
 
 		return false;
 	},
