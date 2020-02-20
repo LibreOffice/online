@@ -48,7 +48,7 @@ describe('Spell checking menu.', function() {
 	it('Apply suggestion.', function() {
 		openContextMenu();
 
-		cy.get('.context-menu-link')
+		cy.get('.context-menu-link', {timeout : 10000})
 			.contains('hello')
 			.click();
 
