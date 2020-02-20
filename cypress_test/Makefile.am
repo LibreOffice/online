@@ -68,7 +68,6 @@ define run_JS_error_check
 endef
 
 define start_loolwsd
-	@$(KILL_COMMAND) || true
 	@echo "Found available port for testing: $(FREE_PORT)"
 	@echo
 	@echo "Launching loolwsd..."
