@@ -316,6 +316,11 @@ L.Control.MobileWizard = L.Control.extend({
 				return;
 			}
 
+			if (data.id && !isNaN(data.id) && !isSidebar) {
+				// id is a number - remember window id for interaction
+				window.windowId = data.id;
+			}
+
 			// Sometimes it happens that we get the same sidebar
 			// structure twice. This makes hard to test mobile wizard.
 			if (isSidebar && L.Browser.cypressTest) {

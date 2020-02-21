@@ -59,6 +59,10 @@ L.Control.LokDialog = L.Control.extend({
 
 	dialogIdPrefix: 'lokdialog-',
 
+	hasMobilePanelOpened: function() {
+		return window.windowId !== undefined;
+	},
+
 	onPan: function (ev) {
 		if (!draggedObject)
 			return;
@@ -286,7 +290,7 @@ L.Control.LokDialog = L.Control.extend({
 			e.title = e.title.replace('Collabora Office', brandProductName);
 		}
 
-		if (e.action === 'created') {
+		if (e.action === 'created' && !window.mode.isMobile()) {
 			if (e.winType === 'dialog') {
 				// When left/top are invalid, the dialog shows in the center.
 				this._launchDialog(e.id, left, top, width, height, e.title);
@@ -332,7 +336,17 @@ L.Control.LokDialog = L.Control.extend({
 		}
 
 		// All other callbacks doen't make sense without an active dialog.
-		if (!(this._isOpen(e.id) || this._getParentId(e.id)))
+		if (!(this._isOpen(e.id) || this._getParentId(e.id))) {
+			if (e.action == 'close' && window.windowId == e.id) {
+				window.windowId = undefined;
+				this._map.fire('closemobilewizard');
+			}
+
+			return;
+		}
+
+		// We don't want dialogs on smartphones
+		if (window.mode.isMobile())
 			return;
 
 		if (e.action === 'invalidate') {
@@ -1284,6 +1298,9 @@ L.Control.LokDialog = L.Control.extend({
 			if (!this._isSidebar(dialogId) && !this.isCalcInputBar(dialogId)) {
 				this._onDialogClose(dialogId, true);
 			}
+		}
+		if (window.windowId !== undefined) {
+			this._onDialogClose(window.windowId, true);
 		}
 	},
 
