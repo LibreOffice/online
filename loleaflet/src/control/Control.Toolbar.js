@@ -15,7 +15,7 @@ function _inMobileMode() {
 		return true;
 	}
 
-	return L.Browser.mobile && screen.width < 768;
+	return L.Browser.mobile && screen.width < 900;
 }
 
 // mobile device with big screen size
