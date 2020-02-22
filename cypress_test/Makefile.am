@@ -57,7 +57,6 @@ check-local: $(MOBILE_TEST_FILES_DONE) $(DESKTOP_TEST_FILES_DONE)
 
 $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
-	$(eval FREE_PORT:=$(shell $(GET_PORT_BINARY) --host=127.0.0.1 $(ALLOWED_PORTS)))
 	$(call start_loolwsd)
 
 $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
@@ -111,6 +110,7 @@ define run_JS_error_check
 endef
 
 define start_loolwsd
+	$(eval FREE_PORT:=$(shell $(GET_PORT_BINARY) --host=127.0.0.1 $(ALLOWED_PORTS)))
 	@echo "Found available port for testing: $(FREE_PORT)"
 	@echo
 	@echo "Launching loolwsd..."
@@ -120,9 +120,10 @@ define start_loolwsd
 			--o:child_root_path="@JAILS_PATH@" --o:storage.filesystem[@allow]=true \
 			--disable-ssl \
 			--o:admin_console.username=admin --o:admin_console.password=admin \
-			--o:logging.file[@enable]=true --o:logging.level=trace > /dev/null 2>&1 \
+			--o:logging.file[@enable]=true --o:logging.level=trace \
 			--port=$(FREE_PORT) \
-			--pidfile=$(PID_FILE) &
+			--pidfile=$(PID_FILE) \
+			 > /dev/null 2>&1 &
 	@$(WAIT_ON_BINARY) http://localhost:$(FREE_PORT) --timeout 60000
 	@echo
 endef
