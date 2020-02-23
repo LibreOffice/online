@@ -308,6 +308,9 @@ L.Map.TouchGesture = L.Handler.extend({
 		    latlng = this._map.layerPointToLatLng(layerPoint),
 		    mousePos = this._map._docLayer._latLngToTwips(latlng);
 
+		if (e.tapCount > 1)
+			return;
+
 		if (window.ThisIsTheiOSApp)
 			this._toolbar.remove();
 
