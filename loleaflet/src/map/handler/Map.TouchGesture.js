@@ -446,8 +446,12 @@ L.Map.TouchGesture = L.Handler.extend({
 			this._map.dragging._draggable._onDown(this._constructFakeEvent(point, 'mousedown'));
 		}
 
-		// No keyboard while dragging.
-		this._map.focus(false);
+		// Keep the keyboard unchanged
+		var isKeyboardVisible = false;
+		if (this._map.hasFocus()) {
+			isKeyboardVisible = true;
+		}
+		this._map.focus(isKeyboardVisible);
 	},
 
 	_onPan: function (e) {
@@ -497,8 +501,12 @@ L.Map.TouchGesture = L.Handler.extend({
 			this._map.dragging._draggable._onUp(this._constructFakeEvent(point, 'mouseup'));
 		}
 
-		// No keyboard after dragging.
-		this._map.focus(false);
+		// Keep the keyboard unchanged
+		var isKeyboardVisible = false;
+		if (this._map.hasFocus()) {
+			isKeyboardVisible = true;
+		}
+		this._map.focus(isKeyboardVisible);
 	},
 
 	_onPinchStart: function (e) {
