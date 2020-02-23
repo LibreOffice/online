@@ -447,7 +447,7 @@ L.Map.TouchGesture = L.Handler.extend({
 		}
 
 		// No keyboard while dragging.
-		this._map.focus(false);
+		// this._map.focus(false);
 	},
 
 	_onPan: function (e) {
@@ -498,7 +498,7 @@ L.Map.TouchGesture = L.Handler.extend({
 		}
 
 		// No keyboard after dragging.
-		this._map.focus(false);
+		// this._map.focus(false);
 	},
 
 	_onPinchStart: function (e) {
