@@ -114,7 +114,9 @@ public class LOActivity extends AppCompatActivity {
     private Looper nativeLooper;
     private Bundle savedInstanceState;
 
-    /** In case the mobile-wizard is visible, we have to intercept the Android's Back button. */
+    /**
+     * In case the mobile-wizard is visible, we have to intercept the Android's Back button.
+     */
     private boolean mMobileWizardVisible = false;
 
     private ValueCallback<Uri[]> valueCallback;
@@ -132,13 +134,19 @@ public class LOActivity extends AppCompatActivity {
     public static final int REQUEST_SAVEAS_PPT = 510;
     public static final int REQUEST_SAVEAS_XLS = 511;
 
-    /** Broadcasting event for passing info back to the shell. */
+    /**
+     * Broadcasting event for passing info back to the shell.
+     */
     public static final String LO_ACTIVITY_BROADCAST = "LOActivityBroadcast";
 
-    /** Event description for passing info back to the shell. */
+    /**
+     * Event description for passing info back to the shell.
+     */
     public static final String LO_ACTION_EVENT = "LOEvent";
 
-    /** Data description for passing info back to the shell. */
+    /**
+     * Data description for passing info back to the shell.
+     */
     public static final String LO_ACTION_DATA = "LOData";
 
     private static boolean copyFromAssets(AssetManager assetManager,
@@ -255,7 +263,9 @@ public class LOActivity extends AppCompatActivity {
         init();
     }
 
-    /** Initialize the app - copy the assets and create the UI. */
+    /**
+     * Initialize the app - copy the assets and create the UI.
+     */
     private void init() {
         if (sPrefs.getString(ASSETS_EXTRACTED_GIT_COMMIT, "").equals(BuildConfig.GIT_COMMIT)) {
             // all is fine, we have already copied the assets
@@ -284,7 +294,9 @@ public class LOActivity extends AppCompatActivity {
         }.execute();
     }
 
-    /** Actual initialization of the UI. */
+    /**
+     * Actual initialization of the UI.
+     */
     private void initUI() {
         isDocDebuggable = sPrefs.getBoolean(KEY_ENABLE_SHOW_DEBUG_INFO, false) && BuildConfig.DEBUG;
 
@@ -424,7 +436,9 @@ public class LOActivity extends AppCompatActivity {
         }
     }
 
-    /** When we get the file via a content: URI, we need to put it to a temp file. */
+    /**
+     * When we get the file via a content: URI, we need to put it to a temp file.
+     */
     private boolean copyFileToTemp() {
         ContentResolver contentResolver = getContentResolver();
         InputStream inputStream = null;
@@ -465,7 +479,9 @@ public class LOActivity extends AppCompatActivity {
         }
     }
 
-    /** Check that we have created a temp file, and if yes, copy it back to the content: URI. */
+    /**
+     * Check that we have created a temp file, and if yes, copy it back to the content: URI.
+     */
     private void copyTempBackToIntent() {
         if (!isDocEditable || mTempFile == null || getIntent().getData() == null || !getIntent().getData().getScheme().equals(ContentResolver.SCHEME_CONTENT))
             return;
@@ -585,23 +601,36 @@ public class LOActivity extends AppCompatActivity {
     }
 
     private String getFormatForRequestCode(int requestCode) {
-        switch(requestCode) {
-            case REQUEST_SAVEAS_PDF: return "pdf";
-            case REQUEST_SAVEAS_RTF: return "rtf";
-            case REQUEST_SAVEAS_ODT: return "odt";
-            case REQUEST_SAVEAS_ODP: return "odp";
-            case REQUEST_SAVEAS_ODS: return "ods";
-            case REQUEST_SAVEAS_DOCX: return "docx";
-            case REQUEST_SAVEAS_PPTX: return "pptx";
-            case REQUEST_SAVEAS_XLSX: return "xlsx";
-            case REQUEST_SAVEAS_DOC: return "doc";
-            case REQUEST_SAVEAS_PPT: return "ppt";
-            case REQUEST_SAVEAS_XLS: return "xls";
+        switch (requestCode) {
+            case REQUEST_SAVEAS_PDF:
+                return "pdf";
+            case REQUEST_SAVEAS_RTF:
+                return "rtf";
+            case REQUEST_SAVEAS_ODT:
+                return "odt";
+            case REQUEST_SAVEAS_ODP:
+                return "odp";
+            case REQUEST_SAVEAS_ODS:
+                return "ods";
+            case REQUEST_SAVEAS_DOCX:
+                return "docx";
+            case REQUEST_SAVEAS_PPTX:
+                return "pptx";
+            case REQUEST_SAVEAS_XLSX:
+                return "xlsx";
+            case REQUEST_SAVEAS_DOC:
+                return "doc";
+            case REQUEST_SAVEAS_PPT:
+                return "ppt";
+            case REQUEST_SAVEAS_XLS:
+                return "xls";
         }
         return null;
     }
 
-    /** Create the progress dialog. */
+    /**
+     * Create the progress dialog.
+     */
     private AlertDialog createProgressDialog(int id) {
         LayoutInflater inflater = this.getLayoutInflater();
 
@@ -610,12 +639,14 @@ public class LOActivity extends AppCompatActivity {
         loadingText.setText(getText(id));
 
         return new AlertDialog.Builder(LOActivity.this)
-            .setView(loadingView)
-            .setCancelable(true)
-            .create();
+                .setView(loadingView)
+                .setCancelable(true)
+                .create();
     }
 
-    /** Show the Saving progress and finish the app. */
+    /**
+     * Show the Saving progress and finish the app.
+     */
     private void finishWithProgress() {
         final AlertDialog savingProgress = createProgressDialog(R.string.saving);
         savingProgress.show();
@@ -643,8 +674,7 @@ public class LOActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mMobileWizardVisible)
-        {
+        if (mMobileWizardVisible) {
             // just return one level up in the mobile-wizard (or close it)
             callFakeWebsocketOnMessage("'mobile: mobilewizardback'");
             return;
@@ -710,7 +740,7 @@ public class LOActivity extends AppCompatActivity {
     public void postMobileMessage(String message) {
         Log.d(TAG, "postMobileMessage: " + message);
 
-        String[] messageAndParameterArray= message.split(" ", 2); // the command and the rest (that can potentially contain spaces too)
+        String[] messageAndParameterArray = message.split(" ", 2); // the command and the rest (that can potentially contain spaces too)
 
         if (beforeMessageFromWebView(messageAndParameterArray)) {
             postMobileMessageNative(message);
@@ -856,34 +886,56 @@ public class LOActivity extends AppCompatActivity {
 
     private int getRequestIDForFormat(String format) {
         switch (format) {
-            case "pdf": return REQUEST_SAVEAS_PDF;
-            case "rtf": return REQUEST_SAVEAS_RTF;
-            case "odt": return REQUEST_SAVEAS_ODT;
-            case "odp": return REQUEST_SAVEAS_ODP;
-            case "ods": return REQUEST_SAVEAS_ODS;
-            case "docx": return REQUEST_SAVEAS_DOCX;
-            case "pptx": return REQUEST_SAVEAS_PPTX;
-            case "xlsx": return REQUEST_SAVEAS_XLSX;
-            case "doc": return REQUEST_SAVEAS_DOC;
-            case "ppt": return REQUEST_SAVEAS_PPT;
-            case "xls": return REQUEST_SAVEAS_XLS;
+            case "pdf":
+                return REQUEST_SAVEAS_PDF;
+            case "rtf":
+                return REQUEST_SAVEAS_RTF;
+            case "odt":
+                return REQUEST_SAVEAS_ODT;
+            case "odp":
+                return REQUEST_SAVEAS_ODP;
+            case "ods":
+                return REQUEST_SAVEAS_ODS;
+            case "docx":
+                return REQUEST_SAVEAS_DOCX;
+            case "pptx":
+                return REQUEST_SAVEAS_PPTX;
+            case "xlsx":
+                return REQUEST_SAVEAS_XLSX;
+            case "doc":
+                return REQUEST_SAVEAS_DOC;
+            case "ppt":
+                return REQUEST_SAVEAS_PPT;
+            case "xls":
+                return REQUEST_SAVEAS_XLS;
         }
         return 0;
     }
 
     private String getMimeForFormat(String format) {
-        switch(format) {
-            case "pdf": return "application/pdf";
-            case "rtf": return "text/rtf";
-            case "odt": return "application/vnd.oasis.opendocument.text";
-            case "odp": return "application/vnd.oasis.opendocument.presentation";
-            case "ods": return "application/vnd.oasis.opendocument.spreadsheet";
-            case "docx": return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-            case "pptx": return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-            case "xlsx": return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            case "doc": return "application/msword";
-            case "ppt": return "application/vnd.ms-powerpoint";
-            case "xls": return "application/vnd.ms-excel";
+        switch (format) {
+            case "pdf":
+                return "application/pdf";
+            case "rtf":
+                return "text/rtf";
+            case "odt":
+                return "application/vnd.oasis.opendocument.text";
+            case "odp":
+                return "application/vnd.oasis.opendocument.presentation";
+            case "ods":
+                return "application/vnd.oasis.opendocument.spreadsheet";
+            case "docx":
+                return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            case "pptx":
+                return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+            case "xlsx":
+                return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            case "doc":
+                return "application/msword";
+            case "ppt":
+                return "application/vnd.ms-powerpoint";
+            case "xls":
+                return "application/vnd.ms-excel";
         }
         return null;
     }
@@ -934,7 +986,9 @@ public class LOActivity extends AppCompatActivity {
         });
     }
 
-    /** Send message back to the shell (for example for the cloud save). */
+    /**
+     * Send message back to the shell (for example for the cloud save).
+     */
     public void sendBroadcast(String event, String data) {
         Intent intent = new Intent(LO_ACTIVITY_BROADCAST);
         intent.putExtra(LO_ACTION_EVENT, event);
@@ -960,8 +1014,7 @@ public class LOActivity extends AppCompatActivity {
     }
 
     /// Needs to be executed after the .uno:Copy / Paste has executed
-    public final void populateClipboard()
-    {
+    public final void populateClipboard() {
         File clipboardFile = new File(getApplicationContext().getCacheDir(), CLIPBOARD_FILE_PATH);
         if (clipboardFile.exists())
             clipboardFile.delete();
@@ -969,8 +1022,7 @@ public class LOActivity extends AppCompatActivity {
         LokClipboardData clipboardData = new LokClipboardData();
         if (!LOActivity.this.getClipboardContent(clipboardData))
             Log.e(TAG, "no clipboard to copy");
-        else
-        {
+        else {
             clipboardData.writeToFile(clipboardFile);
 
             String text = clipboardData.getText();
@@ -998,8 +1050,7 @@ public class LOActivity extends AppCompatActivity {
     }
 
     /// Do the paste, and return true if we should short-circuit the paste locally
-    private final boolean performPaste()
-    {
+    private final boolean performPaste() {
         clipData = clipboardManager.getPrimaryClip();
         ClipDescription clipDesc = clipData != null ? clipData.getDescription() : null;
         if (clipDesc != null) {
@@ -1034,8 +1085,7 @@ public class LOActivity extends AppCompatActivity {
                     byte[] htmlByteArray = html.getBytes(Charset.forName("UTF-8"));
                     LOActivity.this.paste("text/html", htmlByteArray);
                 }
-            }
-            else if (clipDesc.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+            } else if (clipDesc.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
                 final ClipData.Item clipItem = clipData.getItemAt(0);
                 String text = clipItem.getText().toString();
                 byte[] textByteArray = text.getBytes(Charset.forName("UTF-16"));
