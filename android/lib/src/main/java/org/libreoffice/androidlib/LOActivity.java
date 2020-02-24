@@ -952,6 +952,8 @@ public class LOActivity extends AppCompatActivity {
 
     public native void postUnoCommand(String command, String arguments, boolean bNotifyWhenFinished);
 
+    public native String getCommandValues(String command);
+
     /// Returns a magic that specifies this application - and this document.
     private final String getClipboardMagic() {
         return CLIPBOARD_LOOL_SIGNATURE + Long.toString(loadDocumentMillis);

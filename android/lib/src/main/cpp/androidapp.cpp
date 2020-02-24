@@ -537,4 +537,15 @@ Java_org_libreoffice_androidlib_LOActivity_paste(JNIEnv *env, jobject instance, 
     env->ReleaseStringUTFChars(inMimeType, mimeType);
 }
 
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_org_libreoffice_androidlib_LOActivity_getCommandValues(JNIEnv *env, jobject instance,
+                                                            jstring inCommand) {
+    const char *command = env->GetStringUTFChars(inCommand, nullptr);
+    char *resultCharArray = getLOKDocument()->getCommandValues(command);
+    jstring result = tojstringAndFree(env, resultCharArray);
+    env->ReleaseStringUTFChars(inCommand, command);
+    return result;
+}
+
 /* vim:set shiftwidth=4 softtabstop=4 expandtab cinoptions=b1,g0,N-s cinkeys+=0=break: */
