@@ -97,7 +97,7 @@ function copyTextToClipboard() {
 		});
 
 	// Execute copy
-	cy.get('.ui-header.level-0.mobile-wizard.ui-widget .context-menu-link .menu-entry-with-icon', {timeout : 10000})
+	cy.get('.ui-header.level-0.mobile-wizard.ui-widget .context-menu-link .menu-entry-with-icon', {timeout : 20000})
 		.contains('Copy')
 		.click();
 
