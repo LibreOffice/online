@@ -129,7 +129,11 @@ task copyUnpackAssets(type: Copy) {
         from "${liboInstdir}/share"
         // extensions - for the dictionaries for hunspell
         // liblangtag data is needed for locales like en-CH
-        includes = ['extensions/dict-de/**', 'extensions/dict-en/**', 'extensions/dict-es/**', 'extensions/dict-pt-BR/**', 'liblangtag/**']
+        includes = ['extensions/dict-de/**/*.dic', 'extensions/dict-en/**/*.dic', 'extensions/dict-es/**/*.dic', 'extensions/dict-pt-BR/**/*.dic',
+                    'extensions/dict-de/**/*.aff', 'extensions/dict-en/**/*.aff', 'extensions/dict-es/**/*.aff', 'extensions/dict-pt-BR/**/*.aff',
+                    'extensions/dict-de/**/*.xcu', 'extensions/dict-en/**/*.xcu', 'extensions/dict-es/**/*.xcu', 'extensions/dict-pt-BR/**/*.xcu',
+                    'extensions/dict-de/**/*.xml', 'extensions/dict-en/**/*.xml', 'extensions/dict-es/**/*.xml', 'extensions/dict-pt-BR/**/*.xml',
+                    'liblangtag/**']
     }
 }
 
