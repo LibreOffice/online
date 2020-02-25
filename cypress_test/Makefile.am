@@ -24,6 +24,7 @@ MOBILE_TRACK_FOLDER=$(abs_builddir)/workdir/track/mobile
 ALLOWED_PORTS = $(shell seq 9900 1 9980)
 KILL_COMMAND=pkill -F $(PID_FILE) || pkill --signal SIGKILL -F $(PID_FILE)
 PARALLEL_BUILD = $(findstring jobserver,$(MAKEFLAGS))
+CI_BUILD := $(findstring unable to open display,$(shell xhost))
 
 if HAVE_LO_PATH
 MOBILE_TEST_FILES= \
@@ -59,6 +60,12 @@ check-local: $(MOBILE_TEST_FILES_DONE) $(DESKTOP_TEST_FILES_DONE)
 
 $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
+	pgrep loolwsd || true
+	pgrep loolforkit || true
+	pgrep lool || true
+	df || true
+	free -m || true
+	top || true
 	$(call start_loolwsd)
 
 $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
