@@ -109,6 +109,8 @@ L.CalcTileLayer = L.TileLayer.extend({
 				{type: 'spacer'},
 				{type: 'button',  id: 'undo',  img: 'undo', hint: _UNO('.uno:Undo'), uno: 'Undo', disabled: true},
 				{type: 'button',  id: 'redo',  img: 'redo', hint: _UNO('.uno:Redo'), uno: 'Redo', disabled: true},
+				{type: 'button', hidden: true, id: 'acceptformula',  img: 'ok', hint: _('Accept')},
+				{type: 'button', hidden: true, id: 'cancelformula',  img: 'cancel', hint: _('Cancel')},
 				{type: 'button',  id: 'mobile_wizard', img: 'mobile_wizard', disabled: true},
 				{type: 'button',  id: 'insertion_mobile_wizard', img: 'insertion_mobile_wizard', disabled: true},
 //				{type: 'button',  id: 'insertcomment', img: 'insertcomment', disabled: true},
