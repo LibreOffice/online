@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11dbb745_bc4dd5bd",
+        "filename": "docker/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-02-25T21:15:54Z",
+      "side": 1,
+      "message": "contains everything needed ? \u003d) otherwise looks like a helpful patch, thanks !",
+      "revId": "bba2891131580b3e2f06cec9ff381809ac5f0afd",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
