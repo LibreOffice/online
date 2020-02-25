@@ -22,8 +22,10 @@ MOBILE_WORKDIR = $(abs_builddir)/workdir/mobile/
 MOBILE_TRACK_FOLDER=$(abs_builddir)/workdir/track/mobile
 
 ALLOWED_PORTS = $(shell seq 9900 1 9980)
-KILL_COMMAND=pkill -F $(PID_FILE) || pkill --signal SIGKILL -F $(PID_FILE)
+KILL_COMMAND = pkill -F $(PID_FILE) || pkill --signal SIGKILL -F $(PID_FILE)
 PARALLEL_BUILD = $(findstring jobserver,$(MAKEFLAGS))
+DISPLAY_NUMBER = 100
+HEADLESS_BUILD := $(findstring Command failed,$(shell xhost > /dev/null 2>&1 || echo "Command failed, so we are in a headless environment."))
 
 if HAVE_LO_PATH
 MOBILE_TEST_FILES= \
@@ -56,9 +58,13 @@ DESKTOP_TEST_FILES_DONE= \
 
 check-local: $(MOBILE_TEST_FILES_DONE) $(DESKTOP_TEST_FILES_DONE)
 	@$(KILL_COMMAND) || true
+	$(if $(HEADLESS_BUILD),@pkill Xvfb,)
 
 $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
+	echo "$(HEADLESS_BUILD)"
+	echo $(HEADLESS_BUILD)
+	$(if $(HEADLESS_BUILD),$(call start_Xvfb),)
 	$(call start_loolwsd)
 
 $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
@@ -130,6 +136,12 @@ define start_loolwsd
 	@echo
 endef
 
+define start_Xvfb
+	@echo "Launching Xvfb..."
+	Xvfb :$(DISPLAY_NUMBER) &
+	sleep 10
+endef
+
 define run_desktop_tests
 	@echo $(if $(1),"Running cypress desktop test: $(1)","Running cypress desktop tests...")
 	@echo
@@ -138,9 +150,8 @@ define run_desktop_tests
 			--config integrationFolder=$(DESKTOP_TEST_FOLDER),userAgent=$(DESKTOP_USER_AGENT) \
 			--headless \
 			--env DATA_FOLDER=$(DESKTOP_DATA_FOLDER),WORKDIR=$(DESKTOP_WORKDIR),WSD_VERSION_HASH=$(LOOLWSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
-			$(if $(1), --spec=$(abs_dir)/integration_tests/desktop/$(1)) \
-			|| ($(KILL_COMMAND) && false))
-	$(if $(PARALLEL_BUILD),@echo "`echo $(RUN_COMMAND) && $(RUN_COMMAND)`",$(RUN_COMMAND))
+			$(if $(1), --spec=$(abs_dir)/integration_tests/desktop/$(1)) || true)
+	$(if $(PARALLEL_BUILD),@echo "`export DISPLAY=:$(DISPLAY_NUMBER) && echo $(RUN_COMMAND) && $(RUN_COMMAND)`",$(RUN_COMMAND))
 endef
 
 define run_mobile_tests
@@ -151,9 +162,8 @@ define run_mobile_tests
 			--config integrationFolder=$(MOBILE_TEST_FOLDER),userAgent=$(MOBILE_USER_AGENT) \
 			--headless \
 			--env DATA_FOLDER=$(MOBILE_DATA_FOLDER),WORKDIR=$(MOBILE_WORKDIR),WSD_VERSION_HASH=$(LOOLWSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
-			$(if $(1), --spec=$(abs_dir)/integration_tests/mobile/$(1)) \
-			|| ($(KILL_COMMAND) && false))
-	$(if $(PARALLEL_BUILD),@echo "`echo $(RUN_COMMAND) && $(RUN_COMMAND)`",$(RUN_COMMAND))
+			$(if $(1), --spec=$(abs_dir)/integration_tests/mobile/$(1)) || true)
+	$(if $(PARALLEL_BUILD),@echo "`export DISPLAY=:$(DISPLAY_NUMBER) && echo $(RUN_COMMAND) && $(RUN_COMMAND)`",$(RUN_COMMAND))
 endef
 
 NODE_BINS = \
