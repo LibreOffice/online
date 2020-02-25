@@ -549,10 +549,13 @@ L.Control.JSDialogBuilder = L.Control.extend({
 	},
 
 	_frameHandler: function(parentContainer, data, builder) {
-		data.text = builder._cleanText(data.children[0].text);
-		var contentNode = data.children[1];
-
-		builder._explorableEntry(parentContainer, data, contentNode, builder);
+		if (data.children.length > 1) {
+			data.text = builder._cleanText(data.children[0].text);
+			var contentNode = data.children[1];
+			builder._explorableEntry(parentContainer, data, contentNode, builder);
+		} else {
+			return true;
+		}
 
 		return false;
 	},
@@ -1803,6 +1806,9 @@ L.Control.JSDialogBuilder = L.Control.extend({
 	build: function(parent, data) {
 		this._amendJSDialogData(data);
 		for (var childIndex in data) {
+			if (!data[childIndex])
+				continue;
+
 			var childData = data[childIndex];
 			if (!childData)
 				continue;
