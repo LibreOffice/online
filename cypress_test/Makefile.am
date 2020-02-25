@@ -24,6 +24,7 @@ MOBILE_TRACK_FOLDER=$(abs_builddir)/workdir/track/mobile
 ALLOWED_PORTS = $(shell seq 9900 1 9980)
 KILL_COMMAND=pkill -F $(PID_FILE) || pkill --signal SIGKILL -F $(PID_FILE)
 PARALLEL_BUILD = $(findstring jobserver,$(MAKEFLAGS))
+CI_BUILD := $(findstring unable to open display,$(shell xhost))
 
 if HAVE_LO_PATH
 MOBILE_TEST_FILES= \
@@ -59,6 +60,11 @@ check-local: $(MOBILE_TEST_FILES_DONE) $(DESKTOP_TEST_FILES_DONE)
 
 $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
+	@echo "writing out CI_BUILD"
+	@echo "$(CI_BUILD)"
+	Xvfb :99 &
+	sleep 10
+	export DISPLAY=:99
 	$(call start_loolwsd)
 
 $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
@@ -138,9 +144,8 @@ define run_desktop_tests
 			--config integrationFolder=$(DESKTOP_TEST_FOLDER),userAgent=$(DESKTOP_USER_AGENT) \
 			--headless \
 			--env DATA_FOLDER=$(DESKTOP_DATA_FOLDER),WORKDIR=$(DESKTOP_WORKDIR),WSD_VERSION_HASH=$(LOOLWSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
-			$(if $(1), --spec=$(abs_dir)/integration_tests/desktop/$(1)) \
-			|| ($(KILL_COMMAND) && false))
-	$(if $(PARALLEL_BUILD),@echo "`echo $(RUN_COMMAND) && $(RUN_COMMAND)`",$(RUN_COMMAND))
+			$(if $(1), --spec=$(abs_dir)/integration_tests/desktop/$(1)) || true)
+	$(if $(PARALLEL_BUILD),@echo "`export DISPLAY=:99 && echo $(RUN_COMMAND) && $(RUN_COMMAND)`",$(RUN_COMMAND))
 endef
 
 define run_mobile_tests
@@ -151,9 +156,8 @@ define run_mobile_tests
 			--config integrationFolder=$(MOBILE_TEST_FOLDER),userAgent=$(MOBILE_USER_AGENT) \
 			--headless \
 			--env DATA_FOLDER=$(MOBILE_DATA_FOLDER),WORKDIR=$(MOBILE_WORKDIR),WSD_VERSION_HASH=$(LOOLWSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
-			$(if $(1), --spec=$(abs_dir)/integration_tests/mobile/$(1)) \
-			|| ($(KILL_COMMAND) && false))
-	$(if $(PARALLEL_BUILD),@echo "`echo $(RUN_COMMAND) && $(RUN_COMMAND)`",$(RUN_COMMAND))
+			$(if $(1), --spec=$(abs_dir)/integration_tests/mobile/$(1)) || true)
+	$(if $(PARALLEL_BUILD),@echo "`export DISPLAY=:99 && echo $(RUN_COMMAND) && $(RUN_COMMAND)`",$(RUN_COMMAND))
 endef
 
 NODE_BINS = \
