@@ -58,6 +58,7 @@ check-local: $(MOBILE_TEST_FILES_DONE) $(DESKTOP_TEST_FILES_DONE)
 	@$(KILL_COMMAND) || true
 
 $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
+	@echo $(shell xhost)
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
 
