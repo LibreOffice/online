@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6ffeb39_a222e47c",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-02-25T08:58:05Z",
+      "side": 1,
+      "message": "This \u0027type\u0027 attribute breaks the insertion of non-breaking space. This is not needed here.",
+      "range": {
+        "startLine": 651,
+        "startChar": 80,
+        "endLine": 651,
+        "endChar": 93
+      },
+      "revId": "1c7e7210f0fae74ec6b43bcd43ccd582bf35a719",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
