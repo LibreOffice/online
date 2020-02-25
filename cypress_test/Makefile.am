@@ -24,6 +24,7 @@ MOBILE_TRACK_FOLDER=$(abs_builddir)/workdir/track/mobile
 ALLOWED_PORTS = $(shell seq 9900 1 9980)
 KILL_COMMAND=pkill -F $(PID_FILE) || pkill --signal SIGKILL -F $(PID_FILE)
 PARALLEL_BUILD = $(findstring jobserver,$(MAKEFLAGS))
+CI_BUILD := $(findstring unable to open display,$(shell xhost))
 
 if HAVE_LO_PATH
 MOBILE_TEST_FILES= \
