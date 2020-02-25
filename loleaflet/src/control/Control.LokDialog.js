@@ -782,7 +782,7 @@ L.Control.LokDialog = L.Control.extend({
 		L.DomUtil.setStyle(handles, 'position', 'absolute');
 		L.DomUtil.setStyle(handles, 'background', 'transparent');
 		this._setCanvasWidthHeight(handles, width, height);
-		handles.offsetX = 48;
+		handles.offsetX = 0; // (48 with sigma and equal buttons)
 		handles.offsetY = 0;
 		var startHandle = document.createElement('div');
 		L.DomUtil.addClass(startHandle, 'leaflet-selection-marker-start');
@@ -1271,6 +1271,7 @@ L.Control.LokDialog = L.Control.extend({
 			this._onEditorGotFocus();
 		} else {
 			this.focus(e.winId, e.acceptInput);
+			window.onFormulaBarFocus();
 		}
 	},
 

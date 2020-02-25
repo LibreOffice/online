@@ -285,8 +285,8 @@ function onClick(e, id, item, subItem) {
 	}
 	else if (id === 'cancelformula') {
 		map.sendUnoCommand('.uno:Cancel');
-		w2ui['formulabar'].hide('acceptformula', 'cancelformula');
-		w2ui['formulabar'].show('sum', 'function');
+		w2ui['actionbar'].hide('acceptformula', 'cancelformula');
+		w2ui['actionbar'].show('undo', 'redo');
 	}
 	else if (id === 'acceptformula') {
 		// focus on map, and press enter
@@ -295,8 +295,8 @@ function onClick(e, id, item, subItem) {
 						 map.keyboard.keyCodes.enter,
 						 map.keyboard._toUNOKeyCode(map.keyboard.keyCodes.enter));
 
-		w2ui['formulabar'].hide('acceptformula', 'cancelformula');
-		w2ui['formulabar'].show('sum', 'function');
+		w2ui['actionbar'].hide('acceptformula', 'cancelformula');
+		w2ui['actionbar'].show('undo', 'redo');
 	}
 	else if (id.startsWith('StateTableCellMenu') && subItem) {
 		e.done(function () {
@@ -1486,9 +1486,9 @@ function onFormulaInput(e) {
 }
 
 function onFormulaBarFocus() {
-	var formulabar = w2ui.formulabar;
-	formulabar.hide('sum');
-	formulabar.hide('function');
+	var formulabar = w2ui['actionbar'];
+	formulabar.hide('undo');
+	formulabar.hide('redo');
 	formulabar.show('cancelformula');
 	formulabar.show('acceptformula');
 }
@@ -1499,9 +1499,9 @@ function onFormulaBarBlur() {
 	// once hidden, click event won't be processed.
 	// TODO: Some better way to do it ?
 	setTimeout(function() {
-		var formulabar = w2ui.formulabar;
-		formulabar.show('sum');
-		formulabar.show('function');
+		var formulabar = w2ui['actionbar'];
+		formulabar.show('undo');
+		formulabar.show('redo');
 		formulabar.hide('cancelformula');
 		formulabar.hide('acceptformula');
 	}, 250);
