@@ -24,6 +24,10 @@ MOBILE_TRACK_FOLDER=$(abs_builddir)/workdir/track/mobile
 ALLOWED_PORTS = $(shell seq 9900 1 9980)
 KILL_COMMAND=pkill -F $(PID_FILE) || pkill --signal SIGKILL -F $(PID_FILE)
 PARALLEL_BUILD = $(findstring jobserver,$(MAKEFLAGS))
+DISPLAY_NUMBER = 100
+HEADLESS_BUILD := $(findstring Command failed,$(shell xhost > /dev/null 2>&1 || echo "Command failed, so we are in a headless environment."))
+HEADLESS_PARALLEL_BUILD := $(if $(PARALLEL_BUILD),$(if $(HEADLESS_BUILD),headless parallel build))
+export DISPLAY=$(if $(shell echo $$DISPLAY),$(shell echo $$DISPLAY),:$(DISPLAY_NUMBER))
 
 if HAVE_LO_PATH
 MOBILE_TEST_FILES= \
@@ -56,9 +60,13 @@ DESKTOP_TEST_FILES_DONE= \
 
 check-local: $(MOBILE_TEST_FILES_DONE) $(DESKTOP_TEST_FILES_DONE)
 	@$(KILL_COMMAND) || true
+	$(if $(HEADLESS_BUILD),@pkill Xvfb,)
 
 $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
+	echo $$DISPLAY
+	echo $$PATH
 	$(call run_JS_error_check)
+	$(if $(HEADLESS_BUILD),$(call start_Xvfb),)
 	$(call start_loolwsd)
 
 $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
@@ -130,10 +138,18 @@ define start_loolwsd
 	@echo
 endef
 
+define start_Xvfb
+	@echo "Launching Xvfb..."
+	Xvfb :$(DISPLAY_NUMBER) &
+	sleep 10
+	@echo
+endef
+
 define run_desktop_tests
 	@echo $(if $(1),"Running cypress desktop test: $(1)","Running cypress desktop tests...")
 	@echo
 	$(eval RUN_COMMAND = \
+		$(if $(HEADLESS_BUILD), export DISPLAY=:$(DISPLAY_NUMBER) &&) \
 		$(CYPRESS_BINARY) run --browser $(CHROME) \
 			--config integrationFolder=$(DESKTOP_TEST_FOLDER),userAgent=$(DESKTOP_USER_AGENT) \
 			--headless \
@@ -147,6 +163,7 @@ define run_mobile_tests
 	@echo $(if $(1),"Running cypress mobile test: $(1)","Running cypress mobile tests...")
 	@echo
 	$(eval RUN_COMMAND = \
+		$(if $(HEADLESS_BUILD), export DISPLAY=:$(DISPLAY_NUMBER) &&) \
 		$(CYPRESS_BINARY) run --browser $(CHROME) \
 			--config integrationFolder=$(MOBILE_TEST_FOLDER),userAgent=$(MOBILE_USER_AGENT) \
 			--headless \
