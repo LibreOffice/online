@@ -24,6 +24,7 @@ MOBILE_TRACK_FOLDER=$(abs_builddir)/workdir/track/mobile
 ALLOWED_PORTS = $(shell seq 9900 1 9980)
 KILL_COMMAND=pkill -F $(PID_FILE) || pkill --signal SIGKILL -F $(PID_FILE)
 PARALLEL_BUILD = $(findstring jobserver,$(MAKEFLAGS))
+CI_BUILD := $(findstring unable to open display,$(shell xhost))
 
 if HAVE_LO_PATH
 MOBILE_TEST_FILES= \
@@ -56,9 +57,14 @@ DESKTOP_TEST_FILES_DONE= \
 
 check-local: $(MOBILE_TEST_FILES_DONE) $(DESKTOP_TEST_FILES_DONE)
 	@$(KILL_COMMAND) || true
+	$(if $(CI_BUILD),@pkill Xvfb,)
 
 $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
+	$(if $(CI_BUILD),@echo "Starting Xvfb server...",)
+	$(if $(CI_BUILD),@Xvfb :99 &,)
+	@sleep 10
+	@$(if $(CI_BUILD),export DISPLAY=:99,)
 	$(call start_loolwsd)
 
 $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
