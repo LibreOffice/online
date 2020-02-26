@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ed42559_8eee1fec",
+        "filename": "loleaflet/Makefile.am",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-02-26T01:08:24Z",
+      "side": 1,
+      "message": "I thought the --source-map helped debugging, or is it not really used?",
+      "revId": "1b4f7104a43ae5b0e4a24e741123b5549f0b8e43",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
