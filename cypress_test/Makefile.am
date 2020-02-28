@@ -76,6 +76,13 @@ $(DESKTOP_TEST_FILES_DONE): $(PID_FILE)
 	@mkdir -p $(dir $@)
 	@touch $@
 
+check-seq: @JAILS_PATH@ $(NODE_BINS)
+	$(call run_JS_error_check)
+	$(call start_loolwsd)
+	$(call run_desktop_tests)
+	$(call run_mobile_tests)
+	@$(KILL_COMMAND) || true
+
 check-desktop: @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
