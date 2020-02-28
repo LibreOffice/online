@@ -146,7 +146,7 @@ endef
 define start_Xvfb
 	@echo "Launching Xvfb..."
 	Xvfb :$(DISPLAY_NUMBER) &
-	sleep 10
+	while [ ! -f /tmp/.X$(DISPLAY_NUBER)-lock ] ; do sleep 1; done
 	@echo
 endef
 
