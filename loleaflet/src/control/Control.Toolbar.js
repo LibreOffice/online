@@ -1242,7 +1242,7 @@ function initNormalToolbar() {
 
 function setupSearchInput() {
 	$('#search-input').off('input', onSearchInput).on('input', onSearchInput);
-	$('#search-input').off('keypress', onSearchKeyPress).on('keypress', onSearchKeyPress);
+	$('#search-input').off('keydown', onSearchKeyPress).on('keydown', onSearchKeyPress);
 	$('#search-input').off('focus', onSearchFocus).on('focus', onSearchFocus);
 	$('#search-input').off('blur', onSearchBlur).on('blur', onSearchBlur);
 }
