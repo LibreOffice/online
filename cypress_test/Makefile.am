@@ -68,7 +68,7 @@ $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
 
 $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
 	$(if $(PARALLEL_BUILD),\
-		$(call run_mobile_tests,$(subst $(MOBILE_TRACK_FOLDER),,$(basename $@))),\
+		$(call run_mobile_tests,$(subst $(MOBILE_TRACK_FOLDER)/,,$(basename $@))),\
 		$(call run_mobile_tests))
 	$(if $(PARALLEL_BUILD),\
 		@mkdir -p $(dir $@) &&\
@@ -80,7 +80,7 @@ $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
 
 $(DESKTOP_TEST_FILES_DONE): $(PID_FILE)
 	$(if $(PARALLEL_BUILD),\
-		$(call run_desktop_tests,$(subst $(DESKTOP_TRACK_FOLDER),,$(basename $@))),\
+		$(call run_desktop_tests,$(subst $(DESKTOP_TRACK_FOLDER)/,,$(basename $@))),\
 		$(call run_desktop_tests))
 	$(if $(PARALLEL_BUILD),\
 		@mkdir -p $(dir $@) &&\
