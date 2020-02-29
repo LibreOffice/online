@@ -71,11 +71,9 @@ $(MOBILE_TEST_FILES_DONE): $(PID_FILE)
 		$(call run_mobile_tests,$(subst $(MOBILE_TRACK_FOLDER)/,,$(basename $@))),\
 		$(call run_mobile_tests))
 	$(if $(PARALLEL_BUILD),\
-		@mkdir -p $(dir $@) &&\
-		touch $@\
+		@mkdir -p $(dir $@) && touch $@\
 		,\
-		@$(foreach done_file,$(MOBILE_TEST_FILES_DONE),mkdir -p $(dir $(done_file)) &&)\
-		$(foreach done_file,$(MOBILE_TEST_FILES_DONE),touch $(done_file) &&) true\
+		@$(foreach done_file,$(MOBILE_TEST_FILES_DONE),mkdir -p $(dir $(done_file)) && touch $(done_file) &&) true\
 	)
 
 $(DESKTOP_TEST_FILES_DONE): $(PID_FILE)
@@ -83,11 +81,9 @@ $(DESKTOP_TEST_FILES_DONE): $(PID_FILE)
 		$(call run_desktop_tests,$(subst $(DESKTOP_TRACK_FOLDER)/,,$(basename $@))),\
 		$(call run_desktop_tests))
 	$(if $(PARALLEL_BUILD),\
-		@mkdir -p $(dir $@) &&\
-		touch $@\
+		@mkdir -p $(dir $@) && touch $@\
 		,\
-		@$(foreach done_file,$(DESKTOP_TEST_FILES_DONE),mkdir -p $(dir $(done_file)) &&)\
-		$(foreach done_file,$(DESKTOP_TEST_FILES_DONE),touch $(done_file) &&) true\
+		@$(foreach done_file,$(DESKTOP_TEST_FILES_DONE),mkdir -p $(dir $(done_file)) && touch $(done_file) &&) true\
 	)
 
 check-seq: @JAILS_PATH@ $(NODE_BINS)
