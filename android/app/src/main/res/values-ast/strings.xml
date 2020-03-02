@@ -39,4 +39,5 @@
     <string name="no_recent_items">Nun hai elementos recientes</string>
     <string name="loading">Cargando…</string>
     <string name="pref_show_debug_info">Amosar mensaxes de depuración</string>
+    <string name="storage_permission_required">Ríquese permisu d\'almacenamientu</string>
 </resources>
