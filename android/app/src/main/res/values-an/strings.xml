@@ -2,4 +2,10 @@
 <resources>
     <string name="action_about">Arredol de</string>
     <string name="title_activity_show_html">Arredol de</string>
+    <string name="open">Ubrir</string>
+    <string name="share">Compartir</string>
+    <string name="title_recents">Ficheros recients</string>
+    <string name="title_browser">Totz os ficheros</string>
+    <string name="app_name_settings">Achustes</string>
+    <string name="action_settings">Achustes</string>
 </resources>
