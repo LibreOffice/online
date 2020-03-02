@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54043a7a_f6776542",
+        "filename": "loleaflet/src/control/Control.JSDialogBuilder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2020-03-02T14:06:54Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem correct to me. Is  that a JS thing?\n\nI would do it as\n\nsectionTitle.id \u003d\u003d\u003d \u0027paperformat\u0027 || sectionTitle.id \u003d\u003d\u003d \u0027orientation\u0027 || sectionTitle.id \u003d\u003d\u003d \u0027masterslide\u0027\n\nor as\n\n[\u0027paperformat\u0027, \u0027orientation\u0027, \u0027masterslide\u0027].includes(sectionTitle.id)",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 73
+      },
+      "revId": "b70f4c7807d08f137af6c4c0c0a3743104852434",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
