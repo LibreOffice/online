@@ -92,13 +92,6 @@ $(DESKTOP_TEST_FILES_DONE): $(PID_FILE)
 		@$(foreach done_file,$(DESKTOP_TEST_FILES_DONE),mkdir -p $(dir $(done_file)) && touch $(done_file) &&) true\
 	)
 
-check-seq: @JAILS_PATH@ $(NODE_BINS)
-	$(call run_JS_error_check)
-	$(call start_loolwsd)
-	$(call run_desktop_tests)
-	$(call run_mobile_tests)
-	@$(KILL_COMMAND) || true
-
 check-desktop: @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
