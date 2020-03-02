@@ -8,6 +8,7 @@ GET_PORT_BINARY = $(abs_builddir)/node_modules/get-port-cli/cli.js
 NPM_INSTALLED = $(abs_builddir)/workdir/npm_installed
 
 PID_FILE=$(abs_builddir)/workdir/loolwsd.pid
+ERROR_LOG=$(abs_builddir)/workdir/error.log
 
 DESKTOP_USER_AGENT = "cypress"
 DESKTOP_TEST_FOLDER = $(abs_srcdir)/integration_tests/desktop
@@ -60,8 +61,11 @@ DESKTOP_TEST_FILES_DONE= \
 check-local: $(DESKTOP_TEST_FILES_DONE) $(MOBILE_TEST_FILES_DONE)
 	@$(KILL_COMMAND) || true
 	$(if $(HEADLESS_BUILD),@pkill Xvfb,)
+	@cat $(ERROR_LOG)
+	$(error Cypress test failure!)
 
 $(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
+	@rm -f $(ERROR_LOG)
 	$(call run_JS_error_check)
 	$(if $(HEADLESS_BUILD),$(call start_Xvfb),)
 	$(call start_loolwsd)
