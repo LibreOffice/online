@@ -12,7 +12,7 @@ describe('Example test suit 1', function() {
 		helper.loadTestDoc('example.odt');
 
 		// Select a text
-		cy.get('#document-container').dblclick();
+		cy.get('#document-containers').dblclick();
 		cy.get('.leaflet-marker-icon');
 
 		// Click on bold toolbar button

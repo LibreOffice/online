@@ -50,7 +50,7 @@ describe('Pushing bottom toolbar items.', function() {
 	});
 
 	it('Apply underline.', function() {
-		cy.get('#tb_editbar_item_underline div table')
+		cy.get('#tb_editbar_item_underlinew div table')
 			.should('not.have.class', 'checked');
 
 		cy.get('#tb_editbar_item_underline')
