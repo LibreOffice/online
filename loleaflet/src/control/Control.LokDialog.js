@@ -1365,6 +1365,7 @@ L.Control.LokDialog = L.Control.extend({
 			spreadsheetRowColumnFrame.style.right = width.toString() + 'px';
 
 		this._adjustCalcInputBar(deckOffset);
+		this._adjustTabsBar(width);
 		// If we didn't have the focus, don't steal it form the editor.
 		if ($('#' + this._currentDeck.strId + '-cursor').css('display') === 'none') {
 			if (this._map.editorHasFocus()) {
@@ -1390,6 +1391,28 @@ L.Control.LokDialog = L.Control.extend({
 				}
 			}
 		}
+	},
+
+	_adjustTabsBar: function(deckNewWidth) {
+
+		if (this._map.getDocType() !== 'spreadsheet') {
+			return;
+		}
+
+		if (window.mode.isMobile()) {
+			return;
+		}
+
+		var tabsContainer = L.DomUtil.get('spreadsheet-tabs-container-id');
+		if (!tabsContainer) {
+			return;
+		}
+
+		var docWidth = L.DomUtil.get('spreadsheet-toolbar').getBoundingClientRect().width;
+		var tabsContainerLeft = tabsContainer.getBoundingClientRect().left;
+
+		console.log('_adjustTabsBar: docWidth = ' + docWidth + ' left = ' + tabsContainerLeft + ' sidebarWidth = ' + deckNewWidth);
+		tabsContainer.style.width = (docWidth - tabsContainerLeft - deckNewWidth) + 'px';
 	},
 
 	_onDialogChildClose: function(dialogId) {
