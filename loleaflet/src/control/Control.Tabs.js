@@ -99,7 +99,16 @@ L.Control.Tabs = L.Control.extend({
 				}, this), 100);
 				this._tabsInitialized = true;
 			}
+
+			// Save scroll position
+			var horizScrollPos = 0;
+			var scrollDiv = L.DomUtil.get('spreadsheet-tab-scroll');
+			if (scrollDiv) {
+				horizScrollPos = scrollDiv.scrollLeft;
+			}
+
 			if ('partNames' in e) {
+
 				while (this._tabsCont.firstChild) {
 					this._tabsCont.removeChild(this._tabsCont.firstChild);
 				}
@@ -151,6 +160,12 @@ L.Control.Tabs = L.Control.extend({
 				if (part === selectedPart) {
 					L.DomUtil.addClass(this._spreadsheetTabs[key], 'spreadsheet-tab-selected');
 				}
+			}
+
+			// Restore horizontal scroll position
+			scrollDiv = L.DomUtil.get('spreadsheet-tab-scroll');
+			if (scrollDiv) {
+				scrollDiv.scrollLeft = horizScrollPos;
 			}
 		}
 	},
