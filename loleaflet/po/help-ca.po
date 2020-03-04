@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-12 11:04+0200\n"
-"PO-Revision-Date: 2020-02-17 13:51+0000\n"
+"PO-Revision-Date: 2020-03-02 00:56+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/ca/>\n"
 "Language: ca\n"
@@ -1523,11 +1523,11 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:462-5
 msgid "How can I remove the red wavy lines in my document?"
-msgstr ""
+msgstr "Com puc llevar les línies vermelles ondulades del document?"
 
 #: html/loleaflet-help.html%2Bdiv.p:463-5
 msgid "Choose menu <span class=\"ui\">Tools</span> and uncheck <span class=\"ui\">Automatic Spell Checking</span>."
-msgstr ""
+msgstr "Trieu el menú <span class=\"ui\">Eines</span> i desactiveu <span class=\"ui\">Verificació ortogràfica automàtica</span>."
 
 #: html/loleaflet-help.html%2Bdiv.h4:464-5
 msgid "What is the blue wavy underline in some words in the text?"
