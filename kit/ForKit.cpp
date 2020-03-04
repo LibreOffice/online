@@ -47,6 +47,9 @@ using Poco::Thread;
 #ifndef KIT_IN_PROCESS
 static bool NoCapsForKit = false;
 static bool NoSeccomp = false;
+#ifdef ENABLE_DEBUG
+static bool SingleKit = false;
+#endif
 #endif
 static bool DisplayVersion = false;
 static std::string UnitTestLibrary;
@@ -462,6 +465,10 @@ int main(int argc, char** argv)
             eq = std::strchr(cmd, '=');
             UnitTestLibrary = std::string(eq+1);
         }
+        else if (std::strstr(cmd, "--singlekit") == cmd)
+        {
+            SingleKit = true;
+        }
 #endif
         // we are running in a lower-privilege mode - with no chroot
         else if (std::strstr(cmd, "--nocaps") == cmd)
@@ -550,6 +557,9 @@ int main(int argc, char** argv)
             break;
         }
 
+#if ENABLE_DEBUG
+        if (!SingleKit)
+#endif
         forkLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath);
     }
 
