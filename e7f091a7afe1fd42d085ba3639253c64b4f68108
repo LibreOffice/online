@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cc4c41a_e606de4d",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1405,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-03-05T22:58:47Z",
+      "side": 1,
+      "message": "Suggestion, better check if the sidebar is visible, I am not sure if it is visible in tablets",
+      "revId": "e7f091a7afe1fd42d085ba3639253c64b4f68108",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6750ff7_e4657d55",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-03-05T22:58:47Z",
+      "side": 1,
+      "message": "Please remove debug messages",
+      "revId": "e7f091a7afe1fd42d085ba3639253c64b4f68108",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
