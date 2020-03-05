@@ -186,8 +186,11 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			data = typeof data === 'string' ? data.replace('"', '\\"') : data;
 			var windowId = window.windowId !== undefined ? window.windowId :
 								(window.sidebarId !== undefined ? window.sidebarId : -1);
-			var message = 'dialogevent ' + windowId +
-			    ' {\"id\":\"' + object.id + '\", \"cmd\": \"' + eventType + '\", \"data\":\"' + data + '\"}';
+			var message = 'dialogevent ' + windowId
+			    + ' {\"id\":\"' + object.id
+				+ '\", \"cmd\": \"' + eventType
+				+ '\", \"data\": \"' + data
+				+ '\", \"type\": \"' + objectType + '\"}';
 			builder.map._socket.sendMessage(message);
 		}
 	},
