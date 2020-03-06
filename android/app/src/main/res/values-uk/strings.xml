@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="about_license">Показати ліцензію</string>
+    <string name="pref_enable_chrome_debugger_info">Використовувати в документі зневаджувальні засоби Chrome</string>
+    <string name="pref_enable_chrome_debugger">Зневадження Chrome</string>
+    <string name="pref_show_debug_info_summary">Показувати зневаджувальну інформацію в переглядачі документів</string>
+    <string name="pref_show_debug_info">Показати зневаджувальну інформацію</string>
+    <string name="pref_filter_summary">Задайте, який фільтр файлів буде типовим.</string>
+    <string name="pref_filter_title">Типовий фільтр файлів</string>
+    <string name="pref_sort_title">Порядок файлів</string>
+    <string name="pref_viewmode_summary">Показувати файли таблицею чи списком.</string>
+    <string name="pref_sort_summary">Виберіть, як упорядкувати файли: за абеткою, за розміром чи за датою.</string>
+    <string name="pref_show_hidden_files_summary">Показати приховані файли/теки</string>
+    <string name="pref_show_hidden_files">Приховані файли/теки</string>
+    <string name="pref_category_explorer">Параметри файлового менеджера</string>
+    <string name="grid_view">Таблиця</string>
+    <string name="list_view">Список</string>
+    <string name="failed_to_load_file">Помилка визначення файлу для завантаження</string>
+    <string name="storage_permission_required">Необхідний дозвіл на збереження</string>
+    <string name="file_creation_failed">Не вдалось створити файл</string>
+    <string name="file_exists_warning">Файл з такою назвою вже існує і буде перезаписаний.</string>
+    <string name="temp_file_saving_disabled">Цей файл доступний лише для читання, запис неможливий.</string>
+    <string name="no_items">Немає елементів</string>
+    <string name="no_recent_items">Відкрийте файл за допомогою піктограми папки на панелі інструментів.</string>
+    <string name="app_vendor">Цей випуск надано $VENDOR.</string>
+    <string name="app_description">$APP_NAME це сучасний, простий у використанні набір програм з відкритим кодом для обробки текстів, електронних таблиць, презентацій тощо.</string>
+    <string name="app_version">Версія: %1$s, збірка: %2$s</string>
+    <string name="app_name_settings">Параметри</string>
+</resources>
