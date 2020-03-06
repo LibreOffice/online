@@ -199,9 +199,11 @@ public:
     ///                 a new view) or nullptr (when first view).
     /// jailId The JailID of the jail root directory,
     //         used by downloadas to construct jailed path.
-    ChildSession(const std::string& id,
-                 const std::string& jailId,
-                 DocumentManagerInterface& docManager);
+    ChildSession(
+        const std::shared_ptr<ProtocolHandlerInterface> &protocol,
+        const std::string& id,
+        const std::string& jailId,
+        DocumentManagerInterface& docManager);
     virtual ~ChildSession();
 
     bool getStatus(const char* buffer, int length);
