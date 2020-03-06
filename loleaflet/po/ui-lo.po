@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-21 14:50+0100\n"
-"PO-Revision-Date: 2020-01-21 09:30+0000\n"
+"PO-Revision-Date: 2020-03-03 17:23+0000\n"
 "Last-Translator: Saikeo <kavhanxay@hotmail.com>\n"
 "Language-Team: Lao <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/lo/>\n"
 "Language: lo\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 3.10.3\n"
 "X-Pootle-Path: /lo/libo_online/loleaflet-ui-lo.po\n"
 "X-Pootle-Revision: 3937965\n"
 
@@ -94,7 +94,7 @@ msgstr "ເວລາທີ່ຜ່ານໄປ"
 
 #: admin/admin.strings.js:24
 msgid "Idle time"
-msgstr ""
+msgstr "ເວລາວ່າງ"
 
 #: admin/admin.strings.js:25
 msgid "Modified"
@@ -131,15 +131,15 @@ msgstr "ສະຖິຕິຂະຫນາດເຄສຂອງຄວາມຈຳ
 
 #: admin/admin.strings.js:33
 msgid "Time interval of memory statistics (in ms)"
-msgstr ""
+msgstr "ສະຖິຕິຊ່ວງເວລາຂອງຫນ່ວຍຄວາມຈຳ (ເປັນວິນາທີ)"
 
 #: admin/admin.strings.js:34
 msgid "Cache size of CPU statistics"
-msgstr ""
+msgstr "ສະຖິຕິຂະຫນາດເຄສຂອງ CPU"
 
 #: admin/admin.strings.js:35
 msgid "Time interval of CPU statistics (in ms)"
-msgstr ""
+msgstr "ສະຖິຕິຊ່ວງເວລາຂອງ CPU (ເປັນວິນາທີ)"
 
 #: admin/admin.strings.js:36
 msgid "Maximum Document process virtual memory (in MB) - reduce only"
