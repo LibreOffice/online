@@ -448,6 +448,7 @@ void DocumentBroker::pollThread()
             << ", TerminationFlag: " << SigUtil::getTerminationFlag()
             << ". Terminating child with reason: [" << _closeReason << "].");
     const auto flushStartTime = std::chrono::steady_clock::now();
+    int numTimedOutPolls = 0;
     while (_poll->getSocketCount())
     {
         const auto now = std::chrono::steady_clock::now();
@@ -455,7 +456,11 @@ void DocumentBroker::pollThread()
         if (elapsedMs > flushTimeoutMs)
             break;
 
-        _poll->poll(std::min(flushTimeoutMs - elapsedMs, POLL_TIMEOUT_MS / 5));
+        // If we timeout a few times in a row, no point in waiting longer.
+        if (_poll->poll(std::min(flushTimeoutMs - elapsedMs, POLL_TIMEOUT_MS / 10)))
+            numTimedOutPolls = 0; // Either signalled or error, reset.
+        else if (++numTimedOutPolls >= 4) // Timed-out.
+                break;
     }
 
     LOG_INF("Finished flushing socket for doc [" << _docKey << "]. stop: " << _stop << ", continuePolling: " <<
