@@ -2134,12 +2134,18 @@ L.TileLayer = L.GridLayer.extend({
 			updated = !newLatLng.equals(oldLatLng) && !this.hasTextSelection();
 		}
 
-		this._map._textInput.showCursor();
+		// Update the cursor/keyboard only when the document has focus.
+		if (this._map.editorHasFocus()) {
+			this._map._textInput.showCursor();
 
-		if (!window.mobileWizard && updated && this._map.editorHasFocus()) {
-			// If the user is editing, show the keyboard, but don't change
-			// anything if nothing is changed, or the wizard is visible.
-			this._map.focus(true);
+			// Don't show the keyboard when the Wizard is visible.
+			if (!window.mobileWizard) {
+				if (updated || !this.isWriter()) {
+					// If the user is editing, show the keyboard, but don't change
+					// anything if nothing is changed.
+					this._map.focus(true);
+				}
+			}
 		}
 	},
 
@@ -2183,6 +2189,7 @@ L.TileLayer = L.GridLayer.extend({
 			this._updateCursorPos();
 		} else {
 			this._map._textInput.hideCursor();
+			this._map.focus(false);
 		}
 	},
 
