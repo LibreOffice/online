@@ -71,7 +71,14 @@ public:
     std::string cat(const std::string& separator, size_t begin) const;
 
     /// Compares the nth token with string.
-    bool equals(size_t index, const char* string) const;
+    bool equals(size_t index, const char* data, size_t length) const;
+
+    /// Compares the nth token with a string literal.
+    template <size_t N> bool equals(size_t index, const char (&data)[N]) const
+    {
+        // Don't count the null termination.
+        return equals(index, data, N - 1);
+    }
 
     /// Compares the nth token with the mth token from an other StringVector.
     bool equals(size_t index, const StringVector& other, size_t otherIndex);

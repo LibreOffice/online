@@ -825,6 +825,14 @@ void WhiteBoxTests::testStringVector()
     CPPUNIT_ASSERT(!vector.equals(1, "B"));
     CPPUNIT_ASSERT(!vector.equals(2, ""));
 
+    // Test equals(), providing length explicitly.
+    std::string lower("a");
+    std::string upper("A");
+    CPPUNIT_ASSERT(vector.equals(0, lower.data(), lower.size()));
+    CPPUNIT_ASSERT(!vector.equals(0, upper.data(), upper.size()));
+    std::string empty;
+    CPPUNIT_ASSERT(!vector.equals(2, empty.data(), empty.size()));
+
     // Test equals(), StringVector argument version.
     StringVector vector2;
     vector2.push_back("a");

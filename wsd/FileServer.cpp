@@ -168,7 +168,7 @@ bool isConfigAuthOk(const std::string& userProvidedUsr, const std::string& userP
 
         // now compare the hashed user-provided pwd against the stored hash
         std::string string = stream.str();
-        return tokens.equals(4, string.c_str());
+        return tokens.equals(4, string.data(), string.size());
 #else
         const std::string pass = config.getString("admin_console.password", "");
         LOG_ERR("The config file has admin_console.secure_password setting, "

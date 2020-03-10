@@ -86,7 +86,7 @@ std::string StringVector::cat(const std::string& separator, size_t offset) const
     return ret;
 }
 
-bool StringVector::equals(size_t index, const char* string) const
+bool StringVector::equals(size_t index, const char* string, size_t otherSize) const
 {
     if (index >= _tokens.size())
     {
@@ -94,7 +94,15 @@ bool StringVector::equals(size_t index, const char* string) const
     }
 
     const StringToken& token = _tokens[index];
-    return _string.compare(token._index, token._length, string) == 0;
+    size_t size = token._length;
+    size_t minSize = std::min(size, otherSize);
+    int ret = std::char_traits<char>::compare(_string.data() + token._index, string, minSize);
+    if (ret == 0)
+    {
+        ret = size - otherSize;
+    }
+
+    return ret == 0;
 }
 
 bool StringVector::equals(size_t index, const StringVector& other, size_t otherIndex)
