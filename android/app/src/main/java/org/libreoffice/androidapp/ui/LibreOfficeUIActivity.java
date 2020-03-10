@@ -977,6 +977,9 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
                 Uri shortcutUri = Uri.parse(pathString);
                 String filename = RecentFilesAdapter.getUriFilename(this, shortcutUri);
 
+                if (filename == null)
+                    continue;
+
                 Intent intent = getIntentToEdit(shortcutUri);
                 ShortcutInfo.Builder builder = new ShortcutInfo.Builder(this, filename)
                         .setShortLabel(filename)
