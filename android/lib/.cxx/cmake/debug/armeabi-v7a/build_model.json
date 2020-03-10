@@ -1,0 +1,70 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "/home/rutuja/online/android",
+      "sdkFolder": "/home/rutuja/Android/Sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "/home/rutuja/online/android/lib/build/intermediates",
+      "gradleModulePathName": ":lib",
+      "moduleRootFolder": "/home/rutuja/online/android/lib",
+      "makeFile": "/home/rutuja/online/android/lib/src/main/cpp/CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "/home/rutuja/online/android/.cxx",
+      "cxxFolder": "/home/rutuja/online/android/lib/.cxx",
+      "ndkFolder": "/home/rutuja/Android/Sdk/ndk-bundle",
+      "ndkVersion": "21.0.6113669",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [
+      "-DANDROID_ARM_NEON\u003dTRUE",
+      "-DANDROID_STL\u003dc++_shared"
+    ],
+    "cFlagList": [],
+    "cppFlagsList": [],
+    "variantName": "debug",
+    "soFolder": "/home/rutuja/online/android/lib/build/intermediates/cmake/debug/lib",
+    "objFolder": "/home/rutuja/online/android/lib/build/intermediates/cmake/debug/obj",
+    "jsonFolder": "/home/rutuja/online/android/lib/.cxx/cmake/debug",
+    "gradleBuildOutputFolder": "/home/rutuja/online/android/lib/.cxx/cxx/debug",
+    "isDebuggableEnabled": true,
+    "validAbiList": [
+      "ARMEABI_V7A"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "ARMEABI_V7A",
+  "abiPlatformVersion": 21,
+  "cxxBuildFolder": "/home/rutuja/online/android/lib/.cxx/cmake/debug/armeabi-v7a",
+  "jsonFile": "/home/rutuja/online/android/lib/.cxx/cmake/debug/armeabi-v7a/android_gradle_build.json",
+  "gradleBuildOutputFolder": "/home/rutuja/online/android/lib/.cxx/cxx/debug/armeabi-v7a",
+  "objFolder": "/home/rutuja/online/android/lib/build/intermediates/cmake/debug/obj/armeabi-v7a",
+  "buildCommandFile": "/home/rutuja/online/android/lib/.cxx/cmake/debug/armeabi-v7a/build_command.txt",
+  "buildOutputFile": "/home/rutuja/online/android/lib/.cxx/cmake/debug/armeabi-v7a/build_output.txt",
+  "modelOutputFile": "/home/rutuja/online/android/lib/.cxx/cmake/debug/armeabi-v7a/build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "/home/rutuja/online/android/lib/.cxx/cxx/debug/armeabi-v7a/CMakeLists.txt",
+    "toolchainWrapperFile": "/home/rutuja/online/android/lib/.cxx/cxx/debug/armeabi-v7a/android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "/home/rutuja/online/android/lib/.cxx/cxx/debug/armeabi-v7a/build_generation_state.json",
+    "cacheKeyFile": "/home/rutuja/online/android/lib/.cxx/cxx/debug/armeabi-v7a/compiler_cache_key.json",
+    "compilerCacheUseFile": "/home/rutuja/online/android/lib/.cxx/cxx/debug/armeabi-v7a/compiler_cache_use.json",
+    "compilerCacheWriteFile": "/home/rutuja/online/android/lib/.cxx/cxx/debug/armeabi-v7a/compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "/home/rutuja/online/android/lib/.cxx/cxx/debug/armeabi-v7a/compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "/home/rutuja/online/android/lib/.cxx/cmake/debug/armeabi-v7a/json_generation_record.json",
+  "compileCommandsJsonFile": "/home/rutuja/online/android/lib/.cxx/cmake/debug/armeabi-v7a/compile_commands.json"
+}

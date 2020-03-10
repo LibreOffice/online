@@ -1,0 +1,146 @@
+
+{
+	"buildFiles" : [ "/home/rutuja/online/android/lib/src/main/cpp/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"/home/rutuja/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"androidapp-Release-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "androidapp",
+			"buildCommand" : "/home/rutuja/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a --target androidapp",
+			"buildType" : "release",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/android/lib/src/main/cpp/androidapp.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/FileUtil.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/Log.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/MessageQueue.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/Protocol.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/Session.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/SigUtil.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/SpookyV2.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/Unit.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/common/Util.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/kit/ChildSession.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/kit/Kit.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/net/FakeSocket.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/net/Socket.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/wsd/ClientSession.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/wsd/DocumentBroker.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/wsd/LOOLWSD.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/wsd/Storage.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/rutuja/online/android/lib/src/main/cpp/. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../.. -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../common -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../kit -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../net -I/home/rutuja/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/rutuja/libreoffice/workdir/UnpackedTarball/libpng -I/home/rutuja/libreoffice/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -Oz -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/rutuja/online/wsd/TileCache.cpp",
+					"workingDirectory" : "/home/rutuja/online/android/lib/.cxx/cmake/release/armeabi-v7a"
+				}
+			],
+			"output" : "/home/rutuja/online/android/lib/build/intermediates/cmake/release/obj/armeabi-v7a/libandroidapp.so",
+			"toolchain" : "851601361254529542"
+		}
+	},
+	"toolchains" : 
+	{
+		"851601361254529542" : 
+		{
+			"cCompilerExecutable" : "/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/home/rutuja/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+		}
+	}
+}

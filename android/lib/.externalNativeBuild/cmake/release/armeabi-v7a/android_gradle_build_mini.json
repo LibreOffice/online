@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "/home/rutuja/online/android/lib/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/home/rutuja/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/rutuja/online/android/lib/.externalNativeBuild/cmake/release/armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "androidapp-Release-armeabi-v7a": {
+      "artifactName": "androidapp",
+      "buildCommand": "/home/rutuja/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/rutuja/online/android/lib/.externalNativeBuild/cmake/release/armeabi-v7a --target androidapp",
+      "abi": "armeabi-v7a",
+      "output": "/home/rutuja/online/android/lib/build/intermediates/cmake/release/obj/armeabi-v7a/libandroidapp.so"
+    }
+  }
+}

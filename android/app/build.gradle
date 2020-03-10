@@ -10,7 +10,13 @@ android {
         // applicationId, versionCode and versionName are defined in appSettings.gradle
         minSdkVersion 21
         targetSdkVersion 28
+        vectorDrawables.useSupportLibrary = true
+//        ndk {
+//            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+//        }
     }
+
+
 
     lintOptions {
         disable 'MissingTranslation'
@@ -52,6 +58,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion = '28.0.3'
 }
 
 repositories {

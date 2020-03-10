@@ -1,0 +1,37 @@
+{
+  "ndkFolder": "/home/rutuja/Android/Sdk/ndk-bundle",
+  "messages": [
+    {
+      "level": "INFO",
+      "message": "android.ndkVersion from module build.gradle is not set"
+    },
+    {
+      "level": "INFO",
+      "message": "ndk.dir in local.properties is /home/rutuja/Android/Sdk/ndk-bundle"
+    },
+    {
+      "level": "INFO",
+      "message": "ANDROID_NDK_HOME environment variable is not set"
+    },
+    {
+      "level": "INFO",
+      "message": "sdkFolder is /home/rutuja/Android/Sdk"
+    },
+    {
+      "level": "INFO",
+      "message": "Considering /home/rutuja/Android/Sdk/ndk-bundle by ndk.dir"
+    },
+    {
+      "level": "INFO",
+      "message": "Considering /home/rutuja/Android/Sdk/ndk-bundle in SDK ndk-bundle folder"
+    },
+    {
+      "level": "INFO",
+      "message": "Considering /home/rutuja/Android/Sdk/ndk/16.1.4479499 in SDK ndk folder"
+    },
+    {
+      "level": "INFO",
+      "message": "Found requested ndk.dir (/home/rutuja/Android/Sdk/ndk-bundle) which has version 21.0.6113669"
+    }
+  ]
+}
