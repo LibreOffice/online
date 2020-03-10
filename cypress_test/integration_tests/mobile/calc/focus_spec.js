@@ -50,7 +50,7 @@ describe('Calc focus tests', function() {
 
 	it('Focus on second tap.', function() {
 		// Click on edit button
-		cy.get('#mobile-edit-button').click();
+		cy.get('#mobile-edit-buttond').click();
 
 		cy.get('#tb_actionbar_item_mobile_wizard')
 			.should('not.have.class', 'disabled');
