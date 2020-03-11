@@ -157,9 +157,18 @@ Proof::Proof()
         const auto e = m_pKey->encryptionExponent();
         const auto capiBlob = RSA2CapiBlob(m, e);
 
+        const int64_t nTimestamp = 637000000000000000;
+        const char sAccessToken[] = "abcdefghijklmnopqr";
+        const char sUri[] = "http://127.0.0.2/path/to/file.wopisrc?access_token=abcdefghijklmnopqr&access_token_ttl=123";
+        const auto aProof = GetProof(sAccessToken, sUri, nTimestamp);
+        const auto sProof = BytesToBase64(aProof);
+        const auto sSignedProof = BytesToBase64(SignProof(aProof));
+
         m_aAttribs.emplace_back("value", BytesToBase64(capiBlob));
         m_aAttribs.emplace_back("modulus", BytesToBase64(m));
         m_aAttribs.emplace_back("exponent", BytesToBase64(e));
+        m_aAttribs.emplace_back("testproof", sProof);
+        m_aAttribs.emplace_back("testproofsigned", sSignedProof);
     }
 }
 
