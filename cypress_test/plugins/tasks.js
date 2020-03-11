@@ -9,6 +9,7 @@ function copyFile(args) {
 
 		if (fs.existsSync(sourceFile)) {
 			fs.mkdirSync(args.destDir, { recursive: true });
+			fs.unlinkSync(destFile);
 			fs.writeFileSync(destFile, fs.readFileSync(sourceFile));
 			resolve('File ${sourceFile} copied to ${destFile}');
 		}
