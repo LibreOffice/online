@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01c98971_12ffec60",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/RecentFilesAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-11T14:52:39Z",
+      "side": 1,
+      "message": "To increase readability, it should be either named \"initRecentFiles\" or something like that, or return the ArrayList\u003c...\u003e, so that it can be used like recentFiles \u003d validateFiles(recentUris).\n\nFor bonus points, a short comment like /** This filters out Uris that have probably been removed. */ would be great :-)",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 29
+      },
+      "revId": "a281bd40e7fec0c065bf2b1b5b7ee958a95df15c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fc58958_a55aa28e",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/RecentFilesAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-11T14:52:39Z",
+      "side": 1,
+      "message": "We can check this before reading the length: if (filename !\u003d null)\\n continue; and do the recentFiles.add() unconditionally.",
+      "range": {
+        "startLine": 56,
+        "startChar": 12,
+        "endLine": 56,
+        "endChar": 33
+      },
+      "revId": "a281bd40e7fec0c065bf2b1b5b7ee958a95df15c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "605149f0_fccbdb77",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/RecentFilesAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-11T14:52:39Z",
+      "side": 1,
+      "message": "A short purpose comment would be good, like /** Cache the name \u0026 size so that we don\u0027t have ask later. */ or so ;-)",
+      "range": {
+        "startLine": 190,
+        "startChar": 3,
+        "endLine": 190,
+        "endChar": 28
+      },
+      "revId": "a281bd40e7fec0c065bf2b1b5b7ee958a95df15c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
