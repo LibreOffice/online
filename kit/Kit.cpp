@@ -2401,7 +2401,7 @@ void lokit_main(
     // So we insure it lives until std::_Exit is called.
     std::shared_ptr<lok::Office> loKit;
     Path jailPath;
-    bool bRunInsideJail = !noCapabilities;
+    ChildSession::NoCapsForKit = noCapabilities;
 #else
     AnonymizeUserData = false;
 #endif // MOBILEAPP
@@ -2414,7 +2414,7 @@ void lokit_main(
         File(jailPath).createDirectories();
         chmod(jailPath.toString().c_str(), S_IXUSR | S_IWUSR | S_IRUSR);
 
-        if (bRunInsideJail)
+        if (!ChildSession::NoCapsForKit)
         {
             userdir_url = "file:///user";
             instdir_path = "/" + loSubPath + "/program";
