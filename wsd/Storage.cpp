@@ -460,11 +460,37 @@ void addWopiProof(Poco::Net::HTTPRequest& request, const Poco::URI& uri,
         request.set(header.first, header.second);
 }
 
+// Unlike Poco::URI::getQueryParameters, returns values without decoding (names are decoded though)
 std::map<std::string, std::string> GetQueryParams(const Poco::URI& uri)
 {
     std::map<std::string, std::string> result;
-    for (const auto& param : uri.getQueryParameters())
-        result.emplace(param);
+    const std::string sQuery = uri.getRawQuery();
+    auto it = sQuery.begin();
+    const auto end = sQuery.end();
+    while (it != end)
+    {
+        std::string sName;
+        std::string sValue;
+
+        auto it1 = it;
+        while (it1 != end && *it1 != '=' && *it1 != '&')
+            ++it1;
+        URI::decode(std::string(it, it1), sName, true);
+
+        it == it1;
+        if (it != end && *it == '=')
+        {
+            it1 = ++it;
+            while (it1 != end && *it1 != '&')
+                ++it1;
+            sValue = std::string(it, it1);
+            if (it1 != end)
+                ++it;
+            it == it1;
+        }
+
+        result.emplace(sName, sValue);
+    }
     return result;
 }
 
