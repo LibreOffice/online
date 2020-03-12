@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-12 11:04+0200\n"
-"PO-Revision-Date: 2020-03-09 13:57+0000\n"
+"PO-Revision-Date: 2020-03-12 15:24+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/ca/>\n"
 "Language: ca\n"
@@ -1123,7 +1123,7 @@ msgstr "Si s'ha modificat el document en moment de tancar-lo es desarà automàt
 
 #: html/loleaflet-help.html%2Bdiv.p:287-5
 msgid "Document editing should be familiar to everyone that has used an office application before, but here are some distinctive features:"
-msgstr ""
+msgstr "El procés d'edició dels documents serà familiar a qualsevol qui hagi utilitzat una aplicació d'oficina amb anterioritat; no obstant això, hi ha diferències importants:"
 
 #: html/loleaflet-help.html%2Bdiv.h4:288-5
 msgid "Copy and Paste"
@@ -1295,7 +1295,7 @@ msgstr "<span class=\"def\">Filtratge de dades:</span> els filtres estàndards i
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:357-10
 msgid "One use for the <span class=\"ui\">AutoFilter</span> function is to quickly restrict the display to records with identical entries in a data field."
-msgstr ""
+msgstr "Podeu fer servir el <span class=\"ui\">Filtre automàtic</span>, per exemple, per a veure ràpidament només els registres que contenen el mateix contingut en un camp de dades."
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:360-11
 msgid "In the <span class=\"ui\">Standard Filter</span> dialog, you can also define ranges which contain the values in particular data fields. You can use the standard filter to connect the conditions with either a logical AND or a logical OR operator."
@@ -1315,7 +1315,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:368-9
 msgid "Choose <span class=\"ui\">Validity</span> from the <span class=\"ui\">Data</span> menu. The <span class=\"ui\">Validity</span> dialog opens."
-msgstr ""
+msgstr "Trieu <span class=\"ui\">Validesa</span> al menú <span class=\"ui\">Dades</span>. S'obre el diàleg <span class=\"ui\">Validesa</span>."
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:371-11
 msgid "Select the validity criterion in the <span class=\"ui\">Allow</span> drop-box list. Depending on the criterion, more options shows. Fill the required data."
