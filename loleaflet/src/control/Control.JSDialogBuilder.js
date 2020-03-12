@@ -736,11 +736,13 @@ L.Control.JSDialogBuilder = L.Control.extend({
 	_checkboxControl: function(parentContainer, data, builder) {
 		var div = L.DomUtil.createWithId('div', data.id, parentContainer);
 		L.DomUtil.addClass(div, 'checkbutton');
+		$(div).addClass('ui-checkbox');
+		$(div).addClass('mobile-wizard');
 
 		var checkboxLabel = L.DomUtil.create('label', '', div);
 		checkboxLabel.innerHTML = builder._cleanText(data.text);
 		checkboxLabel.for = data.id;
-		var checkbox = L.DomUtil.createWithId('input', data.id, div);
+		var checkbox = L.DomUtil.create('input', '', div);
 		checkbox.type = 'checkbox';
 
 		if (data.enabled == 'false') {
