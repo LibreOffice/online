@@ -115,14 +115,16 @@ private:
     static std::vector<unsigned char> GetProof(const std::string& access_token,
                                                const std::string& uri, int64_t ticks);
     // Signs bytes and returns base64-encoded string
-    std::string SignProof(const std::vector<unsigned char>& proof) const;
+    static std::string SignProof(const std::vector<unsigned char>& proof,
+                                 const Poco::Crypto::RSAKey& rKey);
 
-    const std::unique_ptr<const Poco::Crypto::RSAKey> m_pKey;
+    const std::unique_ptr<const Poco::Crypto::RSAKey> m_pOldKey;
+    std::unique_ptr<const Poco::Crypto::RSAKey> m_pNewKey;
     VecOfStringPairs m_aAttribs;
 };
 
 Proof::Proof()
-    : m_pKey([]() -> Poco::Crypto::RSAKey* {
+    : m_pOldKey([]() -> Poco::Crypto::RSAKey* {
         const auto keyPath = ProofKeyPath();
         try
         {
@@ -151,11 +153,22 @@ Proof::Proof()
         return nullptr;
     }())
 {
-    if (m_pKey)
+    if (m_pOldKey)
     {
-        const auto m = m_pKey->modulus();
-        const auto e = m_pKey->encryptionExponent();
-        const auto capiBlob = RSA2CapiBlob(m, e);
+        auto m = m_pOldKey->modulus();
+        auto e = m_pOldKey->encryptionExponent();
+        auto capiBlob = RSA2CapiBlob(m, e);
+
+        m_aAttribs.emplace_back("oldvalue", BytesToBase64(capiBlob));
+        m_aAttribs.emplace_back("oldmodulus", BytesToBase64(m));
+        m_aAttribs.emplace_back("oldexponent", BytesToBase64(e));
+
+        m_pNewKey.reset(new Poco::Crypto::RSAKey(Poco::Crypto::RSAKey::KeyLength::KL_2048,
+                                                 Poco::Crypto::RSAKey::Exponent::EXP_SMALL));
+
+        m = m_pNewKey->modulus();
+        e = m_pNewKey->encryptionExponent();
+        capiBlob = RSA2CapiBlob(m, e);
 
         m_aAttribs.emplace_back("value", BytesToBase64(capiBlob));
         m_aAttribs.emplace_back("modulus", BytesToBase64(m));
@@ -236,10 +249,11 @@ std::vector<unsigned char> Proof::GetProof(const std::string& access_token, cons
     return buf;
 }
 
-std::string Proof::SignProof(const std::vector<unsigned char>& proof) const
+// static
+std::string Proof::SignProof(const std::vector<unsigned char>& proof,
+                             const Poco::Crypto::RSAKey& rKey)
 {
-    assert(m_pKey);
-    static Poco::Crypto::RSADigestEngine digestEngine(*m_pKey, "SHA256");
+    static Poco::Crypto::RSADigestEngine digestEngine(rKey,"SHA256");
     digestEngine.update(proof.data(), proof.size());
     return BytesToBase64(digestEngine.signature());
 }
@@ -247,11 +261,12 @@ std::string Proof::SignProof(const std::vector<unsigned char>& proof) const
 VecOfStringPairs Proof::GetProofHeaders(const std::string& access_token, const std::string& uri) const
 {
     VecOfStringPairs vec;
-    if (m_pKey)
+    if (m_pOldKey)
     {
         int64_t ticks = DotNetTicks(std::chrono::system_clock::now());
         vec.emplace_back("X-WOPI-TimeStamp", std::to_string(ticks));
-        vec.emplace_back("X-WOPI-Proof", SignProof(GetProof(access_token, uri, ticks)));
+        vec.emplace_back("X-WOPI-Proof", SignProof(GetProof(access_token, uri, ticks), *m_pOldKey));
+        vec.emplace_back("X-WOPI-ProofOld", SignProof(GetProof(access_token, uri, ticks), *m_pNewKey));
     }
     return vec;
 }
