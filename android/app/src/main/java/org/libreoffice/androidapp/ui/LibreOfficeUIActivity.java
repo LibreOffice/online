@@ -49,6 +49,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import org.libreoffice.androidapp.AboutDialogFragment;
+import org.libreoffice.androidapp.BuildConfig;
 import org.libreoffice.androidapp.LibreOfficeApplication;
 import org.libreoffice.androidapp.R;
 import org.libreoffice.androidapp.SettingsActivity;
@@ -95,6 +97,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
     private int filterMode = FileUtilities.ALL;
     private int sortMode;
     private boolean showHiddenFiles;
+    private RateAppController rateAppController;
 
     // dynamic permissions IDs
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 0;
@@ -168,6 +171,10 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
         LocalBroadcastManager.getInstance(this).registerReceiver(mLOActivityReceiver,
               new IntentFilter(LOActivity.LO_ACTIVITY_BROADCAST));
 
+        if (BuildConfig.GOOGLE_PLAY_ENABLED)
+            this.rateAppController = new RateAppController(this);
+        else
+            this.rateAppController = null;
         // init UI and populate with contents from the provider
         createUI();
         fabOpenAnimation = AnimationUtils.loadAnimation(this, R.anim.fab_open);
@@ -543,7 +550,6 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
     public void open(final Uri uri) {
         if (uri == null)
             return;
-
         addDocumentToRecents(uri);
 
         Intent i = getIntentToEdit(uri);
@@ -828,11 +834,54 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
             Log.d(LOGTAG, "Received a message from LOActivity: " + event);
 
             // Handle various events from LOActivity
-            if (event.equals("SAVE")) {
-                // TODO probably kill this, we don't need to do anything here any more
+            switch (event) {
+                case "SAVE":
+                    // TODO probably kill this, we don't need to do anything here any more
+                    break;
+                case "CLOSED": {
+                    if (BuildConfig.GOOGLE_PLAY_ENABLED && rateAppController != null && rateAppController.shouldAsk()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LibreOfficeUIActivity.this);
+                        final View rateAppLayout = getLayoutInflater().inflate(R.layout.rate_app_layout, null);
+                        builder.setView(rateAppLayout);
+                        RatingBar ratingBar = rateAppLayout.findViewById(R.id.ratingBar);
+
+                        builder.setPositiveButton(context.getString(R.string.rate_now), (dialog, which) -> {
+                            // start google play activity for rating
+                            openInGooglePlay();
+                        });
+                        builder.setNegativeButton(context.getString(R.string.later), null);
+                        AlertDialog alertDialog = builder.create();
+                        ratingBar.setOnRatingBarChangeListener((ratingBar1, v, b) -> {
+                            // start google play activity for rating
+                            openInGooglePlay();
+                            alertDialog.dismiss();
+                        });
+                        alertDialog.show();
+                    }
+                    break;
+                }
             }
         }
     };
+
+    /** opens up the app page on Google Play */
+    private void openInGooglePlay() {
+        String marketUri = String.format("market://details?id=%1$s", getPackageName());
+        String webUri = String.format("https://play.google.com/store/apps/details?id=%1$s", getPackageName());
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(marketUri));
+        if (getPackageManager().queryIntentActivities(intent, 0).size() <= 0) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUri));
+            if (getPackageManager().queryIntentActivities(intent, 0).size() <= 0) {
+                intent = null;
+            }
+        }
+
+        if (intent != null) {
+            rateAppController.updateStatus(true);
+            startActivity(intent);
+        }
+    }
 
     /** Uploading back when we return from the LOActivity. */
     @Override

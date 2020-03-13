@@ -663,7 +663,7 @@ public class LOActivity extends AppCompatActivity {
                         mProgressDialog.dismiss();
                     }
                 });*/
-
+                sendBroadcast("CLOSED", null);
                 finishAndRemoveTask();
             }
         });
