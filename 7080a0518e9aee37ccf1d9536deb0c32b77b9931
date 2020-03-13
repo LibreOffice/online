@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4296fd0c_186b0933",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/RecentFilesAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-13T07:33:20Z",
+      "side": 1,
+      "message": "Oh, but I didn\u0027t notice this when writing my comment - so this I think addresses my concern of those lists getting out of sync :-)\n\nBut now when the validateUris() has sideeffects, it should really be named initRecentFiles() or so, and shouldn\u0027t return.\n\nEither way - great work, if you can rename, let\u0027s get it in!",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 98
+      },
+      "revId": "7080a0518e9aee37ccf1d9536deb0c32b77b9931",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
