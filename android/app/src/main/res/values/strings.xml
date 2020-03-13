@@ -84,6 +84,9 @@
     <!-- Edit action names -->
 
     <!-- Feedback messages -->
+    <string name="rate_now">RATE NOW</string>
+    <string name="later">LATER</string>
+    <string name="rate_our_app_text">Thank you for using our app! If you enjoy using it, please give us a 5-stars review in Google Play.</string>
 
     <!-- Document provider settings -->
     <string name="storage_provider_settings">Storage provider settings</string>

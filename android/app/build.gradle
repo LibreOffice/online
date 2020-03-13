@@ -23,6 +23,7 @@ android {
             resValue "string", "info_url", "${liboInfoURL}"
             manifestPlaceholders = [ appIcon: "${liboLauncherIcon}" ]
             buildConfigField "boolean", "APP_HAS_BRANDING", "${liboHasBranding}"
+            buildConfigField "boolean", "GOOGLE_PLAY_ENABLED", "${liboGooglePlay}"
             ndk {
                 abiFilters = []
                 abiFilters.addAll("${liboAndroidAbi}".split(' ').collect{it as String})
@@ -37,6 +38,7 @@ android {
             resValue "string", "info_url", "${liboInfoURL}"
             manifestPlaceholders = [ appIcon: "${liboLauncherIcon}" ]
             buildConfigField "boolean", "APP_HAS_BRANDING", "${liboHasBranding}"
+            buildConfigField "boolean", "GOOGLE_PLAY_ENABLED", "${liboGooglePlay}"
             ndk {
                 abiFilters = []
                 abiFilters.addAll("${liboAndroidAbi}".split(' ').collect{it as String})
