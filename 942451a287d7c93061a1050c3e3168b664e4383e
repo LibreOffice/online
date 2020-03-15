@@ -34,6 +34,24 @@
       "revId": "942451a287d7c93061a1050c3e3168b664e4383e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4d126e4_0d373b8b",
+        "filename": "cypress_test/integration_tests/mobile/impress/impress_focus_spec.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-03-15T15:34:27Z",
+      "side": 1,
+      "message": "I think I know what\u0027s going on. The CI job is running against Master Core (if I\u0027m not misremembering), and these failures are due to Master behaving slightly differently.",
+      "parentUuid": "0295bbb8_21be8062",
+      "revId": "942451a287d7c93061a1050c3e3168b664e4383e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
