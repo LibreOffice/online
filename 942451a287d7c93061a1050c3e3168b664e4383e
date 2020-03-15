@@ -16,6 +16,24 @@
       "revId": "942451a287d7c93061a1050c3e3168b664e4383e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0295bbb8_21be8062",
+        "filename": "cypress_test/integration_tests/mobile/impress/impress_focus_spec.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-03-15T14:04:46Z",
+      "side": 1,
+      "message": "Will try, thanks!\n\nThe odd thing is that this is the coordinate that works above. We are only clicking at the same place for a second time to re-enter edit-mode. So I guess either the document-container has moved, or something else is wrong (f.e. we don\u0027t get the right notifications from Core in time). Of course this passes locally without exception (100% of the time)! So I\u0027m not sure what\u0027s different on the CI job.",
+      "parentUuid": "b078454e_fd1a5ae7",
+      "revId": "942451a287d7c93061a1050c3e3168b664e4383e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
