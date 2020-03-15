@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b078454e_fd1a5ae7",
+        "filename": "cypress_test/integration_tests/mobile/impress/impress_focus_spec.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-03-15T10:00:12Z",
+      "side": 1,
+      "message": "Maybe, if you use cy.get(\u0027body\u0027).click(...) here, it would make Jenkins happy.\nEarlier, I experienced an issue with using absolute position with the #document-container item. If #document-container is not at the (0,0) position, then the absolute position does not point to the right coordinate. Using \u0027body\u0027 might solve this or adjusting the coordinates with the #document-container\u0027s position.",
+      "revId": "942451a287d7c93061a1050c3e3168b664e4383e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
