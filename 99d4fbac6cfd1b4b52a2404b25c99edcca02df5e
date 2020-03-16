@@ -16,6 +16,24 @@
       "revId": "99d4fbac6cfd1b4b52a2404b25c99edcca02df5e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38f2287a_8ea1a1de",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 1001264
+      },
+      "writtenOn": "2020-03-16T10:45:24Z",
+      "side": 0,
+      "message": "Indeed so. Thank you for the tip!",
+      "parentUuid": "9542191c_bdf1613a",
+      "revId": "99d4fbac6cfd1b4b52a2404b25c99edcca02df5e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
