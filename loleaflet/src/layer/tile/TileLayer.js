@@ -1057,7 +1057,7 @@ L.TileLayer = L.GridLayer.extend({
 		var sign = function(x) {
 			return x > 0 ? 1 : x < 0 ? -1 : x;
 		};
-		if (!this._isEmptyRectangle(this._prevCellCursor) && !this._isEmptyRectangle(this._cellCursor)) {
+		if (!this._isEmptyRectangle(this._cellCursor)) {
 			horizontalDirection = sign(this._cellCursor.getWest() - this._prevCellCursor.getWest());
 			verticalDirection = sign(this._cellCursor.getNorth() - this._prevCellCursor.getNorth());
 		}
