@@ -581,19 +581,19 @@ L.Control.Menubar = L.Control.extend({
 				{uno: '.uno:SelectAll'}
 			]},
 			{name: _UNO('.uno:SheetMenu', 'spreadsheet'), id: 'sheetmenu', type: 'menu', menu: [
-				{name: _UNO('.uno:InsertRowsMenu', 'spreadsheet'), type: 'menu', menu: [
+				{name: _UNO('.uno:InsertRowsMenu', 'spreadsheet'), id: 'insertrowsmenu', type: 'menu', menu: [
 					{uno: '.uno:InsertRowsBefore'},
 					{uno: '.uno:InsertRowsAfter'}]},
-				{name: _UNO('.uno:InsertColumnsMenu', 'spreadsheet'), type: 'menu', menu: [
+				{name: _UNO('.uno:InsertColumnsMenu', 'spreadsheet'), id: 'insertcolumnsmenu', type: 'menu', menu: [
 					{uno: '.uno:InsertColumnsBefore'},
 					{uno: '.uno:InsertColumnsAfter'}]},
-				{name: _UNO('.uno:InsertBreakMenu', 'spreadsheet'), type: 'menu', menu: [
+				{name: _UNO('.uno:InsertBreakMenu', 'spreadsheet'), id: 'insertbreakmenu', type: 'menu', menu: [
 					{uno: '.uno:InsertRowBreak'},
 					{uno: '.uno:InsertColumnBreak'}]},
 				{type: 'separator'},
 				{uno: '.uno:DeleteRows'},
 				{uno: '.uno:DeleteColumns'},
-				{name: _UNO('.uno:DelBreakMenu', 'spreadsheet'), type: 'menu', menu: [
+				{name: _UNO('.uno:DelBreakMenu', 'spreadsheet'), id: 'delbreakmenu', type: 'menu', menu: [
 					{uno: '.uno:DeleteRowbreak'},
 					{uno: '.uno:DeleteColumnbreak'}]}
 			]},
