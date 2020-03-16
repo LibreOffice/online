@@ -904,6 +904,9 @@ L.TileLayer = L.GridLayer.extend({
 	},
 
 	_onGraphicSelectionMsg: function (textMsg) {
+		if (this._map.hyperlinkPopup !== null) {
+			this._closeURLPopUp();
+		}
 		if (textMsg.match('EMPTY')) {
 			this._resetSelectionRanges();
 		}
