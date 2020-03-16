@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9542191c_bdf1613a",
+        "filename": "loleaflet/src/layer/tile/TileLayer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-03-16T10:18:15Z",
+      "side": 0,
+      "message": "I\u0027m not sure this is the right way to do this. If _prevCellCursor is empty it means you should not use it for operations. I guess, you expect that if _prevCellCursor is empty, then it\u0027s the rectangle at (0,0) position with (0,0) sizes, right? I\u0027m not sure it\u0027s always true. The cypress test failure indicates that something bad happens.\nMaybe you can use a separate calculation when _prevCellCursor is empty, which uses the default empty rectangle for calculating the distances, instead of using the _prevCellCursor directly.",
+      "revId": "99d4fbac6cfd1b4b52a2404b25c99edcca02df5e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
