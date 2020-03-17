@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "428a9701_5e56597a",
+        "filename": "loleaflet/src/unocommands.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2020-03-17T20:39:47Z",
+      "side": 1,
+      "message": "Please revert this change manually, it\u0027s a hack, but have to live with it.",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 18
+      },
+      "revId": "c441ad121969c1c70a3804ac34cdfe3a3ace6f83",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb8d096d_bbd870e8",
+        "filename": "loleaflet/src/unocommands.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2020-03-17T20:39:47Z",
+      "side": 1,
+      "message": "Please revert this change manually, it\u0027s a hack, but have to live with it.",
+      "range": {
+        "startLine": 72,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 15
+      },
+      "revId": "c441ad121969c1c70a3804ac34cdfe3a3ace6f83",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
