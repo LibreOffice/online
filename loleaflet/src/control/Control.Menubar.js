@@ -650,13 +650,12 @@ L.Control.Menubar = L.Control.extend({
 					{name: _UNO('.uno:HyperlinkDialog'), id: 'inserthyperlink', type: 'action'},
 					{name: _UNO('.uno:ShapesMenu'), id: 'insertshape', type: 'action'},
 					{name: _UNO('.uno:FormattingMarkMenu', 'text'), id: 'formattingmark', type: 'menu', menu: [
-						{uno: '.uno:InsertNonBreakingSpace'},
-						{uno: '.uno:InsertHardHyphen'},
-						{uno: '.uno:InsertSoftHyphen'},
-						{uno: '.uno:InsertZWSP'},
-						{uno: '.uno:InsertZWNBSP'},
-						{uno: '.uno:InsertLRM'},
-						{uno: '.uno:InsertRLM'}]},
+						{name: _UNO('.uno:InsertNonBreakingSpace', 'text'), id: 'insertnonbreakingspace', type: 'action'},
+						{name: _UNO('.uno:InsertHardHyphen', 'text'), id: 'inserthardhyphen', type: 'action'},
+						{name: _UNO('.uno:InsertSoftHyphen', 'text'), id: 'insertsofthyphen', type: 'action'},
+						{name: _UNO('.uno:InsertZWNBSP', 'text'), id: 'insertzwnbsp', type: 'action'},
+						{name: _UNO('.uno:InsertLRM', 'text'), id: 'insertlrm', type: 'action'},
+						{name: _UNO('.uno:InsertRLM', 'text'), id: 'insertrlm', type: 'action'}]},
 				]
 			},
 			spreadsheet : {
