@@ -1,4 +1,4 @@
-/* global cy expect require*/
+/* global cy expect require Cypress*/
 
 var helper = require('../../common/helper');
 
@@ -96,10 +96,13 @@ function clearMobileWizardState() {
 
 function selectAllMobile() {
 	// Remove selection if exist
-	cy.get('#document-container')
-		.type('{downarrow}');
-	cy.get('.leaflet-marker-icon')
-		.should('not.exist');
+	var $marker = Cypress.$('.leaflet-marker-icon');
+	if ($marker.length) {
+		cy.get('#document-container')
+			.type('{downarrow}');
+		cy.get('.leaflet-marker-icon')
+			.should('not.exist');
+	}
 
 	// Enable editing if it's in read-only mode
 	cy.get('#mobile-edit-button')
