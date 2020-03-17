@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "158a1a50_97447fa8",
+        "filename": "loleaflet/src/control/Control.Menubar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-03-17T16:43:18Z",
+      "side": 1,
+      "message": "You should not change the item\u0027s description here, because it breaks the execution of the menu items, which means you won\u0027t be able to insert this formatting marks anymore in the document. Instead, remove the items from here:\nloleaflet/src/core/LOUtil.js\ncommandWithoutIcon\nAnd so adding the icons with the right command name will make the code to pick up the right cion for the right menu item.",
+      "range": {
+        "startLine": 658,
+        "startChar": 7,
+        "endLine": 658,
+        "endChar": 11
+      },
+      "revId": "a7fed6c8c096d9cb6670e7865578db234d7f62a1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
