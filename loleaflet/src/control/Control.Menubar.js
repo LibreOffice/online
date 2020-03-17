@@ -1090,6 +1090,7 @@ L.Control.Menubar = L.Control.extend({
 		{ // called from JSDialogBuilder
 			id = itWizard.id;
 			data = function(key) { return itWizard.data[key]; };
+			mobileappuno = itWizard.data['mobileappuno'];
 		}
 		else
 		{ // called from
