@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0efc9d6_dc4ab648",
+        "filename": "cypress_test/integration_tests/mobile/writer/insert_formatting_mark_spec.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-03-18T09:12:14Z",
+      "side": 1,
+      "message": "This one is missed here (e.g. menu-entry-no-icon -\u003e menu-entry-with-icon).",
+      "range": {
+        "startLine": 77,
+        "startChar": 21,
+        "endLine": 77,
+        "endChar": 22
+      },
+      "revId": "52c7eb9adb3f667f5addd0d831bf2e3e5a51207b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
