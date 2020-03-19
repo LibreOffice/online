@@ -357,6 +357,17 @@ L.Control.MobileWizard = L.Control.extend({
 		}
 	},
 
+	_insertCalcBorders: function(deck) {
+		var replaceMe = this._findItemByIdRecursive(deck, 'cellbordertype');
+		if (replaceMe) {
+			replaceMe.id = 'borderstyle';
+			replaceMe.type = 'borderstyle';
+			replaceMe.text = '';
+			replaceMe.enabled = 'true';
+			replaceMe.chilren = [];
+		}
+	},
+
 	_modifySidebarLayout: function (data) {
 		var deck = this._findItemByTypeRecursive(data, 'deck');
 		if (deck)
@@ -376,7 +387,7 @@ L.Control.MobileWizard = L.Control.extend({
 				deck.children[textIdx].children[0].children = moveContent.concat(deck.children[textIdx].children[0].children);
 				deck.children.splice(stylesIdx, 1); //remove the styles property
 			}
-			var removeItems = ['cellbordertype', 'borderlinestyle', 'borderlinecolor',
+			var removeItems = ['borderlinestyle', 'borderlinecolor',
 					   'editcontour', 'spacingbar', 'linespacing',
 					   'stylenew', 'styleupdate',
 					   'beginarrowstyle', 'endarrowstyle'];
@@ -385,6 +396,8 @@ L.Control.MobileWizard = L.Control.extend({
 				removeItems.push('indentfieldbox');
 
 			this._removeItems(deck, removeItems);
+
+			this._insertCalcBorders(deck);
 		}
 	},
 
@@ -396,6 +409,18 @@ L.Control.MobileWizard = L.Control.extend({
 		{
 			for (var i = 0; !found && i < data.children.length; i++)
 				found = this._findItemByTypeRecursive(data.children[i], t);
+		}
+		return found;
+	},
+
+	_findItemByIdRecursive: function(data, id) {
+		var found = null;
+		if (data.id === id)
+			return data;
+		if (data.children)
+		{
+			for (var i = 0; !found && i < data.children.length; i++)
+				found = this._findItemByIdRecursive(data.children[i], id);
 		}
 		return found;
 	},
