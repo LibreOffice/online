@@ -246,6 +246,11 @@
 		float: left;
 		margin-bottom: 4%;
 	}
+	#ScCellAppearancePropertyPanel .unospan-borderstyle {
+		width: 32px;
+		float: left;
+		margin-bottom: 4%;
+	}
 	@media (orientation: landscape) {
 		#mobile-wizard-header{display: none;}
 		#mobile-wizard-content.with-slide-sorter-above {

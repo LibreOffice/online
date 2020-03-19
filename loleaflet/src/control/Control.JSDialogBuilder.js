@@ -55,6 +55,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		this._controlHandlers['colorsample'] = this._colorSampleControl;
 		this._controlHandlers['divcontainer'] = this._divContainerHandler;
 		this._controlHandlers['colorlistbox'] = this._colorControl;
+		this._controlHandlers['borderstyle'] = this._borderControl;
 
 		this._controlHandlers['mainmenu'] = this._containerHandler;
 		this._controlHandlers['submenu'] = this._subMenuHandler;
@@ -1354,6 +1355,33 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			selectedColor = '#' + selectedColor;
 
 		return selectedColor;
+	},
+
+	_borderControlItem: function(parentContainer, data, builder, i) {
+		var button = null;
+
+		var div = this._createIdentifiable('div', 'ui-content unospan', parentContainer, data);
+
+		var buttonId = 'border-' + i;
+		button = L.DomUtil.create('img', 'ui-content borderbutton', div);
+		button.src = 'images/fr0' + i + '.svg';
+		button.id = buttonId;
+
+		$(div).click(function () {
+			console.debug('click ' + i);
+			window.setBorderStyle(i);
+
+/*			if (state && state === 'true')
+				$(button).addClass('selected');
+			else
+				$(button).removeClass('selected'); */
+		});
+	},
+
+	_borderControl: function(parentContainer, data, builder) {
+		for (var i = 1; i < 13; ++i)
+			builder._borderControlItem(parentContainer, data, builder, i);
+		return false;
 	},
 
 	_colorControl: function(parentContainer, data, builder) {
