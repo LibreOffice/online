@@ -1658,6 +1658,20 @@ L.Control.JSDialogBuilder = L.Control.extend({
 	}
 });
 
+<<<<<<< HEAD   (a05604 MobileWizard: fix table design  options and chart options by)
+=======
+L.Control.JSDialogBuilder.generateIDForSubMenu = function(menuStructure) {
+	for (var child = 0; child < menuStructure['children'].length; ++child) {
+		if (menuStructure['children'][child]['command'] === '.uno:SetAnchorAtChar' || menuStructure['children'][child]['command'] === '.uno:WrapOff' || menuStructure['children'][child]['command'] === '.uno:BringToFront' || menuStructure['children'][child]['command'] === '.uno:RotateRight') {
+			var tempstring = menuStructure['children'][child]['command'];
+			tempstring = tempstring.substring(5);
+			menuStructure['id'] = 'submenu_' + tempstring.toLowerCase();
+			break;
+		}
+	}
+};
+
+>>>>>>> CHANGE (3dd1ce Mobile: mobile wizard: improve aditional ids by making them )
 L.Control.JSDialogBuilder.getMenuStructureForMobileWizard = function(menu, mainMenu, itemCommand) {
 	if (itemCommand.includes('sep'))
 		return null;
