@@ -1697,7 +1697,7 @@ L.Control.JSDialogBuilder.getMenuStructureForMobileWizard = function(menu, mainM
 
 	if (mainMenu) {
 		for (var menuItem in menu) {
-			var subItemCommand = menu[menuItem]['command'] ? menu[menuItem]['command'] : menuItem;
+			var subItemCommand = menu[menuItem].command ? menu[menuItem].command : menuItem;
 			var element = this.getMenuStructureForMobileWizard(menu[menuItem], false, subItemCommand);
 			if (element)
 				menuStructure['children'].push(element);
@@ -1708,7 +1708,9 @@ L.Control.JSDialogBuilder.getMenuStructureForMobileWizard = function(menu, mainM
 			if (element)
 				menuStructure['children'].push(element);
 		}
-		menuStructure['id'] = menu.command.substring(5).toLowerCase();
+		if (menu.command) {
+			menuStructure.id = menu.command.substring(5).toLowerCase();
+		}
 	}
 
 	return menuStructure;
