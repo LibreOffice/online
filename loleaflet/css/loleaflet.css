@@ -178,7 +178,7 @@ body {
 #toolbar-hamburger {
 	width: 0;
 }
-@media (max-device-width: 767px) {
+@media (max-width: 767px), (max-device-width: 7670px) {
 	#toolbar-hamburger {
 		width: 36px;
 	}
