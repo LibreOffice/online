@@ -261,8 +261,8 @@ AC_ARG_ENABLE([vereign],
                           [Set Vereign document_signing_url configuration key to the default app.vereign.com.]))
 
 AC_ARG_ENABLE([cypress],
-            AS_HELP_STRING([--enable-cypress],
-                           [Enable cypress tests.]))
+            AS_HELP_STRING([--disable-cypress],
+                          [Disable cypress integration tests.]))
 # Handle options
 AS_IF([test "$enable_debug" = yes -a -n "$with_poco_libs"],
       [POCO_DEBUG_SUFFIX=d],
@@ -908,7 +908,7 @@ AS_IF([test `uname -s` = "Linux"],
                AC_MSG_ERROR([This node version is old, upgrade to >= 6.0.0])
            fi
        fi
-       if test "$enable_cypress" = "yes"; then
+       if test "$enable_cypress" != "no"; then
            AC_PATH_PROGS(CHROME, chrome google-chrome chromium chromium-browser, no)
            if test "$CHROME" = "no"; then
                AC_MSG_ERROR([chrome or chromium is required to run the JS tests, but not installed])
@@ -998,8 +998,8 @@ AS_IF([test "$ENABLE_IOSAPP" = "true"],
       ])
 AC_SUBST(IOSAPP_FONTS)
 
-ENABLE_CYPRESS=false
-if test "$enable_cypress" = "yes"; then
+ENABLE_CYPRESS=true
+if test "$enable_cypress" != "no"; then
    cypress_msg="cypress is enabled"
    ENABLE_CYPRESS=true
    AC_DEFINE([ENABLE_CYPRESS],1,[Whether to enable cypress tests])
