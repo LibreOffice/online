@@ -182,6 +182,13 @@ body {
 	#toolbar-hamburger {
 		width: 36px;
 	}
+	#toolbar-hamburger.menuwizard-opened {
+		width: 36px;
+		height: 43px;
+	}
+	#toolbar-hamburger.menuwizard-opened .main-menu-btn {
+		padding-top: 10px;
+	}
 	/* In Safari on iPhone, the address bar is auto-hidden in landscape
 	 * orientation. For some reason this prevents jQuery from
 	 * getting events when tapping on the things in the toolbar at
