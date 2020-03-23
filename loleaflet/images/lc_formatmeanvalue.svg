@@ -1,0 +1,19 @@
+<svg version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+ <g fill="#b3b3b3">
+  <path d="m11 12c-0.554 0-1 0.446-1 1v6c0 0.554 0.446 1 1 1h3c0.554 0 1-0.446 1-1v-6c0-0.554-0.446-1-1-1zm0 1h3v6h-3z"/>
+  <path d="m15 10c-0.554 0-1 0.446-1 1v8c0 0.554 0.446 1 1 1h3c0.554 0 1-0.446 1-1v-8c0-0.554-0.446-1-1-1zm0 1h3v8h-3z"/>
+  <path d="m8 6c-0.554 0-1 0.446-1 1v12c0 0.554 0.446 1 1 1h2c0.554 0 1-0.446 1-1v-12c0-0.554-0.446-1-1-1h-1z"/>
+  <rect transform="matrix(0,-1,-1,0,0,0)" x="-20" y="-22" width="1" height="20" ry=".5"/>
+ </g>
+ <path d="m15 11h3v8h-3z" fill="#fff"/>
+ <path d="m11 13h3v6h-3z" fill="#fff"/>
+ <g>
+  <rect transform="scale(-1,1)" x="-5" y="2" width="1" height="20" ry=".5" fill="#b3b3b3"/>
+  <rect transform="matrix(0,-1,-1,0,0,0)" x="-9.2641" y="-22" width="1" height="20" ry=".5" fill="#4d82b8"/>
+  <path d="m20.786 11.256c-0.41563 0-0.84334 0.16599-1.1582 0.48047l-1.3672 1.3652-0.0078-0.0078-0.70703 0.70508-4.9629 4.959-1.291 5.2422 5.1738-1.375 4.8613-4.8906 0.0039 0.0039 2.1895-2.0977 0.0078-0.0059c0.62973-0.62892 0.62969-1.6894 0-2.3184l-1.582-1.5801c-0.31829-0.31788-0.74481-0.48047-1.1602-0.48047z" color="#000000" color-rendering="auto" dominant-baseline="auto" fill="#fff" image-rendering="auto" shape-rendering="auto" solid-color="#000000" style="font-feature-settings:normal;font-variant-alternates:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;font-variant-position:normal;isolation:auto;mix-blend-mode:normal;shape-padding:0;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-orientation:mixed;text-transform:none;white-space:normal"/>
+ </g>
+ <g transform="matrix(.86194 0 0 .86196 3.0231 2.7594)" fill="#eac282" stroke-width="1.3536">
+  <path d="m17.48 13.611-5.5293 5.5234-0.95117 3.8652 3.8066-1.0117 5.5098-5.5449z"/>
+  <path d="m20.42 11c-0.18956 0-0.37818 0.07172-0.52344 0.2168l-1.6738 1.6699 2.8477 2.8496 1.7109-1.6387c0.29051-0.29013 0.29051-0.75675 0-1.0469l-1.8359-1.834c-0.14525-0.14506-0.33583-0.2168-0.52539-0.2168z"/>
+ </g>
+</svg>
