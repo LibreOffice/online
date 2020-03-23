@@ -276,7 +276,9 @@ L.Socket = L.Class.extend({
 			this.WSDServer = JSON.parse(textMsg.substring(textMsg.indexOf('{')));
 			var h = this.WSDServer.Hash;
 			if (parseInt(h,16).toString(16) === h.toLowerCase().replace(/^0+/, '')) {
-				if (!window.ThisIsAMobileApp) {
+				if (window.ThisIsAMobileApp) {
+					h = '<a target="_blank" href="javascript:window.postMobileMessage(\'HYPERLINK https://hub.libreoffice.org/git-online/' + h + '\');">' + h + '</a>';
+				} else {
 					h = '<a target="_blank" href="https://hub.libreoffice.org/git-online/' + h + '">' + h + '</a>';
 				}
 				$('#loolwsd-version').html(this.WSDServer.Version + ' (git hash: ' + h + ')');
@@ -300,8 +302,12 @@ L.Socket = L.Class.extend({
 		else if (textMsg.startsWith('lokitversion ')) {
 			var lokitVersionObj = JSON.parse(textMsg.substring(textMsg.indexOf('{')));
 			h = lokitVersionObj.BuildId.substring(0, 7);
-			if (!window.ThisIsAMobileApp && parseInt(h,16).toString(16) === h.toLowerCase().replace(/^0+/, '')) {
-				h = '<a target="_blank" href="https://hub.libreoffice.org/git-core/' + h + '">' + h + '</a>';
+			if (parseInt(h,16).toString(16) === h.toLowerCase().replace(/^0+/, '')) {
+				if (window.ThisIsAMobileApp) {
+					h = '<a target="_blank" href="javascript:window.postMobileMessage(\'HYPERLINK https://hub.libreoffice.org/git-core/' + h + '\');">' + h + '</a>';
+				} else {
+					h = '<a target="_blank" href="https://hub.libreoffice.org/git-core/' + h + '">' + h + '</a>';
+				}
 			}
 			$('#lokit-version').html(lokitVersionObj.ProductName + ' ' +
 			                         lokitVersionObj.ProductVersion + lokitVersionObj.ProductExtension.replace('.10.','-') +
