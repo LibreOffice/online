@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-03-19 14:34+0000\n"
+"PO-Revision-Date: 2020-03-22 00:15+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/ca/>\n"
 "Language: ca\n"
@@ -1495,11 +1495,11 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.p:455-5
 msgid "A copy of the document is saved with the new name in the same folder."
-msgstr ""
+msgstr "Es desa una còpia del document amb el nom nou dins la mateixa carpeta."
 
 #: html/loleaflet-help.html%2Bdiv.h4:456-5
 msgid "How can I quit <span class=\"productname\">%productName</span> without saving my edits?"
-msgstr ""
+msgstr "Com puc sortir del <span class=\"productname\">%productName</span> sense desar les modificacions que he fet?"
 
 #: html/loleaflet-help.html%2Bdiv.p:457-5
 msgid "<span class=\"productname\">%productName</span> saves the document in the background regularly, you can't just close without saving it. To abandon your changes, you must either undo them, or use the <span class=\"ui\">Revision History </span> in the <span class=\"ui\">File</span> menu."
@@ -1511,11 +1511,11 @@ msgstr "Es pot obrir un document protegit per contrasenya al <span class=\"produ
 
 #: html/loleaflet-help.html%2Bdiv.p:459-5
 msgid "Yes. <span class=\"productname\">%productName</span> opens password-protected documents, but it is necessary to supply the password in the “Enter password” prompt at load time."
-msgstr ""
+msgstr "Sí. El <span class=\"productname\">%productName</span> pot obrir documents protegits amb contrasenya, però abans cal introduir aquesta en el diàleg que s'obre en carregar el document."
 
 #: html/loleaflet-help.html%2Bdiv.h4:460-5
 msgid "How can I check spelling in my language?"
-msgstr ""
+msgstr "Com verifico l'ortografia en la meva llengua?"
 
 #: html/loleaflet-help.html%2Bdiv.p:461-5
 msgid "Choose menu <span class=\"ui\">Tools</span> → <span class=\"ui\">Languages</span> and select the language for the whole document. Optionally you can set languages for the selected text and for the current paragraph."
@@ -1531,11 +1531,11 @@ msgstr "Trieu el menú <span class=\"ui\">Eines</span> i desactiveu <span class=
 
 #: html/loleaflet-help.html%2Bdiv.h4:464-5
 msgid "What is the blue wavy underline in some words in the text?"
-msgstr ""
+msgstr "Què significa el subratllat ondulat blau en algunes paraules del text?"
 
 #: html/loleaflet-help.html%2Bdiv.p:465-5
 msgid "Grammar errors in the text is marked with the blue wavy underline. Click on the underlined text with the right mouse button to open a menu with suggestions to correct the grammar error and the offended grammar rules. Select the right suggestion to change the text."
-msgstr ""
+msgstr "Els problemes gramaticals del text s'assenyalen amb aquest subratllat blau. Feu clic dret al text subratllat per a obrir un menú amb suggeriments per a corregir l'error gramatical i conèixer la regla infringida. Seleccioneu el suggeriment més adient per a canviar el text."
 
 #: html/loleaflet-help.html%2Bdiv.h4:466-5
 msgid "Is here a thesaurus?"
@@ -1551,7 +1551,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.p:470-5
 msgid "The <span class=\"blue\">¶</span> symbol is a formatting mark. It is used to help text alignment and editing and is not printed. To toggle it in the document display, choose menu <span class=\"ui\">View</span> → <span class=\"ui\">Formatting mark</span>."
-msgstr ""
+msgstr "El símbol <span class=\"blue\">¶</span> és una marca de formatació. Es fa servir com a ajuda per a l'alineació i l'edició del text i mai no s'imprimeix. Per a desactivar-ne la visualització, trieu l'ordre <span class=\"ui\">Visualitza</span> ▸ <span class=\"ui\">Marques de formatació</span>."
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:474-5
 msgid "How do I get a word count of my document?"
@@ -1567,11 +1567,11 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:478-5
 msgid "How can I insert a currency, copyright or trademark symbol in the document?"
-msgstr ""
+msgstr "Com insereixo un símbol de moneda, de drets d'autor o de marca registrada en el document?"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:479-5
 msgid "You can insert these special characters in the document using the <span class=\"ui\">Special Character</span> dialog."
-msgstr ""
+msgstr "Pudeu inserir aquests símbols fent servir el diàleg <span class=\"ui\">Caràcter especial</span>."
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:481-11
 msgid "Place the cursor in the position to insert the character."
@@ -1591,7 +1591,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:489-5
 msgid "Why can't I delete text? It just gets a strike-through?"
-msgstr ""
+msgstr "Per què no puc suprimir text? Tot el que obtinc és una ratlla per sobre les paraules."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:490-5
 msgid "You have the Track Changes feature enabled for the document. Track Changes records all changes in the text and shows the editions for later revision. Useful for marking changes in text and spreadsheets. Track changes are enabled choosing <span class=\"ui\">Edit</span> → <span class=\"ui\">Track Changes </span> → <span class=\"ui\">Record</span>."
