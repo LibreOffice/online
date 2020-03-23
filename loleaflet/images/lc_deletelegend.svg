@@ -1,0 +1,23 @@
+<svg version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+ <g fill="#808080">
+  <path d="m11 12c-.554 0-1 .446-1 1v6c0 .554.446 1 1 1h3c.554 0 1-.446 1-1v-6c0-.554-.446-1-1-1zm0 1h3v6h-3z"/>
+  <path d="m15 10c-.554 0-1 .446-1 1v8c0 .554.446 1 1 1h3c.554 0 1-.446 1-1v-8c0-.554-.446-1-1-1zm0 1h3v8h-3z"/>
+  <path d="m8 6c-0.554 0-1 0.446-1 1v2 10c0 0.554 0.446 1 1 1h2c0.554 0 1-0.446 1-1v-10-2c0-0.554-0.446-1-1-1h-1-1z"/>
+  <rect transform="matrix(0 -1 -1 0 0 0)" x="-20" y="-22" width="1" height="20" ry=".5"/>
+ </g>
+ <path d="m15 11h3v8h-3z" fill="#fff"/>
+ <path d="m11 13h3v6h-3z" fill="#fff"/>
+ <path d="m14 2c-.554 0-1 .446-1 1v5c0 .554.446 1 1 1h7c.554 0 1-.446 1-1v-5c0-.554-.446-1-1-1zm0 1h7v5h-7z" fill="#e68497"/>
+ <path d="m14 3h7v5h-7z" fill="#fff"/>
+ <g fill="#e68497">
+  <path d="m15 4h1v1h-1z"/>
+  <path d="m17 4h3v1h-3z"/>
+  <path d="m15 6h1v1h-1z"/>
+  <path d="m17 6h3v1h-3z"/>
+ </g>
+ <g transform="matrix(.46511 0 0 .46511 15.468 -.32378)" stroke-width="2.15">
+  <path d="m8.9677 1.5526a1.4501 1.4501 0 0 0-0.98047 0.39648l-2.0898 1.9824a1.4501 1.4501 0 0 0-0.04101 2.0645l1.9316 1.9824-1.9238 1.9453a1.4501 1.4501 0 0 0 0.01367 2.0527l2.0898 2.0586a1.4501 1.4501 0 0 0 2.0703-0.03711l1.8691-1.9766 1.877 1.9785a1.4501 1.4501 0 0 0 2.0762 0.02734l2.0586-2.0547a1.4501 1.4501 0 0 0 0.0098-2.043l-1.9375-1.9727 1.8711-2.0723a1.4501 1.4501 0 0 0-0.07617-2.0215l-2.0078-1.9121a1.4501 1.4501 0 0 0-2.0391 0.03906l-1.8379 1.8867-1.8887-1.8984a1.4501 1.4501 0 0 0-1.0449-0.42578z" color="#000000" color-rendering="auto" dominant-baseline="auto" fill="#fff" image-rendering="auto" shape-rendering="auto" solid-color="#000000" style="font-feature-settings:normal;font-variant-alternates:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;font-variant-position:normal;isolation:auto;mix-blend-mode:normal;shape-padding:0;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-orientation:mixed;text-transform:none;white-space:normal"/>
+  <path d="m16.895 10.946-2.8954-2.9462 2.7861-3.0864-2.0084-1.9118-2.8673 2.9412-2.9254-2.9412-2.0896 1.9821 2.9254 3.0035-2.9254 2.9556 2.0896 2.0588 2.922-3.0882 2.9288 3.0882z" fill="#e68497" stroke-width="2.15"/>
+ </g>
+ <rect transform="scale(-1,1)" x="-5" y="2" width="1" height="20" ry=".5" fill="#808080"/>
+</svg>
