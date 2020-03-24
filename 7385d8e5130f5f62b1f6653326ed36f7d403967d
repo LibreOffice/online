@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34e97df9_3ecab906",
+        "filename": "net/Socket.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-03-24T14:50:07Z",
+      "side": 1,
+      "message": "Extra newline.",
+      "revId": "7385d8e5130f5f62b1f6653326ed36f7d403967d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7795907_11c38744",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-03-24T14:50:07Z",
+      "side": 1,
+      "message": "We might want to poll at least once before we check hasPendingWork(), because the buffers can accidentally be empty at this point, but the socket itself might have just received data in the NIC. So perhaps best to turn this to a do/while loop?",
+      "revId": "7385d8e5130f5f62b1f6653326ed36f7d403967d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
