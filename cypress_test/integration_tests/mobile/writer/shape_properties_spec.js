@@ -103,7 +103,7 @@ describe('Change shape properties via mobile wizard.', function() {
 			.should('have.attr', 'fill', 'rgb(114,159,207)');
 	});
 
-	it.skip('Change shape width.', function() {
+	it('Change shape width.', function() {
 		// TODO: Entering a value inside the spinbutton has no effect on the shape.
 		if (Cypress.env('LO_CORE_VERSION') === 'master')
 			return;
