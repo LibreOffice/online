@@ -332,6 +332,7 @@ POCOINCLUDE_ARM64_V8A=
 POCOLIB=
 POCOLIB_ARM64_V8A=
 POCODEBUG=
+CORE_VERSION_HASH=""
 if test \( "$enable_iosapp" = "yes" -a `uname -s` = "Darwin" \) -o \( "$enable_androidapp" = "yes" \); then
    AC_MSG_CHECKING([for LibreOffice build tree to build against])
    if test -z "$with_lo_builddir"; then
@@ -354,6 +355,11 @@ if test \( "$enable_iosapp" = "yes" -a `uname -s` = "Darwin" \) -o \( "$enable_a
                AC_MSG_ERROR([This is not a LibreOffice 64bit core build directory: $LOBUILDDIR_ARM64_V8A])
            fi
        fi
+   fi
+
+   # Get the git hash of the core build
+   if test \( "$enable_iosapp" = "yes" -a `uname -s` = "Darwin" \) -o \( "$enable_androidapp" = "yes" \); then
+      CORE_VERSION_HASH=`cd $LOBUILDDIR && grep buildid instdir/program/setuprc | sed -e 's/buildid=//' -e 's/............................$//'`
    fi
 
    # Sanity check, just a random object file in the LibreOffice build tree
@@ -433,6 +439,9 @@ AC_SUBST(POCOINCLUDE_ARM64_V8A)
 AC_SUBST(POCOLIB)
 AC_SUBST(POCOLIB_ARM64_V8A)
 AC_SUBST(POCODEBUG)
+AC_SUBST([CORE_VERSION_HASH])
+
+AC_DEFINE_UNQUOTED([CORE_VERSION_HASH],[["$CORE_VERSION_HASH"]],[LibreOffice core git hash if present])
 
 LIBPNG_INCLUDES="$with_libpng_includes"
 LIBPNG_LIBS="$with_libpng_libs"
@@ -1020,6 +1029,7 @@ AC_CONFIG_FILES([Makefile
                  gtk/Makefile
                  ios/config.h
                  ios/Mobile/Info.plist
+                 ios/Mobile/Resources/Settings.bundle/Root.plist
                  test/Makefile
                  loleaflet/Makefile
                  loleaflet/npm-shrinkwrap.json
