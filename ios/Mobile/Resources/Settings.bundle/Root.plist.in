@@ -20,7 +20,7 @@
 			<key>Key</key>
 			<string>onlineVersion</string>
 			<key>DefaultValue</key>
-			<string>d80b62326</string>
+			<string>@LOOLWSD_VERSION_HASH@</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -30,7 +30,7 @@
 			<key>Key</key>
 			<string>coreVersion</string>
 			<key>DefaultValue</key>
-			<string>74b026011dc6</string>
+			<string>@CORE_VERSION_HASH@</string>
 		</dict>
 		<dict>
 			<key>Type</key>
