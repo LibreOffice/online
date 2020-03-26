@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a35fb475_0092190e",
+        "filename": "test/Makefile.am",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-03-26T11:18:15Z",
+      "side": 1,
+      "message": "Should we have some comment/documentation as to how new tests should get added, to avoid degrading the balance between the groups?",
+      "revId": "77576cdb4b0edf88c6a26818d41cb534395cf888",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
