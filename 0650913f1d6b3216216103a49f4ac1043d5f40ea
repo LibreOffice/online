@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "206759e6_848a6943",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-03-26T03:41:21Z",
+      "side": 1,
+      "message": "Nice. Should do the trick.",
+      "revId": "0650913f1d6b3216216103a49f4ac1043d5f40ea",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
