@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af369747_f766d7e9",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/LibreOfficeUIActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-26T13:39:10Z",
+      "side": 1,
+      "message": "Please use early return here for readability :-)\nif (uri \u003d\u003d null)\n    return;\n\n...rest of the stuff...",
+      "range": {
+        "startLine": 638,
+        "startChar": 8,
+        "endLine": 638,
+        "endChar": 26
+      },
+      "revId": "206ad34d2c57f6fe6fd30aebae50f8791213bc7c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed7a36de_db3ac4fd",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/LibreOfficeUIActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-26T13:39:10Z",
+      "side": 1,
+      "message": "Early return here too please.",
+      "range": {
+        "startLine": 649,
+        "startChar": 8,
+        "endLine": 649,
+        "endChar": 26
+      },
+      "revId": "206ad34d2c57f6fe6fd30aebae50f8791213bc7c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d5193e5_dda9da37",
+        "filename": "android/app/src/main/java/org/libreoffice/androidapp/ui/LibreOfficeUIActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-26T13:39:10Z",
+      "side": 1,
+      "message": "I\u0027ve tried the \"Delete file\" from the menu, but it didn\u0027t do anything for me.  I didn\u0027t debug, but I guess this is the reason, because we shouldn\u0027t be using File at all, we have to do everything through Uri \u0026 content providers - the file can be on google drive or anywhere.\n\nIf it is hard to do the file deletion via the content provider / Uri, let\u0027s please remove the \"Delete file\" functionality for now :-)",
+      "range": {
+        "startLine": 655,
+        "startChar": 15,
+        "endLine": 656,
+        "endChar": 36
+      },
+      "revId": "206ad34d2c57f6fe6fd30aebae50f8791213bc7c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba59bd72_9343f028",
+        "filename": "android/app/src/main/res/layout/file_explorer_grid_item.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-26T13:39:10Z",
+      "side": 1,
+      "message": "It should be right-aligned; without that, the file names that fit one line get a different position of the three dots that the file names that use 2 lines.  [Please poke me for a screenshot if it is unclear what do I mean.]",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 64
+      },
+      "revId": "206ad34d2c57f6fe6fd30aebae50f8791213bc7c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
