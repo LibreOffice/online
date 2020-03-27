@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: LibreOffice Online - Help\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-03-25 19:21+0000\n"
+"PO-Revision-Date: 2020-03-27 09:01+0000\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/sl/>\n"
 "Language: sl\n"
@@ -1281,7 +1281,7 @@ msgstr "Veljajo vse funkcije preglednic in matematična pravila."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:346-5
 msgid "The formula language should be extremely familiar to any spreadsheet user, and is specified in great detail in the <a href=\"https://www.oasis-open.org/committees/download.php/16826/openformula-spec-20060221.html\">OASIS OpenFormula specification</a>."
-msgstr ""
+msgstr "Jezik formul je znan vsakemu uporabniku preglednic in je podrobno predstavljen v <a href=\"https://www.oasis-open.org/committees/download.php/16826/openformula-spec-20060221.html\">specifikaciji OpenFormula organizacije za standardizacijo OASIS</a>."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:349-5
 msgid "<span class=\"def\">Direct formatting:</span> You can format spreadsheets cells, columns, rows and sheets by formatting directly from the menus, toolbar or context menus. Direct formatting applies only to the current object selected. To format a cell either use the menu or hit <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">1</span>. The dialog allows complex and custom number formatting, as well as font, complex border, background, cell protection and other options."
@@ -1289,7 +1289,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.p:353-5
 msgid "<span class=\"def\">Sorting data:</span> You can sort a list of numbers or text ascending or descending. <span class=\"productname\">%productName</span> automatically detects cells that are headers, and adjoining columns, to extend the selection."
-msgstr ""
+msgstr "<span class=\"def\">Razvrščanje podatkov:</span> seznam števil ali besedil lahko razvrstite naraščajoče ali padajoče. <span class=\"productname\">%productName</span> samodejno zazna, katere celice so glave kot tudi soležne stolpce, kar razširja izbor."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:354-5
 msgid "<span class=\"def\">Filtering data:</span> Filters and advanced filters allow you to work on certain filtered rows (records) of a data range. In the spreadsheets in <span class=\"productname\">%productName</span> there are various possibilities for applying filters."
@@ -1726,7 +1726,7 @@ msgstr "Kako izberem podatke za tiskanje?"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:539-5
 msgid "Insert column and row breaks in the spreadsheet to narrow the print range and print the document to download. On printing the PDF, select the pages of interest."
-msgstr ""
+msgstr "Z vstavljanjem prelomov stolpcev in vrstic v preglednico lahko zožite obseg tiskanja in natisnete dokument za prenos. Pri tiskanju v PDF lahko izberete le želene strani."
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:540-5
 msgid "How can I import CSV data?"
