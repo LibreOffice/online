@@ -212,7 +212,7 @@ div#w2ui-overlay-actionbar.w2ui-overlay{
 }
 
 .spreadsheet-tabs-container {
-	left: 24px;
+	left: 28px;
 }
 
 .spreadsheet-tab-scroll {
@@ -220,6 +220,7 @@ div#w2ui-overlay-actionbar.w2ui-overlay{
 	scrollbar-width: none; /*css draft (firefox only)*/
 	-ms-scrollbar: none; /*ie*/
 	-webkit-overflow-scrolling: touch;
+	margin-left: 0;
 }
 
 .spreadsheet-tabs-container, #spreadsheet-toolbar{
