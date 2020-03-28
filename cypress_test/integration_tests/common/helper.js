@@ -38,6 +38,7 @@ function loadTestDoc(fileName, subFolder, mobile) {
 			Cypress.env('WORKDIR') + subFolder + '/' + fileName;
 	}
 
+	cy.log('Loading: ' + URI);
 	cy.visit(URI, {
 		onLoad: function(win) {
 			win.onerror = cy.onUncaughtException;
@@ -149,6 +150,13 @@ function beforeAllMobile(fileName, subFolder) {
 	detectLOCoreVersion();
 }
 
+function beforeAllDesktop(fileName, subFolder) {
+	var mobile = false;
+	loadTestDoc(fileName, subFolder, mobile);
+
+	// detectLOCoreVersion(); //TODO: implement Core version check.
+}
+
 function afterAll(fileName) {
 	// Make sure that the document is closed
 	cy.visit('http://admin:admin@localhost:' +
@@ -226,6 +234,18 @@ function pushHamburgerMenuIconMobile() {
 		.click({force: true});
 }
 
+// Types text into elem with a delay in between characters.
+// Sometimes cy.type results in random character insertion,
+// this avoids that, which is not clear why it happens.
+function typeText(selector, text, delayMs=0) {
+	var elem= cy.get(selector);
+	for (var i = 0; i < text.length; i++) {
+		elem.type(text.charAt(i));
+		if (delayMs > 0)
+			cy.wait(delayMs);
+	}
+}
+
 module.exports.loadTestDoc = loadTestDoc;
 module.exports.enableEditingMobile = enableEditingMobile;
 module.exports.assertCursorAndFocus = assertCursorAndFocus;
@@ -237,5 +257,8 @@ module.exports.getTextForClipboard = getTextForClipboard;
 module.exports.expectTextForClipboard = expectTextForClipboard;
 module.exports.afterAll = afterAll;
 module.exports.beforeAllMobile = beforeAllMobile;
+module.exports.beforeAllDesktop = beforeAllDesktop;
 module.exports.longPressOnDocument = longPressOnDocument;
 module.exports.pushHamburgerMenuIconMobile = pushHamburgerMenuIconMobile;
+module.exports.typeText = typeText;
+module.exports.delayForEventsMs = 300; // The maximum roundrip time for an event to fire based on some action.
