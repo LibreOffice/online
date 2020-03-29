@@ -726,6 +726,7 @@ std::string LOOLWSD::ServerName;
 std::string LOOLWSD::FileServerRoot;
 std::string LOOLWSD::ServiceRoot;
 std::string LOOLWSD::LOKitVersion;
+std::string LOOLWSD::OSInfo;
 std::string LOOLWSD::HostIdentifier;
 std::string LOOLWSD::ConfigFile = LOOLWSD_CONFIGDIR "/loolwsd.xml";
 std::string LOOLWSD::ConfigDir = LOOLWSD_CONFIGDIR "/conf.d";
@@ -894,6 +895,11 @@ void LOOLWSD::initialize(Application& self)
         // Fallback to the LOOLWSD_CONFIGDIR or --config-file path.
         loadConfiguration(ConfigFile, PRIO_DEFAULT);
     }
+
+    // Read operating system info. We can read "os-release" file, located in /etc.
+    std::ifstream ifs("/etc/os-release");
+    std::string str(std::istreambuf_iterator<char>{ifs}, {});
+    LOOLWSD::OSInfo = str;
 
     // Load extra ("plug-in") configuration files, if present
     File dir(ConfigDir);
