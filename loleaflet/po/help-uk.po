@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-03-02 22:27+0000\n"
-"Last-Translator: Olexandr Pylypchuk <pilipchukap@rambler.ru>\n"
+"PO-Revision-Date: 2020-03-29 05:16+0000\n"
+"Last-Translator: Євген Кондратюк <lachend@gmail.com>\n"
 "Language-Team: Ukrainian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -1071,27 +1071,27 @@ msgstr "<span class=\"def\">Панель пошуку:</span> Пошук поч�
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:268-11
 msgid "Search backwards"
-msgstr ""
+msgstr "Пошук назад"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:269-11
 msgid "Search forward"
-msgstr ""
+msgstr "Пошук вперед"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:270-11
 msgid "Cancel the search (appears only when a text has been searched)"
-msgstr ""
+msgstr "Відмінити пошук (з'являється лише у випадку запуску пошуку тексту)"
 
 #: html/loleaflet-help.html%2Bdiv.p:272-5
 msgid "<span class=\"def\">The zoom bar:</span> At the right of the status bar, there is a set of buttons that allow you to zoom to 100%, zoom out and zoom in. The zoom applies to the document area, the user interface is not affected. The current level of zoom is shown in this area."
-msgstr ""
+msgstr "<span class=\"def\">Панель масштабування:</span> Справа від рядка статусу розміщено набір кнопок, які дозволяють встановити масштаб перегляду в 100%, зменшити або збільшити масштаб. Масштаб застосовується лише до площини документа, інтерфейс користувача не змінюється. Поточний рівень масштабування вказано у цьому полі."
 
 #: html/loleaflet-help.html%2Bdiv.p:273-5
 msgid "Text, charts, shapes and svg images will stay sharp, when zooming in, you will only see pixels appear at inserted images, such as jpg’s or png’s."
-msgstr ""
+msgstr "Текст, діаграми, форми та векторні зображення залишатимуться  чіткими при збільшенні, пікселі з'являться лише на вставлених зображеннях, типу JPG або PNG."
 
 #: html/loleaflet-help.html%2Bdiv.p:274-5
 msgid "Using the browser zoom affects the document and user interface areas."
-msgstr ""
+msgstr "Використання масштабування браузера змінює як область документа, так і інтерфейс користувача."
 
 #: html/loleaflet-help.html%2Bdiv.p:275-5
 msgid "<span class=\"def\">The information bar:</span> At the right of the search bar, a set of information on the document is displayed. The actual information depends on the nature of the document."
@@ -1242,10 +1242,8 @@ msgid "Images can be resized, rotated and anchored. Text can be wrapped around t
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:327-5
-#, fuzzy
-#| msgid "Go to end of document"
 msgid "Comments in documents"
-msgstr "Перейти на кінець документа"
+msgstr "Коментарі в документах"
 
 #: html/loleaflet-help.html%2Bdiv.p:328-5
 msgid "Insert comments in <span class=\"productname\">%productName</span> in places that need special reader attention. Comments are displayed on the right and carry the name and date of the issuer."
@@ -1348,8 +1346,6 @@ msgid "Context menus are available on clicking the right mouse button. The comma
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h3:393-5
-#, fuzzy
-#| msgid "Text formatting"
 msgid "Formatting text"
 msgstr "Форматування тексту"
 
@@ -1558,10 +1554,8 @@ msgid "The <span class=\"blue\">¶</span> symbol is a formatting mark. It is use
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:474-5
-#, fuzzy
-#| msgid "Go to start of document"
 msgid "How do I get a word count of my document?"
-msgstr "Перейти на початок документа"
+msgstr "Де подивитись кількість порахованих слів у документі?"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:475-5
 msgid "Word count is available in <span class=\"ui\">Tools</span> → <span class=\"ui\">Word count</span>. A dialog shows word counts for selection and for the whole document."
@@ -1636,10 +1630,8 @@ msgid "Changes can be accepted or rejected. To accept or reject changes, click o
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:503-5
-#, fuzzy
-#| msgid "Go to start of document"
 msgid "How do I set the margins of the document?"
-msgstr "Перейти на початок документа"
+msgstr "Як мені задати розмір полів документа?"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:504-5
 msgid "Using the ruler drag the leftmost edge of the ruler to adjust the left margin, or the rightmost for the right margin."
@@ -1707,10 +1699,8 @@ msgid "Select the text you want to apply the new format."
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.p:527-5
-#, fuzzy
-#| msgid "Apply Heading 1 paragraph style"
 msgid "Applying a paragraph style:"
-msgstr "Застосувати стиль абзацу \"Заголовок 1\""
+msgstr "Застосування стилю абзаца:"
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:529-11
 msgid "Place the cursor at the paragraph to be formatted"
