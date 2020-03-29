@@ -839,11 +839,10 @@ input.clipboard {
 		display: none;
 	}
 }
-@media (max-width: 767px), (max-device-height: 767px) {
-	.loleaflet-ruler {
-		height: 0px;
-		display: none;
-	}
+
+body.mobile_mode .loleaflet-ruler {
+	height: 0px;
+	display: none;
 }
 
 .loleaflet-ruler-breakcontainer {

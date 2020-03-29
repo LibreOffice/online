@@ -145,11 +145,22 @@
 		// Here "mobile" means "mobile phone" (at least for now). Has to match small screen size
 		// requirement.
 		isMobile: function() {
+			var returnValue = false;
 			if (L.Browser.mobile && L.Browser.cypressTest) {
-				return true;
+				returnValue = true;
+			} else {
+				returnValue = L.Browser.mobile && screen.width < 768;
 			}
 
-			return L.Browser.mobile && screen.width < 768;
+			var bodyElem = document.getElementsByTagName('body')[0];
+			if (returnValue) {
+				if (!bodyElem.classList.contains('mobile_mode'))
+					bodyElem.classList.add('mobile_mode');
+			} else if (bodyElem.classList.contains('mobile_mode')) {
+				bodyElem.classList.remove('mobile_mode');
+			}
+
+			return returnValue;
 		},
 		// Mobile device with big screen size.
 		isTablet: function() {
