@@ -81,6 +81,11 @@ public class AboutDialogFragment extends DialogFragment {
         vendor = vendor.replace("$VENDOR", getResources().getString(R.string.vendor));
         vendorView.setText(vendor);
 
+        TextView OSInfoView = messageView.findViewById(R.id.about_OS);
+        String OSInfo = OSInfoView.getText().toString();
+        OSInfo = OSInfo.replace("$OS_Info", android.os.Build.VERSION.RELEASE);
+        OSInfoView.setText(OSInfo);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder .setIcon(BuildConfig.APP_HAS_BRANDING? R.drawable.ic_launcher_brand: R.drawable.lo_icon)
                 .setTitle(R.string.app_name)
