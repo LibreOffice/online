@@ -114,6 +114,10 @@
       <text desc="Watermark text to be displayed on the document if entered" type="string"></text>
     </watermark>
 
+    <latest_news>
+      <url desc="URL of the content page for the update notification" type="string" default="https://www.collaboraoffice.com/press-releases/collabora-online-4-2-0-released/"></text>
+    </latest_news>
+
     <storage desc="Backend storage">
         <filesystem allow="false" />
         <wopi desc="Allow/deny wopi storage. Mutually exclusive with webdav." allow="true">
