@@ -114,6 +114,10 @@
       <text desc="Watermark text to be displayed on the document if entered" type="string"></text>
     </watermark>
 
+    <welcome>
+      <content_path desc="File path served on first start or when contentkey changes, blank for none" type="string" default="dist/html/welcome/$LANG.html"></content_path>
+    </welcome>
+
     <storage desc="Backend storage">
         <filesystem allow="false" />
         <wopi desc="Allow/deny wopi storage. Mutually exclusive with webdav." allow="true">
