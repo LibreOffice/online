@@ -344,6 +344,68 @@ L.Map.include({
 		});
 	},
 
+	showWelcomeDialog: function() {
+		var w;
+		var iw = window.innerWidth;
+		if (iw < 768) {
+			w = iw - 30;
+		}
+		else if (iw > 1920) {
+			w = 960;
+		}
+		else {
+			w = iw / 5 + 590;
+		}
+		var map = this;
+		$.get('welcome/welcome-en-US.html', function(data) {
+			vex.open({
+				unsafeContent: data,
+				showCloseButton: true,
+				escapeButtonCloses: true,
+				overlayClosesOnClick: true,
+				closeAllOnPopState: false,
+				buttons: {},
+				afterOpen: function() {
+					var $vexContent = $(this.contentEl);
+					this.contentEl.style.width = w + 'px';
+					map.enable(false);
+
+					$vexContent.attr('tabindex', -1);
+					$vexContent.focus();
+					// workaround for https://github.com/HubSpot/vex/issues/43
+					$('.vex-overlay').css({ 'pointer-events': 'none'});
+				},
+				beforeClose: function () {
+					map.focus();
+					map.enable(true);
+				}
+			});
+		});
+	},
+
+	getCookie: function(name) {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i].trim();
+			if (cookie.indexOf(name) === 0) {
+				return cookie;
+			}
+		}
+
+		return '';
+	},
+
+	shouldWelcome: function() {
+		var currentVerCookie = this.getCookie('WSDWelcomeVer');
+		var newVerCookie = 'WSDWelcomeVer=' + this._socket.WSDServer.Version;
+
+		if (currentVerCookie !== newVerCookie) {
+			return true;
+		}
+
+		return false;
+	},
+
 	showLOAboutDialog: function() {
 		// Move the div sitting in 'body' as vex-content and make it visible
 		var content = $('#about-dialog').clone().css({display: 'block'});

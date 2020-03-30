@@ -318,6 +318,13 @@ L.TileLayer = L.GridLayer.extend({
 				if (e.statusType === 'alltilesloaded' && this._docType === 'spreadsheet') {
 					this._onCellCursorShift(true);
 				}
+				if (e.statusType === 'alltilesloaded' && this._map.shouldWelcome()) {
+					var WSDVerCookie = 'WSDWelcomeVer=' + this._map._socket.WSDServer.Version;
+					// Cookie will not expire for a year, and it will not be sent to other domains
+					WSDVerCookie += '; max-age=31536000; SameSite=Strict';
+					this._map.showWelcomeDialog();
+					document.cookie = WSDVerCookie;
+				}
 			},
 		this);
 
