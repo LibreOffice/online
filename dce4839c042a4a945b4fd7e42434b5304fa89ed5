@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33498e4b_b7aed85d",
+        "filename": "tools/General.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-03-31T19:53:51Z",
+      "side": 1,
+      "message": "good to kill trailing whitespace - as below too \u003d)\n\nLooks plausible.",
+      "revId": "dce4839c042a4a945b4fd7e42434b5304fa89ed5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "279ef4a3_b13260bb",
+        "filename": "tools/General.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-03-31T19:53:51Z",
+      "side": 1,
+      "message": "Lets just skip the line, and ideally LOG_WRN(\"unusual line \" \u003c\u003c *it); or something too rather than kill the whole map \u003d)",
+      "revId": "dce4839c042a4a945b4fd7e42434b5304fa89ed5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "681486f5_8f7c36bc",
+        "filename": "wsd/FileServer.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-03-31T19:53:51Z",
+      "side": 1,
+      "message": "I\u0027d have the OSInfo lookup the pretty name safely at another location to avoid failures if it is not there \u003d)",
+      "revId": "dce4839c042a4a945b4fd7e42434b5304fa89ed5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9a5f6e4_9c0ac671",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-03-31T19:53:51Z",
+      "side": 1,
+      "message": "Need to set it to something initially - eg. \"unknown\". It would be good to have LOOLWSD::OSInfo be a std::string rather than a map, and do the check for missing PRETTY_NAME in just one place",
+      "revId": "dce4839c042a4a945b4fd7e42434b5304fa89ed5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
