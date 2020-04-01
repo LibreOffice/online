@@ -41,15 +41,10 @@ echo "Building core branch '$LIBREOFFICE_BRANCH'"
 if [ -z "$LIBREOFFICE_ONLINE_BRANCH" ]; then
   LIBREOFFICE_ONLINE_BRANCH="master"
 fi;
-echo "Building online branch '$LIBREOFFICE_ONLINE_BRANCH'"
+echo "Building online branch '$LIBREOFFICE_ONLINE_BRANCH' from '$LIBREOFFICE_ONLINE_REPO'"
 
 if [ -z "$LIBREOFFICE_BUILD_TARGET" ]; then
   LIBREOFFICE_BUILD_TARGET=""
-fi;
-echo "LibreOffice build target: '$LIBREOFFICE_BUILD_TARGET'"
-
-if [ -z "$LIBREOFFICE_ONLINE_REPO" ]; then
-  LIBREOFFICE_ONLINE_REPO="https://git.libreoffice.org/online"
 fi;
 echo "LibreOffice build target: '$LIBREOFFICE_BUILD_TARGET'"
 
