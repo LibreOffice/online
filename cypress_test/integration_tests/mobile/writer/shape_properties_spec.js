@@ -77,8 +77,7 @@ describe('Change shape properties via mobile wizard.', function() {
 			.click();
 
 		cy.get('.ui-content.level-0.mobile-wizard')
-			.should('be.visible')
-			.wait(100);
+			.should('be.visible');
 	}
 
 	function openLinePropertyPanel() {
@@ -93,8 +92,7 @@ describe('Change shape properties via mobile wizard.', function() {
 			.click();
 
 		cy.get('.ui-content.level-0.mobile-wizard')
-			.should('be.visible')
-			.wait(100);
+			.should('be.visible');
 	}
 
 	it('Check default shape geometry.', function() {
