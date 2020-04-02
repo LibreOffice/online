@@ -98,20 +98,7 @@ L.ImpressTileLayer = L.TileLayer.extend({
 			this._map.setView(this._map.getCenter(), this._map.getZoom(), {reset: true});
 		}
 
-		// update portrait / landscape
-		var remove = 'portrait';
-		var add = 'landscape';
-		if (L.DomUtil.isPortrait()) {
-			remove = 'landscape';
-			add = 'portrait';
-		}
-
-		const elements = ['presentation-controls-wrapper', 'document-container', 'slide-sorter', 'mobile-wizard-header', 'mobile-wizard-content'];
-		for (const element of elements) {
-			const domElement = L.DomUtil.get(element);
-			L.DomUtil.removeClass(domElement, remove);
-			L.DomUtil.addClass(domElement, add);
-		}
+		L.DomUtil.updateElementsOrientation(['presentation-controls-wrapper', 'document-container', 'slide-sorter', 'mobile-wizard-header', 'mobile-wizard-content']);
 
 		// update parts
 		var visible = L.DomUtil.getStyle(L.DomUtil.get('presentation-controls-wrapper'), 'display');
