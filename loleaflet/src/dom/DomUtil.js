@@ -202,6 +202,22 @@ L.DomUtil = {
 
 	isPortrait: function() {
 		return window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
+	},
+
+	// Add/remove a portrait or landscape class from the list of elementns.
+	updateElementsOrientation: function(elements) {
+		var remove = 'portrait';
+		var add = 'landscape';
+		if (L.DomUtil.isPortrait()) {
+			remove = 'landscape';
+			add = 'portrait';
+		}
+
+		for (const element of elements) {
+			const domElement = L.DomUtil.get(element);
+			L.DomUtil.removeClass(domElement, remove);
+			L.DomUtil.addClass(domElement, add);
+		}
 	}
 };
 

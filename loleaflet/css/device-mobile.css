@@ -703,3 +703,11 @@ td[id^=tb_spreadsheet-toolbar_item]:focus table.w2ui-button div.w2ui-icon, td[id
 #mobile-wizard-content.with-slide-sorter-above.portrait {
 	top: 111px !important;
 }
+
+/* Related to mobile-wizard based menubar */
+#mobile-wizard.menuwizard.landscape #mobile-wizard-content.with-slide-sorter-above.landscape {
+	overflow-y: auto !important;
+}
+#mobile-wizard.menuwizard.portrait #mobile-wizard-content.with-slide-sorter-above.portrait {
+	overflow-y: hidden !important;
+}
