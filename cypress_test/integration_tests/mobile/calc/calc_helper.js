@@ -2,9 +2,19 @@
 
 var helper = require('../../common/helper');
 
-function clickOnFirstCell() {
+function clickOnFirstCell(firstClick = true) {
 	// Enable editing if it's in read-only mode
 	helper.enableEditingMobile();
+
+	// TODO: it seems '.leaflet-tile-container' gets into an
+	// invalid state where it's position is negative.
+	cy.waitUntil(function() {
+		return cy.get('.leaflet-tile-container')
+			.then(function(items) {
+				expect(items).to.have.lengthOf(1);
+				return items[0].getBoundingClientRect().top >= 0 && items[0].getBoundingClientRect().right >= 0;
+			});
+	});
 
 	// Use the tile's edge to find the first cell's position
 	cy.get('.leaflet-tile-container')
@@ -16,8 +26,12 @@ function clickOnFirstCell() {
 				.click(XPos, YPos);
 		});
 
-	cy.get('.spreadsheet-cell-resize-marker')
-		.should('exist');
+	if (firstClick)
+		cy.get('.spreadsheet-cell-resize-marker')
+			.should('exist');
+	else
+		cy.get('.leaflet-cursor.blinking-cursor')
+			.should('exist');
 }
 
 function dblClickOnFirstCell() {
