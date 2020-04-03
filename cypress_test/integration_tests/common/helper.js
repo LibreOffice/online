@@ -44,6 +44,10 @@ function loadTestDoc(fileName, subFolder, mobile) {
 		}});
 	// Wait for the document to fully load
 	cy.get('.leaflet-tile-loaded', {timeout : 10000});
+
+	// In case of calc, let's wait for the input bar too
+	if (subFolder === 'calc')
+		cy.get('.inputbar_container', {timeout : 10000});
 }
 
 // Enable editing if we are in read-only mode.
