@@ -58,6 +58,12 @@ function enableEditingMobile() {
 
 	cy.get('#tb_actionbar_item_mobile_wizard')
 		.should('not.have.class', 'disabled');
+
+	// In case of calc, let's wait for the input bar too
+	if (isCalc()) {
+		cy.get('.inputbar_selection_handles')
+			.should('be.visible');
+    }
 }
 
 // Assert that NO keyboard input is accepted (i.e. keyboard should be HIDDEN).
@@ -224,6 +230,12 @@ function longPressOnDocument(posX, posY) {
 function pushHamburgerMenuIconMobile() {
 	cy.get('#toolbar-hamburger .main-menu-btn-icon')
 		.click({force: true});
+}
+
+function isCalc() {
+	if (Cypress.$('.spreadsheet-header-rows').length)
+		return true;
+	return false;
 }
 
 module.exports.loadTestDoc = loadTestDoc;

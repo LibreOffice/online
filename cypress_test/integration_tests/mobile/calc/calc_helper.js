@@ -2,9 +2,19 @@
 
 var helper = require('../../common/helper');
 
-function clickOnFirstCell() {
+function clickOnFirstCell(firstClick = true, dblClick = false) {
 	// Enable editing if it's in read-only mode
 	helper.enableEditingMobile();
+
+	// TODO: it seems '.leaflet-tile-container' gets into an
+	// invalid state where it's position is negative.
+	cy.waitUntil(function() {
+		return cy.get('.leaflet-tile-container')
+			.then(function(items) {
+				expect(items).to.have.lengthOf(1);
+				return items[0].getBoundingClientRect().top >= 0 && items[0].getBoundingClientRect().right >= 0;
+			});
+	});
 
 	// Use the tile's edge to find the first cell's position
 	cy.get('.leaflet-tile-container')
@@ -12,30 +22,25 @@ function clickOnFirstCell() {
 			expect(items).to.have.lengthOf(1);
 			var XPos = items[0].getBoundingClientRect().right + 10;
 			var YPos = items[0].getBoundingClientRect().top + 10;
-			cy.get('body')
-				.click(XPos, YPos);
+			if (dblClick) {
+                cy.get('body')
+                    .dblclick(XPos, YPos);
+            } else {
+                cy.get('body')
+                    .click(XPos, YPos);
+            }
 		});
 
-	cy.get('.spreadsheet-cell-resize-marker')
-		.should('exist');
+	if (firstClick && !dblClick)
+		cy.get('.spreadsheet-cell-resize-marker')
+			.should('exist');
+	else
+		cy.get('.leaflet-cursor.blinking-cursor')
+			.should('exist');
 }
 
 function dblClickOnFirstCell() {
-	// Enable editing if it's in read-only mode
-	helper.enableEditingMobile();
-
-	// Use the tile's edge to find the first cell's position
-	cy.get('.leaflet-tile-container')
-		.then(function(items) {
-			expect(items).to.have.lengthOf(1);
-			var XPos = items[0].getBoundingClientRect().right + 10;
-			var YPos = items[0].getBoundingClientRect().top + 10;
-			cy.get('body')
-				.dblclick(XPos, YPos);
-		});
-
-	cy.get('.leaflet-cursor.blinking-cursor')
-		.should('exist');
+	clickOnFirstCell(dblClick = true);
 }
 
 function copyContentToClipboard() {
