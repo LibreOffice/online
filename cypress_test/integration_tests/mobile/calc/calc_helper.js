@@ -2,9 +2,9 @@
 
 var helper = require('../../common/helper');
 
-function clickOnFirstCell() {
+function clickOnFirstCell(firstClick = true) {
 	// Enable editing if it's in read-only mode
-	helper.enableEditingMobile();
+	helper.enableEditingMobile('calc');
 
 	// Use the tile's edge to find the first cell's position
 	cy.get('.leaflet-tile-container')
@@ -16,8 +16,12 @@ function clickOnFirstCell() {
 				.click(XPos, YPos);
 		});
 
-	cy.get('.spreadsheet-cell-resize-marker')
-		.should('exist');
+	if (firstClick)
+		cy.get('.spreadsheet-cell-resize-marker')
+			.should('exist');
+	else
+		cy.get('.leaflet-cursor.blinking-cursor')
+			.should('exist');
 }
 
 function dblClickOnFirstCell() {

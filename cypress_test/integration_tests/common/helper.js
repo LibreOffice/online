@@ -47,7 +47,7 @@ function loadTestDoc(fileName, subFolder, mobile) {
 }
 
 // Enable editing if we are in read-only mode.
-function enableEditingMobile() {
+function enableEditingMobile(component = '') {
 	cy.get('#mobile-edit-button')
 		.then(function(button) {
 			if (button.css('display') !== 'none') {
@@ -58,6 +58,11 @@ function enableEditingMobile() {
 
 	cy.get('#tb_actionbar_item_mobile_wizard')
 		.should('not.have.class', 'disabled');
+
+	// In case of calc, let's wait for the input bar too
+	if (component === 'calc')
+		cy.get('.inputbar_selection_handles')
+			.should('be.visible');
 }
 
 // Assert that NO keyboard input is accepted (i.e. keyboard should be HIDDEN).
