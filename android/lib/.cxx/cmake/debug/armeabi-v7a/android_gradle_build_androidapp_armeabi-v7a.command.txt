@@ -1,0 +1,7 @@
+Executable : /home/gokay/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a
+androidapp
+jvmArgs : 
+

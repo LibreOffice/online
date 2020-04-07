@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/home/gokay/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "androidapp-Debug-armeabi-v7a": {
+      "artifactName": "androidapp",
+      "buildCommand": "/home/gokay/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a --target androidapp",
+      "abi": "armeabi-v7a",
+      "output": "/home/gokay/Documents/libreoffice/online/android/lib/build/intermediates/cmake/debug/obj/armeabi-v7a/libandroidapp.so"
+    }
+  }
+}

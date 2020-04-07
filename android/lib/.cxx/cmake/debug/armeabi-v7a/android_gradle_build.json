@@ -1,0 +1,137 @@
+{
+  "stringTable": {
+    "0": "/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a",
+    "1": "--target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DLOOLWSD_CONFIGDIR=\"/assets/etc/loolwsd\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC"
+  },
+  "buildFiles": [
+    "/home/gokay/Android/Sdk/ndk/21.0.6113669/build/cmake/android.toolchain.cmake",
+    "/home/gokay/Android/Sdk/ndk/21.0.6113669/build/cmake/platforms.cmake",
+    "/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/home/gokay/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "/home/gokay/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "androidapp-Debug-armeabi-v7a": {
+      "buildCommand": "/home/gokay/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a\" androidapp",
+      "buildType": "debug",
+      "toolchain": "985663393",
+      "abi": "armeabi-v7a",
+      "artifactName": "androidapp",
+      "files": [
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/androidapp.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/FileUtil.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/Log.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/MessageQueue.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/Protocol.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/StringVector.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/Session.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/SigUtil.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/SpookyV2.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/Unit.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/common/Util.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/kit/ChildSession.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/kit/Kit.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/net/FakeSocket.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/net/Socket.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/wsd/ClientSession.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/wsd/DocumentBroker.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/wsd/LOOLWSD.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/wsd/Storage.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/gokay/Documents/libreoffice/online/wsd/TileCache.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/home/gokay/Documents/libreoffice/online/android/lib/build/intermediates/cmake/debug/obj/armeabi-v7a/libandroidapp.so"
+    }
+  },
+  "toolchains": {
+    "985663393": {
+      "cppCompilerExecutable": "/home/gokay/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

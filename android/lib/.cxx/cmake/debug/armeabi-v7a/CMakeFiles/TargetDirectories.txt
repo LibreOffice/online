@@ -1,0 +1,4 @@
+/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/copy_native_code.dir
+/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/androidapp.dir
