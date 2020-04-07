@@ -1,0 +1,23 @@
+ninja: Entering directory `/home/gokay/Documents/libreoffice/online/android/lib/.cxx/cmake/release/armeabi-v7a'
+[1/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/StringVector.cpp.o
+[2/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/Protocol.cpp.o
+[3/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/Log.cpp.o
+[4/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/SpookyV2.cpp.o
+[5/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/FileUtil.cpp.o
+[6/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/SigUtil.cpp.o
+[7/22] Building CXX object CMakeFiles/androidapp.dir/androidapp.cpp.o
+[8/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/Session.cpp.o
+[9/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/MessageQueue.cpp.o
+[10/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/Unit.cpp.o
+[11/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/net/FakeSocket.cpp.o
+[12/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/common/Util.cpp.o
+[13/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/net/Socket.cpp.o
+[14/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/kit/ChildSession.cpp.o
+[15/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/wsd/Storage.cpp.o
+[16/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/wsd/ClientSession.cpp.o
+[17/22] Copied liblo-native-code.so and its dependencies to the tree.
+[18/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/wsd/DocumentBroker.cpp.o
+[19/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/kit/Kit.cpp.o
+[20/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/wsd/LOOLWSD.cpp.o
+[21/22] Building CXX object CMakeFiles/androidapp.dir/home/gokay/Documents/libreoffice/online/wsd/TileCache.cpp.o
+[22/22] Linking CXX shared library /home/gokay/Documents/libreoffice/online/android/lib/build/intermediates/cmake/release/obj/armeabi-v7a/libandroidapp.so

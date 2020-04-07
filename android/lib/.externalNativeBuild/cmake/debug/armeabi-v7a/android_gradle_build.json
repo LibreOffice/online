@@ -1,0 +1,155 @@
+
+{
+	"buildFiles" : 
+	[
+		"/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/CMakeLists.txt"
+	],
+	"cleanCommands" : 
+	[
+		"/home/gokay/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"androidapp-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "androidapp",
+			"buildCommand" : "/home/gokay/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a --target androidapp",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/androidapp.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/FileUtil.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/Log.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/MessageQueue.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/Protocol.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/StringVector.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/Session.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/SigUtil.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/SpookyV2.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/Unit.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/common/Util.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/kit/ChildSession.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/kit/Kit.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/net/FakeSocket.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/net/Socket.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/wsd/ClientSession.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/wsd/DocumentBroker.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/wsd/LOOLWSD.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/wsd/Storage.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				},
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -DLOOLWSD_CONFIGDIR=\\\"/assets/etc/loolwsd\\\" -Dandroidapp_EXPORTS -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../.. -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../common -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../kit -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../net -I/home/gokay/Documents/libreoffice/online/android/lib/src/main/cpp/../../../../../wsd -I/opt/poco-android/include -I/home/gokay/Documents/libreoffice/core/workdir/UnpackedTarball/libpng -I/home/gokay/Documents/libreoffice/core/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/home/gokay/Documents/libreoffice/online/wsd/TileCache.cpp",
+					"workingDirectory" : "/home/gokay/Documents/libreoffice/online/android/lib/.externalNativeBuild/cmake/debug/armeabi-v7a"
+				}
+			],
+			"output" : "/home/gokay/Documents/libreoffice/online/android/lib/build/intermediates/cmake/debug/obj/armeabi-v7a/libandroidapp.so",
+			"toolchain" : "14578033445127877457"
+		}
+	},
+	"toolchains" : 
+	{
+		"14578033445127877457" : 
+		{
+			"cCompilerExecutable" : "/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/home/gokay/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+		}
+	}
+}
