@@ -81,9 +81,40 @@ function longPressOnDocument(posX, posY) {
 		});
 }
 
-function pushHamburgerMenuIconMobile() {
+function openHamburgerMenu() {
+	cy.log('Opening hamburger menu - start.');
+
+	cy.get('#toolbar-hamburger')
+        .should('not.have.class', 'opened');
+
 	cy.get('#toolbar-hamburger .main-menu-btn-icon')
 		.click({force: true});
+
+	cy.get('#toolbar-hamburger')
+        .should('have.class', 'opened');
+
+	cy.get('#mobile-wizard-content')
+		.should('not.be.empty');
+
+	cy.log('Opening hamburger menu - end.');
+}
+
+function closeHamburgerMenu() {
+	cy.log('Closing hamburger menu - start.');
+
+	cy.get('#toolbar-hamburger')
+        .should('have.class', 'opened');
+
+	cy.get('#toolbar-hamburger .main-menu-btn-icon')
+		.click({force: true});
+
+	cy.get('#toolbar-hamburger')
+        .should('not.have.class', 'opened');
+
+	cy.get('#mobile-wizard-content')
+		.should('be.empty');
+
+	cy.log('Closing hamburger menu - end.');
 }
 
 function openMobileWizard() {
@@ -123,6 +154,7 @@ function closeMobileWizard() {
 module.exports.enableEditingMobile = enableEditingMobile;
 module.exports.beforeAllMobile = beforeAllMobile;
 module.exports.longPressOnDocument = longPressOnDocument;
-module.exports.pushHamburgerMenuIconMobile = pushHamburgerMenuIconMobile;
+module.exports.openHamburgerMenu = openHamburgerMenu;
+module.exports.closeHamburgerMenu = closeHamburgerMenu;
 module.exports.openMobileWizard = openMobileWizard;
 module.exports.closeMobileWizard = closeMobileWizard;
