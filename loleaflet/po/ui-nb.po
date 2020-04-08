@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-31 22:32+0200\n"
-"PO-Revision-Date: 2020-02-22 08:15+0000\n"
+"PO-Revision-Date: 2020-04-08 12:33+0000\n"
 "Last-Translator: Karl Morten Ramberg <karl.m.ramberg@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/nb_NO/>\n"
 "Language: nb\n"
@@ -171,7 +171,7 @@ msgstr "Slå av Serveren"
 
 #: admin/admin.strings.js:43
 msgid "Server uptime"
-msgstr ""
+msgstr "Oppetid på server"
 
 #: admin/src/AdminSocketAnalytics.js:212
 msgid "Received"
@@ -194,7 +194,7 @@ msgstr "Er du sikker på at du vil avslutte denne økten?"
 #: src/control/Control.Tabs.js:218 src/control/Control.Toolbar.js:219
 #: src/control/Toolbar.js:457
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: admin/src/AdminSocketOverview.js:108 admin/src/AdminSocketSettings.js:37
 #: src/control/Control.LanguageDialog.js:86 src/control/Control.Menubar.js:1164
@@ -258,7 +258,7 @@ msgstr "Serveren fikk en %0 feil under kjøring av %1 kommandoen."
 
 #: src/control/Control.ContextMenu.js:188
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 #: src/control/Control.ContextMenu.js:272
 msgid "Paste Special"
@@ -298,23 +298,23 @@ msgstr "Du"
 
 #: src/control/Control.DownloadProgress.js:36
 msgid "Start download"
-msgstr ""
+msgstr "Start nedlasting"
 
 #: src/control/Control.DownloadProgress.js:51
 msgid "Confirm copy to clipboard"
-msgstr ""
+msgstr "Bekreft kopiering til utklippstavle"
 
 #: src/control/Control.DownloadProgress.js:209
 msgid "Start upload"
-msgstr ""
+msgstr "Start opplasting"
 
 #: src/control/Control.DownloadProgress.js:314
 msgid "Start cross copy/paste"
-msgstr ""
+msgstr "Start kryss kopiering/innliming"
 
 #: src/control/ColorPicker.js:121
 msgid "No color"
-msgstr ""
+msgstr "Ingen farge"
 
 #: src/control/Control.JSDialogBuilder.js:153
 #: src/control/Control.JSDialogBuilder.js:804
