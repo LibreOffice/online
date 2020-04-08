@@ -21,6 +21,12 @@
 #include <map>
 #include <list>
 #include <utility>
+#include "Util.hpp"
+#include <string>
+#include <vector>
+#ifdef __ANDROID__
+    #include <sys/system_properties.h>
+#endif
 
 class DocumentBroker;
 
