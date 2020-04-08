@@ -21,6 +21,7 @@
 #include <map>
 #include <list>
 #include <utility>
+#include <sys/system_properties.h>
 
 class DocumentBroker;
 

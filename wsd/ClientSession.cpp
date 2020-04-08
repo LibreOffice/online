@@ -360,6 +360,14 @@ bool ClientSession::_handleInput(const char *buffer, int length)
         sendTextFrame("loolserver " + LOOLWSD::getVersionJSON());
         // Send LOKit version information
         sendTextFrame("lokitversion " + LOOLWSD::LOKitVersion);
+
+        #ifdef __ANDROID__
+            // Send Android version information.
+            char osVersion[100];
+            __system_property_get("ro.build.version.release", osVersion);
+            sendTextFrame(std::string("OSInfo Android ") + std::string(osVersion));
+        #endif
+
         // Send clipboard key
         rotateClipboardKey(true);
 

@@ -759,7 +759,7 @@ void LOOLWSD::getOSInfo(){
             LOOLWSD::OSInfo = releaseInfo["PRETTY_NAME"];
         }
     #else
-        // Some more cases might be added in the future.
+        // FilerServer.cpp file is not included in mobile. Showing OS info for mobile is done in ClientSession.cpp
     #endif
 }
 
@@ -947,9 +947,9 @@ void LOOLWSD::initialize(Application& self)
     AutoPtr<AppConfigMap> defConfig(new AppConfigMap(DefAppConfig));
     conf.addWriteable(defConfig, PRIO_SYSTEM); // Lowest priority
 
-    LOOLWSD::getOSInfo();
-
 #if !MOBILEAPP
+
+    LOOLWSD::getOSInfo();
 
     // Load default configuration files, if present.
     if (loadConfiguration(PRIO_DEFAULT) == 0)
