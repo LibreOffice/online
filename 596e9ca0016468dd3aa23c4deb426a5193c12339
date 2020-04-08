@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0534ecb_54a7351d",
+        "filename": "kit/ForKit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-08T09:03:00Z",
+      "side": 1,
+      "message": "just a nit about trailing whitespace - 3x in this file \u003d)",
+      "revId": "596e9ca0016468dd3aa23c4deb426a5193c12339",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63b69ca9_6328affc",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-08T09:03:00Z",
+      "side": 1,
+      "message": "I think Miklos recently implemented a much safer tokenizing scheme, that would avoid the need to check for sizes and has a safe getToken(n) method to avoid distributing checks.\n\nWhat\u0027s there is fine - but ... \u003d)",
+      "revId": "596e9ca0016468dd3aa23c4deb426a5193c12339",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
