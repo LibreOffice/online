@@ -1317,7 +1317,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 	},
 
 	_sendColorCommand: function(builder, data, color) {
-		var gradientItem;
+		var gradientItem, command;
 
 		if (data.id === 'fillgrad1') {
 			gradientItem = builder.map['stateChangeHandler'].getItemValue('.uno:FillGradient');
@@ -1327,9 +1327,12 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			gradientItem = builder.map['stateChangeHandler'].getItemValue('.uno:FillGradient');
 			gradientItem.endcolor = color;
 			return '.uno:FillGradient?FillGradientJSON:string=' + JSON.stringify(gradientItem);
+		} else if (data.id === 'fillattr') {
+			data.command = '.uno:FillPageColor';
+			command = '.uno:FillPageColor?Color:string=' + color;
+		} else {
+			command = data.command + '?Color:string=' + color;
 		}
-
-		var command = data.command + '?Color:string=' + color;
 
 		// update the item state as we send
 		var items = builder.map['stateChangeHandler'];
