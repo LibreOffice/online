@@ -21,7 +21,9 @@
 #include <map>
 #include <list>
 #include <utility>
-
+#ifdef __ANDROID__
+    #include <sys/system_properties.h>
+#endif
 class DocumentBroker;
 
 /// Represents a session to a LOOL client, in the WSD process.
