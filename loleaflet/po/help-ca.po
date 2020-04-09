@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-03-30 09:16+0000\n"
+"PO-Revision-Date: 2020-04-09 07:32+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/ca/>\n"
 "Language: ca\n"
@@ -1347,7 +1347,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h3:393-5
 msgid "Formatting text"
-msgstr "Formatació de text"
+msgstr "Formatació del text"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:394-5
 msgid "<span class=\"productname\">%productName</span> supports modern techniques for paragraph formatting through styles. A style is a set of text properties (font, color, background and many more) labeled with a name, the style name. Use style to apply the same set of properties to many paragraphs in the document and produce a uniform, professional look. Also, if you change one of the style formatting properties, all paragraphs with the same style changes formatting as well, simplifying the effort of formatting many paragraph individually."
@@ -1379,7 +1379,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:405-5
 msgid "Track changes"
-msgstr ""
+msgstr "Seguiment de canvis"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:406-5
 msgid "When you turn on Track Changes, <span class=\"productname\">%productName</span> marks up new changes made to the document. Select this option again to turn it off."
@@ -1395,7 +1395,7 @@ msgstr "Altres funcionalitats avançades"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:410-5
 msgid "<span class=\"def\">Comments:</span> Comments are inserted in the text and displayed on the right side of the screen."
-msgstr ""
+msgstr "<span class=\"def\">Comentaris:</span> els comentaris s'insereixen dins el text i es mostren al costat dret de la pantalla."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:411-5
 msgid "<span class=\"def\">Formatting marks:</span> Paragraph, page and unbreakable spaces are shown as marks to assisting text alignment, editing and formatting."
@@ -1571,7 +1571,7 @@ msgstr "Com insereixo un símbol de moneda, de drets d'autor o de marca registra
 
 #: html/loleaflet-help.html%2Bdiv.div.p:479-5
 msgid "You can insert these special characters in the document using the <span class=\"ui\">Special Character</span> dialog."
-msgstr "Pudeu inserir aquests símbols fent servir el diàleg <span class=\"ui\">Caràcter especial</span>."
+msgstr "Podeu inserir aquests símbols fent servir el diàleg <span class=\"ui\">Caràcter especial</span>."
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:481-11
 msgid "Place the cursor in the position to insert the character."
