@@ -14,7 +14,6 @@
 #include <config.h>
 
 #include <sys/capability.h>
-#include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sysexits.h>
@@ -40,6 +39,7 @@
 #endif
 
 #include <common/FileUtil.hpp>
+#include <common/JailUtil.hpp>
 #include <common/Seccomp.hpp>
 #include <common/SigUtil.hpp>
 #include <security.h>
@@ -278,11 +278,7 @@ static void cleanupChildren()
     }
 
     // Now delete the jails.
-    for (const auto& path : jails)
-    {
-        LOG_INF("Removing jail [" << path << "].");
-        FileUtil::removeFile(path, true);
-    }
+    JailUtil::removeJails(jails);
 }
 
 static int createLibreOfficeKit(const std::string& childRoot,
@@ -293,6 +289,9 @@ static int createLibreOfficeKit(const std::string& childRoot,
 {
     // Generate a jail ID to be used for in the jail path.
     const std::string jailId = Util::rng::getFilename(16);
+
+    // Update the dynamic files as necessary.
+    JailUtil::SysTemplate::updateDynamicFiles(sysTemplate);
 
     // Used to label the spare kit instances
     static size_t spareKitId = 0;
@@ -431,6 +430,7 @@ int main(int argc, char** argv)
 #endif
 
     Util::setThreadName("forkit");
+    Util::setApplicationPath(Poco::Path(argv[0]).parent().toString());
 
     // Initialization
     const bool logToFile = std::getenv("LOOL_LOGFILE");
@@ -578,6 +578,15 @@ int main(int argc, char** argv)
 
     if (Util::getProcessThreadCount() != 1)
         LOG_ERR("Error: forkit has more than a single thread after pre-init");
+
+    // Link the network and system files in sysTemplate.
+    JailUtil::SysTemplate::setupDynamicFiles(sysTemplate);
+
+    // Make the real lo path in the chroot point to the chroot lo/.
+    JailUtil::SysTemplate::setupLoSymlink(sysTemplate, loTemplate, loSubPath);
+
+    // Make dev/[u]random point to the writable devices in tmp/dev/.
+    JailUtil::SysTemplate::setupRandomDeviceLinks(sysTemplate);
 
     LOG_INF("Preinit stage OK.");
 
