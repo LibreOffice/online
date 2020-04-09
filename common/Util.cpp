@@ -171,8 +171,9 @@ namespace Util
         std::string defaultTmp = getDefaultTmpDir();
         std::string newTmp =
             defaultTmp + "/lool-" + rng::getFilename(16);
-        if (::mkdir(newTmp.c_str(), S_IRWXU) < 0) {
-            LOG_ERR("Failed to create random temp directory");
+        if (::mkdir(newTmp.c_str(), S_IRWXU) < 0)
+        {
+            LOG_SYS("Failed to create random temp directory [" << newTmp << "]");
             return defaultTmp;
         }
         return newTmp;
@@ -952,6 +953,17 @@ namespace Util
         }
 
         return result;
+    }
+
+    static std::string ApplicationPath;
+    void setApplicationPath(const std::string& path)
+    {
+        ApplicationPath = Poco::Path(path).absolute().toString();
+    }
+
+    std::string getApplicationPath()
+    {
+        return ApplicationPath;
     }
 
     #if !MOBILEAPP

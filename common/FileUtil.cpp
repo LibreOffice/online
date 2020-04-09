@@ -39,6 +39,8 @@ namespace filesystem = ::std::filesystem;
 # include <Poco/TemporaryFile.h>
 #endif
 
+#include <Poco/Util/Application.h>
+
 #include "Log.hpp"
 #include "Util.hpp"
 #include "Unit.hpp"
@@ -381,6 +383,52 @@ namespace FileUtil
     std::string anonymizeUsername(const std::string& username)
     {
         return AnonymizeUserData ? Util::anonymize(username, AnonymizationSalt) : username;
+    }
+
+    bool mount(const std::string& source, const std::string& target)
+    {
+        Poco::File(target).createDirectory();
+        const std::string mountCommand
+            = Poco::Path(Util::getApplicationPath(), "loolmount").toString() + ' ' + source + ' '
+              + target;
+        LOG_TRC("Executing mount command: " << mountCommand);
+        const bool res = !system(mountCommand.c_str());
+        if (res)
+            LOG_DBG("Mounted [" << source << "] -> [" << target << "].");
+        else
+            LOG_ERR("Failed to mount [" << source << "] -> [" << target << "].");
+        return res;
+    }
+
+    bool unmount(const std::string& target)
+    {
+        const std::string mountCommand
+            = Poco::Path(Util::getApplicationPath(), "loolmount").toString() + " -u " + target;
+        LOG_TRC("Executing unmount command: " << mountCommand);
+        const bool res = !system(mountCommand.c_str());
+        if (res)
+            LOG_DBG("Unmounted [" << target << "] successfully.");
+        else
+            LOG_ERR("Failed to unmount [" << target << "].");
+        return res;
+    }
+
+    void removeJail(const std::string& path)
+    {
+        LOG_INF("Removing jail [" << path << "].");
+        if (std::getenv("LOOL_BIND_MOUNT"))
+        {
+            std::vector<std::string> subs;
+            Poco::File(path).list(subs);
+            for (const auto& sub : subs)
+            {
+                const Poco::Path usrDestPath(path, sub);
+                LOG_DBG("Unmounting " << usrDestPath.toString());
+                FileUtil::unmount(usrDestPath.toString());
+            }
+        }
+
+        FileUtil::removeFile(path, true);
     }
 
 } // namespace FileUtil

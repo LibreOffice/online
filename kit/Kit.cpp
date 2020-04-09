@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <utime.h>
 #include <sys/time.h>
+#include <sys/mount.h>
 #include <sys/resource.h>
 #include <sysexits.h>
 
@@ -123,7 +124,11 @@ static LokHookFunction2* initFunction = nullptr;
 namespace
 {
 #ifndef BUILDING_TESTS
-    enum class LinkOrCopyType { All, LO, NoUsr };
+    enum class LinkOrCopyType
+    {
+        All,
+        LO
+    };
     LinkOrCopyType linkOrCopyType;
     std::string sourceForLinkOrCopy;
     Path destinationForLinkOrCopy;
@@ -137,15 +142,13 @@ namespace
     {
         switch (type)
         {
-        case LinkOrCopyType::NoUsr:
-            return "non-user";
-        case LinkOrCopyType::LO:
-            return "LibreOffice";
-        case LinkOrCopyType::All:
-            return "all";
-        default:
-            assert(!"Unknown LinkOrCopyType.");
-            return "unknown";
+            case LinkOrCopyType::LO:
+                return "LibreOffice";
+            case LinkOrCopyType::All:
+                return "all";
+            default:
+                assert(!"Unknown LinkOrCopyType.");
+                return "unknown";
         }
     }
 
@@ -153,9 +156,6 @@ namespace
     {
         switch (linkOrCopyType)
         {
-        case LinkOrCopyType::NoUsr:
-            // bind mounted.
-            return strcmp(path,"usr") != 0;
         case LinkOrCopyType::LO:
             return
                 strcmp(path, "program/wizards") != 0 &&
@@ -164,7 +164,8 @@ namespace
                 strcmp(path, "share/basic") != 0 &&
                 strcmp(path, "share/Scripts/java") != 0 &&
                 strcmp(path, "share/Scripts/javascript") != 0 &&
-                strcmp(path, "share/config/wizard") != 0;
+                strcmp(path, "share/config/wizard") != 0 &&
+                strcmp(path, "readmes") != 0;
         default: // LinkOrCopyType::All
             return true;
         }
@@ -215,30 +216,29 @@ namespace
             }
             return true;
         }
-        case LinkOrCopyType::NoUsr:
         default: // LinkOrCopyType::All
             return true;
         }
     }
 
-    void linkOrCopyFile(const char *fpath, const Path& newPath)
+    void linkOrCopyFile(const char* fpath, const std::string& newPath)
     {
         ++linkOrCopyFileCount;
         if (linkOrCopyVerboseLogging)
-            LOG_INF("Linking file \"" << fpath << "\" to \"" << newPath.toString() << "\"");
+            LOG_INF("Linking file \"" << fpath << "\" to \"" << newPath << "\"");
 
-        if (link(fpath, newPath.toString().c_str()) == -1)
+        if (link(fpath, newPath.c_str()) == -1)
         {
-            LOG_INF("link(\"" << fpath << "\", \"" <<
-                    newPath.toString() << "\") failed: " << strerror(errno) << ". Will copy.");
+            LOG_INF("link(\"" << fpath << "\", \"" << newPath << "\") failed: " << strerror(errno)
+                              << ". Will copy.");
             try
             {
-                File(fpath).copyTo(newPath.toString());
+                File(fpath).copyTo(newPath);
             }
             catch (const std::exception& exc)
             {
-                LOG_FTL("Copying of '" << fpath << "' to " << newPath.toString() <<
-                        " failed: " << exc.what() << ". Exiting.");
+                LOG_FTL("Copying of '" << fpath << "' to " << newPath << " failed: " << exc.what()
+                                       << ". Exiting.");
                 Log::shutdown();
                 std::_Exit(EX_SOFTWARE);
             }
@@ -271,7 +271,7 @@ namespace
 
         assert(fpath[strlen(sourceForLinkOrCopy.c_str())] == '/');
         const char *relativeOldPath = fpath + strlen(sourceForLinkOrCopy.c_str()) + 1;
-        Path newPath(destinationForLinkOrCopy, Path(relativeOldPath));
+        const Path newPath(destinationForLinkOrCopy, Path(relativeOldPath));
 
         switch (typeflag)
         {
@@ -280,7 +280,7 @@ namespace
             File(newPath.parent()).createDirectories();
 
             if (shouldLinkFile(relativeOldPath))
-                linkOrCopyFile(fpath, newPath);
+                linkOrCopyFile(fpath, newPath.toString());
             break;
         case FTW_D:
             {
@@ -2515,7 +2515,6 @@ void lokit_main(
     // framework/source/services/modulemanager.cxx:198
     // So we insure it lives until std::_Exit is called.
     std::shared_ptr<lok::Office> loKit;
-    Path jailPath;
     ChildSession::NoCapsForKit = noCapabilities;
 #else
     AnonymizeUserData = false;
@@ -2524,13 +2523,16 @@ void lokit_main(
     try
     {
 #if !MOBILEAPP
-        jailPath = Path::forDirectory(childRoot + "/" + jailId);
+        const Path jailPath = Path::forDirectory(childRoot + '/' + jailId);
         LOG_INF("Jail path: " << jailPath.toString());
         File(jailPath).createDirectories();
         chmod(jailPath.toString().c_str(), S_IXUSR | S_IWUSR | S_IRUSR);
 
         if (!ChildSession::NoCapsForKit)
         {
+            std::chrono::time_point<std::chrono::steady_clock> jailSetupStartTime
+                = std::chrono::steady_clock::now();
+
             userdir_url = "file:///user";
             instdir_path = "/" + loSubPath + "/program";
 
@@ -2552,38 +2554,48 @@ void lokit_main(
             File(jailLOInstallation).createDirectory();
 
             // Copy (link) LO installation and other necessary files into it from the template.
-            bool bLoopMounted = false;
             if (std::getenv("LOOL_BIND_MOUNT"))
             {
-                Path usrSrcPath(sysTemplate, "usr");
-                Path usrDestPath(jailPath, "usr");
-                File(usrDestPath).createDirectory();
-                std::string mountCommand =
-                    std::string("loolmount ") +
-                    usrSrcPath.toString() +
-                    std::string(" ") +
-                    usrDestPath.toString();
-                LOG_DBG("Initializing jail bind mount.");
-                bLoopMounted = !system(mountCommand.c_str());
-                LOG_DBG("Initialized jail bind mount.");
+                std::vector<std::string> subs;
+                File(sysTemplate).list(subs);
+                for (const auto& sub : subs)
+                {
+                    const Path srcPath(sysTemplate, sub);
+                    if (File(srcPath).isFile())
+                        continue; // Skip files.
+
+                    const std::string sourcePath = srcPath.toString();
+                    const std::string destPath = Path(jailPath, sub).toString();
+
+                    // These must be writable, so we can't mount.
+                    if (sub == "tmp" || sub == "home")
+                    {
+                        linkOrCopy(sourcePath, destPath, LinkOrCopyType::All);
+                        continue;
+                    }
+
+                    LOG_DBG("Mounting " << sourcePath << " -> " << destPath);
+                    if (!FileUtil::mount(sourcePath, destPath))
+                    {
+                        LOG_INF("Failed to mount systemplate/" << sub << " from [" << sourcePath
+                                                               << "], will link/copy contents.");
+                        linkOrCopy(sourcePath, destPath, LinkOrCopyType::All);
+                    }
+                }
+
+                LOG_DBG("Mounting LO template from [" << loTemplate << "]");
+                if (!FileUtil::mount(loTemplate, jailLOInstallation.toString()))
+                {
+                    LOG_INF("Failed to mount LO template from [" << loTemplate
+                                                                 << "], will link/copy contents.");
+                    linkOrCopy(loTemplate, jailLOInstallation, LinkOrCopyType::LO);
+                }
             }
-
-            linkOrCopy(sysTemplate, jailPath,
-                       bLoopMounted ? LinkOrCopyType::NoUsr : LinkOrCopyType::All);
-            linkOrCopy(loTemplate, jailLOInstallation, LinkOrCopyType::LO);
-
-            // Copy some needed files - makes the networking work in the
-            // chroot
-            const std::initializer_list<const char*> files = {"/etc/passwd", "/etc/group", "/etc/host.conf", "/etc/hosts", "/etc/nsswitch.conf", "/etc/resolv.conf"};
-            for (const auto& filename : files)
+            else
             {
-                const Poco::Path etcPath = Path(jailPath, filename);
-                const std::string etcPathString = etcPath.toString();
-                if (File(filename).exists() && !File(etcPathString).exists() )
-                    linkOrCopyFile(filename, etcPath);
+                linkOrCopy(sysTemplate, jailPath, LinkOrCopyType::All);
+                linkOrCopy(loTemplate, jailLOInstallation, LinkOrCopyType::LO);
             }
-
-            LOG_DBG("Initialized jail files.");
 
             // Create the urandom and random devices
             File(Path(jailPath, "/dev")).createDirectory();
@@ -2600,6 +2612,15 @@ void lokit_main(
             {
                 LOG_SYS("mknod(" << jailPath.toString() << "/dev/random) failed. Mount must not use nodev flag.");
             }
+
+            const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                std::chrono::steady_clock::now() - jailSetupStartTime)
+                                .count();
+            LOG_DBG("Initialized jail files in " << ms << " ms.");
+
+            // hard-random tmpdir inside the jail / root
+            const std::string tmpSubdir = Util::createRandomTmpDir();
+            ::setenv("TMPDIR", tmpSubdir.c_str(), 1);
 
             ProcSMapsFile = open("/proc/self/smaps", O_RDONLY);
             if (ProcSMapsFile < 0)
@@ -2632,10 +2653,6 @@ void lokit_main(
             userdir_url = "file:///" + jailPath.toString() + "/user";
             instdir_path = "/" + loTemplate + "/program";
         }
-
-        // hard-random tmpdir inside the jail / root
-        std::string tmpSubdir = Util::createRandomTmpDir();
-        ::setenv("TMPDIR", tmpSubdir.c_str(), 1);
 
         LibreOfficeKit *kit;
         {
