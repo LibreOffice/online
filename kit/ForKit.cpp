@@ -59,6 +59,7 @@ static bool DisplayVersion = false;
 static std::string UnitTestLibrary;
 static std::string LogLevel;
 static std::atomic<unsigned> ForkCounter(0);
+static std::string LoSubPath;
 
 static std::map<Process::PID, std::string> childJails;
 
@@ -72,6 +73,76 @@ class ServerWSHandler;
 // We have a single thread and a single connection so we won't bother with
 // access synchronization
 std::shared_ptr<ServerWSHandler> WSHandler;
+
+namespace
+{
+// The network and other system files we need to keep up-to-date in jails.
+// These must be up-to-date, as they can change during
+// the long lifetime of our process. Also, it's unlikely
+// that systemplate will get re-generated after installation.
+static const auto DynamicFilePaths = { "/etc/passwd", "/etc/group",         "/etc/host.conf",
+                                       "/etc/hosts",  "/etc/nsswitch.conf", "/etc/resolv.conf" };
+static bool LinkDynamicFiles = false; // Copy by default for KIT_IN_PROCESS.
+
+#ifndef KIT_IN_PROCESS
+
+void linkOrCopyDynamicFilesToSysTemplate(const std::string& sysTemplate)
+{
+    LOG_INF("Setting up dynamic files in sysTemplate.");
+
+    const std::string etcSysTemplatePath = Poco::Path(sysTemplate, "etc").toString();
+    LinkDynamicFiles = true;
+    for (const auto& srcFilename : DynamicFilePaths)
+    {
+        const Poco::File srcFilePath(srcFilename);
+        if (!srcFilePath.exists())
+            continue;
+
+        // Remove the file to create a symlink.
+        const Poco::Path dstFilePath(sysTemplate, srcFilename);
+        if (LinkDynamicFiles)
+        {
+            LOG_INF("Linking [" << srcFilename << "] -> [" << dstFilePath.toString() << "].");
+            FileUtil::removeFile(dstFilePath);
+
+            // Link or copy.
+            if (link(srcFilename, dstFilePath.toString().c_str()) != -1)
+                continue;
+
+            // Failed to link a file. Disable linking and copy instead.
+            LOG_SYS("Failed to link [" << srcFilename << "] -> [" << dstFilePath.toString() << ']');
+            LinkDynamicFiles = false;
+        }
+
+        // Linking fails, just copy.
+        LOG_INF("Copying [" << srcFilename << "] -> [" << dstFilePath.toString() << "].");
+        srcFilePath.copyTo(etcSysTemplatePath);
+    }
+}
+
+#endif // KIT_IN_PROCESS
+
+void updateDynamicFilesInSysTemplate(const std::string& sysTemplate)
+{
+    if (!LinkDynamicFiles)
+    {
+        LOG_INF("Updating dynamic files in sysTemplate.");
+
+        const std::string etcSysTemplatePath = Poco::Path(sysTemplate, "etc").toString();
+        for (const auto& srcFilename : DynamicFilePaths)
+        {
+            const Poco::File srcFilePath(srcFilename);
+            if (!srcFilePath.exists())
+                continue;
+
+            const Poco::Path dstFilePath(sysTemplate, srcFilename);
+            LOG_DBG("Copying [" << srcFilename << "] -> [" << dstFilePath.toString() << "].");
+            srcFilePath.copyTo(etcSysTemplatePath);
+        }
+    }
+}
+
+} // namespace
 
 class ServerWSHandler final : public WebSocketHandler
 {
@@ -283,8 +354,7 @@ static void cleanupChildren()
     // Now delete the jails.
     for (const auto& path : jails)
     {
-        LOG_INF("Removing jail [" << path << "].");
-        FileUtil::removeFile(path, true);
+        FileUtil::removeJail(path);
     }
 }
 
@@ -296,6 +366,9 @@ static int createLibreOfficeKit(const std::string& childRoot,
 {
     // Generate a jail ID to be used for in the jail path.
     const std::string jailId = Util::rng::getFilename(16);
+
+    // Update the dynamic files as necessary.
+    updateDynamicFilesInSysTemplate(sysTemplate);
 
     // Used to label the spare kit instances
     static size_t spareKitId = 0;
@@ -434,6 +507,7 @@ int main(int argc, char** argv)
 #endif
 
     Util::setThreadName("forkit");
+    Util::setApplicationPath(Poco::Path(argv[0]).parent().toString());
 
     // Initialization
     const bool logToFile = std::getenv("LOOL_LOGFILE");
@@ -454,7 +528,6 @@ int main(int argc, char** argv)
     }
 
     std::string childRoot;
-    std::string loSubPath;
     std::string sysTemplate;
     std::string loTemplate;
 
@@ -465,7 +538,7 @@ int main(int argc, char** argv)
         if (std::strstr(cmd, "--losubpath=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            loSubPath = std::string(eq+1);
+            LoSubPath = std::string(eq+1);
         }
         else if (std::strstr(cmd, "--systemplate=") == cmd)
         {
@@ -544,7 +617,7 @@ int main(int argc, char** argv)
         }
     }
 
-    if (loSubPath.empty() || sysTemplate.empty() ||
+    if (LoSubPath.empty() || sysTemplate.empty() ||
         loTemplate.empty() || childRoot.empty())
     {
         printArgumentHelp();
@@ -582,12 +655,15 @@ int main(int argc, char** argv)
     if (Util::getProcessThreadCount() != 1)
         LOG_ERR("Error: forkit has more than a single thread after pre-init");
 
+    // Link the network and system files in sysTemplate.
+    linkOrCopyDynamicFilesToSysTemplate(sysTemplate);
+
     LOG_INF("Preinit stage OK.");
 
     // We must have at least one child, more are created dynamically.
     // Ask this first child to send version information to master process and trace startup.
     ::setenv("LOOL_TRACE_STARTUP", "1", 1);
-    Process::PID forKitPid = createLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath, true);
+    Process::PID forKitPid = createLibreOfficeKit(childRoot, sysTemplate, loTemplate, LoSubPath, true);
     if (forKitPid < 0)
     {
         LOG_FTL("Failed to create a kit process.");
@@ -623,7 +699,7 @@ int main(int argc, char** argv)
 #if ENABLE_DEBUG
         if (!SingleKit)
 #endif
-        forkLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath);
+        forkLibreOfficeKit(childRoot, sysTemplate, loTemplate, LoSubPath);
     }
 
     int returnValue = EX_OK;

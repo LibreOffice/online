@@ -65,6 +65,9 @@ namespace FileUtil
         removeFile(path.toString(), recursive);
     }
 
+    /// Returns true iff the path exists, regarlesss of access permission.
+    bool pathExists(const std::string& path);
+
     /// Copy a file from @fromPath to @toPath, throws on failure.
     void copyFileTo(const std::string &fromPath, const std::string &toPath);
 
@@ -80,6 +83,18 @@ namespace FileUtil
     {
         return getTempFilePath(srcDir, srcFilename, std::string());
     }
+
+    /// Link source to target, and copy if linking fails.
+    bool linkOrCopyFile(const char* source, const char* target);
+
+    /// Bind mount and remount a jail directory as readonly.
+    bool mount(const std::string& source, const std::string& target);
+
+    /// Unmount a bind-mounted jail directory.
+    bool unmount(const std::string& target);
+
+    /// Remove the jail directory and all its contents.
+    void removeJail(const std::string& path);
 
 } // end namespace FileUtil
 

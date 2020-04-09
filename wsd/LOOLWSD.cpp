@@ -322,6 +322,19 @@ void LOOLWSD::checkDiskSpaceAndWarnClients(const bool cacheLastCheck)
 #endif
 }
 
+/// Remove all jails, in case forkit didn't cleanup properly.
+static void cleanupJails()
+{
+    LOG_INF("Cleaning up childroot directory [" << LOOLWSD::ChildRoot << "].");
+    std::vector<std::string> jails;
+    Poco::File(LOOLWSD::ChildRoot).list(jails);
+    for (const auto& jail : jails)
+    {
+        const Poco::Path path(LOOLWSD::ChildRoot, jail);
+        FileUtil::removeJail(path.toString());
+    }
+}
+
 /// Remove dead and idle DocBrokers.
 /// The client of idle document should've greyed-out long ago.
 /// Returns true if at least one is removed.
@@ -861,6 +874,8 @@ void LOOLWSD::initialize(Application& self)
     }
 #endif
 
+    Util::setApplicationPath(Poco::Path(Application::instance().commandPath()).parent().toString());
+
     if (!UnitWSD::init(UnitWSD::UnitType::Wsd, UnitTestLibrary))
     {
         throw std::runtime_error("Failed to load wsd unit test library.");
@@ -902,6 +917,7 @@ void LOOLWSD::initialize(Application& self)
             { "logging.level", "trace" },
             { "loleaflet_html", "loleaflet.html" },
             { "loleaflet_logging", "false" },
+            { "mount_jail_tree", "true" },
             { "net.listen", "any" },
             { "net.proto", "all" },
             { "net.service_root", "" },
@@ -1149,6 +1165,27 @@ void LOOLWSD::initialize(Application& self)
     LoTemplate = LO_PATH;
     ChildRoot = getPathFromConfig("child_root_path");
     ServerName = config().getString("server_name");
+
+    unsetenv("LOOL_BIND_MOUNT"); // Clear to avoid surprises.
+    if (getConfigValue<bool>(conf, "mount_jail_tree", true))
+    {
+        // Test mounting to verify it actually works,
+        // as it might not function in some systems.
+        const std::string target = Poco::Path(ChildRoot, "lool_test_mount").toString();
+        if (FileUtil::mount(SysTemplate, target))
+        {
+            FileUtil::unmount(target);
+            FileUtil::removeFile(target, true);
+            setenv("LOOL_BIND_MOUNT", "1", 1);
+            LOG_INF("Enabling Bind-Mounting of jail contents for better performance per "
+                    "mount_jail_tree config in loolwsd.xml.");
+        }
+        else
+            LOG_ERR("Bind-Mounting fails and will be disabled for this run. To disable permanently "
+                    "set mount_jail_tree config entry in loolwsd.xml to false.");
+    }
+
+    cleanupJails();
 
     LOG_DBG("FileServerRoot before config: " << FileServerRoot);
     FileServerRoot = getPathFromConfig("file_server_root_path");
@@ -3642,7 +3679,7 @@ int LOOLWSD::innerMain()
     FileUtil::registerFileSystemForDiskSpaceChecks(ChildRoot);
 
     if (FileServerRoot.empty())
-        FileServerRoot = Poco::Path(Application::instance().commandPath()).parent().toString();
+        FileServerRoot = Util::getApplicationPath();
     FileServerRoot = Poco::Path(FileServerRoot).absolute().toString();
     LOG_DBG("FileServerRoot: " << FileServerRoot);
 #endif
@@ -3838,16 +3875,7 @@ int LOOLWSD::innerMain()
     ForKitProc.reset();
 #endif
 
-    // In case forkit didn't cleanup properly, don't leave jails behind.
-    LOG_INF("Cleaning up childroot directory [" << ChildRoot << "].");
-    std::vector<std::string> jails;
-    File(ChildRoot).list(jails);
-    for (auto& jail : jails)
-    {
-        const auto path = ChildRoot + jail;
-        LOG_INF("Removing jail [" << path << "].");
-        FileUtil::removeFile(path, true);
-    }
+    cleanupJails();
 
     if (UnitBase::isUnitTesting())
     {

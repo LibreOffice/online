@@ -995,6 +995,9 @@ int main(int argc, char**argv)
         return result;
     }
 
+    void setApplicationPath(const std::string& path);
+    std::string getApplicationPath();
+
     /**
      * Converts vector of strings to map. Strings should have formed like this: key + delimiter + value.
      * In case of a misformed string or zero length vector, passes that item and warns the developer.
