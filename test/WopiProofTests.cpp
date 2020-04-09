@@ -15,7 +15,6 @@
 #include <test/lokassert.hpp>
 
 #include <ProofKey.hpp>
-#include <Poco/Crypto/RSAKey.h>
 #include <Poco/Crypto/DigestEngine.h>
 #include <Util.hpp>
 
@@ -23,6 +22,7 @@
 #include <openssl/pem.h>
 #include <openssl/buffer.h>
 #include <openssl/opensslv.h>
+#include <openssl/rsa.h>
 
 /// Delta unit-tests.
 class WopiProofTests : public CPPUNIT_NS::TestFixture
