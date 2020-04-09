@@ -16,6 +16,7 @@ export ENABLE_DEBUG
 
 bin_PROGRAMS = \
 	loolforkit \
+	loolmount \
 	loolconvert loolconfig
 
 if ENABLE_LIBFUZZER
@@ -130,7 +131,6 @@ noinst_PROGRAMS = clientnb \
                   lokitclient \
                   loolmap \
                   loolstress \
-                  loolmount \
                   loolsocketdump
 
 if ENABLE_LIBFUZZER

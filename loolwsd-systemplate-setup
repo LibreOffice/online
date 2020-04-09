@@ -22,6 +22,7 @@ cd / || exit 1
 
 # First essential files and shared objects
 find etc/hosts etc/nsswitch.conf etc/resolv.conf \
+     etc/passwd etc/group etc/host.conf \
      etc/ld.so.* \
      lib/ld-* lib64/ld-* \
      lib/libnss_* lib64/libnss_* lib/*/libnss_* \
