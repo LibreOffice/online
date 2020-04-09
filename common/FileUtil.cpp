@@ -383,6 +383,49 @@ namespace FileUtil
         return AnonymizeUserData ? Util::anonymize(username, AnonymizationSalt) : username;
     }
 
+    bool mount(const std::string& source, const std::string& target)
+    {
+        Poco::File(target).createDirectory();
+        const std::string mountCommand = std::string("./loolmount ") + source + ' ' + target;
+        LOG_TRC("Executing mount command: " << mountCommand);
+        const bool res = !system(mountCommand.c_str());
+        if (res)
+            LOG_INF("Mounted [" << source << "] -> [" << target << "].");
+        else
+            LOG_ERR("Failed to mount [" << source << "] -> [" << target << "].");
+        return res;
+    }
+
+    bool unmount(const std::string& target)
+    {
+        const std::string mountCommand = std::string("./loolmount -u ") + target;
+        LOG_TRC("Executing unmount command: " << mountCommand);
+        const bool res = !system(mountCommand.c_str());
+        if (res)
+            LOG_INF("Unmounted [" << target << "] successfully.");
+        else
+            LOG_ERR("Failed to unmount [" << target << "].");
+        return res ;
+    }
+
+    void removeJail(const std::string& path)
+    {
+        LOG_INF("Removing jail [" << path << "].");
+        if (std::getenv("LOOL_BIND_MOUNT"))
+        {
+            std::vector<std::string> subs;
+            Poco::File(path).list(subs);
+            for (const auto& sub : subs)
+            {
+                const Poco::Path usrDestPath(path, sub);
+                LOG_DBG("Unmounting " << usrDestPath.toString());
+                FileUtil::unmount(usrDestPath.toString());
+            }
+        }
+
+        FileUtil::removeFile(path, true);
+    }
+
 } // namespace FileUtil
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
