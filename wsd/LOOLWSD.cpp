@@ -39,7 +39,6 @@
 #include <stdlib.h>
 #include <sysexits.h>
 
-#include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -114,7 +113,8 @@ using Poco::Net::PartHandler;
 #include "DocumentBroker.hpp"
 #include "Exceptions.hpp"
 #include "FileServer.hpp"
-#include <FileUtil.hpp>
+#include <common/FileUtil.hpp>
+#include <common/JailUtil.hpp>
 #if defined KIT_IN_PROCESS || MOBILEAPP
 #  include <Kit.hpp>
 #endif
@@ -856,6 +856,8 @@ void LOOLWSD::initialize(Application& self)
     }
 #endif
 
+    Util::setApplicationPath(Poco::Path(Application::instance().commandPath()).parent().toString());
+
     if (!UnitWSD::init(UnitWSD::UnitType::Wsd, UnitTestLibrary))
     {
         throw std::runtime_error("Failed to load wsd unit test library.");
@@ -897,6 +899,7 @@ void LOOLWSD::initialize(Application& self)
             { "logging.level", "trace" },
             { "loleaflet_html", "loleaflet.html" },
             { "loleaflet_logging", "false" },
+            { "mount_jail_tree", "true" },
             { "net.listen", "any" },
             { "net.proto", "all" },
             { "net.service_root", "" },
@@ -1147,6 +1150,10 @@ void LOOLWSD::initialize(Application& self)
     SysTemplate = getPathFromConfig("sys_template_path");
     ChildRoot = getPathFromConfig("child_root_path");
     ServerName = config().getString("server_name");
+
+    // Setup the jails.
+    JailUtil::setupJails(getConfigValue<bool>(conf, "mount_jail_tree", true), ChildRoot,
+                         SysTemplate);
 
     LOG_DBG("FileServerRoot before config: " << FileServerRoot);
     FileServerRoot = getPathFromConfig("file_server_root_path");
@@ -3609,7 +3616,7 @@ int LOOLWSD::innerMain()
         // create a custom sub-path for parallelized unit tests.
         if (UnitBase::isUnitTesting())
         {
-            ChildRoot += Util::rng::getHardRandomHexString(8) + "/";
+            ChildRoot += Util::rng::getHardRandomHexString(8) + '/';
             LOG_TRC("Creating sub-childroot: of " + ChildRoot);
         }
     }
@@ -3617,7 +3624,7 @@ int LOOLWSD::innerMain()
     FileUtil::registerFileSystemForDiskSpaceChecks(ChildRoot);
 
     if (FileServerRoot.empty())
-        FileServerRoot = Poco::Path(Application::instance().commandPath()).parent().toString();
+        FileServerRoot = Util::getApplicationPath();
     FileServerRoot = Poco::Path(FileServerRoot).absolute().toString();
     LOG_DBG("FileServerRoot: " << FileServerRoot);
 #endif
@@ -3813,22 +3820,7 @@ int LOOLWSD::innerMain()
     ForKitProc.reset();
 #endif
 
-    // In case forkit didn't cleanup properly, don't leave jails behind.
-    LOG_INF("Cleaning up childroot directory [" << ChildRoot << "].");
-    std::vector<std::string> jails;
-    File(ChildRoot).list(jails);
-    for (auto& jail : jails)
-    {
-        const auto path = ChildRoot + jail;
-        LOG_INF("Removing jail [" << path << "].");
-        FileUtil::removeFile(path, true);
-    }
-
-    if (UnitBase::isUnitTesting())
-    {
-        LOG_TRC("Removing sub-childroot: of " + ChildRoot);
-        FileUtil::removeFile(ChildRoot, true);
-    }
+    JailUtil::cleanupJails(ChildRoot);
 #endif // !MOBILEAPP
 
     return EX_OK;
