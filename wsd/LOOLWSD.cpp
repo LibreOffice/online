@@ -901,6 +901,7 @@ void LOOLWSD::initialize(Application& self)
             { "logging.level", "trace" },
             { "loleaflet_html", "loleaflet.html" },
             { "loleaflet_logging", "false" },
+            { "mount_jail_tree", "false" },
             { "net.listen", "any" },
             { "net.proto", "all" },
             { "net.service_root", "" },
@@ -1148,6 +1149,11 @@ void LOOLWSD::initialize(Application& self)
     LoTemplate = LO_PATH;
     ChildRoot = getPathFromConfig("child_root_path");
     ServerName = config().getString("server_name");
+
+    if (getConfigValue<bool>(conf, "mount_jail_tree", false))
+        setenv("LOOL_BIND_MOUNT", "1", 1);
+    else
+        unsetenv("LOOL_BIND_MOUNT"); // Clear to avoid surprises.
 
     LOG_DBG("FileServerRoot before config: " << FileServerRoot);
     FileServerRoot = getPathFromConfig("file_server_root_path");
@@ -3829,11 +3835,10 @@ int LOOLWSD::innerMain()
     LOG_INF("Cleaning up childroot directory [" << ChildRoot << "].");
     std::vector<std::string> jails;
     File(ChildRoot).list(jails);
-    for (auto& jail : jails)
+    for (const auto& jail : jails)
     {
-        const auto path = ChildRoot + jail;
-        LOG_INF("Removing jail [" << path << "].");
-        FileUtil::removeFile(path, true);
+        const Poco::Path path(ChildRoot, jail);
+        FileUtil::removeJail(path.toString());
     }
 
     if (UnitBase::isUnitTesting())

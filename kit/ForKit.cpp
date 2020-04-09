@@ -59,6 +59,7 @@ static bool DisplayVersion = false;
 static std::string UnitTestLibrary;
 static std::string LogLevel;
 static std::atomic<unsigned> ForkCounter(0);
+static std::string LoSubPath;
 
 static std::map<Process::PID, std::string> childJails;
 
@@ -283,8 +284,7 @@ static void cleanupChildren()
     // Now delete the jails.
     for (const auto& path : jails)
     {
-        LOG_INF("Removing jail [" << path << "].");
-        FileUtil::removeFile(path, true);
+        FileUtil::removeJail(path);
     }
 }
 
@@ -441,7 +441,6 @@ int main(int argc, char** argv)
     }
 
     std::string childRoot;
-    std::string loSubPath;
     std::string sysTemplate;
     std::string loTemplate;
 
@@ -452,7 +451,7 @@ int main(int argc, char** argv)
         if (std::strstr(cmd, "--losubpath=") == cmd)
         {
             eq = std::strchr(cmd, '=');
-            loSubPath = std::string(eq+1);
+            LoSubPath = std::string(eq+1);
         }
         else if (std::strstr(cmd, "--systemplate=") == cmd)
         {
@@ -531,7 +530,7 @@ int main(int argc, char** argv)
         }
     }
 
-    if (loSubPath.empty() || sysTemplate.empty() ||
+    if (LoSubPath.empty() || sysTemplate.empty() ||
         loTemplate.empty() || childRoot.empty())
     {
         printArgumentHelp();
@@ -574,7 +573,7 @@ int main(int argc, char** argv)
     // We must have at least one child, more are created dynamically.
     // Ask this first child to send version information to master process and trace startup.
     ::setenv("LOOL_TRACE_STARTUP", "1", 1);
-    Process::PID forKitPid = createLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath, true);
+    Process::PID forKitPid = createLibreOfficeKit(childRoot, sysTemplate, loTemplate, LoSubPath, true);
     if (forKitPid < 0)
     {
         LOG_FTL("Failed to create a kit process.");
@@ -610,7 +609,7 @@ int main(int argc, char** argv)
 #if ENABLE_DEBUG
         if (!SingleKit)
 #endif
-        forkLibreOfficeKit(childRoot, sysTemplate, loTemplate, loSubPath);
+        forkLibreOfficeKit(childRoot, sysTemplate, loTemplate, LoSubPath);
     }
 
     int returnValue = EX_OK;

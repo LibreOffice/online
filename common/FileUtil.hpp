@@ -81,6 +81,15 @@ namespace FileUtil
         return getTempFilePath(srcDir, srcFilename, std::string());
     }
 
+    /// Bind mount and remount a jail directory as readonly.
+    bool mount(const std::string& source, const std::string& target);
+
+    /// Unmount a bind-mounted jail directory.
+    bool unmount(const std::string& target);
+
+    /// Remove the jail directory and all its contents.
+    void removeJail(const std::string& path);
+
 } // end namespace FileUtil
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
