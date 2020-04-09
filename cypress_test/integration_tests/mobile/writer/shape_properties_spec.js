@@ -60,8 +60,7 @@ describe('Change shape properties via mobile wizard.', function() {
 
 		// TODO: we have some aditional flickering here
 		cy.get('.ui-content.level-0.mobile-wizard')
-			.should('be.visible')
-			.wait(300);
+			.should('be.visible');
 	}
 
 	function openLinePropertyPanel() {
