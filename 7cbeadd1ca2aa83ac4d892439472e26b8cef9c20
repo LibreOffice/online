@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbe52892_c03968ca",
+        "filename": "common/Common.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2020-04-10T07:52:51Z",
+      "side": 1,
+      "message": "I dare you declare a constant like this\n   POLL_TIMEOUT_µS\n:-)\n\nBut seriously, perhaps it would be safer to declare constants like these with\n  std::chrono::microseconds",
+      "revId": "7cbeadd1ca2aa83ac4d892439472e26b8cef9c20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0466f009_f1c6ed82",
+        "filename": "common/IoUtil.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2020-04-10T07:52:51Z",
+      "side": 1,
+      "message": "missed this one?",
+      "revId": "7cbeadd1ca2aa83ac4d892439472e26b8cef9c20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
