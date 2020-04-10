@@ -2144,7 +2144,7 @@ L.TileLayer = L.GridLayer.extend({
 		&& scroll !== false
 		&& !this._map.getBounds().contains(this._visibleCursor)
 		&& this._map._isCursorVisible
-		&& this._map._clip._selectionType !== 'complex') {
+		&& (!this._map._clip || this._map._clip._selectionType !== 'complex')) {
 
 			var center = this._map.project(cursorPos);
 			center = center.subtract(this._map.getSize().divideBy(2));
