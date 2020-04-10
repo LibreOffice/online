@@ -76,6 +76,8 @@ class RecentFilesAdapter extends RecyclerView.Adapter<RecentFilesAdapter.ViewHol
             cursor = activity.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst())
                 filename = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+        } catch (Exception e) {
+            return null;
         } finally {
             if (cursor != null)
                 cursor.close();
