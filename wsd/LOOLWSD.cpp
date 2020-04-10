@@ -720,7 +720,6 @@ std::string LOOLWSD::ServerName;
 std::string LOOLWSD::FileServerRoot;
 std::string LOOLWSD::ServiceRoot;
 std::string LOOLWSD::LOKitVersion;
-std::string LOOLWSD::OSInfo;
 std::string LOOLWSD::HostIdentifier;
 std::string LOOLWSD::ConfigFile = LOOLWSD_CONFIGDIR "/loolwsd.xml";
 std::string LOOLWSD::ConfigDir = LOOLWSD_CONFIGDIR "/conf.d";
@@ -743,25 +742,6 @@ std::unique_ptr<TraceFileWriter> LOOLWSD::TraceDumper;
 #if !MOBILEAPP
 std::unique_ptr<ClipboardCache> LOOLWSD::SavedClipboards;
 #endif
-
-void LOOLWSD::getOSInfo(){
-    #if !MOBILEAPP
-        // It might be neither mobile nor linux (in the future). That is not handled. If it is not mobile, it is Linux.
-
-        // Read operating system info. We can read "os-release" file, located in /etc.
-        std::ifstream ifs("/etc/os-release");
-        std::string str(std::istreambuf_iterator<char>{ifs}, {});
-        std::vector<std::string> infoList = Util::splitStringToVector(str, '\n');
-        std::map<std::string, std::string> releaseInfo = Util::stringVectorToMap(infoList, '=');
-        LOOLWSD::OSInfo = "unknown";
-
-        if (releaseInfo.find("PRETTY_NAME") != releaseInfo.end()) {
-            LOOLWSD::OSInfo = releaseInfo["PRETTY_NAME"];
-        }
-    #else
-        // Some more cases might be added in the future.
-    #endif
-}
 
 /// This thread polls basic web serving, and handling of
 /// websockets before upgrade: when upgraded they go to the
@@ -962,8 +942,6 @@ void LOOLWSD::initialize(Application& self)
     // Set default values, in case they are missing from the config file.
     AutoPtr<AppConfigMap> defConfig(new AppConfigMap(DefAppConfig));
     conf.addWriteable(defConfig, PRIO_SYSTEM); // Lowest priority
-
-    LOOLWSD::getOSInfo();
 
 #if !MOBILEAPP
 
@@ -2061,8 +2039,8 @@ private:
                     " has no DocumentBroker to handle message: [" << abbr << "].");
     }
 
-    int getPollEvents(std::chrono::steady_clock::time_point /* now */,
-                      int & /* timeoutMaxMs */) override
+    int pgetPollEvents(std::chrono::steady_clock::time_point /* now */,
+                       int64_t & /* timeoutMaxMs */) override
     {
         return POLLIN;
     }
@@ -2393,8 +2371,8 @@ private:
 #endif
     }
 
-    int getPollEvents(std::chrono::steady_clock::time_point /* now */,
-                      int & /* timeoutMaxMs */) override
+    int pgetPollEvents(std::chrono::steady_clock::time_point /* now */,
+                       int64_t & /* timeoutMaxMs */) override
     {
         return POLLIN;
     }
@@ -3577,10 +3555,10 @@ int LOOLWSD::innerMain()
         UnitWSD::get().invokeTest();
 
         // This timeout affects the recovery time of prespawned children.
-        const int msWait = UnitWSD::isUnitTesting() ?
-                           UnitWSD::get().getTimeoutMilliSeconds() / 4 :
-                           SocketPoll::DefaultPollTimeoutMs * 4;
-        mainWait.poll(msWait);
+        const int waitMicroS = UnitWSD::isUnitTesting() ?
+            UnitWSD::get().getTimeoutMilliSeconds() * 1000 / 4 :
+            SocketPoll::DefaultPollTimeoutMicroS * 4;
+        mainWait.ppoll(waitMicroS);
 
         // Wake the prisoner poll to spawn some children, if necessary.
         PrisonerPoll.wakeup();
