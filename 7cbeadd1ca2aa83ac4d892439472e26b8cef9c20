@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2d9e0cf_a1608c95",
+        "filename": "common/Common.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-10T08:06:16Z",
+      "side": 1,
+      "message": "Heh - so, in theory yes - but lets get this in first - it matches a fix in the core and both are needed together I think.",
+      "parentUuid": "cbe52892_c03968ca",
+      "revId": "7cbeadd1ca2aa83ac4d892439472e26b8cef9c20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0466f009_f1c6ed82",
         "filename": "common/IoUtil.cpp",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2020-04-10T07:52:51Z",
       "side": 1,
       "message": "missed this one?",
+      "revId": "7cbeadd1ca2aa83ac4d892439472e26b8cef9c20",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f4acc9_d61423c0",
+        "filename": "common/IoUtil.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-10T08:06:16Z",
+      "side": 1,
+      "message": "That\u0027s an old-style poll, and I\u0027 going to kill that code shortly ;-) so no problem.",
+      "parentUuid": "0466f009_f1c6ed82",
       "revId": "7cbeadd1ca2aa83ac4d892439472e26b8cef9c20",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
