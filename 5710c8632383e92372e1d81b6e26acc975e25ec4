@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e032b9e_5d5f694d",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1002093
+      },
+      "writtenOn": "2020-04-10T11:05:11Z",
+      "side": 1,
+      "message": "_forKitWritePipe is never set to a valid value so the message won\u0027t be sent. But why did you rolled back usage of websocket in favor of pipe here in Admin ?",
+      "revId": "5710c8632383e92372e1d81b6e26acc975e25ec4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
