@@ -1603,6 +1603,8 @@ function onCommandStateChanged(e) {
 	}
 
 	var id = unoCmdToToolbarId(commandName);
+	console.log(commandName);
+	console.log ('---------------');
 	// id is set to '' by unoCmdToToolbarId() if the statechange message should be ignored.
 	if (id === '')
 		return;
