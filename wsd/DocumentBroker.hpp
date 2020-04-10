@@ -154,6 +154,8 @@ public:
     bool isModified() const { return _isModified; }
     void setModified(const bool value);
 
+    bool lastStoreFailed() const { return _lastStoreFailed; }
+
     /// Save the document if the document is modified.
     /// @param force when true, will force saving if there
     /// has been any recent activity after the last save.
@@ -313,7 +315,11 @@ private:
     /// True if we know the doc is modified or
     /// if there has been activity from a client after we last *requested* saving,
     /// since there are race conditions vis-a-vis user activity while saving.
-    bool isPossiblyModified() const { return isModified() || (_lastSaveRequestTime < _lastActivityTime); }
+    /// Finally, if the last store operation failed, treat it as a modified state to try again.
+    bool isPossiblyModified() const
+    {
+        return isModified() || (_lastSaveRequestTime < _lastActivityTime) || lastStoreFailed();
+    }
 
     /// True iff there is at least one non-readonly session other than the given.
     /// Since only editable sessions can save, we need to use the last to
@@ -386,6 +392,7 @@ private:
     std::atomic<bool> _closeRequest;
     std::atomic<bool> _isLoaded;
     std::atomic<bool> _isModified;
+    std::atomic<bool> _lastStoreFailed;
     int _cursorPosX;
     int _cursorPosY;
     int _cursorWidth;
