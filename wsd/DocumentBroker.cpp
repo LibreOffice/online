@@ -187,6 +187,7 @@ DocumentBroker::DocumentBroker(const std::string& uri,
     _closeRequest(false),
     _isLoaded(false),
     _isModified(false),
+    _lastStoreFailed(false),
     _cursorPosX(0),
     _cursorPosY(0),
     _cursorWidth(0),
@@ -991,11 +992,15 @@ bool DocumentBroker::saveToStorageInternal(const std::string& sessionId, bool su
 
     LOG_DBG("Persisting [" << _docKey << "] after saving to URI [" << uriAnonym << "].");
 
+    _lastStoreFailed = true; // Failed, unless proven otherwise (protects against exceptions).
+
     assert(_storage && _tileCache);
     const StorageBase::SaveResult storageSaveResult = _storage->saveLocalFileToStorage(
         auth, it->second->getCookies(), *_lockCtx, saveAsPath, saveAsFilename, isRename);
     if (storageSaveResult.getResult() == StorageBase::SaveResult::OK)
     {
+        _lastStoreFailed = false; // All good.
+
 #if !MOBILEAPP
         WopiStorage* wopiStorage = dynamic_cast<WopiStorage*>(_storage.get());
         if (wopiStorage != nullptr)
@@ -1211,6 +1216,11 @@ bool DocumentBroker::autoSave(const bool force, const bool dontSaveIfUnmodified)
                                /*dontSaveIfUnmodified=*/true, /*isAutosave=*/true,
                                /*isExitSave=*/false);
         }
+    }
+    else if (lastStoreFailed())
+    {
+        // Force saving to storage.
+        saveToStorage(savingSessionId, true, "" /* This is irrelevant when success is true*/, true);
     }
 
     return sent;
