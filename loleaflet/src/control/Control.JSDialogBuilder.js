@@ -1330,6 +1330,8 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		} else if (data.id === 'fillattr') {
 			data.command = '.uno:FillPageColor';
 			command = '.uno:FillPageColor?Color:string=' + color;
+		} else if (data.id === 'fillattr2') {
+
 		} else {
 			command = data.command + '?Color:string=' + color;
 		}
