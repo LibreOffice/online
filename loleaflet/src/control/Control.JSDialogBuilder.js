@@ -1328,8 +1328,20 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			gradientItem.endcolor = color;
 			return '.uno:FillGradient?FillGradientJSON:string=' + JSON.stringify(gradientItem);
 		} else if (data.id === 'fillattr') {
-			data.command = '.uno:FillPageColor';
-			command = '.uno:FillPageColor?Color:string=' + color;
+			if (builder.map['stateChangeHandler'].getItemValue('.uno:FillPageStyle') === 'SOLID') {
+				data.command = '.uno:FillPageColor';
+				command = '.uno:FillPageColor?Color:string=' + color;
+			} else if (builder.map['stateChangeHandler'].getItemValue('.uno:FillPageStyle') === 'GRADIENT') {
+				gradientItem = builder.map['stateChangeHandler'].getItemValue('.uno:FillPageGradient');
+				gradientItem.startcolor = color;
+				builder.map.sendUnoCommand('.uno:FillPageGradient?FillPageGradientJSON:string=' + JSON.stringify(gradientItem));
+				return;
+			}
+		} else if (data.id === 'fillattr2') {
+			gradientItem = builder.map['stateChangeHandler'].getItemValue('.uno:FillPageGradient');
+			gradientItem.endcolor = color;
+			builder.map.sendUnoCommand('.uno:FillPageGradient?FillPageGradientJSON:string=' + JSON.stringify(gradientItem));
+			return;
 		} else {
 			command = data.command + '?Color:string=' + color;
 		}
