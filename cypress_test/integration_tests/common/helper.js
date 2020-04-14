@@ -148,8 +148,14 @@ function afterAll(fileName) {
 	cy.get('#uptime')
 		.should('not.have.text', '0');
 
-	cy.get('#doclist td:nth-child(2)')
-		.should('not.contain.text', fileName);
+    // We have all lines of document infos as one long string.
+    // We have PID number before the file names, with matching
+    // also on the PID number we can make sure to match on the
+    // whole file name, not on a suffix of a file name.
+	var regex = new RegExp('[0-9]' + fileName);
+	cy.get('#docview')
+		.invoke('text')
+		.should('not.match', regex);
 
 	cy.log('Waiting for closing the document - end.');
 }
@@ -165,14 +171,10 @@ function selectItemByContent(selector, content) {
 	cy.log('Param - selector: ' + selector);
 	cy.log('Param - content: ' + content);
 
-	// Wait for the content to appear
-	cy.get(selector)
-		.should('contain.text', content);
-
 	cy.log('Selecting item by content - end.');
 
 	// Select the right item (selector can point to more items)
-	return cy.get(selector).contains(content.replace('\u00a0', ' '));
+	return cy.contains(selector, content.replace('\u00a0', ' '));
 }
 
 module.exports.loadTestDoc = loadTestDoc;
