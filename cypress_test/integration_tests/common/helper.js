@@ -148,7 +148,7 @@ function afterAll(fileName) {
 	cy.get('#uptime')
 		.should('not.have.text', '0');
 
-	cy.get('#doclist td:nth-child(2)')
+	cy.get('tbody')
 		.should('not.contain.text', fileName);
 
 	cy.log('Waiting for closing the document - end.');
