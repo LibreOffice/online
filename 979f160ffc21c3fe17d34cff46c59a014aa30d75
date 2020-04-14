@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41f1142c_35b921bd",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-04-14T16:49:03Z",
+      "side": 1,
+      "message": "This shouldn\u0027t hinder debugging, right? I expect the original .dbg files will still be located correctly (by absolute path?), even when they aren\u0027t next to the .so files. Otherwise, we might do this in #ifndef _DEBUG.",
+      "revId": "979f160ffc21c3fe17d34cff46c59a014aa30d75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
