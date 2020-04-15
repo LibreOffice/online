@@ -1404,7 +1404,7 @@ function onDocLayerInit() {
 	_updateToolbarsVisibility();
 
 	if (window.mode.isMobile() || window.mode.isTablet()) {
-		if (!window.ThisIsAMobileApp)
+		if (window.ThisIsAMobileApp)
 			$('#document-name-input').hide();
 		else
 			$('#document-name-input').show();
