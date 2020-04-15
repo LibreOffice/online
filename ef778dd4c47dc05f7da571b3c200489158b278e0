@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "110cb2aa_ac60456e",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2020-04-15T14:35:04Z",
+      "side": 1,
+      "message": "For old installations, where we don\u0027t have welcome section in loolwsd.xml we will have this setting true by default, whatever else was configured. Would we display the placeholder then? Probably not a good idea. This should be false.",
+      "range": {
+        "startLine": 940,
+        "startChar": 33,
+        "endLine": 940,
+        "endChar": 37
+      },
+      "revId": "ef778dd4c47dc05f7da571b3c200489158b278e0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
