@@ -886,10 +886,21 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			break;
 
 		case 'fillattr':
-			var hatch = items.getItemValue('.uno:FillHatch');
-			var bitmap = items.getItemValue('.uno:FillBitmap');
-			if (hatch || bitmap) {
-				// TODO
+			if ($('#fillstyle')[0].innerText.includes(_('Color'))) {
+				state = items.getItemValue('.uno:FillPageColor');
+				return state;
+			} else if ($('#fillstyle')[0].innerText.includes(_('Gradient'))) {
+				state = items.getItemValue('.uno:FillPageGradient');
+				if (state) {
+					return state.startcolor;
+				}
+			}
+			break;
+
+		case 'fillattr2':
+			state = items.getItemValue('.uno:FillPageGradient');
+			if (state) {
+				return state.endcolor;
 			}
 			break;
 
