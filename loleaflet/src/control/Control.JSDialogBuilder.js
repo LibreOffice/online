@@ -821,10 +821,21 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			break;
 
 		case 'fillattr':
-			var hatch = items.getItemValue('.uno:FillHatch');
-			var bitmap = items.getItemValue('.uno:FillBitmap');
-			if (hatch || bitmap) {
-				// TODO
+			if ($('#fillstyle')[0].innerText.includes('Color')) {
+				state = items.getItemValue('.uno:FillPageColor');
+				return state;
+			} else if ($('#fillstyle')[0].innerText.includes('Gradient')) {
+				state = items.getItemValue('.uno:FillPageGradient');
+				if (state) {
+					return state.startcolor;
+				}
+			}
+			break;
+
+		case 'fillattr2':
+			state = items.getItemValue('.uno:FillPageGradient');
+			if (state) {
+				return state.endcolor;
 			}
 			break;
 
@@ -1328,7 +1339,18 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			gradientItem.endcolor = color;
 			return '.uno:FillGradient?FillGradientJSON:string=' + JSON.stringify(gradientItem);
 		} else if (data.id === 'fillattr') {
-			builder.map.sendUnoCommand('.uno:FillPageColor?Color:string=' + color);
+			if (builder.map['stateChangeHandler'].getItemValue('.uno:FillPageStyle') === 'SOLID') {
+				builder.map.sendUnoCommand('.uno:FillPageColor?Color:string=' + color);
+			} else if (builder.map['stateChangeHandler'].getItemValue('.uno:FillPageStyle') === 'GRADIENT') {
+				gradientItem = builder.map['stateChangeHandler'].getItemValue('.uno:FillPageGradient');
+				gradientItem.startcolor = color;
+				builder.map.sendUnoCommand('.uno:FillPageGradient?FillPageGradientJSON:string=' + JSON.stringify(gradientItem));
+			}
+			return;
+		} else if (data.id === 'fillattr2') {
+			gradientItem = builder.map['stateChangeHandler'].getItemValue('.uno:FillPageGradient');
+			gradientItem.endcolor = color;
+			builder.map.sendUnoCommand('.uno:FillPageGradient?FillPageGradientJSON:string=' + JSON.stringify(gradientItem));
 			return;
 		} else {
 			command = data.command + '?Color:string=' + color;
