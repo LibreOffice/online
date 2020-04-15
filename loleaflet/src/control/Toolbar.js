@@ -424,6 +424,9 @@ L.Map.include({
 	},
 
 	shouldWelcome: function() {
+		if (window.enableWelcomeMessage !== true)
+			return false;
+
 		var currentVerCookie = this.getCookie('WSDWelcomeVersion');
 		var newVerCookie = 'WSDWelcomeVersion=' + this._socket.WSDServer.Version;
 		var welcomeDisabledCookie = this.getCookie('WSDWelcomeDisabled');
