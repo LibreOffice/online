@@ -1715,7 +1715,7 @@ function onDocLayerInit() {
 		nUsers = '%n';
 		oneUser = '1';
 		noUser = '0';
-		if (!window.ThisIsAMobileApp)
+		if (window.ThisIsAMobileApp)
 			$('#document-name-input').hide();
 		else
 			$('#document-name-input').show();
