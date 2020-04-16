@@ -486,11 +486,13 @@ void WhiteBoxTests::testRegexListMatcher_Init()
 }
 
 /// A stub DocumentManagerInterface implementation for unit test purposes.
+
 class DummyDocument : public DocumentManagerInterface
 {
     std::shared_ptr<TileQueue> _tileQueue;
     std::mutex _mutex;
     std::mutex _documentMutex;
+
 public:
     DummyDocument()
         : _tileQueue(new TileQueue())
@@ -560,6 +562,15 @@ public:
     bool sendFrame(const char* /*buffer*/, int /*length*/, WSOpCode /*opCode*/) override
     {
         return true;
+    }
+
+    bool getTerminationFlag() const override
+    {
+        return false;
+    }
+
+    void setTerminationFlag() override
+    {
     }
 };
 
