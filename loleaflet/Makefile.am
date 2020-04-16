@@ -270,6 +270,7 @@ LOLEAFLET_JS =\
 	src/control/Control.FormulaBar.js \
 	src/control/Control.SheetsBar.js \
 	src/control/Control.PresentationBar.js \
+	src/control/Control.SigningBar.js \
 	src/control/Control.Layers.js \
 	src/control/Search.js \
 	src/control/Permission.js \
