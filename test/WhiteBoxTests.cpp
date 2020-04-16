@@ -486,11 +486,14 @@ void WhiteBoxTests::testRegexListMatcher_Init()
 }
 
 /// A stub DocumentManagerInterface implementation for unit test purposes.
-class DummyDocument : public DocumentManagerInterface
+
+class DummyDocument : public virtual DocumentManagerInterface,
+                      public virtual TrivialTerminationFlagger
 {
     std::shared_ptr<TileQueue> _tileQueue;
     std::mutex _mutex;
     std::mutex _documentMutex;
+
 public:
     DummyDocument()
         : _tileQueue(new TileQueue())

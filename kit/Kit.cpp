@@ -1198,17 +1198,28 @@ public:
         return false;
     }
 
+    bool getTerminationFlag() const override
+    {
+        return _websocketHandler->getTerminationFlag();
+    }
+
+    void setTerminationFlag() override
+    {
+        _websocketHandler->setTerminationFlag();
+    }
+
     static void GlobalCallback(const int type, const char* p, void* data)
     {
-        if (SigUtil::getTerminationFlag())
-        {
-            return;
-        }
-
         const std::string payload = p ? p : "(nil)";
         LOG_TRC("Document::GlobalCallback " << lokCallbackTypeToString(type) <<
                 " [" << payload << "].");
         Document* self = static_cast<Document*>(data);
+
+        if (self->_websocketHandler->getTerminationFlag())
+        {
+            return;
+        }
+
         if (type == LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY ||
             type == LOK_CALLBACK_DOCUMENT_PASSWORD)
         {
@@ -1237,14 +1248,14 @@ public:
 
     static void ViewCallback(const int type, const char* p, void* data)
     {
-        if (SigUtil::getTerminationFlag())
-        {
-            return;
-        }
-
         CallbackDescriptor* descriptor = static_cast<CallbackDescriptor*>(data);
         assert(descriptor && "Null callback data.");
         assert(descriptor->getDoc() && "Null Document instance.");
+
+        if (descriptor->getDoc()->getTerminationFlag())
+        {
+            return;
+        }
 
         std::shared_ptr<TileQueue> tileQueue = descriptor->getDoc()->getTileQueue();
         assert(tileQueue && "Null TileQueue.");
@@ -1879,7 +1890,7 @@ public:
         {
             while (!_tileQueue->isEmpty())
             {
-                if (_stop || SigUtil::getTerminationFlag())
+                if (_stop || _websocketHandler->getTerminationFlag())
                 {
                     LOG_INF("_stop or TerminationFlag is set, breaking Document::drainQueue of loop");
                     break;
@@ -2139,7 +2150,7 @@ protected:
         }
 
         // Note: Syntax or parsing errors here are unexpected and fatal.
-        if (SigUtil::getTerminationFlag())
+        if (getTerminationFlag())
         {
             LOG_DBG("Too late, TerminationFlag is set, we're going down");
         }
@@ -2176,7 +2187,7 @@ protected:
             std::_Exit(EX_SOFTWARE);
 #else
             LOG_INF("Setting TerminationFlag due to 'exit' command.");
-            SigUtil::setTerminationFlag();
+            setTerminationFlag();
             document.reset();
 #endif
         }
@@ -2213,7 +2224,7 @@ protected:
     {
 #if !MOBILEAPP
         LOG_WRN("Kit connection lost without exit arriving from wsd. Setting TerminationFlag");
-        SigUtil::setTerminationFlag();
+        setTerminationFlag();
 #endif
     }
 };
@@ -2249,7 +2260,7 @@ public:
     // returns the number of events signalled
     int kitPoll(int timeoutMicroS)
     {
-        if (SigUtil::getTerminationFlag())
+        if (getTerminationFlag())
         {
             LOG_TRC("Termination of unipoll mainloop flagged");
             return -1;
@@ -2281,7 +2292,7 @@ public:
                 timeoutMicroS = std::chrono::duration_cast<std::chrono::microseconds>(_pollEnd - now).count();
                 ++eventsSignalled;
             }
-            while (timeoutMicroS > 0 && !SigUtil::getTerminationFlag() && maxExtraEvents-- > 0);
+            while (timeoutMicroS > 0 && !getTerminationFlag() && maxExtraEvents-- > 0);
         }
 
         drainQueue(std::chrono::steady_clock::now());
@@ -2290,7 +2301,7 @@ public:
         if (document && document->purgeSessions() == 0)
         {
             LOG_INF("Last session discarded. Setting TerminationFlag");
-            SigUtil::setTerminationFlag();
+            setTerminationFlag();
             return -1;
         }
 #endif
