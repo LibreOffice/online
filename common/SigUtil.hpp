@@ -24,15 +24,8 @@ namespace SigUtil
     /// requestShutdown() is used to set the flag.
     bool getShutdownRequestFlag();
 
-    /// Get the flag to stop pump loops forcefully.
-    bool getTerminationFlag();
-    /// Set the flag to stop pump loops forcefully.
-    void setTerminationFlag();
-#if MOBILEAPP
-    /// Reset the flag to stop pump loops forcefully.
-    /// Only necessary in Mobile.
-    void resetTerminationFlag();
-#endif
+    /// Check whether have been requested to stop (web-based) Online forcefully.
+    bool getTerminationSignalled();
 
     /// Get the flag to dump internal state.
     bool getDumpGlobalState();

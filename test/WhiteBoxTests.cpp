@@ -486,11 +486,16 @@ void WhiteBoxTests::testRegexListMatcher_Init()
 }
 
 /// A stub DocumentManagerInterface implementation for unit test purposes.
-class DummyDocument : public DocumentManagerInterface
+
+// FIXME: Why can't I derive this from TrivialTerminationFlagger, too?
+
+class DummyDocument : public virtual DocumentManagerInterface
 {
     std::shared_ptr<TileQueue> _tileQueue;
     std::mutex _mutex;
     std::mutex _documentMutex;
+    TrivialTerminationFlagger _dummyFlagger;
+
 public:
     DummyDocument()
         : _tileQueue(new TileQueue())
@@ -560,6 +565,16 @@ public:
     bool sendFrame(const char* /*buffer*/, int /*length*/, WSOpCode /*opCode*/) override
     {
         return true;
+    }
+
+    bool getTerminationFlag() const override
+    {
+        return _dummyFlagger.getTerminationFlag();
+    }
+
+    void setTerminationFlag() override
+    {
+        _dummyFlagger.setTerminationFlag();
     }
 };
 
