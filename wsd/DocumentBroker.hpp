@@ -53,7 +53,7 @@ public:
 
     bool continuePolling() override
     {
-        return SocketPoll::continuePolling() && !SigUtil::getTerminationFlag();
+        return SocketPoll::continuePolling() && !getTerminationFlag();
     }
 };
 
@@ -96,7 +96,7 @@ class ClientSession;
 /// in jail and brokering loading it from Storage
 /// and saving it back.
 /// Contains URI, physical path, etc.
-class DocumentBroker : public std::enable_shared_from_this<DocumentBroker>
+class DocumentBroker : public std::enable_shared_from_this<DocumentBroker>, public TerminationFlaggerInterface
 {
     class DocumentBrokerPoll;
 public:
@@ -264,6 +264,10 @@ public:
 
     /// Estimate memory usage / bytes
     size_t getMemorySize() const;
+
+    bool getTerminationFlag() const;
+
+    void setTerminationFlag();
 
 private:
     /// get the session id of a session that can write the document for save / locking.

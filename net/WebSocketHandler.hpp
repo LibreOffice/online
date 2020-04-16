@@ -548,6 +548,22 @@ public:
         std::shared_ptr<StreamSocket> socket = _socket.lock();
         return sendFrame(socket, data, len, WSFrameMask::Fin | static_cast<unsigned char>(code), flush);
     }
+
+    bool getTerminationFlag() const
+    {
+        std::shared_ptr<StreamSocket> socket = _socket.lock();
+        if (socket != nullptr)
+            return socket->getTerminationFlag();
+        return false;
+    }
+
+    void setTerminationFlag() const
+    {
+        std::shared_ptr<StreamSocket> socket = _socket.lock();
+        if (socket != nullptr)
+            socket->setTerminationFlag();
+    }
+
 private:
     /// Sends a WebSocket frame given the data, length, and flags.
     /// Returns the number of bytes written (including frame overhead) on success,

@@ -237,7 +237,7 @@ void DocumentBroker::pollThread()
         // Nominal time between retries, lest we busy-loop. getNewChild could also wait, so don't double that here.
         std::this_thread::sleep_for(std::chrono::milliseconds(CHILD_REBALANCE_INTERVAL_MS / 10));
     }
-    while (!_stop && _poll->continuePolling() && !SigUtil::getTerminationFlag() && !SigUtil::getShutdownRequestFlag());
+    while (!_stop && _poll->continuePolling() && !SigUtil::getTerminationSignalled() && !SigUtil::getShutdownRequestFlag());
 #else
     _childProcess = getNewChild_Blocks(getPublicUri().getPath());
 #endif
@@ -296,7 +296,7 @@ void DocumentBroker::pollThread()
     auto last30SecCheckTime = std::chrono::steady_clock::now();
 
     // Main polling loop goodness.
-    while (!_stop && _poll->continuePolling() && !SigUtil::getTerminationFlag())
+    while (!_stop && _poll->continuePolling() && !_poll->getTerminationFlag())
     {
         _poll->poll(SocketPoll::DefaultPollTimeoutMicroS);
 
@@ -430,7 +430,7 @@ void DocumentBroker::pollThread()
 
     LOG_INF("Finished polling doc [" << _docKey << "]. stop: " << _stop << ", continuePolling: " <<
             _poll->continuePolling() << ", ShutdownRequestFlag: " << SigUtil::getShutdownRequestFlag() <<
-            ", TerminationFlag: " << SigUtil::getTerminationFlag() << ", closeReason: " << _closeReason << ". Flushing socket.");
+            ", TerminationFlag: " << _poll->getTerminationFlag() << ", closeReason: " << _closeReason << ". Flushing socket.");
 
     if (_isModified)
     {
@@ -445,7 +445,7 @@ void DocumentBroker::pollThread()
             << _docKey << "] for " << flushTimeoutMicroS << " us. stop: " << _stop
             << ", continuePolling: " << _poll->continuePolling()
             << ", ShutdownRequestFlag: " << SigUtil::getShutdownRequestFlag()
-            << ", TerminationFlag: " << SigUtil::getTerminationFlag()
+            << ", TerminationFlag: " << _poll->getTerminationFlag()
             << ". Terminating child with reason: [" << _closeReason << "].");
     const auto flushStartTime = std::chrono::steady_clock::now();
     while (_poll->getSocketCount())
@@ -460,7 +460,7 @@ void DocumentBroker::pollThread()
 
     LOG_INF("Finished flushing socket for doc [" << _docKey << "]. stop: " << _stop << ", continuePolling: " <<
             _poll->continuePolling() << ", ShutdownRequestFlag: " << SigUtil::getShutdownRequestFlag() <<
-            ", TerminationFlag: " << SigUtil::getTerminationFlag() << ". Terminating child with reason: [" << _closeReason << "].");
+            ", TerminationFlag: " << _poll->getTerminationFlag() << ". Terminating child with reason: [" << _closeReason << "].");
 
     // Terminate properly while we can.
     terminateChild(_closeReason);
@@ -1620,6 +1620,16 @@ size_t DocumentBroker::getMemorySize() const
     return sizeof(DocumentBroker) +
         (!!_tileCache ? _tileCache->getMemorySize() : 0) +
         _sessions.size() * sizeof(ClientSession);
+}
+
+bool DocumentBroker::getTerminationFlag() const
+{
+    return _childProcess->_socket->getTerminationFlag();
+}
+
+void DocumentBroker::setTerminationFlag()
+{
+    _childProcess->_socket->setTerminationFlag();
 }
 
 void DocumentBroker::invalidateTiles(const std::string& tiles, int normalizedViewId)
