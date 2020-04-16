@@ -38,7 +38,7 @@
 #include "Common.hpp"
 #include "Log.hpp"
 
-static std::atomic<bool> TerminationFlag(false);
+static std::atomic<bool> TerminationSignalled(false);
 static std::atomic<bool> DumpGlobalState(false);
 #if MOBILEAPP
 std::atomic<bool> MobileTerminationFlag(false);
@@ -54,22 +54,10 @@ namespace SigUtil
         return ShutdownRequestFlag;
     }
 
-    bool getTerminationFlag()
+    bool getTerminationSignalled()
     {
-        return TerminationFlag;
+        return TerminationSignalled;
     }
-
-    void setTerminationFlag()
-    {
-        TerminationFlag = true;
-    }
-
-#if MOBILEAPP
-    void resetTerminationFlag()
-    {
-        TerminationFlag = false;
-    }
-#endif
 
     bool getDumpGlobalState()
     {
@@ -187,10 +175,10 @@ namespace SigUtil
             domain = " Shutdown signal received: ";
             ShutdownRequestFlag = true;
         }
-        else if (!TerminationFlag)
+        else if (!TerminationSignalled)
         {
             domain = " Forced-Termination signal received: ";
-            TerminationFlag = true;
+            TerminationSignalled = true;
         }
         else
         {

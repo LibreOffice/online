@@ -31,7 +31,7 @@ enum class LokEventTargetEnum
 };
 
 // An abstract interface.
-class DocumentManagerInterface
+class DocumentManagerInterface : public TerminationFlaggerInterface
 {
 public:
     virtual ~DocumentManagerInterface()  {}
