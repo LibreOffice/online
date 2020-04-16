@@ -39,6 +39,7 @@
 #include "Util.hpp"
 #include "Protocol.hpp"
 #include "SigUtil.hpp"
+#include "TerminationFlagger.hpp"
 
 namespace Poco
 {
@@ -94,7 +95,7 @@ public:
 };
 
 /// A non-blocking, streaming socket.
-class Socket
+class Socket : public TrivialTerminationFlagger
 {
 public:
     static constexpr int DefaultSendBufferSize = 16 * 1024;
@@ -104,6 +105,7 @@ public:
     enum Type { IPv4, IPv6, All, Unix };
 
     Socket(Type type) :
+        TrivialTerminationFlagger(),
         _fd(createSocket(type)),
         _sendBufferSize(DefaultSendBufferSize),
         _owner(std::this_thread::get_id())
@@ -468,7 +470,7 @@ public:
 /// hundred users on same document to suffer poll(2)'s
 /// scalability limit. Meanwhile, epoll(2)'s high
 /// overhead to adding/removing sockets is not helpful.
-class SocketPoll
+class SocketPoll : public TerminationFlaggerInterface
 {
 public:
     /// Create a socket poll, called rather infrequently.
@@ -680,6 +682,20 @@ public:
         }
 
         return false;
+    }
+
+    bool getTerminationFlag() const
+    {
+        for (auto i = 0u; i < _pollSockets.size(); i++)
+            if (_pollSockets[i]->getTerminationFlag())
+                return true;
+        return false;
+    }
+
+    void setTerminationFlag()
+    {
+        for (auto i = 0u; i < _pollSockets.size(); i++)
+            _pollSockets[i]->setTerminationFlag();
     }
 
 protected:
