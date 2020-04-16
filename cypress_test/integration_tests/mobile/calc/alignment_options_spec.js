@@ -202,4 +202,44 @@ describe('Change alignment settings.', function() {
 				});
 		});
 	});
+
+	it('Change text indent via input field.', function() {
+		getTextPosForFirstCell();
+		cy.get('@currentTextPos')
+			.as('originalTextPos');
+
+		openAlignmentPaneForFirstCell();
+
+		// TODO: First we need to increase indent to make the input enabled
+		cy.get('#IncrementIndent')
+			.click();
+
+		cy.get('#IncrementIndent')
+			.click();
+
+		calcHelper.removeTextSelection();
+
+		openAlignmentPaneForFirstCell();
+
+		cy.get('#leftindent .spinfield')
+			.should('not.have.attr', 'disabled');
+
+		// Increase indent
+		cy.get('#leftindent .spinfield')
+			.clear()
+			.type('20{enter}');
+
+		// We use the text position as indicator
+		cy.waitUntil(function() {
+			getTextPosForFirstCell();
+
+			return cy.get('@currentTextPos')
+				.then(function(currentTextPos) {
+					cy.get('@originalTextPos')
+						.then(function(originalTextPos) {
+							return originalTextPos.left < currentTextPos.left;
+						});
+				});
+		});
+	});
 });
