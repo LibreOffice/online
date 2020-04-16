@@ -590,22 +590,6 @@ function hideTooltip(toolbar, id) {
 	}
 }
 
-function createToolbar() {
-
-	if (window.mode.isMobile()) {
-		$('#toolbar-search').hide();
-		$('#mobile-edit-button').show();
-	} else {
-		$('#toolbar-down').show();
-		initNormalToolbar();
-	}
-}
-
-function initNormalToolbar() {
-	map.addControl(L.control.topToolbar());
-	map.addControl(L.control.signingBar());
-}
-
 function setupSearchInput() {
 	$('#search-input').off('input', onSearchInput).on('input', onSearchInput);
 	$('#search-input').off('keydown', onSearchKeyDown).on('keydown', onSearchKeyDown);
@@ -1115,8 +1099,6 @@ $(document).ready(function() {
 
 function setupToolbar(e) {
 	map = e;
-
-	createToolbar();
 
 	map.on('focussearch', function () {
 		var entry = L.DomUtil.get('search-input');

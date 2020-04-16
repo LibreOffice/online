@@ -11,10 +11,10 @@ L.Control.StatusBar = L.Control.extend({
 
 	onAdd: function (map) {
 		this.map = map;
-
 		map.on('doclayerinit', this.onDocLayerInit, this);
 		map.on('commandvalues', this.onCommandValues, this);
 		map.on('commandstatechanged', this.onCommandStateChanged, this);
+		this.create();
 	},
 
 	hideTooltip: function(toolbar, id) {
@@ -221,6 +221,8 @@ L.Control.StatusBar = L.Control.extend({
 					window.setupSearchInput();
 				}
 			});
+
+			toolbar.show();
 		}
 
 		toolbar.bind('touchstart', function() {
