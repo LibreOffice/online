@@ -24,6 +24,7 @@
 
 #include "common/SigUtil.hpp"
 #include "Log.hpp"
+#include "TerminationFlagger.hpp"
 #include "TileDesc.hpp"
 
 /// A queue of data to send to certain Session's WS.
@@ -31,8 +32,13 @@ template <typename Item>
 class SenderQueue final
 {
 public:
+    SenderQueue(const TerminationFlaggerInterface *terminationFlagger) :
+        _terminationFlagger(terminationFlagger)
+    {
+    }
 
-    SenderQueue()
+    SenderQueue() :
+        _terminationFlagger(&_dummyFlagger)
     {
     }
 
@@ -40,7 +46,7 @@ public:
     {
         std::unique_lock<std::mutex> lock(_mutex);
 
-        if (!SigUtil::getTerminationFlag() && deduplicate(item))
+        if (!_terminationFlagger->getTerminationFlag() && deduplicate(item))
             _queue.push_back(item);
 
         return _queue.size();
@@ -51,7 +57,7 @@ public:
     {
         std::unique_lock<std::mutex> lock(_mutex);
 
-        if (!_queue.empty() && !SigUtil::getTerminationFlag())
+        if (!_queue.empty() && !_terminationFlagger->getTerminationFlag())
         {
             item = _queue.front();
             _queue.pop_front();
@@ -59,7 +65,7 @@ public:
         }
         else
         {
-            if (SigUtil::getTerminationFlag())
+            if (_terminationFlagger->getTerminationFlag())
                 LOG_DBG("SenderQueue: TerminationFlag is set");
             return false;
         }
@@ -153,6 +159,8 @@ private:
 private:
     mutable std::mutex _mutex;
     std::deque<Item> _queue;
+    TrivialTerminationFlagger _dummyFlagger;
+    const TerminationFlaggerInterface *_terminationFlagger;
     typedef typename std::deque<Item>::value_type queue_item_t;
 };
 

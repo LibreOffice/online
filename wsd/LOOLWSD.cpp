@@ -1530,7 +1530,7 @@ bool LOOLWSD::checkAndRestoreForKit()
     if (ForKitProcId == -1)
     {
         // Fire the ForKit process for the first time.
-        if (!SigUtil::getShutdownRequestFlag() && !SigUtil::getTerminationFlag() && !createForKit())
+        if (!SigUtil::getShutdownRequestFlag() && !SigUtil::getTerminationSignalled() && !createForKit())
         {
             // Should never fail.
             LOG_FTL("Failed to spawn loolforkit.");
@@ -1559,7 +1559,7 @@ bool LOOLWSD::checkAndRestoreForKit()
                 }
 
                 // Spawn a new forkit and try to dust it off and resume.
-                if (!SigUtil::getShutdownRequestFlag() && !SigUtil::getTerminationFlag() && !createForKit())
+                if (!SigUtil::getShutdownRequestFlag() && !SigUtil::getTerminationSignalled() && !createForKit())
                 {
                     LOG_FTL("Failed to spawn forkit instance. Shutting down.");
                     SigUtil::requestShutdown();
@@ -1593,7 +1593,7 @@ bool LOOLWSD::checkAndRestoreForKit()
         {
             // No child processes.
             // Spawn a new forkit and try to dust it off and resume.
-            if (!SigUtil::getShutdownRequestFlag() && !SigUtil::getTerminationFlag() && !createForKit())
+            if (!SigUtil::getShutdownRequestFlag() && !SigUtil::getTerminationSignalled() && !createForKit())
             {
                 LOG_FTL("Failed to spawn forkit instance. Shutting down.");
                 SigUtil::requestShutdown();
@@ -1672,7 +1672,7 @@ void PrisonerPoll::wakeupHook()
                 replayThread.join();
 
                 LOG_INF("Setting TerminationFlag");
-                SigUtil::setTerminationFlag();
+                setTerminationFlag();
             }
 #endif
         }
@@ -1808,9 +1808,9 @@ static std::shared_ptr<DocumentBroker>
 
     cleanupDocBrokers();
 
-    if (SigUtil::getTerminationFlag())
+    if (SigUtil::getTerminationSignalled())
     {
-        LOG_ERR("TerminationFlag set. Not loading new session [" << id << "]");
+        LOG_ERR("Termination signalled. Not loading new session [" << id << "]");
         return nullptr;
     }
 
@@ -1839,9 +1839,9 @@ static std::shared_ptr<DocumentBroker>
         LOG_DBG("No DocumentBroker with docKey [" << docKey << "] found. New Child and Document.");
     }
 
-    if (SigUtil::getTerminationFlag())
+    if (SigUtil::getTerminationSignalled())
     {
-        LOG_ERR("TerminationFlag is set. Not loading new session [" << id << "]");
+        LOG_ERR("Termination is signalled. Not loading new session [" << id << "]");
         return nullptr;
     }
 
@@ -3244,7 +3244,7 @@ public:
            << "  Security " << (LOOLWSD::NoCapsForKit ? "no" : "") << " chroot, "
                             << (LOOLWSD::NoSeccomp ? "no" : "") << " api lockdown\n"
 #endif
-           << "  TerminationFlag: " << SigUtil::getTerminationFlag() << "\n"
+           << "  TerminationSignalled: " << SigUtil::getTerminationSignalled() << "\n"
            << "  isShuttingDown: " << SigUtil::getShutdownRequestFlag() << "\n"
            << "  NewChildren: " << NewChildren.size() << "\n"
            << "  OutstandingForks: " << OutstandingForks << "\n"
@@ -3559,7 +3559,7 @@ int LOOLWSD::innerMain()
 
     const auto startStamp = std::chrono::steady_clock::now();
 
-    while (!SigUtil::getTerminationFlag() && !SigUtil::getShutdownRequestFlag())
+    while (!mainWait.getTerminationFlag() && !SigUtil::getShutdownRequestFlag())
     {
         UnitWSD::get().invokeTest();
 
@@ -3591,7 +3591,7 @@ int LOOLWSD::innerMain()
     // Stop the listening to new connections
     // and wait until sockets close.
     LOG_INF("Stopping server socket listening. ShutdownRequestFlag: " <<
-            SigUtil::getShutdownRequestFlag() << ", TerminationFlag: " << SigUtil::getTerminationFlag());
+            SigUtil::getShutdownRequestFlag() << ", TerminationSignalled: " << SigUtil::getTerminationSignalled());
 
     // Wait until documents are saved and sessions closed.
     srv.stop();
@@ -3624,11 +3624,13 @@ int LOOLWSD::innerMain()
         std::this_thread::sleep_for(std::chrono::milliseconds(sleepMs));
     }
 
+#if 0 // ???
     if (UnitWSD::isUnitTesting() && !SigUtil::getTerminationFlag())
     {
         LOG_INF("Setting TerminationFlag to avoid deadlocking unittest.");
         SigUtil::setTerminationFlag();
     }
+#endif
 
     // Disable thread checking - we'll now cleanup lots of things if we can
     Socket::InhibitThreadChecks = true;
@@ -3728,10 +3730,6 @@ void LOOLWSD::cleanup()
 
 int LOOLWSD::main(const std::vector<std::string>& /*args*/)
 {
-#if MOBILEAPP
-    SigUtil::resetTerminationFlag();
-#endif
-
     int returnValue;
 
     try {

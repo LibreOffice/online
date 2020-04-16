@@ -399,7 +399,7 @@ void Admin::pollingThread()
     lastMem = lastCPU;
     lastNet = lastCPU;
 
-    while (!isStop() && !SigUtil::getTerminationFlag() && !SigUtil::getShutdownRequestFlag())
+    while (!isStop() && !getTerminationFlag() && !SigUtil::getShutdownRequestFlag())
     {
         const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
 

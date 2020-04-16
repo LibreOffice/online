@@ -107,7 +107,7 @@ protected:
         }
 
         // Note: Syntax or parsing errors here are unexpected and fatal.
-        if (SigUtil::getTerminationFlag())
+        if (getTerminationFlag())
         {
             LOG_DBG("Termination flag set: skip message processing");
         }
@@ -135,7 +135,7 @@ protected:
         else if (tokens.equals(0, "exit"))
         {
             LOG_INF("Setting TerminationFlag due to 'exit' command from parent.");
-            SigUtil::setTerminationFlag();
+            setTerminationFlag();
         }
         else
         {
@@ -147,7 +147,7 @@ protected:
     {
 #if !MOBILEAPP
         LOG_WRN("ForKit connection lost without exit arriving from wsd. Setting TerminationFlag");
-        SigUtil::setTerminationFlag();
+        setTerminationFlag();
 #endif
     }
 };
@@ -239,11 +239,6 @@ static void cleanupChildren()
             LOG_INF("Child " << exitedChildPid << " has exited, will remove its jail [" << it->second << "].");
             jails.emplace_back(it->second);
             childJails.erase(it);
-            if (childJails.empty() && !SigUtil::getTerminationFlag())
-            {
-                // We ran out of kits and we aren't terminating.
-                LOG_WRN("No live Kits exist, and we are not terminating yet.");
-            }
 
             if (WIFSIGNALED(status) && (WTERMSIG(status) == SIGSEGV || WTERMSIG(status) == SIGBUS))
             {
@@ -601,7 +596,7 @@ int main(int argc, char** argv)
 
     LOG_INF("ForKit process is ready.");
 
-    while (!SigUtil::getTerminationFlag())
+    while (!WSHandler->getTerminationFlag())
     {
         UnitKit::get().invokeForKitTest();
 

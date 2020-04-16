@@ -51,6 +51,7 @@ ClientSession::ClientSession(
     _isDocumentOwner(false),
     _state(SessionState::DETACHED),
     _keyEvents(1),
+    _senderQueue(docBroker.get()),
     _clientVisibleArea(0, 0, 0, 0),
     _clientSelectedPart(-1),
     _tileWidthPixel(0),
