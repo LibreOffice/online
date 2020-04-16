@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -408,7 +408,7 @@ msgid "Columns"
 msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "तालिका डालें"
 
@@ -737,46 +737,46 @@ msgstr "क्या आप निश्चित हैं कि आप इस
 msgid "Enter new sheet name"
 msgstr "नये पृष्ठ का नाम डालें"
 
-#: src/control/Control.Toolbar.js:661
+#: src/control/Control.Toolbar.js:979
+msgid "Previous slide"
+msgstr "पिछली स्लाइड"
+
+#: src/control/Control.Toolbar.js:980
+msgid "Next slide"
+msgstr "अगली स्लाइड"
+
+#: src/control/Control.Toolbar.js:1038
+msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
+msgstr "एकाधिक उपयोगकर्ता के कारण अंडु-रीडु टकराव पाया गया है। ठीक करने के लीये कृप्या दस्तावेज़ मरम्मत का उपयोग करें।"
+
+#: src/control/Control.TopToolbar.js:98
 msgid "Default Style"
 msgstr ""
 
-#: src/control/Control.Toolbar.js:718
+#: src/control/Control.TopToolbar.js:155
 msgid "Borders"
 msgstr ""
 
-#: src/control/Control.Toolbar.js:726
+#: src/control/Control.TopToolbar.js:163
 msgid "More..."
 msgstr ""
 
-#: src/control/Control.Toolbar.js:779
+#: src/control/Control.TopToolbar.js:216
 msgid "Insert Local Image"
 msgstr ""
 
-#: src/control/Control.Toolbar.js:783
+#: src/control/Control.TopToolbar.js:220
 #, fuzzy
 msgid "Insert shapes"
 msgstr "पन्ना डालें"
 
-#: src/control/Control.Toolbar.js:1464
+#: src/control/Control.TopToolbar.js:446
 msgid "Style"
 msgstr "शैली"
 
-#: src/control/Control.Toolbar.js:1487
+#: src/control/Control.TopToolbar.js:469
 msgid "Font"
 msgstr "फ़ॉन्ट"
-
-#: src/control/Control.Toolbar.js:1512
-msgid "Previous slide"
-msgstr "पिछली स्लाइड"
-
-#: src/control/Control.Toolbar.js:1513
-msgid "Next slide"
-msgstr "अगली स्लाइड"
-
-#: src/control/Control.Toolbar.js:1571
-msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
-msgstr "एकाधिक उपयोगकर्ता के कारण अंडु-रीडु टकराव पाया गया है। ठीक करने के लीये कृप्या दस्तावेज़ मरम्मत का उपयोग करें।"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

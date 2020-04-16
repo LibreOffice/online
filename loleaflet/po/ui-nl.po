@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-03-15 21:23+0000\n"
 "Last-Translator: vpanter <Leo.Moons@proximus.be>\n"
 "Language-Team: Dutch <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/nl/>\n"
@@ -405,7 +405,7 @@ msgid "Columns"
 msgstr "Kolommen"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Tabel invoegen"
 
@@ -726,45 +726,45 @@ msgstr "Weet u zeker dat u blad %sheet% wilt verwijderen?"
 msgid "Enter new sheet name"
 msgstr "Voer een nieuwe bladnaam in."
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Standaard opmaakprofiel"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Randen"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Meer..."
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Locale afbeelding invoegen"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Vormen invoegen"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Opmaakprofiel"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Lettertype"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Vorige dia"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Volgende dia"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Ongedaan maken/Opnieuw conflicteert met meerdere gebruikers. Gebruik document herstellen om dit op te lossen."
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Standaard opmaakprofiel"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Randen"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Meer..."
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Locale afbeelding invoegen"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Vormen invoegen"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Opmaakprofiel"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Lettertype"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

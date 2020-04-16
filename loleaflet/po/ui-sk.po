@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-04-04 15:13+0000\n"
 "Last-Translator: Miloš Šrámek <msramek22@gmail.com>\n"
 "Language-Team: Slovak <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/sk/>\n"
@@ -403,7 +403,7 @@ msgid "Columns"
 msgstr "Stĺpce"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Vložiť tabuľku"
 
@@ -724,45 +724,45 @@ msgstr "Naozaj chcete odstrániť hárok %sheet% ?"
 msgid "Enter new sheet name"
 msgstr "Zadajte nový názov hárku"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Predvolený štýl"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Orámovanie"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Viac..."
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Vložiť lokálny obrázok"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Vložiť útvary"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Štýl"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Písmo"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Predchádzajúca snímka"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Nasledujúca snímka"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Konflikt medzi viacerými používateľmi pri rušení alebo obnove zmien. Na vyriešenie problému použite prosím obnovu dokumentu."
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Predvolený štýl"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Orámovanie"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Viac..."
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Vložiť lokálny obrázok"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Vložiť útvary"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Štýl"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Písmo"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

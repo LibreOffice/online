@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-04-01 06:54+0000\n"
 "Last-Translator: Christian Kühl <kuehl.christian@googlemail.com>\n"
 "Language-Team: German <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/de/>\n"
@@ -402,7 +402,7 @@ msgid "Columns"
 msgstr "Spalten"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Tabelle einfügen"
 
@@ -723,45 +723,45 @@ msgstr "Sind Sie sicher, dass Sie Tabelle %sheet% löschen möchten?"
 msgid "Enter new sheet name"
 msgstr "Neuen Tabellennamen eingeben"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Standardvorlage"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Ränder"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Weitere..."
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Lokales Bild einfügen"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Formen einfügen"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Aussehen"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Schriftart"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Vorherige Folie"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Nächste Folie"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Konflikt beim Rückgängigmachen/Wiederherstellen mit mehreren Benutzern. Bitte verwenden Sie die Dokumentwiederherstellung zur Lösung"
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Standardvorlage"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Ränder"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Weitere..."
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Lokales Bild einfügen"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Formen einfügen"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Aussehen"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Schriftart"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-02-23 18:15+0000\n"
 "Last-Translator: Andras Timar <timar74@gmail.com>\n"
 "Language-Team: Russian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ru/>\n"
@@ -405,7 +405,7 @@ msgid "Columns"
 msgstr "Столбцы"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Вставить таблицу"
 
@@ -728,45 +728,45 @@ msgstr "Действительно удалить лист %sheet% ?"
 msgid "Enter new sheet name"
 msgstr "Введите новое имя листа"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Базовый"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Обрамления"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Больше..."
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Вставить изображение с компьютера"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Вставить фигуры"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Стиль"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Шрифт"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Предыдущий слайд"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Следующий слайд"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Конфликт Отмены/Повторения с несколькими пользователями. Пожалуйста, воспользуйтесь восстановлением документа для разрешения конфликта"
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Базовый"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Обрамления"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Больше..."
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Вставить изображение с компьютера"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Вставить фигуры"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Стиль"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Шрифт"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

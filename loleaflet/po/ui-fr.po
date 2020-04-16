@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-03-27 17:04+0000\n"
 "Last-Translator: sophie <gautier.sophie@gmail.com>\n"
 "Language-Team: French <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/fr/>\n"
@@ -405,7 +405,7 @@ msgid "Columns"
 msgstr "Colonnes"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Insérer un tableau"
 
@@ -726,45 +726,45 @@ msgstr "Voulez-vous vraiment supprimer cette feuille, %sheet% ?"
 msgid "Enter new sheet name"
 msgstr "Saisissez un nouveau nom de feuille"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Style par défaut"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Bordures"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Plus..."
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Insérer une image locale"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Insérer des formes"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Style"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Police"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Diapositive précédente"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Diapositive suivante"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Il y a un conflit d'annulation/restauration avec plusieurs utilisateurs. Veuillez utiliser la restauration du document pour le résoudre."
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Style par défaut"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Bordures"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Plus..."
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Insérer une image locale"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Insérer des formes"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Style"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Police"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

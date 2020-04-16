@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-02-25 10:42+0000\n"
 "Last-Translator: So <sou@e06.itscom.net>\n"
 "Language-Team: Japanese <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ja/>\n"
@@ -409,7 +409,7 @@ msgid "Columns"
 msgstr ""
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "表の挿入"
 
@@ -739,45 +739,45 @@ msgstr "選択したシート %sheet% を削除しますか？"
 msgid "Enter new sheet name"
 msgstr "新しいシート名を入力してください。"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr ""
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr ""
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr ""
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr ""
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "シェイプの挿入"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "スタイル"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "フォント"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "前のスライド"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "次のスライド"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "複数のユーザーによる元に戻す・やり直しの処理が衝突しました。解決するにはドキュメントの修復を利用してください。"
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr ""
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr ""
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr ""
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr ""
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "シェイプの挿入"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "スタイル"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "フォント"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

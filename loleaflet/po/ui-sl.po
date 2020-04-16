@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LibreOffice Online UI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-04-11 11:43+0000\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/sl/>\n"
@@ -400,7 +400,7 @@ msgid "Columns"
 msgstr "Stolpci"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Vstavi tabelo"
 
@@ -721,45 +721,45 @@ msgstr "Ali ste prepričani, da želite izbrisati delovni list %sheet%?"
 msgid "Enter new sheet name"
 msgstr "Vnesite ime za nov delovni list"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Privzeti slog"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Obrobe"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Dodatno ..."
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Vstavi krajevno sliko"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Vstavi like"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Slog"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Pisava"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Prejšnja prosojnica"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Naslednja prosojnica"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Spor razveljavljanja/ponavljanja med več uporabniki. Uporabite popravilo dokumenta za razrešitev težave."
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Privzeti slog"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Obrobe"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Dodatno ..."
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Vstavi krajevno sliko"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Vstavi like"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Slog"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Pisava"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

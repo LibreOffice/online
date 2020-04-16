@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-04-01 10:44+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ca/>\n"
@@ -403,7 +403,7 @@ msgid "Columns"
 msgstr "Columnes"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Insereix una taula"
 
@@ -724,45 +724,45 @@ msgstr "Esteu segur que voleu suprimir el full «%sheet%»?"
 msgid "Enter new sheet name"
 msgstr "Introduïu el nom nou del full"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Estil per defecte"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Vores"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Més..."
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Insereix una imatge local"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Insereix formes"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Estil"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Tipus de lletra"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Diapositiva anterior"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Diapositiva següent"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Hi ha un conflicte de desfer i refer amb múltiples usuaris. Useu la reparació del document per a resoldre-ho"
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Estil per defecte"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Vores"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Més..."
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Insereix una imatge local"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Insereix formes"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Estil"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Tipus de lletra"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

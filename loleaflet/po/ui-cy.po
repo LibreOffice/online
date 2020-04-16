@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-04-01 10:44+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@yahoo.com>\n"
 "Language-Team: Welsh <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/cy/>\n"
@@ -403,7 +403,7 @@ msgid "Columns"
 msgstr "Colofnau"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Mewnosod tudalen"
 
@@ -724,45 +724,45 @@ msgstr "Ydych chi'n siŵr eich bod am ddileu'r ddalen, %sheet% ?"
 msgid "Enter new sheet name"
 msgstr "Rhoi enw newydd i'r dalen"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Arddull Ragosodedig"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Borderi"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Rhagor..."
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Mewnosod Delwedd Leol"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Mewnosod siapiau"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Arddull"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Ffont"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Sleid flaenorol"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Sleid nesaf"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Gwrthdaro Dadwneud/Ail-wneud oherwydd defnyddwyr luosog. Defnyddiwch trwsio'r ddogfen i'w ddatrys"
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Arddull Ragosodedig"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Borderi"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Rhagor..."
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Mewnosod Delwedd Leol"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Mewnosod siapiau"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Arddull"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Ffont"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-03-05 12:13+0000\n"
 "Last-Translator: DaeHyun Sung(성대현, 成大鉉) <sungdh86@gmail.com>\n"
 "Language-Team: Korean <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ko/>\n"
@@ -406,7 +406,7 @@ msgid "Columns"
 msgstr "행"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "표 삽입"
 
@@ -729,46 +729,46 @@ msgstr "%sheet% 시트를 정말 삭제하겠습니까?"
 msgid "Enter new sheet name"
 msgstr "새 시트 이름을 입력하십시오"
 
-#: src/control/Control.Toolbar.js:661
+#: src/control/Control.Toolbar.js:979
+msgid "Previous slide"
+msgstr "이전 슬라이드"
+
+#: src/control/Control.Toolbar.js:980
+msgid "Next slide"
+msgstr "다음 슬라이드"
+
+#: src/control/Control.Toolbar.js:1038
+msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
+msgstr "여러 사용자에 의한 실행 취소/다시 실행이 서로 충돌했습니다. 이 문제를 해결하려면 문서 복구를 사용하십시오."
+
+#: src/control/Control.TopToolbar.js:98
 msgid "Default Style"
 msgstr "기본양식"
 
-#: src/control/Control.Toolbar.js:718
+#: src/control/Control.TopToolbar.js:155
 msgid "Borders"
 msgstr "테두리"
 
-#: src/control/Control.Toolbar.js:726
+#: src/control/Control.TopToolbar.js:163
 msgid "More..."
 msgstr "더보기..."
 
 # local 로컬
-#: src/control/Control.Toolbar.js:779
+#: src/control/Control.TopToolbar.js:216
 msgid "Insert Local Image"
 msgstr "로컬 이미지 삽입"
 
-#: src/control/Control.Toolbar.js:783
+#: src/control/Control.TopToolbar.js:220
 msgid "Insert shapes"
 msgstr "도형 삽입"
 
-#: src/control/Control.Toolbar.js:1464
+#: src/control/Control.TopToolbar.js:446
 msgid "Style"
 msgstr "스타일"
 
-#: src/control/Control.Toolbar.js:1487
+#: src/control/Control.TopToolbar.js:469
 msgid "Font"
 msgstr "글꼴"
-
-#: src/control/Control.Toolbar.js:1512
-msgid "Previous slide"
-msgstr "이전 슬라이드"
-
-#: src/control/Control.Toolbar.js:1513
-msgid "Next slide"
-msgstr "다음 슬라이드"
-
-#: src/control/Control.Toolbar.js:1571
-msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
-msgstr "여러 사용자에 의한 실행 취소/다시 실행이 서로 충돌했습니다. 이 문제를 해결하려면 문서 복구를 사용하십시오."
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 14:24+0200\n"
+"POT-Creation-Date: 2020-04-16 15:32+0200\n"
 "PO-Revision-Date: 2020-03-13 09:52+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/hr/>\n"
@@ -406,7 +406,7 @@ msgid "Columns"
 msgstr "Stupci"
 
 #: src/control/Control.JSDialogBuilder.js:1694
-#: src/control/Control.Toolbar.js:774
+#: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Umetni tablicu"
 
@@ -729,45 +729,45 @@ msgstr "Stvarno želiš ukloniti radni list %sheet%?"
 msgid "Enter new sheet name"
 msgstr "Upiši ime novog radnog lista"
 
-#: src/control/Control.Toolbar.js:661
-msgid "Default Style"
-msgstr "Standardni stil"
-
-#: src/control/Control.Toolbar.js:718
-msgid "Borders"
-msgstr "Rubovi"
-
-#: src/control/Control.Toolbar.js:726
-msgid "More..."
-msgstr "Daljnje …"
-
-#: src/control/Control.Toolbar.js:779
-msgid "Insert Local Image"
-msgstr "Umetni lokalnu sliku"
-
-#: src/control/Control.Toolbar.js:783
-msgid "Insert shapes"
-msgstr "Umetni oblike"
-
-#: src/control/Control.Toolbar.js:1464
-msgid "Style"
-msgstr "Stil"
-
-#: src/control/Control.Toolbar.js:1487
-msgid "Font"
-msgstr "Font"
-
-#: src/control/Control.Toolbar.js:1512
+#: src/control/Control.Toolbar.js:979
 msgid "Previous slide"
 msgstr "Prethodni slajd"
 
-#: src/control/Control.Toolbar.js:1513
+#: src/control/Control.Toolbar.js:980
 msgid "Next slide"
 msgstr "Sljedeći slajd"
 
-#: src/control/Control.Toolbar.js:1571
+#: src/control/Control.Toolbar.js:1038
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Problem funkcija Poništi/Ponovi s višestrukim korisnicima. Koristi popravljanje dokumenata za rješavanje problema"
+
+#: src/control/Control.TopToolbar.js:98
+msgid "Default Style"
+msgstr "Standardni stil"
+
+#: src/control/Control.TopToolbar.js:155
+msgid "Borders"
+msgstr "Rubovi"
+
+#: src/control/Control.TopToolbar.js:163
+msgid "More..."
+msgstr "Daljnje …"
+
+#: src/control/Control.TopToolbar.js:216
+msgid "Insert Local Image"
+msgstr "Umetni lokalnu sliku"
+
+#: src/control/Control.TopToolbar.js:220
+msgid "Insert shapes"
+msgstr "Umetni oblike"
+
+#: src/control/Control.TopToolbar.js:446
+msgid "Style"
+msgstr "Stil"
+
+#: src/control/Control.TopToolbar.js:469
+msgid "Font"
+msgstr "Font"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"
