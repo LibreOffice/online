@@ -347,26 +347,39 @@ L.Map.include({
 	// show the actual welcome dialog with the given data
 	_showWelcomeDialogVex: function(data) {
 		var w;
+		var h;
 		var iw = window.innerWidth;
+		var ih = window.innerHeight;
 		if (iw < 768) {
 			w = iw - 30;
+			h = ih - 125;
 		}
 		else if (iw > 1920) {
 			w = 960;
+			h = ih / 2;
 		}
 		else {
 			w = iw / 5 + 590;
+			h = ih / 2;
 		}
+
+		var containerDiv = '<div style="max-height:' + h + 'px;overflow-y:auto;">';
+		containerDiv += data;
+		containerDiv += '</div>';
+		data = containerDiv;
 
 		// show the dialog
 		var map = this;
-		vex.open({
-			unsafeContent: data,
+		vex.dialog.open({
+			unsafeMessage: data,
 			showCloseButton: true,
 			escapeButtonCloses: false,
 			overlayClosesOnClick: false,
 			closeAllOnPopState: false,
-			buttons: {},
+			focusFirstInput: false,
+			buttons: [
+				$.extend({}, vex.dialog.buttons.YES, { text: 'Dismiss' }),
+			],
 			afterOpen: function() {
 				var $vexContent = $(this.contentEl);
 				this.contentEl.style.width = w + 'px';
@@ -380,6 +393,9 @@ L.Map.include({
 			beforeClose: function () {
 				map.focus();
 				map.enable(true);
+			},
+			callback: function () {
+				// Not used..
 			}
 		});
 	},
