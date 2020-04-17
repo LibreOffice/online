@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26497d33_c25e0c56",
+        "filename": "net/Socket.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-17T15:31:58Z",
+      "side": 1,
+      "message": "Seems very odd to have this flag duplicated across all sockets when any single socket setting it can terminate (?)",
+      "revId": "110e26eba6f13ac13c9808f223c274a5c5d92d44",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "056a1c35_f8a7cfc8",
+        "filename": "net/Socket.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-17T15:31:58Z",
+      "side": 1,
+      "message": "What thread is this called from ? the joy of a global atomic is thread safety. Is there not an \u0027assert this is called in the correct thread\u0027 method - we use that ~everywhere, since a SocketPoll runs in its own thread safely.",
+      "revId": "110e26eba6f13ac13c9808f223c274a5c5d92d44",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
