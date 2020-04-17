@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96b6d03a_74e8478a",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2020-04-17T12:36:24Z",
+      "side": 1,
+      "message": "Does this implement the interface you introduced? If so, please add an override here.",
+      "revId": "467462528cad6e60f2bd766e2b3f6df42975b12b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b9f98df_02de2bbd",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2020-04-17T12:36:24Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "467462528cad6e60f2bd766e2b3f6df42975b12b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aed8b26_41d42205",
+        "filename": "test/WhiteBoxTests.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1000013
+      },
+      "writtenOn": "2020-04-17T12:36:24Z",
+      "side": 1,
+      "message": "What is the error you get when you try to do so?",
+      "revId": "467462528cad6e60f2bd766e2b3f6df42975b12b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
