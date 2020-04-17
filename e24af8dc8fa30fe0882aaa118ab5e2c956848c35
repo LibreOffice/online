@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9201893_31f3df80",
+        "filename": "loleaflet/src/control/Control.JSDialogBuilder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-04-17T08:14:31Z",
+      "side": 1,
+      "message": "will it work with translations?",
+      "revId": "e24af8dc8fa30fe0882aaa118ab5e2c956848c35",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
