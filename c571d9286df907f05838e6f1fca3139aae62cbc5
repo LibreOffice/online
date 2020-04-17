@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6109f81_879b72c3",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000006
+      },
+      "writtenOn": "2020-04-17T15:17:08Z",
+      "side": 1,
+      "message": "linkTo() does not seem to be universally available for Poco distro packages, any way to express that with another function?",
+      "revId": "c571d9286df907f05838e6f1fca3139aae62cbc5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
