@@ -347,9 +347,14 @@ L.Map.include({
 	// show the actual welcome dialog with the given data
 	_showWelcomeDialogVex: function(data) {
 		var w;
+		var h;
 		var iw = window.innerWidth;
+		var ih = window.innerHeight;
+		// To avoid extra scroll-bar on desktop
+		h = ih / 2;
 		if (iw < 768) {
 			w = iw - 30;
+			h = ih - 125; // Hopefully enough padding to avoid extra scroll-bar on mobile,
 		}
 		else if (iw > 1920) {
 			w = 960;
@@ -358,15 +363,24 @@ L.Map.include({
 			w = iw / 5 + 590;
 		}
 
+		var containerDiv = '<div style="max-height:' + h + 'px;overflow-y:auto;">';
+		containerDiv += data;
+		containerDiv += '</div>';
+		data = containerDiv;
+
 		// show the dialog
 		var map = this;
-		vex.open({
-			unsafeContent: data,
-			showCloseButton: true,
+		var variable = false;
+		vex.dialog.open({
+			unsafeMessage: data,
+			showCloseButton: variable,
 			escapeButtonCloses: false,
 			overlayClosesOnClick: false,
 			closeAllOnPopState: false,
-			buttons: {},
+			focusFirstInput: false, // Needed to avoid auto-scroll to the bottom
+			buttons: variable ? {} : [
+				$.extend({}, vex.dialog.buttons.YES, { text: _('Dismiss') }),
+			],
 			afterOpen: function() {
 				var $vexContent = $(this.contentEl);
 				this.contentEl.style.width = w + 'px';
