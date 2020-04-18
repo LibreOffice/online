@@ -74,7 +74,6 @@ public:
         WSProcess("ChildProcess", pid, socket, std::make_shared<WebSocketHandler>(socket, request)),
         _jailId(jailId)
     {
-        LOG_TRC("==> new ChildProcess");
     }
 
 
