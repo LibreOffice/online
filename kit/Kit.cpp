@@ -105,7 +105,6 @@ using std::size_t;
 
 // We only host a single document in our lifetime.
 class Document;
-static std::shared_ptr<Document> document;
 #ifndef BUILDING_TESTS
 static bool AnonymizeUserData = false;
 static uint64_t AnonymizationSalt = 82589933;
@@ -1197,6 +1196,11 @@ public:
         return false;
     }
 
+    void alertAllUsers(const std::string& cmd, const std::string& kind)
+    {
+        alertAllUsers("errortoall: cmd=" + cmd + " kind=" + kind);
+    }
+
     static void GlobalCallback(const int type, const char* p, void* data)
     {
         if (SigUtil::getTerminationFlag())
@@ -2035,6 +2039,11 @@ private:
         return _obfuscatedFileId;
     }
 
+    void alertAllUsers(const std::string& msg)
+    {
+        sendTextFrame(msg);
+    }
+
 private:
     std::shared_ptr<lok::Office> _loKit;
     const std::string _jailId;
@@ -2097,6 +2106,7 @@ class KitWebSocketHandler final : public WebSocketHandler
     std::string _socketName;
     std::shared_ptr<lok::Office> _loKit;
     std::string _jailId;
+    std::shared_ptr<Document> _document;
 
 public:
     KitWebSocketHandler(const std::string& socketName, const std::shared_ptr<lok::Office>& loKit, const std::string& jailId) :
@@ -2106,6 +2116,11 @@ public:
         _loKit(loKit),
         _jailId(jailId)
     {
+    }
+
+    std::shared_ptr<Document> getDocument() const
+    {
+        return _document;
     }
 
 protected:
@@ -2155,13 +2170,13 @@ protected:
             LOG_INF("New session [" << sessionId << "] request on url [" << url << "].");
             Util::setThreadName("kit_" + docId);
 
-            if (!document)
-                document = std::make_shared<Document>(
+            if (!_document)
+                _document = std::make_shared<Document>(
                     _loKit, _jailId, docKey, docId, url, _queue,
                     std::static_pointer_cast<WebSocketHandler>(shared_from_this()));
 
             // Validate and create session.
-            if (!(url == document->getUrl() && document->createSession(sessionId)))
+            if (!(url == _document->getUrl() && _document->createSession(sessionId)))
             {
                 LOG_DBG("CreateSession failed.");
             }
@@ -2176,14 +2191,14 @@ protected:
 #else
             LOG_INF("Setting TerminationFlag due to 'exit' command.");
             SigUtil::setTerminationFlag();
-            document.reset();
+            _document.reset();
 #endif
         }
         else if (tokens.equals(0, "tile") || tokens.equals(0, "tilecombine") || tokens.equals(0, "canceltiles") ||
                 tokens.equals(0, "paintwindow") || tokens.equals(0, "resizewindow") ||
                 LOOLProtocol::getFirstToken(tokens[0], '-') == "child")
         {
-            if (document)
+            if (_document)
             {
                 _queue->put(message);
             }
@@ -2225,6 +2240,8 @@ void documentViewCallback(const int type, const char* payload, void* data)
 class KitSocketPoll : public SocketPoll
 {
     std::chrono::steady_clock::time_point _pollEnd;
+    std::shared_ptr<Document> _document;
+
 public:
     KitSocketPoll() :
         SocketPoll("kit")
@@ -2234,8 +2251,8 @@ public:
     // process pending message-queue events.
     void drainQueue(const std::chrono::steady_clock::time_point &now)
     {
-        if (document)
-            document->drainQueue(now);
+        if (_document)
+            _document->drainQueue(now);
     }
 
     // called from inside poll, inside a wakeup
@@ -2286,7 +2303,7 @@ public:
         drainQueue(std::chrono::steady_clock::now());
 
 #if !MOBILEAPP
-        if (document && document->purgeSessions() == 0)
+        if (_document && _document->purgeSessions() == 0)
         {
             LOG_INF("Last session discarded. Setting TerminationFlag");
             SigUtil::setTerminationFlag();
@@ -2295,6 +2312,11 @@ public:
 #endif
         // Report the number of events we processed.
         return eventsSignalled;
+    }
+
+    void setDocument(std::shared_ptr<Document> document)
+    {
+        _document = document;
     }
 };
 
@@ -2660,8 +2682,11 @@ void lokit_main(
         KitSocketPoll mainKit;
         mainKit.runOnClientThread(); // We will do the polling on this thread.
 
-        std::shared_ptr<ProtocolHandlerInterface> websocketHandler =
+        std::shared_ptr<KitWebSocketHandler> websocketHandler =
             std::make_shared<KitWebSocketHandler>("child_ws", loKit, jailId);
+
+        mainKit.setDocument(websocketHandler->getDocument());
+
 #if !MOBILEAPP
         mainKit.insertNewUnixSocket(MasterLocation, pathAndQuery, websocketHandler);
 #else
@@ -2827,23 +2852,6 @@ std::string anonymizeUsername(const std::string& username)
 #endif
 }
 
-#if !defined(BUILDING_TESTS) && !defined(KIT_IN_PROCESS)
-namespace Util
-{
-
-void alertAllUsers(const std::string& msg)
-{
-    document->sendTextFrame(msg);
-}
-
-void alertAllUsers(const std::string& cmd, const std::string& kind)
-{
-    alertAllUsers("errortoall: cmd=" + cmd + " kind=" + kind);
-}
-
-}
-#endif
-
-#endif // MOBILEAPP
+#endif // !MOBILEAPP
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
