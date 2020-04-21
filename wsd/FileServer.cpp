@@ -746,6 +746,11 @@ void FileServerRequestHandler::preprocessFile(const HTTPRequest& request, Poco::
         enableWelcomeMessageButton = "true";
     Poco::replaceInPlace(preprocess, std::string("%ENABLE_WELCOME_MSG_BTN%"), enableWelcomeMessageButton);
 
+    std::string enableNotebookbar = "false";
+    if (config.getBool("notebookbar.enable", false))
+        enableNotebookbar = "true";
+    Poco::replaceInPlace(preprocess, std::string("%ENABLE_NOTEBOOKBAR%"), enableNotebookbar);
+
     // Capture cookies so we can optionally reuse them for the storage requests.
     {
         NameValueCollection cookies;

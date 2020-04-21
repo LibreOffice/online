@@ -250,6 +250,7 @@ m4_ifelse(MOBILEAPP,[true],
       window.loleafletLogging = '%LOLEAFLET_LOGGING%';
       window.enableWelcomeMessage = %ENABLE_WELCOME_MSG%;
       window.enableWelcomeMessageButton = %ENABLE_WELCOME_MSG_BTN%;
+      window.enableNotebookbar = %ENABLE_NOTEBOOKBAR%;
       window.outOfFocusTimeoutSecs = %OUT_OF_FOCUS_TIMEOUT_SECS%;
       window.idleTimeoutSecs = %IDLE_TIMEOUT_SECS%;
       window.reuseCookies = '%REUSE_COOKIES%';

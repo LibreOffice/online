@@ -120,6 +120,10 @@
       <path desc="Path to 'welcome-$lang.html' files served on first start or when the version changes. When empty, defaults to the Release notes." type="path" relative="true" default="loleaflet/welcome"></path>
     </welcome>
 
+    <notebookbar>
+      <enable type="bool" desc="Controls whether the notebookbar should be shown instead toolbar" default="@ENABLE_NOTEBOOKBAR@">@ENABLE_NOTEBOOKBAR@</enable>
+    </notebookbar>
+
     <storage desc="Backend storage">
         <filesystem allow="false" />
         <wopi desc="Allow/deny wopi storage. Mutually exclusive with webdav." allow="true">

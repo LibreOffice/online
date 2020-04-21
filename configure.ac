@@ -610,6 +610,12 @@ AS_IF([test "$enable_welcome_message_button" = "yes"],
 AC_DEFINE_UNQUOTED([ENABLE_WELCOME_MESSAGE_BUTTON],["$ENABLE_WELCOME_MESSAGE_BUTTON"],[Should the Release notes message on startup should have a dismiss button instead of an x button to close by default?])
 AC_SUBST(ENABLE_WELCOME_MESSAGE_BUTTON)
 
+ENABLE_NOTEBOOKBAR=false
+AS_IF([test "$enable_notebookbar" = "yes"],
+      [ENABLE_NOTEBOOKBAR="true"])
+AC_DEFINE_UNQUOTED([ENABLE_NOTEBOOKBAR],["$ENABLE_NOTEBOOKBAR"],[Should the notebookbar be enabled by default?])
+AC_SUBST(ENABLE_NOTEBOOKBAR)
+
 VEREIGN_URL=
 if test "$enable_vereign" = "yes"; then
     VEREIGN_URL="https://app.vereign.com"

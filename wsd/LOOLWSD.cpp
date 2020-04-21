@@ -943,7 +943,8 @@ void LOOLWSD::initialize(Application& self)
             { "trace[@enable]", "false" },
             { "welcome.enable", ENABLE_WELCOME_MESSAGE },
             { "welcome.enable_button", ENABLE_WELCOME_MESSAGE_BUTTON },
-            { "welcome.path", "loleaflet/welcome" }
+            { "welcome.path", "loleaflet/welcome" },
+            { "notebookbar.enable", ENABLE_NOTEBOOKBAR }
           };
 
     // Set default values, in case they are missing from the config file.
