@@ -16,6 +16,24 @@
       "revId": "b8fc024c5d11948e87250371867b32bf81728df9",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3f34a5a_7076a7fa",
+        "filename": "loleaflet/src/control/Control.JSDialogBuilder.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 1002266
+      },
+      "writtenOn": "2020-04-21T11:23:44Z",
+      "side": 1,
+      "message": "Unfortunately, your suggested way is the right way of doing it but it does not work. value of \u0027.uno:FillPageStyle\u0027is updated later and this piece of code is executed before those changes in map[\u0027stateChangeHandler\u0027]. I also tried to update it manually like 2f6cbb67099edde535a81e7b0a32c1418805d6d6 but did not work.",
+      "parentUuid": "46f688c4_176e0a75",
+      "revId": "b8fc024c5d11948e87250371867b32bf81728df9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
