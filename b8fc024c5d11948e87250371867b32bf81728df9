@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46f688c4_176e0a75",
+        "filename": "loleaflet/src/control/Control.JSDialogBuilder.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-04-21T10:19:54Z",
+      "side": 1,
+      "message": "Still I\u0027m wondering if that is a correct solution.\nCan\u0027t we check state of uno Fill Style command ?\neg\nbuilder.map[\u0027stateChangeHandler\u0027].getItemValue(\u0027.uno:FillPageStyle\u0027) \u003d\u003d\u003d \u0027SOLID\u0027",
+      "revId": "b8fc024c5d11948e87250371867b32bf81728df9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
