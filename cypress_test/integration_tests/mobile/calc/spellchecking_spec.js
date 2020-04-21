@@ -68,7 +68,7 @@ describe('Calc spell checking menu.', function() {
 					.click(XPos, YPos);
 			});
 
-		calcHelper.copyContentToClipboard();
+		calcHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table td')
 			.then(function(item) {
