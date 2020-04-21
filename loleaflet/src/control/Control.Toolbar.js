@@ -922,9 +922,10 @@ function onCommandStateChanged(e) {
 		if (window.mode.isMobile()) {
 			toolbarUp = statusbar;
 		}
-		if (map.getDocType() === 'presentation' && (id === 'deletepage' || id === 'insertpage' || id === 'duplicatepage')) {
+		else if (map.getDocType() === 'presentation' && (id === 'deletepage' || id === 'insertpage' || id === 'duplicatepage')) {
 			toolbarUp = w2ui['presentation-toolbar'];
 		}
+
 		if (state === 'enabled') {
 			toolbarUp.enable(id);
 		} else {
