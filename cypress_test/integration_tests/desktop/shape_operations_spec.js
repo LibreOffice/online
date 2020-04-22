@@ -5,7 +5,7 @@ var helper = require('../common/helper');
 describe('Shape operations', function() {
 
 	afterEach(function() {
-		helper.afterAll('shape_operations.odt');
+		helper.afterAll('shape_operations.odt', 'writer');
 	});
 
 	it('Insert a simple shape.', function() {
