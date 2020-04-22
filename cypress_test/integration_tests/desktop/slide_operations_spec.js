@@ -5,7 +5,7 @@ var helper = require('../common/helper');
 describe('Slide operations', function() {
 
 	afterEach(function() {
-		helper.afterAll('focus.odp');
+		helper.afterAll('shape_operations.odp', 'impress');
 	});
 
 	function assertNumberOfSlides(slides) {
@@ -14,7 +14,7 @@ describe('Slide operations', function() {
 	}
 
 	it('Add slides', function() {
-		helper.loadTestDoc('focus.odp');
+		helper.loadTestDoc('shape_operations.odp');
 
 		cy.get('#tb_presentation-toolbar_item_insertpage')
 			.should('not.have.class', 'disabled')
