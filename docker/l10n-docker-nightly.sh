@@ -104,6 +104,28 @@ cp -a libreoffice/instdir "$INSTDIR"/opt/libreoffice
 # Create new docker image
 if [ -z "$NO_DOCKER_IMAGE" ]; then
   cd "$SRCDIR"
+
+  # Check if SO infos are available
+  if [ -z "$(which lsb_release)" ] || [ -z "$(lsb_release -si)" ]; then
+    echo "WARNING: Unable to determine your distribution"
+    echo "(Is lsb_release installed?)"
+    echo "Using Ubuntu Dockerfile. If wrong, fill manually the Dockerfile"
+    echo "with the desidered distro and re-run $0"
+  elif [ ! -e "Dockerfile" ]; # allow user to manually copy his Dockerfile
+    RELEASE="$(lsb_release -si)"
+    if [ ! -e "Dockerfile_$RELEASE" ]; then
+      echo "WARNING: No specific Dockerfile is available for"
+      echo "your detected distribution ($RELEASE)."
+      echo "Using the Ubuntu one, if not suitable, fix the Dockerfile"
+      echo "by hand and re-run $0"
+      RELEASE="Ubuntu"
+    fi;
+    cp "Dockerfile_$RELEASE" Dockerfile
+  fi;
+
+  # Pull the image first to be sure we're using the latest available
+  docker pull $(grep "FROM " Dockerfile | cut -d ' ' -f 2)
+
   docker build --no-cache -t $DOCKER_HUB_REPO:$DOCKER_HUB_TAG . || exit 1
   if [ -z "$NO_DOCKER_PUSH" ]; then
     docker push $DOCKER_HUB_REPO:$DOCKER_HUB_TAG || exit 1
