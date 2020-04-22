@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 15:32+0200\n"
+"POT-Creation-Date: 2020-04-22 16:32+0200\n"
 "PO-Revision-Date: 2020-04-17 00:34+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ca/>\n"
@@ -192,14 +192,14 @@ msgstr "Esteu segur que voleu finalitzar aquesta sessió?"
 #: admin/src/AdminSocketOverview.js:107 admin/src/AdminSocketSettings.js:36
 #: src/control/Control.Menubar.js:1173
 #: src/control/Control.PresentationBar.js:81 src/control/Control.Tabs.js:201
-#: src/control/Control.Tabs.js:218 src/control/Toolbar.js:552
+#: src/control/Control.Tabs.js:218 src/control/Toolbar.js:574
 msgid "OK"
 msgstr "D'acord"
 
 #: admin/src/AdminSocketOverview.js:108 admin/src/AdminSocketSettings.js:37
 #: src/control/Control.LanguageDialog.js:86 src/control/Control.Menubar.js:1174
 #: src/control/Control.PresentationBar.js:82 src/control/Control.Tabs.js:202
-#: src/control/Control.Tabs.js:219 src/control/Toolbar.js:553
+#: src/control/Control.Tabs.js:219 src/control/Toolbar.js:575
 #: src/layer/marker/Annotation.js:183 src/layer/tile/TileLayer.js:400
 msgid "Cancel"
 msgstr "Cancel·la"
@@ -322,7 +322,7 @@ msgstr "Auxiliar de funcions"
 
 #: src/control/Control.JSDialogBuilder.js:153
 #: src/control/Control.JSDialogBuilder.js:870
-#: src/control/Control.StatusBar.js:338
+#: src/control/Control.StatusBar.js:327
 msgid "None"
 msgstr "Cap"
 
@@ -390,31 +390,31 @@ msgstr "Tipus de lletra"
 msgid "Font Size"
 msgstr "Mida de la lletra"
 
-#: src/control/Control.JSDialogBuilder.js:1484
+#: src/control/Control.JSDialogBuilder.js:1489
 msgid "Cell borders"
 msgstr "Vores de les cel·les"
 
-#: src/control/Control.JSDialogBuilder.js:1673
+#: src/control/Control.JSDialogBuilder.js:1678
 msgid "Rows"
 msgstr "Files"
 
-#: src/control/Control.JSDialogBuilder.js:1674
+#: src/control/Control.JSDialogBuilder.js:1679
 msgid "Columns"
 msgstr "Columnes"
 
-#: src/control/Control.JSDialogBuilder.js:1694
+#: src/control/Control.JSDialogBuilder.js:1699
 #: src/control/Control.TopToolbar.js:211
 msgid "Insert table"
 msgstr "Insereix una taula"
 
-#: src/control/Control.JSDialogBuilder.js:1723
+#: src/control/Control.JSDialogBuilder.js:1728
 msgid "Line style:"
 msgstr "Estil de línia:"
 
 #: src/control/Control.LanguageDialog.js:69 src/control/Control.Menubar.js:229
 #: src/control/Control.Menubar.js:231 src/control/Control.Menubar.js:233
 #: src/control/Control.Menubar.js:340 src/control/Control.Menubar.js:456
-#: src/control/Control.StatusBar.js:505
+#: src/control/Control.StatusBar.js:494
 msgid "None (Do not check spelling)"
 msgstr "Cap (no verifiquis l'ortografia)"
 
@@ -536,7 +536,7 @@ msgid "About"
 msgstr "Quant a"
 
 #: src/control/Control.Menubar.js:247 src/control/Control.Menubar.js:349
-#: src/control/Control.Menubar.js:466 src/map/Map.js:415
+#: src/control/Control.Menubar.js:466 src/map/Map.js:408
 msgid "Last modification"
 msgstr "Darrera modificació"
 
@@ -586,7 +586,7 @@ msgstr "Vertical"
 msgid "Landscape"
 msgstr "Horitzontal"
 
-#: src/control/Control.Menubar.js:769 src/control/Control.StatusBar.js:504
+#: src/control/Control.Menubar.js:769 src/control/Control.StatusBar.js:493
 msgid "Reset to Default Language"
 msgstr "Reinicialitza a la llengua predeterminada"
 
@@ -648,63 +648,63 @@ msgstr "Insereix un full"
 msgid "Cancel the search"
 msgstr "Cancel·la la cerca"
 
-#: src/control/Control.StatusBar.js:303
+#: src/control/Control.StatusBar.js:292
 msgid "Number of Sheets"
 msgstr "Nombre de fulls"
 
-#: src/control/Control.StatusBar.js:308
+#: src/control/Control.StatusBar.js:297
 msgid "Selected range of cells"
 msgstr "Interval de cel·les seleccionades"
 
-#: src/control/Control.StatusBar.js:313 src/control/Control.StatusBar.js:362
+#: src/control/Control.StatusBar.js:302 src/control/Control.StatusBar.js:351
 msgid "Entering text mode"
 msgstr "Entrada en mode de text"
 
-#: src/control/Control.StatusBar.js:322 src/control/Control.StatusBar.js:367
+#: src/control/Control.StatusBar.js:311 src/control/Control.StatusBar.js:356
 msgid "Selection Mode"
 msgstr "Mode de selecció"
 
-#: src/control/Control.StatusBar.js:327
+#: src/control/Control.StatusBar.js:316
 msgid "Choice of functions"
 msgstr "Tria de funcions"
 
-#: src/control/Control.StatusBar.js:331
+#: src/control/Control.StatusBar.js:320
 msgid "Average"
 msgstr "Mitjana"
 
-#: src/control/Control.StatusBar.js:332
+#: src/control/Control.StatusBar.js:321
 msgid "CountA"
 msgstr "ComptaA"
 
-#: src/control/Control.StatusBar.js:333
+#: src/control/Control.StatusBar.js:322
 msgid "Count"
 msgstr "Compta"
 
-#: src/control/Control.StatusBar.js:334
+#: src/control/Control.StatusBar.js:323
 msgid "Maximum"
 msgstr "Màxim"
 
-#: src/control/Control.StatusBar.js:335
+#: src/control/Control.StatusBar.js:324
 msgid "Minimum"
 msgstr "Mínim"
 
-#: src/control/Control.StatusBar.js:336
+#: src/control/Control.StatusBar.js:325
 msgid "Sum"
 msgstr "Suma"
 
-#: src/control/Control.StatusBar.js:337
+#: src/control/Control.StatusBar.js:326
 msgid "Selection count"
 msgstr "Recompte de la selecció"
 
-#: src/control/Control.StatusBar.js:352
+#: src/control/Control.StatusBar.js:341
 msgid "Number of Pages"
 msgstr "Nombre de pàgines"
 
-#: src/control/Control.StatusBar.js:357
+#: src/control/Control.StatusBar.js:346
 msgid "Word Counter"
 msgstr "Comptador de paraules"
 
-#: src/control/Control.StatusBar.js:384
+#: src/control/Control.StatusBar.js:373
 msgid "Number of Slides"
 msgstr "Nombre de diapositives"
 
@@ -724,15 +724,15 @@ msgstr "Esteu segur que voleu suprimir el full «%sheet%»?"
 msgid "Enter new sheet name"
 msgstr "Introduïu el nom nou del full"
 
-#: src/control/Control.Toolbar.js:979
+#: src/control/Control.Toolbar.js:954
 msgid "Previous slide"
 msgstr "Diapositiva anterior"
 
-#: src/control/Control.Toolbar.js:980
+#: src/control/Control.Toolbar.js:955
 msgid "Next slide"
 msgstr "Diapositiva següent"
 
-#: src/control/Control.Toolbar.js:1038
+#: src/control/Control.Toolbar.js:1013
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Hi ha un conflicte de desfer i refer amb múltiples usuaris. Useu la reparació del document per a resoldre-ho"
 
@@ -796,13 +796,19 @@ msgstr "Segueix sempre l'editor"
 msgid "Current"
 msgstr "Actual"
 
-#: src/control/Ruler.js:241
+#: src/control/Ruler.js:247
 msgid "Left Margin"
 msgstr "Marge esquerre"
 
-#: src/control/Ruler.js:242
+#: src/control/Ruler.js:248
 msgid "Right Margin"
 msgstr "Marge dret"
+
+#: src/control/Ruler.js:421 src/control/Ruler.js:542
+#, fuzzy
+#| msgid "Insert table"
+msgid "Insert tabstop"
+msgstr "Insereix una taula"
 
 #: src/control/Signing.js:195
 msgid "Please enter the PIN Code"
@@ -932,7 +938,7 @@ msgstr "Signat però no s'han signat tots els fitxers"
 msgid "Downloading..."
 msgstr "S'està baixant..."
 
-#: src/control/Toolbar.js:104 src/map/Map.js:1465
+#: src/control/Toolbar.js:104 src/map/Map.js:1458
 msgid "Saving..."
 msgstr "S'està desant..."
 
@@ -940,23 +946,27 @@ msgstr "S'està desant..."
 msgid "Renaming..."
 msgstr "S'està canviant el nom..."
 
-#: src/control/Toolbar.js:410
+#: src/control/Toolbar.js:385
+msgid "I understand the risks"
+msgstr ""
+
+#: src/control/Toolbar.js:432
 msgid "We are sorry, the information about the latest updates is not available."
 msgstr "No està disponible la informació quant a les actualitzacions més recents."
 
-#: src/control/Toolbar.js:454
+#: src/control/Toolbar.js:476
 msgid "This version of %productName is powered by"
 msgstr "Aquesta versió del %productName funciona amb"
 
-#: src/control/Toolbar.js:546
+#: src/control/Toolbar.js:568
 msgid "Insert hyperlink"
 msgstr "Insereix un enllaç"
 
-#: src/control/Toolbar.js:548
+#: src/control/Toolbar.js:570
 msgid "Text"
 msgstr "Text"
 
-#: src/control/Toolbar.js:549
+#: src/control/Toolbar.js:571
 msgid "Link"
 msgstr "Enllaç"
 
@@ -1036,7 +1046,7 @@ msgstr "Premeu Cancel·la per a obrir-lo en el mode de només lectura."
 msgid "Wrong password provided. Please try again."
 msgstr "Heu indicat una contrasenya errònia. Torneu-ho a intentar."
 
-#: src/core/Socket.js:749 src/map/Map.js:1468
+#: src/core/Socket.js:749 src/map/Map.js:1461
 msgid "Loading..."
 msgstr "S'està carregant..."
 
@@ -1186,37 +1196,37 @@ msgstr "Per a enganxar fora del %productName, primer feu clic al botó «Baixa»
 msgid "Failed to download clipboard, please re-copy"
 msgstr "No s'ha pogut baixar el porta-retalls; torneu a copiar"
 
-#: src/map/Clipboard.js:780
+#: src/map/Clipboard.js:782
 msgid "<p>Please use the copy/paste buttons on your on-screen keyboard.</p>"
 msgstr "<p>Useu els botons de copiar i enganxar en el teclat de pantalla.</p>"
 
-#: src/map/Clipboard.js:782
+#: src/map/Clipboard.js:784
 msgid "<p>Your browser has very limited access to the clipboard, so use these keyboard shortcuts:<ul><li><b>Ctrl+C</b>: For copying.</li><li><b>Ctrl+X</b>: For cutting.</li><li><b>Ctrl+V</b>: For pasting.</li></ul></p>"
 msgstr "<p>El vostre navegador té accés molt limitat al porta-retalls. Feu servir aquestes dreceres de teclat:<ul><li><b>Ctrl+C</b>: per a copiar.</li><li><b>Ctrl+X</b>: per a retallar.</li><li><b>Ctrl+V</b>: per a enganxar.</li></ul></p>"
 
-#: src/map/Clipboard.js:815
+#: src/map/Clipboard.js:817
 msgid "<p>If you would like to share larger elements of your document with other applications it is necessary to first download them onto your device. To do that press the \"Start download\" button below, and when complete click \"Confirm copy to clipboard\".</p><p>If you are copy and pasting between documents inside %productName, there is no need to download.</p>"
 msgstr "<p>Si voleu compartir elements més grans que el vostre document amb altres aplicacions cal baixar-los primer en el vostre aparell. Per a fer això pitgeu el botó «Inicia la baixada» de sota i aleshores feu clic en «Confirma la còpia al porta-retalls».</p><p>Si esteu copiant i baixant entre documents del %productName, no cal baixar-los.</p>"
 
-#: src/map/Clipboard.js:831
+#: src/map/Clipboard.js:833
 msgid "<p>A download due to a large copy/paste operation has already started. Please, wait for the current download or cancel it before starting a new one</p>"
 msgstr "<p>Ja s'ha iniciat una baixada per una operació de copiat o enganxat gran. Espereu que la baixada actual finalitzi o cancel·leu-la abans de començar-ne una altra</p>"
 
-#: src/map/Map.js:247
+#: src/map/Map.js:240
 msgid "Initializing..."
 msgstr "S'està iniciant..."
 
-#: src/map/Map.js:450
+#: src/map/Map.js:443
 #, javascript-format
 msgid "%d seconds ago"
 msgstr "Fa %d segons"
 
-#: src/map/Map.js:453
+#: src/map/Map.js:446
 #, javascript-format
 msgid "%d minutes ago"
 msgstr "Fa %d minuts"
 
-#: src/map/Map.js:1321
+#: src/map/Map.js:1314
 msgid "Inactive document - please click to resume editing"
 msgstr "El document no és actiu; feu clic per a continuar editant-lo"
 
