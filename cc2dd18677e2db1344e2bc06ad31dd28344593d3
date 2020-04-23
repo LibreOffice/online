@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b9e80c63_60928246",
+        "filename": "INSTALL",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002429
+      },
+      "writtenOn": "2020-04-23T08:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d001033c_b59ee828",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "cc2dd18677e2db1344e2bc06ad31dd28344593d3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d03a0ea0_9009be08",
         "filename": "INSTALL",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "cc2dd18677e2db1344e2bc06ad31dd28344593d3",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12034608_0d826815",
+        "filename": "INSTALL",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002429
+      },
+      "writtenOn": "2020-04-23T08:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d03a0ea0_9009be08",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "cc2dd18677e2db1344e2bc06ad31dd28344593d3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
