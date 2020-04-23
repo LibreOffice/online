@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43050f26_606e185f",
+        "filename": "net/Socket.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-23T11:11:15Z",
+      "side": 1,
+      "message": "I\u0027m not totally convinced that we need another sub-class here of the StreamSocket, and another sub-class of the WebSocketHandler. Perhaps it\u0027s not a purists approach - but a \u0027void sendFD(int fd);\u0027 and \u0027int receiveFD();\u0027 method pair, that grabs out the file-descriptor from the underlying Socket - and of course fails with an error (as the underlying OS primitives will) when it\u0027s not a UDS would be easier to read \u0026 keep our classes easier to understand I hope.\n\nPerhaps those two methods could live in \u0027Socket\u0027 or \u0027StreamSocket\u0027 itself. They\u0027re not generally useful things we want people to use a lot for sure \u003d)",
+      "range": {
+        "startLine": 1145,
+        "startChar": 0,
+        "endLine": 1146,
+        "endChar": 16
+      },
+      "revId": "84712472e2eba1771acc4bdea3a264b6b96620a4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fd37d0c_76bcb08d",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-23T11:11:15Z",
+      "side": 1,
+      "message": "Do we really need these four variants ? I\u0027d expect us to only ever send one AncilliaryData message - to send theFD over ?\n\nCould we name it \u0027sendFD()\u0027 and \u0027receiveFD()\u0027 or somesuch - and simplify the API ? The only other ancilliary data we could send is credentials, but we check with PEERCRED anyway so - not sure we need more than an FD.",
+      "revId": "84712472e2eba1771acc4bdea3a264b6b96620a4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbdae1a2_e3e647d7",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-23T11:11:15Z",
+      "side": 1,
+      "message": "so for one call-site, lets call this directly ? \u003d) and ideally pass an integer fd in.",
+      "revId": "84712472e2eba1771acc4bdea3a264b6b96620a4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "123c3499_dd55c71e",
+        "filename": "wsd/DocumentBroker.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-23T11:11:15Z",
+      "side": 1,
+      "message": "not sure that needs to be atomic really \u003d)",
+      "revId": "84712472e2eba1771acc4bdea3a264b6b96620a4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
