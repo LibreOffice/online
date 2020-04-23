@@ -453,7 +453,7 @@ void SocketPoll::insertNewUnixSocket(
     else
     {
         std::shared_ptr<StreamSocket> socket;
-        socket = StreamSocket::create<StreamSocket>(fd, true, websocketHandler);
+        socket = StreamSocket::create<UnixStreamSocket>(fd, true, websocketHandler);
         if (socket)
         {
             LOG_DBG("Connected to local UDS " << location << " #" << socket->getFD());

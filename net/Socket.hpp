@@ -1143,6 +1143,114 @@ protected:
     bool _shutdownSignalled;
 };
 
+class UnixStreamSocket : public StreamSocket
+{
+public:
+    UnixStreamSocket(const int fd, bool  isClient,
+                     std::shared_ptr<ProtocolHandlerInterface> socketHandler) :
+    StreamSocket(fd, isClient, socketHandler)
+    {
+    }
+
+    virtual void writeOutgoingAncillaryData(const char* data, const uint64_t len, const char* adata, const uint64_t alen)
+    {
+        assertCorrectThread();
+
+        // Flush existing non-ancillary data
+        // so that our non-ancillary data will
+        // match ancillary data.
+        if (getOutBuffer().size() > 0)
+        {
+            writeOutgoingData();
+        }
+
+        msghdr msg;
+        iovec iov[1];
+
+        iov[0].iov_base = const_cast<char*>(data);
+        iov[0].iov_len = len;
+
+        msg.msg_name = nullptr;
+        msg.msg_namelen = 0;
+        msg.msg_iov = &iov[0];
+        msg.msg_iovlen = 1;
+        msg.msg_control = const_cast<char*>(adata);
+        msg.msg_controllen = alen;
+        msg.msg_flags = 0;
+
+        sendmsg(getFD(), &msg, 0);
+    }
+
+    virtual int readIncomingAncillaryData(char* data, int len, std::vector<char>& ctrlMsg)
+    {
+        assertCorrectThread();
+
+        msghdr msg;
+        iovec iov[1];
+        char ctrl[1024];
+        int ctrlLen = sizeof(ctrl);
+
+        iov[0].iov_base = data;
+        iov[0].iov_len = len;
+
+        msg.msg_name = nullptr;
+        msg.msg_namelen = 0;
+        msg.msg_iov = &iov[0];
+        msg.msg_iovlen = 1;
+        msg.msg_control = ctrl;
+        msg.msg_controllen = ctrlLen;
+        msg.msg_flags = 0;
+
+        int ret = recvmsg(getFD(), &msg, 0);
+        if (ret > 0 && msg.msg_controllen)
+        {
+            ctrlMsg.insert(ctrlMsg.end(), ctrl, &ctrl[msg.msg_controllen]);
+        }
+        else if (ret == -1)
+        {
+            LOG_INF("recvmsg returned error: " << errno);
+        }
+
+        return ret;
+    }
+
+    virtual int readData(char* buf, int len) override
+    {
+        assertCorrectThread();
+#if !MOBILEAPP
+        return readIncomingAncillaryData(buf, len, _ctrlInBuffer);
+#else
+        return fakeSocketRead(getFD(), buf, len);
+#endif
+    }
+
+    bool popControlMessage(std::vector<char>& cmsg)
+    {
+        if (!_ctrlInBuffer.size())
+            return 0;
+        
+        msghdr msg;
+        msg.msg_control = _ctrlInBuffer.data();
+        msg.msg_controllen = _ctrlInBuffer.size();
+
+        cmsghdr *first = CMSG_FIRSTHDR(&msg);
+        if (first)
+        {
+            cmsghdr *next = CMSG_NXTHDR(&msg, first);
+            next = next ? next : (cmsghdr*)&_ctrlInBuffer[_ctrlInBuffer.size()];
+            cmsg.insert(cmsg.end(), (char*)first, (char*)next);
+            _ctrlInBuffer.erase(_ctrlInBuffer.begin(), _ctrlInBuffer.begin() + (next - first));
+
+            return true;
+        }
+
+        return false;
+    }
+
+private:
+    std::vector<char> _ctrlInBuffer;
+};
+
 enum class WSOpCode : unsigned char {
     Continuation = 0x0,
     Text         = 0x1,

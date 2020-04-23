@@ -718,7 +718,7 @@ public:
              const std::string& docId,
              const std::string& url,
              std::shared_ptr<TileQueue> tileQueue,
-             const std::shared_ptr<WebSocketHandler>& websocketHandler)
+             const std::shared_ptr<WebSocketHandler4UnixSocket>& websocketHandler)
       : _loKit(loKit),
         _jailId(jailId),
         _docKey(docKey),
@@ -742,8 +742,24 @@ public:
         assert(_loKit);
 
 #if !MOBILEAPP
-        _lastMemStatsTime = std::chrono::steady_clock::now();
-        sendTextFrame(Util::getMemoryStats(ProcSMapsFile));
+            std::string str = "smapsfd:";
+            char buf[CMSG_SPACE(sizeof(int))];
+            cmsghdr *cmsg = (cmsghdr*)buf;
+            cmsg->cmsg_type = SCM_RIGHTS;
+            cmsg->cmsg_level = SOL_SOCKET;
+            cmsg->cmsg_len = CMSG_LEN(sizeof(int));
+            *(int *)CMSG_DATA(cmsg) = ProcSMapsFile->_fileno;
+
+            if (websocketHandler->sendTextMessageWithAncillaryData(str.c_str(), str.size(), buf, CMSG_LEN(sizeof(int))) > 0)
+            {
+                LOG_INF("Successfully sent smaps fd to wsd");
+                fclose(ProcSMapsFile);
+                ProcSMapsFile = nullptr;
+            }
+            else
+            {
+                LOG_ERR("Failed to send smaps fd to wsd");
+            }
 #endif
     }
 
@@ -1881,7 +1897,7 @@ private:
     }
 
 public:
-    void drainQueue(const std::chrono::steady_clock::time_point &now)
+    void drainQueue(const std::chrono::steady_clock::time_point &/*now*/)
     {
         try
         {
@@ -1991,16 +2007,6 @@ public:
                 }
             }
 
-#if !MOBILEAPP
-            std::chrono::milliseconds::rep durationMs =
-                std::chrono::duration_cast<std::chrono::milliseconds>(now - _lastMemStatsTime).count();
-            // Update memory stats and editor every 5 seconds.
-            if (durationMs > 5000)
-            {
-                sendTextFrame(Util::getMemoryStats(ProcSMapsFile));
-                _lastMemStatsTime = std::chrono::steady_clock::now();
-            }
-#endif
         }
         catch (const std::exception& exc)
         {
@@ -2196,7 +2202,7 @@ public:
     }
 };
 
-class KitWebSocketHandler final : public WebSocketHandler
+class KitWebSocketHandler final : public WebSocketHandler4UnixSocket
 {
     std::shared_ptr<TileQueue> _queue;
     std::string _socketName;
@@ -2207,7 +2213,7 @@ class KitWebSocketHandler final : public WebSocketHandler
 
 public:
     KitWebSocketHandler(const std::string& socketName, const std::shared_ptr<lok::Office>& loKit, const std::string& jailId, KitSocketPoll& ksPoll) :
-        WebSocketHandler(/* isClient = */ true, /* isMasking */ false),
+        WebSocketHandler4UnixSocket(/* isClient = */ true, /* isMasking */ false),
         _queue(std::make_shared<TileQueue>()),
         _socketName(socketName),
         _loKit(loKit),
@@ -2267,7 +2273,7 @@ protected:
             {
                 _document = std::make_shared<Document>(
                     _loKit, _jailId, docKey, docId, url, _queue,
-                    std::static_pointer_cast<WebSocketHandler>(shared_from_this()));
+                    std::static_pointer_cast<WebSocketHandler4UnixSocket>(shared_from_this()));
                 _ksPoll.setDocument(_document);
             }
 

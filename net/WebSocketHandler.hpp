@@ -547,26 +547,11 @@ public:
         std::shared_ptr<StreamSocket> socket = _socket.lock();
         return sendFrame(socket, data, len, WSFrameMask::Fin | static_cast<unsigned char>(code), flush);
     }
-private:
-    /// Sends a WebSocket frame given the data, length, and flags.
-    /// Returns the number of bytes written (including frame overhead) on success,
-    /// 0 for closed/invalid socket, and -1 for other errors.
-    int sendFrame(const std::shared_ptr<StreamSocket>& socket,
-                  const char* data, const uint64_t len,
-                  unsigned char flags, const bool flush = true) const
+
+protected:
+
+    void buildFrame(const char* data, const uint64_t len, unsigned char flags, std::vector<char>& out) const
     {
-        if (!socket || data == nullptr || len == 0)
-            return -1;
-
-        if (socket->isClosed())
-            return 0;
-
-        socket->assertCorrectThread();
-        std::vector<char>& out = socket->getOutBuffer();
-
-#if !MOBILEAPP
-        const size_t oldSize = out.size();
-
         out.push_back(flags);
 
         int maskFlag = _isMasking ? 0x80 : 0;
@@ -614,6 +599,29 @@ private:
             // Copy the data.
             out.insert(out.end(), data, data + len);
         }
+    }
+
+    /// Sends a WebSocket frame given the data, length, and flags.
+    /// Returns the number of bytes written (including frame overhead) on success,
+    /// 0 for closed/invalid socket, and -1 for other errors.
+    int sendFrame(const std::shared_ptr<StreamSocket>& socket,
+                  const char* data, const uint64_t len,
+                  unsigned char flags, const bool flush = true) const
+    {
+        if (!socket || data == nullptr || len == 0)
+            return -1;
+
+        if (socket->isClosed())
+            return 0;
+
+        socket->assertCorrectThread();
+        std::vector<char>& out = socket->getOutBuffer();
+
+#if !MOBILEAPP
+        const size_t oldSize = out.size();
+
+        buildFrame(data, len, flags, out);
+
         const size_t size = out.size() - oldSize;
 
         if (flush)
@@ -633,8 +641,6 @@ private:
 
         return size;
     }
-
-protected:
 
     bool isControlFrame(WSOpCode code){ return code >= WSOpCode::Close; }
 
@@ -665,7 +671,7 @@ protected:
             _msgHandler->handleMessage(data);
     }
 
-    std::weak_ptr<StreamSocket>& getSocket()
+    const std::weak_ptr<StreamSocket>& getSocket() const
     {
         return _socket;
     }
@@ -805,6 +811,76 @@ protected:
         // No need to ping right upon connection/upgrade,
         // but do reset the time to avoid pinging immediately after.
         _lastPingSentTime = std::chrono::steady_clock::now();
+    }
+};
+
+class WebSocketHandler4UnixSocket : public WebSocketHandler
+{
+public:
+    /// See WebSocketHandler constructor for details
+    WebSocketHandler4UnixSocket(bool isClient = false, bool isMasking = true)
+        : WebSocketHandler(isClient, isMasking)
+    {
+    }
+
+    /// See WebSocketHandler constructor for details
+    WebSocketHandler4UnixSocket(const std::weak_ptr<UnixStreamSocket>& socket,
+                                const Poco::Net::HTTPRequest& request)
+        : WebSocketHandler(socket, request)
+    {
+    }
+
+    int sendMessageWithAncillaryData(const std::string& msg, const std::string& adata) const
+    {
+        return sendMessageWithAncillaryData(msg.c_str(), msg.size(), WSOpCode::Text, adata.c_str(), adata.size());
+    }
+
+    int sendTextMessageWithAncillaryData(const char* msg, const size_t len, const char* adata, const size_t alen) const
+    {
+        return sendMessageWithAncillaryData(msg, len, WSOpCode::Text, adata, alen);
+    }
+
+    int sendBinaryMessageWithAncillaryData(const char *data, const size_t len, const char* adata, const size_t alen) const
+    {
+        return sendMessageWithAncillaryData(data, len, WSOpCode::Binary, adata, alen);
+    }
+
+    int sendMessageWithAncillaryData(const char* data, const size_t len, const WSOpCode code, const char* adata, const size_t alen) const
+    {
+        std::shared_ptr<UnixStreamSocket> socket = std::static_pointer_cast<UnixStreamSocket>(getSocket().lock());
+        return sendFrameWithAncillaryData(socket, data, len, WSFrameMask::Fin | static_cast<unsigned char>(code), adata, alen);
+    }
+
+    /// Sends a WebSocket frame given the data, length, and flags.
+    /// Also, sends ancillary data with frame.
+    /// Returns the number of bytes written (including frame overhead) on success,
+    /// 0 for closed/invalid socket, and -1 for other errors.
+    int sendFrameWithAncillaryData(const std::shared_ptr<UnixStreamSocket>& socket,
+                                   const char* data, const uint64_t len,
+                                   unsigned char flags,
+                                   const char* adata, const uint64_t alen) const
+    {
+#if !MOBILEAPP
+        if (!socket || data == nullptr || len == 0)
+            return -1;
+
+        if (socket->isClosed())
+            return 0;
+
+        socket->assertCorrectThread();
+
+        std::vector<char> out;
+
+        buildFrame(data, len, flags, out);
+        
+        const size_t size = out.size();
+
+        socket->writeOutgoingAncillaryData(out.data(), out.size(), adata, alen);
+
+        return size;
+#else
+        return sendFrame(socket, data, len, flags);
+#endif
     }
 };
 

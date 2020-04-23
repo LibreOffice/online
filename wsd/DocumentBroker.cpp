@@ -1593,13 +1593,32 @@ bool DocumentBroker::handleInput(const std::vector<char>& payload)
             Util::alertAllUsers(cmd, kind);
         }
 #if !MOBILEAPP
-        else if (command == "procmemstats:")
+        else if (command == "smapsfd:")
         {
-            int dirty;
-            if (message->getTokenInteger("dirty", dirty))
+            std::shared_ptr<UnixStreamSocket> socket = std::static_pointer_cast<UnixStreamSocket>(_childProcess->_socket);
+            if (socket)
             {
-                Admin::instance().updateMemoryDirty(
-                    _docKey, dirty + getMemorySize()/1024);
+                std::vector<char> ctrlMsg;
+                if (!socket->popControlMessage(ctrlMsg))
+                {
+                    LOG_ERR("Could not retrieve control data");
+                    return false;
+                }
+                cmsghdr *cmsg = (cmsghdr*)ctrlMsg.data();
+                if (cmsg->cmsg_type != SCM_RIGHTS)
+                {
+                    LOG_ERR("Unexpected control message type");
+                    return false;
+                }
+                if (cmsg->cmsg_len != CMSG_LEN(sizeof(int)))
+                {
+                    LOG_ERR("Unexpected control message length");
+                    return false;
+                }
+
+                _childProcess->setSMapsFD(*(int*)CMSG_DATA(cmsg));
+                Admin::instance().setDocProcSMapsFD(_docKey, _childProcess->getSMapsFD());
+                LOG_INF("Received smaps fd from kit " << _childProcess->getPid());
             }
         }
 #endif

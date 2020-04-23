@@ -3170,7 +3170,7 @@ class PrisonerSocketFactory final : public SocketFactory
     std::shared_ptr<Socket> create(const int fd) override
     {
         // No local delay.
-        return StreamSocket::create<StreamSocket>(fd, false, std::make_shared<PrisonerRequestDispatcher>());
+        return StreamSocket::create<UnixStreamSocket>(fd, false, std::make_shared<PrisonerRequestDispatcher>());
     }
 };
 
