@@ -742,8 +742,20 @@ public:
         assert(_loKit);
 
 #if !MOBILEAPP
-        _lastMemStatsTime = std::chrono::steady_clock::now();
-        sendTextFrame(Util::getMemoryStats(ProcSMapsFile));
+        if (ProcSMapsFile)
+        {
+            static const std::string str = "smapsfd:";
+            if (websocketHandler->SendTextMessageWithFD(str.c_str(), str.size(), ProcSMapsFile->_fileno) > 0)
+            {
+                LOG_DBG("Successfully sent smaps fd to wsd");
+                fclose(ProcSMapsFile);
+                ProcSMapsFile = nullptr;
+            }
+            else
+            {
+                LOG_ERR("Failed to send smaps fd to wsd");
+            }
+        }
 #endif
     }
 
@@ -1881,7 +1893,7 @@ private:
     }
 
 public:
-    void drainQueue(const std::chrono::steady_clock::time_point &now)
+    void drainQueue(const std::chrono::steady_clock::time_point &/*now*/)
     {
         try
         {
@@ -1991,16 +2003,6 @@ public:
                 }
             }
 
-#if !MOBILEAPP
-            std::chrono::milliseconds::rep durationMs =
-                std::chrono::duration_cast<std::chrono::milliseconds>(now - _lastMemStatsTime).count();
-            // Update memory stats and editor every 5 seconds.
-            if (durationMs > 5000)
-            {
-                sendTextFrame(Util::getMemoryStats(ProcSMapsFile));
-                _lastMemStatsTime = std::chrono::steady_clock::now();
-            }
-#endif
         }
         catch (const std::exception& exc)
         {

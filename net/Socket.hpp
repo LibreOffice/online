@@ -759,7 +759,8 @@ public:
         _wsState(WSState::HTTP),
         _closed(false),
         _sentHTTPContinue(false),
-        _shutdownSignalled(false)
+        _shutdownSignalled(false),
+        _incomingFD(-1)
     {
         LOG_DBG("StreamSocket ctor #" << fd);
 
@@ -835,6 +836,45 @@ public:
     /// Sends HTTP response.
     /// Adds Date and User-Agent.
     void send(Poco::Net::HTTPResponse& response);
+
+    /// Sends data with file descriptor as control data.
+    /// Can be used only with Unix sockets.
+    void sendFD(const char* data, const uint64_t len, int fd)
+    {
+        assertCorrectThread();
+
+        // Flush existing non-ancillary data
+        // so that our non-ancillary data will
+        // match ancillary data.
+        if (getOutBuffer().size() > 0)
+        {
+            writeOutgoingData();
+        }
+
+        msghdr msg;
+        iovec iov[1];
+
+        iov[0].iov_base = const_cast<char*>(data);
+        iov[0].iov_len = len;
+
+        msg.msg_name = nullptr;
+        msg.msg_namelen = 0;
+        msg.msg_iov = &iov[0];
+        msg.msg_iovlen = 1;
+
+        char adata[CMSG_SPACE(sizeof(int))];
+        cmsghdr *cmsg = (cmsghdr*)adata;
+        cmsg->cmsg_type = SCM_RIGHTS;
+        cmsg->cmsg_level = SOL_SOCKET;
+        cmsg->cmsg_len = CMSG_LEN(sizeof(int));
+        *(int *)CMSG_DATA(cmsg) = fd;
+
+        msg.msg_control = const_cast<char*>(adata);
+        msg.msg_controllen = CMSG_LEN(sizeof(int));
+        msg.msg_flags = 0;
+
+        sendmsg(getFD(), &msg, 0);
+    }
 
     /// Reads data by invoking readData() and buffering.
     /// Return false iff the socket is closed.
@@ -955,6 +995,11 @@ public:
     std::vector<char>& getOutBuffer()
     {
         return _outBuffer;
+    }
+
+    int getIncomingFD()
+    {
+        return _incomingFD;
     }
 
 protected:
@@ -1082,12 +1127,53 @@ public:
     bool sniffSSL() const;
 
 protected:
+    /// Reads data with file descriptor as control data if received.
+    /// Can be used only with Unix sockets.
+    int readFD(char* buf, int len, int& fd)
+    {
+        msghdr msg;
+        iovec iov[1];
+        /// We don't expect more than one FD
+        char ctrl[CMSG_SPACE(sizeof(int))];
+        int ctrlLen = sizeof(ctrl);
+
+        iov[0].iov_base = buf;
+        iov[0].iov_len = len;
+
+        msg.msg_name = nullptr;
+        msg.msg_namelen = 0;
+        msg.msg_iov = &iov[0];
+        msg.msg_iovlen = 1;
+        msg.msg_control = ctrl;
+        msg.msg_controllen = ctrlLen;
+        msg.msg_flags = 0;
+
+        int ret = recvmsg(getFD(), &msg, 0);
+        if (ret >= 0)
+        {
+            if (msg.msg_controllen)
+            {
+                cmsghdr *cmsg = CMSG_FIRSTHDR(&msg);
+                if (cmsg && cmsg->cmsg_type == SCM_RIGHTS && cmsg->cmsg_len == CMSG_LEN(sizeof(int)))
+                {
+                    fd = *(int*)CMSG_DATA(cmsg);
+                }
+            }
+        }
+        else
+        {
+            LOG_ERR("recvmsg call ended with error: " << errno);
+        }
+
+        return ret;
+    }
+
     /// Override to handle reading of socket data differently.
     virtual int readData(char* buf, int len)
     {
         assertCorrectThread();
 #if !MOBILEAPP
-        return ::read(getFD(), buf, len);
+        return readFD(buf, len, _incomingFD);
 #else
         return fakeSocketRead(getFD(), buf, len);
 #endif
@@ -1141,6 +1227,7 @@ protected:
 
     /// True when shutdown was requested via shutdown().
     bool _shutdownSignalled;
+    int _incomingFD;
 };
 
 enum class WSOpCode : unsigned char {
