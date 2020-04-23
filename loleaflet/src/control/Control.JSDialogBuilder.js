@@ -91,6 +91,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		this._controlHandlers['radiobutton'] = this._radiobuttonControl;
 		this._controlHandlers['checkbox'] = this._checkboxControl;
 		this._controlHandlers['spinfield'] = this._spinfieldControl;
+		this._controlHandlers['metricfield'] = this._metricfieldControl;
 		this._controlHandlers['edit'] = this._editControl;
 		this._controlHandlers['pushbutton'] = this._pushbuttonControl;
 		this._controlHandlers['combobox'] = this._comboboxControl;
@@ -1113,6 +1114,55 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		});
 
 		updateFunction();
+
+		return false;
+	},
+
+	_metricfieldControl: function(parentContainer, data, builder, customCallback) {
+		var value;
+		var controls = L.Control.JsDialogBuilder.baseSpinField(parentContainer, data, builder);
+
+		var updateFunction = function(e) {
+			value = e[data.id];
+			if (!value) {
+				value = data.value;
+			}
+
+			value = parseFloat(value);
+			$(controls.spinfield).attr('value', value);
+		};
+
+		// It listens server state changes using GetControlState
+		// to avoid unit conversion
+		builder.map.on('commandstatechanged', function(e) {
+			if (e.state[data.id]) {
+				updateFunction(e.state);
+			}
+		}, this);
+
+		controls.spinfield.addEventListener('change', function() {
+			if (customCallback)
+				customCallback();
+			else
+				builder.callback('spinfield', 'value', controls.container, this.value, builder);
+		});
+
+		controls.plus.addEventListener('click', function() {
+			if (customCallback)
+				customCallback('spinfield', 'plus', controls.container, this.value, builder);
+			else
+				builder.callback('spinfield', 'plus', controls.container, this.value, builder);
+		});
+
+		controls.minus.addEventListener('click', function() {
+			if (customCallback)
+				customCallback('spinfield', 'minus', controls.container, this.value, builder);
+			else
+				builder.callback('spinfield', 'minus', controls.container, this.value, builder);
+		});
+
+		value = parseFloat(data.value);
+		$(controls.spinfield).attr('value', value);
 
 		return false;
 	},
