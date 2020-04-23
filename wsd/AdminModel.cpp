@@ -135,6 +135,18 @@ std::string Document::to_string() const
     return oss.str();
 }
 
+int Document::getMemoryDirty() const
+{
+    // Avoid accessing smaps too often
+    const time_t now = std::time(nullptr);
+    if (now - _lastTimeSMapsRead >= 5)
+    {
+        _memoryDirty = _procSMaps  ? Util::getPssAndDirtyFromSMaps(_procSMaps).second : 0;
+        _lastTimeSMapsRead = now;
+    }
+    return _memoryDirty;
+}
+
 bool Subscriber::notify(const std::string& message)
 {
     // If there is no socket, then return false to
@@ -732,27 +744,6 @@ void AdminModel::updateLastActivityTime(const std::string& docKey)
     }
 }
 
-bool Document::updateMemoryDirty(int dirty)
-{
-    if (_memoryDirty == dirty)
-        return false;
-    _memoryDirty = dirty;
-    return true;
-}
-
-void AdminModel::updateMemoryDirty(const std::string& docKey, int dirty)
-{
-    assertCorrectThread();
-
-    auto docIt = _documents.find(docKey);
-    if (docIt != _documents.end() &&
-        docIt->second.updateMemoryDirty(dirty))
-    {
-        notify("propchange " + std::to_string(docIt->second.getPid()) +
-               " mem " + std::to_string(dirty));
-    }
-}
-
 double AdminModel::getServerUptime()
 {
     auto currentTime = std::chrono::system_clock::now();
@@ -779,6 +770,13 @@ void AdminModel::setDocWopiUploadDuration(const std::string& docKey, const std::
     std::map<std::string, Document>::iterator it = _documents.find(docKey);
     if (it != _documents.end())
         it->second.setWopiUploadDuration(wopiUploadDuration);
+}
+
+void AdminModel::setDocProcSMapsFD(const std::string& docKey, const int smapsFD)
+{
+    std::map<std::string, Document>::iterator it = _documents.find(docKey);
+    if (it != _documents.end())
+        it->second.setProcSMapsFD(smapsFD);
 }
 
 void AdminModel::addSegFaultCount(unsigned segFaultCount)
@@ -967,7 +965,7 @@ void CalcKitStats(KitProcStats& stats)
 {
     std::vector<int> childProcs;
     stats.unassignedCount = AdminModel::getPidsFromProcName(std::regex("kit_spare_[0-9]*"), &childProcs);
-    stats.assignedCount = AdminModel::getPidsFromProcName(std::regex("kitbroker_[0-9]*"), &childProcs);
+    stats.assignedCount = AdminModel::getPidsFromProcName(std::regex("kit_[0-9]*"), &childProcs);
     for (int& pid : childProcs)
     {
         stats.UpdateAggregateStats(pid);
