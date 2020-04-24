@@ -152,14 +152,6 @@ public:
 
     bool continuePolling() override
     {
-#if MOBILEAPP
-        if (MobileTerminationFlag)
-        {
-            LOG_TRC("Noticed MobileTerminationFlag.");
-            MobileTerminationFlag = false;
-            return false;
-        }
-#endif
         return TerminatingPoll::continuePolling();
     }
 
@@ -175,6 +167,14 @@ std::atomic<unsigned> DocumentBroker::DocBrokerId(1);
 DocumentBroker::DocumentBroker(const std::string& uri,
                                const Poco::URI& uriPublic,
                                const std::string& docKey) :
+    DocumentBroker(uri, uriPublic, docKey, 0)
+{
+}
+
+DocumentBroker::DocumentBroker(const std::string& uri,
+                               const Poco::URI& uriPublic,
+                               const std::string& docKey,
+                               unsigned mobileAppDocId = 0) :
     _limitLifeSeconds(0),
     _uriOrig(uri),
     _uriPublic(uriPublic),
@@ -197,7 +197,8 @@ DocumentBroker::DocumentBroker(const std::string& uri,
     _lockCtx(new LockContext()),
     _tileVersion(0),
     _debugRenderedTileCount(0),
-    _wopiLoadDuration(0)
+    _wopiLoadDuration(0),
+    _mobileAppDocId(mobileAppDocId)
 {
     assert(!_docKey.empty());
     assert(!LOOLWSD::ChildRoot.empty());
@@ -239,7 +240,8 @@ void DocumentBroker::pollThread()
     }
     while (!_stop && _poll->continuePolling() && !SigUtil::getTerminationFlag() && !SigUtil::getShutdownRequestFlag());
 #else
-    _childProcess = getNewChild_Blocks(getPublicUri().getPath());
+    assert(_mobileAppDocId > 0);
+    _childProcess = getNewChild_Blocks(_mobileAppDocId);
 #endif
 
     if (!_childProcess)
@@ -2225,6 +2227,8 @@ void DocumentBroker::getIOStats(uint64_t &sent, uint64_t &recv)
     }
 }
 
+#if !MOBILEAPP
+
 static std::atomic<size_t> NumConverters;
 
 size_t ConvertToBroker::getInstanceCount()
@@ -2246,7 +2250,6 @@ ConvertToBroker::ConvertToBroker(const std::string& uri,
     _limitLifeSeconds = limit_convert_secs;
 }
 
-#if !MOBILEAPP
 bool ConvertToBroker::startConversion(SocketDisposition &disposition, const std::string &id)
 {
     std::shared_ptr<ConvertToBroker> docBroker = std::static_pointer_cast<ConvertToBroker>(shared_from_this());
@@ -2294,7 +2297,6 @@ bool ConvertToBroker::startConversion(SocketDisposition &disposition, const std:
         });
     return true;
 }
-#endif
 
 void ConvertToBroker::dispose()
 {
@@ -2345,6 +2347,8 @@ void ConvertToBroker::setLoaded()
 
     _clientSession->handleMessage(saveasRequest);
 }
+
+#endif
 
 std::vector<std::shared_ptr<ClientSession>> DocumentBroker::getSessionsTestOnlyUnsafe()
 {
