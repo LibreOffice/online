@@ -119,10 +119,14 @@ public:
     /// Dummy document broker that is marked to destroy.
     DocumentBroker();
 
-    /// Construct DocumentBroker with URI, docKey, and root path.
     DocumentBroker(const std::string& uri,
                    const Poco::URI& uriPublic,
                    const std::string& docKey);
+
+    DocumentBroker(const std::string& uri,
+                   const Poco::URI& uriPublic,
+                   const std::string& docKey,
+                   unsigned mobileAppDocId);
 
     virtual ~DocumentBroker();
 
@@ -429,7 +433,12 @@ private:
 
     /// Unique DocBroker ID for tracing and debugging.
     static std::atomic<unsigned> DocBrokerId;
+
+    // Relevant only in the mobile apps
+    const unsigned _mobileAppDocId;
 };
+
+#if !MOBILEAPP
 
 class ConvertToBroker : public DocumentBroker
 {
@@ -446,10 +455,8 @@ public:
                     const std::string& sOptions);
     virtual ~ConvertToBroker();
 
-#if !MOBILEAPP
     /// Move socket to this broker for response & do conversion
     bool startConversion(SocketDisposition &disposition, const std::string &id);
-#endif
 
     /// Called when removed from the DocBrokers list
     void dispose() override;
@@ -463,5 +470,7 @@ public:
     /// Cleanup path and its parent
     static void removeFile(const std::string &uri);
 };
+
+#endif
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
