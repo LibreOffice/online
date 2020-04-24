@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f43998d_65383fff",
+        "filename": "net/Socket.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-24T13:58:45Z",
+      "side": 1,
+      "message": "Looks good - I guess we wanted that \"pendingFD\" flag that we could use to mark that the socket can use recvmsg() for a while before switching back to the old system ::read.\n\nIt almost makes me want to have a virtualized underling set of \u0027read/write\u0027 calls as you suggested not only for testing, but so we can switch I/O here as needed.",
+      "revId": "d1d8be8508d572bbf228e68a2ce1f28ef611a3e8",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69a42914_7560416f",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-24T13:58:45Z",
+      "side": 1,
+      "message": "lower-case start for the name: \u0027sendFrameWithFD\u0027 might be better (?)",
+      "revId": "d1d8be8508d572bbf228e68a2ce1f28ef611a3e8",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdb85b8f_024b0922",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-24T13:58:45Z",
+      "side": 1,
+      "message": "don\u0027t think we need anything here on mobile \u003d) lets block the whole method out - and also its single calling site.",
+      "revId": "d1d8be8508d572bbf228e68a2ce1f28ef611a3e8",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea0bffbd_d598a647",
+        "filename": "net/WebSocketHandler.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-24T13:58:45Z",
+      "side": 1,
+      "message": "nice \u003d)",
+      "revId": "d1d8be8508d572bbf228e68a2ce1f28ef611a3e8",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
