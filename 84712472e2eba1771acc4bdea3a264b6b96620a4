@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "675324f2_e8fbf708",
+        "filename": "wsd/AdminModel.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1002093
+      },
+      "writtenOn": "2020-04-24T10:26:20Z",
+      "side": 1,
+      "message": "It is \u0027kit_\u0027 and not \u0027kitbroker_\u0027. Was changed about 6 days ago.",
+      "parentUuid": "f3f452c7_85a5ca45",
+      "revId": "84712472e2eba1771acc4bdea3a264b6b96620a4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb86bfa2_50b8b262",
         "filename": "wsd/DocumentBroker.cpp",
         "patchSetId": 1
