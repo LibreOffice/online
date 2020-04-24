@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1979ff4e_05c52ad7",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2573,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-24T09:40:02Z",
+      "side": 0,
+      "message": "These cannot be done in the systemplate. They are updated dynamically. Please restore this code. Failing that - we need to update the systemplate as/when loolwsd starts or perhaps dynamically as we are running.",
+      "revId": "91ccb0e55e039f579aa0d42119deca0ec0edd301",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
