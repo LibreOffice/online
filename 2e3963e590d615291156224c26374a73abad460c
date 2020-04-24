@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3b67d5_c4f0f8e3",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2194,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-24T09:33:44Z",
+      "side": 1,
+      "message": "Looks good - I think we have the socket on the disposition as a shared_ptr anyway ;-) so we could use that. as above for the handleIncomingMessage - and avoid the errors.\n\nOtherwise - great.",
+      "revId": "2e3963e590d615291156224c26374a73abad460c",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
