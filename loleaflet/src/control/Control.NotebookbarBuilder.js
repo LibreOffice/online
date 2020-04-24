@@ -15,6 +15,7 @@ L.Control.NotebookbarBuilder = L.Control.JSDialogBuilder.extend({
 		this._controlHandlers['combobox'] = function() { return false; };
 		this._controlHandlers['listbox'] = function() { return false; };
 		this._controlHandlers['pushbutton'] = function() { return false; };
+		this._controlHandlers['spinfield'] = function() { return false; };
 
 		this._toolitemHandlers['.uno:XLineColor'] = function() {};
 		this._toolitemHandlers['.uno:SelectWidth'] = function() {};
