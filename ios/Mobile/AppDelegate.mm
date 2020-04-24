@@ -207,6 +207,9 @@ static void updateTemplates(NSData *data, NSURLResponse *response)
 
     comphelper::LibreOfficeKit::setLanguageTag(LanguageTag(OUString::fromUtf8(OString([app_locale UTF8String])), true));
 
+    // This fires off a thread running the LOKit runLoop()
+    runKitLoopInAThread();
+
     // Look for the setting indicating the URL for a file containing a list of URLs for template
     // documents to download. If set, start a task to download it, and then to download the listed
     // templates.
@@ -248,7 +251,7 @@ static void updateTemplates(NSData *data, NSURLResponse *response)
 
     fakeSocketSetLoggingCallback([](const std::string& line)
                                  {
-                                     LOG_TRC_NOFILE(line);
+                                     LOG_INF(line);
                                  });
 
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
@@ -266,6 +269,10 @@ static void updateTemplates(NSData *data, NSURLResponse *response)
                        }
                    });
     return YES;
+}
+
+- (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options API_AVAILABLE(ios(13.0)) {
+    return [UISceneConfiguration configurationWithName:@"Default Configuration" sessionRole:connectingSceneSession.role];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -286,16 +293,20 @@ static void updateTemplates(NSData *data, NSURLResponse *response)
     std::_Exit(1);
 }
 
+// This method is called when you use the "Share > Open in Collabora Office" functionality in the
+// Files app. Possibly also in other use cases.
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)inputURL options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
     // Ensure the URL is a file URL
     if (!inputURL.isFileURL) {
         return NO;
     }
 
+#if 0
     // If we already have a document open, close it
     if (lok_document != nullptr && [DocumentViewController singleton] != nil) {
         [[DocumentViewController singleton] bye];
     }
+#endif
 
     // Reveal / import the document at the URL
     DocumentBrowserViewController *documentBrowserViewController = (DocumentBrowserViewController *)self.window.rootViewController;
