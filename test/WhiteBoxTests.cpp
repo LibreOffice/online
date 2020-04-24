@@ -590,6 +590,11 @@ public:
     void alertAllUsers(const std::string& /*cmd*/, const std::string& /*kind*/) override
     {
     }
+
+    unsigned getMobileAppDocId() override
+    {
+        return 0;
+    }
 };
 
 void WhiteBoxTests::testEmptyCellCursor()
