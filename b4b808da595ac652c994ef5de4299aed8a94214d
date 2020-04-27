@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87b619c0_228ea8e9",
+        "filename": "common/FileUtil.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-27T15:19:15Z",
+      "side": 1,
+      "message": "these two functions look very similiar / copy/pasted (?)",
+      "revId": "b4b808da595ac652c994ef5de4299aed8a94214d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "248c0a72_1b4f9163",
+        "filename": "kit/ForKit.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-27T15:19:15Z",
+      "side": 1,
+      "message": "This looks very similar to Kit.cpp linkOrCopyFile - I\u0027d really like to share code wherever possible - can we do that \u003d)",
+      "revId": "b4b808da595ac652c994ef5de4299aed8a94214d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9694d6_fa5ffa70",
+        "filename": "tools/mount.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-27T15:19:15Z",
+      "side": 1,
+      "message": "still looks reasonably safe - good \u003d) the UID check is vital, and worth staring at it 10 times \u003d)",
+      "revId": "b4b808da595ac652c994ef5de4299aed8a94214d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "353d9c20_bb7f8aa9",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-04-27T15:19:15Z",
+      "side": 1,
+      "message": "Good stuff \u003d) nice to check it first.",
+      "revId": "b4b808da595ac652c994ef5de4299aed8a94214d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
