@@ -144,6 +144,10 @@ L.Control.NotebookbarBuilder = L.Control.JSDialogBuilder.extend({
 			if (!childData)
 				continue;
 
+			var childType = childData.type;
+			if (childType === 'toolbox' && !childData.id)
+				continue;
+
 			if (parentHasManyChildren) {
 				if (!hasVerticalParent)
 					var td = L.DomUtil.create('td', '', containerToInsert);
@@ -158,7 +162,6 @@ L.Control.NotebookbarBuilder = L.Control.JSDialogBuilder.extend({
 			var isVertical = childData.vertical === 'true' ? true : false;
 
 			this._parentize(childData);
-			var childType = childData.type;
 			var processChildren = true;
 
 			if ((childData.id === undefined || childData.id === '' || childData.id === null)
