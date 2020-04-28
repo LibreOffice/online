@@ -2073,7 +2073,7 @@ private:
         if (docBroker)
             docBroker->handleInput(data);
         else
-                LOG_WRN("Child " << child->getPid() <<
+            LOG_WRN("Child " << child->getPid() <<
                     " has no DocumentBroker to handle message: [" << abbr << "].");
     }
 
