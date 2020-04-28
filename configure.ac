@@ -992,13 +992,18 @@ fi
 
 AC_SUBST(ENABLE_SETCAP)
 
+if test "$srcdir" != '.'; then
+    mkdir -p loleaflet
+    ln -s $srcdir/loleaflet/package.json loleaflet/package.json
+    ln -s $srcdir/loleaflet/archived-packages loleaflet/archived-packages
+    ln -s $srcdir/loleaflet/npm-shrinkwrap.json loleaflet/npm-shrinkwrap.json
+fi
+
 AC_CONFIG_LINKS([discovery.xml:discovery.xml])
 AC_CONFIG_LINKS([loolkitconfig.xcu:loolkitconfig.xcu])
-AC_CONFIG_LINKS([loleaflet/package.json:loleaflet/package.json])
 AC_CONFIG_LINKS([cypress_test/package.json:cypress_test/package.json])
 AC_CONFIG_LINKS([cypress_test/cypress.json:cypress_test/cypress.json])
 AC_LINK_FILES([cypress_test/plugins], [cypress_test/plugins])
-AC_LINK_FILES([loleaflet/archived-packages], [loleaflet/archived-packages])
 
 APP_BRANDING_DIR=
 APP_IC_LAUNCHER="ic_launcher"
@@ -1068,7 +1073,6 @@ AC_CONFIG_FILES([Makefile
                  gtk/Makefile
                  test/Makefile
                  loleaflet/Makefile
-                 loleaflet/npm-shrinkwrap.json
                  loolwsd.spec
                  loolwsd.xml
                  debian/loolwsd.postinst])
@@ -1087,6 +1091,8 @@ if test "$enable_androidapp" = "yes"; then
 fi
 
 AC_CONFIG_FILES([test/run_unit.sh],[chmod +x test/run_unit.sh])
+
+AC_CONFIG_COMMANDS_PRE([echo Installing node modules packages... && (cd loleaflet && npm install)])
 
 AC_OUTPUT
 
