@@ -968,6 +968,10 @@ L.Map = L.Evented.extend({
 		return this._isSearching;
 	},
 
+	isEditingAnnotation: function() {
+		return this._docLayer._annotations.isEdit();
+	},
+
 	_fireInitComplete: function (condition) {
 		if (this.initComplete) {
 			return;
