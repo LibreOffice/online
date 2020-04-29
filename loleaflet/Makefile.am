@@ -280,7 +280,6 @@ LOLEAFLET_JS =\
 	src/control/Control.TopToolbar.js \
 	src/control/Control.UIManager.js \
 	src/control/Control.DocumentNameInput.js \
-	src/control/Control.Notebookbar.js \
 	src/control/Control.Layers.js \
 	src/control/Search.js \
 	src/control/Permission.js \
@@ -549,7 +548,6 @@ pot:
 		src/control/Control.UserList.js \
 		src/control/Control.UIManager.js \
 		src/control/Control.DocumentNameInput.js \
-		src/control/Control.Notebookbar.js \
 		src/control/Ruler.js \
 		src/control/Signing.js \
 		src/control/Toolbar.js \
