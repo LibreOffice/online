@@ -38,7 +38,11 @@ L.Control.NotebookbarBuilder = L.Control.JSDialogBuilder.extend({
 		this._toolitemHandlers['.uno:Paste'] = this._clipboardButtonControl;
 
 		this._toolitemHandlers['.uno:SelectWidth'] = function() {};
-
+		this._toolitemHandlers['.uno:SetOutline'] = function() {};
+		this._toolitemHandlers['.uno:DesignerDialog'] = function() {};
+		this._toolitemHandlers['.uno:Zoom'] = function() {};
+		this._toolitemHandlers['.uno:PrintPreview'] = function() {};
+		this._toolitemHandlers['.uno:Navigator'] = function() {};
 		this._toolitemHandlers['vnd.sun.star.findbar:FocusToFindbar'] = function() {};
 	},
 
