@@ -1,3 +1,4 @@
+MAKEFLAGS = --no-builtin-rules
 CTAGS = ctags
 CONFIG_STATUS_DEPENDENCIES=$(builddir)/node_modules
 
