@@ -398,15 +398,18 @@ LocalStorage::saveLocalFileToStorage(const Authorization& /*auth*/, const std::s
 #if !MOBILEAPP
 
 Poco::Net::HTTPClientSession* StorageBase::getHTTPClientSession(const Poco::URI& uri)
- {
-    // We decoupled the Wopi communication from client communication because
-    // the Wopi communication must have an independent policy.
-    // So, we will use here only Storage settings.
-    return (SSLEnabled || LOOLWSD::isSSLTermination())
-         ? new Poco::Net::HTTPSClientSession(uri.getHost(), uri.getPort(),
-                                             Poco::Net::SSLManager::instance().defaultClientContext())
-         : new Poco::Net::HTTPClientSession(uri.getHost(), uri.getPort());
- }
+{
+    // the WOPI URI itself should control whether we use SSL or not
+    // for whether we verify vs. certificates, cf. above
+#if ENABLE_SSL
+    if (uri.getScheme() != "http")
+        return new Poco::Net::HTTPSClientSession(
+            uri.getHost(), uri.getPort(),
+            Poco::Net::SSLManager::instance().defaultClientContext());
+//  else
+#endif
+    return new Poco::Net::HTTPClientSession(uri.getHost(), uri.getPort());
+}
 
 namespace
 {
