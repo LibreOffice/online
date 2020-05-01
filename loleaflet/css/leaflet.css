@@ -842,6 +842,28 @@ input.clipboard {
 	position: absolute;
 	}
 
+.loleaflet-ruler-indentation-marker {
+	fill: white;
+	stroke: black;
+	stroke-width: 3;
+	}
+
+.loleaflet-ruler-indentation-marker:hover{
+	fill: black;
+
+}
+
+.loleaflet-ruler-indentation-marker-center{
+	position: fixed;
+	display: none;
+	height: 100vh;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	border-right: 2px dotted grey;
+	z-index: 12;
+}
+
 .loleaflet-ruler-marginwrapper {
 	height: 100%;
 	position: absolute;
