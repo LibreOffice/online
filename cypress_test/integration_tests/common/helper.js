@@ -49,7 +49,7 @@ function loadTestDoc(fileName, subFolder, mobile) {
 			win.onerror = cy.onUncaughtException;
 		}});
 	// Wait for the document to fully load
-	cy.get('.leaflet-tile-loaded', {timeout : 10000});
+	cy.get('.leaflet-tile-loaded', {timeout : 20000});
 
 	cy.log('Loading test document - end.');
 }
