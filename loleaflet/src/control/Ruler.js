@@ -97,12 +97,56 @@ L.Control.Ruler = L.Control.extend({
 				self._onTabstopContainerLongPress(event);
 			});
 		}
+
+		// First line indentation..
+		this._firstLineMarker = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		this._firstLineMarker.id = 'lo-fline-marker';
+		this._firstLineMarker.classList.add('loleaflet-ruler-indentation-marker');
+		this._firstLineMarker.style = 'position:absolute;left:0;top:0;z-index:12;width:17px;height:11px;';
+		this._firstLineMarker.setAttribute('viewBox', '0 0 140 110');
+		this._firstLineMarker.innerHTML = '<polygon points="10,10 130,10 130,50 70,100 10,50" />';
+		this._rFace.appendChild(this._firstLineMarker);
+
+		// Paragraph indentation..
+		this._pStartMarker = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		this._pStartMarker.id = 'lo-pstart-marker';
+		this._pStartMarker.classList.add('loleaflet-ruler-indentation-marker');
+		this._pStartMarker.style = 'position:absolute;left:0;bottom:0;z-index:12;width:17px;height:11px';
+		this._pStartMarker.setAttribute('viewBox', '0 0 140 110');
+		this._pStartMarker.innerHTML = '<polygon points="10,100 130,100 130,60 70,10 10,60" />';
+		this._rFace.appendChild(this._pStartMarker);
+
+		// Paragraph end..
+		this._pEndMarker = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		this._pEndMarker.id = 'lo-pend-marker';
+		this._pEndMarker.classList.add('loleaflet-ruler-indentation-marker');
+		this._pEndMarker.style = 'position:absolute;right:0;bottom:0;z-index:12;width:17px;height:11px';
+		this._pEndMarker.setAttribute('viewBox', '0 0 140 110');
+		this._pEndMarker.innerHTML = '<polygon points="10,100 130,100 130,60 70,10 10,60" />';
+		this._rFace.appendChild(this._pEndMarker);
+
+		// While one of the markers is being dragged, a vertical line should be visible in order to indicate the new position of the marker..
+		this._markerVerticalLine = L.DomUtil.create('div', 'loleaflet-ruler-indentation-marker-center');
+		this._rFace.appendChild(this._markerVerticalLine);
+
+		// Now we have indentation markers. Next we should bind drag initializers to them..
+		if (L.Browser.touch) {
+			L.DomEvent.on(this._firstLineMarker, 'touchstart', this._initiateIndentationDrag, this);
+			L.DomEvent.on(this._pStartMarker, 'touchstart', this._initiateIndentationDrag, this);
+			L.DomEvent.on(this._pEndMarker, 'touchstart', this._initiateIndentationDrag, this);
+		}
+		else {
+			L.DomEvent.on(this._firstLineMarker, 'mousedown', this._initiateIndentationDrag, this);
+			L.DomEvent.on(this._pStartMarker, 'mousedown', this._initiateIndentationDrag, this);
+			L.DomEvent.on(this._pEndMarker, 'mousedown', this._initiateIndentationDrag, this);
+		}
+
 		return this._rWrapper;
 	},
 
 	_updateOptions: function(obj) {
 		// console.log('===> _updateOptions');
-		// Note that the values for margin1, margin2, and leftOffset are not in any sane
+		// Note that the values for margin1, margin2, firstLineIndent, leftIndent, rightIndent and leftOffset are not in any sane
 		// units. See the comment in SwCommentRuler::CreateJsonNotification(). The values
 		// are pixels for some virtual device in core, not related to the actual device this
 		// is running on at all, passed through convertTwipToMm100(), i.e. multiplied by
@@ -111,6 +155,9 @@ L.Control.Ruler = L.Control.extend({
 		this.options.margin1 = parseInt(obj['margin1']);
 		this.options.margin2 = parseInt(obj['margin2']);
 		this.options.nullOffset = parseInt(obj['leftOffset']);
+		this.options.firstLineIndent = parseInt(obj['firstLineIndent']);
+		this.options.leftParagraphIndent = parseInt(obj['leftIndent']);
+		this.options.rightParagraphIndent = parseInt(obj['rightIndent']);
 
 		// pageWidth on the other hand *is* really in mm100.
 		this.options.pageWidth = parseInt(obj['pageWidth']);
@@ -119,6 +166,21 @@ L.Control.Ruler = L.Control.extend({
 		// this.options.unit = obj['unit'].trim();
 
 		this._updateBreakPoints();
+	},
+
+	_updateParagraphIndentations: function() {
+		// nullOffset: Left margin. rulerOffset: pixels to the start of the ruler from the left of the window..
+		let fLinePosition = this.options.DraggableConvertRatio * (this.options.nullOffset + this.options.firstLineIndent) + this.rulerOffset;
+		let pStartPosition = this.options.DraggableConvertRatio * (this.options.nullOffset + this.options.leftParagraphIndent) + this.rulerOffset;
+		let pEndPosition = this.options.DraggableConvertRatio * (this.options.nullOffset + this.options.rightParagraphIndent) + this.rulerOffset;
+
+		// We calculated the positions. Now we should move them to left in order to make their sharp edge point to the right direction..
+		let halfWidth = (this._firstLineMarker.getBoundingClientRect().right - this._firstLineMarker.getBoundingClientRect().left) * 0.5;
+		this._firstLineMarker.style.left = (fLinePosition - halfWidth) + 'px';
+		this._pStartMarker.style.left = (pStartPosition - halfWidth) + 'px';
+		this._pEndMarker.style.left = (pEndPosition - halfWidth) + 'px';
+
+		this._markerVerticalLine.style.top = this._rTSContainer.getBoundingClientRect().bottom + 'px';
 	},
 
 	_updateTabStops: function(obj) {
@@ -140,6 +202,8 @@ L.Control.Ruler = L.Control.extend({
 
 		if (this.options.margin1 == null || this.options.margin2 == null)
 			return;
+
+		this._updateParagraphIndentations();
 
 		if (this._map._docLayer._annotations._items.length === 0
 		|| this._map._docLayer._annotations._items.length
@@ -293,6 +357,110 @@ L.Control.Ruler = L.Control.extend({
 		var rulerOffset = mapPaneXTranslate + firstTileXTranslate + tileContainerXTranslate + (this.options.tileMargin * scale);
 
 		this._rFace.style.marginLeft = rulerOffset + 'px';
+
+		this.rulerOffset = rulerOffset; // Needed on different parts too..
+	},
+
+	_moveIndentation: function(e) {
+		if (e.type === 'touchmove') {
+			e.clientX = e.touches[0].clientX;
+		}
+
+		let element = document.getElementById(this._indentationElementId);
+
+		// User is moving the cursor / their finger on the screen and we are moving the marker.
+		let newLeft = parseInt(element.style.left.replace('px', '')) + e.clientX - this._lastposition;
+		element.style.left = String(newLeft) + 'px';
+		this._lastposition = e.clientX;
+		// halfWidth..
+		let halfWidth = (element.getBoundingClientRect().right - element.getBoundingClientRect().left) * 0.5;
+		this._markerVerticalLine.style.left = String(newLeft + halfWidth) + 'px';
+	},
+
+	_moveIndentationEnd: function() {
+		this._map.rulerActive = false;
+
+		if (L.Browser.touch) {
+			L.DomEvent.off(this._rFace, 'touchmove', this._moveIndentation, this);
+			L.DomEvent.off(this._rFace, 'touchend', this._moveIndentationEnd, this);
+			L.DomEvent.off(this._rFace, 'touchcancel', this._moveIndentationEnd, this);
+		}
+		else {
+			L.DomEvent.off(this._rFace, 'mousemove', this._moveIndentation, this);
+			L.DomEvent.off(this._map, 'mouseup', this._moveIndentationEnd, this);
+		}
+
+		var unoObj = {}, indentType = '';
+
+		// Calculation step..
+		// The new coordinate of element subject to indentation is sent as a percentage of the page width..
+		// We need to calculate the percentage. Left margin (nullOffset) is not being added to the indentation (on the core part)..
+		// We can use TabStopContainer's position as the reference point, as they share the same reference point..
+		let element = document.getElementById(this._indentationElementId);
+
+		let leftValue;
+		// The halfWidth of the shape..
+		let halfWidth = (element.getBoundingClientRect().right - element.getBoundingClientRect().left) * 0.5;
+
+		// We need the pageWidth in pixels, so we can not use "this.options.pageWidth" here, since that's in mm..
+		let pageWidth = parseFloat(this._rFace.style.width.replace('px', ''));
+
+		if (element.id === 'lo-fline-marker') {
+			indentType = 'FirstLineIndent';
+			// FirstLine indentation is always positioned according to the left indent..
+			// We don't need to add halfWidth here..
+			leftValue = (parseFloat(this._firstLineMarker.style.left.replace('px', '')) - parseFloat(this._pStartMarker.style.left.replace('px', '')));
+		}
+		else if (element.id === 'lo-pstart-marker') {
+			indentType = 'LeftParaIndent';
+			leftValue = element.getBoundingClientRect().left - this._rTSContainer.getBoundingClientRect().left + halfWidth;
+		}
+		else if (element.id === 'lo-pend-marker') {
+			indentType = 'RightParaIndent';
+			// Right marker is positioned from right, this is rightValue..
+			leftValue = this._rTSContainer.getBoundingClientRect().right - element.getBoundingClientRect().right + halfWidth;
+		}
+
+		leftValue = leftValue / pageWidth; // Now it's a percentage..
+
+		if (indentType !== '') {
+			unoObj[indentType] = {};
+			unoObj[indentType]['type'] = 'string';
+			unoObj[indentType]['value'] = leftValue;
+			this._map._socket.sendMessage('uno .uno:RulerChangeState ' + JSON.stringify(unoObj));
+		}
+
+		this._indentationElementId = '';
+		this._markerVerticalLine.style.display = 'none';
+	},
+
+	_initiateIndentationDrag: function(e) {
+		if (e.type === 'touchstart') {
+			if (e.touches.length !== 1)
+				return;
+			e.clientX = e.touches[0].clientX;
+		}
+
+		if (window.ThisIsTheiOSApp && this._map._permission !== 'edit')
+			return;
+
+		this._map.rulerActive = true;
+
+		this._indentationElementId = e.currentTarget.id;
+
+		if (L.Browser.touch) {
+			L.DomEvent.on(this._rFace, 'touchmove', this._moveIndentation, this);
+			L.DomEvent.on(this._rFace, 'touchend', this._moveIndentationEnd, this);
+			L.DomEvent.on(this._rFace, 'touchcancel', this._moveIndentationEnd, this);
+		}
+		else {
+			L.DomEvent.on(this._rFace, 'mousemove', this._moveIndentation, this);
+			L.DomEvent.on(this._map, 'mouseup', this._moveIndentationEnd, this);
+		}
+
+		this._initialposition = this._lastposition = e.clientX;
+		this._markerVerticalLine.style.display = 'block';
+		this._markerVerticalLine.style.left = this._lastposition + 'px';
 	},
 
 	_initiateDrag: function(e) {
