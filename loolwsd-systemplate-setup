@@ -65,6 +65,7 @@ grep -v dynamic | cut -d " " -f 3 | grep -E '^(/lib|/usr)' | sort -u | sed -e 's
 # This will now copy the file a symlink points to, but whatever.
 cpio -p -d -L $CHROOT
 
+mkdir -p $CHROOT/lo
 mkdir -p $CHROOT/tmp
 
 # /usr/share/fonts needs to be taken care of separately because the

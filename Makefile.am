@@ -88,6 +88,7 @@ AM_ETAGSFLAGS = --c++-kinds=+p --fields=+iaS --extra=+q -R --totals=yes --exclud
 AM_CTAGSFLAGS = $(AM_ETAGSFLAGS)
 
 shared_sources = common/FileUtil.cpp \
+                 common/JailUtil.cpp \
                  common/Log.cpp \
                  common/Protocol.cpp \
                  common/StringVector.cpp \
@@ -239,6 +240,7 @@ shared_headers = common/Common.hpp \
                  common/Crypto.hpp \
                  common/JsonUtil.hpp \
                  common/FileUtil.hpp \
+                 common/JailUtil.hpp \
                  common/Log.hpp \
                  common/LOOLWebSocket.hpp \
                  common/Protocol.hpp \
