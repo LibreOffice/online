@@ -166,15 +166,15 @@ namespace Util
         return tmp;
     }
 
-    std::string createRandomTmpDir()
+    std::string createRandomTmpDir(std::string root)
     {
-        std::string defaultTmp = getDefaultTmpDir();
-        std::string newTmp =
-            defaultTmp + "/lool-" + rng::getFilename(16);
+        if (root.empty())
+            root = getDefaultTmpDir();
+        const std::string newTmp = root + "/lool-" + rng::getFilename(16);
         if (::mkdir(newTmp.c_str(), S_IRWXU) < 0)
         {
             LOG_SYS("Failed to create random temp directory [" << newTmp << "]");
-            return defaultTmp;
+            return root;
         }
         return newTmp;
     }

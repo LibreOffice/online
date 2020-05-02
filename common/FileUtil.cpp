@@ -11,6 +11,7 @@
 
 #include "FileUtil.hpp"
 
+#include <dirent.h>
 #include <ftw.h>
 #include <sys/stat.h>
 #ifdef __linux
@@ -39,7 +40,8 @@ namespace filesystem = ::std::filesystem;
 # include <Poco/TemporaryFile.h>
 #endif
 
-#include <Poco/Util/Application.h>
+#include <Poco/File.h>
+#include <Poco/Path.h>
 
 #include "Log.hpp"
 #include "Util.hpp"
@@ -196,6 +198,8 @@ namespace FileUtil
 
     void removeFile(const std::string& path, const bool recursive)
     {
+        LOG_DBG("Removing [" << path << "] " << (recursive ? "recursively." : "only."));
+
 // Amazingly filesystem::remove_all silently fails to work on some
 // systems. No real need to be using experimental API here either.
 #if 0 // HAVE_STD_FILESYSTEM
@@ -395,6 +399,20 @@ namespace FileUtil
         return errno != ENOENT;
     }
 
+    bool isEmptyDirectory(const char* path)
+    {
+        DIR* dir = opendir(path);
+        if (dir == nullptr)
+            return errno != EACCES; // Assume it's not empty when EACCES.
+
+        int count = 0;
+        while (readdir(dir) && ++count < 3)
+            ;
+
+        closedir(dir);
+        return count <= 2; // Discounting . and ..
+    }
+
     bool linkOrCopyFile(const char* source, const char* target)
     {
         if (link(source, target) == -1)
@@ -414,59 +432,6 @@ namespace FileUtil
         }
 
         return true;
-    }
-
-    bool loolmount(const std::string& arg)
-    {
-        const std::string cmd
-            = Poco::Path(Util::getApplicationPath(), "loolmount").toString() + ' ' + arg;
-        LOG_TRC("Executing loolmount command: " << cmd);
-        return !system(cmd.c_str());
-    }
-
-    bool mount(const std::string& source, const std::string& target)
-    {
-        Poco::File(target).createDirectory();
-        const bool res = loolmount(source + ' ' + target);
-        if (res)
-            LOG_TRC("Mounted [" << source << "] -> [" << target << "].");
-        else
-            LOG_ERR("Failed to mount [" << source << "] -> [" << target << "].");
-        return res;
-    }
-
-    bool unmount(const std::string& target)
-    {
-        const bool res = loolmount(" -u " + target);
-        if (res)
-            LOG_TRC("Unmounted [" << target << "] successfully.");
-        else
-            LOG_ERR("Failed to unmount [" << target << "].");
-        return res;
-    }
-
-    void removeJail(const std::string& path)
-    {
-        LOG_INF("Removing jail [" << path << "].");
-        static const bool bindMount = std::getenv("LOOL_BIND_MOUNT");
-        if (bindMount)
-        {
-            std::vector<std::string> subs;
-            Poco::File(path).list(subs);
-            for (const auto& sub : subs)
-            {
-                const Poco::Path usrDestPath(path, sub);
-                const std::string target = usrDestPath.toString();
-                LOG_DBG("Unmounting " << target);
-                FileUtil::unmount(target);
-
-                FileUtil::removeFile(target, true);
-                if (FileUtil::pathExists(target))
-                    removeJail(target); // Recurse.
-            }
-        }
-
-        FileUtil::removeFile(path, true);
     }
 
 } // namespace FileUtil

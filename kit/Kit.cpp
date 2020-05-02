@@ -53,7 +53,8 @@
 
 #include "ChildSession.hpp"
 #include <Common.hpp>
-#include <FileUtil.hpp>
+#include <common/FileUtil.hpp>
+#include <common/JailUtil.hpp>
 #include "KitHelper.hpp"
 #include "Kit.hpp"
 #include <Protocol.hpp>
@@ -411,26 +412,6 @@ namespace
         cap_free(capText);
 
         cap_free(caps);
-    }
-
-    void symlinkPathToJail(const Path& jailPath, const std::string &loTemplate,
-                           const std::string &loSubPath)
-    {
-        Path symlinkSource(jailPath, Path(loTemplate.substr(1)));
-        File(symlinkSource.parent()).createDirectories();
-
-        std::string symlinkTarget;
-        for (int i = 0; i < Path(loTemplate).depth(); i++)
-            symlinkTarget += "../";
-        symlinkTarget += loSubPath;
-
-        LOG_DBG("symlink(\"" << symlinkTarget << "\", \"" << symlinkSource.toString() << "\")");
-        if (symlink(symlinkTarget.c_str(), symlinkSource.toString().c_str()) == -1)
-        {
-            LOG_SYS("symlink(\"" << symlinkTarget << "\", \"" << symlinkSource.toString()
-                                 << "\") failed");
-            throw Exception("symlink() failed");
-        }
     }
 #endif
 }
@@ -2502,94 +2483,62 @@ void lokit_main(
             std::chrono::time_point<std::chrono::steady_clock> jailSetupStartTime
                 = std::chrono::steady_clock::now();
 
-            userdir_url = "file:///user";
+            userdir_url = "file:///tmp/user";
             instdir_path = "/" + loSubPath + "/program";
-
-            // Create a symlink inside the jailPath so that the absolute pathname loTemplate, when
-            // interpreted inside a chroot at jailPath, points to loSubPath (relative to the chroot).
-            symlinkPathToJail(jailPath, loTemplate, loSubPath);
-
-            // Font paths can end up as realpaths so match that too.
-            char *resolved = realpath(loTemplate.c_str(), nullptr);
-            if (resolved)
-            {
-                if (strcmp(loTemplate.c_str(), resolved) != 0)
-                    symlinkPathToJail(jailPath, std::string(resolved), loSubPath);
-                free (resolved);
-            }
-
-            Path jailLOInstallation(jailPath, loSubPath);
-            jailLOInstallation.makeDirectory();
-            File(jailLOInstallation).createDirectory();
 
             // Copy (link) LO installation and other necessary files into it from the template.
             if (std::getenv("LOOL_BIND_MOUNT"))
             {
-                std::vector<std::string> subs;
-                File(sysTemplate).list(subs);
-                for (const auto& sub : subs)
+                const std::string destPath = jailPath.toString();
+                LOG_DBG("Mounting " << sysTemplate << " -> " << destPath);
+                if (!JailUtil::bind(sysTemplate, destPath))
                 {
-                    const Path srcPath(sysTemplate, sub);
-                    if (File(srcPath).isFile())
-                        continue; // Skip files.
+                    LOG_INF("Failed to mount [" << sysTemplate << "] -> [" << destPath
+                                                << "], will link/copy contents.");
+                    linkOrCopy(sysTemplate, destPath, LinkOrCopyType::All);
+                }
+                else
+                    JailUtil::remountReadonly(sysTemplate, jailPath.toString());
 
-                    const std::string sourcePath = srcPath.toString();
-                    const std::string destPath = Path(jailPath, sub).toString();
+                // Mount lotemplate inside it.
+                const std::string loDestPath = Poco::Path(jailPath, "lo").toString();
+                LOG_DBG("Mounting " << loTemplate << " -> " << loDestPath);
+                Poco::File(loDestPath).createDirectories();
+                if (!JailUtil::bind(loTemplate, loDestPath))
+                {
+                    LOG_INF("Failed to mount [" << loTemplate << "] -> [" << loDestPath
+                                                << "], will link/copy contents.");
+                    linkOrCopy(sysTemplate, loDestPath, LinkOrCopyType::LO);
+                }
+                else
+                    JailUtil::remountReadonly(loTemplate, loDestPath);
 
-                    // These must be writable, so we can't mount.
-                    if (sub == "tmp" || sub == "home")
-                    {
-                        linkOrCopy(sourcePath, destPath, LinkOrCopyType::All);
-                        continue;
-                    }
-
-                    LOG_DBG("Mounting " << sourcePath << " -> " << destPath);
-                    if (!FileUtil::mount(sourcePath, destPath))
-                    {
-                        LOG_INF("Failed to mount systemplate/" << sub << " from [" << sourcePath
-                                                               << "], will link/copy contents.");
-                        linkOrCopy(sourcePath, destPath, LinkOrCopyType::All);
-                    }
+                // hard-random tmpdir inside the jail / root
+                const std::string tempRoot = Poco::Path(childRoot, "tmp").toString();
+                Poco::File(tempRoot).createDirectories();
+                const std::string tmpSubDir = Util::createRandomTmpDir(tempRoot);
+                const std::string jailTmpDir = Poco::Path(jailPath, "tmp").toString();
+                if (!JailUtil::bind(tmpSubDir, jailTmpDir))
+                {
+                    LOG_ERR("Failed to bind tmp dir in jail.");
                 }
 
-                LOG_DBG("Mounting LO template from [" << loTemplate << "]");
-                if (!FileUtil::mount(loTemplate, jailLOInstallation.toString()))
-                {
-                    LOG_INF("Failed to mount LO template from [" << loTemplate
-                                                                 << "], will link/copy contents.");
-                    linkOrCopy(loTemplate, jailLOInstallation, LinkOrCopyType::LO);
-                }
+                ::setenv("TMPDIR", "/tmp", 1);
             }
             else
             {
                 linkOrCopy(sysTemplate, jailPath, LinkOrCopyType::All);
+
+                Poco::Path jailLOInstallation(jailPath, loSubPath);
+                jailLOInstallation.makeDirectory();
+                Poco::File(jailLOInstallation).createDirectory();
                 linkOrCopy(loTemplate, jailLOInstallation, LinkOrCopyType::LO);
-            }
-
-            // Create the urandom and random devices
-            File(Path(jailPath, "/dev")).createDirectory();
-            if (mknod((jailPath.toString() + "/dev/random").c_str(),
-                      S_IFCHR | S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH,
-                      makedev(1, 8)) != 0)
-            {
-                LOG_SYS("mknod(" << jailPath.toString() << "/dev/random) failed. Mount must not use nodev flag.");
-            }
-
-            if (mknod((jailPath.toString() + "/dev/urandom").c_str(),
-                      S_IFCHR | S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH,
-                      makedev(1, 9)) != 0)
-            {
-                LOG_SYS("mknod(" << jailPath.toString() << "/dev/random) failed. Mount must not use nodev flag.");
             }
 
             const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                                 std::chrono::steady_clock::now() - jailSetupStartTime)
                                 .count();
             LOG_DBG("Initialized jail files in " << ms << " ms.");
-
-            // hard-random tmpdir inside the jail / root
-            const std::string tmpSubdir = Util::createRandomTmpDir();
-            ::setenv("TMPDIR", tmpSubdir.c_str(), 1);
 
             ProcSMapsFile = open("/proc/self/smaps", O_RDONLY);
             if (ProcSMapsFile < 0)
@@ -2619,7 +2568,7 @@ void lokit_main(
         else // noCapabilities set
         {
             LOG_ERR("Security warning - using template " << loTemplate << " as install subpath - skipping chroot jail setup");
-            userdir_url = "file:///" + jailPath.toString() + "/user";
+            userdir_url = "file:///" + jailPath.toString() + "/tmp/user";
             instdir_path = "/" + loTemplate + "/program";
         }
 
@@ -2880,15 +2829,15 @@ bool globalPreinit(const std::string &loTemplate)
              "javaloader javavm jdbc rpt rptui rptxml ",
              0 /* no overwrite */);
 
-    LOG_TRC("Invoking lok_preinit(" << loTemplate << "/program\", \"file:///user\")");
+    LOG_TRC("Invoking lok_preinit(" << loTemplate << "/program\", \"file:///tmp/user\")");
     const auto start = std::chrono::steady_clock::now();
-    if (preInit((loTemplate + "/program").c_str(), "file:///user") != 0)
+    if (preInit((loTemplate + "/program").c_str(), "file:///tmp/user") != 0)
     {
         LOG_FTL("lok_preinit() in " << loadedLibrary << " failed");
         return false;
     }
 
-    LOG_TRC("Finished lok_preinit(" << loTemplate << "/program\", \"file:///user\") in " <<
+    LOG_TRC("Finished lok_preinit(" << loTemplate << "/program\", \"file:///tmp/user\") in " <<
             std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count() <<
             " ms.");
     return true;
