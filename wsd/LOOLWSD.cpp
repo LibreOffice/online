@@ -114,7 +114,8 @@ using Poco::Net::PartHandler;
 #include "DocumentBroker.hpp"
 #include "Exceptions.hpp"
 #include "FileServer.hpp"
-#include <FileUtil.hpp>
+#include <common/FileUtil.hpp>
+#include <common/JailUtil.hpp>
 #if defined KIT_IN_PROCESS || MOBILEAPP
 #  include <Kit.hpp>
 #endif
@@ -419,19 +420,6 @@ void LOOLWSD::checkDiskSpaceAndWarnClients(const bool cacheLastCheck)
         LOG_WRN("Exception while checking disk-space and warning clients: " << exc.what());
     }
 #endif
-}
-
-/// Remove all jails, in case forkit didn't cleanup properly.
-static void cleanupJails()
-{
-    LOG_INF("Cleaning up childroot directory [" << LOOLWSD::ChildRoot << "].");
-    std::vector<std::string> jails;
-    Poco::File(LOOLWSD::ChildRoot).list(jails);
-    for (const auto& jail : jails)
-    {
-        const Poco::Path path(LOOLWSD::ChildRoot, jail);
-        FileUtil::removeJail(path.toString());
-    }
 }
 
 /// Remove dead and idle DocBrokers.
@@ -1266,26 +1254,9 @@ void LOOLWSD::initialize(Application& self)
     ChildRoot = getPathFromConfig("child_root_path");
     ServerName = config().getString("server_name");
 
-    unsetenv("LOOL_BIND_MOUNT"); // Clear to avoid surprises.
-    if (getConfigValue<bool>(conf, "mount_jail_tree", true))
-    {
-        // Test mounting to verify it actually works,
-        // as it might not function in some systems.
-        const std::string target = Poco::Path(ChildRoot, "lool_test_mount").toString();
-        if (FileUtil::mount(SysTemplate, target))
-        {
-            FileUtil::unmount(target);
-            FileUtil::removeFile(target, true);
-            setenv("LOOL_BIND_MOUNT", "1", 1);
-            LOG_INF("Enabling Bind-Mounting of jail contents for better performance per "
-                    "mount_jail_tree config in loolwsd.xml.");
-        }
-        else
-            LOG_ERR("Bind-Mounting fails and will be disabled for this run. To disable permanently "
-                    "set mount_jail_tree config entry in loolwsd.xml to false.");
-    }
-
-    cleanupJails();
+    // Setup the jails.
+    JailUtil::setupJails(getConfigValue<bool>(conf, "mount_jail_tree", true), ChildRoot,
+                         SysTemplate);
 
     LOG_DBG("FileServerRoot before config: " << FileServerRoot);
     FileServerRoot = getPathFromConfig("file_server_root_path");
@@ -3763,7 +3734,7 @@ int LOOLWSD::innerMain()
         // create a custom sub-path for parallelized unit tests.
         if (UnitBase::isUnitTesting())
         {
-            ChildRoot += Util::rng::getHardRandomHexString(8) + "/";
+            ChildRoot += Util::rng::getHardRandomHexString(8) + '/';
             LOG_TRC("Creating sub-childroot: of " + ChildRoot);
         }
     }
@@ -3967,13 +3938,7 @@ int LOOLWSD::innerMain()
     ForKitProc.reset();
 #endif
 
-    cleanupJails();
-
-    if (UnitBase::isUnitTesting())
-    {
-        LOG_TRC("Removing sub-childroot: of " + ChildRoot);
-        FileUtil::removeFile(ChildRoot, true);
-    }
+    JailUtil::cleanupJails(ChildRoot);
 #endif // !MOBILEAPP
 
     return EX_OK;

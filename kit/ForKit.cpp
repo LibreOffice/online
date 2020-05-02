@@ -40,6 +40,7 @@
 #endif
 
 #include <common/FileUtil.hpp>
+#include <common/JailUtil.hpp>
 #include <common/Seccomp.hpp>
 #include <common/SigUtil.hpp>
 #include <security.h>
@@ -82,6 +83,28 @@ static const auto DynamicFilePaths = { "/etc/passwd", "/etc/group",         "/et
 static bool LinkDynamicFiles = false; // Copy by default for KIT_IN_PROCESS.
 
 #ifndef KIT_IN_PROCESS
+
+void symlinkPathToJail(const std::string& sysTemplate, const std::string& loTemplate,
+                       const std::string& loSubPath)
+{
+    std::string symlinkTarget;
+    for (int i = 0; i < Poco::Path(loTemplate).depth(); i++)
+        symlinkTarget += "../";
+    symlinkTarget += loSubPath;
+
+    const Poco::Path symlinkSource(sysTemplate + '/' + loTemplate);
+    Poco::File(symlinkSource.parent()).createDirectories();
+
+    if (symlink(symlinkTarget.c_str(), symlinkSource.toString().c_str()) == -1)
+    {
+        LOG_SYS("symlink(\"" << symlinkTarget << "\", \"" << symlinkSource.toString()
+                             << "\") failed");
+    }
+    else
+    {
+        LOG_DBG("symlink(\"" << symlinkTarget << "\", \"" << symlinkSource.toString() << "\")");
+    }
+}
 
 void linkOrCopyDynamicFilesToSysTemplate(const std::string& sysTemplate)
 {
@@ -349,10 +372,7 @@ static void cleanupChildren()
     }
 
     // Now delete the jails.
-    for (const auto& path : jails)
-    {
-        FileUtil::removeJail(path);
-    }
+    JailUtil::removeJails(jails);
 }
 
 static int createLibreOfficeKit(const std::string& childRoot,
@@ -654,6 +674,21 @@ int main(int argc, char** argv)
 
     // Link the network and system files in sysTemplate.
     linkOrCopyDynamicFilesToSysTemplate(sysTemplate);
+
+    // Create a symlink inside the jailPath so that the absolute pathname loTemplate, when
+    // interpreted inside a chroot at jailPath, points to loSubPath (relative to the chroot).
+    symlinkPathToJail(sysTemplate, loTemplate, LoSubPath);
+
+    // Font paths can end up as realpaths so match that too.
+    char* resolved = realpath(loTemplate.c_str(), nullptr);
+    if (resolved)
+    {
+        if (strcmp(loTemplate.c_str(), resolved) != 0)
+            symlinkPathToJail(sysTemplate, std::string(resolved), LoSubPath);
+        free(resolved);
+    }
+
+    JailUtil::setupDevNodes(sysTemplate);
 
     LOG_INF("Preinit stage OK.");
 

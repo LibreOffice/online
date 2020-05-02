@@ -22,13 +22,14 @@
 
 void usage(const char* program)
 {
-    fprintf(stderr, "Usage: %s <source path> <target path>\n", program);
+    fprintf(stderr, "Usage: %s <-s|-r> <source path> <target path>\n", program);
     fprintf(stderr, "       %s -u <target>.\n", program);
-    fprintf(stderr, "       bind and mount the source to target as readonly.\n");
+    fprintf(stderr, "       -b bind and mount the source to target.\n");
+    fprintf(stderr, "       -r bind and mount the source to target as readonly.\n");
     fprintf(stderr, "       -u to unmount the target.\n");
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     const char* program = argv[0];
 
@@ -44,14 +45,14 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    const char* source = argv[1];
-    const char* target = argv[2];
-
-    struct stat sb;
-    const bool target_exists = (stat(target, &sb) == 0 && S_ISDIR(sb.st_mode));
-
-    if (strcmp(source, "-u") == 0) // Unmount
+    const char* option = argv[1];
+    if (argc == 3 && strcmp(option, "-u") == 0) // Unmount
     {
+        const char* target = argv[2];
+
+        struct stat sb;
+        const bool target_exists = (stat(target, &sb) == 0 && S_ISDIR(sb.st_mode));
+
         // Do nothing if target doesn't exist.
         if (target_exists)
         {
@@ -60,7 +61,7 @@ int main(int argc, char **argv)
             if (retval != 0)
             {
                 if (errno != EINVAL)
-                    fprintf(stderr, "%s: umount failed to detach [%s]: %s.\n", program, target,
+                    fprintf(stderr, "%s: unmount failed to detach [%s]: %s.\n", program, target,
                             strerror(errno));
             }
 
@@ -68,14 +69,16 @@ int main(int argc, char **argv)
             retval = umount2(target, MNT_FORCE);
             if (retval && errno != EINVAL)
             {
-                fprintf(stderr, "%s: forced umount of [%s] failed: %s.\n", program, target,
+                fprintf(stderr, "%s: forced unmount of [%s] failed: %s.\n", program, target,
                         strerror(errno));
                 return 1;
             }
         }
     }
-    else // Mount
+    else if (argc == 4) // Mount
     {
+        const char* source = argv[2];
+        struct stat sb;
         if (stat(source, &sb) != 0 || !S_ISDIR(sb.st_mode))
         {
             fprintf(stderr, "%s: cannot mount from invalid source directory [%s].\n", program,
@@ -83,6 +86,8 @@ int main(int argc, char **argv)
             return 1;
         }
 
+        const char* target = argv[3];
+        const bool target_exists = (stat(target, &sb) == 0 && S_ISDIR(sb.st_mode));
         if (!target_exists)
         {
             fprintf(stderr, "%s: cannot mount on invalid target directory [%s].\n", program,
@@ -93,25 +98,47 @@ int main(int argc, char **argv)
         // Mount the source path as the target path.
         // First bind to mount an existing directory node into the chroot.
         // MS_BIND ignores other flags.
-        int retval = mount(source, target, nullptr, MS_BIND, nullptr);
-        if (retval)
+        if (strcmp(option, "-b") == 0) // Shared or Bind Mount.
         {
-            fprintf(stderr, "%s: mount failed to bind: %s.\n", program, strerror(errno));
-            return 1;
+            const int retval
+                = mount(source, target, nullptr, (MS_MGC_VAL | MS_BIND | MS_REC), nullptr);
+            if (retval)
+            {
+                fprintf(stderr, "%s: mount failed to bind [%s] to [%s]: %s.\n", program, source,
+                        target, strerror(errno));
+                return 1;
+            }
         }
-
-        // Now we need to set read-only and other flags with a remount.
-        retval = mount(
-            source, target, nullptr,
-            (MS_BIND | MS_REMOUNT | MS_NOATIME | MS_NODEV | MS_NOSUID | MS_RDONLY | MS_SILENT),
-            nullptr);
-        if (retval)
+        else if (strcmp(option, "-r") == 0) // Readonly Mount.
         {
-            fprintf(stderr, "%s: mount failed remount: %s.\n", program, strerror(errno));
-            return 1;
+            // Now we need to set read-only and other flags with a remount.
+            int retval = mount(source, target, nullptr,
+                               (MS_BIND | MS_REC | MS_REMOUNT | MS_NOATIME | MS_NODEV | MS_NOSUID
+                                | MS_RDONLY | MS_SILENT),
+                               nullptr);
+            if (retval)
+            {
+                fprintf(stderr, "%s: mount failed remount [%s] readonly: %s.\n", program, target,
+                        strerror(errno));
+                return 1;
+            }
+
+            retval = mount(source, target, nullptr, (MS_UNBINDABLE | MS_REC), nullptr);
+            if (retval)
+            {
+                fprintf(stderr, "%s: mount failed make [%s] private: %s.\n", program, target,
+                        strerror(errno));
+                return 1;
+            }
         }
     }
+    else
+    {
+        usage(program);
+        return 1;
+    }
 
+    fflush(stderr);
     return 0;
 }
 
