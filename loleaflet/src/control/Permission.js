@@ -5,13 +5,12 @@
 /* global $ */
 L.Map.include({
 	setPermission: function (perm) {
+		var button = $('#mobile-edit-button');
+		button.off('click');
+		var that = this;
 		if (perm === 'edit') {
 			if (window.mode.isMobile() || window.mode.isTablet()) {
-				var button = $('#mobile-edit-button');
 				button.show();
-				button.off('click');
-
-				var that = this;
 				button.on('click', function () {
 					button.hide();
 					that._enterEditMode('edit');
@@ -30,11 +29,21 @@ L.Map.include({
 			}
 		}
 		else if (perm === 'view' || perm === 'readonly') {
-			if (window.mode.isMobile() || window.mode.isTablet()) {
-				$('#mobile-edit-button').hide();
+			if (window.ThisIsTheAndroidApp) {
+				button.on('click', function () {
+					that._requestFileCopy();
+				});
+			} else if (window.mode.isMobile() || window.mode.isTablet()) {
+				button.hide();
 			}
 
 			this._enterReadOnlyMode(perm);
+		}
+	},
+
+	_requestFileCopy: function() {
+		if (window.docPermission === 'readonly') {
+			window.postMobileMessage('REQUESTFILECOPY');
 		}
 	},
 
