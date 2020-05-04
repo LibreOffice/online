@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41772b06_c142f904",
+        "filename": "loleaflet/src/control/Ruler.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000154
+      },
+      "writtenOn": "2020-05-04T19:46:01Z",
+      "side": 1,
+      "message": "Can you instead of a polygon use a SVG? Look at tab-stops for example...",
+      "range": {
+        "startLine": 107,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 7
+      },
+      "revId": "00da1671a39d51297291419b9bafd992919b569f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9724e942_ae9bbd60",
+        "filename": "loleaflet/src/control/Ruler.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000154
+      },
+      "writtenOn": "2020-05-04T19:46:01Z",
+      "side": 1,
+      "message": "I\u0027d also prefer if it uses Hammer.js for touch events. Again - look at tab stops.",
+      "revId": "00da1671a39d51297291419b9bafd992919b569f",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
