@@ -394,9 +394,15 @@ var AdminSocketOverview = AdminSocketBase.extend({
 			$mod.text(value);
 		}
 		else if (e.data == 'InvalidAuthToken' || e.data == 'NotAuthenticated') {
-			vex.dialog.alert({
-				message: _('Failed to authenticate this session'),
-			});
+			var msg;
+			if (window.location.protocol === 'http:')
+			{
+				// Browsers refuse to overwrite the jwt cookie in this case.
+				msg =  _('Failed to set jwt authentication cookie over insecure connection');
+			}
+			else
+				msg =  _('Failed to authenticate this session over');
+			vex.dialog.alert({ message: msg });
 		}
 	},
 
