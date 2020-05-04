@@ -13,4 +13,7 @@
     <!-- Loading SlideShow Dialog Strings -->
     <string name="loading">Loading...</string>
     <string name="exiting">Exiting...</string>
+    <string name="no">no</string>
+    <string name="yes">yes</string>
+    <string name="ask_for_copy">This document is readonly. Do you want to make a copy for editing?</string>
 </resources>
