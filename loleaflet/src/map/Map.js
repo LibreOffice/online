@@ -967,7 +967,7 @@ L.Map = L.Evented.extend({
 	},
 
 	isEditingAnnotation: function() {
-		return this._docLayer._annotations.isEdit();
+		return this._docLayer._annotations._selected && this._docLayer._annotations._selected.isEdit();
 	},
 
 	_fireInitComplete: function (condition) {
