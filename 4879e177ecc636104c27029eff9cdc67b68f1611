@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a3e7ee3_0e5cef00",
+        "filename": "loleaflet/images/lc_styleapply.svg",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002126
+      },
+      "writtenOn": "2020-05-04T10:01:52Z",
+      "side": 1,
+      "message": "Thanks Rizal! This would be great if this icon was a way to apply a style once it\u0027s tapped. However this svg is used more in a sense of editing the current applied style, as you see in the following screenshots after tapping it the user see the list of styles:  \n\nhttps://covid19.framadrop.org/lufi/r/AJH54yp2uJ#wZeKNGp9AtLq2f09dEnLrqoapDWr1uJqyBqWPOOGJww\u003d\n\nhttps://covid19.framadrop.org/lufi/r/orsZd4SuHy#nglVwWFvWI4/leAGTVMKIE0nc29n5L9Rn3MJshKScx8\u003d\n\nSo in this particular case I would leave it as we have. Does that make sense?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 948
+      },
+      "revId": "4879e177ecc636104c27029eff9cdc67b68f1611",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
