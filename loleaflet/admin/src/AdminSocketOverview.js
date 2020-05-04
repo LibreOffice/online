@@ -393,6 +393,11 @@ var AdminSocketOverview = AdminSocketBase.extend({
 			var $mod = $(document.getElementById('mod' + sPid));
 			$mod.text(value);
 		}
+		else if (e.data == 'InvalidAuthToken' || e.data == 'NotAuthenticated') {
+			vex.dialog.alert({
+				message: _('Failed to authenticate this session'),
+			});
+		}
 	},
 
 	onSocketClose: function() {
