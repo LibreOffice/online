@@ -23,6 +23,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -35,6 +36,7 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.provider.DocumentsContract;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,6 +92,8 @@ public class LOActivity extends AppCompatActivity {
     private static final String KEY_INTENT_URI = "intentUri";
     private static final String CLIPBOARD_FILE_PATH = "LibreofficeClipboardFile.data";
     private static final String CLIPBOARD_LOOL_SIGNATURE = "lool-clip-magic-4a22437e49a8-";
+    public static final String RECENT_DOCUMENTS_KEY = "RECENT_DOCUMENTS_LIST";
+
     private File mTempFile = null;
 
     private int providerId;
@@ -137,6 +141,7 @@ public class LOActivity extends AppCompatActivity {
     public static final int REQUEST_SAVEAS_PPT = 510;
     public static final int REQUEST_SAVEAS_XLS = 511;
     public static final int REQUEST_SAVEAS_EPUB = 512;
+    public static final int REQUEST_COPY = 600;
 
     /** Broadcasting event for passing info back to the shell. */
     public static final String LO_ACTIVITY_BROADCAST = "LOActivityBroadcast";
@@ -146,6 +151,9 @@ public class LOActivity extends AppCompatActivity {
 
     /** Data description for passing info back to the shell. */
     public static final String LO_ACTION_DATA = "LOData";
+
+    /** shared pref key for recent files. */
+    public static final String EXPLORER_PREFS_KEY = "EXPLORER_PREFS";
 
     private static boolean copyFromAssets(AssetManager assetManager,
                                           String fromAssetPath, String targetDir) {
@@ -652,6 +660,53 @@ public class LOActivity extends AppCompatActivity {
                     }
                     return;
                 }
+                break;
+            case REQUEST_COPY:
+                if (intent == null) {
+                    return;
+                }
+                Uri treeFileUri = intent.getData();
+                Uri uri = getIntent().getData();
+                InputStream inputStream = null;
+                OutputStream outputStream = null;
+                try {
+                    ContentResolver contentResolver = getContentResolver();
+                    contentResolver.takePersistableUriPermission(treeFileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+                    inputStream = contentResolver.openInputStream(uri);
+                    outputStream = contentResolver.openOutputStream(treeFileUri);
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, length);
+                    }
+
+                    /** add the document to recents */
+                    SharedPreferences recentPrefs = getSharedPreferences(EXPLORER_PREFS_KEY, MODE_PRIVATE);
+                    String recentList =  recentPrefs.getString(RECENT_DOCUMENTS_KEY, "");
+                    recentList = treeFileUri.toString() + "\n" + recentList;
+                    recentPrefs.edit().putString(RECENT_DOCUMENTS_KEY, recentList).apply();
+
+                    /** recreate activity with the copied file */
+                    getIntent().setData(treeFileUri);
+                    getIntent().addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    getIntent().addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    recreate();
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "file not found: " + e.getMessage());
+                    return;
+                } catch (Exception e) {
+                    Log.e(TAG, "exception: " + e.getMessage());
+                    return;
+                } finally {
+                    try {
+                        if (inputStream != null)
+                            inputStream.close();
+                        if (outputStream != null)
+                            outputStream.close();
+                    } catch (Exception e) {}
+                }
+                return;
         }
         Toast.makeText(this, "Unknown request", Toast.LENGTH_LONG).show();
     }
@@ -914,8 +969,44 @@ public class LOActivity extends AppCompatActivity {
                 startActivity(intent);
                 return false;
             }
+            case "REQUESTFILECOPY": {
+                requestForCopy();
+                return false;
+            }
         }
         return true;
+    }
+
+    private void requestForCopy() {
+        Cursor cursor = null;
+        String filename = null;
+        try {
+            cursor = getContentResolver().query(getIntent().getData(), null, null, null, null);
+            if (cursor != null && cursor.moveToFirst())
+                filename = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+        } catch (Exception e) {
+            return;
+        }
+        final String _filename = filename;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.ask_for_copy));
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                intent.putExtra(Intent.EXTRA_TITLE, _filename);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                Uri documentsUri = Uri.parse("content://com.android.externalstorage.documents/document/home%3A");
+                intent.setType(getIntent().getType());
+                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, documentsUri);
+                startActivityForResult(intent, REQUEST_COPY);
+            }
+        });
+        builder.setNegativeButton(getString(R.string.no), null);
+        builder.setCancelable(true);
+        builder.show();
     }
 
     private void initiateSaveAs(String optionsString) {
