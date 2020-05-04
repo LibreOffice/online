@@ -967,7 +967,33 @@ L.Map = L.Evented.extend({
 	},
 
 	isEditingAnnotation: function() {
-		return this._docLayer._annotations.isEdit();
+		var annotations;
+		var key;
+		if (this._docLayer._docType === 'text')
+		{
+			return this._docLayer._annotations._selected && this._docLayer._annotations._selected.isEdit();
+		}
+		else if (this._docLayer._docType === 'spreadsheet')
+		{
+			annotations = this._annotations[this._selectedPart];
+			for (key in annotations) {
+				if (annotations[key]._annotation.isEdit())
+					return true;
+			}
+			return false;
+		}
+		else if (this._docLayer._docType === 'presentation')
+		{
+			if (this._docLayer._draft)
+				return true;
+			annotations = this._annotations[this._partHashes[this._selectedPart]];
+			for (key in annotations) {
+				if (annotations[key]._annotation.isEdit())
+					return true;
+			}
+			return false;
+		}
+		return false;
 	},
 
 	_fireInitComplete: function (condition) {
