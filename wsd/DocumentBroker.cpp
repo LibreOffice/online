@@ -2347,7 +2347,12 @@ void ConvertToBroker::setLoaded()
     // FIXME: Check for security violations.
     Poco::Path toPath(getPublicUri().getPath());
     toPath.setExtension(_format);
-    const std::string toJailURL = "file://" + std::string(JAILED_DOCUMENT_ROOT) + toPath.getFileName();
+
+    // file:///user/docs/filename.ext normally, file:///<jail-root>/user/docs/filename.ext in the nocaps case
+    const std::string toJailURL = "file://" +
+        (LOOLWSD::NoCapsForKit? getJailRoot(): "") +
+        std::string(JAILED_DOCUMENT_ROOT) + toPath.getFileName();
+
     std::string encodedTo;
     Poco::URI::encode(toJailURL, "", encodedTo);
 
