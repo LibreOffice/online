@@ -1385,6 +1385,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		title = builder._cleanText(title);
 		data.text = title;
 
+
 		var entries = [];
 		for (var index in data.entries) {
 			var style = 'ui-combobox-text';
