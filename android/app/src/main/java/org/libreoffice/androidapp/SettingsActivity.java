@@ -18,6 +18,7 @@ import androidx.preference.PreferenceFragmentCompat;
 public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.LibreOfficeTheme_Base);
         super.onCreate(savedInstanceState);
 
         // Display the fragment as the main content.
