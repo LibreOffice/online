@@ -145,4 +145,5 @@
     <string name="bmp_null">Bmp is null!</string>
     <string name="directory_not_saved">Directory not saved.</string>
     <string name="title_activity_show_html">About</string>
+    <string name="night_mode">Night Mode</string>
 </resources>

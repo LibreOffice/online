@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.Icon;
 import android.hardware.usb.UsbManager;
@@ -49,9 +50,11 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,6 +84,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -99,7 +103,6 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
     private int filterMode = FileUtilities.ALL;
     private int sortMode;
     private boolean showHiddenFiles;
-
     // dynamic permissions IDs
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 0;
 
@@ -121,6 +124,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
 
     public static final String NEW_FILE_PATH_KEY = "NEW_FILE_PATH_KEY";
     public static final String NEW_DOC_TYPE_KEY = "NEW_DOC_TYPE_KEY";
+    private static final String NIGHT_MODE_KEY = "NIGHT_MODE";
 
     public static final String GRID_VIEW = "0";
     public static final String LIST_VIEW = "1";
@@ -130,6 +134,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
     private RecyclerView recentRecyclerView;
+    private Switch nightModeSwitch;
 
     //kept package-private to use these in recyclerView's adapter
     TextView noRecentItemsTextView;
@@ -157,14 +162,15 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        PreferenceManager.setDefaultValues(this, R.xml.documentprovider_preferences, false);
+        readPreferences();
+        int mode = prefs.getInt(NIGHT_MODE_KEY, AppCompatDelegate.MODE_NIGHT_AUTO);
+        AppCompatDelegate.setDefaultNightMode(mode);
         super.onCreate(savedInstanceState);
 
         // initialize document provider factory
         //DocumentProviderFactory.initialize(this);
         //documentProviderFactory = DocumentProviderFactory.getInstance();
-
-        PreferenceManager.setDefaultValues(this, R.xml.documentprovider_preferences, false);
-        readPreferences();
 
         SettingsListenerModel.getInstance().setListener(this);
 
@@ -174,6 +180,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
 
         // init UI and populate with contents from the provider
         createUI();
+
         fabOpenAnimation = AnimationUtils.loadAnimation(this, R.anim.fab_open);
         fabCloseAnimation = AnimationUtils.loadAnimation(this, R.anim.fab_close);
     }
@@ -393,6 +400,25 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
         registerForContextMenu(recentRecyclerView);
 
         setupNavigationDrawer();
+        TextView nightModeTextView = findViewById(R.id.night_mode_textview);
+        nightModeSwitch = findViewById(R.id.night_mode_switch);
+        nightModeSwitch.setOnCheckedChangeListener(null);
+        boolean checked = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES;
+        nightModeSwitch.setChecked(checked);
+        // for dim effect when night mode is disabled
+        nightModeTextView.setEnabled(checked);
+        nightModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!compoundButton.isPressed()) {
+                    return;
+                }
+                int mode = b ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
+                prefs.edit().putInt(NIGHT_MODE_KEY, mode).commit();
+                recreate();
+            }
+        });
+
     }
 
     /** Initialize the FloatingActionButton. */
