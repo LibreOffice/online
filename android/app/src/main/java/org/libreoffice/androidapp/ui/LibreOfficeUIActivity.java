@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.Icon;
 import android.hardware.usb.UsbManager;
@@ -99,6 +100,7 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
     private int filterMode = FileUtilities.ALL;
     private int sortMode;
     private boolean showHiddenFiles;
+    private boolean isDarkModeActive = false;
 
     // dynamic permissions IDs
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 0;
@@ -174,6 +176,8 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
 
         // init UI and populate with contents from the provider
         createUI();
+
+        isDarkModeActive = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         fabOpenAnimation = AnimationUtils.loadAnimation(this, R.anim.fab_open);
         fabCloseAnimation = AnimationUtils.loadAnimation(this, R.anim.fab_close);
     }
@@ -1095,6 +1099,12 @@ public class LibreOfficeUIActivity extends AppCompatActivity implements Settings
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        isDarkModeActive = (newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 }
 
