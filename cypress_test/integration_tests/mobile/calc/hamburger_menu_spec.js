@@ -326,14 +326,25 @@ describe('Trigger hamburger menu options.', function() {
 			.click();
 
 		// Search bar become visible
-		cy.get('#toolbar-search')
-			.should('be.visible');
+		cy.get('#mobile-wizard-content')
+			.should('not.be.empty');
+
+		cy.wait(1500);
 
 		// Search for some word
-		cy.get('#search-input')
+		cy.get('#searchterm')
 			.type('a');
 
-		cy.get('.w2ui-tb-image.w2ui-icon.next')
+		// Move focus somewhere to send event wrt updated field
+		cy.get('input#matchcase')
+			.click();
+
+		cy.wait(500);
+
+		cy.get('input#searchterm')
+			.should('have.prop', 'value', 'a');
+
+		cy.get('#search')
 			.click();
 
 		// First cell should be selected
@@ -341,7 +352,7 @@ describe('Trigger hamburger menu options.', function() {
 			.should('have.prop', 'value', 'A1');
 
 		// Go for the second match
-		cy.get('.w2ui-tb-image.w2ui-icon.next')
+		cy.get('#search')
 			.click();
 
 		//Second cell should be selected
@@ -349,28 +360,11 @@ describe('Trigger hamburger menu options.', function() {
 			.should('have.prop', 'value', 'B1');
 
 		// Go back to the first match
-		cy.get('.w2ui-tb-image.w2ui-icon.prev')
+		cy.get('#backsearch')
 			.click();
 
 		// First cell should be selected
 		cy.get('input#addressInput')
 			.should('have.prop', 'value', 'A1');
-
-		// Remove search word
-		cy.get('#search-input')
-			.should('have.prop', 'value', 'a');
-
-		cy.get('#tb_searchbar_item_cancelsearch')
-			.click();
-
-		cy.get('#search-input')
-			.should('have.prop', 'value', '');
-
-		// Close search toolbar
-		cy.get('.w2ui-tb-image.w2ui-icon.unfold')
-			.click();
-
-		cy.get('#toolbar-search')
-			.should('not.be.visible');
 	});
 });
