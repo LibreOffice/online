@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de2ecade_ae37e962",
+        "filename": "docker/Debian/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002429
+      },
+      "writtenOn": "2020-05-08T10:45:41Z",
+      "side": 1,
+      "message": "this file is no longer touched by this commit",
+      "parentUuid": "f9c6fea4_c00aa89d",
+      "revId": "58c572c6b6bc798b09f4116292d3168ce3b993c4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef36eefd_fbd66ab9",
         "filename": "docker/Ubuntu/Dockerfile",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "ad737e4e_4c1521b1",
+        "filename": "docker/Ubuntu/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002429
+      },
+      "writtenOn": "2020-05-08T10:45:41Z",
+      "side": 1,
+      "message": "This change was done by Timar when I already forked the branch. Not adding it would let us go back before his commit.\n\nResolved via git",
+      "parentUuid": "ef36eefd_fbd66ab9",
+      "range": {
+        "startLine": 15,
+        "startChar": 212,
+        "endLine": 15,
+        "endChar": 226
+      },
+      "revId": "58c572c6b6bc798b09f4116292d3168ce3b993c4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "575eb0e0_234efa6f",
         "filename": "docker/l10n-docker-nightly.sh",
         "patchSetId": 6
@@ -62,6 +104,30 @@
       "revId": "58c572c6b6bc798b09f4116292d3168ce3b993c4",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29f3bdc8_0232ef76",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002429
+      },
+      "writtenOn": "2020-05-08T10:45:41Z",
+      "side": 1,
+      "message": "In my experience, yes. Otherwise some linked library fails when booting LOOL.\n\nAdded exit in patchset 8",
+      "parentUuid": "575eb0e0_234efa6f",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "58c572c6b6bc798b09f4116292d3168ce3b993c4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
