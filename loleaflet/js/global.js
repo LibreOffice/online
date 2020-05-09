@@ -347,12 +347,25 @@
 			if (this.sessionId !== 'fetchsession' && this.sendTimeout === undefined)
 				this.sendTimeout = setTimeout(this.doSend, 2 /* ms */);
 		};
-		this.close = function() {
+		this.sendCloseMsg = function(beacon) {
+			var url = that.getEndPoint('close/' + that.sessionId);
+			if (!beacon)
+			{
+				var req = new XMLHttpRequest();
+				req.open('POST', url);
+				req.send('');
+			}
+			else
+				navigator.sendBeacon(url, '');
+		};
+		this.close = function(reason) {
 			console.debug('proxy: close socket');
 			this.readyState = 3;
 			this.onclose();
 			clearInterval(this.waitInterval);
 			this.waitInterval = undefined;
+			this.sendCloseMsg(reason === 1001 /* Going Away */);
+			this.sessionId = 'fetchsession';
 		};
 		this.getEndPoint = function(type) {
 			var base = this.uri;

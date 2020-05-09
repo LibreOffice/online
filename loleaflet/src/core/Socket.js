@@ -104,11 +104,11 @@ L.Socket = L.Class.extend({
 		                                            120 * 1000);
 	},
 
-	close: function () {
+	close: function (reason) {
 		this.socket.onerror = function () {};
 		this.socket.onclose = function () {};
 		this.socket.onmessage = function () {};
-		this.socket.close();
+		this.socket.close(reason);
 
 		// Reset wopi's app loaded so that reconnecting again informs outerframe about initialization
 		this._map['wopi'].resetAppLoaded();
