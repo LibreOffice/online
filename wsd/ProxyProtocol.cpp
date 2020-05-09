@@ -96,9 +96,11 @@ bool ProxyProtocolHandler::parseEmitIncoming(
 {
     std::vector<char> &in = socket->getInBuffer();
 
+#if 0 // protocol debugging.
     std::stringstream oss;
     socket->dumpState(oss);
     LOG_TRC("Parse message:\n" << oss.str());
+#endif
 
     while (in.size() > 0)
     {
