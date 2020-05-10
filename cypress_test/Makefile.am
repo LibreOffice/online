@@ -152,7 +152,7 @@ define run_desktop_tests
 	@echo $(if $(1),"Running cypress desktop test: $(1)","Running cypress desktop tests...")
 	@echo
 	$(eval RUN_COMMAND = \
-		$(CYPRESS_BINARY) run --browser $(CHROME) \
+		DEBUG=cypress:* $(CYPRESS_BINARY) run --browser $(CHROME) \
 			--config integrationFolder=$(DESKTOP_TEST_FOLDER),userAgent=$(DESKTOP_USER_AGENT) \
 			--headless \
 			--env DATA_FOLDER=$(DESKTOP_DATA_FOLDER),WORKDIR=$(DESKTOP_WORKDIR),WSD_VERSION_HASH=$(WSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
@@ -169,7 +169,7 @@ define run_mobile_tests
 	@echo $(if $(1),"Running cypress mobile test: $(1)","Running cypress mobile tests...")
 	@echo
 	$(eval RUN_COMMAND = \
-		$(CYPRESS_BINARY) run --browser $(CHROME) \
+		DEBUG=cypress:* $(CYPRESS_BINARY) run --browser $(CHROME) \
 			--config integrationFolder=$(MOBILE_TEST_FOLDER),userAgent=$(MOBILE_USER_AGENT) \
 			--headless \
 			--env DATA_FOLDER=$(MOBILE_DATA_FOLDER),WORKDIR=$(MOBILE_WORKDIR),WSD_VERSION_HASH=$(WSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
