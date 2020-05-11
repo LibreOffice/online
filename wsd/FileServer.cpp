@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <regex>
 
 #include <dirent.h>
 #include <sys/stat.h>
@@ -33,7 +34,6 @@
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/NameValueCollection.h>
 #include <Poco/Net/NetException.h>
-#include <Poco/RegularExpression.h>
 #include <Poco/Runnable.h>
 #include <Poco/StreamCopier.h>
 #include <Poco/URI.h>
@@ -635,12 +635,14 @@ std::string FileServerRequestHandler::getRequestPathname(const HTTPRequest& requ
     requestUri.normalize();
 
     std::string path(requestUri.getPath());
-    Poco::RegularExpression gitHashRe("/([0-9a-f]+)/");
-    std::string gitHash;
-    if (gitHashRe.extract(path, gitHash))
+    std::regex gitHashRe("/([0-9a-f]+)/");
+    std::smatch reMatch;
+    if (std::regex_search(path, reMatch, gitHashRe))
     {
         // Convert version back to a real file name.
-        Poco::replaceInPlace(path, std::string("/loleaflet" + gitHash), std::string("/loleaflet/dist/"));
+        std::string gitHash(path, reMatch.position(), reMatch.length());
+        std::string from = "/loleaflet" + gitHash;
+        path.replace(path.find(from), from.length(), "/loleaflet/dist/");
     }
 
     return path;

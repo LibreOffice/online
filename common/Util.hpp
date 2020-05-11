@@ -22,6 +22,7 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <regex>
 #include <inttypes.h>
 
 #include <memory.h>
@@ -32,7 +33,6 @@
 
 #include <Poco/File.h>
 #include <Poco/Path.h>
-#include <Poco/RegularExpression.h>
 
 #define LOK_USE_UNSTABLE_API
 #include <LibreOfficeKit/LibreOfficeKitEnums.h>
@@ -977,11 +977,11 @@ int main(int argc, char**argv)
                 try
                 {
                     // Not performance critical to warrant caching.
-                    Poco::RegularExpression re(value, Poco::RegularExpression::RE_CASELESS);
-                    Poco::RegularExpression::Match reMatch;
+                    std::regex re(value, std::regex_constants::icase);
+                    std::smatch reMatch;
 
                     // Must be a full match.
-                    if (re.match(subject, reMatch) && reMatch.offset == 0 && reMatch.length == subject.size())
+                    if (std::regex_search(subject, reMatch, re) && reMatch.position() == 0 && static_cast<size_t>(reMatch.length()) == subject.size())
                     {
                         return true;
                     }
