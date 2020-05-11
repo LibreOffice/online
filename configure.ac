@@ -946,13 +946,13 @@ AS_IF([test "$ENABLE_IOSAPP" != "true" -a "$ENABLE_ANDROIDAPP" != "true"],
        # If poco is built with --unbundled, it uses the system pcre library
        AC_MSG_CHECKING([If we need to link with -lpcre])
        AC_LINK_IFELSE([AC_LANG_SOURCE([
-       #include <Poco/RegularExpression.h>
+       #include <regex>
        int main(int argc, char **argv)
        {
            (void)argc;
-           Poco::RegularExpression e("abc.[def]");
-           Poco::RegularExpression::Match m;
-           return e.match(argv[[1]], m);
+           std::regex e("abc.[def]");
+           std::smatch m;
+           return std::regex_match(argv[[1]], m, e);
        }
        ])],
                       [AC_MSG_RESULT([No])],

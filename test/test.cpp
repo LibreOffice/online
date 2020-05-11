@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <memory>
+#include <regex>
 
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/CompilerOutputter.h>
@@ -25,7 +26,6 @@
 #include <cppunit/TextTestProgressListener.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 
-#include <Poco/RegularExpression.h>
 #include <Poco/DirectoryIterator.h>
 #include <Poco/FileStream.h>
 #include <Poco/StreamCopier.h>
@@ -42,8 +42,7 @@ class HTTPGetTest;
 
 bool filterTests(CPPUNIT_NS::TestRunner& runner, CPPUNIT_NS::Test* testRegistry, const std::string& testName)
 {
-    Poco::RegularExpression re(testName, Poco::RegularExpression::RE_CASELESS);
-    Poco::RegularExpression::Match reMatch;
+    std::regex re(testName, std::regex_constants::icase);
 
     bool haveTests = false;
     for (int i = 0; i < testRegistry->getChildTestCount(); ++i)
@@ -52,9 +51,10 @@ bool filterTests(CPPUNIT_NS::TestRunner& runner, CPPUNIT_NS::Test* testRegistry,
         for (int j = 0; j < testSuite->getChildTestCount(); ++j)
         {
             CPPUNIT_NS::Test* testCase = testSuite->getChildTestAt(j);
+            std::string testCaseName(testCase->getName());
             try
             {
-                if (re.match(testCase->getName(), reMatch))
+                if (std::regex_search(testCaseName, re))
                 {
                     runner.addTest(testCase);
                     haveTests = true;

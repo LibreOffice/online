@@ -11,9 +11,10 @@
 #include <ostream>
 #include <set>
 #include <string>
+#include <regex>
+#include <iterator>
 
 #include <Poco/Exception.h>
-#include <Poco/RegularExpression.h>
 #include <Poco/URI.h>
 #include <test/lokassert.hpp>
 
@@ -28,16 +29,17 @@ void testStateChanged(const std::string& filename, std::set<std::string>& comman
 {
     const auto testname = "stateChanged_" + filename + ' ';
 
-    Poco::RegularExpression reUno("\\.[a-zA-Z]*\\:[a-zA-Z]*\\=");
+    std::regex reUno("\\.[a-zA-Z]*\\:[a-zA-Z]*\\=");
 
     std::shared_ptr<LOOLWebSocket> socket = helpers::loadDocAndGetSocket(filename, Poco::URI(helpers::getTestServerURI()), testname);
     helpers::SocketProcessor(testname, socket,
         [&](const std::string& msg)
         {
-            Poco::RegularExpression::MatchVec matches;
-            if (reUno.match(msg, 0, matches) > 0 && matches.size() == 1)
+            auto matches = std::sregex_iterator(msg.begin(), msg.end(), reUno);
+
+            if (std::distance(matches, std::sregex_iterator()) == 1)
             {
-                commands.erase(msg.substr(matches[0].offset, matches[0].length));
+                commands.erase(msg.substr(matches->position(), matches->length()));
             }
 
             return !commands.empty();
