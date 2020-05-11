@@ -3,24 +3,25 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2020-05-11 18:18+0000\n"
+"Last-Translator: Paul Roos <iNetRoos@gmail.com>\n"
+"Language-Team: Afrikaans <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/af/>\n"
 "Language: af\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 2.4.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.10.3\n"
 "X-Pootle-Path: /af/libo_online/loleaflet-help-af.po\n"
 "X-Pootle-Revision: 3816701\n"
 
 #: html/loleaflet-help.html%2Bdiv.h1:19-5
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "Snelsleutels"
 
 #: html/loleaflet-help.html%2Bdiv.div.h2:21-9
 msgid "General Keyboard Shortcuts"
-msgstr ""
+msgstr "Algemene Snelsleutels"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:23-18
 msgid "Undo"
@@ -48,7 +49,7 @@ msgstr "Ctrl + X"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:26-18
 msgid "Paste as unformatted text"
-msgstr ""
+msgstr "Plak teks ongeformateerd"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:26-70
 msgid "Ctrl + Alt + Shift + V"
@@ -64,7 +65,7 @@ msgstr "Ctrl + P"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:28-18
 msgid "Display the Keyboard shortcuts help"
-msgstr ""
+msgstr "Vertoon help vir snelsleutels"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:28-80
 msgid "Ctrl + Shift + ?"
@@ -217,7 +218,7 @@ msgstr "Ctrl + J"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:49-18
 msgid "Apply Default paragraph style"
-msgstr ""
+msgstr "Pas Verstek paragraafstyl  toe"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:49-74
 msgid "Ctrl + 0"
@@ -266,7 +267,7 @@ msgstr "Ctrl + 5"
 
 #: html/loleaflet-help.html%2Bdiv.div.h2:56-9
 msgid "Text selection and navigation in document"
-msgstr ""
+msgstr "Dokument teks seleksie en -navigasie"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:58-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:139-18
@@ -297,7 +298,7 @@ msgstr "Pyltjie Lings"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:60-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:177-18
 msgid "Move cursor with selection to the left"
-msgstr ""
+msgstr "Met merker selekteer na links"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:60-83
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:177-83
@@ -307,7 +308,7 @@ msgstr "Shift + Lings Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:61-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:178-18
 msgid "Go to beginning of a word"
-msgstr ""
+msgstr "Merker hop na begin van vorige Woord"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:61-70
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:178-70
@@ -317,7 +318,7 @@ msgstr "Ctrl + Links Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:62-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:179-18
 msgid "Select to the left word by word"
-msgstr ""
+msgstr "Links Selekteer woord vir woord"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:62-76
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:179-76
@@ -337,7 +338,7 @@ msgstr "Pyltjie Regs"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:64-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:181-18
 msgid "Move cursor with selection to the right"
-msgstr ""
+msgstr "Selekteer na regs met merker"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:64-84
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:181-84
@@ -347,7 +348,7 @@ msgstr "Shift + Reg Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:65-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:182-18
 msgid "Go to start of the next word"
-msgstr ""
+msgstr "Met merker hop na begin van volgende woord"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:65-73
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:182-73
@@ -357,7 +358,7 @@ msgstr "Ctrl + Regs Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:66-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:183-18
 msgid "Select to the right word by word"
-msgstr ""
+msgstr "Met merker selekteer na regs"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:66-77
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:183-77
@@ -378,7 +379,7 @@ msgstr "Op Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:68-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:185-18
 msgid "Select lines in upwards direction"
-msgstr ""
+msgstr "Met merker selekteer lyne opwaarts"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:68-78
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:185-78
@@ -388,7 +389,7 @@ msgstr "Shift + Op Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:69-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:186-18
 msgid "Move cursor to beginning of the previous paragraph"
-msgstr ""
+msgstr "Met merker hop na begin van vorige paragraaf"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:69-95
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:186-95
@@ -398,7 +399,7 @@ msgstr "Ctrl + Op Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:70-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:187-18
 msgid "Select to beginning of paragraph"
-msgstr ""
+msgstr "Met merker selekteer na paragraaf se begin"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:70-77
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:187-77
@@ -418,7 +419,7 @@ msgstr "Af Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:72-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:189-18
 msgid "Select lines in downwards direction"
-msgstr ""
+msgstr "Met merker selekteer lyne afwaarts"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:72-80
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:189-80
@@ -428,7 +429,7 @@ msgstr "Shift + Af Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:73-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:190-18
 msgid "Move cursor to beginning of the next paragraph"
-msgstr ""
+msgstr "Met merker hop na begin volgende paragraaf"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:73-91
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:190-91
@@ -438,7 +439,7 @@ msgstr "Ctrl + Af Pyltjie"
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:74-18
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:191-18
 msgid "Select to end of paragraph"
-msgstr ""
+msgstr "Met merker selekteer na paragraaf einde"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:74-71
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:191-71
