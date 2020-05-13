@@ -356,7 +356,8 @@ void FileServerRequestHandler::handleRequest(const HTTPRequest& request, Poco::M
             if (endPoint == "admin.html" ||
                 endPoint == "adminSettings.html" ||
                 endPoint == "adminHistory.html" ||
-                endPoint == "adminAnalytics.html")
+                endPoint == "adminAnalytics.html" ||
+                endPoint == "adminLog.html")
             {
                 preprocessAdminFile(request, socket);
                 return;
