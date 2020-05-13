@@ -9,6 +9,7 @@ l10nstrings.strOverview = _('Overview');
 l10nstrings.strCurrent = _('(current)');
 l10nstrings.strAnalytics = _('Analytics');
 l10nstrings.strHistory = _('History');
+l10nstrings.strLog = _('Log');
 l10nstrings.strDashboard = _('Dashboard');
 l10nstrings.strUsersOnline = _('Users online');
 l10nstrings.strUserName = _('User Name');
@@ -36,11 +37,12 @@ l10nstrings.strCpuStatsInterval = _('Time interval of CPU statistics (in ms)');
 l10nstrings.strLimitVirtMemMb = _('Maximum Document process virtual memory (in MB) - reduce only');
 l10nstrings.strLimitStackMemKb = _('Maximum Document process stack memory (in KB) - reduce only');
 l10nstrings.strLimitFileSizeMb = _('Maximum file size allowed to write to disk (in MB) - reduce only');
+l10nstrings.strLogLevel = _('Log level for the loolwsd.log file.');
 l10nstrings.strDocuments = _('Documents:');
 l10nstrings.strExpired = _('Expired:');
 l10nstrings.strRefresh = _('Refresh');
 l10nstrings.strShutdown = _('Shutdown Server');
-l10nstrings.strServerUptime = _('Server uptime')
+l10nstrings.strServerUptime = _('Server uptime');
 
 if (module) {
 	module.exports = l10nstrings;
