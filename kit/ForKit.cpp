@@ -123,7 +123,7 @@ protected:
         }
         else if (tokens.size() == 3 && tokens.equals(0, "setconfig"))
         {
-            // Currently only rlimit entries are supported.
+            // Currently only rlimit entries and LogLevel are supported.
             if (!Rlimit::handleSetrlimitCommand(tokens))
             {
                 LOG_ERR("Unknown setconfig command: " << message);

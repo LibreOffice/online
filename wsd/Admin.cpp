@@ -151,6 +151,9 @@ void AdminSocketHandler::handleMessage(const std::vector<char> &payload)
     else if (tokens.equals(0, "uptime"))
         sendTextFrame("uptime " + std::to_string(model.getServerUptime()));
 
+    else if (tokens.equals(0, "log_lines"))
+        sendTextFrame("log_lines " + _admin->getLogLines());
+
     else if (tokens.equals(0, "kill") && tokens.size() == 2)
     {
         try
@@ -187,7 +190,8 @@ void AdminSocketHandler::handleMessage(const std::vector<char> &payload)
             << "cpu_stats_size="  << model.query("cpu_stats_size") << ' '
             << "cpu_stats_interval=" << std::to_string(_admin->getCpuStatsInterval()) << ' '
             << "net_stats_size=" << model.query("net_stats_size") << ' '
-            << "net_stats_interval=" << std::to_string(_admin->getNetStatsInterval()) << ' ';
+            << "net_stats_interval=" << std::to_string(_admin->getNetStatsInterval()) << ' '
+            << "log_level=" << std::to_string(_admin->getLogLevelInt()) << ' ';
 
         const DocProcSettings& docProcSettings = _admin->getDefDocProcSettings();
         oss << "limit_virt_mem_mb=" << docProcSettings.getLimitVirtMemMb() << ' '
@@ -269,6 +273,13 @@ void AdminSocketHandler::handleMessage(const std::vector<char> &payload)
 
                 model.notify("settings " + settingName + '=' + std::to_string(settingVal));
                 _admin->setDefDocProcSettings(docProcSettings, true);
+            }
+            else if (settingName == "log_level")
+            {
+                if (settingVal < 9 && settingVal >= 0)
+                {
+                    _admin->setLogLevel(settingVal);
+                }
             }
         }
     }
@@ -563,6 +574,157 @@ unsigned Admin::getNetStatsInterval()
     return _netStatsTaskIntervalMs;
 }
 
+std::string Admin::getLogLevelStr()
+{
+    switch (_logLevel) {
+        case _eLogLevel::critical:
+            return "critical";
+        case _eLogLevel::debug:
+            return "debug";
+        case _eLogLevel::error:
+            return "error";
+        case _eLogLevel::fatal:
+            return "fatal";
+        case _eLogLevel::information:
+            return "information";
+        case _eLogLevel::none:
+            return "none";
+        case _eLogLevel::notice:
+            return "notice";
+        case _eLogLevel::trace:
+            return "trace";
+        case _eLogLevel::warning:
+            return "warning";
+        default:
+            return "no matching log level found.";
+    }
+}
+
+int Admin::getLogLevelInt()
+{
+    return (int)_logLevel;
+}
+
+void Admin::setLogLevel(std::string _level)
+{
+    bool set = true;
+    if (_level ==  "critical")
+    {
+        _logLevel =_eLogLevel::critical;
+    }
+    else if (_level ==  "debug")
+    {
+        _logLevel = _eLogLevel::debug;
+    }
+    else if (_level ==  "error")
+    {
+        _logLevel = _eLogLevel::error;
+    }
+    else if (_level ==  "fatal")
+    {
+        _logLevel = _eLogLevel::fatal;
+    }
+    else if (_level ==  "information")
+    {
+        _logLevel = _eLogLevel::information;
+    }
+    else if (_level ==  "none")
+    {
+        _logLevel = _eLogLevel::none;
+    }
+    else if (_level ==  "notice")
+    {
+        _logLevel = _eLogLevel::notice;
+    }
+    else if (_level ==  "trace")
+    {
+        _logLevel = _eLogLevel::trace;
+    }
+    else if (_level ==  "warning")
+    {
+        _logLevel = _eLogLevel::warning;
+    }
+    else
+    {
+        set = false;
+    }
+
+    if (set == true)
+    {
+        Log::logger().setLevel(_level);
+    }
+    else
+    {
+        Log::logger().setLevel("trace");
+    }
+
+    notifyForkit();
+}
+
+void Admin::setLogLevel(int _level)
+{
+    if (_level >= 0 && _level < 9)
+    {
+        _logLevel = (_eLogLevel)_level; // Update the class variable..
+        std::string strLevel = getLogLevelStr(); // Get the corresponding string..
+        Log::logger().setLevel(strLevel); // Update logger level..
+
+        // Get the list of channels..
+        std::vector<std::string> nameList;
+        Log::logger().names(nameList);
+
+        for (size_t i = 0; i < nameList.size(); i++)
+        {
+            Log::logger().get(nameList[i]).setLevel(strLevel);
+        }
+        notifyForkit();
+    }
+    else
+    {
+        setLogLevel("trace");
+    }
+}
+
+std::string Admin::getLogLines(){
+    try {
+        int lineCount = 50;
+        std::string fName = LOOLWSD::getPathFromConfig("logging.file.property[0]");
+        std::ifstream infile(fName);
+
+        std::string line;
+        std::deque<std::string> lines;
+
+        while (std::getline(infile, line))
+        {
+            std::istringstream iss(line);
+            lines.push_back(line);
+            if (lines.size() > (size_t)lineCount)
+            {
+                lines.pop_front();
+            }
+        }
+
+        infile.close();
+
+        if (lines.size() < (size_t)lineCount)
+        {
+            lineCount = (int)lines.size();
+        }
+
+        line = ""; // Use the same variable to include result.
+        // Newest will be on top.
+        for (int i = lineCount - 1; i >= 0; i--)
+        {
+            line += "\n" + lines[i];
+        }
+
+        return line;
+    }
+    catch (const std::exception& e) {
+        return "Could not read the log file.";
+    }
+}
+
 AdminModel& Admin::getModel()
 {
     return _model;
@@ -605,7 +767,8 @@ void Admin::notifyForkit()
     oss << "setconfig limit_virt_mem_mb " << _defDocProcSettings.getLimitVirtMemMb() << '\n'
         << "setconfig limit_stack_mem_kb " << _defDocProcSettings.getLimitStackMemKb() << '\n'
         << "setconfig limit_file_size_mb " << _defDocProcSettings.getLimitFileSizeMb() << '\n'
-        << "setconfig limit_num_open_files " << _defDocProcSettings.getLimitNumberOpenFiles() << '\n';
+        << "setconfig limit_num_open_files " << _defDocProcSettings.getLimitNumberOpenFiles() << '\n'
+        << "setconfig log_level " << getLogLevelStr() << "\n";
 
     LOOLWSD::sendMessageToForKit(oss.str());
 }
@@ -774,6 +937,8 @@ void Admin::start()
 
     if (!haveMonitors)
         LOG_TRC("No monitors configured.");
+
+    setLogLevel(std::getenv("LOOL_LOGLEVEL"));
 
     startThread();
 }

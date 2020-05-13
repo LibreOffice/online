@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
 
     <title>LibreOffice Online - Admin console</title>
 
@@ -16,7 +16,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="localizations" href="%SERVICE_ROOT%/loleaflet/%VERSION%/l10n/admin-localizations.json" type="application/vnd.oftn.l10n+json"/>
-
   </head>
   <body>
     <script src="%SERVICE_ROOT%/loleaflet/%VERSION%/admin-bundle.js"></script>
@@ -24,17 +23,17 @@
     <script>if (typeof brandProductName !== 'undefined') {l10nstrings.strProductName = brandProductName}</script>
     <script>document.title = l10nstrings.strProductName + ' - ' + l10nstrings.strAdminConsole</script>
     <script>
-        if (window.location.protocol == "https:") {
-           host = 'wss://' + window.location.host + '%SERVICE_ROOT%/lool/adminws/'
-        }
-        else {
-           host = 'ws://' + window.location.host + '%SERVICE_ROOT%/lool/adminws/'
-        }
+      if (window.location.protocol == "https:") {
+          var host = 'wss://' + window.location.host + '%SERVICE_ROOT%/lool/adminws/';
+      }
+      else {
+          host = 'ws://' + window.location.host + '%SERVICE_ROOT%/lool/adminws/';
+      }
 
-        Admin.History(host)
+      Admin.Log(host)
     </script>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -52,23 +51,25 @@
         </div>
       </div>
     </nav>
+
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="admin.html"><script>document.write(l10nstrings.strOverview)</script></a></li>
+            <li><a href="admin.html"><script>document.write(l10nstrings.strOverview)</script> <span class="sr-only"><script>document.write(l10nstrings.strCurrent)</script></span></a></li>
             <li><a href="adminAnalytics.html"><script>document.write(l10nstrings.strAnalytics)</script></a></li>
-            <li class="active"><a href="adminHistory.html"><script>document.write(l10nstrings.strHistory)</script> <span class="sr-only"><script>document.write(l10nstrings.strCurrent)</script></span></a></li>
-            <li><a href="adminLog.html"><script>document.write(l10nstrings.strLog)</script></a></li>
+            <li><a href="adminHistory.html"><script>document.write(l10nstrings.strHistory)</script></a></li>
+            <li class="active"><a href="adminLog.html"><script>document.write(l10nstrings.strLog)</script></a></li>
           </ul>
         </div>
-
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header"><script>document.write(l10nstrings.strHistory)</script>
-              <button class="pull-right" id="refreshHistory"><script>document.write(l10nstrings.strRefresh)</script></button>
-          </h1>
-            <pre id="json-doc"><script>document.write(l10nstrings.strDocuments)</script><br/><textarea rows="10" cols="100"></textarea></pre>
-            <pre id="json-ex-doc"><script>document.write(l10nstrings.strExpired)</script><br/><textarea rows="10" cols="100"></textarea></pre>
+          <h1 class="page-header"><script>document.write(l10nstrings.strLog)</script></h1>
+          <div class="form-group text-right" style="width:100%">
+            <button type="button" class="btn btn-primary float-right" id="refresh-log" style="width:120px;">Refresh Log</button>
+          </div>
+          <div class="form-group">
+            <textarea id="log-lines" style="width:100%;height:100%;min-height: calc(100vh - 250px);resize:vertical;" readonly="true"></textarea>
+          </div>
         </div>
       </div>
     </div>

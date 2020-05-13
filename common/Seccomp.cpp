@@ -305,6 +305,19 @@ bool handleSetrlimitCommand(const StringVector& tokens)
         {
             setRLimit(std::stoi(tokens[2]), RLIMIT_NOFILE, "RLIMIT_NOFILE", "files");
         }
+        else if (tokens[1] == "log_level")
+        {
+            Log::logger().setLevel(tokens[2]);
+
+            // Get the list of channels..
+            std::vector<std::string> nameList;
+            Log::logger().names(nameList);
+
+            for (size_t i = 0; i < nameList.size(); i++)
+            {
+                Log::logger().get(nameList[i]).setLevel(tokens[2]);
+            }
+        }
         else
             return false;
 

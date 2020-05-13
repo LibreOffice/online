@@ -736,12 +736,15 @@ settings
 
     Queries the server for configurable settings from admin console.
 
+log_lines
+    Gets last n lines from "loolwsd.log" file.
+
 set <setting1=value1> <setting2=value2> ...
 
     Sets a particular setting (must be one returned as response to
     `settings` command) to value.
 
-    There are only 4 configurable settings as of now.
+    There are only 5 configurable settings as of now.
 
     mem_stats_size: Number of memory consumed values that server caches
     atmost.
@@ -750,6 +753,7 @@ set <setting1=value1> <setting2=value2> ...
     cpu_stats_size: Number of cpu usage values that server caches atmost.
     cpu_stats_interval: Time after which server calculates its total cpu
     usage.
+    log_level: Log level for the loolwsd.log file.
 
     Note: cpu stats gathering is a TODO, so  not functional as of now.
 
