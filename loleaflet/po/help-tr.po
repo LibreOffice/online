@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2019-12-26 22:40+0000\n"
+"PO-Revision-Date: 2020-05-13 08:09+0000\n"
 "Last-Translator: Ayhan YALÇINSOY <ayhanyalcinsoy@gmail.com>\n"
 "Language-Team: Turkish <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/tr/>\n"
 "Language: tr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 3.10.3\n"
 "X-Pootle-Path: /tr/libo_online/loleaflet-help-tr.po\n"
 "X-Pootle-Revision: 828276\n"
 
@@ -1027,7 +1027,7 @@ msgstr "Sunum"
 
 #: html/loleaflet-help.html%2Bdiv.p:249-5
 msgid "<span class=\"productname\">%productName</span> allows you to create and edit office documents text documents, spreadsheets and presentations directly in your browser, in a simple and straight-forward way. You can work alone on a document, or collaboratively as part of a team."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> ağ tarayıcınızda, basit ve kolay bir şekilde, doğrudan, metin belgeleri, hesap tabloları ve sunum dosyaları oluşturmanızı ve düzenlemenizi mümkün kılar. Bir belge üzerinde tek başınıza ya da bir ekibin üyesi olarak çalışabilirsiniz."
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:253-11
 msgid "Each user gets assigned a color. The cursor of each user will be shown in the assigned color. Note: you will see your cursor as black, blinking cursor, although others will see you with a different color."
@@ -1043,7 +1043,7 @@ msgstr "<span class=\"productname\">%productName</span> bir kullanıcı girdiği
 
 #: html/loleaflet-help.html%2Bdiv.p:259-5
 msgid "<span class=\"productname\">%productName</span> uses modern browser resources to adapt the user interface to the size of the viewing area, including small screens found in mobile devices. The interface is composed of:"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span>, kullanıcı arayüzünü, mobil cihazlardaki küçük ekranlar da dahil, görüntüleme alanına uyarlamak için modern tarayıcı kaynaklarından faydalanır. Arayüz şunlardan oluşmaktadir:"
 
 #: html/loleaflet-help.html%2Bdiv.p:260-5
 msgid "<span class=\"def\">The document area:</span> The application area shows the document contents, either spreadsheets, presentations or text documents."
@@ -1051,23 +1051,23 @@ msgstr "<span class=\"def\">Belge alanı:</span> Uygulama alanı belge içeriği
 
 #: html/loleaflet-help.html%2Bdiv.p.img:261-5
 msgid "<span class=\"def\">The menu bar:</span> The main menu is placed on the top and includes many options, commands for printing, editing, viewing and other advanced commands. You can hide the menu bar clicking on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/fold.svg\"> icon on the far right. Click on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/unfold.svg\"> icon to show the menu."
-msgstr ""
+msgstr "<span class=\"def\">Menü çubuğu:</span> Ana menü yukarıya yerleştirilmiştir ve yazdırma, düzenleme, görünüm ve diğer ileri seviye komutlar için pek çok seçenek içermektedir. Menü çubuğunu en sağdaki simgeye <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/fold.svg\"> tıklayarak gizleyebilirsiniz. Menüyü görmek için simgeye <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/unfold.svg\"> tıklayın."
 
 #: html/loleaflet-help.html%2Bdiv.p:262-5
 msgid "<span class=\"def\">Context menus:</span> On clicking with the right mouse button, a menu appears with commands associated with the underlying object."
-msgstr ""
+msgstr "<span class=\"def\">İçerik menüleri:</span> Sağ fare düğmesiyle tıkladığınızda, seçtiğiniz nesneyle alakalı komutların bulunduğu bir menü gözükür."
 
 #: html/loleaflet-help.html%2Bdiv.p:263-5
 msgid "<span class=\"def\">The toolbar:</span> The toolbar contains the most used options for daily editing. Toolbar buttons are dynamic, meaning that their state (on or off) depends on different factors."
-msgstr ""
+msgstr "<span class=\"def\">Araç çubuğu:</span> Araç çubuğu gündelik düzenlemeye dair en çok kullanılan seçenekleri içerir. Araç çubuğu düğmeleri dinamiktir, yani durumları (açık veya kapalı) farklı sebeplere bağlıdır."
 
 #: html/loleaflet-help.html%2Bdiv.p:264-5
 msgid "<span class=\"def\">The status bar:</span> The status bar is shown in the bottom, and contains several useful options and features."
-msgstr ""
+msgstr "<span class=\"def\">Durum çubuğu:</span> Durum çubuğu altta görünmektedir ve faydalı birkaç seçenek ve özellik içermektedir."
 
 #: html/loleaflet-help.html%2Bdiv.p:266-5
 msgid "<span class=\"def\">The search bar:</span> Searching starts automatically when content is inserted in the search box, and the document window automatically moves to the first occurrence found. Searching is not case-sensitive. There are three buttons right next to the search box:"
-msgstr ""
+msgstr "<span class=\"def\">Arama çubuğu:</span> Arama çubuğuna bir içerik eklediğiniz anda arama başlar ve belge penceresi bulunan ilk sonuca doğru hareket eder. Arama büyük veya küçük harfe karşı duyarlı değildir. Sağda arama kutusunun yanında üç tane düğme vardır:"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:268-11
 msgid "Search backwards"
@@ -1079,7 +1079,7 @@ msgstr "İleriye doğru arama"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:270-11
 msgid "Cancel the search (appears only when a text has been searched)"
-msgstr ""
+msgstr "Aramayı iptal et (sadece bir metin arandıysa görünür)"
 
 #: html/loleaflet-help.html%2Bdiv.p:272-5
 msgid "<span class=\"def\">The zoom bar:</span> At the right of the status bar, there is a set of buttons that allow you to zoom to 100%, zoom out and zoom in. The zoom applies to the document area, the user interface is not affected. The current level of zoom is shown in this area."
@@ -1242,10 +1242,8 @@ msgid "Images can be resized, rotated and anchored. Text can be wrapped around t
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:327-5
-#, fuzzy
-#| msgid "Go to end of document"
 msgid "Comments in documents"
-msgstr "Belgenin sonuna git"
+msgstr "Belgedeki yorumlar"
 
 #: html/loleaflet-help.html%2Bdiv.p:328-5
 msgid "Insert comments in <span class=\"productname\">%productName</span> in places that need special reader attention. Comments are displayed on the right and carry the name and date of the issuer."
@@ -1348,8 +1346,6 @@ msgid "Context menus are available on clicking the right mouse button. The comma
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h3:393-5
-#, fuzzy
-#| msgid "Text formatting"
 msgid "Formatting text"
 msgstr "Metin biçimlendirme"
 
@@ -1558,10 +1554,8 @@ msgid "The <span class=\"blue\">¶</span> symbol is a formatting mark. It is use
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:474-5
-#, fuzzy
-#| msgid "Go to start of document"
 msgid "How do I get a word count of my document?"
-msgstr "Belgenin başına git"
+msgstr "Belgemdeki kelime sayısını nasıl alabilirim?"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:475-5
 msgid "Word count is available in <span class=\"ui\">Tools</span> → <span class=\"ui\">Word count</span>. A dialog shows word counts for selection and for the whole document."
@@ -1636,10 +1630,8 @@ msgid "Changes can be accepted or rejected. To accept or reject changes, click o
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:503-5
-#, fuzzy
-#| msgid "Go to start of document"
 msgid "How do I set the margins of the document?"
-msgstr "Belgenin başına git"
+msgstr "Belgenin kenar boşluklarını nasıl ayarlarım?"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:504-5
 msgid "Using the ruler drag the leftmost edge of the ruler to adjust the left margin, or the rightmost for the right margin."
@@ -1707,10 +1699,8 @@ msgid "Select the text you want to apply the new format."
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.p:527-5
-#, fuzzy
-#| msgid "Apply Heading 1 paragraph style"
 msgid "Applying a paragraph style:"
-msgstr "Başlık 1 paragraf biçemini uygula"
+msgstr "Paragraf stili uygulama:"
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:529-11
 msgid "Place the cursor at the paragraph to be formatted"

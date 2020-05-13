@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-04-20 07:28+0000\n"
-"Last-Translator: Joan Montané <joan@montane.cat>\n"
+"PO-Revision-Date: 2020-05-12 22:53+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -1323,7 +1323,7 @@ msgstr "Seleccioneu els criteris de validació en la llista <span class=\"ui\">P
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:373-9
 msgid "Use the <span class=\"ui\">Input Help</span> and <span class=\"ui\">Error Alert</span> tabs to enhance the user interactions. Click <span class=\"ui\">OK</span> to close the dialog."
-msgstr ""
+msgstr "Utilitzeu les pestanyes <span class=\"ui\">Ajuda d'entrada</span> i <span class=\"ui\">Avís d'error</span> per a millorar les interaccions de l'usuari. Feu clic a <span class=\"ui\">D'acord</span> per a tancar el diàleg."
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:376-11
 msgid "To remove the validity of the cell, open the dialog and set the <span class=\"ui\">Allow</span> list to “All values”."
@@ -1331,11 +1331,11 @@ msgstr "Per a suprimir la validesa d'una cel·la, obriu el diàleg i definiu «T
 
 #: html/loleaflet-help.html%2Bdiv.div.p:378-5
 msgid "<span class=\"def\">Comments:</span> In a spreadsheet you can insert one comment per cell. When you select <span class=\"ui\">Insert comment</span>, a popup appears that allows you to write the content for the comment. A red dot shows on the top right corner of the cell when it has a comment. Hover the mouse on the cell to display comments."
-msgstr ""
+msgstr "<span class=\"def\">Comentaris:</span> en un full de càlcul, hi podeu inserir un comentari per cel·la. Quan seleccioneu <span class=\"ui\">Insereix un comentari</span>, apareix una finestra emergent que us permet escriure el contingut del comentari. Quan la cel·la té un comentari, apareix un punt vermell a l'extrem superior dret. Passeu per sobre la cel·la amb el ratolí per a veure els comentaris."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:380-5
 msgid "<span class=\"def\">Conditional formatting:</span> <span class=\"productname\">%productName</span> adds symbols to each cell of a range based on cells conditions. Select the cell range and click the <span class=\"ui\">Conditional Formatting</span> icon on the toolbar. Select the symbol set to apply on the range."
-msgstr ""
+msgstr "<span class=\"def\">Formatació condicionada:</span> el <span class=\"productname\">%productName</span> afegeix símbols a cada cel·la d'un interval basat en condicions de les cel·les. Seleccioneu l'interval de cel·les i feu clic a la icona <span class=\"ui\">Formatació condicionada</span> de la barra d'eines."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:388-5
 msgid "<span class=\"productname\">%productName</span> edits text documents in the same way you edit a desktop document. It provides a What You See Is What You Get (WYSIWYG) layout – that conveniently lays out the document as it will be printed. Operations like typing text, cut, copy and pasting contents, selecting text, inserting, resizing, anchoring images, adding and handling tables and charts, are similar to a desktop word processor. Use the keyboard, menus and toolbars to interact with your document."
@@ -1363,7 +1363,7 @@ msgstr "<span class=\"def\">Formatació directa:</span> podeu formatar el text i
 
 #: html/loleaflet-help.html%2Bdiv.div.p:397-5
 msgid "<span class=\"def\">Style formatting:</span> <span class=\"productname\">%productName</span> supports paragraph styles. You can apply an existing paragraph style to a paragraph. Choose menu <span class=\"ui\">Edit</span> → <span class=\"ui\">Edit styles</span> to change style."
-msgstr ""
+msgstr "<span class=\"def\">Formatació per estils:</span> el <span class=\"productname\">%productName</span> admet estils de paràgraf. Podeu aplicar un estil de paràgraf existent a un paràgraf. Trieu el menú <span class=\"ui\">Edita</span> ▸ <span class=\"ui\">Edita l'estil</span> per a canviar l'estil."
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:401-5
 msgid "Handling Tables"
@@ -1443,7 +1443,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.p:435-5
 msgid "<span class=\"def\">Master slide:</span> Select the master slide associated to the current slide. Format and arrange slide elements in the master slide."
-msgstr ""
+msgstr "<span class=\"def\">Diapositiva mestra:</span> seleccioneu la diapositiva mestra associada a la diapositiva actual. Formateu i organitzeu els elements de la diapositiva a la diapositiva mestra."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:436-5
 msgid "<span class=\"def\">Slide transitions:</span> <span class=\"productname\">%productName</span> Impress provides visual effects when displaying a new slide in the slide show. Slide transitions are property of the slide, use the side bar to set the slide transition when in edit mode."
