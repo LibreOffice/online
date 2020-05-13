@@ -105,6 +105,16 @@ public:
 
     unsigned getNetStatsInterval();
 
+    std::string getLogLevelStr();
+
+    int getLogLevelInt();
+
+    void setLogLevel(std::string _level);
+
+    void setLogLevel(int _level);
+
+    std::string getLogLines();
+
     void rescheduleMemTimer(unsigned interval);
 
     void rescheduleCpuTimer(unsigned interval);
@@ -180,9 +190,12 @@ private:
     };
     std::vector<MonitorConnectRecord> _pendingConnects;
 
+    enum _eLogLevel {none, fatal, critical, error, warning, notice, information, debug, trace};
+
     std::atomic<int> _cpuStatsTaskIntervalMs;
     std::atomic<int> _memStatsTaskIntervalMs;
     std::atomic<int> _netStatsTaskIntervalMs;
+    std::atomic<_eLogLevel> _logLevel;
     DocProcSettings _defDocProcSettings;
 
     // Don't update any more frequently than this since it's excessive.

@@ -59,6 +59,7 @@
             <li><a href="admin.html"><script>document.write(l10nstrings.strOverview)</script> <span class="sr-only"><script>document.write(l10nstrings.strCurrent)</script></span></a></li>
             <li><a href="adminAnalytics.html"><script>document.write(l10nstrings.strAnalytics)</script></a></li>
             <li><a href="adminHistory.html"><script>document.write(l10nstrings.strHistory)</script></a></li>
+            <li><a href="adminLog.html"><script>document.write(l10nstrings.strLog)</script></a></li>
           </ul>
           <hr />
           <div style="position:absolute; bottom:0px">
@@ -136,6 +137,25 @@
               </label>
               <div class="col-md-2">
                 <input type="number" id="limit_file_size_mb" class="form-control" name="Max File Write Size Mb">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="log_level" class="col-md-4 control-label">
+                <script>document.write(l10nstrings.strLogLevel)</script>
+              </label>
+              <div class="col-md-2">
+                <select id="log_level" class="form-control" name="Log Level">
+                  <option value="0">Turn off logging.</option>
+                  <option value="1">Fatal.</option>
+                  <option value="2">Critical.</option>
+                  <option value="3">Error.</option>
+                  <option value="4">Warning.</option>
+                  <option value="5">Notice.</option>
+                  <option value="6">Information.</option>
+                  <option value="7">Debug.</option>
+                  <option value="8">Trace.</option>
+                </select>
               </div>
             </div>
 

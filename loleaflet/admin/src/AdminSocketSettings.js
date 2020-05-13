@@ -26,6 +26,7 @@ var AdminSocketSettings = AdminSocketBase.extend({
 				command += ' limit_virt_mem_mb=' + $('#limit_virt_mem_mb').val();
 				command += ' limit_stack_mem_kb=' + $('#limit_stack_mem_kb').val();
 				command += ' limit_file_size_mb=' + $('#limit_file_size_mb').val();
+				command += ' log_level=' + $('#log_level').val();
 				socketSettings.send(command);
 			});
 
