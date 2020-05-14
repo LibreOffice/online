@@ -22,6 +22,30 @@
       "revId": "9355138f534928eaf1fdad5ef8bf3a965d480d9e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12640fdb_2b7f9d70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002429
+      },
+      "writtenOn": "2020-05-14T08:07:01Z",
+      "side": 1,
+      "message": "Sistema operativo... sorry",
+      "parentUuid": "afc54b4d_9b6ca8c1",
+      "range": {
+        "startLine": 7,
+        "startChar": 39,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "9355138f534928eaf1fdad5ef8bf3a965d480d9e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
