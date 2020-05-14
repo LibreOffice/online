@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afc54b4d_9b6ca8c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2020-05-14T07:57:23Z",
+      "side": 1,
+      "message": "what does SO mean?",
+      "range": {
+        "startLine": 7,
+        "startChar": 39,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "9355138f534928eaf1fdad5ef8bf3a965d480d9e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
