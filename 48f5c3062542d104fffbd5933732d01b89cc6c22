@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faa849e7_92ba1025",
+        "filename": "common/Seccomp.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "This really doesn\u0027t belong inside a method called: \"bool handleSetrlimitCommand\"\nLets move it up the stack - people touching \u0027Seccomp.cpp\u0027 which is security critical get extra scrutiny \u003d)",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa42a4cb_e9df6ebc",
+        "filename": "kit/ForKit.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "fix too \u003d)",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "710e8b8e_28cfe111",
+        "filename": "loleaflet/admin/adminLog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "This looks really nice \u003d) good stuff. I expect having the log level setting here would be good too.",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5feef674_e02421fd",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "extra braces.",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "633f71d1_bfb049e6",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "And we could re-use a similar macro block here I guess \u003d)",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "617f2b31_4781db46",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "Lets not waste the non-renewable resource of vertical space here (ie. drop the one-line braces). We could also do most of this with a C macro I think and ## for comparisons.",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1109a87a_19312b5c",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "Logs are very very verbose normally - so lets give the user more log \u003d)",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da7eefa9_e370e8cc",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "We get default log level from the loolwsd.xml config file; so lets drop this \u003d)",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce1e2ac0_9c586034",
+        "filename": "wsd/Admin.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "No need for this method I think, lets just do the cast in the 1 caller (which is a semi-internal state dumping method anyway ;-). Thanks.",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ac0bdb_a34d92f8",
+        "filename": "wsd/Admin.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like any of the above need to be atomic \u003d) We have a fairly simple threading model. I would add: assertCorrectThread(); to each of those methods and drop the atomic.",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9df38ff5_fe43dfa6",
+        "filename": "wsd/protocol.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-05-14T13:19:09Z",
+      "side": 1,
+      "message": "nice to see it documented \u003d)",
+      "revId": "48f5c3062542d104fffbd5933732d01b89cc6c22",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
