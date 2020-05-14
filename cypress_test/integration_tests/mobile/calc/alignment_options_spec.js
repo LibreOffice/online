@@ -219,7 +219,7 @@ describe('Change alignment settings.', function() {
 			});
 	});
 
-	it.skip('Change text indent via input field.', function() {
+	it('Change text indent via input field.', function() {
 		// TODO: this fails, because the input field always becomes disabled.
 		helper.initAliasToNegative('originalTextPos');
 
