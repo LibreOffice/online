@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "77da91dc_09652fda",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002429
+      },
+      "writtenOn": "2020-05-15T11:23:06Z",
+      "side": 1,
+      "message": "Can be easily fixed",
+      "parentUuid": "7caec56c_b10b3865",
+      "revId": "607ddbff466d145d0dcf87b2759c7e4d02b28f1d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "69d4b4be_23386267",
         "filename": "docker/l10n-docker-nightly.sh",
         "patchSetId": 13

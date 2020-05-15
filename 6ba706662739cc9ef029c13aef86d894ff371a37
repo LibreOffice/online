@@ -16,6 +16,24 @@
       "revId": "6ba706662739cc9ef029c13aef86d894ff371a37",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d7186c2_b18c8289",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002429
+      },
+      "writtenOn": "2020-05-15T11:23:06Z",
+      "side": 0,
+      "message": "Okay that\u0027s my own error. If you saw the whole thread we went through many different implementations of this patch.",
+      "parentUuid": "f4cdcfe8_fa00d2c1",
+      "revId": "6ba706662739cc9ef029c13aef86d894ff371a37",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
