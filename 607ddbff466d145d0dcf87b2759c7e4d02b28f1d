@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7caec56c_b10b3865",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2020-05-15T10:47:48Z",
+      "side": 1,
+      "message": "breaks the build/assumes script is run from within the same directory as the script. Should check for $SRCDIR/$HOST_OS instead.",
+      "revId": "607ddbff466d145d0dcf87b2759c7e4d02b28f1d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69d4b4be_23386267",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2020-05-15T10:47:48Z",
+      "side": 1,
+      "message": "URGH2 ..",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "607ddbff466d145d0dcf87b2759c7e4d02b28f1d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52ceabc_75c574e0",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2020-05-15T10:47:48Z",
+      "side": 1,
+      "message": "other instdir usage",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 0
+      },
+      "revId": "607ddbff466d145d0dcf87b2759c7e4d02b28f1d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f9bb3db_02cbb9a6",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2020-05-15T10:47:48Z",
+      "side": 1,
+      "message": "and another one.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 58
+      },
+      "revId": "607ddbff466d145d0dcf87b2759c7e4d02b28f1d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}

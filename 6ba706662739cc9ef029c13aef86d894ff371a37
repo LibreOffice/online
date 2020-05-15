@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4cdcfe8_fa00d2c1",
+        "filename": "docker/l10n-docker-nightly.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000027
+      },
+      "writtenOn": "2020-05-15T10:47:48Z",
+      "side": 0,
+      "message": "URGH!",
+      "revId": "6ba706662739cc9ef029c13aef86d894ff371a37",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
