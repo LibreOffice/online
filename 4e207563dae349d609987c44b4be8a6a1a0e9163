@@ -16,6 +16,41 @@
       "revId": "4e207563dae349d609987c44b4be8a6a1a0e9163",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "094ebdaa_b7ad1b09",
+        "filename": "common/JailUtil.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-05-17T21:34:50Z",
+      "side": 1,
+      "message": "I pointed to that code. It\u0027s preserved. However, I wasn\u0027t able to get \u0027make -j check\u0027 to pass (tests just fail). Parallel tests need more love I guess.",
+      "parentUuid": "3a9f6f8d_64081a56",
+      "revId": "4e207563dae349d609987c44b4be8a6a1a0e9163",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cd301c3_cf3a5613",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 3620,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-05-17T21:34:50Z",
+      "side": 1,
+      "message": "Here is the code that create sub-jail directories.",
+      "revId": "4e207563dae349d609987c44b4be8a6a1a0e9163",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "3b372b4e2ea553ab1ea81ae7befb61fc28e2a472",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6227354_869f8f5c",
+        "filename": "wsd/LOOLWSD.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 3857,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-05-17T21:34:50Z",
+      "side": 0,
+      "message": "Right, the cleanupJails helper is only dealing with the sub-directory, not the top-level jails/ directory (or whatever it\u0027s called).",
+      "parentUuid": "0eb17916_4c41647a",
+      "revId": "3b372b4e2ea553ab1ea81ae7befb61fc28e2a472",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
