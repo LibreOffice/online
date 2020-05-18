@@ -103,3 +103,6 @@ We are using different configuration and environment variables for
 mobile and desktop tests, that's why there are two separate commands
 for them and there is no option to open all the tests in the
 test runner.
+
+Or running specific unit test
+EXTRA_ARGS="--headed --no-exit" make check-mobile spec=writer/spec_file.js
