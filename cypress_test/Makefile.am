@@ -3,6 +3,7 @@ if ENABLE_CYPRESS
 export NODE_PATH=$(abs_builddir)/node_modules
 
 abs_dir = $(if $(filter $(abs_builddir),$(abs_srcdir)),.,$(abs_srcdir))
+EXTRA_ARGS ?= --headless
 CYPRESS_BINARY = $(abs_builddir)/node_modules/cypress/bin/cypress
 ESLINT_BINARY = $(abs_builddir)/node_modules/eslint/bin/eslint.js
 WAIT_ON_BINARY = $(abs_builddir)/node_modules/wait-on/bin/wait-on
@@ -158,7 +159,7 @@ define run_desktop_tests
 	$(eval RUN_COMMAND = \
 		$(CYPRESS_BINARY) run --browser $(CHROME) \
 			--config integrationFolder=$(DESKTOP_TEST_FOLDER),supportFolder=$(SUPPORT_FOLDER),userAgent=$(DESKTOP_USER_AGENT) \
-			--headless \
+			$(EXTRA_ARGS) \
 			--env DATA_FOLDER=$(DESKTOP_DATA_FOLDER),WORKDIR=$(DESKTOP_WORKDIR),WSD_VERSION_HASH=$(WSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
 			$(if $(1), --spec=$(abs_dir)/integration_tests/desktop/$(1)) \
 			$(if $(PARALLEL_BUILD),,|| ($(KILL_COMMAND) && false)))
