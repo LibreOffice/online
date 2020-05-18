@@ -1,5 +1,6 @@
 if ENABLE_CYPRESS
 
+
 export NODE_PATH=$(abs_builddir)/node_modules
 
 abs_dir = $(if $(filter $(abs_builddir),$(abs_srcdir)),.,$(abs_srcdir))
@@ -33,6 +34,11 @@ PARALLEL_BUILD = $(findstring -j,$(MAKEFLAGS))
 DISPLAY_NUMBER = 100
 HEADLESS_BUILD := $(findstring Command failed,$(shell xhost > /dev/null 2>&1 || echo "Command failed, so we are in a headless environment."))
 export DISPLAY=$(if $(HEADLESS_BUILD),:$(DISPLAY_NUMBER),$(shell echo $$DISPLAY))
+
+if ENABLE_DEBUG
+FILTER_DEBUG=cypress:electron,cypress:launcher
+export DEBUG=$(if $(ENABLE_LOGGING),$(FILTER_DEBUG),)
+endif
 
 # We use a hard coded hash here, because of this issue:
 # https://github.com/cypress-io/cypress/issues/6891
