@@ -12,6 +12,8 @@ NPM_INSTALLED = $(abs_builddir)/workdir/npm_installed
 PID_FILE=$(abs_builddir)/workdir/loolwsd.pid
 ERROR_LOG=$(abs_builddir)/workdir/error.log
 
+SUPPORT_FOLDER = $(abs_srcdir)/support
+
 DESKTOP_USER_AGENT = "cypress"
 DESKTOP_TEST_FOLDER = $(abs_srcdir)/integration_tests/desktop
 DESKTOP_DATA_FOLDER = $(abs_srcdir)/data/desktop/
@@ -155,7 +157,7 @@ define run_desktop_tests
 	@echo
 	$(eval RUN_COMMAND = \
 		$(CYPRESS_BINARY) run --browser $(CHROME) \
-			--config integrationFolder=$(DESKTOP_TEST_FOLDER),userAgent=$(DESKTOP_USER_AGENT) \
+			--config integrationFolder=$(DESKTOP_TEST_FOLDER),supportFolder=$(SUPPORT_FOLDER),userAgent=$(DESKTOP_USER_AGENT) \
 			--headless \
 			--env DATA_FOLDER=$(DESKTOP_DATA_FOLDER),WORKDIR=$(DESKTOP_WORKDIR),WSD_VERSION_HASH=$(WSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
 			$(if $(1), --spec=$(abs_dir)/integration_tests/desktop/$(1)) \
@@ -172,7 +174,7 @@ define run_mobile_tests
 	@echo
 	$(eval RUN_COMMAND = \
 		$(CYPRESS_BINARY) run --browser $(CHROME) \
-			--config integrationFolder=$(MOBILE_TEST_FOLDER),userAgent=$(MOBILE_USER_AGENT) \
+			--config integrationFolder=$(MOBILE_TEST_FOLDER),supportFolder=$(SUPPORT_FOLDER),userAgent=$(MOBILE_USER_AGENT) \
 			--headless \
 			--env DATA_FOLDER=$(MOBILE_DATA_FOLDER),WORKDIR=$(MOBILE_WORKDIR),WSD_VERSION_HASH=$(WSD_VERSION_HASH),SERVER_PORT=$(FREE_PORT) \
 			$(if $(1), --spec=$(abs_dir)/integration_tests/mobile/$(1)) \
