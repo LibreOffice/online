@@ -334,7 +334,7 @@ describe('Change alignment settings.', function() {
 				mobileHelper.closeMobileWizard();
 				mobileHelper.openMobileWizard();
 
-				cy.get('#ScAlignmentPropertyPanel')
+				cy.get('#ScAlignmentPropertyPanels')
 					.click();
 
 				cy.get('#AlignLeft')
