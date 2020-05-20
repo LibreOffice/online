@@ -41,7 +41,7 @@
 
 /* One of (potentially many) selected parts, but not the current. */
 .preview-img-selectedpart {
-    border-color: #000000;
+    border-color: #0b87e780 !important;
     border-style: dotted;
 }
 
