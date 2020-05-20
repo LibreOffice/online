@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df3318be_398721bb",
+        "filename": "cypress_test/Makefile.am",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-05-20T09:30:03Z",
+      "side": 1,
+      "message": "This supportFile should be added here too.",
+      "range": {
+        "startLine": 104,
+        "startChar": 24,
+        "endLine": 104,
+        "endChar": 32
+      },
+      "revId": "feb799d6872b6a0c07e2db4c4f4a9f30e4d7fb86",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "644098b1_4b572f8f",
+        "filename": "cypress_test/Makefile.am",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-05-20T09:30:03Z",
+      "side": 1,
+      "message": "This supportFile should be added here too.",
+      "range": {
+        "startLine": 115,
+        "startChar": 24,
+        "endLine": 115,
+        "endChar": 32
+      },
+      "revId": "feb799d6872b6a0c07e2db4c4f4a9f30e4d7fb86",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bd636e9_5629cd27",
+        "filename": "cypress_test/Makefile.am",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-05-20T09:30:03Z",
+      "side": 1,
+      "message": "You removed the \u0027u\u0027 character from the \u0027userAgent\u0027 here.",
+      "range": {
+        "startLine": 177,
+        "startChar": 82,
+        "endLine": 177,
+        "endChar": 90
+      },
+      "revId": "feb799d6872b6a0c07e2db4c4f4a9f30e4d7fb86",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
