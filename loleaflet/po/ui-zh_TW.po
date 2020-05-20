@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-24 20:11+0200\n"
-"PO-Revision-Date: 2020-05-20 13:07+0000\n"
-"Last-Translator: Andrew Lee (李健秋) <alee@collabora.com>\n"
+"PO-Revision-Date: 2020-05-20 14:41+0000\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -392,7 +392,7 @@ msgstr "字型大小"
 
 #: src/control/Control.JSDialogBuilder.js:1517
 msgid "Cell borders"
-msgstr "儲存格框線"
+msgstr "儲存格邊框"
 
 #: src/control/Control.JSDialogBuilder.js:1540
 msgid "Background Color"
@@ -400,11 +400,11 @@ msgstr "背景色彩"
 
 #: src/control/Control.JSDialogBuilder.js:1542
 msgid "Gradient Start"
-msgstr "漸層起點"
+msgstr "漸層起始"
 
 #: src/control/Control.JSDialogBuilder.js:1544
 msgid "Gradient End"
-msgstr "漸層終點"
+msgstr "漸層終止"
 
 #: src/control/Control.JSDialogBuilder.js:1713
 msgid "Rows"
@@ -604,7 +604,7 @@ msgstr "重設回預設語言"
 
 #: src/control/Control.Menubar.js:1104
 msgid "Insert Shape"
-msgstr "插入圖案"
+msgstr "插入形狀"
 
 #: src/control/Control.Menubar.js:1186
 msgid "Are you sure you want to delete this slide?"
@@ -818,7 +818,7 @@ msgstr "右邊距"
 
 #: src/control/Ruler.js:421 src/control/Ruler.js:542
 msgid "Insert tabstop"
-msgstr "插入定位停駐點"
+msgstr "插入定位落點"
 
 #: src/control/Signing.js:195
 msgid "Please enter the PIN Code"
@@ -958,7 +958,7 @@ msgstr "重新命名中..."
 
 #: src/control/Toolbar.js:385
 msgid "I understand the risks"
-msgstr "我了解這個的風險"
+msgstr "我瞭解相關風險"
 
 #: src/control/Toolbar.js:432
 msgid "We are sorry, the information about the latest updates is not available."
