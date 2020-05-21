@@ -51,7 +51,7 @@ void AdminSocketHandler::handleMessage(const std::vector<char> &payload)
 {
     // FIXME: check fin, code etc.
     const std::string firstLine = getFirstLine(payload.data(), payload.size());
-    StringVector tokens(LOOLProtocol::tokenize(firstLine, ' '));
+    StringVector tokens(Util::tokenize(firstLine, ' '));
     LOG_TRC("Recv: " << firstLine << " tokens " << tokens.size());
 
     if (tokens.empty())
@@ -207,7 +207,7 @@ void AdminSocketHandler::handleMessage(const std::vector<char> &payload)
     {
         for (size_t i = 1; i < tokens.size(); i++)
         {
-            StringVector setting(LOOLProtocol::tokenize(tokens[i], '='));
+            StringVector setting(Util::tokenize(tokens[i], '='));
             int settingVal = 0;
             try
             {
@@ -338,7 +338,7 @@ bool AdminSocketHandler::handleInitialRequest(
     }
 
     const std::string& requestURI = request.getURI();
-    StringVector pathTokens(LOOLProtocol::tokenize(requestURI, '/'));
+    StringVector pathTokens(Util::tokenize(requestURI, '/'));
 
     if (request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0)
     {
