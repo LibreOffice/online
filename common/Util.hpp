@@ -382,6 +382,63 @@ namespace Util
         return false;
     }
 
+    /// Tokenize space-delimited values until we hit new-line or the end.
+    inline StringVector tokenize(const char* data, const size_t size, const char delimiter = ' ')
+    {
+        if (size == 0 || data == nullptr)
+            return StringVector(std::string(), {});
+
+        std::vector<StringToken> tokens;
+        tokens.reserve(8);
+
+        const char* start = data;
+        const char* end = data;
+        for (std::size_t i = 0; i < size && data[i] != '\n'; ++i, ++end)
+        {
+            if (data[i] == delimiter)
+            {
+                if (start != end && *start != delimiter)
+                    tokens.emplace_back(start - data, end - start);
+
+                start = end;
+            }
+            else if (*start == delimiter)
+                ++start;
+        }
+
+        if (start != end && *start != delimiter && *start != '\n')
+            tokens.emplace_back(start - data, end - start);
+
+        return StringVector(std::string(data, size), tokens);
+    }
+
+    inline StringVector tokenize(const std::string& s, const char delimiter = ' ')
+    {
+        return tokenize(s.data(), s.size(), delimiter);
+    }
+
+    inline StringVector tokenize(const std::string& s, const char* delimiter)
+    {
+        std::vector<StringToken> tokens;
+        if (s.size() == 0)
+            return StringVector(std::string(), {});
+
+        std::size_t start = 0;
+        std::size_t end = s.find(delimiter, start);
+
+        tokens.emplace_back(start, end - start);
+        start = end + std::strlen(delimiter);
+
+        while (end != std::string::npos)
+        {
+            end = s.find(delimiter, start);
+            tokens.emplace_back(start, end - start);
+            start = end + std::strlen(delimiter);
+        }
+
+        return StringVector(s, tokens);
+    }
+
 #ifdef IOS
 
     inline void *memrchr(const void *s, int c, size_t n)
