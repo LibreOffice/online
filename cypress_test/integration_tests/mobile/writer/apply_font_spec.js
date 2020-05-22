@@ -31,7 +31,7 @@ describe('Apply font changes.', function() {
 		cy.get('#applystyle')
 			.click();
 
-		cy.get('#mobile-wizard-back')
+		cy.get('#mobile-wizard-backs')
 			.should('be.visible');
 
 		cy.contains('.mobile-wizard.ui-combobox-text', styleName)
