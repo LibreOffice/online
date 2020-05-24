@@ -2276,7 +2276,7 @@ private:
             message.seekg(startmessage.tellg(), std::ios::beg);
 
             // re-write ServiceRoot and cache.
-            RequestDetails requestDetails(request);
+            RequestDetails requestDetails(request, LOOLWSD::ServiceRoot);
 //            LOG_TRC("Request details " << requestDetails.toString());
 
             // Config & security ...
@@ -2357,10 +2357,10 @@ private:
                         });
             }
             else if (requestDetails.isGetOrHead("/"))
-                handleRootRequest(request, socket);
+                handleRootRequest(requestDetails, socket);
 
             else if (requestDetails.isGet("/favicon.ico"))
-                handleFaviconRequest(request, socket);
+                handleFaviconRequest(requestDetails, socket);
 
             else if (requestDetails.isGet("/hosting/discovery") ||
                      requestDetails.isGet("/hosting/discovery/"))
