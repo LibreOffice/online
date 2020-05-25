@@ -399,7 +399,7 @@ $(DIST_FOLDER)/bundle.css: $(LOLEAFLET_CSS)
 
 $(DIST_FOLDER)/global.js: $(srcdir)/js/global.js
 	@echo "Uglify global.js file..."
-	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-js/bin/uglifyjs $< --output $@
+	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-es/bin/uglifyjs $< --output $@
 
 $(DIST_FOLDER)/bundle.js: $(NODE_MODULES_JS_SRC) \
 	$(LOLEAFLET_PREFIX)/dist/loleaflet-src.js \
@@ -410,7 +410,7 @@ $(DIST_FOLDER)/bundle.js: $(NODE_MODULES_JS_SRC) \
 		-DLOLEAFLET_LIBS_JS=$(subst $(SPACE),$(COMMA),$(LOLEAFLET_LIBS_JS_SRC)) \
 		-DLOLEAFLET_JS=$(builddir)/build/dist/loleaflet-src.js \
 		$(srcdir)/bundle.js.m4 > $(LOLEAFLET_PREFIX)/dist/bundle.js
-	NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-js/bin/uglifyjs \
+	NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-es/bin/uglifyjs \
 		$(LOLEAFLET_PREFIX)/dist/bundle.js \
 		--output $@
 endif
