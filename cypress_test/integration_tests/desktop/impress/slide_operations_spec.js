@@ -3,12 +3,14 @@
 var helper = require('../../common/helper');
 
 describe('Slide operations', function() {
+	var gFileName = 'slide_operations.odt';
+
 	beforeEach(function() {
-		helper.loadTestDoc('slide_operations.odp', 'impress');
+		helper.loadTestDoc(gFileName, 'impress');
 	});
 
 	afterEach(function() {
-		helper.afterAll('slide_operations.odp');
+		helper.afterAll(gFileName);
 	});
 
 	function assertNumberOfSlides(slides) {

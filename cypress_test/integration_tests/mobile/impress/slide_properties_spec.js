@@ -4,10 +4,10 @@ var helper = require('../../common/helper');
 var mobileHelper = require('../../common/mobile_helper');
 
 describe('Changing slide properties.', function() {
-	var g_fileName;
+	var testFileName;
 
 	function before(fileName) {
-		g_fileName = fileName;
+		testFileName = fileName;
 		mobileHelper.beforeAllMobile(fileName, 'impress');
 
 		mobileHelper.enableEditingMobile();
@@ -18,7 +18,7 @@ describe('Changing slide properties.', function() {
 	}
 
 	afterEach(function() {
-		helper.afterAll(g_fileName);
+		helper.afterAll(testFileName);
 	});
 
 	function previewShouldBeFullWhite(fullWhite = true, slideNumber = 1) {
