@@ -10,6 +10,8 @@ else
 DIST_FOLDER = $(builddir)/dist
 endif
 
+export NODE_PATH=$(abs_builddir)/node_module
+
 if !ENABLE_MOBILEAPP
 L10N_JSON = $(patsubst $(srcdir)/po/%.po,$(DIST_FOLDER)/l10n/%.json,$(L10N_PO))
 else
@@ -62,7 +64,7 @@ $(1): $(2)
 
 endef
 
-define file_targets
+define file_targettargets
 $(foreach file,$(1),$(call file_target,\
 	$(DIST_FOLDER)/$(notdir $(file)),\
 	$(file)))
@@ -357,7 +359,7 @@ $(DIST_FOLDER)/admin-bundle.js: $(LOLEAFLET_ADMIN_DST) \
 
 $(LOLEAFLET_PREFIX)/dist/admin-src.js: $(LOLEAFLET_ADMIN_ALL)
 	@echo "Checking for admin JS errors..."
-	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/eslint/bin/eslint.js $(srcdir)/admin/src --ignore-path $(srcdir)/.eslintignore --config $(srcdir)/.eslintrc
+	@$(NODE) node_modules/eslint/bin/eslint.js $(srcdir)/admin/src --ignore-path $(srcdir)/.eslintignore --config $(srcdir)/.eslintrc
 	@awk 'FNR == 1 {print ""} 1' $(patsubst %.js,$(srcdir)/%.js,$(LOLEAFLET_ADMIN_JS)) > $@
 
 
@@ -366,7 +368,7 @@ if ENABLE_DEBUG
 $(LOLEAFLET_PREFIX)/dist/loleaflet-src.js: $(LOLEAFLET_JS_DST)
 	@mkdir -p $(dir $@)
 	@echo "Checking for loleaflet JS errors..."
-	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/eslint/bin/eslint.js $(srcdir)/src \
+	@$(NODE) node_modules/eslint/bin/eslint.js $(srcdir)/src \
 		$(srcdir)/js --ignore-path $(srcdir)/.eslintignore --config $(srcdir)/.eslintrc
 	@touch $@
 
@@ -381,7 +383,7 @@ else
 $(LOLEAFLET_PREFIX)/dist/loleaflet-src.js: $(LOLEAFLET_JS_SRC)
 	@mkdir -p $(dir $@)
 	@echo "Checking for loleaflet JS errors..."
-	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/eslint/bin/eslint.js $(srcdir)/src \
+	@$(NODE) node_modules/eslint/bin/eslint.js $(srcdir)/src \
 		$(srcdir)/js --ignore-path $(srcdir)/.eslintignore --config $(srcdir)/.eslintrc
 	@m4 -PE -DIOSAPP=$(ENABLE_IOSAPP) \
 		-DGTKAPP=$(ENABLE_GTKAPP) \
@@ -394,11 +396,11 @@ $(LOLEAFLET_PREFIX)/dist/loleaflet-src.js: $(LOLEAFLET_JS_SRC)
 
 $(DIST_FOLDER)/bundle.css: $(LOLEAFLET_CSS)
 	@echo "Uglify loleaflet css files..."
-	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglifycss/uglifycss $(LOLEAFLET_CSS) > $@
+	@$(NODE) node_modules/uglifycss/uglifycss $(LOLEAFLET_CSS) > $@
 
 $(DIST_FOLDER)/global.js: $(srcdir)/js/global.js
 	@echo "Uglify global.js file..."
-	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-js/bin/uglifyjs $< --output $@
+	@$(NODE) node_modules/uglify-js/bin/uglifyjs $< --output $@
 
 $(DIST_FOLDER)/bundle.js: $(NODE_MODULES_JS_SRC) \
 	$(LOLEAFLET_PREFIX)/dist/loleaflet-src.js \
@@ -409,7 +411,7 @@ $(DIST_FOLDER)/bundle.js: $(NODE_MODULES_JS_SRC) \
 		-DLOLEAFLET_LIBS_JS=$(subst $(SPACE),$(COMMA),$(LOLEAFLET_LIBS_JS_SRC)) \
 		-DLOLEAFLET_JS=$(builddir)/build/dist/loleaflet-src.js \
 		$(srcdir)/bundle.js.m4 > $(LOLEAFLET_PREFIX)/dist/bundle.js
-	NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-js/bin/uglifyjs \
+	$(NODE) node_modules/uglify-js/bin/uglifyjs \
 		$(LOLEAFLET_PREFIX)/dist/bundle.js \
 		--output $@
 endif
@@ -438,7 +440,7 @@ node_modules: package.json archived-packages
 $(DIST_FOLDER)/device-%.css: $(srcdir)/css/device-%.css
 	@mkdir -p $(dir $@)
 	@if test -z '$(ENABLE_BROWSERSYNC)'; then \
-		NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglifycss/uglifycss $< > $@ ; \
+		$(NODE) node_modules/uglifycss/uglifycss $< > $@ ; \
 	else \
 		ln -sf $(abs_srcdir)/$< $@ ; \
 	fi
