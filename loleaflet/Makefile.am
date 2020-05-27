@@ -5,11 +5,7 @@ L10N_PO = $(wildcard $(srcdir)/po/*.po)
 BUNDLE ?= $(if $(filter true,$(ENABLE_DEBUG)),DEBUG,RELEASE)
 IS_DEBUG = $(if $(filter DEBUG,$(BUNDLE)),true,)
 
-if ENABLE_ANDROIDAPP
-DIST_FOLDER = $(abs_top_srcdir)/android/lib/src/main/assets/dist
-else
-DIST_FOLDER = $(builddir)/dist
-endif
+DIST_FOLDER ?= $(builddir)/dist
 
 export NODE_PATH=$(abs_builddir)/node_module
 
