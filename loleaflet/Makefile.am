@@ -320,7 +320,7 @@ COMMA := ,
 EMPTY :=
 SPACE := $(EMPTY) $(EMPTY)
 LOLEAFLET_VERSION = $(shell cd $(srcdir) && git log -1 --pretty=format:"%h")
-INTERMEDIATE_DIR := $(if $(filter true,$(ENABLE_DEBUG)),$(abs_builddir),$(abs_builddir)/build)
+INTERMEDIATE_DIR ?= $(abs_builddir)/build
 
 EXTRA_DIST = $(shell find . -type f -not -path './.git/*' | sed 's/.\///')
 
@@ -620,7 +620,7 @@ l10n: pot
 
 clean-local:
 	@rm -rf $(DIST_FOLDER)
-	@rm -rf $(builddir)/build/dist
+	@rm -rf $(INTERMEDIATE_DIR)
 	@rm -f $(abs_srcdir)/jsconfig.json
 	@rm -f $(abs_srcdir)/admin/jsconfig.json
 
