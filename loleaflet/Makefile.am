@@ -26,11 +26,11 @@ $(L10N_IOS_ALL_JS) : $(wildcard $(srcdir)/po/ui-*.po) $(shell find $(srcdir)/l10
 	done
 endif
 
-JQUERY_LIGHTNESS_IMAGE_PATH = node_modules/jquery-ui/themes/ui-lightness/images
+JQUERY_LIGHTNESS_IMAGE_PATH = $(srcdir)/images/jquery-ui
 JQUERY_LIGHTNESS_IMAGES = $(wildcard $(JQUERY_LIGHTNESS_IMAGE_PATH)/*.png)
 JQUERY_LIGHTNESS_DIST_IMAGES = $(patsubst $(JQUERY_LIGHTNESS_IMAGE_PATH)/%.png,$(DIST_FOLDER)/images/%.png,$(JQUERY_LIGHTNESS_IMAGES))
 
-JQUERY_MINIFIED_IMAGE_PATH = node_modules/jquery-ui/themes/base/minified/images
+JQUERY_MINIFIED_IMAGE_PATH = $(srcdir)/images/jquery-ui
 JQUERY_MINIFIED_IMAGES = $(wildcard $(JQUERY_MINIFIED_IMAGE_PATH)/*.png)
 JQUERY_MINIFIED_DIST_IMAGES = $(patsubst $(JQUERY_MINIFIED_IMAGE_PATH)/%.png,$(DIST_FOLDER)/images/%.png,$(JQUERY_MINIFIED_IMAGES))
 
@@ -130,7 +130,7 @@ LOLEAFLET_CSS =\
 	$(srcdir)/css/jsdialogs.css \
 	$(srcdir)/css/notebookbar.css \
 	$(srcdir)/css/vex.css \
-	$(builddir)/node_modules/jquery-ui/themes/ui-lightness/jquery-ui.css
+	$(srcdir)/css/jquery-ui.min.css
 
 LOLEAFLET_CSS_DST = $(foreach file,$(LOLEAFLET_CSS),$(DIST_FOLDER)/$(notdir $(file)))
 LOLEAFLET_CSS_M4 = $(strip $(foreach file,$(LOLEAFLET_CSS),$(notdir $(file))))
@@ -142,7 +142,7 @@ NODE_MODULES_JS =\
 	node_modules/jquery/dist/jquery.js \
 	node_modules/jquery-mousewheel/jquery.mousewheel.js \
 	node_modules/jquery-contextmenu/dist/jquery.contextMenu.js \
-	node_modules/jquery-ui/jquery-ui.js \
+	node_modules/jquery-ui-dist/jquery-ui.js \
 	node_modules/smartmenus/dist/jquery.smartmenus.js
 
 LOLEAFLET_LIBS_JS =\
@@ -400,7 +400,7 @@ $(DIST_FOLDER)/bundle.css: $(LOLEAFLET_CSS)
 
 $(DIST_FOLDER)/global.js: $(srcdir)/js/global.js
 	@echo "Uglify global.js file..."
-	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-js/bin/uglifyjs $< --output $@
+	@NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/terser/dist/bundle.min.js $< --output $@
 
 $(DIST_FOLDER)/bundle.js: $(NODE_MODULES_JS_SRC) \
 	$(LOLEAFLET_PREFIX)/dist/loleaflet-src.js \
@@ -411,7 +411,7 @@ $(DIST_FOLDER)/bundle.js: $(NODE_MODULES_JS_SRC) \
 		-DLOLEAFLET_LIBS_JS=$(subst $(SPACE),$(COMMA),$(LOLEAFLET_LIBS_JS_SRC)) \
 		-DLOLEAFLET_JS=$(builddir)/build/dist/loleaflet-src.js \
 		$(srcdir)/bundle.js.m4 > $(LOLEAFLET_PREFIX)/dist/bundle.js
-	NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/uglify-js/bin/uglifyjs \
+	NODE_PATH=$(abs_builddir)/node_modules $(NODE) node_modules/terser/dist/bundle.min.js \
 		$(LOLEAFLET_PREFIX)/dist/bundle.js \
 		--output $@
 endif
