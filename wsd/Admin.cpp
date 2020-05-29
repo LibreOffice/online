@@ -435,6 +435,8 @@ void Admin::pollingThread()
                 _lastTotalMemory = totalMem;
             }
 
+            notifyDocsMemDirtyChanged();
+
             memWait += _memStatsTaskIntervalMs;
             lastMem = now;
         }
@@ -656,6 +658,11 @@ void Admin::triggerMemoryCleanup(const size_t totalMem)
             }
         }
     }
+}
+
+void Admin::notifyDocsMemDirtyChanged()
+{
+    _model.notifyDocsMemDirtyChanged();
 }
 
 void Admin::dumpState(std::ostream& os)

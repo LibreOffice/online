@@ -121,7 +121,8 @@ public:
           _wopiUploadDuration(0),
           _procSMaps(nullptr),
           _lastTimeSMapsRead(0),
-          _isModified(false)
+          _isModified(false),
+          _hasMemDirtyChanged(true)
     {
     }
 
@@ -182,6 +183,8 @@ public:
     void setWopiUploadDuration(const std::chrono::milliseconds wopiUploadDuration) { _wopiUploadDuration = wopiUploadDuration; }
     std::chrono::milliseconds getWopiUploadDuration() const { return _wopiUploadDuration; }
     void setProcSMapsFD(const int smapsFD) { _procSMaps = fdopen(smapsFD, "r"); }
+    bool hasMemDirtyChanged() const { return _hasMemDirtyChanged; }
+    void setMemDirtyChanged(bool hasMemDirtyChanged) { _hasMemDirtyChanged = hasMemDirtyChanged; }
 
     std::string to_string() const;
 
@@ -217,6 +220,7 @@ private:
     /// Per-doc kit process settings.
     DocProcSettings _docProcSettings;
     bool _isModified;
+    mutable bool _hasMemDirtyChanged;
 };
 
 /// An Admin session subscriber.
@@ -337,6 +341,7 @@ public:
     void getMetrics(std::ostringstream &oss);
 
     std::set<pid_t> getDocumentPids() const;
+    void notifyDocsMemDirtyChanged();
 
     static int getPidsFromProcName(const std::regex& procNameRegEx, std::vector<int> *pids);
 
