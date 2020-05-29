@@ -391,7 +391,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			sectionTitle.innerHTML = state;
 
 		if (builder.refreshSidebar) {
-			builder.wizard._refreshSidebar(0);
+			builder.wizard._refreshSidebar();
 			builder.refreshSidebar = false;
 		}
 	},

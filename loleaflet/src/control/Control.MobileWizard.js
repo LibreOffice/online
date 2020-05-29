@@ -17,7 +17,6 @@ L.Control.MobileWizard = L.Control.extend({
 	_currentPath: [],
 	_tabs: [],
 	_currentScrollPosition: 0,
-	_lastSidebarData: '',
 
 	initialize: function (options) {
 		L.setOptions(this, options);
@@ -296,15 +295,11 @@ L.Control.MobileWizard = L.Control.extend({
 		this._currentPath = _path;
 	},
 
-	_refreshSidebar: function(ms) {
-		ms = ms !== undefined ? ms : 400;
-		var map = this.map;
-		setTimeout(function () {
-			var message = 'dialogevent ' +
-			    (window.sidebarId !== undefined ? window.sidebarId : -1) +
-			    ' {\"id\":\"-1\"}';
-			map._socket.sendMessage(message);
-		}, ms);
+	_refreshSidebar: function() {
+		var message = 'dialogevent ' +
+			(window.sidebarId !== undefined ? window.sidebarId : -1) +
+			' {\"id\":\"-1\"}';
+		this._map._socket.sendMessage(message);
 	},
 
 	_updateMapSize: function() {
@@ -328,17 +323,6 @@ L.Control.MobileWizard = L.Control.extend({
 			if (data.id && !isNaN(data.id) && !isSidebar) {
 				// id is a number - remember window id for interaction
 				window.mobileDialogId = data.id;
-			}
-
-			// Sometimes it happens that we get the same sidebar
-			// structure twice. This makes hard to test mobile wizard.
-			if (isSidebar && L.Browser.cypressTest) {
-				var dataString = JSON.stringify(data.children);
-				if (this._isActive && this.map.showSidebar &&
-					dataString === this._lastSidebarData) {
-					return;
-				}
-				this._lastSidebarData = dataString;
 			}
 
 			if (this.map.getDocType() === 'presentation')

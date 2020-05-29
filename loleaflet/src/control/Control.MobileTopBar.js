@@ -159,7 +159,6 @@ L.Control.MobileTopBar = L.Control.extend({
 				if (window.insertionMobileWizard)
 					this.onClick(null, 'insertion_mobile_wizard');
 				window.mobileWizard = true;
-				this.map.sendUnoCommand('.uno:SidebarShow');
 				this.map.fire('showwizardsidebar');
 				toolbar.check(id);
 			}
