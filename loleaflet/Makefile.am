@@ -366,7 +366,7 @@ define bundle_all
 			-DLOLEAFLET_LIBS_JS=$(subst $(SPACE),$(COMMA),$(LOLEAFLET_LIBS_JS_SRC)) \
 			-DLOLEAFLET_JS=$(INTERMEDIATE_DIR)/loleaflet-src.js \
 			$(srcdir)/bundle.js.m4 > $(INTERMEDIATE_DIR)/bundle.js
-		@$(NODE) node_modules/uglify-js/bin/uglifyjs \
+		@$(NODE) node_modules/terser/dist/bundle.min.js \
 			$(INTERMEDIATE_DIR)/bundle.js \
 			--output $@)
 endef
@@ -380,7 +380,7 @@ define global_file
 	$(if $(IS_DEBUG),
 		@cp $< $@,
 		@echo "Uglify global.js file..."
-		@$(NODE) node_modules/uglify-js/bin/uglifyjs $< --output $@)
+		@$(NODE) node_modules/terser/dist/bundle.min.js $< --output $@)
 endef
 
 .PHONY: build-loleaflet
