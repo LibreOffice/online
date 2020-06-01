@@ -20,7 +20,7 @@
     "select2": "4.0.13",
     "shrinkpack": "1.0.0-alpha",
     "smartmenus": "1.0.0",
-    "terser": "4.7.0",
+    "uglify-js": "3.9.4",
     "uglifycss": "0.0.29",
     "uglifyify": "5.0.2",
     "vex-js": "4.1.0"
