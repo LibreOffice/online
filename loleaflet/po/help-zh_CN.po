@@ -3,14 +3,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2020-06-01 07:35+0000\n"
+"Last-Translator: Ming Hua <plateauwolf@qq.com>\n"
+"Language-Team: Chinese (Simplified) <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 2.4.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.10.3\n"
 "X-Pootle-Path: /zh_CN/libo_online/loleaflet-help-zh_CN.po\n"
 "X-Pootle-Revision: 3806428\n"
 
@@ -909,29 +910,27 @@ msgstr "选取所有幻灯片/绘图页面"
 
 #: html/loleaflet-help.html%2Bdiv.h1:212-5
 msgid "<span class=\"productname\">%productName</span> Help"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 帮助"
 
 #: html/loleaflet-help.html%2Bdiv.p:213-5
 #: html/loleaflet-help.html%2Bdiv.h3:251-5
-#, fuzzy
-#| msgid "Cell formatting"
 msgid "Collaborative editing"
-msgstr "单元格格式化"
+msgstr "协同编辑"
 
 #: html/loleaflet-help.html%2Bdiv.p:214-5
 #: html/loleaflet-help.html%2Bdiv.h3:258-5
 msgid "<span class=\"productname\">%productName</span> user interface"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 用户界面"
 
 #: html/loleaflet-help.html%2Bdiv.p:215-5
 #: html/loleaflet-help.html%2Bdiv.h3:278-5
 msgid "Opening, closing, saving, printing and downloading documents"
-msgstr ""
+msgstr "打开、关闭、保存、打印和下载文档"
 
 #: html/loleaflet-help.html%2Bdiv.p:216-5
 #: html/loleaflet-help.html%2Bdiv.h3:286-5
 msgid "Editing documents"
-msgstr ""
+msgstr "编辑文档"
 
 #: html/loleaflet-help.html%2Bdiv.p:217-5
 #: html/loleaflet-help.html%2Bdiv.div.p:223-9
@@ -940,57 +939,57 @@ msgstr ""
 #: html/loleaflet-help.html%2Bdiv.div.h3:352-5
 #: html/loleaflet-help.html%2Bdiv.div.h3:432-5
 msgid "Advanced features"
-msgstr ""
+msgstr "高级功能"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:219-9
 #: html/loleaflet-help.html%2Bdiv.div.h2:337-5
 msgid "<span class=\"productname\">%productName</span> spreadsheets"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 电子表格"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:220-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:339-5
 msgid "Editing spreadsheets"
-msgstr ""
+msgstr "编辑电子表格"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:221-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:342-5
 msgid "Formulas"
-msgstr ""
+msgstr "公式"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:222-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:348-5
 msgid "Formatting spreadsheets"
-msgstr ""
+msgstr "为电子表格设置格式"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:226-9
 #: html/loleaflet-help.html%2Bdiv.div.h2:385-5
 msgid "<span class=\"productname\">%productName</span> text documents"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 文本文档"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:227-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:387-5
 msgid "Editing text documents"
-msgstr ""
+msgstr "编辑文本文档"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:228-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:390-5
 msgid "Context menus"
-msgstr ""
+msgstr "快捷菜单"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:229-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:400-5
 msgid "Advanced text document editor features"
-msgstr ""
+msgstr "高级文本文档编辑器功能"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:232-9
 #: html/loleaflet-help.html%2Bdiv.div.h2:419-5
 msgid "<span class=\"productname\">%productName</span> presentations"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 演示文稿"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:233-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:421-5
 msgid "Editing presentations"
-msgstr ""
+msgstr "编辑演示文稿"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:234-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:424-5
@@ -1000,55 +999,55 @@ msgstr ""
 #: html/loleaflet-help.html%2Bdiv.div.p:235-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:428-5
 msgid "Slide pane"
-msgstr ""
+msgstr "幻灯片窗格"
 
 #: html/loleaflet-help.html%2Bdiv.p:238-5
 #: html/loleaflet-help.html%2Bdiv.h2:441-5
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "常见问题"
 
 #: html/loleaflet-help.html%2Bdiv.p:239-5
 msgid "General"
-msgstr ""
+msgstr "常规"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:241-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:473-5
 msgid "Text documents"
-msgstr ""
+msgstr "文本文档"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:244-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:537-5
 msgid "Spreadsheets"
-msgstr ""
+msgstr "电子表格"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:247-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:565-5
 msgid "Presentations"
-msgstr ""
+msgstr "演示文稿"
 
 #: html/loleaflet-help.html%2Bdiv.p:249-5
 msgid "<span class=\"productname\">%productName</span> allows you to create and edit office documents text documents, spreadsheets and presentations directly in your browser, in a simple and straight-forward way. You can work alone on a document, or collaboratively as part of a team."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 能简便地在浏览器中创建并编辑办公用文本文档、电子表格和演示文稿。既能单人编辑，也可团队协作。"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:253-11
 msgid "Each user gets assigned a color. The cursor of each user will be shown in the assigned color. Note: you will see your cursor as black, blinking cursor, although others will see you with a different color."
-msgstr ""
+msgstr "会给每个用户分配一种颜色。该用户的光标将以被分配的颜色显示。注意：尽管在其他人看来您的光标是彩色的，但在您自己的视角里您的光标始终是黑色闪烁的。"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:254-11
 msgid "You can jump to the cursor of a user by clicking on the name (or avatar) of the user. It is possible to follow the editor."
-msgstr ""
+msgstr "您可以单击用户的名称（或头像）跳转到该用户的光标处。可以此跟踪编辑者。"
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:255-11
 msgid "<span class=\"productname\">%productName</span> notifies you with a small notification in the footer when a new user enters or when a user leaves."
-msgstr ""
+msgstr "在新用户进入或用户离开时，<span class=\"productname\">%productName</span> 会在页脚处显示小型通知。"
 
 #: html/loleaflet-help.html%2Bdiv.p:259-5
 msgid "<span class=\"productname\">%productName</span> uses modern browser resources to adapt the user interface to the size of the viewing area, including small screens found in mobile devices. The interface is composed of:"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 使用新一代浏览器资源，让用户界面自动适应可见区域的大小，例如移动设备上的小屏幕。该界面由以下部分构成："
 
 #: html/loleaflet-help.html%2Bdiv.p:260-5
 msgid "<span class=\"def\">The document area:</span> The application area shows the document contents, either spreadsheets, presentations or text documents."
-msgstr ""
+msgstr "<span class=\"def\">文档区：</span>显示文档内容的应用区域，内容可以是电子表格、演示文稿或文本文档。"
 
 #: html/loleaflet-help.html%2Bdiv.p.img:261-5
 msgid "<span class=\"def\">The menu bar:</span> The main menu is placed on the top and includes many options, commands for printing, editing, viewing and other advanced commands. You can hide the menu bar clicking on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/fold.svg\"> icon on the far right. Click on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/unfold.svg\"> icon to show the menu."
@@ -1243,10 +1242,8 @@ msgid "Images can be resized, rotated and anchored. Text can be wrapped around t
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:327-5
-#, fuzzy
-#| msgid "Go to end of document"
 msgid "Comments in documents"
-msgstr "转到文档结束位置"
+msgstr "文档中的批注"
 
 #: html/loleaflet-help.html%2Bdiv.p:328-5
 msgid "Insert comments in <span class=\"productname\">%productName</span> in places that need special reader attention. Comments are displayed on the right and carry the name and date of the issuer."
@@ -1349,10 +1346,8 @@ msgid "Context menus are available on clicking the right mouse button. The comma
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h3:393-5
-#, fuzzy
-#| msgid "Text formatting"
 msgid "Formatting text"
-msgstr "文本格式化"
+msgstr "设置文本格式"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:394-5
 msgid "<span class=\"productname\">%productName</span> supports modern techniques for paragraph formatting through styles. A style is a set of text properties (font, color, background and many more) labeled with a name, the style name. Use style to apply the same set of properties to many paragraphs in the document and produce a uniform, professional look. Also, if you change one of the style formatting properties, all paragraphs with the same style changes formatting as well, simplifying the effort of formatting many paragraph individually."
@@ -1559,10 +1554,8 @@ msgid "The <span class=\"blue\">¶</span> symbol is a formatting mark. It is use
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:474-5
-#, fuzzy
-#| msgid "Go to start of document"
 msgid "How do I get a word count of my document?"
-msgstr "转到文档起始位置"
+msgstr "如何统计文档中的字数？"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:475-5
 msgid "Word count is available in <span class=\"ui\">Tools</span> → <span class=\"ui\">Word count</span>. A dialog shows word counts for selection and for the whole document."
@@ -1637,10 +1630,8 @@ msgid "Changes can be accepted or rejected. To accept or reject changes, click o
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:503-5
-#, fuzzy
-#| msgid "Go to start of document"
 msgid "How do I set the margins of the document?"
-msgstr "转到文档起始位置"
+msgstr "如何设置文档的边距？"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:504-5
 msgid "Using the ruler drag the leftmost edge of the ruler to adjust the left margin, or the rightmost for the right margin."
@@ -1708,10 +1699,8 @@ msgid "Select the text you want to apply the new format."
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.p:527-5
-#, fuzzy
-#| msgid "Apply Heading 1 paragraph style"
 msgid "Applying a paragraph style:"
-msgstr "应用标题 1 段落样式"
+msgstr "应用段落样式:"
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:529-11
 msgid "Place the cursor at the paragraph to be formatted"
