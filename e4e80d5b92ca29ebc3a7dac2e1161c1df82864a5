@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a215ea9_9b7fee4d",
+        "filename": "loleaflet/Makefile.am",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-06-01T14:21:45Z",
+      "side": 0,
+      "message": "Sometimes it is needed to debug the tool, try with non minify version if possible",
+      "revId": "e4e80d5b92ca29ebc3a7dac2e1161c1df82864a5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
