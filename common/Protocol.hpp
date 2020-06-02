@@ -132,7 +132,7 @@ namespace LOOLProtocol
 
         std::vector<StringToken> tokens;
         tokenize(data, size, delimiter, tokens);
-        return StringVector(std::string(data, size), tokens);
+        return StringVector(std::string(data, size), std::move(tokens));
     }
 
     /// Tokenize single-char delimited values until we hit new-line or the end.
@@ -143,7 +143,7 @@ namespace LOOLProtocol
 
         std::vector<StringToken> tokens;
         tokenize(s.data(), s.size(), delimiter, tokens);
-        return StringVector(s, tokens);
+        return StringVector(s, std::move(tokens));
     }
 
     inline
@@ -168,7 +168,7 @@ namespace LOOLProtocol
             start = end + std::strlen(delimiter);
         }
 
-        return StringVector(s, tokens);
+        return StringVector(s, std::move(tokens));
     }
 
     inline

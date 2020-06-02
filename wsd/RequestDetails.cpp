@@ -69,7 +69,7 @@ RequestDetails::RequestDetails(Poco::Net::HTTPRequest &request)
         }
         if (i - start > 1) // ignore empty
             tokens.emplace_back(start, i - start);
-        _pathSegs = StringVector(_uriString, tokens);
+        _pathSegs = StringVector(_uriString, std::move(tokens));
     }
 }
 
