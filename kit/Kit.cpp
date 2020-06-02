@@ -70,6 +70,7 @@
 #if !MOBILEAPP
 #include <common/SigUtil.hpp>
 #include <common/Seccomp.hpp>
+#include <utility>
 #endif
 
 #ifdef FUZZER
@@ -2196,7 +2197,7 @@ public:
 
     void setDocument(std::shared_ptr<Document> document)
     {
-        _document = document;
+        _document = std::move(document);
     }
 };
 
