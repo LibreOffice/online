@@ -763,6 +763,29 @@ WopiStorage::WOPIFileInfo::WOPIFileInfo(const FileInfo &fileInfo,
     std::string overrideWatermarks = LOOLWSD::getConfigValue<std::string>("watermark.text", "");
     if (!overrideWatermarks.empty())
         _watermarkText = overrideWatermarks;
+    _uiDefaults = new Poco::JSON::Object();
+    Poco::JSON::Object::Ptr writerDefs = new Poco::JSON::Object();
+    Poco::JSON::Object::Ptr calcDefs = new Poco::JSON::Object();
+    Poco::JSON::Object::Ptr impressDefs = new Poco::JSON::Object();
+    std::string uiDefaultsStr;
+    if (!JsonUtil::findJSONValue(object, "UIDefaults", uiDefaultsStr))
+    {
+        writerDefs->set("ShowRulerDefault", LOOLWSD::getConfigValue<bool>("ui_defaults.writer.ruler", true));
+        writerDefs->set("ShowStatusbarDefault", LOOLWSD::getConfigValue<bool>("ui_defaults.writer.statusbar", true));
+        writerDefs->set("ShowSidebarDefault", LOOLWSD::getConfigValue<bool>("ui_defaults.writer.sidebar", true));
+
+        calcDefs->set("ShowSidebarDefault", LOOLWSD::getConfigValue<bool>("ui_defaults.spreadsheet.sidebar", true));
+
+        impressDefs->set("ShowStatusbarDefault", LOOLWSD::getConfigValue<bool>("ui_defaults.presentation.statusbar", true));
+        impressDefs->set("ShowSidebarDefault", LOOLWSD::getConfigValue<bool>("ui_defaults.presentation.sidebar", true));
+
+        _uiDefaults->set("text", writerDefs);
+        _uiDefaults->set("spreadsheet", calcDefs);
+        _uiDefaults->set("presentation", impressDefs);
+    }
+
+    if(!uiDefaultsStr.empty())
+        JsonUtil::parseJSON(uiDefaultsStr, _uiDefaults);
 }
 
 bool WopiStorage::updateLockState(const Authorization& auth, const std::string& cookies,
