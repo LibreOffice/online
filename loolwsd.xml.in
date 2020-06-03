@@ -132,6 +132,21 @@
       <path desc="Path to 'welcome-$lang.html' files served on first start or when the version changes. When empty, defaults to the Release notes." type="path" relative="true" default="loleaflet/welcome"></path>
     </welcome>
 
+    <ui_defaults>
+        <writer>
+            <ruler type="bool" desc="Controls whether the ruler would be shown at the first load of the document." default="true">true</ruler>
+            <statusbar type="bool" desc="Controls whether the statusbar would be shown at the first load of the document." default="true">true</statusbar>
+            <sidebar type="bool" desc="Controls whether the sidebar would be shown at the first load of the document." default="true">true</sidebar>
+        </writer>
+        <spreadsheet>
+            <sidebar type="bool" desc="Controls whether the sidebar would be shown at the first load of the document." default="true">true</sidebar>
+        </spreadsheet>
+        <presentation>
+            <statusbar type="bool" desc="Controls whether the statusbar would be shown at the first load of the document." default="true">true</statusbar>
+            <sidebar type="bool" desc="Controls whether the sidebar would be shown at the first load of the document." default="true">true</sidebar>
+        </presentation>
+    </ui_defaults>
+
     <storage desc="Backend storage">
         <filesystem allow="false" />
         <wopi desc="Allow/deny wopi storage. Mutually exclusive with webdav." allow="true">
