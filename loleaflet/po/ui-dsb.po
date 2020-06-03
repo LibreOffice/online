@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-20 23:01+0200\n"
-"PO-Revision-Date: 2020-04-28 01:19+0000\n"
+"PO-Revision-Date: 2020-06-02 12:58+0000\n"
 "Last-Translator: Michael Wolf <milupo@sorbzilla.de>\n"
 "Language-Team: Lower Sorbian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/dsb/>\n"
 "Language: dsb\n"
@@ -211,11 +211,11 @@ msgstr "Dokumenty"
 
 #: admin/src/AdminSocketOverview.js:401
 msgid "Failed to set jwt authentication cookie over insecure connection"
-msgstr ""
+msgstr "Awtentifikaciski cookie JWT njedajo se pśez njewěsty zwisk stajiś"
 
 #: admin/src/AdminSocketOverview.js:405
 msgid "Failed to authenticate this session over protocol %0"
-msgstr ""
+msgstr "Toś to pósejźenje njedajo se pśez protokol %0 awtentificěrowaś"
 
 #: admin/src/AdminSocketSettings.js:34
 msgid "Are you sure you want to shut down the server?"
@@ -239,23 +239,23 @@ msgstr "TB"
 
 #: admin/src/Util.js:14
 msgid "PB"
-msgstr ""
+msgstr "PB"
 
 #: admin/src/Util.js:14
 msgid "EB"
-msgstr ""
+msgstr "EB"
 
 #: admin/src/Util.js:14
 msgid "ZB"
-msgstr ""
+msgstr "ZB"
 
 #: admin/src/Util.js:14
 msgid "YB"
-msgstr ""
+msgstr "YB"
 
 #: admin/src/Util.js:14
 msgid "BB"
-msgstr ""
+msgstr "BB"
 
 #: admin/src/Util.js:43 admin/src/Util.js:45
 msgid " hrs"
@@ -395,10 +395,8 @@ msgid "To"
 msgstr "Do"
 
 #: src/control/Control.JSDialogBuilder.js:1299
-#, fuzzy
-#| msgid "Reject change"
 msgid "Select range"
-msgstr "Změnu wotpokazaś"
+msgstr "Wobceŕk wubraś"
 
 #: src/control/Control.JSDialogBuilder.js:1328
 msgid "Font Name"
@@ -985,7 +983,7 @@ msgstr "Toś ta wersija %productName spěchujo se wót"
 
 #: src/control/Toolbar.js:493
 msgid "\"Slow Proxy\""
-msgstr ""
+msgstr "„Pómały proksy“"
 
 #: src/control/Toolbar.js:578
 msgid "Insert hyperlink"
