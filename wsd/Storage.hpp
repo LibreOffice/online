@@ -412,6 +412,7 @@ public:
         TriState getDisableChangeTrackingRecord() const { return _disableChangeTrackingRecord; }
         TriState getHideChangeTrackingControls() const { return _hideChangeTrackingControls; }
         std::chrono::duration<double> getCallDuration() const { return _callDuration; }
+        Poco::JSON::Object getUIDefaults() const { return *_uiDefaults; }
     private:
         /// User id of the user accessing the file
         std::string _userId;
@@ -473,6 +474,8 @@ public:
         bool _supportsRename;
         /// If user is allowed to rename the document
         bool _userCanRename;
+        /// UI defaults
+        Poco::JSON::Object::Ptr _uiDefaults;
 
         /// Time it took to call WOPI's CheckFileInfo
         std::chrono::duration<double> _callDuration;
