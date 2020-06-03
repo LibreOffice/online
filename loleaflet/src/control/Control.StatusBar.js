@@ -240,7 +240,18 @@ L.Control.StatusBar = L.Control.extend({
 			});
 			if (window.mode.isDesktop())
 				toolbar.tooltip();
-			toolbar.show();
+
+			var showStatusbar = false;
+			var docType = this.map.getDocType();
+			if (window.uiDefaults) {
+				if (window.uiDefaults[docType]) {
+					showStatusbar = window.uiDefaults[docType].ShowStatusbar || false;
+				}
+			}
+			if (showStatusbar)
+				toolbar.show();
+			else
+				that.map.uiManager.hideStatusBar(true);
 		}
 
 		toolbar.bind('touchstart', function() {
