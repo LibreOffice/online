@@ -734,6 +734,8 @@ std::string LOOLWSD::OverrideWatermark;
 std::set<const Poco::Util::AbstractConfiguration*> LOOLWSD::PluginConfigurations;
 std::chrono::time_point<std::chrono::system_clock> LOOLWSD::StartTime;
 
+// If you add global state please update dumpState below too
+
 static std::string UnitTestLibrary;
 
 unsigned int LOOLWSD::NumPreSpawnedChildren = 0;
@@ -3407,7 +3409,32 @@ public:
            << "\n  isShuttingDown: " << SigUtil::getShutdownRequestFlag()
            << "\n  NewChildren: " << NewChildren.size()
            << "\n  OutstandingForks: " << OutstandingForks
-           << "\n  NumPreSpawnedChildren: " << LOOLWSD::NumPreSpawnedChildren;
+           << "\n  NumPreSpawnedChildren: " << LOOLWSD::NumPreSpawnedChildren
+           << "\n  ChildSpawnTimeoutMs: " << ChildSpawnTimeoutMs
+           << "\n  Document Brokers: " << DocBrokers.size()
+           << "\n  of which ConvertTo: " << ConvertToBroker::getInstanceCount()
+           << "\n  vs. MaxDocuments: " << LOOLWSD::MaxDocuments
+           << "\n  NumConnections: " << LOOLWSD::NumConnections
+           << "\n  vs. MaxConnections: " << LOOLWSD::MaxConnections
+           << "\n  CapsForKit: " << (LOOLWSD::NoCapsForKit ? "no" : "yes")
+           << "\n  Seccomp: " << (LOOLWSD::NoSeccomp ? "no" : "yes")
+           << "\n  Admin: " << (LOOLWSD::AdminEnabled ? "enabled" : "disabled")
+           << "\n  SysTemplate: " << LOOLWSD::SysTemplate
+           << "\n  LoTemplate: " << LOOLWSD::LoTemplate
+           << "\n  ChildRoot: " << LOOLWSD::ChildRoot
+           << "\n  FileServerRoot: " << LOOLWSD::FileServerRoot
+           << "\n  WelcomeFilesRoot: " << LOOLWSD::WelcomeFilesRoot
+           << "\n  ServiceRoot: " << LOOLWSD::ServiceRoot
+           << "\n  LOKitVersion: " << LOOLWSD::LOKitVersion
+           << "\n  HostIdentifier: " << LOOLWSD::HostIdentifier
+           << "\n  ConfigFile: " << LOOLWSD::ConfigFile
+           << "\n  ConfigDir: " << LOOLWSD::ConfigDir
+           << "\n  LogLevel: " << LOOLWSD::LogLevel
+           << "\n  AnonymizeUserData: " << (LOOLWSD::AnonymizeUserData ? "yes" : "no")
+           << "\n  CheckLoolUser: " << (LOOLWSD::CheckLoolUser ? "yes" : "no")
+           << "\n  IsProxyPrefixEnabled: " << (LOOLWSD::IsProxyPrefixEnabled ? "yes" : "no")
+           << "\n  OverrideWatermark: " << LOOLWSD::OverrideWatermark
+            ;
 
         os << "\nServer poll:\n";
         _acceptPoll.dumpState(os);
