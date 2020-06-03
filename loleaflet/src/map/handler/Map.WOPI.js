@@ -93,6 +93,7 @@ L.Map.WOPI = L.Handler.extend({
 		this.EnableInsertRemoteImage = !!wopiInfo['EnableInsertRemoteImage'];
 		this.SupportsRename = !!wopiInfo['SupportsRename'];
 		this.UserCanRename = !!wopiInfo['UserCanRename'];
+		this.UIDefaults = wopiInfo['UIDefaults'];
 		this.EnableShare = !!wopiInfo['EnableShare'];
 		if (wopiInfo['HideUserList'])
 			this.HideUserList = wopiInfo['HideUserList'].split(',');
