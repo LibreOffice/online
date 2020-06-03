@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-05-19 22:31+0000\n"
+"PO-Revision-Date: 2020-06-03 09:45+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Catalan <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/ca/>\n"
 "Language: ca\n"
@@ -1419,7 +1419,7 @@ msgstr "<span class=\"def\">Notes al peu i finals:</span> s'admet l'ús de notes
 
 #: html/loleaflet-help.html%2Bdiv.div.p:422-5
 msgid "<span class=\"productname\">%productName</span> Impress edits presentations in a way that should be familiar to people. Operations like typing text, cut, copy and pasting contents, selecting text , inserting, resizing, anchoring images, adding and handling tables, are similar to a desktop presentation application. Use the keyboard, menus and toolbars to perform actions in your document."
-msgstr ""
+msgstr "El <span class=\"productname\">%productName</span> Impress us permet editar les presentacions d'una manera familiar. Operacions com ara escriure text, retallar, copiar i enganxar continguts, seleccionar text, inserir-ne, redimensionar, ancorar imatges, afegir i manipular taules, etcètera, són semblants a les d'una aplicació de presentacions d'escriptori. Feu servir el teclat, els menús i les barres d'eines per a efectuar accions al vostre document."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:425-5
 msgid "<span class=\"productname\">%productName</span> displays presentation slide shows, including a subset of slide transitions and object animations. Choose the slide show from the menu or click on icon in the bottom left toolbar in the slide pane."
