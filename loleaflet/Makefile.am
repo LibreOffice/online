@@ -136,7 +136,8 @@ LOLEAFLET_CSS =\
 	$(srcdir)/css/jsdialogs.css \
 	$(srcdir)/css/notebookbar.css \
 	$(srcdir)/css/vex.css \
-	$(srcdir)/css/jquery-ui-lightness.css
+	$(srcdir)/css/jquery-ui-lightness.css \
+	$(builddir)/node_modules/bulma/css/bulma.min.css
 
 LOLEAFLET_CSS_DST = $(foreach file,$(LOLEAFLET_CSS),$(DIST_FOLDER)/$(notdir $(file)))
 LOLEAFLET_CSS_M4 = $(strip $(foreach file,$(LOLEAFLET_CSS),$(notdir $(file))))
