@@ -2383,7 +2383,7 @@ private:
                     throw Poco::FileAccessDeniedException("Admin console disabled");
 
                 try{
-                    if (!FileServerRequestHandler::isAdminLoggedIn(request, *response.get()))
+                    if (!FileServerRequestHandler::isAdminLoggedIn(request, *response))
                         throw Poco::Net::NotAuthenticatedException("Invalid admin login");
                 }
                 catch (const Poco::Net::NotAuthenticatedException& exc)
