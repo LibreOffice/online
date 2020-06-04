@@ -173,6 +173,37 @@ L.Control.UIManager = L.Control.extend({
 		return $('.loleaflet-ruler').is(':visible');
 	},
 
+	showStatusBar: function() {
+		$('#document-container').css('bottom', this.documentBottom);
+		$('#sidebar-dock-wrapper').css('bottom', this.sidebarBottom);
+		$('#presentation-controls-wrapper').css('bottom', this.presentationControlBottom);
+		$('#toolbar-down').show();
+	},
+
+	hideStatusBar: function() {
+		if (!this.isStatusBarVisible())
+			return;
+
+		this.documentBottom = $('#document-container').css('bottom');
+		this.sidebarBottom = $('#sidebar-dock-wrapper').css('bottom');
+		this.presentationControlBottom = $('#presentation-controls-wrapper').css('bottom');
+		$('#document-container').css('bottom', '0px');
+		$('#sidebar-dock-wrapper').css('bottom', '0px');
+		$('#presentation-controls-wrapper').css('bottom','33px');
+		$('#toolbar-down').hide();
+	},
+
+	toggleStatusBar: function() {
+		if (this.isStatusBarVisible())
+			this.hideStatusBar();
+		else
+			this.showStatusBar();
+	},
+
+	isStatusBarVisible: function() {
+		return $('#toolbar-down').is(':visible');
+	},
+
 	// Event handlers
 
 	onUpdatePermission: function(e) {
