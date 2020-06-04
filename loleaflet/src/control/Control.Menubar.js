@@ -64,6 +64,7 @@ L.Control.Menubar = L.Control.extend({
 				{name: _UNO('.uno:ZoomMinus', 'text'), id: 'zoomout', type: 'action',},
 				{name: _('Reset zoom'), id: 'zoomreset', type: 'action'},
 				{name: _('Show Ruler'), id: 'showruler', type: 'action'},
+				{name: _('Show Status Bar'), id: 'showstatusbar', type: 'action'},
 				{type: 'separator'},
 			]).concat([
 				{uno: '.uno:ControlCodes'},
@@ -289,7 +290,8 @@ L.Control.Menubar = L.Control.extend({
 				{uno: '.uno:CustomAnimation'},
 				{uno: '.uno:MasterSlidesPanel'},
 				{type: 'separator'},
-				{uno: '.uno:Sidebar'}]
+				{uno: '.uno:Sidebar'},
+				{name: _('Show Status Bar'), id: 'showstatusbar', type: 'action'}]
 			},
 			{name: _UNO('.uno:InsertMenu', 'presentation'), id: 'insert', type: 'menu', menu: [
 				{name: _('Local Image...'), id: 'insertgraphic', type: 'action'},
@@ -1048,6 +1050,13 @@ L.Control.Menubar = L.Control.extend({
 							$(aItem).removeClass(constChecked);
 						}
 
+					} else if (id === 'showstatusbar') {
+						if (self._map.uiManager.isStatusBarVisible()) {
+							$(aItem).addClass(constChecked);
+						} else {
+							$(aItem).removeClass(constChecked);
+						}
+
 					} else if (self._map.getDocType() === 'presentation' && (id === 'deletepage' || id === 'insertpage' || id === 'duplicatepage')) {
 						if (id === 'deletepage') {
 							itemState = self._map['stateChangeHandler'].getItemValue('.uno:DeletePage');
@@ -1172,6 +1181,8 @@ L.Control.Menubar = L.Control.extend({
 			L.toggleFullScreen();
 		} else if (id === 'showruler') {
 			this._map.uiManager.toggleRuler();
+		} else if (id === 'showstatusbar') {
+			this._map.uiManager.toggleStatusBar();
 		} else if (id === 'fullscreen-presentation' && this._map.getDocType() === 'presentation') {
 			this._map.fire('fullscreen');
 		} else if (id === 'insertpage') {
