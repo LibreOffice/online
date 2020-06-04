@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c38f0aee_1517ccd0",
+        "filename": "wsd/Admin.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1000166
+      },
+      "writtenOn": "2020-06-04T07:12:23Z",
+      "side": 1,
+      "message": "please remove trailing whitespace",
+      "range": {
+        "startLine": 428,
+        "startChar": 0,
+        "endLine": 428,
+        "endChar": 12
+      },
+      "revId": "86b4de3e03c1950bf35eee742822c217766608cc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
