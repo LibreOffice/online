@@ -312,6 +312,9 @@ L.Map = L.Evented.extend({
 			if (window.mode.isDesktop()) {
 				if (uiDefaults && !uiDefaults.ShowRulerDefault)
 					this.uiManager.hideRuler();
+
+				if (uiDefaults && !uiDefaults.ShowStatusbarDefault)
+					this.uiManager.hideStatusBar();
 			}
 
 			// We have loaded.
