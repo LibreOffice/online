@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-20 23:01+0200\n"
-"PO-Revision-Date: 2020-03-10 12:25+0000\n"
+"PO-Revision-Date: 2020-06-05 11:41+0000\n"
 "Last-Translator: Saikeo <kavhanxay@hotmail.com>\n"
 "Language-Team: Lao <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/lo/>\n"
 "Language: lo\n"
@@ -143,15 +143,15 @@ msgstr "ສະຖິຕິຊ່ວງເວລາຂອງ CPU (ເປັນວ
 
 #: admin/admin.strings.js:36
 msgid "Maximum Document process virtual memory (in MB) - reduce only"
-msgstr ""
+msgstr "ຄວາມຈຳສະເຫມືອນທີ່ນຳໃຊ້ປະມວນຜົນເອກະສານສູງສຸດ (ເປັນ MB) - ຫຼຸດລົງພຽງຢ່າງດຽວ"
 
 #: admin/admin.strings.js:37
 msgid "Maximum Document process stack memory (in KB) - reduce only"
-msgstr ""
+msgstr "ຄວາມຈຳສະແທີ່ນຳໃຊ້ປະມວນຜົນເອກະສານສູງສຸດ (ເປັນ MB) - ຫຼຸດລົງພຽງຢ່າງດຽວ"
 
 #: admin/admin.strings.js:38
 msgid "Maximum file size allowed to write to disk (in MB) - reduce only"
-msgstr ""
+msgstr "ຂະ ໜາດ ໄຟລ໌ສູງສຸດທີ່ອະນຸຍາດໃຫ້ຂຽນລົງໃສ່ແຜ່ນດິດ (ໃນ MB) - ຫຼຸດລົງພຽງຢ່າງດຽວ"
 
 #: admin/admin.strings.js:39
 msgid "Documents:"
@@ -163,7 +163,7 @@ msgstr "ຫມົດອາຍຸ:"
 
 #: admin/admin.strings.js:41
 msgid "Refresh"
-msgstr ""
+msgstr "ລີເຟລສ"
 
 #: admin/admin.strings.js:42
 msgid "Shutdown Server"
@@ -171,11 +171,11 @@ msgstr "ປິດເຊີເວີ"
 
 #: admin/admin.strings.js:43
 msgid "Server uptime"
-msgstr ""
+msgstr "ໄລຍະເວລາເປີດເຄື່ອງຂອງເຊີບເວີ"
 
 #: admin/src/AdminSocketAnalytics.js:212
 msgid "Received"
-msgstr "ໄດ້ຮັບ"
+msgstr "ໄດ້ຮັບແລ້ວ"
 
 #: admin/src/AdminSocketAnalytics.js:216
 msgid "Sent"
@@ -239,23 +239,23 @@ msgstr "TB"
 
 #: admin/src/Util.js:14
 msgid "PB"
-msgstr ""
+msgstr "PB"
 
 #: admin/src/Util.js:14
 msgid "EB"
-msgstr ""
+msgstr "EB"
 
 #: admin/src/Util.js:14
 msgid "ZB"
-msgstr ""
+msgstr "ZB"
 
 #: admin/src/Util.js:14
 msgid "YB"
-msgstr ""
+msgstr "YB"
 
 #: admin/src/Util.js:14
 msgid "BB"
-msgstr ""
+msgstr "BB"
 
 #: admin/src/Util.js:43 admin/src/Util.js:45
 msgid " hrs"
@@ -287,7 +287,7 @@ msgstr "ແກ້ໄຂ"
 
 #: src/control/Control.AlertDialog.js:95
 msgid "The server encountered a %0 error while parsing the %1 command."
-msgstr ""
+msgstr "ເຊີບເວີປະສົບກັບບັນຫາ %0 ໃນລະຫວ່າງການ parse ຄຳສັ່ງ %1."
 
 #: src/control/Control.ContextMenu.js:188
 msgid "Delete"
@@ -323,7 +323,7 @@ msgstr "ຕາຕະລາງເວລາ"
 
 #: src/control/Control.DocumentRepair.js:56
 msgid "Jump to state"
-msgstr ""
+msgstr "ຂ້າມໄປຫາສະຖານະ"
 
 #: src/control/Control.DocumentRepair.js:95 src/control/Control.UserList.js:194
 msgid "You"
@@ -335,7 +335,7 @@ msgstr "ເລີ່ມການດາວໂຫລດ"
 
 #: src/control/Control.DownloadProgress.js:51
 msgid "Confirm copy to clipboard"
-msgstr ""
+msgstr "ຍືນຍັນການກັອບປີ້ໄປໄວ້ໃນຄຣິບບອດ"
 
 #: src/control/Control.DownloadProgress.js:209
 msgid "Start upload"
@@ -356,7 +356,7 @@ msgstr "ບໍ່ມີ"
 
 #: src/control/Control.JSDialogBuilder.js:283
 msgid "Solid"
-msgstr ""
+msgstr "ແຂງ"
 
 #: src/control/Control.JSDialogBuilder.js:286
 msgid "Linear"
@@ -395,10 +395,8 @@ msgid "To"
 msgstr "ໄປຫາ"
 
 #: src/control/Control.JSDialogBuilder.js:1299
-#, fuzzy
-#| msgid "Selection Mode"
 msgid "Select range"
-msgstr "ການເລືອກໂຫມດ"
+msgstr "ເລືອກຊ່ວງ"
 
 #: src/control/Control.JSDialogBuilder.js:1328
 msgid "Font Name"
@@ -409,14 +407,12 @@ msgid "Font Size"
 msgstr "ຂະຫນາດຟັອນ"
 
 #: src/control/Control.JSDialogBuilder.js:1833
-#, fuzzy
-#| msgid "Borders"
 msgid "Cell borders"
-msgstr "ຂອບ"
+msgstr "ຂອບເຊລ"
 
 #: src/control/Control.JSDialogBuilder.js:1856
 msgid "Background Color"
-msgstr ""
+msgstr "ສີພື້ນຫລັງ"
 
 #: src/control/Control.JSDialogBuilder.js:1858
 #, fuzzy

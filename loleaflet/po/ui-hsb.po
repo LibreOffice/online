@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-20 23:01+0200\n"
-"PO-Revision-Date: 2020-05-26 07:06+0000\n"
+"PO-Revision-Date: 2020-05-29 16:14+0000\n"
 "Last-Translator: Michael Wolf <milupo@sorbzilla.de>\n"
 "Language-Team: Upper Sorbian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/hsb/>\n"
 "Language: hsb\n"
@@ -211,11 +211,11 @@ msgstr "Dokumenty"
 
 #: admin/src/AdminSocketOverview.js:401
 msgid "Failed to set jwt authentication cookie over insecure connection"
-msgstr ""
+msgstr "Awtentifikaciski plack JWT njeda so přez njewěsty zwisk stajić"
 
 #: admin/src/AdminSocketOverview.js:405
 msgid "Failed to authenticate this session over protocol %0"
-msgstr ""
+msgstr "Tute posedźenje njeda so přez protokol %0 awtentifikować"
 
 #: admin/src/AdminSocketSettings.js:34
 msgid "Are you sure you want to shut down the server?"
