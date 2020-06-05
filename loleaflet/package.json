@@ -22,7 +22,8 @@
     "uglify-js": "3.9.4",
     "uglifycss": "0.0.29",
     "uglifyify": "5.0.2",
-    "vex-js": "4.1.0"
+    "vex-js": "4.1.0",
+    "typescript": "^3.9.5"
   },
   "repository": {
     "type": "git",
