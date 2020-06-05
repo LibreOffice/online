@@ -13,6 +13,10 @@ describe('Apply font changes.', function() {
 		// Click on edit button
 		mobileHelper.enableEditingMobile();
 
+		if (Cypress.env('LO_CORE_VERSION') === 'distro/collabora/cp-6.2')
+			cy.get('#fontsizecomboboxs')
+				.click();
+
 		// Do a new selection
 		writerMobileHelper.selectAllMobile();
 
