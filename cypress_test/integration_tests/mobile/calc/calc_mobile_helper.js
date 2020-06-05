@@ -5,7 +5,7 @@ function removeTextSelection() {
 
 	// TODO: select all does not work with core/master
 	// if we have a column selected
-	if (Cypress.env('LO_CORE_VERSION') === 'master') {
+	if (helper.getLOVersion() === 'master') {
 		cy.get('body')
 			.type('{enter}');
 

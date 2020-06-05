@@ -115,7 +115,7 @@ describe('Apply font changes.', function() {
 		cy.contains('.mobile-wizard.ui-combobox-text', '14')
 			.click();
 
-		if (Cypress.env('LO_CORE_VERSION') === 'master')
+		if (helper.getLOVersion() === 'master')
 			cy.get('.level-1[title="Font Size"] .mobile-wizard.ui-combobox-text.selected')
 				.should('have.text', '14 pt');
 		else
