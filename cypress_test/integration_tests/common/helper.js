@@ -148,8 +148,6 @@ function matchClipboardText(regexp) {
 function beforeAllDesktop(fileName, subFolder) {
 	var mobile = false;
 	loadTestDoc(fileName, subFolder, mobile);
-
-	// detectLOCoreVersion(); //TODO: implement Core version check.
 }
 
 function afterAll(fileName) {
