@@ -1,4 +1,4 @@
-/* global describe it cy beforeEach require afterEach Cypress*/
+/* global describe it cy beforeEach require afterEach */
 
 var helper = require('../../common/helper');
 var mobileHelper = require('../../common/mobile_helper');
@@ -49,6 +49,10 @@ describe('Apply font changes.', function() {
 	}
 
 	it('Apply font name.', function() {
+		if (helper.getLOVersion() === 'cp-6-2')
+			cy.get('#fontnamecomboboxs')
+				.click();
+
 		// Change font name
 		cy.get('#fontnamecombobox')
 			.click();
@@ -80,7 +84,7 @@ describe('Apply font changes.', function() {
 		cy.contains('.mobile-wizard.ui-combobox-text', '36')
 			.click();
 
-		if (Cypress.env('LO_CORE_VERSION') === 'master')
+		if (helper.getLOVersion() === 'master')
 			cy.get('.level-1[title="Font Size"] .mobile-wizard.ui-combobox-text.selected')
 				.should('have.text', '36 pt');
 		else
