@@ -1,4 +1,4 @@
-/* global describe it cy beforeEach require expect afterEach Cypress*/
+/* global describe it cy beforeEach require expect afterEach */
 
 var helper = require('../../common/helper');
 var mobileHelper = require('../../common/mobile_helper');
@@ -64,10 +64,6 @@ describe('Insert objects via insertion wizard.', function() {
 	});
 
 	it('Insert default table.', function() {
-		// TODO: Select all does not work with core/master
-		if (Cypress.env('LO_CORE_VERSION') === 'master')
-			return;
-
 		mobileHelper.openInsertionWizard();
 
 		// Open Table submenu
@@ -97,10 +93,6 @@ describe('Insert objects via insertion wizard.', function() {
 	});
 
 	it('Insert custom table.', function() {
-		// TODO: Select all does not work with core/master
-		if (Cypress.env('LO_CORE_VERSION') === 'master')
-			return;
-
 		mobileHelper.openInsertionWizard();
 
 		// Open Table submenu
