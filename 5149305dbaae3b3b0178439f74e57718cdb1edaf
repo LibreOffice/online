@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d15c519_48c0159f",
+        "filename": "loleaflet/admin/src/AdminSocketSettings.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000028
+      },
+      "writtenOn": "2020-06-06T18:41:55Z",
+      "side": 0,
+      "message": "_() function is responsible for localization.\nwhy did you delete it?",
+      "range": {
+        "startLine": 5,
+        "startChar": 39,
+        "endLine": 5,
+        "endChar": 40
+      },
+      "revId": "5149305dbaae3b3b0178439f74e57718cdb1edaf",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
