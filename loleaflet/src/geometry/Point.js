@@ -15,7 +15,7 @@ L.Point.parse = function (pointString) { // (string) -> Point
 	}
 
 	var pointParts = pointString.match(/\d+/g);
-	if (pointParts.length < 2) {
+	if (pointParts === null || pointParts.length < 2) {
 		console.error('incomplete point');
 		return undefined;
 	}

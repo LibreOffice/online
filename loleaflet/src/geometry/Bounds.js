@@ -21,7 +21,7 @@ L.Bounds.parse = function (rectString) { // (string) -> Bounds
 	}
 
 	var rectParts = rectString.match(/\d+/g);
-	if (rectParts.length < 4) {
+	if (rectParts === null || rectParts.length < 4) {
 		console.error('incomplete rectangle');
 		return undefined;
 	}
@@ -41,7 +41,7 @@ L.Bounds.parseArray = function (rectListString) { // (string) -> Bounds[]
 	}
 
 	var parts = rectListString.match(/\d+/g);
-	if (parts.length < 4) {
+	if (parts === null || parts.length < 4) {
 		return [];
 	}
 
