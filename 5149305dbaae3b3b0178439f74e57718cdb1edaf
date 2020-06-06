@@ -22,6 +22,30 @@
       "revId": "5149305dbaae3b3b0178439f74e57718cdb1edaf",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "171715af_5aeca459",
+        "filename": "loleaflet/admin/src/AdminSocketSettings.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-06-06T19:29:10Z",
+      "side": 0,
+      "message": "It was not used and eslint is giving error when there are unsued functions.",
+      "parentUuid": "9d15c519_48c0159f",
+      "range": {
+        "startLine": 5,
+        "startChar": 39,
+        "endLine": 5,
+        "endChar": 40
+      },
+      "revId": "5149305dbaae3b3b0178439f74e57718cdb1edaf",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
