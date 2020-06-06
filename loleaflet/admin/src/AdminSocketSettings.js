@@ -33,7 +33,7 @@ var AdminSocketSettings = AdminSocketBase.extend({
 				var dialog = (new DlgYesNo())
 				.Title('Confirmation')
 				.Text('Are you sure you want to shut down the server?')
-				.YesButtonText('OK')
+				.YesButtonText('Send')
 				.NoButtonText('Cancel')
 				.Type('warning')
 				.YesFunction(function() {
