@@ -224,12 +224,16 @@
 		this.openInflight = 0;
 		this.inSerial = 0;
 		this.outSerial = 0;
-		this.minPollMs = 25; // Anything less than ~25 ms can overwhelm the HTTP server.
-		this.maxPollMs = 500; // We can probably go as much as 1-2 seconds without ill-effect.
+		this.absMinPollMs = 25; // Anything less than ~25 ms can overwhelm the HTTP server.
+		this.minPollMs = this.absMinPollMs; // The current min poll time, depends on avgRountripMs.
+		this.maxPollMs = 1000; // We can probably go as much as 1-2 seconds without ill-effect.
 		this.curPollMs = this.minPollMs; // The current poll period.
+		this.lastRequestTimestamp = performance.now(); // The time we last sent a req.
+		this.avgRountripMs = 0; // The average rountrip time to the proxy (last two requests).
 		this.minIdlePollsToThrottle = 3; // This many 'no data' responses and we throttle.
 		this.throttleFactor = 1.15; // How rapidly to throttle. 15% takes 4s to go from 25 to 500ms.
 		this.lastDataTimestamp = performance.now(); // The last time we got any data.
+		this.pollConnectionTimeoutMs = 6 * 1000; // 5 to 10 seconds is sensible.
 		this.onclose = function() {
 		};
 		this.onerror = function() {
@@ -366,16 +370,38 @@
 			this.msgInflight = 0;
 			this.openInflight = 0;
 			this.readyState = 3; // CLOSED
+			that._throttlePollInterval('Connection error');
 		};
 		// For those who think that long-running sockets are a
 		// better way to wait: you're so right. However, each
 		// consumes a scarce server worker thread while it waits,
 		// so ... back in the real world:
 		this._setPollInterval = function(intervalMs) {
-			clearInterval(this.pollInterval);
-			if (this.readyState === 1)
-				this.pollInterval = setInterval(this.doSend, intervalMs);
-		},
+			// Reset the poll timer to the requested value.
+			clearInterval(that.pollInterval);
+			that.pollInterval = setInterval(that.doSend, intervalMs);
+		};
+		this._throttlePollInterval = function(reason) {
+			// Throttle the poll interval, if not maxed.
+			if (this.curPollMs < this.maxPollMs)
+			{
+				this.curPollMs = Math.min(this.maxPollMs, this.curPollMs * this.throttleFactor) | 0;
+				console.debug(reason + ': throttling poll to ' + this.curPollMs + ' ms.');
+			}
+		};
+		this._updateAvgRountripTime = function() {
+			// Update the average roundtrip time.
+			var curRoundtripMs = performance.now() - this.lastRequestTimestamp;
+			this.avgRountripMs = (this.avgRountripMs + curRoundtripMs) / 2;
+
+			// Set the minimum to be half the roundtrip time, but
+			// no sooner than the absolute minimum.
+			this.minPollMs = Math.max(this.absMinPollMs, this.avgRountripMs / 2) | 0;
+			// But no more than half the max.
+			this.minPollMs = Math.min(this.minPollMs, this.maxPollMs / 2) | 0;
+
+			// console.debug('update: avgRountripMs: ' + this.avgRountripMs + ', minPollMs: ' + this.minPollMs);
+		};
 		this.doSend = function () {
 			if (that.sessionId === 'open')
 			{
@@ -391,8 +417,7 @@
 				// will do up to 3 retries before we end up here and yield.
 				if (that.curPollMs < that.maxPollMs)
 				{
-					that.curPollMs = Math.min(that.maxPollMs, that.curPollMs * that.throttleFactor) | 0;
-					console.debug('High latency connection - too much in-flight, throttling to ' + that.curPollMs + ' ms.');
+					that._throttlePollInterval('High latency');
 					that._setPollInterval(that.curPollMs);
 				}
 				else if (performance.now() - that.lastDataTimestamp > 30 * 1000)
@@ -413,9 +438,11 @@
 //			console.debug('send msg - ' + that.msgInflight + ' on session ' +
 //				      that.sessionId + '  queue: "' + that.sendQueue + '"');
 			var req = new XMLHttpRequest();
+			req.timeout = that.pollConnectionTimeoutMs;
 			req.open('POST', that.getEndPoint('write'));
 			req.responseType = 'arraybuffer';
 			req.addEventListener('load', function() {
+				that._updateAvgRountripTime();
 				if (this.status == 200)
 				{
 					var data = new Uint8Array(this.response);
@@ -445,16 +472,24 @@
 					if (timeSinceLastDataMs >= that.minIdlePollsToThrottle * that.curPollMs)
 					{
 						// Throttle.
-						that.curPollMs = Math.min(that.maxPollMs, that.curPollMs * that.throttleFactor) | 0;
+						that._throttlePollInterval('No data');
 //						console.debug('No data for ' + timeSinceLastDataMs + ' ms -- throttling to ' + that.curPollMs + ' ms.');
 					}
 				}
 
 				that._setPollInterval(that.curPollMs);
 			});
+
+			req.addEventListener('timeout', function() {
+				that._throttlePollInterval('Timeout');
+				that._setPollInterval(that.curPollMs);
+			});
+
 			req.addEventListener('loadend', function() {
 				that.msgInflight--;
 			});
+
+			that.lastRequestTimestamp = performance.now();
 			req.send(that.sendQueue);
 			that.sendQueue = '';
 			that.msgInflight++;
@@ -487,9 +522,11 @@
 			global.lastCreatedProxySocket = performance.now();
 
 			var req = new XMLHttpRequest();
+			req.timeout = that.pollConnectionTimeoutMs;
 			req.open('POST', that.getEndPoint('open'));
 			req.responseType = 'text';
 			req.addEventListener('load', function() {
+				that._updateAvgRountripTime();
 				console.debug('got session: ' + this.responseText);
 				if (this.status !== 200 || !this.responseText ||
 				    this.responseText.indexOf('\n') >= 0) // multi-line error
@@ -505,10 +542,18 @@
 					that._setPollInterval(that.curPollMs);
 				}
 			});
+
 			req.addEventListener('loadend', function() {
 				console.debug('Open completed state: ' + that.readyState);
 				that.openInflight--;
 			});
+
+			req.addEventListener('timeout', function() {
+				that._throttlePollInterval('Timeout');
+				that._setPollInterval(that.curPollMs);
+			});
+
+			that.lastRequestTimestamp = performance.now();
 			req.send('');
 			this.openInflight++;
 		};
