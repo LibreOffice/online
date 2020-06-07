@@ -254,12 +254,15 @@
 		this.openInflight = 0;
 		this.inSerial = 0;
 		this.outSerial = 0;
-		this.minPollMs = 25; // Anything less than ~25 ms can overwhelm the HTTP server.
-		this.maxPollMs = 500; // We can probably go as much as 1-2 seconds without ill-effect.
+		this.absMinPollMs = 19; // Anything less than ~25 ms can overwhelm the HTTP server.
+		this.minPollMs = this.absMinPollMs; // The current min poll time, depends on avgRountripMs.
+		this.maxPollMs = 1600; // On average, less than 1s.
 		this.curPollMs = this.minPollMs; // The current poll period.
+		this.avgRountripMs = 0; // The average rountrip time to the proxy (last two requests).
 		this.minIdlePollsToThrottle = 3; // This many 'no data' responses and we throttle.
 		this.throttleFactor = 1.15; // How rapidly to throttle. 15% takes 4s to go from 25 to 500ms.
 		this.lastDataTimestamp = performance.now(); // The last time we got any data.
+		this.pollConnectionTimeoutMs = 6 * 1000; // 5 to 10 seconds is sensible.
 		this.onclose = function() {
 		};
 		this.onerror = function() {
@@ -396,16 +399,42 @@
 			this.msgInflight = 0;
 			this.openInflight = 0;
 			this.readyState = 3; // CLOSED
+			that._throttlePollInterval('Connection error');
 		};
 		// For those who think that long-running sockets are a
 		// better way to wait: you're so right. However, each
 		// consumes a scarce server worker thread while it waits,
 		// so ... back in the real world:
 		this._setPollInterval = function(intervalMs) {
-			clearInterval(this.pollInterval);
-			if (this.readyState === 1)
-				this.pollInterval = setInterval(this.doSend, intervalMs);
-		},
+			// Reset the poll timer to the requested value.
+			clearInterval(that.pollInterval);
+			that.pollInterval = setInterval(that.doSend, intervalMs);
+		};
+		this._throttlePollInterval = function(/*reason*/) {
+			// Throttle the poll interval, if not maxed.
+			if (this.curPollMs < this.maxPollMs) {
+				this.curPollMs = Math.min(this.maxPollMs, this.curPollMs * this.throttleFactor) | 0;
+				// console.debug(reason + ': throttling curPollMs to ' + this.curPollMs +
+				// 	' ms, minPollMs: ' + this.minPollMs);
+			}
+		};
+		this._updateAvgRountripTime = function(requestTimestamp) {
+			// Only if we are not in passive mode, with minimal frequency.
+			if (this.curPollMs < this.maxPollMs) {
+				// Update the average roundtrip time.
+				var curRoundtripMs = performance.now() - requestTimestamp;
+				this.avgRountripMs = (this.avgRountripMs + curRoundtripMs) / 2;
+
+				// Set the minimum to be third the roundtrip time, but
+				// no sooner than the absolute minimum.
+				this.minPollMs = Math.max(this.absMinPollMs, this.avgRountripMs / 3) | 0;
+				// But no more than half the max.
+				this.minPollMs = Math.min(this.minPollMs, this.maxPollMs / 2) | 0;
+
+				// console.debug('update: avgRountripMs: ' + this.avgRountripMs + ', minPollMs: ' +
+				// 	this.minPollMs + ', curPollMs: ' + this.curPollMs);
+			}
+		};
 		this.doSend = function () {
 			if (that.sessionId === 'open')
 			{
@@ -414,19 +443,15 @@
 				return;
 			}
 
-			if (that.msgInflight >= 4) // something went badly wrong.
-			{
+			if (that.msgInflight >= 4) { // something went badly wrong.
 				// We shouldn't get here because we throttle sending when we
 				// have something in flight, but if the server hangs, we
 				// will do up to 3 retries before we end up here and yield.
-				if (that.curPollMs < that.maxPollMs)
-				{
-					that.curPollMs = Math.min(that.maxPollMs, that.curPollMs * that.throttleFactor) | 0;
-					console.debug('High latency connection - too much in-flight, throttling to ' + that.curPollMs + ' ms.');
+				if (that.curPollMs < that.maxPollMs) {
+					that._throttlePollInterval('High latency');
 					that._setPollInterval(that.curPollMs);
 				}
-				else if (performance.now() - that.lastDataTimestamp > 30 * 1000)
-				{
+				else if (performance.now() - that.lastDataTimestamp > 30 * 1000) {
 					console.debug('Close connection after no response for 30secs');
 					that._signalErrorClose();
 				}
@@ -443,14 +468,15 @@
 //			console.debug('send msg - ' + that.msgInflight + ' on session ' +
 //				      that.sessionId + '  queue: "' + that.sendQueue + '"');
 			var req = new XMLHttpRequest();
+			req.timeout = that.pollConnectionTimeoutMs;
 			req.open('POST', that.getEndPoint('write'));
 			req.responseType = 'arraybuffer';
+			req.requestTimestamp = performance.now();
 			req.addEventListener('load', function() {
-				if (this.status == 200)
-				{
+				that._updateAvgRountripTime(req.requestTimestamp);
+				if (this.status == 200) {
 					var data = new Uint8Array(this.response);
-					if (data.length)
-					{
+					if (data.length) {
 						// We have some data back from WSD.
 						// Another user might be editing and we want
 						// to see their changes in real time.
@@ -461,37 +487,38 @@
 						that.parseIncomingArray(data);
 						return;
 					}
-				}
-				else
-				{
+				} else {
 					console.debug('proxy: error on incoming response ' + this.status);
 					that._signalErrorClose();
 				}
 
-				if (that.curPollMs < that.maxPollMs) // If we aren't throttled, see if we should.
-				{
+				if (that.curPollMs < that.maxPollMs) { // If we aren't throttled, see if we should.
 					// Has it been long enough since we got any data?
 					var timeSinceLastDataMs = (performance.now() - that.lastDataTimestamp) | 0;
-					if (timeSinceLastDataMs >= that.minIdlePollsToThrottle * that.curPollMs)
-					{
+					if (timeSinceLastDataMs >= that.minIdlePollsToThrottle * that.curPollMs) {
 						// Throttle.
-						that.curPollMs = Math.min(that.maxPollMs, that.curPollMs * that.throttleFactor) | 0;
-//						console.debug('No data for ' + timeSinceLastDataMs + ' ms -- throttling to ' + that.curPollMs + ' ms.');
+						that._throttlePollInterval('No data');
 					}
 				}
 
 				that._setPollInterval(that.curPollMs);
 			});
+
+			req.ontimeout = function () {
+				that._throttlePollInterval('Timeout');
+				that._setPollInterval(that.curPollMs);
+			};
+
 			req.addEventListener('loadend', function() {
 				that.msgInflight--;
 			});
+
 			req.send(that.sendQueue);
 			that.sendQueue = '';
 			that.msgInflight++;
 		};
 		this.getSessionId = function() {
-			if (this.openInflight > 0)
-			{
+			if (this.openInflight > 0) {
 				console.debug('Waiting for session open');
 				return;
 			}
@@ -500,14 +527,13 @@
 				return;
 
 			// avoid attempting to re-connect too quickly
-			if (global.lastCreatedProxySocket)
-			{
+			if (global.lastCreatedProxySocket) {
 				var msSince = performance.now() - global.lastCreatedProxySocket;
 				if (msSince < 250) {
 					var delay = 250 - msSince;
 					console.debug('Wait to re-try session creation for ' + delay + 'ms');
 					this.curPollMs = delay; // ms
-					this.delaySession = setTimeout(function() {
+					this.delaySession = setTimeout(function () {
 						that.delaySession = undefined;
 						that.getSessionId();
 					}, delay);
@@ -517,28 +543,36 @@
 			global.lastCreatedProxySocket = performance.now();
 
 			var req = new XMLHttpRequest();
+			req.timeout = that.pollConnectionTimeoutMs;
 			req.open('POST', that.getEndPoint('open'));
 			req.responseType = 'text';
+			req.requestTimestamp = performance.now();
 			req.addEventListener('load', function() {
+				that._updateAvgRountripTime(req.requestTimestamp);
 				console.debug('got session: ' + this.responseText);
 				if (this.status !== 200 || !this.responseText ||
-				    this.responseText.indexOf('\n') >= 0) // multi-line error
-				{
+					this.responseText.indexOf('\n') >= 0) { // multi-line error
 					console.debug('Error: failed to fetch session id! error: ' + this.status);
 					that._signalErrorClose();
 				}
-				else // we connected - lets get going ...
-				{
+				else { // we connected - lets get going ...
 					that.sessionId = this.responseText;
 					that.readyState = 1;
 					that.onopen();
 					that._setPollInterval(that.curPollMs);
 				}
 			});
+
 			req.addEventListener('loadend', function() {
 				console.debug('Open completed state: ' + that.readyState);
 				that.openInflight--;
 			});
+
+			req.ontimeout = function () {
+				that._throttlePollInterval('Timeout');
+				that._setPollInterval(that.curPollMs);
+			};
+
 			req.send('');
 			this.openInflight++;
 		};
@@ -550,11 +584,9 @@
 			this.outSerial++;
 
 			// Send ASAP, if we have throttled.
-			if (that.curPollMs > that.minPollMs || !hadData)
-			{
+			if (that.curPollMs > that.minPollMs || !hadData) {
 				// Unless we are backed up.
-				if (that.msgInflight <= 3)
-				{
+				if (that.msgInflight <= 3) {
 //					console.debug('Have data to send, lowering poll interval.');
 					that.curPollMs = that.minPollMs;
 					that._setPollInterval(that.curPollMs);
@@ -563,8 +595,7 @@
 		};
 		this.sendCloseMsg = function(beacon) {
 			var url = that.getEndPoint('close');
-			if (!beacon)
-			{
+			if (!beacon) {
 				var req = new XMLHttpRequest();
 				req.open('POST', url);
 				req.send('');
