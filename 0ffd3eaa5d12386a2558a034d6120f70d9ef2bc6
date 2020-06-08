@@ -16,6 +16,24 @@
       "revId": "0ffd3eaa5d12386a2558a034d6120f70d9ef2bc6",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f3b9f28_d600d339",
+        "filename": "loleaflet/admin/src/ModalDialogCreator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-06-08T06:59:27Z",
+      "side": 1,
+      "message": "No we will not push them, thank you for your comment.",
+      "parentUuid": "1647df6d_767e8dcc",
+      "revId": "0ffd3eaa5d12386a2558a034d6120f70d9ef2bc6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
