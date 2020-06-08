@@ -1425,7 +1425,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		if (data.selectedEntries) {
 			selectedEntryIsString = isNaN(parseInt(data.selectedEntries[0]));
 			if (title && title.length) {
-				var value = data.entries[data.selectedEntries[0]];
+				var value = data.selectedEntries[0];
 				valueNode = L.DomUtil.create('div', '', null);
 				valueNode.innerHTML = value;
 			} else if (selectedEntryIsString)
