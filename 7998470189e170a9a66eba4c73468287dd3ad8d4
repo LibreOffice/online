@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c04a9e8_cd625d6e",
+        "filename": "loleaflet/admin/src/ModalDialogCreator.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000947
+      },
+      "writtenOn": "2020-06-08T09:46:49Z",
+      "side": 1,
+      "message": "Is it a typescript convention to prefix \u0027__\u0027 for private ones ? We could just annotate these with the \u0027private\u0027 keyword instead. Also, according to our code-conventions we don\u0027t normally start member-names with upper-case (although we do for class/type names).",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "7998470189e170a9a66eba4c73468287dd3ad8d4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed624a9c_118ecbf4",
+        "filename": "loleaflet/admin/src/ModalDialogCreator.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000947
+      },
+      "writtenOn": "2020-06-08T09:46:49Z",
+      "side": 1,
+      "message": "There are some trailing spaces in this file. Lets get rid of them please. I always use [\"files.trimTrailingWhitespace\": true] setting when I use vscode, which will take care of these.",
+      "revId": "7998470189e170a9a66eba4c73468287dd3ad8d4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
