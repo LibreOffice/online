@@ -1682,7 +1682,7 @@ L.Control.LokDialog = L.Control.extend({
 		var dialogTitle = $('.lokdialog_notitle');
 		if (dialogTitle != null && dialogTitle.length == 0) {
 			var dialogTitleBar = $('.ui-dialog-titlebar');
-			top += dialogTitleBar.outerHeight();
+			top += dialogTitleBar.outerHeight() || 0;
 		}
 
 		floatingCanvas.id = strId + '-floating';
