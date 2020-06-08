@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1647df6d_767e8dcc",
+        "filename": "loleaflet/admin/src/ModalDialogCreator.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-06-08T05:34:31Z",
+      "side": 1,
+      "message": "Hi, file loleaflet/admin/src/ModalDialogCreator.js is probably compliled one and shouldn\u0027t be pushed, or I\u0027m wrong?",
+      "revId": "0ffd3eaa5d12386a2558a034d6120f70d9ef2bc6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
