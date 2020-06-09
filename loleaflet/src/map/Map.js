@@ -284,7 +284,17 @@ L.Map = L.Evented.extend({
 				setTimeout(function () {
 					// Show the sidebar by default, but not on mobile.
 					if (window.mode.isDesktop() && !window.ThisIsAMobileApp) {
-						map._socket.sendMessage('uno .uno:SidebarShow');
+						var showSidebar = true;
+						var state = map.uiManager.getSavedState('ShowSidebar');
+						if (state != false)
+							showSidebar = state !== 'false';
+						else if (window.uiDefaults) {
+							if (window.uiDefaults[map._docLayer._docType]) {
+								showSidebar = window.uiDefaults[map._docLayer._docType].ShowSidebar !== false;
+							}
+						}
+						if (showSidebar === false)
+							map._socket.sendMessage('uno .uno:SidebarHide');
 					}
 					else if (window.mode.isChromebook()) {
 						// HACK - currently the sidebar shows when loaded,
@@ -296,6 +306,8 @@ L.Map = L.Evented.extend({
 						// Chromebooks early
 						map._socket.sendMessage('uno .uno:SidebarHide');
 					}
+					// HACK for keeping localStorage state for ShowSidebar
+					window.initSidebar = true;
 				}, 200);
 			}
 

@@ -240,18 +240,6 @@ L.Control.StatusBar = L.Control.extend({
 			});
 			if (window.mode.isDesktop())
 				toolbar.tooltip();
-
-			var showStatusbar = false;
-			var docType = this.map.getDocType();
-			if (window.uiDefaults) {
-				if (window.uiDefaults[docType]) {
-					showStatusbar = window.uiDefaults[docType].ShowStatusbar || false;
-				}
-			}
-			if (showStatusbar)
-				toolbar.show();
-			else
-				that.map.uiManager.hideStatusBar(true);
 		}
 
 		toolbar.bind('touchstart', function() {
@@ -408,6 +396,20 @@ L.Control.StatusBar = L.Control.extend({
 
 		if (statusbar)
 			statusbar.refresh();
+
+		var showStatusbar = false;
+		var state = this.map.uiManager.getSavedState('ShowStatusbar');
+		if (state != false)
+			showStatusbar = state !== 'false';
+		if (window.uiDefaults) {
+			if (window.uiDefaults[docType]) {
+				showStatusbar = window.uiDefaults[docType].ShowStatusbar !== false;
+			}
+		}
+		if (showStatusbar)
+			$('#toolbar-down').show();
+		else
+			this.map.uiManager.hideStatusBar(true);
 	},
 
 	_cancelSearch: function() {

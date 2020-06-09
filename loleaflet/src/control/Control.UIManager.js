@@ -115,9 +115,12 @@ L.Control.UIManager = L.Control.extend({
 
 			if ((window.mode.isTablet() || window.mode.isDesktop())) {
 				var showRuler = true;
-				if (window.uiDefaults) {
+				var state = this.getSavedState('ShowRuler');
+				if (state != null)
+					showRuler = state !== 'false';
+				else if (window.uiDefaults) {
 					if (window.uiDefaults[docType]) {
-						showRuler = window.uiDefaults[docType].ShowRuler || false;
+						showRuler = window.uiDefaults[docType].ShowRuler !== false;
 					}
 				}
 				var interactiveRuler = this.map.isPermissionEdit();
@@ -190,11 +193,13 @@ L.Control.UIManager = L.Control.extend({
 	showRuler: function() {
 		$('.loleaflet-ruler').show();
 		$('#map').addClass('hasruler');
+		this.setSavedState('ShowRuler', true);
 	},
 
 	hideRuler: function() {
 		$('.loleaflet-ruler').hide();
 		$('#map').removeClass('hasruler');
+		this.setSavedState('ShowRuler', false);
 	},
 
 	toggleRuler: function() {
@@ -272,7 +277,7 @@ L.Control.UIManager = L.Control.extend({
 		$('#document-container').css('bottom', this.documentBottom);
 		$('#presentation-controls-wrapper').css('bottom', this.presentationControlBottom);
 		$('#toolbar-down').show();
-		this.map.invalidateSize();
+		this.setSavedState('ShowStatusbar', true);
 	},
 
 	hideStatusBar: function(firstStart) {
@@ -284,6 +289,8 @@ L.Control.UIManager = L.Control.extend({
 		$('#document-container').css('bottom', '0px');
 		$('#presentation-controls-wrapper').css('bottom','33px');
 		$('#toolbar-down').hide();
+		if (!firstStart)
+			this.setSavedState('ShowStatusbar', false);
 	},
 
 	toggleStatusBar: function() {
@@ -373,6 +380,18 @@ L.Control.UIManager = L.Control.extend({
 			}
 			obj.css({'top': String(prevTop) + 'px'});
 		}
+	},
+
+	setSavedState: function(name, state) {
+		localStorage.setItem('UIDefaults_' + this.map.getDocType() + '_' + name, state);
+	},
+
+	getSavedState: function(name) {
+		var state = localStorage.getItem('UIDefaults_' + this.map.getDocType() + '_' + name);
+		if (state)
+			return state;
+
+		return '';
 	}
 });
 
