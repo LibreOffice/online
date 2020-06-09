@@ -398,7 +398,10 @@ L.Control.StatusBar = L.Control.extend({
 			statusbar.refresh();
 
 		var showStatusbar = true;
-		if (window.uiDefaults) {
+		var state = this.map.uiManager.getSavedState('ShowStatusbar');
+		if (state)
+			showStatusbar = state !== 'false';
+		else if (window.uiDefaults) {
 			if (window.uiDefaults[docType]) {
 				showStatusbar = window.uiDefaults[docType].ShowStatusbar !== false;
 			}
