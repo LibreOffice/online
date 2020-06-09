@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0ca7e11_5ae727c4",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-09T11:53:12Z",
+      "side": 1,
+      "message": "this rolling average I like ;-)",
+      "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d93d1539_bae149f3",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-09T11:53:12Z",
+      "side": 1,
+      "message": "Not clear that half is the right number really; 1/3rd perhaps (?)",
+      "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a32ad5c5_16089bda",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-09T11:53:12Z",
+      "side": 1,
+      "message": "Is \u0027timeout\u0027 standard ? - I think I fixed a number of oddities here including closing the cnx on timeout in master - do we need this ?",
+      "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a87a701_bb47767f",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-09T11:53:12Z",
+      "side": 1,
+      "message": "Surely we can have multiple requests in flight - and we can set this - just before getting a reply to another request and get a very misleading latency number.\nIf we want to do this I would imagine that to do this we would want to get performance.now() into the closure(s) so we know it was specific to this request; and do the latency / arithmetic ourselves, probably in \u0027loadend\u0027 which is certain to get called.",
+      "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
