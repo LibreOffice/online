@@ -285,7 +285,8 @@ L.Map = L.Evented.extend({
 				setTimeout(function () {
 					// Show the sidebar by default, but not on mobile.
 					if (window.mode.isDesktop() && !window.ThisIsAMobileApp) {
-						map._socket.sendMessage('uno .uno:SidebarShow');
+						if (uiDefaults && !uiDefaults.ShowSidebarDefault)
+							map._socket.sendMessage('uno .uno:SidebarHide');
 					}
 					else if (window.mode.isChromebook()) {
 						// HACK - currently the sidebar shows when loaded,
