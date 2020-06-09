@@ -1311,3 +1311,7 @@ msgstr "S'està creant un fitxer nou a partir d'una plantilla..."
 #: src/map/handler/Map.WOPI.js:422
 msgid "Creating copy..."
 msgstr "S'està creant una còpia..."
+
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""

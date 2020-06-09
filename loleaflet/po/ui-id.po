@@ -1325,6 +1325,10 @@ msgstr "Membuat file baru dari template ..."
 msgid "Creating copy..."
 msgstr "Membuat salinan ..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Warna"
 

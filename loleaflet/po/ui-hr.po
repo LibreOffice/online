@@ -1327,6 +1327,10 @@ msgstr "Stvaranje nove datoteke iz predloška …"
 msgid "Creating copy..."
 msgstr "Stvaranje kopije …"
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Boja"
 

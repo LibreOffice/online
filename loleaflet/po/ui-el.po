@@ -1308,6 +1308,10 @@ msgstr "Δημιουργία νέου αρχείου από πρότυπο..."
 msgid "Creating copy..."
 msgstr "Δημιουργείται αντίγραφο..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Χρώμα"
 

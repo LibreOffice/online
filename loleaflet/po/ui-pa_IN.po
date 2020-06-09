@@ -1336,6 +1336,10 @@ msgstr "...ਟੈਪਲੇਟ ਤੋਂ ਨਵੀ ਫਾਇਲ ਬਣਾਓ"
 msgid "Creating copy..."
 msgstr "...ਨਕਲ ਬਣਾਈ ਜਾ ਰਹੀ ਹੈ"
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #, fuzzy
 #~| msgid "Text orientation"
 #~ msgid "Toggle Page Orientation"

@@ -1307,6 +1307,10 @@ msgstr "Creando un archivo nuevo desde una plantilla…"
 msgid "Creating copy..."
 msgstr "Creando una copia…"
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Color"
 

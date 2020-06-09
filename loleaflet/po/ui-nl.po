@@ -1314,6 +1314,10 @@ msgstr "Nieuw bestand van sjabloon maken..."
 msgid "Creating copy..."
 msgstr "Kopie maken..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Kleur"
 

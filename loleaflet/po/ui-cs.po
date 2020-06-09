@@ -1316,6 +1316,10 @@ msgstr "Vytváří se nový soubor ze šablony ..."
 msgid "Creating copy..."
 msgstr "Vytváření kopie..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Barva"
 

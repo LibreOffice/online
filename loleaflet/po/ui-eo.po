@@ -1329,6 +1329,10 @@ msgstr ""
 msgid "Creating copy..."
 msgstr ""
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Koloro"
 

@@ -1316,6 +1316,10 @@ msgstr "Şablondan yeni dosya oluşturuluyor ..."
 msgid "Creating copy..."
 msgstr "Kopya oluşturuluyor..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Renk"
 

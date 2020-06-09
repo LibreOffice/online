@@ -1314,6 +1314,10 @@ msgstr "Creu ffeil newydd o dempled..."
 msgid "Creating copy..."
 msgstr "Creu copi..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Lliw"
 

@@ -1314,6 +1314,10 @@ msgstr "Skapar en ny fil baserat på mall..."
 msgid "Creating copy..."
 msgstr "Skapar kopia"
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Färg"
 

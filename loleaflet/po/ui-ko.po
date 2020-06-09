@@ -1323,6 +1323,10 @@ msgstr "템플릿으로 새로운 파일 만들기..."
 msgid "Creating copy..."
 msgstr "복사본 만드는 중..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "색"
 

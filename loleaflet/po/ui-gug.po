@@ -1323,3 +1323,7 @@ msgstr ""
 #: src/map/handler/Map.WOPI.js:422
 msgid "Creating copy..."
 msgstr ""
+
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""

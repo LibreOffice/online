@@ -1334,6 +1334,10 @@ msgstr "አዲስ ፋይል ከ ቴምፕሌት ውስጥ በ መፍጠር ላ�
 msgid "Creating copy..."
 msgstr "ኮፒ በ መፍጠር ላይ..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #, fuzzy
 #~| msgid "Text orientation"
 #~ msgid "Toggle Page Orientation"

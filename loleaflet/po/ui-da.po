@@ -1332,6 +1332,10 @@ msgstr "Oprette en ny fil fra en skabelon..."
 msgid "Creating copy..."
 msgstr "Oprette kopi..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #, fuzzy
 #~| msgid "Text orientation"
 #~ msgid "Toggle Page Orientation"

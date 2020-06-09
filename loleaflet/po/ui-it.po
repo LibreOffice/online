@@ -1315,6 +1315,10 @@ msgstr "Creazione di un nuovo file da modello..."
 msgid "Creating copy..."
 msgstr "Creazione della copia..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Colore"
 

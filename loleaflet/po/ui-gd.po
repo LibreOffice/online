@@ -1334,6 +1334,10 @@ msgstr "A’ cruthachadh faidhle ùr de theamplaid…"
 msgid "Creating copy..."
 msgstr "A’ cruthachadh an lethbhric…"
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #, fuzzy
 #~| msgid "Text orientation"
 #~ msgid "Toggle Page Orientation"

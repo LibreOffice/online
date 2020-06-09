@@ -1326,6 +1326,10 @@ msgstr "Luodaan uusi tiedosto mallista..."
 msgid "Creating copy..."
 msgstr "Luodaan kopiota..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Väri"
 

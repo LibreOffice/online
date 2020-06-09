@@ -1333,6 +1333,10 @@ msgstr "टेम्प्लेटबाट नयाँ फाइल सिर
 msgid "Creating copy..."
 msgstr "प्रतिलिपि बनाउदै..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #, fuzzy
 #~| msgid "Text orientation"
 #~ msgid "Toggle Page Orientation"

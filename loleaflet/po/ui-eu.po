@@ -1308,6 +1308,10 @@ msgstr "Fitxategi berria sortzen txantiloitik..."
 msgid "Creating copy..."
 msgstr "Kopia sortzen..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Kolorea"
 

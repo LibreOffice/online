@@ -1308,6 +1308,10 @@ msgstr "Създава се нов файл от шаблон..."
 msgid "Creating copy..."
 msgstr "Създава се копие..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Цвят"
 

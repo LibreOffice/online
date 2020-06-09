@@ -1308,6 +1308,10 @@ msgstr "Oppretter ny fil fra mal ..."
 msgid "Creating copy..."
 msgstr "Lager en kopi...."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Farge"
 

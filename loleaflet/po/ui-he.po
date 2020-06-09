@@ -1324,6 +1324,10 @@ msgstr "נוצר קובץ חדש מתבנית…"
 msgid "Creating copy..."
 msgstr "נוצר עותק…"
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "צבע"
 

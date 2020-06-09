@@ -1316,6 +1316,10 @@ msgstr "Bý til nýja skrá út frá sniðmáti..."
 msgid "Creating copy..."
 msgstr "Bý til afrit..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Litur"
 

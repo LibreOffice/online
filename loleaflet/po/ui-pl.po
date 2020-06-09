@@ -1308,6 +1308,10 @@ msgstr "Tworzenie nowego pliku z szablonu..."
 msgid "Creating copy..."
 msgstr "Tworzenie kopii..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Kolor"
 

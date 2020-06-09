@@ -1308,6 +1308,10 @@ msgstr "S'està creant un fitxer nou a partir d'una plantilla..."
 msgid "Creating copy..."
 msgstr "S'està creant una còpia..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Color"
 

@@ -1308,6 +1308,10 @@ msgstr "Nowa dataja se z pśedłogi napórajo..."
 msgid "Creating copy..."
 msgstr "Kopija se napórajo..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Barwa"
 

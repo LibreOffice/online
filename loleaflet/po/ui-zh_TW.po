@@ -1316,6 +1316,10 @@ msgstr "從範本製作新檔案..."
 msgid "Creating copy..."
 msgstr "製作副本中..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "色彩"
 

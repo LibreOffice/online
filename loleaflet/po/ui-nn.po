@@ -1334,6 +1334,10 @@ msgstr "Lag ei ny fil frå mal …"
 msgid "Creating copy..."
 msgstr "Lagar kopi …"
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #, fuzzy
 #~| msgid "Text orientation"
 #~ msgid "Toggle Page Orientation"

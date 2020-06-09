@@ -1329,6 +1329,10 @@ msgstr ""
 msgid "Creating copy..."
 msgstr ""
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #, fuzzy
 #~| msgid "Text orientation"
 #~ msgid "Toggle Page Orientation"

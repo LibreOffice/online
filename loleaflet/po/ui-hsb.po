@@ -1308,6 +1308,10 @@ msgstr "Nowa dataja so z předłohi wutworja..."
 msgid "Creating copy..."
 msgstr "Kopija so wutworja..."
 
+#: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
 #~ msgid "Color"
 #~ msgstr "Barba"
 
