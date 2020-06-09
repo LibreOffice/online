@@ -372,10 +372,10 @@
 				else
 					data = this.doSlice(arr, i, i + size);
 
-				if (serial !== that.inSerial + 1) {
-					console.debug('Error: serial mismatch ' + serial + ' vs. ' + (that.inSerial + 1));
+				if (serial !== that.inSerial) {
+					console.debug('Error: serial mismatch: got ' + serial + ' vs. ' + that.inSerial + ' expected');
 				}
-				that.inSerial = serial;
+				that.inSerial = serial + 1;
 				this.onmessage({ data: data });
 
 				i += size; // skip trailing '\n' in loop-increment
@@ -472,11 +472,11 @@
 			req.open('POST', that.getEndPoint('write'));
 			req.responseType = 'arraybuffer';
 			req.requestTimestamp = performance.now();
-			req.addEventListener('load', function() {
+			req.addEventListener('load', function () {
 				that._updateAvgRountripTime(req.requestTimestamp);
 				if (this.status == 200) {
 					var data = new Uint8Array(this.response);
-					if (data.length) {
+					if (data.length > 0) {
 						// We have some data back from WSD.
 						// Another user might be editing and we want
 						// to see their changes in real time.
@@ -496,7 +496,6 @@
 					// Has it been long enough since we got any data?
 					var timeSinceLastDataMs = (performance.now() - that.lastDataTimestamp) | 0;
 					if (timeSinceLastDataMs >= that.minIdlePollsToThrottle * that.curPollMs) {
-						// Throttle.
 						that._throttlePollInterval('No data');
 					}
 				}
@@ -578,10 +577,10 @@
 		};
 		this.send = function(msg) {
 			var hadData = this.sendQueue.length > 0;
+			var outSerial = this.outSerial++;
 			this.sendQueue = this.sendQueue.concat(
-				'B0x' + this.outSerial.toString(16) + '\n' +
+				'B0x' + outSerial.toString(16) + '\n' +
 				'0x' + msg.length.toString(16) + '\n' + msg + '\n');
-			this.outSerial++;
 
 			// Send ASAP, if we have throttled.
 			if (that.curPollMs > that.minPollMs || !hadData) {
