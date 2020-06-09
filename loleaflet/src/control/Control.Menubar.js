@@ -1307,6 +1307,8 @@ L.Control.Menubar = L.Control.extend({
 		}
 		else if (this._map._clip && this._map._clip.filterExecCopyPaste(unoCommand)) {
 			return;
+		} else if (unoCommand.startsWith('.uno:Sidebar')) {
+			window.initSidebarState = true;
 		}
 
 		this._map.sendUnoCommand(unoCommand);
