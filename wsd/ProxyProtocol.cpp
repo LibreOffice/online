@@ -161,9 +161,9 @@ bool ProxyProtocolHandler::parseEmitIncoming(
         }
         in.erase(in.begin(), in.begin() + 1);
 
-        if (serial != _inSerial + 1)
-            LOG_ERR("Serial mismatch " << serial << " vs. " << (_inSerial + 1));
-        _inSerial = serial;
+        if (serial != _inSerial)
+            LOG_ERR("Serial mismatch: got " << serial << " vs. " << _inSerial << " expected");
+        _inSerial = serial + 1;
         _msgHandler->handleMessage(data);
     }
     return true;
