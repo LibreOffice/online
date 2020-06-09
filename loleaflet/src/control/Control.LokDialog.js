@@ -1079,6 +1079,8 @@ L.Control.LokDialog = L.Control.extend({
 			else
 				$(panel).parent().hide();
 
+			this._map.uiManager.setSavedState('ShowSidebar', width > 1);
+
 			// Render window.
 			this._sendPaintWindowRect(id);
 		} else {
@@ -1128,6 +1130,7 @@ L.Control.LokDialog = L.Control.extend({
 		this._createDialogCursor(strId);
 
 		this._postLaunch(id, panelContainer, panelCanvas);
+		this._map.uiManager.setSavedState('ShowSidebar', true);
 	},
 
 	_postLaunch: function(id, panelContainer, panelCanvas) {
@@ -1396,6 +1399,7 @@ L.Control.LokDialog = L.Control.extend({
 			this._map.focus();
 		}
 		$('#document-container').addClass('sidebar-closed');
+		this._map.uiManager.setSavedState('ShowSidebar', false);
 	},
 
 	_onCalcInputBarClose: function(dialogId) {
