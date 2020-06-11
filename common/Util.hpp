@@ -33,6 +33,7 @@
 #include <Poco/File.h>
 #include <Poco/Path.h>
 #include <Poco/RegularExpression.h>
+#include <Poco/Net/HTTPRequest.h>
 
 #define LOK_USE_UNSTABLE_API
 #include <LibreOfficeKit/LibreOfficeKitEnums.h>
@@ -222,6 +223,19 @@ namespace Util
         }
 
         return os.str();
+    }
+
+    inline std::string stringifyHexLine(const std::string& s, const std::size_t width = 16)
+    {
+        std::ostringstream oss;
+        for (std::size_t i = 0; i < s.size(); i += width)
+        {
+            const std::size_t rem = std::min(width, s.size() - i);
+            oss << stringifyHexLine(std::vector<char>(s.data(), s.data() + s.size()), i, rem);
+            oss << '\n';
+        }
+
+        return oss.str();
     }
 
     /// Dump data as hex and chars to stream
@@ -433,10 +447,14 @@ namespace Util
         return StringVector(s, std::move(tokens));
     }
 
-    inline StringVector tokenize(const std::string& s, const char* delimiter)
+    /// Tokenize by the delimiter string.
+    inline StringVector tokenize(const std::string& s, const char* delimiter, int len = -1)
     {
-        if (s.empty())
+        if (s.empty() || len == 0 || delimiter == nullptr || *delimiter == '\0')
             return StringVector();
+
+        if (len < 0)
+            len = std::strlen(delimiter);
 
         std::size_t start = 0;
         std::size_t end = s.find(delimiter, start);
@@ -445,13 +463,46 @@ namespace Util
         tokens.reserve(16);
 
         tokens.emplace_back(start, end - start);
-        start = end + std::strlen(delimiter);
+        start = end + len;
 
         while (end != std::string::npos)
         {
             end = s.find(delimiter, start);
             tokens.emplace_back(start, end - start);
-            start = end + std::strlen(delimiter);
+            start = end + len;
+        }
+
+        return StringVector(s, std::move(tokens));
+    }
+
+    inline StringVector tokenize(const std::string& s, const std::string& delimiter)
+    {
+        return tokenize(s, delimiter.data(), delimiter.size());
+    }
+
+    /// Tokenize by any of the delimiter characters.
+    inline StringVector tokenizeAny(const std::string& s, const char* delimiter,
+                                    bool ignoreEmpty = false)
+    {
+        if (s.empty() || delimiter == nullptr || *delimiter == '\0')
+            return StringVector();
+
+        std::size_t start = 0;
+        std::size_t end = s.find_first_of(delimiter, start);
+
+        std::vector<StringToken> tokens;
+        tokens.reserve(16);
+
+        if (!ignoreEmpty || end > start)
+            tokens.emplace_back(start, end - start);
+        start = end + 1;
+
+        while (end != std::string::npos)
+        {
+            end = s.find_first_of(delimiter, start);
+            if (!ignoreEmpty || end > start)
+                tokens.emplace_back(start, end - start);
+            start = end + 1;
         }
 
         return StringVector(s, std::move(tokens));
@@ -1028,6 +1079,12 @@ int main(int argc, char**argv)
     /// conversion from steady_clock for debugging / tracing
     std::string getSteadyClockAsString(const std::chrono::steady_clock::time_point &time);
 
+    /// Set the request header by splitting multiple entries by \r or \n.
+    /// Needed to sanitize user-provided http headers, after decoding.
+    /// This is much more tolerant to line breaks than the rfc allows.
+    /// Note: probably should move to a more appropriate home.
+    void setHttpHeaders(Poco::Net::HTTPRequest& request, const std::string& headers);
+
     /// Automatically execute code at end of current scope.
     /// Used for exception-safe code.
     class ScopeGuard
@@ -1083,7 +1140,6 @@ int main(int argc, char**argv)
         // If OS is not mobile, it must be Linux.
         std::string getLinuxVersion();
     #endif
-
 } // end namespace Util
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */

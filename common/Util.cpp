@@ -59,8 +59,7 @@
 #include <Poco/Util/Application.h>
 
 #include "Common.hpp"
-#include "Log.hpp"
-#include "Util.hpp"
+#include <common/Log.hpp>
 
 using std::size_t;
 
@@ -931,6 +930,34 @@ namespace Util
             std::chrono::time_point_cast<std::chrono::seconds>(
                 std::chrono::system_clock::now() + (time - now)));
         return std::ctime(&t);
+    }
+
+    void setHttpHeaders(Poco::Net::HTTPRequest& request, const std::string& headers)
+    {
+        // Look for either \r or \n and replace them with a single \r\n
+        // as prescribed by rfc2616 as valid header delimeter, removing
+        // any invalid line breaks.
+        constexpr bool ignoreEmpty = true;
+        const StringVector tokens = Util::tokenizeAny(Util::trimmed(headers), "\r\n", ignoreEmpty);
+        const std::string header = tokens.cat("\r\n", 0);
+        try
+        {
+            Poco::Net::MessageHeader msgHeader;
+            std::istringstream iss(header);
+            msgHeader.read(iss);
+            for (const auto& entry : msgHeader)
+            {
+                request.set(Util::trimmed(entry.first), Util::trimmed(entry.second));
+            }
+        }
+        catch (const Poco::Exception& ex)
+        {
+            LOG_ERR("Invalid HTTP header [" << header << "]: " << ex.displayText());
+        }
+        catch (const std::exception& ex)
+        {
+            LOG_ERR("Invalid HTTP header [" << header << "]: " << ex.what());
+        }
     }
 
     bool isFuzzing()
