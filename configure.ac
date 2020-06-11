@@ -288,7 +288,7 @@ AC_ARG_ENABLE([cypress],
             AS_HELP_STRING([--enable-cypress],
                            [Enable cypress tests.]))
 # Handle options
-AS_IF([test "$enable_debug" = yes -a -n "$with_poco_libs"],
+AS_IF([test "$enable_debug" = yes],
       [POCO_DEBUG_SUFFIX=d],
       [POCO_DEBUG_SUFFIX=])
 
