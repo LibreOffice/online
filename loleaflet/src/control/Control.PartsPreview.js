@@ -8,8 +8,8 @@ L.Control.PartsPreview = L.Control.extend({
 	options: {
 		fetchThumbnail: true,
 		autoUpdate: true,
-		maxWidth: (window.mode.isMobile() || window.mode.isTablet()) ? 60 : 180,
-		maxHeight: (window.mode.isMobile() || window.mode.isTablet()) ? 60 : 180
+		maxWidth: (window.mode.isMobile() || window.mode.isTablet()) ? 40 : 180,
+		maxHeight: (window.mode.isMobile() || window.mode.isTablet()) ? 40 : 180
 	},
 	partsFocused: false,
 
@@ -246,7 +246,7 @@ L.Control.PartsPreview = L.Control.extend({
 			var previewImgMinWidth = Math.round(parseFloat(L.DomUtil.getStyle(img, 'min-width')));
 			var imgHeight = imgSize.height;
 			var imgWidth = imgSize.width;
-			if (imgSize.width < previewImgMinWidth)
+			if (imgSize.width < previewImgMinWidth && window.mode.isDesktop())
 				imgHeight = Math.round(imgHeight * previewImgMinWidth / imgSize.width);
 			var previewFrameBB = frame.getBoundingClientRect();
 			if (this._direction === 'x') {
