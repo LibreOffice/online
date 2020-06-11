@@ -15,6 +15,27 @@
 #include <Poco/URI.h>
 #include "Exceptions.hpp"
 
+namespace
+{
+
+std::map<std::string, std::string> getParams(const std::string& uri)
+{
+    std::map<std::string, std::string> result;
+    for (const auto& param : Poco::URI(uri).getQueryParameters())
+    {
+        std::string key;
+        Poco::URI::decode(param.first, key);
+        std::string value;
+        Poco::URI::decode(param.second, value);
+        LOG_TRC("Decoding param [" << param.first << "] = [" << param.second << "] -> [" << key
+                                   << "] = [" << value << "].");
+
+        result.emplace(key, value);
+    }
+
+    return result;
+}
+
 /// Returns true iff the two containers are equal.
 template <typename T> bool equal(const T& lhs, const T& rhs)
 {
@@ -41,6 +62,7 @@ template <typename T> bool equal(const T& lhs, const T& rhs)
     }
 
     return true;
+}
 }
 
 RequestDetails::RequestDetails(Poco::Net::HTTPRequest &request, const std::string& serviceRoot)
@@ -69,16 +91,7 @@ RequestDetails::RequestDetails(Poco::Net::HTTPRequest &request, const std::strin
 #endif
 
     // Poco::SyntaxException is thrown when the syntax is invalid.
-    Poco::URI uri(_uriString);
-    for (const auto& param : uri.getQueryParameters())
-    {
-        LOG_TRC("Decoding param [" << param.first << "] = [" << param.second << "].");
-
-        std::string value;
-        Poco::URI::decode(param.second, value);
-
-        _params.emplace(param.first, value);
-    }
+    _params = getParams(_uriString);
 
     // First tokenize by '/' then by '?'.
     std::vector<StringToken> tokens;
@@ -151,6 +164,8 @@ RequestDetails::RequestDetails(Poco::Net::HTTPRequest &request, const std::strin
         _fields[Field::LegacyDocumentURI] = _uriString;
         _fields[Field::DocumentURI] = _uriString;
     }
+
+    _docUriParams = getParams(_fields[Field::DocumentURI]);
 
     _fields[Field::WOPISrc] = getParam("WOPISrc");
 

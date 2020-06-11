@@ -33,6 +33,7 @@
 #include <Poco/File.h>
 #include <Poco/Path.h>
 #include <Poco/RegularExpression.h>
+#include <Poco/Net/HTTPRequest.h>
 
 #define LOK_USE_UNSTABLE_API
 #include <LibreOfficeKit/LibreOfficeKitEnums.h>
@@ -222,6 +223,19 @@ namespace Util
         }
 
         return os.str();
+    }
+
+    inline std::string stringifyHexLine(const std::string& s, const std::size_t width = 16)
+    {
+        std::ostringstream oss;
+        for (std::size_t i = 0; i < s.size(); i += width)
+        {
+            const std::size_t rem = std::min(width, s.size() - i);
+            oss << stringifyHexLine(std::vector<char>(s.data(), s.data() + s.size()), i, rem);
+            oss << '\n';
+        }
+
+        return oss.str();
     }
 
     /// Dump data as hex and chars to stream
@@ -1028,6 +1042,11 @@ int main(int argc, char**argv)
     /// conversion from steady_clock for debugging / tracing
     std::string getSteadyClockAsString(const std::chrono::steady_clock::time_point &time);
 
+    /// Set the request header by splitting multiple entries by empty \r\n.
+    /// Needed to sanitize user-provided http headers, after decoding.
+    /// Note: probably should move to a more appropriate home.
+    void setHttpHeaders(Poco::Net::HTTPRequest& request, std::string headers);
+
     /// Automatically execute code at end of current scope.
     /// Used for exception-safe code.
     class ScopeGuard
@@ -1083,7 +1102,6 @@ int main(int argc, char**argv)
         // If OS is not mobile, it must be Linux.
         std::string getLinuxVersion();
     #endif
-
 } // end namespace Util
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
