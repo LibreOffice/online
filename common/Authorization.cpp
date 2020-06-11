@@ -45,46 +45,42 @@ void Authorization::authorizeRequest(Poco::Net::HTTPRequest& request) const
     switch (_type)
     {
         case Type::Token:
-            request.set("Authorization", "Bearer " + _data);
+            Util::setHttpHeaders(request, "Authorization: Bearer " + _data);
+            assert(request.has("Authorization") && "HTTPRequest missing Authorization header");
             break;
         case Type::Header:
-        {
             // there might be more headers in here; like
             //   Authorization: Basic ....
             //   X-Something-Custom: Huh
-            // Regular expression evaluates and finds "\n\r" and tokenizes accordingly
-            StringVector tokens(Util::tokenize(_data, "\n\r"));
-            for (auto it = tokens.begin(); it != tokens.end(); ++it)
-            {
-                std::string token = tokens.getParam(*it);
-
-                size_t separator = token.find_first_of(':');
-                if (separator != std::string::npos)
-                {
-                    size_t headerStart = token.find_first_not_of(' ', 0);
-                    size_t headerEnd = token.find_last_not_of(' ', separator - 1);
-
-                    size_t valueStart = token.find_first_not_of(' ', separator + 1);
-                    size_t valueEnd = token.find_last_not_of(' ');
-
-                    // set the header
-                    if (headerStart != std::string::npos && headerEnd != std::string::npos &&
-                            valueStart != std::string::npos && valueEnd != std::string::npos)
-                    {
-                        size_t headerLength = headerEnd - headerStart + 1;
-                        size_t valueLength = valueEnd - valueStart + 1;
-
-                        request.set(token.substr(headerStart, headerLength), token.substr(valueStart, valueLength));
-                    }
-                }
-            }
+            Util::setHttpHeaders(request, _data);
             break;
-        }
         default:
             // assert(false);
             throw BadRequestException("Invalid HTTP request type");
             break;
     }
+}
+
+Authorization Authorization::create(const Poco::URI::QueryParameters& queryParams)
+{
+    // prefer the access_token
+    std::string decoded;
+    for (const auto& param : queryParams)
+    {
+        if (param.first == "access_token")
+        {
+            Poco::URI::decode(param.second, decoded);
+            return Authorization(Authorization::Type::Token, decoded);
+        }
+
+        if (param.first == "access_header")
+            Poco::URI::decode(param.second, decoded);
+    }
+
+    if (!decoded.empty())
+        return Authorization(Authorization::Type::Header, decoded);
+
+    return Authorization();
 }
 
 /* vim:set shiftwidth=4 softtabstop=4 expandtab: */
