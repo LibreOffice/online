@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-06-08 06:47+0000\n"
+"PO-Revision-Date: 2020-06-11 19:34+0000\n"
 "Last-Translator: Ming Hua <plateauwolf@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -1191,19 +1191,19 @@ msgstr "当您有内部剪切或复制的内容时，可以使用快捷菜单粘
 
 #: html/loleaflet-help.html%2Bdiv.h4:308-5
 msgid "Adding charts"
-msgstr ""
+msgstr "添加图表"
 
 #: html/loleaflet-help.html%2Bdiv.p:309-5
 msgid "<span class=\"productname\">%productName</span> supports inserting and visualization of charts in documents. To add a chart:"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 支持在文档中插入和展示图表。图表添加方式："
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:311-11
 msgid "Select a table in text document, a range in a spreadsheet or a table in a presentation."
-msgstr ""
+msgstr "选择文本文档中的表格、电子表格中的范围或演示文稿中的表格。"
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:313-9
 msgid "Choose <span class=\"ui\">Insert</span> → <span class=\"ui\">Charts</span>. Customize your chart on the sidebar:"
-msgstr ""
+msgstr "选择<span class=\"ui\">插入</span> → <span class=\"ui\">图表</span>。在侧边栏中定制图表："
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:316-11
 msgid "If no table or range was selected, a prototype chart is displayed."
