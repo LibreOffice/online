@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-06-08 06:47+0000\n"
+"PO-Revision-Date: 2020-06-13 15:49+0000\n"
 "Last-Translator: Ming Hua <plateauwolf@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -1191,55 +1191,55 @@ msgstr "当您有内部剪切或复制的内容时，可以使用快捷菜单粘
 
 #: html/loleaflet-help.html%2Bdiv.h4:308-5
 msgid "Adding charts"
-msgstr ""
+msgstr "添加图表"
 
 #: html/loleaflet-help.html%2Bdiv.p:309-5
 msgid "<span class=\"productname\">%productName</span> supports inserting and visualization of charts in documents. To add a chart:"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 支持在文档中插入和展示图表。图表添加方式："
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:311-11
 msgid "Select a table in text document, a range in a spreadsheet or a table in a presentation."
-msgstr ""
+msgstr "选择文本文档中的表格、电子表格中的范围或演示文稿中的表格。"
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:313-9
 msgid "Choose <span class=\"ui\">Insert</span> → <span class=\"ui\">Charts</span>. Customize your chart on the sidebar:"
-msgstr ""
+msgstr "选择<span class=\"ui\">插入</span> → <span class=\"ui\">图表</span>。在侧边栏中定制图表："
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:316-11
 msgid "If no table or range was selected, a prototype chart is displayed."
-msgstr ""
+msgstr "如果未选择表格或范围，则显示一张样例图表。"
 
 #: html/loleaflet-help.html%2Bdiv.p:319-5
 msgid "<span class=\"def\">Chart editing:</span> Double click the chart to select. Use context menus to add chart elements such as title, axis, and other. Choose <span class=\"ui\">Data Range</span> and <span class=\"ui\">Chart Type</span> to edit chart data and select chart type."
-msgstr ""
+msgstr "<span class=\"def\">图表编辑：</span>双击选中图表。使用快捷菜单添加标题、坐标轴等图表元素。用<span class=\"ui\">数据范围</span>编辑图表数据，用<span class=\"ui\">图表类型</span>选择图表类型。"
 
 #: html/loleaflet-help.html%2Bdiv.p:320-5
 msgid "<span class=\"def\">Chart formatting:</span> The same context menu brings you to chart data table and chart type selection."
-msgstr ""
+msgstr "<span class=\"def\">设置图表格式：</span>同一快捷菜单有图表对应数据表格和选择图表类型的选项。"
 
 #: html/loleaflet-help.html%2Bdiv.p:321-5
 msgid "<span class=\"def\">Data series formatting:</span> Open the context menu and choose <span class=\"ui\">Format data series</span>."
-msgstr ""
+msgstr "<span class=\"def\">设置数据序列格式：</span>打开快捷菜单并选择<span class=\"ui\">设置数据序列格式</span>。"
 
 #: html/loleaflet-help.html%2Bdiv.h4:322-5
 msgid "Handling images"
-msgstr ""
+msgstr "处理图像"
 
 #: html/loleaflet-help.html%2Bdiv.p:323-5
 msgid "<span class=\"productname\">%productName</span> inserts images in the text document from your local computer or from your cloud storage. Inserted images are always embedded in the document."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> 可以将本地计算机或云存储里的图像插入到文本文档中。插入的图像将会嵌入文档中。"
 
 #: html/loleaflet-help.html%2Bdiv.p:324-5
 msgid "<span class=\"def\">Insert image:</span> Clicking on the <span class=\"ui\">Insert image</span> icon allows you to choose an image from the cloud storage's folders and shares."
-msgstr ""
+msgstr "<span class=\"def\">插入图像：</span>点击<span class=\"ui\">插入图像</span>图标可选择云存储及共享文件夹里的图像进行插入。"
 
 #: html/loleaflet-help.html%2Bdiv.p:325-5
 msgid "<span class=\"def\">Insert local image:</span> opens the browser file picker to upload the image from your local computer and insert it into the document."
-msgstr ""
+msgstr "<span class=\"def\">插入本地图像：</span>打开浏览器的文件选择对话框，上传本地计算机中的图像并插入到文档中。"
 
 #: html/loleaflet-help.html%2Bdiv.p:326-5
 msgid "Images can be resized, rotated and anchored. Text can be wrapped around the image. Select the image and open the context menu. Use the images handles to resize the image with the mouse."
-msgstr ""
+msgstr "对于图像可调整尺寸、旋转及锚定。文本可围绕在图像周围。选中图像并打开快捷菜单进行这些操作。用鼠标拖动图像控制点调整图像尺寸。"
 
 #: html/loleaflet-help.html%2Bdiv.h4:327-5
 msgid "Comments in documents"
