@@ -1,5 +1,5 @@
 /* -*- js-indent-level: 8 -*- */
-/* global errorMessages getParameterByName accessToken accessTokenTTL accessHeader reuseCookies */
+/* global errorMessages getParameterByName accessToken accessTokenTTL accessHeader reuseCookies httpHeaders */
 /* global vex host serviceRoot idleTimeoutSecs outOfFocusTimeoutSecs*/
 /*eslint indent: [error, "tab", { "outerIIFEBody": 0 }]*/
 (function (global) {
@@ -20,6 +20,15 @@ if (reuseCookies !== '') {
 	}
 	else {
 		wopiParams = { 'reuse_cookies': reuseCookies };
+	}
+}
+
+if (httpHeaders !== '') {
+	if (wopiParams) {
+		wopiParams['http_headers'] = httpHeaders;
+	}
+	else {
+		wopiParams = { 'http_headers': httpHeaders };
 	}
 }
 
