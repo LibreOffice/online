@@ -139,6 +139,21 @@ The 'access_header' can be eg. of a form
 
 This header is then used in all the protocol calls like PutFile, GetFile or CheckFileInfo, allowing Basic authentication to work.
 
+Custom HTTP headers
+-------------------
+
+In some cases it might be desirable to set certain HTTP headers when making the WOPI requests.
+This is supported via 'http_headers' parameter in the Document URI. The value of must be
+one or more valid HTTP header entry, as defined in rfc2616. If multiple headers are needed
+they must be separated by '\r\n'. Note that there should not be whitespace after '\r\n',
+as that would be interpretted as folding the previous header. Of course the complete
+value of http_headers must be URL-encoded.
+
+E.g.
+
+Raw: "X-Requested-With: XMLHttpRequest\r\nDNT: 1";
+Encoded: "http_headers=X-Requested-With:%20XMLHttpRequest%0D%0ADNT:%201"
+
 PutFile headers
 ---------------
 
