@@ -505,6 +505,13 @@ public:
     std::chrono::duration<double> getWopiSaveDuration() const { return _wopiSaveDuration; }
 
 private:
+
+    /// Create the HTTPRequest instance with the common settings and headers.
+    Poco::Net::HTTPRequest createHttpRequest(const std::string& verb, const Poco::URI& uri,
+                                             const Authorization& auth,
+                                             const std::string& cookies) const;
+
+private:
     // Time spend in loading the file from storage
     std::chrono::duration<double> _wopiLoadDuration;
     std::chrono::duration<double> _wopiSaveDuration;
