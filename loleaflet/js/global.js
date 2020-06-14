@@ -697,6 +697,15 @@
 			}
 		}
 
+		if (global.httpHeaders !== '') {
+			if (wopiParams) {
+				wopiParams['http_headers'] = global.httpHeaders;
+			}
+			else {
+				wopiParams = { 'http_headers': global.httpHeaders };
+			}
+		}
+
 		if (wopiParams) {
 			docParams = Object.keys(wopiParams).map(function(key) {
 				return encodeURIComponent(key) + '=' + encodeURIComponent(wopiParams[key]);
