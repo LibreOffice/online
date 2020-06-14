@@ -542,6 +542,8 @@ void WopiStorage::initHttpRequest(Poco::Net::HTTPRequest& request, const Poco::U
     std::map<std::string, std::string> params = GetQueryParams(uri);
     addWopiProof(request, uri, params["access_token"]);
 
+    Util::setHttpHeaders(request, params["http_headers"]);
+
     if (_reuseCookies)
         addStorageReuseCookie(request, cookies);
 }
