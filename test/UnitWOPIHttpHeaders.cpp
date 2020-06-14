@@ -60,6 +60,7 @@ protected:
         static const std::map<std::string, std::string> Headers{
             { "Authorization", "Bearer xyz123abc456vwc789z" },
             { "X-Requested-With", "XMLHttpRequest" },
+            { "DNT", "1" }
         };
 
         for (const auto& pair : Headers)
@@ -89,9 +90,9 @@ public:
                 // such issues and generate valid headers.
                 const std::string params
                     = "access_header=Authorization%3A%2520Bearer%"
-                      "2520xyz123abc456vwc789z%250D%250A%250D%250AX-Requested-With%"
-                      "3A%2520XMLHttpRequest&reuse_cookies=language%3Den-us%3AK%3DGS1&permission="
-                      "edit";
+                      "2520xyz123abc456vwc789z%250D%250A%250D%250AX-Requested-With%3A%"
+                      "2520XMLHttpRequest&reuse_cookies=language%3Den-us%3AK%3DGS1&http_headers=X-"
+                      "Requested-With:%20XMLHttpRequest%0D%0ADNT:%201&permission=edit";
 
                 initWebsocket("/wopi/files/0?" + params);
 
