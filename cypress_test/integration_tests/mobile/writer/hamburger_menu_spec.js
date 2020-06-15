@@ -84,7 +84,7 @@ describe('Trigger hamburger menu options.', function() {
 			.click();
 
 		cy.get('iframe')
-			.should('have.attr', 'data-src')
+			.should('have.attr', 'data-srcsss')
 			.should('contain', 'document.rtf');
 	});
 
