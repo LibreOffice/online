@@ -155,11 +155,13 @@ L.Control.UIManager = L.Control.extend({
 	showRuler: function() {
 		$('.loleaflet-ruler').show();
 		$('#map').addClass('hasruler');
+		this.setCookie('ShowRulerDefault', true);
 	},
 
 	hideRuler: function() {
 		$('.loleaflet-ruler').hide();
 		$('#map').removeClass('hasruler');
+		this.setCookie('ShowRulerDefault', false);
 	},
 
 	toggleRuler: function() {
@@ -178,6 +180,7 @@ L.Control.UIManager = L.Control.extend({
 		$('#sidebar-dock-wrapper').css('bottom', this.sidebarBottom);
 		$('#presentation-controls-wrapper').css('bottom', this.presentationControlBottom);
 		$('#toolbar-down').show();
+		this.setCookie('ShowStatusbarDefault', true);
 	},
 
 	hideStatusBar: function() {
@@ -191,6 +194,7 @@ L.Control.UIManager = L.Control.extend({
 		$('#sidebar-dock-wrapper').css('bottom', '0px');
 		$('#presentation-controls-wrapper').css('bottom','33px');
 		$('#toolbar-down').hide();
+		this.setCookie('ShowStatusbarDefault', false);
 	},
 
 	toggleStatusBar: function() {
@@ -233,6 +237,26 @@ L.Control.UIManager = L.Control.extend({
 			}
 			obj.css({'top': String(prevTop) + 'px'});
 		}
+	},
+
+	setCookie: function(cookie, state) {
+		if (!window.initUICookies)
+			return;
+		var path = '/loleaflet';
+		if (window.socketProxy)
+			path = window.host + window.serviceRoot + path;
+		document.cookie = 'UIDefaults_' + this.map._docLayer._docType + '_' + cookie + '=' + state + '; path=' + path;
+	},
+
+	getCookie: function(name) {
+		var cookies = document.cookie.split(';');
+		for (var i = 0; i < cookies.length; i++) {
+			var cookie = cookies[i].trim();
+			if (cookie.indexOf('UIDefaults_' + this.map._docLayer._docType + '_' + name) === 0) {
+				return cookie.split('=')[1];
+			}
+		}
+		return '';
 	}
 });
 
