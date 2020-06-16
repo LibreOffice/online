@@ -293,29 +293,38 @@ L.Map = L.Evented.extend({
 			}
 
 			this.initializeModificationIndicator();
-
-			// Show sidebar.
+			// ui defaults
 			var map = this;
-			var uiDefaults = map['wopi'].UIDefaults[this._docLayer._docType];
 			if (this._docLayer && !this._docLoadedOnce &&
 				(this._docLayer._docType === 'spreadsheet' || this._docLayer._docType === 'text' || this._docLayer._docType === 'presentation')) {
-				// Let the first page finish loading then load the sidebar.
-				setTimeout(function () {
-					// Show the sidebar by default, but not on mobile.
-					if (window.mode.isDesktop() && !window.ThisIsAMobileApp) {
-						if (uiDefaults && !uiDefaults.ShowSidebarDefault)
+				var uiDefaults = map['wopi'].UIDefaults[this._docLayer._docType];
+				if (window.mode.isDesktop() && !window.ThisIsAMobileApp) {
+					// if cookie is present show/hide the elements according to the cookie
+					// if not set, use the default values from wopi file info
+
+					// ruler
+					var rulerCookie = this.uiManager.getCookie('ShowRulerDefault');
+					if ((rulerCookie && rulerCookie === 'false') ||
+						(!rulerCookie && uiDefaults && uiDefaults.hasOwnProperty('ShowRulerDefault') && !uiDefaults.ShowRulerDefault))
+						this.uiManager.hideRuler();
+
+					// statusbar
+					var statusbarCookie = this.uiManager.getCookie('ShowStatusbarDefault');
+					if ((statusbarCookie && statusbarCookie === 'false') ||
+						(!statusbarCookie && uiDefaults && uiDefaults.hasOwnProperty('ShowStatusbarDefault') && !uiDefaults.ShowStatusbarDefault))
+						this.uiManager.hideStatusBar();
+
+					// Let the first page finish loading then load the sidebar.
+					setTimeout(function () {
+						// Sidebar
+						var sidebarCookie = map.uiManager.getCookie('ShowSidebarDefault');
+						if ((sidebarCookie && sidebarCookie === 'false') ||
+							(!sidebarCookie && uiDefaults && uiDefaults.hasOwnProperty('ShowSidebarDefault') && !uiDefaults.ShowSidebarDefault)) {
 							map._socket.sendMessage('uno .uno:SidebarHide');
-					}
-				}, 200);
-			}
-
-			// ui defaults
-			if (window.mode.isDesktop()) {
-				if (uiDefaults && !uiDefaults.ShowRulerDefault)
-					this.uiManager.hideRuler();
-
-				if (uiDefaults && !uiDefaults.ShowStatusbarDefault)
-					this.uiManager.hideStatusBar();
+						}
+						window.initUICookies = true;
+					}, 200);
+				}
 			}
 
 			// We have loaded.
