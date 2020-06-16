@@ -275,39 +275,45 @@ L.Map = L.Evented.extend({
 			}
 
 			this.initializeModificationIndicator();
-
-			// Show sidebar.
+			// ui defaults
 			var map = this;
-			var uiDefaults = map['wopi'].UIDefaults[this._docLayer._docType];
 			if (this._docLayer && !this._docLoadedOnce &&
 				(this._docLayer._docType === 'spreadsheet' || this._docLayer._docType === 'text' || this._docLayer._docType === 'presentation')) {
-				// Let the first page finish loading then load the sidebar.
-				setTimeout(function () {
-					// Show the sidebar by default, but not on mobile.
-					if (window.mode.isDesktop() && !window.ThisIsAMobileApp) {
-						if (uiDefaults && !uiDefaults.ShowSidebarDefault)
+				var uiDefaults = map['wopi'].UIDefaults[this._docLayer._docType];
+				if (window.mode.isDesktop() && !window.ThisIsAMobileApp) {
+					// if saved state is present show/hide the elements according to the state
+					// if not set, use the default values from wopi file info
+
+					// ruler
+					var rulerSavedState = this.uiManager.getSavedState('ShowRulerDefault');
+					if ((rulerSavedState && rulerSavedState === 'false') ||
+						(!rulerSavedState && uiDefaults && uiDefaults.hasOwnProperty('ShowRulerDefault') && !uiDefaults.ShowRulerDefault))
+						this.uiManager.hideRuler();
+
+					// statusbar
+					var statusbarSavedState = this.uiManager.getSavedState('ShowStatusbarDefault');
+					if ((statusbarSavedState && statusbarSavedState === 'false') ||
+						(!statusbarSavedState && uiDefaults && uiDefaults.hasOwnProperty('ShowStatusbarDefault') && !uiDefaults.ShowStatusbarDefault))
+						this.uiManager.hideStatusBar();
+
+					// Let the first page finish loading then load the sidebar.
+					setTimeout(function () {
+						// Sidebar
+						var sidebarSavedState = map.uiManager.getSavedState('ShowSidebarDefault');
+							// HACK - currently the sidebar shows when loaded,
+							// with the exception of mobile phones & tablets - but
+							// there, it does not show only because they start
+							// with read/only mode which hits an early exit in
+							// _launchSidebar() in Control.LokDialog.js
+							// So for the moment, let's just hide it on
+							// Chromebooks early
+						if (window.mode.isChromebook() || (sidebarSavedState && sidebarSavedState === 'false') ||
+							(!sidebarSavedState && uiDefaults && uiDefaults.hasOwnProperty('ShowSidebarDefault') && !uiDefaults.ShowSidebarDefault)) {
 							map._socket.sendMessage('uno .uno:SidebarHide');
-					}
-					else if (window.mode.isChromebook()) {
-						// HACK - currently the sidebar shows when loaded,
-						// with the exception of mobile phones & tablets - but
-						// there, it does not show only because they start
-						// with read/only mode which hits an early exit in
-						// _launchSidebar() in Control.LokDialog.js
-						// So for the moment, let's just hide it on
-						// Chromebooks early
-						map._socket.sendMessage('uno .uno:SidebarHide');
-					}
-				}, 200);
-			}
-
-			// ui defaults
-			if (window.mode.isDesktop()) {
-				if (uiDefaults && !uiDefaults.ShowRulerDefault)
-					this.uiManager.hideRuler();
-
-				if (uiDefaults && !uiDefaults.ShowStatusbarDefault)
-					this.uiManager.hideStatusBar();
+						}
+						window.initUIStates = true;
+					}, 200);
+				}
 			}
 
 			// We have loaded.

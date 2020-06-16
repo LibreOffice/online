@@ -145,6 +145,14 @@ L.Socket = L.Class.extend({
 			this._map.loadDocument();
 		}
 
+		if (msg.startsWith('uno') && msg.indexOf('Sidebar') && window.initUIStates)
+		{
+			if ($('#sidebar-dock-wrapper').is(':visible'))
+				this._map.uiManager.setSavedState('ShowSidebarDefault', false);
+			else
+				this._map.uiManager.setSavedState('ShowSidebarDefault', true);
+		}
+
 		if (socketState === 1) {
 			this._doSend(msg);
 		}

@@ -184,11 +184,13 @@ L.Control.UIManager = L.Control.extend({
 	showRuler: function() {
 		$('.loleaflet-ruler').show();
 		$('#map').addClass('hasruler');
+		this.setSavedState('ShowRulerDefault', true);
 	},
 
 	hideRuler: function() {
 		$('.loleaflet-ruler').hide();
 		$('#map').removeClass('hasruler');
+		this.setSavedState('ShowRulerDefault', false);
 	},
 
 	toggleRuler: function() {
@@ -267,6 +269,7 @@ L.Control.UIManager = L.Control.extend({
 		$('#sidebar-dock-wrapper').css('bottom', this.sidebarBottom);
 		$('#presentation-controls-wrapper').css('bottom', this.presentationControlBottom);
 		$('#toolbar-down').show();
+		this.setSavedState('ShowStatusbarDefault', true);
 	},
 
 	hideStatusBar: function() {
@@ -280,6 +283,7 @@ L.Control.UIManager = L.Control.extend({
 		$('#sidebar-dock-wrapper').css('bottom', '0px');
 		$('#presentation-controls-wrapper').css('bottom','33px');
 		$('#toolbar-down').hide();
+		this.setSavedState('ShowStatusbarDefault', false);
 	},
 
 	toggleStatusBar: function() {
@@ -369,6 +373,20 @@ L.Control.UIManager = L.Control.extend({
 			}
 			obj.css({'top': String(prevTop) + 'px'});
 		}
+	},
+
+	setSavedState: function(name, state) {
+		if (!window.initUIStates)
+			return;
+		localStorage.setItem('UIDefaults_' + this.map._docLayer._docType + '_' + name, state);
+	},
+
+	getSavedState: function(name) {
+		var state = localStorage.getItem('UIDefaults_' + this.map._docLayer._docType + '_' + name);
+		if (state)
+			return state;
+
+		return '';
 	}
 });
 
