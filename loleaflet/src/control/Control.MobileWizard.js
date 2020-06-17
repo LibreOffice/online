@@ -176,10 +176,7 @@ L.Control.MobileWizard = L.Control.extend({
 
 		var titles = '.ui-header.level-' + this.getCurrentLevel() + '.mobile-wizard';
 
-		if (animate)
-			$(titles).hide('slide', { direction: 'left' }, 'fast');
-		else
-			$(titles).hide();
+		$(titles).hide(0);
 
 		$(contentToShow).siblings().hide();
 		$('#mobile-wizard.funcwizard div#mobile-wizard-content').removeClass('hideHelpBG');
