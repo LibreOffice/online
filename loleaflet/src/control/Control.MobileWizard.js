@@ -176,19 +176,17 @@ L.Control.MobileWizard = L.Control.extend({
 
 		var titles = '.ui-header.level-' + this.getCurrentLevel() + '.mobile-wizard';
 
-		if (animate)
-			$(titles).hide('slide', { direction: 'left' }, 'fast');
-		else
-			$(titles).hide();
-
 		$(contentToShow).siblings().hide();
 		$('#mobile-wizard.funcwizard div#mobile-wizard-content').removeClass('hideHelpBG');
 		$('#mobile-wizard.funcwizard div#mobile-wizard-content').addClass('showHelpBG');
 
-		if (animate)
+		if (animate) {
 			$(contentToShow).show('slide', { direction: 'right' }, 'fast');
-		else
+			$(titles).hide('slide', { direction: 'left' }, 'fast');
+		} else {
 			$(contentToShow).show();
+			$(titles).hide();
+		}
 
 		this._currentDepth++;
 		this._setTitle(contentToShow.title);
