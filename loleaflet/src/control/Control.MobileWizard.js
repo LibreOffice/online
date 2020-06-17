@@ -221,7 +221,6 @@ L.Control.MobileWizard = L.Control.extend({
 			else
 				this._setTitle(this._mainTitle);
 
-			$('.ui-content.level-' + this._currentDepth + '.mobile-wizard').siblings().show('slide', { direction: 'left' }, 'fast');
 			$('.ui-content.level-' + this._currentDepth + '.mobile-wizard').hide();
 			$('#mobile-wizard.funcwizard div#mobile-wizard-content').removeClass('showHelpBG');
 			$('#mobile-wizard.funcwizard div#mobile-wizard-content').addClass('hideHelpBG');
