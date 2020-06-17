@@ -221,7 +221,15 @@ L.Control.MobileWizard = L.Control.extend({
 			else
 				this._setTitle(this._mainTitle);
 
-			$('.ui-content.level-' + this._currentDepth + '.mobile-wizard').siblings().show('slide', { direction: 'left' }, 'fast');
+			var content = $('.ui-content.level-' + this._currentDepth + '.mobile-wizard').siblings();
+
+			// since use of "jquery-ui-dist": "^1.12.1" async execution of show method caused problems
+			// as solution this loop is used
+			for (var i = 0; i < content.length; i++) {
+				if (content[i].style.display === 'block')
+					content[i].style.display = 'none';
+			}
+
 			$('.ui-content.level-' + this._currentDepth + '.mobile-wizard').hide();
 			$('#mobile-wizard.funcwizard div#mobile-wizard-content').removeClass('showHelpBG');
 			$('#mobile-wizard.funcwizard div#mobile-wizard-content').addClass('hideHelpBG');
