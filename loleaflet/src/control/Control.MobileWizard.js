@@ -220,9 +220,11 @@ L.Control.MobileWizard = L.Control.extend({
 				this._setTitle(parent.get(0).title);
 			else
 				this._setTitle(this._mainTitle);
+			
+			var content = $('.ui-content.level-' + this._currentDepth + '.mobile-wizard');
 
-			$('.ui-content.level-' + this._currentDepth + '.mobile-wizard').siblings().show('slide', { direction: 'left' }, 'fast');
 			$('.ui-content.level-' + this._currentDepth + '.mobile-wizard').hide();
+			content.siblings().not(content).show('slide', { direction: 'left', queue: false }, 'fast');
 			$('#mobile-wizard.funcwizard div#mobile-wizard-content').removeClass('showHelpBG');
 			$('#mobile-wizard.funcwizard div#mobile-wizard-content').addClass('hideHelpBG');
 			$('.ui-header.level-' + this._currentDepth + '.mobile-wizard').show('slide', { direction: 'left' }, 'fast');
