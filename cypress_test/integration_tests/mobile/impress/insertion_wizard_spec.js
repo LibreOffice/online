@@ -208,7 +208,7 @@ describe('Impress insertion wizard.', function() {
 		helper.expectTextForClipboard('Tap to edit text');
 	});
 
-	it.skip('Insert date field (fixed).', function() {
+	it('Insert date field (fixed).', function() {
 		mobileHelper.openInsertionWizard();
 
 		cy.contains('.menu-entry-with-icon', 'More Fields...')
@@ -218,7 +218,11 @@ describe('Impress insertion wizard.', function() {
 			.click();
 
 		// Check that the shape is there
-		selectionShouldBeTextShape();
+		cy.get('.leaflet-pane.leaflet-overlay-pane svg')
+			.should(function(svg) {
+				expect(svg[0].getBBox().width).to.be.greaterThan(0);
+				expect(svg[0].getBBox().height).to.be.greaterThan(0);
+			});
 
 		// Check the text
 		impressMobileHelper.selectTextOfShape();
@@ -238,7 +242,11 @@ describe('Impress insertion wizard.', function() {
 			.click();
 
 		// Check that the shape is there
-		selectionShouldBeTextShape();
+		cy.get('.leaflet-pane.leaflet-overlay-pane svg')
+			.should(function(svg) {
+				expect(svg[0].getBBox().width).to.be.greaterThan(0);
+				expect(svg[0].getBBox().height).to.be.greaterThan(0);
+			});
 
 		// Check the text
 		impressMobileHelper.selectTextOfShape();

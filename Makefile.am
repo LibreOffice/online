@@ -10,7 +10,7 @@ endif
 
 else
 
-SUBDIRS = . test loleaflet cypress_test
+SUBDIRS = . loleaflet cypress_test
 
 export ENABLE_DEBUG
 
