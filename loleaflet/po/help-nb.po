@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-06-08 06:47+0000\n"
+"PO-Revision-Date: 2020-06-18 07:38+0000\n"
 "Last-Translator: Karl Morten Ramberg <karl.m.ramberg@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/nb_NO/>\n"
 "Language: nb\n"
@@ -1027,35 +1027,35 @@ msgstr "Presentasjoner"
 
 #: html/loleaflet-help.html%2Bdiv.p:249-5
 msgid "<span class=\"productname\">%productName</span> allows you to create and edit office documents text documents, spreadsheets and presentations directly in your browser, in a simple and straight-forward way. You can work alone on a document, or collaboratively as part of a team."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> lar deg opprette og redigere kontordokumenter tekstdokumenter, regneark og presentasjoner direkte i nettleseren din, på en enkel og grei måte. Du kan jobbe alene på et dokument, eller i samarbeid som en del av et team."
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:253-11
 msgid "Each user gets assigned a color. The cursor of each user will be shown in the assigned color. Note: you will see your cursor as black, blinking cursor, although others will see you with a different color."
-msgstr ""
+msgstr "Hver bruker får en farge. Markøren til hver bruker vises i den tildelte fargen. Merk: du vil se markøren som svart, blinkende markør, selv om andre ser deg med en annen farge."
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:254-11
 msgid "You can jump to the cursor of a user by clicking on the name (or avatar) of the user. It is possible to follow the editor."
-msgstr ""
+msgstr "Du kan hoppe til markøren til en bruker ved å klikke på navnet (eller avatar) til brukeren. Det er mulig å følge redaktøren."
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:255-11
 msgid "<span class=\"productname\">%productName</span> notifies you with a small notification in the footer when a new user enters or when a user leaves."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> viser deg med et lite varsel i bunnteksten når en ny bruker kommer inn eller når en bruker forlater."
 
 #: html/loleaflet-help.html%2Bdiv.p:259-5
 msgid "<span class=\"productname\">%productName</span> uses modern browser resources to adapt the user interface to the size of the viewing area, including small screens found in mobile devices. The interface is composed of:"
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> bruker moderne nettleserressurser for å tilpasse brukergrensesnittet til størrelsen på visningsområdet, inkludert små skjermer som finnes på mobile enheter. Grensesnittet er sammensatt av:"
 
 #: html/loleaflet-help.html%2Bdiv.p:260-5
 msgid "<span class=\"def\">The document area:</span> The application area shows the document contents, either spreadsheets, presentations or text documents."
-msgstr ""
+msgstr "<span class=\"def\">Dokumentområdet:</span> Applikasjonsområdet viser dokumentinnholdet, enten regneark, presentasjoner eller tekstdokumenter."
 
 #: html/loleaflet-help.html%2Bdiv.p.img:261-5
 msgid "<span class=\"def\">The menu bar:</span> The main menu is placed on the top and includes many options, commands for printing, editing, viewing and other advanced commands. You can hide the menu bar clicking on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/fold.svg\"> icon on the far right. Click on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/unfold.svg\"> icon to show the menu."
-msgstr ""
+msgstr "<span class=\"def\">Menyraden:</span> Hovedmenyen er plassert på toppen og inneholder mange alternativer, kommandoer for utskrift, redigering, visning og andre avanserte kommandoer. Du kan skjule menylinjen ved å klikke på <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/fold.svg\"> ikonet lengst til høyre. Klikk på <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/unfold.svg\"> ikonet for å vise menyen."
 
 #: html/loleaflet-help.html%2Bdiv.p:262-5
 msgid "<span class=\"def\">Context menus:</span> On clicking with the right mouse button, a menu appears with commands associated with the underlying object."
-msgstr ""
+msgstr "<span class=\"def\">Kontekstmenyer: </span> Når du klikker med høyre museknapp, vises en meny med kommandoer tilknyttet det underliggende objektet."
 
 #: html/loleaflet-help.html%2Bdiv.p:263-5
 msgid "<span class=\"def\">The toolbar:</span> The toolbar contains the most used options for daily editing. Toolbar buttons are dynamic, meaning that their state (on or off) depends on different factors."
