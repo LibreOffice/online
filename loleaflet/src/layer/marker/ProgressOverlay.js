@@ -3,6 +3,7 @@
  * L.ProgressOverlay is used to overlay progress images over the map.
  */
 
+ /* global brandLabel */
 L.ProgressOverlay = L.Layer.extend({
 
 	options: {
@@ -51,6 +52,12 @@ L.ProgressOverlay = L.Layer.extend({
 		this._container = L.DomUtil.create('div', 'leaflet-progress-layer');
 		this._spinner = L.DomUtil.create('div', 'leaflet-progress-spinner', this._container);
 		this._spinnerCanvas = L.DomUtil.create('canvas', 'leaflet-progress-spinner-canvas', this._spinner);
+
+		if (typeof brandLabel !== 'undefined') {
+			this._brandLabel = L.DomUtil.create('div', 'leaflet-progress-label', this._container);
+			this._brandLabel.innerHTML = brandLabel;
+		}
+
 		this._label = L.DomUtil.create('div', 'leaflet-progress-label', this._container);
 		this._progress = L.DomUtil.create('div', 'leaflet-progress', this._container);
 		this._bar = L.DomUtil.create('span', '', this._progress);
