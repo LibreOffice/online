@@ -816,6 +816,11 @@ input.clipboard {
 	text-align: center;
 	}
 
+.leaflet-progress-label-product {
+	text-align: center;
+	display: block;
+}
+
 .leaflet-slideshow {
 	background: #FFFFFF;
 	}
