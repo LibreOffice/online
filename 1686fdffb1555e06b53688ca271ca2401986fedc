@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffe23768_12ef115b",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-19T15:30:06Z",
+      "side": 1,
+      "message": "LOOLWSD::getClientPortNumber() should get this for you..",
+      "revId": "1686fdffb1555e06b53688ca271ca2401986fedc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99e06d00_40ce74d9",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-19T15:30:06Z",
+      "side": 1,
+      "message": "Socket::createSocket(Socket::Type type)",
+      "revId": "1686fdffb1555e06b53688ca271ca2401986fedc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df12d842_551ad0e5",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-19T15:30:06Z",
+      "side": 1,
+      "message": "re-factor out of void SocketPoll::insertNewWebSocketSync( ?",
+      "revId": "1686fdffb1555e06b53688ca271ca2401986fedc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6c1d1f9_ba444621",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-19T15:30:06Z",
+      "side": 1,
+      "message": "Looks ok - but are you -sure- that we are reading -all- of the incoming message, before we start writing the outgoing data ? we can incrementally read and write messages back from loolwsd nicely.\n\nHmm - I wonder if using the SocketPoll to transfer the data is really worthwhile. It pains me, but possibly we should have a thread-pool and do this with a single, single-threaded worker per process - like Apache.\n\nSo lets use the SocketPoll to do the listen \u0026 accept flow, and as/when we have those sockets spawn up a thread per socket - and just do everything with blocking socket I/O in-line \u003d) should make the code more similar.\n\nAlso limit the number of threads to ~4 or so to match PHP (10 but shared between multiple users)",
+      "revId": "1686fdffb1555e06b53688ca271ca2401986fedc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "203fd7ec_f37d6522",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-19T15:30:06Z",
+      "side": 1,
+      "message": "use a (void) cast - or no name for the parameter.",
+      "revId": "1686fdffb1555e06b53688ca271ca2401986fedc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c054e74e_23fe01b9",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-19T15:30:06Z",
+      "side": 1,
+      "message": "huh ?",
+      "revId": "1686fdffb1555e06b53688ca271ca2401986fedc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
