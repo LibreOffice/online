@@ -37,6 +37,7 @@ noinst_LTLIBRARIES = \
 	unit-load.la \
 	unit-cursor.la \
 	unit-calc.la \
+	unit-php-server.la \
 	unit-insert-delete.la \
 	unit-close.la \
 	unit-bad-doc-load.la \
@@ -174,6 +175,8 @@ unit_cursor_la_SOURCES = UnitCursor.cpp
 unit_cursor_la_LIBADD = $(CPPUNIT_LIBS)
 unit_calc_la_SOURCES = UnitCalc.cpp
 unit_calc_la_LIBADD = $(CPPUNIT_LIBS)
+unit_php_server_la_SOURCES = UnitPHPServer.cpp
+unit_php_server_la_LIBADD = $(CPPUNIT_LIBS)
 unit_insert_delete_la_SOURCES = UnitInsertDelete.cpp
 unit_insert_delete_la_LIBADD = $(CPPUNIT_LIBS)
 unit_close_la_SOURCES = UnitClose.cpp
@@ -218,6 +221,7 @@ TESTS = \
 	unit-load.la \
 	unit-cursor.la \
 	unit-calc.la \
+	unit-php-server.la \
 	unit-insert-delete.la \
 	unit-close.la \
 	unit-bad-doc-load.la \
