@@ -35,7 +35,6 @@
 #include <net/WebSocketHandler.hpp>
 
 #include <common/SigUtil.hpp>
-#include <common/Authorization.hpp>
 
 using namespace LOOLProtocol;
 
@@ -492,7 +491,7 @@ void Admin::pollingThread()
             if (_defDocProcSettings.getCleanupSettings().getEnable())
             {
                 cleanupResourceConsumingDocs();
-                
+
                 cleanupWait += _cleanupIntervalMs;
                 lastCleanup = now;
             }
