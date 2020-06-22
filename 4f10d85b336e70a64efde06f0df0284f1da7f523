@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a827127b_b9295cde",
+        "filename": "wsd/ProofKey.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2020-06-22T20:30:58Z",
+      "side": 1,
+      "message": "just a comment, but presumably there is some locking higher up that prevents multiple threads hitting this at the same time?\n\notherwise really weird stuff is going to happen",
+      "revId": "4f10d85b336e70a64efde06f0df0284f1da7f523",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
