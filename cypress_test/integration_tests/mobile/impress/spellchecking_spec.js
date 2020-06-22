@@ -18,6 +18,12 @@ describe('Spell checking menu.', function() {
 	});
 
 	function openContextMenu() {
+		cy.get('textarea.clipboard')
+			.type('{leftArrow}', {force: true});
+
+		cy.get('.leaflet-marker-icon')
+			.should('not.exist');
+
 		// Click on the center of the slide to step into text edit mode
 		cy.get('#document-container')
 			.then(function(items) {
@@ -25,34 +31,18 @@ describe('Spell checking menu.', function() {
 				var XPos = (items[0].getBoundingClientRect().left + items[0].getBoundingClientRect().right) / 2;
 				var YPos = (items[0].getBoundingClientRect().top + items[0].getBoundingClientRect().bottom) / 2;
 				cy.get('body')
-					.dblclick(XPos, YPos);
+					.click(XPos, YPos);
 			});
 
 		cy.get('.leaflet-cursor.blinking-cursor')
 			.should('exist');
 
-		helper.selectAllText(false);
-
 		// Open context menu
-		cy.get('.leaflet-marker-icon')
-			.then(function(markers) {
-				expect(markers.length).to.have.greaterThan(1);
-				for (var i = 0; i < markers.length; i++) {
-					if (markers[i].classList.contains('leaflet-selection-marker-start')) {
-						var XPos = markers[i].getBoundingClientRect().right + 10;
-					} else if (markers[i].classList.contains('leaflet-selection-marker-end')) {
-						var YPos = markers[i].getBoundingClientRect().top - 10;
-					}
-				}
-
-				cy.get('.leaflet-cursor.blinking-cursor')
-					.should('exist');
-
-				// Remove selection
-				cy.get('body')
-					.type('{leftarrow}');
-				cy.get('.leaflet-marker-icon')
-					.should('not.exist');
+		cy.get('g path.leaflet-interactive')
+			.then(function(shape) {
+				expect(shape.length).to.be.equal(1);
+				var XPos = (shape[0].getBoundingClientRect().left + shape[0].getBoundingClientRect().right) / 2;
+				var YPos = (shape[0].getBoundingClientRect().top + shape[0].getBoundingClientRect().bottom) / 2;
 
 				mobileHelper.longPressOnDocument(XPos, YPos);
 			});
@@ -69,8 +59,7 @@ describe('Spell checking menu.', function() {
 
 		helper.selectAllText(false);
 
-		cy.get('#copy-paste-container pre')
-			.should('contain.text', 'hello');
+		helper.expectTextForClipboard('hello');
 	});
 
 	it('Ignore all.', function() {
