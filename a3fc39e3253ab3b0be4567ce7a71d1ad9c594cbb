@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b75fe1ef_cdcd2350",
+        "filename": "test/UnitWOPITemplate.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-06-22T04:54:09Z",
+      "side": 0,
+      "message": "It seems to me more consistent to always pass a response instance by the caller than to special case for the absence (which is only needed for testing?). Making it optional signals that it\u0027s not really necessary, which is of course not true.",
+      "revId": "a3fc39e3253ab3b0be4567ce7a71d1ad9c594cbb",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
