@@ -41,7 +41,9 @@ noinst_LTLIBRARIES = \
 	unit-close.la \
 	unit-bad-doc-load.la \
 	unit-hosting.la \
-	unit-wopi-loadencoded.la unit-wopi-temp.la
+	unit-wopi-loadencoded.la \
+	unit-wopi-temp.la \
+	unit-wopi-httpheaders.la
 
 MAGIC_TO_FORCE_SHLIB_CREATION = -rpath /dummy
 AM_LDFLAGS = -pthread -module $(MAGIC_TO_FORCE_SHLIB_CREATION) $(ZLIB_LIBS)
@@ -148,6 +150,8 @@ unit_wopi_loadencoded_la_SOURCES = UnitWOPILoadEncoded.cpp
 unit_wopi_loadencoded_la_LIBADD = $(CPPUNIT_LIBS)
 unit_wopi_temp_la_SOURCES = UnitWOPITemplate.cpp
 unit_wopi_temp_la_LIBADD = $(CPPUNIT_LIBS)
+unit_wopi_httpheaders_la_SOURCES = UnitWOPIHttpHeaders.cpp
+unit_wopi_httpheaders_la_LIBADD = $(CPPUNIT_LIBS)
 unit_tiff_load_la_SOURCES = UnitTiffLoad.cpp
 unit_tiff_load_la_LIBADD = $(CPPUNIT_LIBS)
 unit_large_paste_la_SOURCES = UnitLargePaste.cpp
@@ -222,7 +226,9 @@ TESTS = \
 	unit-close.la \
 	unit-bad-doc-load.la \
 	unit-hosting.la \
-	unit-wopi-loadencoded.la unit-wopi-temp.la
+	unit-wopi-loadencoded.la \
+	unit-wopi-temp.la \
+	unit-wopi-httpheaders
 # TESTS += unit-admin.test
 # TESTS += unit-storage.test
 
@@ -292,6 +298,7 @@ unit-bad-doc-load.log : group5.log
 unit-hosting.log : group5.log
 unit-wopi-loadencoded.log : group5.log
 unit-wopi-temp.log : group5.log
+unit-wopi-httpheaders.log : group5.log
 
 # end forced grouping
 
