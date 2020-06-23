@@ -34,6 +34,24 @@
       "revId": "4f10d85b336e70a64efde06f0df0284f1da7f523",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39cdc508_fac006ca",
+        "filename": "wsd/ProofKey.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2020-06-23T06:37:46Z",
+      "side": 1,
+      "message": "It depends on how long the initialisation of RSADigestEngine  takes and how often the Proof class is instantiated.\nThere are 3 options\n(*) use a mutex\n(*) use a thread-local\n(*) make it non-static",
+      "parentUuid": "d6b4d8c9_a573fc6b",
+      "revId": "4f10d85b336e70a64efde06f0df0284f1da7f523",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
