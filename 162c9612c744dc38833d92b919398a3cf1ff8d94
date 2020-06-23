@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0b815d6_b14e4163",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-06-23T14:08:24Z",
+      "side": 1,
+      "message": "This will flicker, which is exactly the purpose of my patch. We should try to find out why setting canvas size doesn\u0027t work in the broken scenario.",
+      "revId": "162c9612c744dc38833d92b919398a3cf1ff8d94",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
