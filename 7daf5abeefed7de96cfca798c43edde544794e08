@@ -16,6 +16,24 @@
       "revId": "7daf5abeefed7de96cfca798c43edde544794e08",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00bf5b36_bb11eeef",
+        "filename": "common/JailUtil.cpp",
+        "patchSetId": 24
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-06-23T15:32:49Z",
+      "side": 1,
+      "message": "Yes, in hindsight, that would be another way, sure. Can refactor in the future.",
+      "parentUuid": "99b49e07_4330632c",
+      "revId": "7daf5abeefed7de96cfca798c43edde544794e08",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
