@@ -107,8 +107,7 @@ describe('Mobile wizard state tests', function() {
 			.then(function(originalTop) {
 				cy.contains('.ui-header.level-0.mobile-wizard', 'About')
 					.should(function(content) {
-						expect(content.offset().top).to.be.lessThan(originalTop + 0.0001);
-						expect(content.offset().top).to.be.greaterThan(originalTop - 0.0001);
+						expect(content.offset().top).to.be.almost(originalTop);
 					});
 			});
 	});
