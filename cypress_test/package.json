@@ -4,6 +4,7 @@
   "description": "Cypress integration test suit",
   "license": "MPL-2.0",
   "dependencies": {
+    "chai-almost": "1.0.1",
     "cypress": "4.7.0",
     "cypress-failed-log": "2.7.0",
     "cypress-file-upload": "4.0.7",
