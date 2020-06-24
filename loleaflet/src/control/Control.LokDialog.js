@@ -896,17 +896,23 @@ L.Control.LokDialog = L.Control.extend({
 			var oldWidth = this._calcInputBar.width;
 			delta = width - oldWidth;
 			if (delta !== 0) {
-				console.log('_adjustCalcInputBar: start: id: ' + id + ', width: ' + oldWidth + ' -> ' + width);
+				if (this._map._recreateCalcInputBar) {
+					this._map._recreateCalcInputBar = false;
+					$('#' + this._calcInputBar.strId).remove();
+					this._createCalcInputbar(id, left, top, width, height, textLines);
+				} else {
+					console.log('_adjustCalcInputBar: start: id: ' + id + ', width: ' + oldWidth + ' -> ' + width);
 
-				var strId = this._toStrId(id);
+					var strId = this._toStrId(id);
 
-				var canvas = document.getElementById(strId + '-canvas');
-				this._setCanvasWidthHeight(canvas, width, height);
+					var canvas = document.getElementById(strId + '-canvas');
+					this._setCanvasWidthHeight(canvas, width, height);
 
-				var handles = document.getElementById(strId + '-selection_handles');
-				this._setCanvasWidthHeight(handles, width, height);
+					var handles = document.getElementById(strId + '-selection_handles');
+					this._setCanvasWidthHeight(handles, width, height);
 
-				this._calcInputBar.width = width;
+					this._calcInputBar.width = width;
+				}
 			}
 		}
 	},
