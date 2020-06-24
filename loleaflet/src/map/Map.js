@@ -110,6 +110,7 @@ L.Map = L.Evented.extend({
 		this._debugAlwaysActive = false; // disables the dimming / document inactivity when true
 		this._serverRecycling = false;
 		this._documentIdle = false;
+		this._ignoreCalcInputBarChange = false;
 		this._helpTarget = null; // help page that fits best the current context
 		this._disableDefaultAction = {}; // The events for which the default handler is disabled and only issues postMessage.
 		this.showSidebar = false;

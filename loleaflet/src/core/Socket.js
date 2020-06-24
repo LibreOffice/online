@@ -480,6 +480,7 @@ L.Socket = L.Class.extend({
 					{
 						console.debug('idleness: reactivating');
 						map._documentIdle = false;
+						if (map._docLayer.isCalc()) map._ignoreCalcInputBarChange = true;
 						return map._activate();
 					}
 					return false;
