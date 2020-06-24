@@ -36,7 +36,6 @@ noinst_LTLIBRARIES = \
 	unit-uno-command.la \
 	unit-load.la \
 	unit-cursor.la \
-	unit-calc.la \
 	unit-insert-delete.la \
 	unit-close.la \
 	unit-bad-doc-load.la \
@@ -217,7 +216,6 @@ TESTS = \
 	unit-uno-command.la \
 	unit-load.la \
 	unit-cursor.la \
-	unit-calc.la \
 	unit-insert-delete.la \
 	unit-close.la \
 	unit-bad-doc-load.la \
@@ -281,10 +279,9 @@ unit-session.log : group4.log
 unit-uno-command.log : group4.log
 unit-load.log : group4.log
 unit-cursor.log : group4.log
-unit-calc.log : group4.log
 unit-insert-delete.log : group4.log
 
-group5.log: unit-session.log unit-uno-command.log unit-load.log unit-cursor.log unit-calc.log unit-insert-delete.log
+group5.log: unit-session.log unit-uno-command.log unit-load.log unit-cursor.log unit-insert-delete.log
 	touch $@
 
 unit-close.log : group5.log
