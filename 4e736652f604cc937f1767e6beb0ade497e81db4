@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27f52682_7f132839",
+        "filename": "kit/ChildSession.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 1000083
+      },
+      "writtenOn": "2020-06-25T17:20:47Z",
+      "side": 1,
+      "message": "you need std:stoll if there really is a long long in that string",
+      "revId": "4e736652f604cc937f1767e6beb0ade497e81db4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
