@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cfd3caa_fc4bd7af",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-25T14:19:08Z",
+      "side": 1,
+      "message": "why do we shut down ? what if we want to send a reply back ? - that seems odd.\n\nAlso - we want to get all of the incoming messages - and only then send them on to the peer I think; hmm. I wonder how we can detect when all the data has come that we want.",
+      "revId": "c90d45d9a1458ea23a76c806ec614093b4c099dc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e505503_3105608f",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-25T14:19:08Z",
+      "side": 1,
+      "message": "So this all looks very familiar \u0026 copy/paste. Can we not re-factor this code out of wherever else it came from ? \u003d) it should not exist twice in a project.",
+      "revId": "c90d45d9a1458ea23a76c806ec614093b4c099dc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87aca38e_2d6f4bce",
+        "filename": "test/UnitPHPServer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-06-25T14:19:08Z",
+      "side": 1,
+      "message": "Is there not an exitTest hook we can use to join that thread ?\nIIRC the invokeTest thing runs in a loop inside the test infrastructure so we shouldn\u0027t need this loop.",
+      "revId": "c90d45d9a1458ea23a76c806ec614093b4c099dc",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
