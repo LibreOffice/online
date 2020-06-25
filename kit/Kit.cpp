@@ -228,8 +228,18 @@ namespace
 
         if (link(fpath, newPath.toString().c_str()) == -1)
         {
-            LOG_INF("link(\"" << fpath << "\", \"" <<
-                    newPath.toString() << "\") failed: " << strerror(errno) << ". Will copy.");
+            int saved_errno = errno;
+            static bool warned_EXDEV = false;
+            if (saved_errno != EXDEV || !warned_EXDEV)
+            {
+                LOG_INF("link(\"" << fpath << "\", \"" <<
+                        newPath.toString() << "\") failed: " << strerror(saved_errno) << ". Will copy.");
+                if (saved_errno == EXDEV)
+                {
+                    LOG_INF("(Further messages about that from here will be suppressed.)");
+                    warned_EXDEV = true;
+                }
+            }
             try
             {
                 File(fpath).copyTo(newPath.toString());
