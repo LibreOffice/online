@@ -432,7 +432,7 @@ L.TileLayer = L.GridLayer.extend({
 		var tdImg = L.DomUtil.create(tagTd, 'loleaflet-annotation-img', tr);
 		var tdAuthor = L.DomUtil.create(tagTd, 'loleaflet-annotation-author', tr);
 		var imgAuthor = L.DomUtil.create('img', 'avatar-img', tdImg);
-		imgAuthor.setAttribute('src', L.LOUtil.getImageURL('user.svg'));
+		imgAuthor.setAttribute('src', L.LOUtil.getImageURL('user.png'));
 		imgAuthor.setAttribute('width', 32);
 		imgAuthor.setAttribute('height', 32);
 		this._authorAvatarImg = imgAuthor;
