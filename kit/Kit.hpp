@@ -36,6 +36,7 @@ void lokit_main(
                 bool noSeccomp,
                 bool queryVersionInfo,
                 bool displayVersion,
+                const std::string& userInterface,
 #else
                 int docBrokerSocket,
 #endif
@@ -47,7 +48,7 @@ void runKitLoopInAThread();
 #endif
 
 /// We need to get several env. vars right
-void setupKitEnvironment();
+void setupKitEnvironment(const std::string& userInterface);
 
 bool globalPreinit(const std::string& loTemplate);
 /// Wrapper around private Document::ViewCallback().
