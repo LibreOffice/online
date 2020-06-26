@@ -40,11 +40,12 @@ void lokit_main(
                 const std::string& documentUri,
                 int docBrokerSocket,
 #endif
-                size_t spareKitId
+                size_t spareKitId,
+                const std::string& userInterface
                 );
 
 /// We need to get several env. vars right
-void setupKitEnvironment();
+void setupKitEnvironment(const std::string& userInterface);
 
 bool globalPreinit(const std::string& loTemplate);
 /// Wrapper around private Document::ViewCallback().

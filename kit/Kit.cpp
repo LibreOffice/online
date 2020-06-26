@@ -2386,7 +2386,7 @@ void wakeCallback(void* pData)
         return reinterpret_cast<KitSocketPoll*>(pData)->wakeup();
 }
 
-void setupKitEnvironment()
+void setupKitEnvironment(const std::string& userInterface)
 {
     // Setup & check environment
     const std::string layers(
@@ -2417,6 +2417,10 @@ void setupKitEnvironment()
     if (Log::logger().trace())
         options += ":profile_events";
 #endif
+
+    if (userInterface == "notebookbar")
+        options += ":notebookbar";
+
 //    options += ":sc_no_grid_bg"; // leave this disabled for now, merged-cells needs more work.
     ::setenv("SAL_LOK_OPTIONS", options.c_str(), 0);
 }
@@ -2438,10 +2442,12 @@ void lokit_main(
                 const std::string& documentUri,
                 int docBrokerSocket,
 #endif
-                size_t spareKitId
+                size_t spareKitId,
+                const std::string& userInterface
                 )
 {
 #if !MOBILEAPP
+    LOG_INF("User interface set to: " << userInterface);
 
 #ifndef FUZZER
     SigUtil::setFatalSignals();
@@ -2700,7 +2706,7 @@ void lokit_main(
 #else // MOBILEAPP
 
         // was not done by the preload
-        setupKitEnvironment();
+        setupKitEnvironment(userInterface);
 
 #if defined(__linux) && !defined(__ANDROID__)
         Poco::URI userInstallationURI("file", LO_PATH);
