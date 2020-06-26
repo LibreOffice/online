@@ -728,6 +728,7 @@ std::string LOOLWSD::HostIdentifier;
 std::string LOOLWSD::ConfigFile = LOOLWSD_CONFIGDIR "/loolwsd.xml";
 std::string LOOLWSD::ConfigDir = LOOLWSD_CONFIGDIR "/conf.d";
 std::string LOOLWSD::LogLevel = "trace";
+std::string LOOLWSD::UserInterface = "classic";
 bool LOOLWSD::AnonymizeUserData = false;
 bool LOOLWSD::CheckLoolUser = true;
 bool LOOLWSD::IsProxyPrefixEnabled = false;
@@ -998,6 +999,9 @@ void LOOLWSD::initialize(Application& self)
 
     // Allow UT to manipulate before using configuration values.
     UnitWSD::get().configure(config());
+
+    // Setup user interface mode
+    UserInterface = getConfigValue<std::string>(conf, "user_interface.mode", "classic");
 
     // Set the log-level after complete initialization to force maximum details at startup.
     LogLevel = getConfigValue<std::string>(conf, "logging.level", "trace");
@@ -1789,6 +1793,8 @@ bool LOOLWSD::createForKit()
 
     if (NoSeccomp)
         args.push_back("--noseccomp");
+
+    args.push_back("--ui=" + UserInterface);
 
     if (!CheckLoolUser)
         args.push_back("--disable-lool-user-checking");
@@ -3493,6 +3499,7 @@ public:
            << "\n  CheckLoolUser: " << (LOOLWSD::CheckLoolUser ? "yes" : "no")
            << "\n  IsProxyPrefixEnabled: " << (LOOLWSD::IsProxyPrefixEnabled ? "yes" : "no")
            << "\n  OverrideWatermark: " << LOOLWSD::OverrideWatermark
+           << "\n  UserInterface: " << LOOLWSD::UserInterface
             ;
 
         os << "\nServer poll:\n";
