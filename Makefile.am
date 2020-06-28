@@ -327,7 +327,23 @@ SYSTEM_STAMP = @SYSTEMPLATE_PATH@/system_stamp
 CAPABILITIES = $(if @ENABLE_SETCAP@,true,false)
 RUN_GDB = $(if $(GDB_FRONTEND),$(GDB_FRONTEND),gdb --tui --args)
 
-$(SYSTEM_STAMP) : ${top_srcdir}/loolwsd-systemplate-setup
+# After building loolforkit, set its capabilities as required. Do it
+# already after a plain 'make' to allow for testing without
+# installing. When building for packaging, no need for this, as the
+# capabilities won't survive packaging anyway. Instead, handle it when
+# installing the RPM or Debian package.
+setcap_bins: loolforkit loolmount
+if ENABLE_SETCAP
+	    sudo @SETCAP@ cap_fowner,cap_mknod,cap_sys_chroot=ep loolforkit
+	    sudo @SETCAP@ cap_sys_admin=ep loolmount
+else
+	    echo "Skipping capability setting"
+endif
+
+cleanup: loolwsd setcap_bins
+	./loolwsd --cleanup
+
+$(SYSTEM_STAMP) : ${top_srcdir}/loolwsd-systemplate-setup cleanup
 	if test "z@SYSTEMPLATE_PATH@" != "z"; then rm -rf "@SYSTEMPLATE_PATH@"; fi
 	${top_srcdir}/loolwsd-systemplate-setup "@SYSTEMPLATE_PATH@" "@LO_PATH@" && touch $@
 
@@ -335,6 +351,7 @@ $(SYSTEM_STAMP) : ${top_srcdir}/loolwsd-systemplate-setup
 	mkdir -p $@
 
 clean-local:
+	./loolwsd --cleanup || true
 	if test "z@JAILS_PATH@" != "z"; then rm -rf "@JAILS_PATH@"; fi
 	if test "z@SYSTEMPLATE_PATH@" != "z"; then rm -rf "@SYSTEMPLATE_PATH@"; fi
 	rm -f $(abs_srcdir)/compile_commands.json
@@ -452,19 +469,7 @@ SYSTEM_STAMP =
 
 endif
 
-# After building loolforkit, set its capabilities as required. Do it
-# already after a plain 'make' to allow for testing without
-# installing. When building for packaging, no need for this, as the
-# capabilities won't survive packaging anyway. Instead, handle it when
-# installing the RPM or Debian package.
-
-all-local: loolforkit loolmount @JAILS_PATH@ $(SYSTEM_STAMP)
-if ENABLE_SETCAP
-	    sudo @SETCAP@ cap_fowner,cap_mknod,cap_sys_chroot=ep loolforkit
-	    sudo @SETCAP@ cap_sys_admin=ep loolmount
-else
-	    echo "Skipping capability setting"
-endif
+all-local: setcap_bins @JAILS_PATH@ $(SYSTEM_STAMP)
 
 # just run the build without any tests
 build-nocheck: all-am
