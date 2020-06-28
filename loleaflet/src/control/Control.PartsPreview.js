@@ -480,6 +480,13 @@ L.Control.PartsPreview = L.Control.extend({
 	_addDnDHandlers: function (elem) {
 		if (elem) {
 			elem.setAttribute('draggable', true);
+			if (L.Browser.touch) {
+				Hammer(elem).on('panstart', this._handlePanStart.bind(this));
+				Hammer(elem).on('panmove', this._handlePanMove.bind(this));
+				Hammer(elem).on('pancancel', this._handlePanCancel.bind(this));
+				Hammer(elem).on('panend', this._handlePanEnd.bind(this));
+				return;
+			}
 			elem.addEventListener('dragstart', this._handleDragStart, false);
 			elem.addEventListener('dragenter', this._handleDragEnter, false);
 			elem.addEventListener('dragover', this._handleDragOver, false);
@@ -488,6 +495,70 @@ L.Control.PartsPreview = L.Control.extend({
 			elem.addEventListener('dragend', this._handleDragEnd, false);
 			elem.partsPreview = this;
 		}
+	},
+
+	_handlePanStart: function (e) {
+		// To avoid having to add a new message to move an arbitrary part, let's select the
+		// slide that is being dragged.
+		var part = $(this._partsPreviewCont).find('.mCSB_container .preview-frame').index(e.target.parentNode);
+		if (part !== null) {
+			var partId = parseInt(part) - 1; // The first part is just a drop-site for reordering.
+			this._map.setPart(partId);
+			this._map.selectPart(partId, 1, false); // And select.
+		}
+		this.currentNode = null;
+		this.previousNode = null;
+	},
+
+	_handlePanMove: function (e) {
+		if (e.preventDefault) {
+			e.preventDefault();
+		}
+
+		this.currentNode = document.elementFromPoint(e.center.x, e.center.y);
+
+		if (this.currentNode !== this.previousNode && this.previousNode !== null) {
+			this.previousNode.parentNode.classList.remove('preview-img-dropsite');
+			this.previousNode.classList.remove('preview-img-dropsite');
+		}
+		if (this.currentNode.draggable) {
+			this.currentNode.parentNode.classList.add('preview-img-dropsite');
+		} else if (this.currentNode.draggable === false && $(this.currentNode).parents('.mCSB_container').length > 0) {
+			this.currentNode.classList.add('preview-img-dropsite');
+		}
+
+		this.previousNode = this.currentNode;
+		return false;
+	},
+
+	_handlePanCancel: function() {
+		this.currentNode.parentNode.classList.remove('preview-img-dropsite');
+		this.currentNode.classList.remove('preview-img-dropsite');
+	},
+
+	_handlePanEnd: function (e) {
+		if (e.stopPropagation) {
+			e.stopPropagation();
+		}
+		this.currentNode.parentNode.classList.remove('preview-img-dropsite');
+		this.currentNode.classList.remove('preview-img-dropsite');
+		var part = $(this._partsPreviewCont).find('.mCSB_container .preview-frame').index(this.currentNode.parentNode);
+		if (part !== null) {
+			var partId = parseInt(part) - 1; // First frame is a drop-site for reordering.
+			if (partId < 0)
+				partId = -1; // First item is -1.
+			this._map._socket.sendMessage('moveselectedclientparts position=' + partId);
+			// Update previews, after a second, since we only get the dragged one invalidated.
+			var that = this;
+			setTimeout(function () {
+				for (var i = 0; i < that._previewTiles.length; ++i) {
+					that._map.getPreview(i, this.options.maxWidth, this.options.maxHeight, {autoUpdate: that.options.autoUpdate, broadcast: true});
+				}
+			}, 1000);
+		}
+
+		e.target.classList.remove('preview-img-dropsite');
+		return false;
 	},
 
 	_handleDragStart: function (e) {
