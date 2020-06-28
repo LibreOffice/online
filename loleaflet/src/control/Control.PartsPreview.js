@@ -206,21 +206,31 @@ L.Control.PartsPreview = L.Control.extend({
 		img.fetched = false;
 		if (!window.mode.isDesktop()) {
 			(new Hammer(img, {recognizers: [[Hammer.Press]]}))
-			.on('press', L.bind(function () {
+			.on('press', function (e) {
+				if (this._map._permission === 'edit') {
+					this._addDnDTouchHandlers(e);
+				}
+			}.bind(this));
+		}
+		L.DomEvent.on(img, 'click', function (e) {
+			L.DomEvent.stopPropagation(e);
+			L.DomEvent.stop(e);
+			var part = $(this._partsPreviewCont).find('.mCSB_container .preview-frame').index(e.target.parentNode);
+			if (part !== null)
+				var partId = parseInt(part) - 1; // The first part is just a drop-site for reordering.
+			if ((window.mode.isMobile() || window.mode.isTablet()) && partId == this._map._docLayer._selectedPart) {
+				// if mobile of tab then second tap will open the mobile wizard
 				if (this._map._permission === 'edit') {
 					setTimeout(function () {
 						w2ui['actionbar'].click('mobile_wizard');
 					}, 0);
 				}
-			}, this));
-		}
-		L.DomEvent.on(img, 'click', function (e) {
-			L.DomEvent.stopPropagation(e);
-			L.DomEvent.stop(e);
-			this._setPart(e);
-			this._map.focus();
-			this.partsFocused = true;
-			document.activeElement.blur();
+			} else {
+				this._setPart(e);
+				this._map.focus();
+				this.partsFocused = true;
+				document.activeElement.blur();
+			}
 		}, this);
 
 		this._layoutPreview(i, img, bottomBound);
@@ -535,6 +545,86 @@ L.Control.PartsPreview = L.Control.extend({
 			elem.addEventListener('dragend', this._handleDragEnd, false);
 			elem.partsPreview = this;
 		}
+	},
+
+	_addDnDTouchHandlers: function (e) {
+		Hammer(e.target).on('panstart', this._handlePanStart.bind(this));
+		Hammer(e.target).on('panmove', this._handlePanMove.bind(this));
+		Hammer(e.target).on('pancancel', this._handlePanCancel.bind(this));
+		Hammer(e.target).on('panend', this._handlePanEnd.bind(this));
+	},
+
+	_removeDnDTouchHandlers: function (e) {
+		Hammer(e.target).off('panstart');
+		Hammer(e.target).off('panmove');
+		Hammer(e.target).off('pancancel');
+		Hammer(e.target).off('panend');
+	},
+
+	_handlePanStart: function (e) {
+		// To avoid having to add a new message to move an arbitrary part, let's select the
+		// slide that is being dragged.
+		var part = $(this._partsPreviewCont).find('.mCSB_container .preview-frame').index(e.target.parentNode);
+		if (part !== null) {
+			var partId = parseInt(part) - 1; // The first part is just a drop-site for reordering.
+			this._map.setPart(partId);
+			this._map.selectPart(partId, 1, false); // And select.
+		}
+		this.currentNode = null;
+		this.previousNode = null;
+	},
+
+	_handlePanMove: function (e) {
+		if (e.preventDefault) {
+			e.preventDefault();
+		}
+
+		this.currentNode = document.elementFromPoint(e.center.x, e.center.y);
+
+		if (this.currentNode !== this.previousNode && this.previousNode !== null) {
+			this.previousNode.parentNode.classList.remove('preview-img-dropsite');
+			this.previousNode.classList.remove('preview-img-dropsite');
+		}
+		if (this.currentNode.draggable) {
+			this.currentNode.parentNode.classList.add('preview-img-dropsite');
+		} else if (this.currentNode.draggable === false && $(this.currentNode).parents('.mCSB_container').length > 0) {
+			this.currentNode.classList.add('preview-img-dropsite');
+		}
+
+		this.previousNode = this.currentNode;
+		return false;
+	},
+
+	_handlePanCancel: function(e) {
+		this.currentNode.parentNode.classList.remove('preview-img-dropsite');
+		this.currentNode.classList.remove('preview-img-dropsite');
+		this._removeDnDTouchHandlers(e);
+	},
+
+	_handlePanEnd: function (e) {
+		if (e.stopPropagation) {
+			e.stopPropagation();
+		}
+		this.currentNode.parentNode.classList.remove('preview-img-dropsite');
+		this.currentNode.classList.remove('preview-img-dropsite');
+		var part = $(this._partsPreviewCont).find('.mCSB_container .preview-frame').index(this.currentNode.parentNode);
+		if (part !== null) {
+			var partId = parseInt(part) - 1; // First frame is a drop-site for reordering.
+			if (partId < 0)
+				partId = -1; // First item is -1.
+			this._map._socket.sendMessage('moveselectedclientparts position=' + partId);
+			// Update previews, after a second, since we only get the dragged one invalidated.
+			var that = this;
+			setTimeout(function () {
+				for (var i = 0; i < that._previewTiles.length; ++i) {
+					that._map.getPreview(i, this.options.maxWidth, this.options.maxHeight, {autoUpdate: that.options.autoUpdate, broadcast: true});
+				}
+			}, 1000);
+		}
+
+		e.target.classList.remove('preview-img-dropsite');
+		this._removeDnDTouchHandlers(e);
+		return false;
 	},
 
 	_handleDragStart: function (e) {
