@@ -406,13 +406,7 @@ L.Map.include({
 			},
 			beforeClose: function () {
 				if (!calledFromMenu) {
-					var WSDVerCookie = 'WSDWelcomeVersion=' + map._socket.WSDServer.Version;
-					// Cookie will not expire for a year, and it will not be sent to other domains
-					var cookiePath = '/loleaflet';
-					if (window.socketProxy)
-						cookiePath = window.host + window.serviceRoot + cookiePath;
-					WSDVerCookie += '; max-age=31536000; SameSite=Lax; path=' + cookiePath;
-					document.cookie = WSDVerCookie;
+					localStorage.setItem('WSDWelcomeVersion', map._socket.WSDServer.Version);
 				}
 				map.focus();
 				map.enable(true);
@@ -440,41 +434,23 @@ L.Map.include({
 				map._showWelcomeDialogVex(data, calledFromMenu);
 			})
 			.fail(function() {
-				// Welcome dialog disabled in loolwsd.xml or nonexistant for some other reason
-				// Let's check back in a day (60 x 60 x 24 = 86400 seconds)
-				var cookiePath = '/loleaflet';
-				if (window.socketProxy)
-					cookiePath = window.host + window.serviceRoot + cookiePath;
-				var welcomeDisabledCookie = 'WSDWelcomeDisabled=true; max-age=86400; SameSite=Lax; path=' + cookiePath;
-				document.cookie = welcomeDisabledCookie;
+				//FIXME: Add expiry date
+				localStorage.setItem('WSDWelcomeDisabled', 'true');
 
 				if (calledFromMenu)
 					map._showWelcomeDialogVex(_('We are sorry, the information about the latest updates is not available.'));
 			});
 	},
 
-	getCookie: function(name) {
-		var cookies = document.cookie.split(';');
-		for (var i = 0; i < cookies.length; i++) {
-			var cookie = cookies[i].trim();
-			if (cookie.indexOf(name) === 0) {
-				return cookie;
-			}
-		}
-
-		return '';
-	},
-
 	shouldWelcome: function() {
 		if (!window.enableWelcomeMessage || L.Browser.cypressTest)
 			return false;
 
-		var currentVerCookie = this.getCookie('WSDWelcomeVersion');
-		var newVerCookie = 'WSDWelcomeVersion=' + this._socket.WSDServer.Version;
-		var welcomeDisabledCookie = this.getCookie('WSDWelcomeDisabled');
-		var isWelcomeDisabled = welcomeDisabledCookie === 'WSDWelcomeDisabled=true';
+		var storedVersion = localStorage.getItem('WSDWelcomeVersion');
+		var currentVersion = this._socket.WSDServer.Version;
+		var welcomeDisabledCookie = localStorage.getItem('WSDWelcomeDisabled');
 
-		if (currentVerCookie !== newVerCookie && !isWelcomeDisabled) {
+		if ((!storedVersion || storedVersion !== currentVersion) && !welcomeDisabledCookie) {
 			return true;
 		}
 
