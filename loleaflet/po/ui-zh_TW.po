@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-05 23:08+0200\n"
-"PO-Revision-Date: 2020-05-20 14:49+0000\n"
+"PO-Revision-Date: 2020-06-29 18:39+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -45,10 +45,8 @@ msgid "History"
 msgstr "最後使用記錄"
 
 #: admin/admin.strings.js:12
-#, fuzzy
-#| msgid "Login"
 msgid "Log"
-msgstr "登入"
+msgstr "紀錄"
 
 #: admin/admin.strings.js:13
 msgid "Dashboard"
@@ -180,18 +178,16 @@ msgid "Server uptime"
 msgstr "伺服器 uptime"
 
 #: admin/admin.strings.js:45
-#, fuzzy
-#| msgid "Refresh"
 msgid "Refresh Log"
-msgstr "重整"
+msgstr "重新整理紀錄"
 
 #: admin/admin.strings.js:46
 msgid "Set Log Levels"
-msgstr ""
+msgstr "設定紀錄層級"
 
 #: admin/admin.strings.js:47
 msgid "Log Levels"
-msgstr ""
+msgstr "紀錄層級"
 
 #: admin/admin.strings.js:48 src/control/Control.AlertDialog.js:25
 #: src/control/Signing.js:608
@@ -200,7 +196,7 @@ msgstr "關閉"
 
 #: admin/admin.strings.js:49
 msgid "Update Log Levels"
-msgstr ""
+msgstr "更新紀錄層級"
 
 #: admin/src/AdminSocketAnalytics.js:205
 msgid "Received"
@@ -240,11 +236,11 @@ msgstr "文件"
 
 #: admin/src/AdminSocketOverview.js:401
 msgid "Failed to set jwt authentication cookie over insecure connection"
-msgstr ""
+msgstr "無法透過不安全的連線設定 jwt 身分核對 Cookie"
 
 #: admin/src/AdminSocketOverview.js:405
 msgid "Failed to authenticate this session over protocol %0"
-msgstr ""
+msgstr "無法透過 %0 協定進行此作業階段的身分核對"
 
 #: admin/src/AdminSocketSettings.js:34
 msgid "Are you sure you want to shut down the server?"
@@ -268,23 +264,23 @@ msgstr "TB"
 
 #: admin/src/Util.js:14
 msgid "PB"
-msgstr ""
+msgstr "PB"
 
 #: admin/src/Util.js:14
 msgid "EB"
-msgstr ""
+msgstr "EB"
 
 #: admin/src/Util.js:14
 msgid "ZB"
-msgstr ""
+msgstr "ZB"
 
 #: admin/src/Util.js:14
 msgid "YB"
-msgstr ""
+msgstr "YB"
 
 #: admin/src/Util.js:14
 msgid "BB"
-msgstr ""
+msgstr "BB"
 
 #: admin/src/Util.js:43 admin/src/Util.js:45
 msgid " hrs"
@@ -420,10 +416,8 @@ msgid "To"
 msgstr "到"
 
 #: src/control/Control.JSDialogBuilder.js:1299
-#, fuzzy
-#| msgid "Reject change"
 msgid "Select range"
-msgstr "拒絕更改"
+msgstr "選取範圍"
 
 #: src/control/Control.JSDialogBuilder.js:1328
 msgid "Font Name"
@@ -861,10 +855,8 @@ msgid "Insert tabstop"
 msgstr "插入定位落點"
 
 #: src/control/Ruler.js:644
-#, fuzzy
-#| msgid "Insert tabstop"
 msgid "Delete tabstop"
-msgstr "插入定位落點"
+msgstr "刪除定位落點"
 
 #: src/control/Signing.js:195
 msgid "Please enter the PIN Code"
@@ -1016,7 +1008,7 @@ msgstr "此 %productName 版本源自"
 
 #: src/control/Toolbar.js:505
 msgid "\"Slow Proxy\""
-msgstr ""
+msgstr "「緩慢代理」"
 
 #: src/control/Toolbar.js:590
 msgid "Insert hyperlink"
@@ -1318,7 +1310,7 @@ msgstr "製作副本中..."
 
 #: admin/src/AdminSocketSettings.js:34
 msgid "Confirmation"
-msgstr ""
+msgstr "確認"
 
 #~ msgid "Color"
 #~ msgstr "色彩"
