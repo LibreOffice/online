@@ -799,6 +799,9 @@ void FileServerRequestHandler::preprocessFile(const HTTPRequest& request,
     if (uriHost.getHost() != configFrameAncestor)
         frameAncestors += " " + uriHost.getHost() + ":*";
 
+    if (!LOOLWSD::ServerName.empty())
+        frameAncestors += ' ' + LOOLWSD::ServerName;
+
     for (const auto& param : params)
     {
         if (param.first == "WOPISrc")
