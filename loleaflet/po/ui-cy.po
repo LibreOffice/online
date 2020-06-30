@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-05 23:08+0200\n"
+"POT-Creation-Date: 2020-06-29 22:52+0200\n"
 "PO-Revision-Date: 2020-06-10 15:21+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@yahoo.com>\n"
 "Language-Team: Welsh <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/cy/>\n"
@@ -124,8 +124,8 @@ msgstr "Graff CPU"
 msgid "Network Graph"
 msgstr "Graff Rhwydwaith"
 
-#: admin/admin.strings.js:32 src/layer/marker/Annotation.js:252
-#: src/layer/tile/TileLayer.js:403
+#: admin/admin.strings.js:32 src/layer/marker/Annotation.js:260
+#: src/layer/tile/TileLayer.js:404
 msgid "Save"
 msgstr "Cadw"
 
@@ -217,7 +217,7 @@ msgstr "Ydych chi'n siŵr eich bod eisiau dileu'r sesiwn hwn?"
 #: admin/src/AdminSocketOverview.js:107 admin/src/AdminSocketSettings.js:36
 #: src/control/Control.Menubar.js:1188
 #: src/control/Control.PresentationBar.js:82 src/control/Control.Tabs.js:201
-#: src/control/Control.Tabs.js:218 src/control/Toolbar.js:596
+#: src/control/Control.Tabs.js:218 src/control/Toolbar.js:597
 msgid "OK"
 msgstr "Iawn"
 
@@ -225,8 +225,8 @@ msgstr "Iawn"
 #: src/control/Control.LanguageDialog.js:86 src/control/Control.Menubar.js:1189
 #: src/control/Control.MobileTopBar.js:45
 #: src/control/Control.PresentationBar.js:83 src/control/Control.Tabs.js:202
-#: src/control/Control.Tabs.js:219 src/control/Toolbar.js:597
-#: src/layer/marker/Annotation.js:183 src/layer/tile/TileLayer.js:404
+#: src/control/Control.Tabs.js:219 src/control/Toolbar.js:598
+#: src/layer/marker/Annotation.js:191 src/layer/tile/TileLayer.js:405
 msgid "Cancel"
 msgstr "Diddymu"
 
@@ -243,6 +243,10 @@ msgid "Failed to authenticate this session over protocol %0"
 msgstr "Methwyd dilysu'r sesiwn hon dros brotocol %0"
 
 #: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr "Cadarnhad"
+
+#: admin/src/AdminSocketSettings.js:35
 msgid "Are you sure you want to shut down the server?"
 msgstr "Ydych chi'n siŵr eich bod eisiau cau'r gweinydd?"
 
@@ -294,8 +298,14 @@ msgstr " mun"
 msgid " s"
 msgstr " s"
 
-#: src/control/ColorPicker.js:121
+#: src/control/ColorPicker.js:129
 msgid "No color"
+msgstr "Dim lliw"
+
+#: src/control/ColorPicker.js:130
+#, fuzzy
+#| msgid "No color"
+msgid "Automatic color"
 msgstr "Dim lliw"
 
 #: src/control/Control.AlertDialog.js:61
@@ -370,93 +380,93 @@ msgstr "Cychwyn copïo/gludo croes"
 msgid "Function Wizard"
 msgstr "Dewin Swyddogaeth"
 
-#: src/control/Control.JSDialogBuilder.js:280
+#: src/control/Control.JSDialogBuilder.js:283
 #: src/control/Control.StatusBar.js:331
 msgid "None"
 msgstr "Dim"
 
-#: src/control/Control.JSDialogBuilder.js:283
+#: src/control/Control.JSDialogBuilder.js:286
 msgid "Solid"
 msgstr "Solet"
 
-#: src/control/Control.JSDialogBuilder.js:286
+#: src/control/Control.JSDialogBuilder.js:289
 msgid "Linear"
 msgstr "Llinol"
 
-#: src/control/Control.JSDialogBuilder.js:289
+#: src/control/Control.JSDialogBuilder.js:292
 msgid "Axial"
 msgstr "Echelinol"
 
-#: src/control/Control.JSDialogBuilder.js:292
+#: src/control/Control.JSDialogBuilder.js:295
 msgid "Radial"
 msgstr "Rheiddiol"
 
-#: src/control/Control.JSDialogBuilder.js:295
+#: src/control/Control.JSDialogBuilder.js:298
 msgid "Ellipsoid"
 msgstr "Elipsoid"
 
-#: src/control/Control.JSDialogBuilder.js:299
+#: src/control/Control.JSDialogBuilder.js:302
 msgid "Quadratic"
 msgstr "Cwadratig"
 
-#: src/control/Control.JSDialogBuilder.js:302
+#: src/control/Control.JSDialogBuilder.js:305
 msgid "Square"
 msgstr "Sgwâr"
 
-#: src/control/Control.JSDialogBuilder.js:305
+#: src/control/Control.JSDialogBuilder.js:308
 msgid "Fixed size"
 msgstr "Maint gosodedig"
 
-#: src/control/Control.JSDialogBuilder.js:1171
+#: src/control/Control.JSDialogBuilder.js:1192
 msgid "From"
 msgstr "O"
 
-#: src/control/Control.JSDialogBuilder.js:1174
+#: src/control/Control.JSDialogBuilder.js:1195
 msgid "To"
 msgstr "At"
 
-#: src/control/Control.JSDialogBuilder.js:1299
+#: src/control/Control.JSDialogBuilder.js:1320
 msgid "Select range"
 msgstr "Dewis ystod"
 
-#: src/control/Control.JSDialogBuilder.js:1328
+#: src/control/Control.JSDialogBuilder.js:1349
 msgid "Font Name"
 msgstr "Enw Ffont"
 
-#: src/control/Control.JSDialogBuilder.js:1330
+#: src/control/Control.JSDialogBuilder.js:1351
 msgid "Font Size"
 msgstr "Maint Ffont"
 
-#: src/control/Control.JSDialogBuilder.js:1852
+#: src/control/Control.JSDialogBuilder.js:1883
 msgid "Cell borders"
 msgstr "Borderi celloedd"
 
-#: src/control/Control.JSDialogBuilder.js:1875
+#: src/control/Control.JSDialogBuilder.js:1906
 msgid "Background Color"
 msgstr "Lliw Cefndir"
 
-#: src/control/Control.JSDialogBuilder.js:1877
+#: src/control/Control.JSDialogBuilder.js:1908
 msgid "Gradient Start"
 msgstr "Cychwyn Graddiant"
 
-#: src/control/Control.JSDialogBuilder.js:1879
+#: src/control/Control.JSDialogBuilder.js:1910
 msgid "Gradient End"
 msgstr "Diwedd Graddiant"
 
-#: src/control/Control.JSDialogBuilder.js:2055
+#: src/control/Control.JSDialogBuilder.js:2088
 msgid "Rows"
 msgstr "Rhesi"
 
-#: src/control/Control.JSDialogBuilder.js:2056
+#: src/control/Control.JSDialogBuilder.js:2089
 msgid "Columns"
 msgstr "Colofnau"
 
-#: src/control/Control.JSDialogBuilder.js:2076
+#: src/control/Control.JSDialogBuilder.js:2109
 #: src/control/Control.TopToolbar.js:209
 msgid "Insert table"
 msgstr "Mewnosod tudalen"
 
-#: src/control/Control.JSDialogBuilder.js:2105
+#: src/control/Control.JSDialogBuilder.js:2138
 msgid "Line style:"
 msgstr "Llinell:"
 
@@ -585,7 +595,7 @@ msgid "About"
 msgstr "Ynghylch"
 
 #: src/control/Control.Menubar.js:248 src/control/Control.Menubar.js:362
-#: src/control/Control.Menubar.js:479 src/map/Map.js:390
+#: src/control/Control.Menubar.js:479 src/map/Map.js:395
 msgid "Last modification"
 msgstr "Newid diwethaf"
 
@@ -769,15 +779,15 @@ msgstr "Ydych chi'n siŵr eich bod am ddileu'r ddalen, %sheet% ?"
 msgid "Enter new sheet name"
 msgstr "Rhoi enw newydd i'r dalen"
 
-#: src/control/Control.Toolbar.js:889
+#: src/control/Control.Toolbar.js:890
 msgid "Previous slide"
 msgstr "Sleid flaenorol"
 
-#: src/control/Control.Toolbar.js:890
+#: src/control/Control.Toolbar.js:891
 msgid "Next slide"
 msgstr "Sleid nesaf"
 
-#: src/control/Control.Toolbar.js:948
+#: src/control/Control.Toolbar.js:949
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Gwrthdaro Dadwneud/Ail-wneud oherwydd defnyddwyr luosog. Defnyddiwch trwsio'r ddogfen i'w ddatrys"
 
@@ -794,7 +804,7 @@ msgid "More..."
 msgstr "Rhagor..."
 
 #: src/control/Control.TopToolbar.js:213
-#: src/control/Control.NotebookbarBuilder.js:319
+#: src/control/Control.NotebookbarBuilder.js:358
 msgid "Insert Local Image"
 msgstr "Mewnosod Delwedd Leol"
 
@@ -842,19 +852,19 @@ msgstr "Dilyn y golygydd bob tro"
 msgid "Current"
 msgstr "Cyfredol"
 
-#: src/control/Ruler.js:363
+#: src/control/Ruler.js:366
 msgid "Left Margin"
 msgstr "Ymyl Chwith"
 
-#: src/control/Ruler.js:364
+#: src/control/Ruler.js:367
 msgid "Right Margin"
 msgstr "Ymyl Dde"
 
-#: src/control/Ruler.js:637
+#: src/control/Ruler.js:642
 msgid "Insert tabstop"
 msgstr "Mewnosod stop tab"
 
-#: src/control/Ruler.js:644
+#: src/control/Ruler.js:649
 msgid "Delete tabstop"
 msgstr "Dileu stop tab"
 
@@ -986,7 +996,7 @@ msgstr "Llofnodwyd ond nid yw'r holl ffeiliau wedi'u llofnodi"
 msgid "Downloading..."
 msgstr "Wrthi'n Llwytho i Lawr..."
 
-#: src/control/Toolbar.js:104 src/map/Map.js:1443
+#: src/control/Toolbar.js:104 src/map/Map.js:1448
 msgid "Saving..."
 msgstr "Yn cadw..."
 
@@ -994,7 +1004,7 @@ msgstr "Yn cadw..."
 msgid "Renaming..."
 msgstr "Ailenwi..."
 
-#: src/control/Toolbar.js:389
+#: src/control/Toolbar.js:399
 msgid "I understand the risks"
 msgstr "Rwy'n deall y peryglon"
 
@@ -1002,23 +1012,23 @@ msgstr "Rwy'n deall y peryglon"
 msgid "We are sorry, the information about the latest updates is not available."
 msgstr "Ymddiheuriadau, nid yw'r wybodaeth am y diweddariadau diweddaraf ar gael."
 
-#: src/control/Toolbar.js:495
+#: src/control/Toolbar.js:496
 msgid "This version of %productName is powered by"
 msgstr "Mae'r fersiwn yma o %productName yn cael ei yrru gan"
 
-#: src/control/Toolbar.js:505
+#: src/control/Toolbar.js:506
 msgid "\"Slow Proxy\""
 msgstr "\"Dirprwy Araf\""
 
-#: src/control/Toolbar.js:590
+#: src/control/Toolbar.js:591
 msgid "Insert hyperlink"
 msgstr "Mewnosod Dolen"
 
-#: src/control/Toolbar.js:592
+#: src/control/Toolbar.js:593
 msgid "Text"
 msgstr "Testun"
 
-#: src/control/Toolbar.js:593
+#: src/control/Toolbar.js:594
 msgid "Link"
 msgstr "Cyswllt"
 
@@ -1098,7 +1108,7 @@ msgstr "Cliciwch Diddymu i agor yn y modd gweld yn unig."
 msgid "Wrong password provided. Please try again."
 msgstr "Wedi darparu cyfrinair anghywir. Ceisiwch eto."
 
-#: src/core/Socket.js:759 src/map/Map.js:1446
+#: src/core/Socket.js:759 src/map/Map.js:1451
 msgid "Loading..."
 msgstr "Yn llwytho..."
 
@@ -1212,19 +1222,19 @@ msgstr "Methuwd llwytho dogfen i weinydd, heb ganfod y ffeil."
 msgid "Uploading file to server failed, the file is too large."
 msgstr "Methwyd llwytho ffeil i weinydd, mae'r ffeil yn rhy fawr"
 
-#: src/layer/marker/Annotation.js:220
+#: src/layer/marker/Annotation.js:228
 msgid "Accept change"
 msgstr "Derbyn newid"
 
-#: src/layer/marker/Annotation.js:225
+#: src/layer/marker/Annotation.js:233
 msgid "Reject change"
 msgstr "Gwrthod newid"
 
-#: src/layer/marker/Annotation.js:234
+#: src/layer/marker/Annotation.js:242
 msgid "Open menu"
 msgstr "Agor dewislen"
 
-#: src/layer/marker/Annotation.js:255 src/layer/tile/TileLayer.js:243
+#: src/layer/marker/Annotation.js:263 src/layer/tile/TileLayer.js:243
 msgid "Reply"
 msgstr "Ateb"
 
@@ -1268,17 +1278,17 @@ msgstr "<p>Mae llwytho i lawr oherwydd gweithred copïo/gludo eisoes wedi cychwy
 msgid "Initializing..."
 msgstr "Cychwyn..."
 
-#: src/map/Map.js:425
+#: src/map/Map.js:430
 #, javascript-format
 msgid "%d seconds ago"
 msgstr "%d eiliad yn ôl"
 
-#: src/map/Map.js:428
+#: src/map/Map.js:433
 #, javascript-format
 msgid "%d minutes ago"
 msgstr "%d munud yn ôl"
 
-#: src/map/Map.js:1297
+#: src/map/Map.js:1302
 msgid "Inactive document - please click to resume editing"
 msgstr "Dogfen anweithredol - cliciwch i ailgychwyn golygu"
 
@@ -1300,17 +1310,13 @@ msgstr "Yn llwytho..."
 msgid "Uploading file to server failed with status: %0"
 msgstr "Methodd llwytho ffeil i weinydd gyda statws: %0"
 
-#: src/map/handler/Map.WOPI.js:107
+#: src/map/handler/Map.WOPI.js:111
 msgid "Creating new file from template..."
 msgstr "Creu ffeil newydd o dempled..."
 
-#: src/map/handler/Map.WOPI.js:422
+#: src/map/handler/Map.WOPI.js:426
 msgid "Creating copy..."
 msgstr "Creu copi..."
-
-#: admin/src/AdminSocketSettings.js:34
-msgid "Confirmation"
-msgstr "Cadarnhad"
 
 #~ msgid "Color"
 #~ msgstr "Lliw"
