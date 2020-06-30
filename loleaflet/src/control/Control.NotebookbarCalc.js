@@ -9,18 +9,18 @@ L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
 	getTabs: function() {
 		return [
 			{
-				'text': '~Home',
+				'text': _('~Home'),
 				'id': '2',
 				'name': 'HomeLabel',
 				'context': 'default|Cell'
 			},
 			{
-				'text': '~Insert',
+				'text': _('~Insert'),
 				'id': '3',
 				'name': 'InsertLabel'
 			},
 			{
-				'text': '~Review',
+				'text': _('~Review'),
 				'id': '6',
 				'name': 'ReviewLabel'
 			}
