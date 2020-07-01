@@ -1287,7 +1287,8 @@ bool ClientSession::handleKitToClientMessage(const char* buffer, const int lengt
         StringVector stateTokens(Util::tokenize(tokens[1], '='));
         if (stateTokens.size() == 2 && stateTokens.equals(0, ".uno:ModifiedStatus"))
         {
-            docBroker->setModified(stateTokens.equals(1, "true"));
+            if (!isReadOnly())
+                docBroker->setModified(stateTokens.equals(1, "true"));
         }
         else
         {
