@@ -786,8 +786,14 @@ bool DocumentBroker::load(const std::shared_ptr<ClientSession>& session, const s
         std::string localPath = _storage->loadStorageFileToLocal(
             session->getAuthorization(), session->getCookies(), *_lockCtx, templateSource);
 
+        // FIXME: why do we lock also for read-only sessions?
         if (!_storage->updateLockState(session->getAuthorization(), session->getCookies(), *_lockCtx, true))
+        {
             LOG_ERR("Failed to lock!");
+            // TODO: show a warning to user with choice what to do (cancel/open read-only)
+            session->setReadOnly();
+            // TODO: make this "read-only" a special one with a button to unlock
+        }
 
 #if !MOBILEAPP
         // Check if we have a prefilter "plugin" for this document format
