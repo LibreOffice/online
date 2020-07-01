@@ -1009,6 +1009,12 @@ void ClientSession::setReadOnly()
     sendTextFrame("perm: readonly");
 }
 
+void ClientSession::setLockFailed(const std::string& sReason)
+{
+    setReadOnly();
+    sendTextFrame("editdenied: " + sReason);
+}
+
 bool ClientSession::hasQueuedMessages() const
 {
     return _senderQueue.size() > 0;

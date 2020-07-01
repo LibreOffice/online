@@ -39,6 +39,7 @@ public:
     virtual ~ClientSession();
 
     void setReadOnly() override;
+    void setLockFailed(const std::string& sReason);
 
     enum SessionState {
         DETACHED,        // initial
