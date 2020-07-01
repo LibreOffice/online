@@ -1150,19 +1150,16 @@ std::string DocumentBroker::getWriteableSessionId() const
     std::string savingSessionId;
     for (auto& sessionIt : _sessions)
     {
-        // Save the document using an editable and loaded session, or first ...
-        if (savingSessionId.empty()
-            || (!sessionIt.second->isReadOnly() && sessionIt.second->isViewLoaded()
-                && !sessionIt.second->inWaitDisconnected()))
+        // Save the document using an editable and loaded session
+        if (((savingSessionId.empty() && sessionIt.second->isViewLoaded()
+              && !sessionIt.second->inWaitDisconnected())
+             || sessionIt.second->isDocumentOwner())
+            && !sessionIt.second->isReadOnly())
         {
             savingSessionId = sessionIt.second->getId();
-        }
-
-        // or if any of the sessions is document owner, use that.
-        if (sessionIt.second->isDocumentOwner())
-        {
-            savingSessionId = sessionIt.second->getId();
-            break;
+            // if the session is document owner, use that.
+            if (sessionIt.second->isDocumentOwner())
+                break;
         }
     }
     return savingSessionId;
