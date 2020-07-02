@@ -93,21 +93,24 @@ $(DESKTOP_TEST_FILES_DONE): $(PID_FILE)
 		@$(foreach done_file,$(DESKTOP_TEST_FILES_DONE),mkdir -p $(dir $(done_file)) && touch $(done_file) &&) true\
 	)
 
+# check-desktop and check-mobile are headless tests. They don't open browser window.
+# run-desktop and run-mobile tests do open browser window.
+
 check-desktop: @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
-	$(call start_loolwsd)
+	$(call start_loolwsd,$(running_port))
 	$(call run_desktop_tests,$(spec))
 	@$(KILL_COMMAND) || true
 
 check-mobile: @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
-	$(call start_loolwsd)
+	$(call start_loolwsd,$(running_port))
 	$(call run_mobile_tests,$(spec))
 	@$(KILL_COMMAND) || true
 
 run-desktop: @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
-	$(call start_loolwsd)
+	$(call start_loolwsd,$(running_port))
 	@echo
 	@echo "Open cypress with desktop tests..."
 	@echo
@@ -117,7 +120,7 @@ run-desktop: @JAILS_PATH@ $(NODE_BINS)
 
 run-mobile: @JAILS_PATH@ $(NODE_BINS)
 	$(call run_JS_error_check)
-	$(call start_loolwsd)
+	$(call start_loolwsd,$(running_port))
 	@echo
 	@echo "Open cypress with mobile tests..."
 	@echo
@@ -152,22 +155,26 @@ define run_JS_error_check
 endef
 
 define start_loolwsd
-	$(eval FREE_PORT:=$(shell $(GET_PORT_BINARY) --host=127.0.0.1 $(ALLOWED_PORTS)))
-	@echo "Found available port for testing: $(FREE_PORT)"
-	@echo
-	@echo "Launching loolwsd..."
-	@fc-cache "@LO_PATH@"/share/fonts/truetype
-	@echo
-	../loolwsd --o:sys_template_path="@SYSTEMPLATE_PATH@" \
-			--o:child_root_path="@JAILS_PATH@" --o:storage.filesystem[@allow]=true \
-			--disable-ssl \
-			--o:admin_console.username=admin --o:admin_console.password=admin \
-			--o:logging.file[@enable]=true --o:logging.level=trace \
-			--port=$(FREE_PORT) \
-			--pidfile=$(PID_FILE) \
-			 > /dev/null 2>&1 &
-	@$(WAIT_ON_BINARY) http://localhost:$(FREE_PORT) --timeout 60000
-	@echo
+	$(if $(1),
+		FREE_PORT=$(1)
+		@$(WAIT_ON_BINARY) http://localhost:$(FREE_PORT) --timeout 60000
+		,
+		$(eval FREE_PORT:=$(shell $(GET_PORT_BINARY) --host=127.0.0.1 $(ALLOWED_PORTS)))
+		@echo "Found available port for testing: $(FREE_PORT)"
+		@echo
+		@echo "Launching loolwsd..."
+		@fc-cache "@LO_PATH@"/share/fonts/truetype
+		@echo
+		../loolwsd --o:sys_template_path="@SYSTEMPLATE_PATH@" \
+				--o:child_root_path="@JAILS_PATH@" --o:storage.filesystem[@allow]=true \
+				--disable-ssl \
+				--o:admin_console.username=admin --o:admin_console.password=admin \
+				--o:logging.file[@enable]=true --o:logging.level=trace \
+				--port=$(FREE_PORT) \
+				--pidfile=$(PID_FILE) \
+				> /dev/null 2>&1 &
+		@$(WAIT_ON_BINARY) http://localhost:$(FREE_PORT) --timeout 60000
+		@echo)
 endef
 
 #https://docs.cypress.io/guides/guides/continuous-integration.html#Xvfb
