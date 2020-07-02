@@ -265,13 +265,22 @@ void setupDynamicFiles(const std::string& sysTemplate)
 
         // Remove the file to create a symlink.
         const Poco::Path dstFilePath(sysTemplate, srcFilename);
+        if (dstFilePath.exists())
+        {
+            LOG_INF("Skipping linking [" << dstFilePath.toString() << "] as it already exists.");
+            continue;
+        }
+
         if (LinkDynamicFiles)
         {
             LOG_INF("Linking [" << srcFilename << "] -> [" << dstFilePath.toString() << "].");
-            FileUtil::removeFile(dstFilePath);
 
             // Link or copy.
             if (link(srcFilename, dstFilePath.toString().c_str()) != -1)
+                continue;
+
+            // With parallel tests, another test might linked already.
+            if (dstFilePath.exists())
                 continue;
 
             // Failed to link a file. Disable linking and copy instead.
@@ -282,7 +291,17 @@ void setupDynamicFiles(const std::string& sysTemplate)
 
         // Linking fails, just copy.
         LOG_INF("Copying [" << srcFilename << "] -> [" << dstFilePath.toString() << "].");
-        srcFilePath.copyTo(etcSysTemplatePath);
+        try
+        {
+            if (!dstFilePath.exists())
+                srcFilePath.copyTo(etcSysTemplatePath);
+        }
+        catch (const std::exception& ex)
+        {
+            if (!dstFilePath.exists())
+                LOG_ERR("Failed to copy [" << srcFilename << "] -> [" << dstFilePath.toString()
+                                           << "] (" << ex.what() << "). Will skip.");
+        }
     }
 }
 
