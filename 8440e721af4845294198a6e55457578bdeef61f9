@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc7d0f14_483d19e8",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-02T01:04:52Z",
+      "side": 1,
+      "message": "I fear this would be noisy, since auto-save will now cause this broadcast to everyone (when nothing is modified). Same for the other \"unmodified\" case below.\n\nAlso, this should go above the _poll-\u003ewakeup() so poll would process any pending events that the broadcast call causes.",
+      "revId": "8440e721af4845294198a6e55457578bdeef61f9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19a3ecb8_5259a79d",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-02T01:04:52Z",
+      "side": 1,
+      "message": "Not sure why anyone other than the user in question need to know about this. Why do we broadcast that a user got an error that is neither related to the document, nor the server. This is a user-specific error. There is nothing anyone can do by knowing this information.",
+      "revId": "8440e721af4845294198a6e55457578bdeef61f9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48bd2995_792fd59a",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-02T01:04:52Z",
+      "side": 1,
+      "message": "See previous note please.",
+      "revId": "8440e721af4845294198a6e55457578bdeef61f9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b8621dd_02b7ec4a",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-02T01:04:52Z",
+      "side": 1,
+      "message": "Why does everyone need to know that someone with expired creds tried to save and failed? Doesn\u0027t seem like it\u0027s the kind of thing to broadcast to everyone at all (especially that the error message could contain sensitive data related to the user in question).",
+      "revId": "8440e721af4845294198a6e55457578bdeef61f9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "779cb091_022b9d31",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-02T01:04:52Z",
+      "side": 1,
+      "message": "const is a good friend.",
+      "revId": "8440e721af4845294198a6e55457578bdeef61f9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faed621c_679e34d5",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-02T01:04:52Z",
+      "side": 1,
+      "message": "It\u0027s best to add eclipses (...) when we trim. See for example Protocol::getAbbreviatedMessage().",
+      "revId": "8440e721af4845294198a6e55457578bdeef61f9",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
