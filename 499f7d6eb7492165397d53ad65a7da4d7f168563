@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6c824220_1744af66",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2020-07-02T21:46:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c7a57e50_6bca92b9",
+      "revId": "499f7d6eb7492165397d53ad65a7da4d7f168563",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d6a12a9_7b648585",
         "filename": "wsd/DocumentBroker.cpp",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2020-07-02T21:37:11Z",
       "side": 1,
       "message": "Why do we need to check for isDocumentOwner? Previously, we did that because we always fell back on document owner, if no writable session exists. But if the idea of this patch is to never return a read-only session, then we don\u0027t care which one is the document owner, since we will not return anything if there are no writable sessions.",
+      "revId": "499f7d6eb7492165397d53ad65a7da4d7f168563",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99d3ce40_e8d89eb5",
+        "filename": "wsd/DocumentBroker.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2020-07-02T21:46:32Z",
+      "side": 1,
+      "message": "I wanted to mention that this patch is inspired by the code reading and noting that this seems to ought to return *writable* id which is not done - not by some greater understanding from my side. So if you assumed that I have changed something overall, and due to that, I change this function, then please forgive me for confusing you.\n\nI tried to follow the previous behaviour (which was keep iterating over all ids, even after found the first writable, until either they end, or master is found (and I honestly don\u0027t even know what master is)). I just tried to make sure that read-only ids are not returned.\n\nBut now (reading your comments) I suppose that sometimes we actually might need to return a read-only id? why? then my patch is wrong.",
+      "parentUuid": "5d6a12a9_7b648585",
       "revId": "499f7d6eb7492165397d53ad65a7da4d7f168563",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
