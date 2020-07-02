@@ -248,6 +248,8 @@ namespace SysTemplate
 static const auto DynamicFilePaths = { "/etc/passwd", "/etc/group",         "/etc/host.conf",
                                        "/etc/hosts",  "/etc/nsswitch.conf", "/etc/resolv.conf" };
 
+static const std::string DynamicFileLockName = "LoolWSDDynamicFileLock";
+
 /// Copy by default for KIT_IN_PROCESS.
 static bool LinkDynamicFiles = false;
 
@@ -260,34 +262,60 @@ void setupDynamicFiles(const std::string& sysTemplate)
     for (const auto& srcFilename : DynamicFilePaths)
     {
         const Poco::File srcFilePath(srcFilename);
-        if (!srcFilePath.exists())
+        FileUtil::Stat srcStat(srcFilename);
+        if (!srcStat.exists())
             continue;
 
-        // Remove the file to create a symlink.
-        const Poco::Path dstFilePath(sysTemplate, srcFilename);
+        const std::string dstFilename = Poco::Path(sysTemplate, srcFilename).toString();
+        FileUtil::Stat dstStat(dstFilename);
+
+        // Is it outdated?
+        if (dstStat.isUpToDate(srcStat))
+        {
+            LOG_INF("File [" << dstFilename << "] is already up-to-date.");
+            continue;
+        }
+
+        if (dstStat.exists())
+        {
+            // Remove the file before linking/copying.
+            FileUtil::removeFile(dstFilename, false);
+        }
+
         if (LinkDynamicFiles)
         {
-            LOG_INF("Linking [" << srcFilename << "] -> [" << dstFilePath.toString() << "].");
-            FileUtil::removeFile(dstFilePath);
+            LOG_INF("Linking [" << srcFilename << "] -> [" << dstFilename << "].");
 
             // Link or copy.
-            if (link(srcFilename, dstFilePath.toString().c_str()) != -1)
+            if (link(srcFilename, dstFilename.c_str()) == 0)
+                continue;
+
+            // Hard-linking failed, try symbolic linking.
+            if (symlink(srcFilename, dstFilename.c_str()) == 0)
+                continue;
+
+            const int linkerr = errno;
+
+            // With parallel tests, another test might have linked already.
+            if (Poco::File(dstFilename).exists()) // stat again.
                 continue;
 
             // Failed to link a file. Disable linking and copy instead.
-            LOG_WRN("Failed to link [" << srcFilename << "] -> [" << dstFilePath.toString() << "] ("
-                                       << strerror(errno) << "). Will copy.");
+            LOG_WRN("Failed to link ["
+                    << srcFilename << "] -> [" << dstFilename << "] (" << strerror(linkerr)
+                    << "). Will copy and disable linking dynamic system files in this run.");
             LinkDynamicFiles = false;
         }
 
-        // Linking fails, just copy.
-        LOG_INF("Copying [" << srcFilename << "] -> [" << dstFilePath.toString() << "].");
-        srcFilePath.copyTo(etcSysTemplatePath);
+        // Linking failed, just copy.
+        LOG_DBG("Copying [" << srcFilename << "] -> [" << dstFilename << "].");
+        FileUtil::copyAtomic(srcFilename, dstFilename, true);
     }
 }
 
 void updateDynamicFiles(const std::string& sysTemplate)
 {
+    // If the files are linked, they are always up-to-date.
     if (!LinkDynamicFiles)
     {
         LOG_INF("Updating dynamic files in sysTemplate.");
@@ -296,12 +324,22 @@ void updateDynamicFiles(const std::string& sysTemplate)
         for (const auto& srcFilename : DynamicFilePaths)
         {
             const Poco::File srcFilePath(srcFilename);
-            if (!srcFilePath.exists())
+            FileUtil::Stat srcStat(srcFilename);
+            if (!srcStat.exists())
                 continue;
 
-            const Poco::Path dstFilePath(sysTemplate, srcFilename);
-            LOG_DBG("Copying [" << srcFilename << "] -> [" << dstFilePath.toString() << "].");
-            srcFilePath.copyTo(etcSysTemplatePath);
+            const std::string dstFilename = Poco::Path(sysTemplate, srcFilename).toString();
+            FileUtil::Stat dstStat(dstFilename);
+
+            // Is it outdated?
+            if (dstStat.isUpToDate(srcStat))
+            {
+                LOG_INF("File [" << dstFilename << "] is already up-to-date.");
+                continue;
+            }
+
+            LOG_DBG("Copying [" << srcFilename << "] -> [" << dstFilename << "].");
+            FileUtil::copyAtomic(srcFilename, dstFilename, true);
         }
     }
 }
