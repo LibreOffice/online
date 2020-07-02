@@ -21,9 +21,10 @@ cd / || exit 1
 # into the template tree of system files for the chroot jails.
 
 # First essential files and shared objects
-find etc/hosts etc/nsswitch.conf etc/resolv.conf \
-     etc/passwd etc/group etc/host.conf \
-     etc/ld.so.* \
+# Don't copy the dynamic files, which are linked
+# by loolwsd: etc/hosts etc/nsswitch.conf etc/resolv.conf \
+#             etc/passwd etc/group etc/host.conf
+find etc/ld.so.* \
      lib/ld-* lib64/ld-* \
      lib/libnss_* lib64/libnss_* lib/*/libnss_* \
      lib/libresolv* lib64/libresolv* lib/*/libresolv* \

@@ -13,6 +13,7 @@
 
 #include <dirent.h>
 #include <ftw.h>
+#include <sys/time.h>
 #ifdef __linux
 #include <sys/vfs.h>
 #elif defined IOS
@@ -252,6 +253,77 @@ namespace FileUtil
         return path;
     }
 
+    bool isEmptyDirectory(const char* path)
+    {
+        DIR* dir = opendir(path);
+        if (dir == nullptr)
+            return errno != EACCES; // Assume it's not empty when EACCES.
+
+        int count = 0;
+        while (readdir(dir) && ++count < 3)
+            ;
+
+        closedir(dir);
+        return count <= 2; // Discounting . and ..
+    }
+
+    bool updateTimestamps(const std::string& filename, timespec tsAccess, timespec tsModified)
+    {
+        timeval timestamps[2]{ { tsAccess.tv_sec, tsAccess.tv_nsec },
+                               { tsModified.tv_sec, tsModified.tv_nsec } };
+        if (utimes(filename.c_str(), timestamps) != 0)
+        {
+            LOG_SYS("Failed to update the timestamp of [" << filename << "]");
+            return false;
+        }
+
+        return true;
+    }
+
+    bool copy(const char* source, const char* target)
+    {
+        try
+        {
+            Poco::File(source).copyTo(target);
+        }
+        catch (const std::exception& exc)
+        {
+            LOG_ERR("Copying of [" << source << "] to [" << target << "] failed: " << exc.what());
+            return false;
+        }
+
+        return true;
+    }
+
+    bool copy(const std::string& srcFilename, const std::string& dstFilename,
+              bool preserveTimestamps)
+    {
+        if (copy(srcFilename.c_str(), dstFilename.c_str()))
+        {
+            if (preserveTimestamps)
+            {
+                const Stat st(srcFilename);
+                return updateTimestamps(dstFilename, st.sb().st_atim, st.sb().st_mtim);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    bool linkOrCopyFile(const char* source, const char* target)
+    {
+        if (link(source, target) == -1)
+        {
+            LOG_INF("link(\"" << source << "\", \"" << target << "\") failed: " << strerror(errno)
+                              << ". Will copy.");
+            return copy(source, target);
+        }
+
+        return true;
+    }
+
 } // namespace FileUtil
 
 namespace
@@ -404,41 +476,6 @@ namespace FileUtil
     std::string anonymizeUsername(const std::string& username)
     {
         return AnonymizeUserData ? Util::anonymize(username, AnonymizationSalt) : username;
-    }
-
-    bool isEmptyDirectory(const char* path)
-    {
-        DIR* dir = opendir(path);
-        if (dir == nullptr)
-            return errno != EACCES; // Assume it's not empty when EACCES.
-
-        int count = 0;
-        while (readdir(dir) && ++count < 3)
-            ;
-
-        closedir(dir);
-        return count <= 2; // Discounting . and ..
-    }
-
-    bool linkOrCopyFile(const char* source, const char* target)
-    {
-        if (link(source, target) == -1)
-        {
-            LOG_INF("link(\"" << source << "\", \"" << target << "\") failed: " << strerror(errno)
-                              << ". Will copy.");
-            try
-            {
-                Poco::File(source).copyTo(target);
-            }
-            catch (const std::exception& exc)
-            {
-                LOG_ERR("Copying of [" << source << "] to [" << target
-                                       << "] failed: " << exc.what());
-                return false;
-            }
-        }
-
-        return true;
     }
 
 } // namespace FileUtil
