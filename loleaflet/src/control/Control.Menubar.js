@@ -362,6 +362,33 @@ L.Control.Menubar = L.Control.extend({
 			{name: _('Last modification'), id: 'last-mod', type: 'action', tablet: false}
 		],
 
+		drawing: [
+			{name: _UNO('.uno:PickList', 'presentation'), id: 'file', type: 'menu', menu: [
+				{name: _UNO('.uno:Print', 'presentation'), id: 'print', type: 'action'},
+				{name: _('See revision history'), id: 'rev-history', type: 'action'},
+				{name: !window.ThisIsAMobileApp ? _('Download as') : _('Export as'), id: 'downloadas', type: 'menu', menu: [
+					{name: _('PDF Document (.pdf)'), id: 'downloadas-pdf', type: 'action'},
+					{name: _('ODF Drawing (.odg)'), id: 'downloadas-odg', type: 'action'}]},
+				{type: 'separator'},
+				{name: _('Close document'), id: 'closedocument', type: 'action'}
+			]},
+			{name: _UNO('.uno:ViewMenu', 'presentation'), id: 'view', type: 'menu', menu: [
+				{name: _UNO('.uno:FullScreen', 'presentation'), id: 'fullscreen', type: 'action'},
+				{type: 'separator'},
+				{name: _UNO('.uno:ZoomPlus', 'presentation'), id: 'zoomin', type: 'action'},
+				{name: _UNO('.uno:ZoomMinus', 'presentation'), id: 'zoomout', type: 'action'},
+				{name: _('Reset zoom'), id: 'zoomreset', type: 'action'}]
+			},
+			{name: _UNO('.uno:HelpMenu', 'presentation'), id: 'help', type: 'menu', menu: [
+				{name: _('Online Help'), id: 'online-help', type: 'action', iosapp: false},
+				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action', iosapp: false},
+				{name: _('Report an issue'), id: 'report-an-issue', type: 'action', iosapp: false},
+				{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
+				{name: _('About'), id: 'about', type: 'action'}]
+			},
+			{name: _('Last modification'), id: 'last-mod', type: 'action', tablet: false}
+		],
+
 		spreadsheet: [
 			{name: _UNO('.uno:PickList', 'spreadsheet'), id: 'file', type: 'menu', menu: [
 				{name: _UNO('.uno:Save', 'spreadsheet'), id: 'save', type: 'action'},
@@ -573,6 +600,33 @@ L.Control.Menubar = L.Control.extend({
 			{name: _('Fullscreen presentation'), id: 'fullscreen-presentation', type: 'action'},
 			{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
 			{name: _('About'), id: 'about', type: 'action'},
+		],
+
+		mobiledrawing: [
+			{name: _UNO('.uno:PickList', 'presentation'), id: 'file', type: 'menu', menu: [
+				{name: _UNO('.uno:Print', 'presentation'), id: 'print', type: 'action'},
+				{name: _('See revision history'), id: 'rev-history', type: 'action'},
+				{name: !window.ThisIsAMobileApp ? _('Download as') : _('Export as'), id: 'downloadas', type: 'menu', menu: [
+					{name: _('PDF Document (.pdf)'), id: 'downloadas-pdf', type: 'action'},
+					{name: _('ODF Drawing (.odg)'), id: 'downloadas-odg', type: 'action'}]},
+				{type: 'separator'},
+				{name: _('Close document'), id: 'closedocument', type: 'action'}
+			]},
+			{name: _UNO('.uno:ViewMenu', 'presentation'), id: 'view', type: 'menu', menu: [
+				{name: _UNO('.uno:FullScreen', 'presentation'), id: 'fullscreen', type: 'action'},
+				{type: 'separator'},
+				{name: _UNO('.uno:ZoomPlus', 'presentation'), id: 'zoomin', type: 'action'},
+				{name: _UNO('.uno:ZoomMinus', 'presentation'), id: 'zoomout', type: 'action'},
+				{name: _('Reset zoom'), id: 'zoomreset', type: 'action'}]
+			},
+			{name: _UNO('.uno:HelpMenu', 'presentation'), id: 'help', type: 'menu', menu: [
+				{name: _('Online Help'), id: 'online-help', type: 'action', iosapp: false},
+				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action', iosapp: false},
+				{name: _('Report an issue'), id: 'report-an-issue', type: 'action', iosapp: false},
+				{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
+				{name: _('About'), id: 'about', type: 'action'}]
+			},
+			{name: _('Last modification'), id: 'last-mod', type: 'action', tablet: false}
 		],
 
 		mobilespreadsheet: [
@@ -827,8 +881,10 @@ L.Control.Menubar = L.Control.extend({
 			this._initializeMenu(this.options.text);
 		} else if (docType === 'spreadsheet') {
 			this._initializeMenu(this.options.spreadsheet);
-		} else if (docType === 'presentation' || docType === 'drawing') {
+		} else if (docType === 'presentation') {
 			this._initializeMenu(this.options.presentation);
+		} else if (docType === 'drawing') {
+			this._initializeMenu(this.options.drawing);
 		}
 
 		// initialize menubar plugin
@@ -1381,6 +1437,9 @@ L.Control.Menubar = L.Control.extend({
 			return false;
 
 		if (menuItem.id === 'changesmenu' && this._map['wopi'].HideChangeTrackingControls)
+			return false;
+
+		if (menuItem.id === 'downloadas-odg' && !this._map['wopi'].BaseFileName.endsWith('.odg'))
 			return false;
 
 		// Keep track of all 'downloadas-' options and register them as
