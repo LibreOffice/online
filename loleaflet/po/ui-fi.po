@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-05 23:08+0200\n"
+"POT-Creation-Date: 2020-06-29 22:52+0200\n"
 "PO-Revision-Date: 2020-03-12 11:37+0000\n"
 "Last-Translator: Tor Lillqvist <tml@iki.fi>\n"
 "Language-Team: Finnish <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/fi/>\n"
@@ -126,8 +126,8 @@ msgstr "Suoritingraafi"
 msgid "Network Graph"
 msgstr "Verkkograafi"
 
-#: admin/admin.strings.js:32 src/layer/marker/Annotation.js:252
-#: src/layer/tile/TileLayer.js:403
+#: admin/admin.strings.js:32 src/layer/marker/Annotation.js:260
+#: src/layer/tile/TileLayer.js:404
 msgid "Save"
 msgstr "Tallenna"
 
@@ -221,7 +221,7 @@ msgstr "Haluatko varmasti lopettaa tämän istunnon?"
 #: admin/src/AdminSocketOverview.js:107 admin/src/AdminSocketSettings.js:36
 #: src/control/Control.Menubar.js:1188
 #: src/control/Control.PresentationBar.js:82 src/control/Control.Tabs.js:201
-#: src/control/Control.Tabs.js:218 src/control/Toolbar.js:596
+#: src/control/Control.Tabs.js:218 src/control/Toolbar.js:597
 msgid "OK"
 msgstr "OK"
 
@@ -229,8 +229,8 @@ msgstr "OK"
 #: src/control/Control.LanguageDialog.js:86 src/control/Control.Menubar.js:1189
 #: src/control/Control.MobileTopBar.js:45
 #: src/control/Control.PresentationBar.js:83 src/control/Control.Tabs.js:202
-#: src/control/Control.Tabs.js:219 src/control/Toolbar.js:597
-#: src/layer/marker/Annotation.js:183 src/layer/tile/TileLayer.js:404
+#: src/control/Control.Tabs.js:219 src/control/Toolbar.js:598
+#: src/layer/marker/Annotation.js:191 src/layer/tile/TileLayer.js:405
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -247,6 +247,10 @@ msgid "Failed to authenticate this session over protocol %0"
 msgstr ""
 
 #: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr ""
+
+#: admin/src/AdminSocketSettings.js:35
 msgid "Are you sure you want to shut down the server?"
 msgstr "Haluatko varmasti sammuttaa palvelimen?"
 
@@ -298,8 +302,14 @@ msgstr " min"
 msgid " s"
 msgstr " s"
 
-#: src/control/ColorPicker.js:121
+#: src/control/ColorPicker.js:129
 msgid "No color"
+msgstr "Ei väriä"
+
+#: src/control/ColorPicker.js:130
+#, fuzzy
+#| msgid "No color"
+msgid "Automatic color"
 msgstr "Ei väriä"
 
 #: src/control/Control.AlertDialog.js:61
@@ -374,101 +384,101 @@ msgstr "Aloita leikkaa/liitä ristiin"
 msgid "Function Wizard"
 msgstr "Funktioapuri"
 
-#: src/control/Control.JSDialogBuilder.js:280
+#: src/control/Control.JSDialogBuilder.js:283
 #: src/control/Control.StatusBar.js:331
 msgid "None"
 msgstr "Ei mitään"
 
-#: src/control/Control.JSDialogBuilder.js:283
+#: src/control/Control.JSDialogBuilder.js:286
 msgid "Solid"
 msgstr ""
 
-#: src/control/Control.JSDialogBuilder.js:286
+#: src/control/Control.JSDialogBuilder.js:289
 msgid "Linear"
 msgstr "Lineaarinen"
 
-#: src/control/Control.JSDialogBuilder.js:289
+#: src/control/Control.JSDialogBuilder.js:292
 msgid "Axial"
 msgstr "Aksiaalinen"
 
-#: src/control/Control.JSDialogBuilder.js:292
+#: src/control/Control.JSDialogBuilder.js:295
 msgid "Radial"
 msgstr "Radiaalinen"
 
-#: src/control/Control.JSDialogBuilder.js:295
+#: src/control/Control.JSDialogBuilder.js:298
 msgid "Ellipsoid"
 msgstr "Ellipsoidi"
 
-#: src/control/Control.JSDialogBuilder.js:299
+#: src/control/Control.JSDialogBuilder.js:302
 msgid "Quadratic"
 msgstr "Neliömäinen"
 
-#: src/control/Control.JSDialogBuilder.js:302
+#: src/control/Control.JSDialogBuilder.js:305
 msgid "Square"
 msgstr "Neliö"
 
-#: src/control/Control.JSDialogBuilder.js:305
+#: src/control/Control.JSDialogBuilder.js:308
 msgid "Fixed size"
 msgstr "Kiinteämittainen"
 
-#: src/control/Control.JSDialogBuilder.js:1171
+#: src/control/Control.JSDialogBuilder.js:1192
 msgid "From"
 msgstr "Aloitus"
 
-#: src/control/Control.JSDialogBuilder.js:1174
+#: src/control/Control.JSDialogBuilder.js:1195
 msgid "To"
 msgstr "Loppu"
 
-#: src/control/Control.JSDialogBuilder.js:1299
+#: src/control/Control.JSDialogBuilder.js:1320
 #, fuzzy
 #| msgid "Reject change"
 msgid "Select range"
 msgstr "Hylkää muutos"
 
-#: src/control/Control.JSDialogBuilder.js:1328
+#: src/control/Control.JSDialogBuilder.js:1349
 msgid "Font Name"
 msgstr "Kirjasinlaji"
 
-#: src/control/Control.JSDialogBuilder.js:1330
+#: src/control/Control.JSDialogBuilder.js:1351
 msgid "Font Size"
 msgstr "Kirjasinkoko"
 
-#: src/control/Control.JSDialogBuilder.js:1852
+#: src/control/Control.JSDialogBuilder.js:1883
 #, fuzzy
 #| msgid "Borders"
 msgid "Cell borders"
 msgstr "Reunat"
 
-#: src/control/Control.JSDialogBuilder.js:1875
+#: src/control/Control.JSDialogBuilder.js:1906
 msgid "Background Color"
 msgstr ""
 
-#: src/control/Control.JSDialogBuilder.js:1877
+#: src/control/Control.JSDialogBuilder.js:1908
 #, fuzzy
 #| msgid "Gradient"
 msgid "Gradient Start"
 msgstr "Gradientti"
 
-#: src/control/Control.JSDialogBuilder.js:1879
+#: src/control/Control.JSDialogBuilder.js:1910
 #, fuzzy
 #| msgid "Gradient"
 msgid "Gradient End"
 msgstr "Gradientti"
 
-#: src/control/Control.JSDialogBuilder.js:2055
+#: src/control/Control.JSDialogBuilder.js:2088
 msgid "Rows"
 msgstr "Rivejä"
 
-#: src/control/Control.JSDialogBuilder.js:2056
+#: src/control/Control.JSDialogBuilder.js:2089
 msgid "Columns"
 msgstr "Sarakkeita"
 
-#: src/control/Control.JSDialogBuilder.js:2076
+#: src/control/Control.JSDialogBuilder.js:2109
 #: src/control/Control.TopToolbar.js:209
 msgid "Insert table"
 msgstr "Lisää taulukko"
 
-#: src/control/Control.JSDialogBuilder.js:2105
+#: src/control/Control.JSDialogBuilder.js:2138
 msgid "Line style:"
 msgstr "Viivatyylit:"
 
@@ -597,7 +607,7 @@ msgid "About"
 msgstr "Tietoja"
 
 #: src/control/Control.Menubar.js:248 src/control/Control.Menubar.js:362
-#: src/control/Control.Menubar.js:479 src/map/Map.js:390
+#: src/control/Control.Menubar.js:479 src/map/Map.js:395
 msgid "Last modification"
 msgstr "Viimeisin muokkaus"
 
@@ -783,15 +793,15 @@ msgstr "Haluatko varmasti poistaa taulukon %sheet%?"
 msgid "Enter new sheet name"
 msgstr "Anna taulukon uusi nimi"
 
-#: src/control/Control.Toolbar.js:889
+#: src/control/Control.Toolbar.js:890
 msgid "Previous slide"
 msgstr "Edellinen dia"
 
-#: src/control/Control.Toolbar.js:890
+#: src/control/Control.Toolbar.js:891
 msgid "Next slide"
 msgstr "Seuraava dia"
 
-#: src/control/Control.Toolbar.js:948
+#: src/control/Control.Toolbar.js:949
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Peru- tai tee-uudestaan-toiminnon ristiriitaisuus usean käyttäjän kesken. Käytä asiakirjan korjausta tilanteen selvittämiseksi."
 
@@ -808,7 +818,7 @@ msgid "More..."
 msgstr "Lisää..."
 
 #: src/control/Control.TopToolbar.js:213
-#: src/control/Control.NotebookbarBuilder.js:319
+#: src/control/Control.NotebookbarBuilder.js:358
 msgid "Insert Local Image"
 msgstr "Lisää paikallinen kuva"
 
@@ -856,21 +866,21 @@ msgstr "Seuraa aina toimittajaa"
 msgid "Current"
 msgstr "Nykyinen"
 
-#: src/control/Ruler.js:363
+#: src/control/Ruler.js:366
 msgid "Left Margin"
 msgstr "Vasen marginaali"
 
-#: src/control/Ruler.js:364
+#: src/control/Ruler.js:367
 msgid "Right Margin"
 msgstr "Oikea marginaali"
 
-#: src/control/Ruler.js:637
+#: src/control/Ruler.js:642
 #, fuzzy
 #| msgid "Insert table"
 msgid "Insert tabstop"
 msgstr "Lisää taulukko"
 
-#: src/control/Ruler.js:644
+#: src/control/Ruler.js:649
 #, fuzzy
 #| msgid "Insert table"
 msgid "Delete tabstop"
@@ -1004,7 +1014,7 @@ msgstr "Digitaalisesti allekirjoitettu mutta vain jotkut tiedostot"
 msgid "Downloading..."
 msgstr "Ladataan..."
 
-#: src/control/Toolbar.js:104 src/map/Map.js:1443
+#: src/control/Toolbar.js:104 src/map/Map.js:1448
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
@@ -1012,7 +1022,7 @@ msgstr "Tallennetaan..."
 msgid "Renaming..."
 msgstr "Nimetään uudelleen..."
 
-#: src/control/Toolbar.js:389
+#: src/control/Toolbar.js:399
 msgid "I understand the risks"
 msgstr ""
 
@@ -1020,23 +1030,23 @@ msgstr ""
 msgid "We are sorry, the information about the latest updates is not available."
 msgstr ""
 
-#: src/control/Toolbar.js:495
+#: src/control/Toolbar.js:496
 msgid "This version of %productName is powered by"
 msgstr "Tämä versio %productName-tuotteesta perustuu tuotteeseen"
 
-#: src/control/Toolbar.js:505
+#: src/control/Toolbar.js:506
 msgid "\"Slow Proxy\""
 msgstr ""
 
-#: src/control/Toolbar.js:590
+#: src/control/Toolbar.js:591
 msgid "Insert hyperlink"
 msgstr "Lisää hyperlinkki"
 
-#: src/control/Toolbar.js:592
+#: src/control/Toolbar.js:593
 msgid "Text"
 msgstr "Teksti"
 
-#: src/control/Toolbar.js:593
+#: src/control/Toolbar.js:594
 msgid "Link"
 msgstr "Linkki"
 
@@ -1116,7 +1126,7 @@ msgstr "Napsauta Peruuta avataksesi katselutilassa."
 msgid "Wrong password provided. Please try again."
 msgstr "Väärä salasana, yritä uudelleen."
 
-#: src/core/Socket.js:759 src/map/Map.js:1446
+#: src/core/Socket.js:759 src/map/Map.js:1451
 msgid "Loading..."
 msgstr "Ladataan..."
 
@@ -1230,19 +1240,19 @@ msgstr "Asiakirjan lähetys palvelimelle epäonnistui, tiedostoa ei löytynyt."
 msgid "Uploading file to server failed, the file is too large."
 msgstr "Asiakirjan lähetys palvelimelle epäonnistui, tiedosto on liian iso."
 
-#: src/layer/marker/Annotation.js:220
+#: src/layer/marker/Annotation.js:228
 msgid "Accept change"
 msgstr "Hyväksy muutos"
 
-#: src/layer/marker/Annotation.js:225
+#: src/layer/marker/Annotation.js:233
 msgid "Reject change"
 msgstr "Hylkää muutos"
 
-#: src/layer/marker/Annotation.js:234
+#: src/layer/marker/Annotation.js:242
 msgid "Open menu"
 msgstr "Avaa valikko"
 
-#: src/layer/marker/Annotation.js:255 src/layer/tile/TileLayer.js:243
+#: src/layer/marker/Annotation.js:263 src/layer/tile/TileLayer.js:243
 msgid "Reply"
 msgstr "Vastaa"
 
@@ -1286,17 +1296,17 @@ msgstr "<p>Suuren kopiointi- tai liittämisoperaation aiheuttama lataus on jo k�
 msgid "Initializing..."
 msgstr "Alustetaan..."
 
-#: src/map/Map.js:425
+#: src/map/Map.js:430
 #, javascript-format
 msgid "%d seconds ago"
 msgstr "%d sekuntia sitten"
 
-#: src/map/Map.js:428
+#: src/map/Map.js:433
 #, javascript-format
 msgid "%d minutes ago"
 msgstr "%d minuuttia sitten"
 
-#: src/map/Map.js:1297
+#: src/map/Map.js:1302
 msgid "Inactive document - please click to resume editing"
 msgstr "Asiakirja ei ole aktiivinen - klikkaa jatkaaksesi muokkausta"
 
@@ -1318,17 +1328,13 @@ msgstr "Lähetetään..."
 msgid "Uploading file to server failed with status: %0"
 msgstr "Tiedoston lähetys palvelumelle epäonnistui, tila: %0"
 
-#: src/map/handler/Map.WOPI.js:107
+#: src/map/handler/Map.WOPI.js:111
 msgid "Creating new file from template..."
 msgstr "Luodaan uusi tiedosto mallista..."
 
-#: src/map/handler/Map.WOPI.js:422
+#: src/map/handler/Map.WOPI.js:426
 msgid "Creating copy..."
 msgstr "Luodaan kopiota..."
-
-#: admin/src/AdminSocketSettings.js:34
-msgid "Confirmation"
-msgstr ""
 
 #~ msgid "Color"
 #~ msgstr "Väri"
