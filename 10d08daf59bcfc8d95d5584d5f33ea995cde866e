@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae592330_21605966",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-03T12:51:21Z",
+      "side": 1,
+      "message": "This all looks like cut/paste shareable coding. Never copy/paste code [!][!][!] - it is the ultimate programming sin. Surely somewhere else we do this - and we can factor this out into a helper (?).",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f612e3b_d2afb345",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-03T12:51:21Z",
+      "side": 1,
+      "message": "Why do we use WebSocketHandler ? we just want a raw socket we proxy on for the most part: read the data, and send it on (surely) ? Also in the Proxy case there should never be a websocket - so we should fail hard if we get an upgrade request right ? \u003d)",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c424bef_a8578779",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-03T12:51:21Z",
+      "side": 1,
+      "message": "I would expect an ioctl to set blocking on the socket.\nI would expect this thread to have:\n\n while there is content\n    read(); // perhaps we can re-use the socket code for this to stack it in in Buffer.\n\n do injection/re-writing/inspection\n\n while (not-all-written)\n    blocking-write-to-loolwsd\n\n while (there is content)\n     blocking read from loolsd\n\n while (there is content\n     blocking write to client.\n\nWe shouldn\u0027t need nearly as many clevers here either getting the data back.",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4dba20d_c5fa916f",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-03T12:51:21Z",
+      "side": 1,
+      "message": "This is -really- odd. Why do we have a class where all the methods are static ? that is ... very very unusual.",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b067218a_d1bcc9db",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-03T12:51:21Z",
+      "side": 1,
+      "message": "fair enough for now \u003d)",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fdcf96a_1a1cc76e",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-03T12:51:21Z",
+      "side": 1,
+      "message": "Not sure that \u00274\u0027 is quite what we want.",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca318c03_0acef1df",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-03T12:51:21Z",
+      "side": 1,
+      "message": "Thought I commented ont his before.\n\nAnd what is this loop ? why on isSSLEnabled()? that seems ... amazing \u003d)",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
