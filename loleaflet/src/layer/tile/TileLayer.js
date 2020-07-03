@@ -1822,6 +1822,7 @@ L.TileLayer = L.GridLayer.extend({
 						this._twipsToLatLng(bottomRightTwips, this._map.getZoom()));
 
 			this._updateScrollOnCellSelection(oldSelection, this._textSelectionEnd);
+			this._onUpdateTextSelection();
 		}
 		else {
 			this._textSelectionEnd = null;
