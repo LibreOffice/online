@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "45b40d37_1a682a66",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-04T10:35:18Z",
+      "side": 1,
+      "message": "There is no easy function to create a simple socket. We created one in helpers namespace. This code is removed.",
+      "parentUuid": "ae592330_21605966",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f612e3b_d2afb345",
         "filename": "test/UnitPHPProxy.cpp",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a9b727e_f98dbd08",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-04T10:35:18Z",
+      "side": 1,
+      "message": "It is replaced with a simple socket.",
+      "parentUuid": "9f612e3b_d2afb345",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "48f50837_86b68638",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-04T10:35:18Z",
+      "side": 1,
+      "message": "Modified \u0026 simplified.\nioctl is used now.",
+      "parentUuid": "9c424bef_a8578779",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4dba20d_c5fa916f",
         "filename": "test/UnitPHPProxy.cpp",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364d5daa_7b1c4352",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-04T10:35:18Z",
+      "side": 1,
+      "message": "It was for ease of usage. This class was created to be used only here. It is changed, now only startThred function remains static.",
+      "parentUuid": "e4dba20d_c5fa916f",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "71aaa791_961f2b05",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-04T10:35:18Z",
+      "side": 1,
+      "message": "Thank you.",
+      "parentUuid": "b067218a_d1bcc9db",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdcf96a_1a1cc76e",
         "filename": "test/UnitPHPProxy.cpp",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "912a1530_e73aa2ab",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-04T10:35:18Z",
+      "side": 1,
+      "message": "Replaced with 10, It would probably serve about ~4 users max at a time.",
+      "parentUuid": "3fdcf96a_1a1cc76e",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca318c03_0acef1df",
         "filename": "test/UnitPHPProxy.cpp",
         "patchSetId": 2
@@ -118,6 +226,24 @@
       "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "920af7b1_ea07ca3c",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-04T10:35:18Z",
+      "side": 1,
+      "message": "This is just for testing, sorry for the mystery:)",
+      "parentUuid": "ca318c03_0acef1df",
+      "revId": "10d08daf59bcfc8d95d5584d5f33ea995cde866e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
