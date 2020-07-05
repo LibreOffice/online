@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LibreOffice Online UI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-05 23:08+0200\n"
-"PO-Revision-Date: 2020-04-16 18:38+0000\n"
+"POT-Creation-Date: 2020-06-29 22:52+0200\n"
+"PO-Revision-Date: 2020-07-04 16:06+0000\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/sl/>\n"
 "Language: sl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;\n"
 "X-Accelerator-Marker: ~\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 4.1.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: admin/admin.strings.js:6
@@ -123,8 +123,8 @@ msgstr "Grafikon rabe CPE"
 msgid "Network Graph"
 msgstr "Grafikon rabe omrežja"
 
-#: admin/admin.strings.js:32 src/layer/marker/Annotation.js:252
-#: src/layer/tile/TileLayer.js:403
+#: admin/admin.strings.js:32 src/layer/marker/Annotation.js:260
+#: src/layer/tile/TileLayer.js:404
 msgid "Save"
 msgstr "Shrani"
 
@@ -218,7 +218,7 @@ msgstr "Ste prepričani, da želite zaključiti to sejo?"
 #: admin/src/AdminSocketOverview.js:107 admin/src/AdminSocketSettings.js:36
 #: src/control/Control.Menubar.js:1188
 #: src/control/Control.PresentationBar.js:82 src/control/Control.Tabs.js:201
-#: src/control/Control.Tabs.js:218 src/control/Toolbar.js:596
+#: src/control/Control.Tabs.js:218 src/control/Toolbar.js:597
 msgid "OK"
 msgstr "V redu"
 
@@ -226,8 +226,8 @@ msgstr "V redu"
 #: src/control/Control.LanguageDialog.js:86 src/control/Control.Menubar.js:1189
 #: src/control/Control.MobileTopBar.js:45
 #: src/control/Control.PresentationBar.js:83 src/control/Control.Tabs.js:202
-#: src/control/Control.Tabs.js:219 src/control/Toolbar.js:597
-#: src/layer/marker/Annotation.js:183 src/layer/tile/TileLayer.js:404
+#: src/control/Control.Tabs.js:219 src/control/Toolbar.js:598
+#: src/layer/marker/Annotation.js:191 src/layer/tile/TileLayer.js:405
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -244,6 +244,10 @@ msgid "Failed to authenticate this session over protocol %0"
 msgstr ""
 
 #: admin/src/AdminSocketSettings.js:34
+msgid "Confirmation"
+msgstr "Potrditev"
+
+#: admin/src/AdminSocketSettings.js:35
 msgid "Are you sure you want to shut down the server?"
 msgstr "Ali ste prepričani, da želite zaustaviti strežnik?"
 
@@ -295,9 +299,13 @@ msgstr " min"
 msgid " s"
 msgstr " s"
 
-#: src/control/ColorPicker.js:121
+#: src/control/ColorPicker.js:129
 msgid "No color"
 msgstr "Brez barve"
+
+#: src/control/ColorPicker.js:130
+msgid "Automatic color"
+msgstr "Samodejna barva"
 
 #: src/control/Control.AlertDialog.js:61
 msgid "Open link"
@@ -371,99 +379,95 @@ msgstr "Začni križno kopirati/lepiti"
 msgid "Function Wizard"
 msgstr "Čarovnik za funkcije"
 
-#: src/control/Control.JSDialogBuilder.js:280
+#: src/control/Control.JSDialogBuilder.js:283
 #: src/control/Control.StatusBar.js:331
 msgid "None"
 msgstr "Brez"
 
-#: src/control/Control.JSDialogBuilder.js:283
+#: src/control/Control.JSDialogBuilder.js:286
 msgid "Solid"
 msgstr "Polno"
 
-#: src/control/Control.JSDialogBuilder.js:286
+#: src/control/Control.JSDialogBuilder.js:289
 msgid "Linear"
 msgstr "Linearno"
 
-#: src/control/Control.JSDialogBuilder.js:289
+#: src/control/Control.JSDialogBuilder.js:292
 msgid "Axial"
 msgstr "Osno"
 
-#: src/control/Control.JSDialogBuilder.js:292
+#: src/control/Control.JSDialogBuilder.js:295
 msgid "Radial"
 msgstr "Radialno"
 
-#: src/control/Control.JSDialogBuilder.js:295
+#: src/control/Control.JSDialogBuilder.js:298
 msgid "Ellipsoid"
 msgstr "Elipsoidno"
 
-#: src/control/Control.JSDialogBuilder.js:299
+#: src/control/Control.JSDialogBuilder.js:302
 msgid "Quadratic"
 msgstr "Pravokotno"
 
-#: src/control/Control.JSDialogBuilder.js:302
+#: src/control/Control.JSDialogBuilder.js:305
 msgid "Square"
 msgstr "Kvadratno"
 
-#: src/control/Control.JSDialogBuilder.js:305
+#: src/control/Control.JSDialogBuilder.js:308
 msgid "Fixed size"
 msgstr "Fiksna velikost"
 
-#: src/control/Control.JSDialogBuilder.js:1171
+#: src/control/Control.JSDialogBuilder.js:1192
 msgid "From"
 msgstr "Od"
 
-#: src/control/Control.JSDialogBuilder.js:1174
+#: src/control/Control.JSDialogBuilder.js:1195
 msgid "To"
 msgstr "Do"
 
-#: src/control/Control.JSDialogBuilder.js:1299
+#: src/control/Control.JSDialogBuilder.js:1320
 #, fuzzy
 #| msgid "Reject change"
 msgid "Select range"
 msgstr "Zavrni spremembo"
 
-#: src/control/Control.JSDialogBuilder.js:1328
+#: src/control/Control.JSDialogBuilder.js:1349
 msgid "Font Name"
 msgstr "Ime pisave"
 
-#: src/control/Control.JSDialogBuilder.js:1330
+#: src/control/Control.JSDialogBuilder.js:1351
 msgid "Font Size"
 msgstr "Velikost pisave"
 
-#: src/control/Control.JSDialogBuilder.js:1852
+#: src/control/Control.JSDialogBuilder.js:1883
 msgid "Cell borders"
 msgstr "Obrobe celic"
 
-#: src/control/Control.JSDialogBuilder.js:1875
+#: src/control/Control.JSDialogBuilder.js:1906
 msgid "Background Color"
-msgstr ""
+msgstr "Barva ozadja"
 
-#: src/control/Control.JSDialogBuilder.js:1877
-#, fuzzy
-#| msgid "Gradient"
+#: src/control/Control.JSDialogBuilder.js:1908
 msgid "Gradient Start"
-msgstr "Preliv"
+msgstr "Začetek preliva"
 
-#: src/control/Control.JSDialogBuilder.js:1879
-#, fuzzy
-#| msgid "Gradient"
+#: src/control/Control.JSDialogBuilder.js:1910
 msgid "Gradient End"
-msgstr "Preliv"
+msgstr "Konec preliva"
 
-#: src/control/Control.JSDialogBuilder.js:2055
+#: src/control/Control.JSDialogBuilder.js:2088
 msgid "Rows"
 msgstr "Vrstice"
 
-#: src/control/Control.JSDialogBuilder.js:2056
+#: src/control/Control.JSDialogBuilder.js:2089
 msgid "Columns"
 msgstr "Stolpci"
 
-#: src/control/Control.JSDialogBuilder.js:2076
+#: src/control/Control.JSDialogBuilder.js:2109
 #: src/control/Control.TopToolbar.js:209
 msgid "Insert table"
 msgstr "Vstavi tabelo"
 
-#: src/control/Control.JSDialogBuilder.js:2105
+#: src/control/Control.JSDialogBuilder.js:2138
 msgid "Line style:"
 msgstr "Slog črte:"
 
@@ -592,7 +596,7 @@ msgid "About"
 msgstr "O programu"
 
 #: src/control/Control.Menubar.js:248 src/control/Control.Menubar.js:362
-#: src/control/Control.Menubar.js:479 src/map/Map.js:390
+#: src/control/Control.Menubar.js:479 src/map/Map.js:395
 msgid "Last modification"
 msgstr "Zadnja sprememba"
 
@@ -776,15 +780,15 @@ msgstr "Ali ste prepričani, da želite izbrisati delovni list %sheet%?"
 msgid "Enter new sheet name"
 msgstr "Vnesite ime za nov delovni list"
 
-#: src/control/Control.Toolbar.js:889
+#: src/control/Control.Toolbar.js:890
 msgid "Previous slide"
 msgstr "Prejšnja prosojnica"
 
-#: src/control/Control.Toolbar.js:890
+#: src/control/Control.Toolbar.js:891
 msgid "Next slide"
 msgstr "Naslednja prosojnica"
 
-#: src/control/Control.Toolbar.js:948
+#: src/control/Control.Toolbar.js:949
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
 msgstr "Spor razveljavljanja/ponavljanja med več uporabniki. Uporabite popravilo dokumenta za razrešitev težave."
 
@@ -801,7 +805,7 @@ msgid "More..."
 msgstr "Dodatno ..."
 
 #: src/control/Control.TopToolbar.js:213
-#: src/control/Control.NotebookbarBuilder.js:319
+#: src/control/Control.NotebookbarBuilder.js:358
 msgid "Insert Local Image"
 msgstr "Vstavi krajevno sliko"
 
@@ -849,25 +853,21 @@ msgstr "Vedno sledi urejevalcu"
 msgid "Current"
 msgstr "Trenutno"
 
-#: src/control/Ruler.js:363
+#: src/control/Ruler.js:366
 msgid "Left Margin"
 msgstr "Levi rob"
 
-#: src/control/Ruler.js:364
+#: src/control/Ruler.js:367
 msgid "Right Margin"
 msgstr "Desni rob"
 
-#: src/control/Ruler.js:637
-#, fuzzy
-#| msgid "Insert table"
+#: src/control/Ruler.js:642
 msgid "Insert tabstop"
-msgstr "Vstavi tabelo"
+msgstr "Vstavi tabulator"
 
-#: src/control/Ruler.js:644
-#, fuzzy
-#| msgid "Insert table"
+#: src/control/Ruler.js:649
 msgid "Delete tabstop"
-msgstr "Vstavi tabelo"
+msgstr "Izbriši tabulator"
 
 #: src/control/Signing.js:195
 msgid "Please enter the PIN Code"
@@ -997,7 +997,7 @@ msgstr "Podpisano, vendar vse datoteke niso podpisane"
 msgid "Downloading..."
 msgstr "Prejemanje ..."
 
-#: src/control/Toolbar.js:104 src/map/Map.js:1443
+#: src/control/Toolbar.js:104 src/map/Map.js:1448
 msgid "Saving..."
 msgstr "Shranjevanje ..."
 
@@ -1005,7 +1005,7 @@ msgstr "Shranjevanje ..."
 msgid "Renaming..."
 msgstr "Preimenovanje ..."
 
-#: src/control/Toolbar.js:389
+#: src/control/Toolbar.js:399
 msgid "I understand the risks"
 msgstr ""
 
@@ -1013,23 +1013,23 @@ msgstr ""
 msgid "We are sorry, the information about the latest updates is not available."
 msgstr "Žal podatki o najnovejših posodobitvah niso na voljo."
 
-#: src/control/Toolbar.js:495
+#: src/control/Toolbar.js:496
 msgid "This version of %productName is powered by"
 msgstr "To različico %productName poganja"
 
-#: src/control/Toolbar.js:505
+#: src/control/Toolbar.js:506
 msgid "\"Slow Proxy\""
 msgstr ""
 
-#: src/control/Toolbar.js:590
+#: src/control/Toolbar.js:591
 msgid "Insert hyperlink"
 msgstr "Vstavi hiperpovezavo"
 
-#: src/control/Toolbar.js:592
+#: src/control/Toolbar.js:593
 msgid "Text"
 msgstr "Besedilo"
 
-#: src/control/Toolbar.js:593
+#: src/control/Toolbar.js:594
 msgid "Link"
 msgstr "Povezava"
 
@@ -1109,7 +1109,7 @@ msgstr "Pritisnite Prekliči za odpiranje v oglednem načinu."
 msgid "Wrong password provided. Please try again."
 msgstr "Vnesli ste napačno geslo. Poskusite znova."
 
-#: src/core/Socket.js:759 src/map/Map.js:1446
+#: src/core/Socket.js:759 src/map/Map.js:1451
 msgid "Loading..."
 msgstr "Nalaganje ..."
 
@@ -1223,19 +1223,19 @@ msgstr "Nalaganje datoteke na strežnik je spodletelo, datoteke ni mogoče najti
 msgid "Uploading file to server failed, the file is too large."
 msgstr "Nalaganje datoteke na strežnik je spodletelo, datoteka je prevelika."
 
-#: src/layer/marker/Annotation.js:220
+#: src/layer/marker/Annotation.js:228
 msgid "Accept change"
 msgstr "Sprejmi spremembo"
 
-#: src/layer/marker/Annotation.js:225
+#: src/layer/marker/Annotation.js:233
 msgid "Reject change"
 msgstr "Zavrni spremembo"
 
-#: src/layer/marker/Annotation.js:234
+#: src/layer/marker/Annotation.js:242
 msgid "Open menu"
 msgstr "Odpri meni"
 
-#: src/layer/marker/Annotation.js:255 src/layer/tile/TileLayer.js:243
+#: src/layer/marker/Annotation.js:263 src/layer/tile/TileLayer.js:243
 msgid "Reply"
 msgstr "Odgovori"
 
@@ -1279,17 +1279,17 @@ msgstr "<p>Prenos se je zaradi obsežne operacije kopiraj/prilepi že začel. Pr
 msgid "Initializing..."
 msgstr "Inicializacija ..."
 
-#: src/map/Map.js:425
+#: src/map/Map.js:430
 #, javascript-format
 msgid "%d seconds ago"
 msgstr "%d sekund nazaj"
 
-#: src/map/Map.js:428
+#: src/map/Map.js:433
 #, javascript-format
 msgid "%d minutes ago"
 msgstr "%d minut nazaj"
 
-#: src/map/Map.js:1297
+#: src/map/Map.js:1302
 msgid "Inactive document - please click to resume editing"
 msgstr "Neaktivni dokument – kliknite za nadaljevanje urejanja"
 
@@ -1311,17 +1311,13 @@ msgstr "Prenašanje na strežnik ..."
 msgid "Uploading file to server failed with status: %0"
 msgstr "Nalaganje datoteke na strežnik je spodletelo s stanjem: %0"
 
-#: src/map/handler/Map.WOPI.js:107
+#: src/map/handler/Map.WOPI.js:111
 msgid "Creating new file from template..."
 msgstr "Ustvarjanje nove datoteke iz predloge ..."
 
-#: src/map/handler/Map.WOPI.js:422
+#: src/map/handler/Map.WOPI.js:426
 msgid "Creating copy..."
 msgstr "Ustvarjanje kopije ..."
-
-#: admin/src/AdminSocketSettings.js:34
-msgid "Confirmation"
-msgstr ""
 
 #~ msgid "Color"
 #~ msgstr "Barvno"
