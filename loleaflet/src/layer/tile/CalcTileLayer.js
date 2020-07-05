@@ -7,7 +7,7 @@
 L.CalcTileLayer = L.TileLayer.extend({
 	options: {
 		// TODO: sync these automatically from SAL_LOK_OPTIONS
-		sheetGeometryDataEnabled: false,
+		sheetGeometryDataEnabled: true,
 		printTwipsMsgsEnabled: false
 	},
 
