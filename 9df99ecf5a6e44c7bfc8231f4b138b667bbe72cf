@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6dafaec_fdcc26b4",
+        "filename": "cypress_test/integration_tests/mobile/writer/hamburger_menu_spec.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-06T07:37:09Z",
+      "side": 1,
+      "message": "I think, you can use ENTER instead of this one. e.g. cy.get(\u0027#searchterm\u0027).type(\u0027a{enter}\u0027);.\nThis will also make the dialog updated.",
+      "range": {
+        "startLine": 617,
+        "startChar": 2,
+        "endLine": 617,
+        "endChar": 27
+      },
+      "revId": "9df99ecf5a6e44c7bfc8231f4b138b667bbe72cf",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f316b10c_9e02ad07",
+        "filename": "cypress_test/integration_tests/mobile/writer/hamburger_menu_spec.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-06T07:37:09Z",
+      "side": 1,
+      "message": "I think here you can use the state of the \u0027#search\u0027 button to wait on instead of this wait method. When you enter a text to the searchterm field the \u0027#search\u0027 button becomes enabled.",
+      "range": {
+        "startLine": 620,
+        "startChar": 2,
+        "endLine": 620,
+        "endChar": 15
+      },
+      "revId": "9df99ecf5a6e44c7bfc8231f4b138b667bbe72cf",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
