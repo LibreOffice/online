@@ -67,7 +67,7 @@ do-check: $(DESKTOP_TEST_FILES_DONE) $(MOBILE_TEST_FILES_DONE)
 	$(if $(HEADLESS_BUILD),@pkill Xvfb,)
 	$(if $(wildcard $(ERROR_LOG)),@cat $(ERROR_LOG))
 
-$(PID_FILE): @JAILS_PATH@ $(NODE_BINS)
+$(PID_FILE): $(NODE_BINS)
 	@rm -f $(ERROR_LOG)
 	$(call run_JS_error_check)
 	$(if $(HEADLESS_BUILD),$(call start_Xvfb),)
@@ -93,19 +93,19 @@ $(DESKTOP_TEST_FILES_DONE): $(PID_FILE)
 		@$(foreach done_file,$(DESKTOP_TEST_FILES_DONE),mkdir -p $(dir $(done_file)) && touch $(done_file) &&) true\
 	)
 
-check-desktop: @JAILS_PATH@ $(NODE_BINS)
+check-desktop: $(NODE_BINS)
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
 	$(call run_desktop_tests,$(spec))
 	@$(KILL_COMMAND) || true
 
-check-mobile: @JAILS_PATH@ $(NODE_BINS)
+check-mobile: $(NODE_BINS)
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
 	$(call run_mobile_tests,$(spec))
 	@$(KILL_COMMAND) || true
 
-run-desktop: @JAILS_PATH@ $(NODE_BINS)
+run-desktop: $(NODE_BINS)
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
 	@echo
@@ -115,7 +115,7 @@ run-desktop: @JAILS_PATH@ $(NODE_BINS)
 			|| true
 	@$(KILL_COMMAND) || true
 
-run-mobile: @JAILS_PATH@ $(NODE_BINS)
+run-mobile: $(NODE_BINS)
 	$(call run_JS_error_check)
 	$(call start_loolwsd)
 	@echo
@@ -125,7 +125,7 @@ run-mobile: @JAILS_PATH@ $(NODE_BINS)
 			|| true
 	@$(KILL_COMMAND) || true
 
-run-cov: @JAILS_PATH@ $(NODE_BINS)
+run-cov: $(NODE_BINS)
 	@echo
 	@echo "Setup coverage tools..."
 	@echo
