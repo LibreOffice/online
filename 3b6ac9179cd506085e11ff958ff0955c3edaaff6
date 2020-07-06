@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1cb39f3_66172868",
+        "filename": "cypress_test/integration_tests/mobile/writer/hamburger_menu_spec.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-06T10:36:56Z",
+      "side": 0,
+      "message": "You removed some other tests here.",
+      "range": {
+        "startLine": 331,
+        "startChar": 5,
+        "endLine": 331,
+        "endChar": 9
+      },
+      "revId": "3b6ac9179cd506085e11ff958ff0955c3edaaff6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
