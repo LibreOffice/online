@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb4ca3e4_9bb19f5c",
+        "filename": "common/FileUtil.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-07T08:19:19Z",
+      "side": 1,
+      "message": "This method is missing some cleanup in the (rare) failure cases of the copy() and/or the rename I guess (?) \u003d)",
+      "revId": "1cddb70b185ed97f1afe04df61ff7cc6ffd3d858",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
