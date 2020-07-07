@@ -894,17 +894,14 @@ describe('Trigger hamburger menu options.', function() {
 
 		mobileHelper.openMobileWizard();
 
-		cy.get('#ScCellAppearancePropertyPanel')
-			.click();
+		helper.clickOnIdle('#ScCellAppearancePropertyPanel');
 
 		cy.contains('.menu-entry-with-icon', 'Background Color')
 			.should('be.visible');
 
-		cy.get('#border-12')
-			.click();
+		helper.clickOnIdle('#border-12');
 
-		cy.get('#FrameLineColor')
-			.click();
+		helper.clickOnIdle('#FrameLineColor');
 
 		mobileHelper.selectFromColorPalette(2, 0, 7);
 
@@ -912,14 +909,12 @@ describe('Trigger hamburger menu options.', function() {
 
 		mobileHelper.openMobileWizard();
 
-		cy.get('#TextPropertyPanel')
-			.click();
+		helper.clickOnIdle('#TextPropertyPanel');
 
 		cy.get('#Bold')
 			.should('be.visible');
 
-		cy.get('#Color')
-			.click();
+		helper.clickOnIdle('#Color');
 
 		mobileHelper.selectFromColorPalette(0, 0, 7);
 
