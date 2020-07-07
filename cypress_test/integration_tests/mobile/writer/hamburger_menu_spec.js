@@ -24,8 +24,7 @@ describe('Trigger hamburger menu options.', function() {
 
 		mobileHelper.openMobileWizard();
 
-		cy.get('#FontColor')
-			.click();
+		helper.clickOnIdle('#FontColor');
 
 		mobileHelper.selectFromColorPalette(0, 0, 7);
 
@@ -752,11 +751,9 @@ describe('Trigger hamburger menu options.', function() {
 
 		openPageWizard();
 
-		cy.get('#papersize')
-			.click();
+		helper.clickOnIdle('#papersize');
 
-		cy.contains('.ui-combobox-text', 'C6 Envelope')
-			.click();
+		helper.clickOnIdle('.ui-combobox-text', 'C6 Envelope');
 
 		// Smaller paper size makes center tile to contain text too.
 		helper.imageShouldBeFullWhiteOrNot(centerTile, false);
@@ -776,10 +773,7 @@ describe('Trigger hamburger menu options.', function() {
 
 		openPageWizard();
 
-		cy.get('#paperwidth .spinfield')
-			.clear()
-			.type('5')
-			.type('{enter}');
+		helper.inputOnIdle('#paperwidth .spinfield', '5');
 
 		// Smaller paper size makes center tile to contain text too.
 		helper.imageShouldBeFullWhiteOrNot(centerTile, false);
@@ -802,10 +796,7 @@ describe('Trigger hamburger menu options.', function() {
 
 		openPageWizard();
 
-		cy.get('#paperheight .spinfield')
-			.clear()
-			.type('3.0')
-			.type('{enter}');
+		helper.inputOnIdle('#paperheight .spinfield', '3.0');
 
 		// Smaller paper size makes center tile to contain the end of the page.
 		helper.imageShouldBeFullWhiteOrNot(centerTile, false);
@@ -828,11 +819,9 @@ describe('Trigger hamburger menu options.', function() {
 
 		openPageWizard();
 
-		cy.get('#paperorientation')
-			.click();
+		helper.clickOnIdle('#paperorientation');
 
-		cy.contains('.ui-combobox-text', 'Landscape')
-			.click();
+		helper.clickOnIdle('.ui-combobox-text', 'Landscape');
 
 		// We got some extra tiles horizontally.
 		cy.get('.leaflet-tile-loaded[style=\'width: 256px; height: 256px; left: 1023px; top: 5px;\']')
@@ -853,11 +842,9 @@ describe('Trigger hamburger menu options.', function() {
 
 		openPageWizard();
 
-		cy.get('#marginLB')
-			.click();
+		helper.clickOnIdle('#marginLB');
 
-		cy.contains('.ui-combobox-text', 'None')
-			.click();
+		helper.clickOnIdle('.ui-combobox-text', 'None');
 
 		// Text is moved up by margin removal, so the the center tile will be empty.
 		helper.imageShouldBeFullWhiteOrNot(centerTile, true);
