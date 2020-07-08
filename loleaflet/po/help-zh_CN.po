@@ -2,16 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-15 22:15+0200\n"
-"PO-Revision-Date: 2020-06-21 14:29+0000\n"
-"Last-Translator: Ming Hua <plateauwolf@qq.com>\n"
+"POT-Creation-Date: 2020-03-31 22:32+0200\n"
+"PO-Revision-Date: 2020-07-08 18:33+0000\n"
+"Last-Translator: streambun <hwdxyx@189.cn>\n"
 "Language-Team: Chinese (Simplified) <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 4.1.1\n"
 "X-Pootle-Path: /zh_CN/libo_online/loleaflet-help-zh_CN.po\n"
 "X-Pootle-Revision: 3806428\n"
 
@@ -25,7 +25,7 @@ msgstr "通用快捷键"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:23-18
 msgid "Undo"
-msgstr "撤销"
+msgstr "撤消"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:23-49
 msgid "Ctrl + Z"
@@ -33,7 +33,7 @@ msgstr "Ctrl + Z"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:24-18
 msgid "Redo"
-msgstr "重做"
+msgstr "恢复"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:24-49
 msgid "Ctrl + Y"
@@ -994,7 +994,7 @@ msgstr "编辑演示文稿"
 #: html/loleaflet-help.html%2Bdiv.div.p:234-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:424-5
 msgid "Slide show"
-msgstr ""
+msgstr "幻灯片放映"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:235-9
 #: html/loleaflet-help.html%2Bdiv.div.h3:428-5
@@ -1283,7 +1283,7 @@ msgstr "公式语言是电子表格用户都很熟悉的格式，详见 <a href=
 
 #: html/loleaflet-help.html%2Bdiv.div.p:349-5
 msgid "<span class=\"def\">Direct formatting:</span> You can format spreadsheets cells, columns, rows and sheets by formatting directly from the menus, toolbar or context menus. Direct formatting applies only to the current object selected. To format a cell either use the menu or hit <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">1</span>. The dialog allows complex and custom number formatting, as well as font, complex border, background, cell protection and other options."
-msgstr ""
+msgstr "<span class=\"def\">直接设置格式：</span> 您可以直接通过菜单、工具栏或右键菜单中的格式设置来设置电子表格单元格、列、行和工作表的格式。直接格式设置仅应用于所选的当前对象。要设置单元格的格式，请使用菜单或按下 <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">1</span>。该对话框可设置复杂的自定义数字格式，如字体、复杂边框、背景、单元格保护和其他选项等。"
 
 #: html/loleaflet-help.html%2Bdiv.div.p:353-5
 msgid "<span class=\"def\">Sorting data:</span> You can sort a list of numbers or text ascending or descending. <span class=\"productname\">%productName</span> automatically detects cells that are headers, and adjoining columns, to extend the selection."
