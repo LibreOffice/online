@@ -16,6 +16,24 @@
       "revId": "2f222f3b8a7248c90f093fa89023b98f2e90f1e5",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bf8689f_03bcd2ff",
+        "filename": "test/UnitPHPProxy.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-08T12:45:39Z",
+      "side": 1,
+      "message": "Now i understand better also your previous comments:) Thank you for your help. It\u0027s done.",
+      "parentUuid": "313ae405_28875d14",
+      "revId": "2f222f3b8a7248c90f093fa89023b98f2e90f1e5",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
