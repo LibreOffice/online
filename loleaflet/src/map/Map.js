@@ -385,7 +385,7 @@ L.Map = L.Evented.extend({
 			&& lastModButton.firstChild.childElementCount == 0) {
 			if (this._lastmodtime == null) {
 				// No modification time -> hide the indicator
-				lastModButton.innerHTML = '';
+				lastModButton.hide();
 				return;
 			}
 			var mainSpan = document.createElement('span');
