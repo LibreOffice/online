@@ -146,7 +146,7 @@ m4_ifelse(MOBILEAPP,[true],
        <ul id="main-menu" class="sm sm-simple lo-menu readonly"></ul>
        <div id="document-titlebar">
          <div class="document-title">
-           <div id="document-title-pencil"></div>
+           <div id="document-title-pencil" class="editable"></div>
            <input id="document-name-input" type="text" disabled="true" style="display: none"/>
          </div>
        </div>
@@ -214,21 +214,31 @@ m4_ifelse(MOBILEAPP,[true],
     </div>
 
     <!-- Remove if you don't want the About dialog -->
-    <div id="about-dialog" style="display:none; text-align: center; user-select: text">
-      <h1 id="product-name">LibreOffice Online</h1>
-      <div id="product-logo"></div>
-      <hr/>
-      <p id="product-string"></p>
-      <h3>LOOLWSD</h3>
-      <div id="loolwsd-version"></div>
-      <div id="loolwsd-id"></div>
-      <h3>LOKit</h3>
-      <div id="lokit-version"></div>
-      m4_ifelse(MOBILEAPP,[],[<div id="os-info" style="text-align:center"></div>])
-      <div id="slow-proxy"></div>
-      <div id="personal"></div>
-      <p>Copyright © _YEAR_, VENDOR.</p>
-    </div>
+		<div id="about-dialog" style="height:400px;">
+			<h1 id="product-name">LibreOffice Online</h1>
+			<hr/>
+			<div style="display:flex;height: 86%;align-items: center;justify-content: center;">
+				<div style="background-color: rgb(255, 239, 239); display: flex; flex: 1 1 0%; flex-flow: row nowrap; place-content: stretch flex-start; align-items: stretch;">
+					<div id="about-dialog-product" style="align-items: center; color: rgb(255, 255, 255); display: flex; justify-content: center; background-color: rgb(255, 200, 200); flex-grow: 2;">
+					</div>
+					<div id="about-dialog-integration" style="align-items: center; color: rgb(255, 255, 255); display: flex; justify-content: center; background-color: rgb(255, 190, 190); flex-grow: 2;">
+					</div>
+					<div style="align-items: center; color: rgb(255, 255, 255); display: flex; justify-content: center; background-color: rgb(255, 180, 180); flex-grow: 1;">
+						<div style="display:flex;flex-direction: column;">
+							<p id="product-string" style="display:flex;"></p>
+							<div style="display:flex;">LOOLWSD version:</div>
+							<div id="loolwsd-version" style="display:flex;"></div>
+							<div id="loolwsd-id" style="display:flex; visibility: hidden;"></div>
+							<div style="display:flex;">LOKit version:</div>
+							<div id="lokit-version" style="display:flex;"></div>
+							m4_ifelse(MOBILEAPP,[],[<div id="os-info" style="text-align:center;display:flex;"></div>])
+							<div id="slow-proxy" style="display:flex;"></div>
+							<p style="display:flex;">Copyright © _YEAR_, VENDOR.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
     <script>
 m4_ifelse(MOBILEAPP,[true],
