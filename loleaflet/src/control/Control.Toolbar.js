@@ -1060,11 +1060,13 @@ function setupToolbar(e) {
 	map.on('commandresult', onCommandResult);
 	map.on('updateparts pagenumberchanged', onUpdateParts);
 
-	if (!L.Params.closeButtonEnabled) {
-		$('#closebuttonwrapper').hide();
-	} else if (L.Params.closeButtonEnabled && !window.mode.isMobile()) {
-		$('#closebuttonwrapper').show();
-		$('.closebuttonimage').show();
+	if (!map.options.wopi) {
+		if (!L.Params.closeButtonEnabled) {
+			$('#closebuttonwrapper').hide();
+		} else if (L.Params.closeButtonEnabled && !window.mode.isMobile()) {
+			$('#closebuttonwrapper').show();
+			$('.closebuttonimage').show();
+		}
 	}
 
 	$('#closebutton').click(function() {
