@@ -37,9 +37,6 @@
 	z-index: 10;
 	cursor: auto;
 }
-#document-container.text-doctype > #map{
-	cursor: text;
-}
 .scroll-container .mCSB_scrollTools.mCSB_1_scrollbar {
 	position: absolute;
 	z-index: 1000;
