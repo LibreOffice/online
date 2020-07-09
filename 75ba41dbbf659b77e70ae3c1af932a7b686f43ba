@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "851a8d73_13545a9a",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-09T18:33:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0ca7e11_5ae727c4",
+      "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d93d1539_bae149f3",
         "filename": "loleaflet/js/global.js",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8245f955_f887bae1",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-09T18:33:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d93d1539_bae149f3",
+      "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "94d76b70_5eb7eb14",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-09T18:33:41Z",
+      "side": 1,
+      "message": "It is, but I replaced it with ontimeout (it seems to me that the addEventListener is error prone, because it takes a string with the event name, compared to the dedicated functions for the standard events).",
+      "parentUuid": "a32ad5c5_16089bda",
+      "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a87a701_bb47767f",
         "filename": "loleaflet/js/global.js",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c1453e3_7ff46160",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-09T18:33:41Z",
+      "side": 1,
+      "message": "Yes, good point. Moved it to be request-specific.",
+      "parentUuid": "4a87a701_bb47767f",
+      "revId": "75ba41dbbf659b77e70ae3c1af932a7b686f43ba",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
