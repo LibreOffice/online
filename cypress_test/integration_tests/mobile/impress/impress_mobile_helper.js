@@ -42,8 +42,6 @@ function selectTextOfShape() {
 }
 
 function triggerNewSVGForShapeInTheCenter() {
-	mobileHelper.closeMobileWizard();
-
 	// Remove selection first with clicking next to the rotate handler
 	cy.get('.transform-handler--rotate')
 		.then(function(items) {
