@@ -147,7 +147,7 @@ m4_ifelse(MOBILEAPP,[true],
        <div id="document-titlebar">
          <div class="document-title">
            <div id="document-title-pencil" class="editable"></div>
-           <input id="document-name-input" type="text" value="doc-read-only.odt" class="editable" style="display: none"/>
+           <input id="document-name-input" type="text" disabled="true" style="display: none"/>
          </div>
        </div>
      </nav>
@@ -219,12 +219,9 @@ m4_ifelse(MOBILEAPP,[true],
 			<hr/>
 			<div style="display:flex;height: 86%;align-items: center;justify-content: center;">
 				<div style="background-color: rgb(255, 239, 239); display: flex; flex: 1 1 0%; flex-flow: row nowrap; place-content: stretch flex-start; align-items: stretch;">
-					<div style="align-items: center; color: rgb(255, 255, 255); display: flex; justify-content: center; background-color: rgb(255, 200, 200); flex-grow: 2;background-image: url('images/toolbar-bg-logo.svg'); background-repeat: no-repeat; background-size: 100px; background-position: center;">
+					<div id="about-dialog-product" style="align-items: center; color: rgb(255, 255, 255); display: flex; justify-content: center; background-color: rgb(255, 200, 200); flex-grow: 2;">
 					</div>
-					<div style="align-items: center; color: rgb(255, 255, 255); display: flex; justify-content: center; background-color: rgb(255, 190, 190); flex-grow: 2;">
-						<div style="align-items:center;display:flex;height:50px;justify-content:center;width:50px;background-color:rgb(220, 85, 85);">
-							2
-						</div>
+					<div id="about-dialog-integration" style="align-items: center; color: rgb(255, 255, 255); display: flex; justify-content: center; background-color: rgb(255, 190, 190); flex-grow: 2;">
 					</div>
 					<div style="align-items: center; color: rgb(255, 255, 255); display: flex; justify-content: center; background-color: rgb(255, 180, 180); flex-grow: 1;">
 						<div style="display:flex;flex-direction: column;">
