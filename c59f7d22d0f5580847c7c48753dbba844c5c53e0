@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d2df2d7_a6cc162c",
+        "filename": "loleaflet/src/control/Control.Toolbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-07-09T11:28:56Z",
+      "side": 1,
+      "message": "isn\u0027t better to do something like:\n.css(\u0027cursor\u0027, \u0027wait !important\u0027)\n\n(then you don\u0027t overwrite all other style properties)",
+      "revId": "c59f7d22d0f5580847c7c48753dbba844c5c53e0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
