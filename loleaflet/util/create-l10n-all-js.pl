@@ -91,7 +91,9 @@ if (false) {
     window.LOCALIZATIONS = " . insert('tr') . ";
 } else if (onlylang == 'uk') {
     window.LOCALIZATIONS = " . insert('uk') . ";
-} else if (window.LANG == 'zh_TW') {
+} else if ((window.LANG == 'zh_CN') || (window.LANG.startsWith('zh_Hans'))) {
+    window.LOCALIZATIONS = " . insert('zh_CN') . ";
+} else if ((window.LANG == 'zh_TW') || (window.LANG.startsWith('zh_Hant'))) {
     window.LOCALIZATIONS = " . insert('zh_TW') . ";
 } else {
     window.LOCALIZATIONS = {};
