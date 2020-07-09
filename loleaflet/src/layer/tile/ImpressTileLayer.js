@@ -12,6 +12,10 @@ L.ImpressTileLayer = L.TileLayer.extend({
 		L.TileLayer.prototype.initialize.call(this, url, options);
 		this._preview = L.control.partsPreview();
 
+		// remove unused elements
+		L.DomUtil.remove(L.DomUtil.get('spreadsheet-row-column-frame'));
+		L.DomUtil.remove(L.DomUtil.get('spreadsheet-toolbar'));
+
 		if (window.mode.isMobile()) {
 			this._addButton = L.control.mobileSlide();
 			L.DomUtil.addClass(L.DomUtil.get('mobile-edit-button'), 'impress');
