@@ -14,6 +14,12 @@ L.CalcTileLayer = (L.Browser.mobile ? L.TileLayer : L.CanvasTileLayer).extend({
 	STD_EXTRA_WIDTH: 113, /* 2mm extra for optimal width,
 							  * 0.1986cm with TeX points,
 							  * 0.1993cm with PS points. */
+	initialize: function (url, options) {
+		L.TileLayer.prototype.initialize.call(this, url, options);
+
+		// remove unused elements
+		L.DomUtil.remove(L.DomUtil.get('presentation-controls-wrapper'));
+	},
 
 	twipsToHMM: function (twips) {
 		return (twips * 127 + 36) / 72;

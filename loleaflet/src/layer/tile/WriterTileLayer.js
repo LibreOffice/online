@@ -6,6 +6,15 @@
 /* global */
 L.WriterTileLayer = L.TileLayer.extend({
 
+	initialize: function (url, options) {
+		L.TileLayer.prototype.initialize.call(this, url, options);
+
+		// remove unused elements
+		L.DomUtil.remove(L.DomUtil.get('spreadsheet-row-column-frame'));
+		L.DomUtil.remove(L.DomUtil.get('spreadsheet-toolbar'));
+		L.DomUtil.remove(L.DomUtil.get('presentation-controls-wrapper'));
+	},
+
 	newAnnotation: function (comment) {
 		if (!comment.anchorPos && this._map._isCursorVisible) {
 			comment.anchorPos = L.bounds(this._latLngToTwips(this._visibleCursor.getSouthWest()),
