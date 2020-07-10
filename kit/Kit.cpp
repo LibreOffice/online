@@ -958,6 +958,32 @@ public:
 
     void renderTiles(TileCombined &tileCombined, bool combined)
     {
+        // Find a session matching our view / render settings.
+        const auto session = _sessions.findByCanonicalId(tileCombined.getNormalizedViewId());
+        if (!session)
+        {
+            LOG_ERR("Session is not found. Maybe exited after rendering request.");
+            return;
+        }
+
+        if (!_loKitDocument)
+        {
+            LOG_ERR("Tile rendering requested before loading document.");
+            return;
+        }
+
+        if (_loKitDocument->getViewsCount() <= 0)
+        {
+            LOG_ERR("Tile rendering requested without views.");
+            return;
+        }
+
+#ifdef FIXME_RENDER_SETTINGS
+        // if necessary select a suitable rendering view eg. with 'show non-printing chars'
+        if (tileCombined.getNormalizedViewId())
+            _loKitDocument->setView(session->getViewId());
+#endif
+
         auto& tiles = tileCombined.getTiles();
 
         // Calculate the area we cover
@@ -992,32 +1018,6 @@ public:
 
         const size_t pixmapSize = 4 * pixmapWidth * pixmapHeight;
         RenderBuffer pixmap(pixmapWidth, pixmapHeight);
-
-        if (!_loKitDocument)
-        {
-            LOG_ERR("Tile rendering requested before loading document.");
-            return;
-        }
-
-        if (_loKitDocument->getViewsCount() <= 0)
-        {
-            LOG_ERR("Tile rendering requested without views.");
-            return;
-        }
-
-        // Find a session matching our view / render settings.
-        const auto session = _sessions.findByCanonicalId(tileCombined.getNormalizedViewId());
-        if (!session)
-        {
-            LOG_ERR("Session is not found. Maybe exited after rendering request.");
-            return;
-        }
-
-#ifdef FIXME_RENDER_SETTINGS
-        // if necessary select a suitable rendering view eg. with 'show non-printing chars'
-        if (tileCombined.getNormalizedViewId())
-            _loKitDocument->setView(session->getViewId());
-#endif
 
         // Render the whole area
         const double area = pixmapWidth * pixmapHeight;
