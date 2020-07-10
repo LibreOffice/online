@@ -1939,6 +1939,16 @@ protected:
         }
     }
 
+    virtual void enableMessageHandling(bool enable = true) override
+    {
+        WebSocketHandler::enableMessageHandling(enable);
+        // Wake up poll to process data from socket input buffer
+        if (enable && _ksPoll)
+        {
+            _ksPoll->wakeup();
+        }
+    }
+
     void onDisconnect() override
     {
 #if !MOBILEAPP
