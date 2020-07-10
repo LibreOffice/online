@@ -207,8 +207,6 @@ L.Socket = L.Class.extend({
 			this._doSend(this._msgQueue[i]);
 		}
 		this._msgQueue = [];
-
-		this._map._activate();
 	},
 
 	_utf8ToString: function (data) {
