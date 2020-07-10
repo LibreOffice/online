@@ -36,8 +36,6 @@
 	height: 100%;
 	overflow: auto;
 	padding-bottom: 20px; /* to hide the horizontal scrollbar */
-	padding-right: 5px; /* to hide the vertical scrollbar */
-
 	margin-left: 6px;
 	}
 
