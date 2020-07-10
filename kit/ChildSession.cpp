@@ -205,11 +205,22 @@ bool ChildSession::_handleInput(const char *buffer, int length)
             return false;
         }
 
+        // Disable processing of other messages while loading document
+        std::shared_ptr<ProtocolHandlerInterface> protocolHandler = getProtocol();
+        bool messageHandlingEnabled = false;
+        if (protocolHandler)
+        {
+            messageHandlingEnabled = protocolHandler->isMessageHandlingEnabled();
+            if (messageHandlingEnabled)
+                protocolHandler->enableMessageHandling(false);
+        }
         _isDocLoaded = loadDocument(buffer, length, tokens);
         if (!_isDocLoaded)
         {
             sendTextFrameAndLogError("error: cmd=load kind=faileddocloading");
         }
+        if (protocolHandler && messageHandlingEnabled)
+            protocolHandler->enableMessageHandling(true);
 
         LOG_TRC("isDocLoaded state after loadDocument: " << _isDocLoaded << '.');
         return _isDocLoaded;
@@ -376,6 +387,24 @@ bool ChildSession::_handleInput(const char *buffer, int length)
                 newTokens.push_back(firstLine.substr(4)); // Copy the remaining part.
                 return unoCommand(buffer, length, newTokens);
             }
+            else if (tokens[1].find(".uno:Save") != std::string::npos)
+            {
+                // Disable processing of other messages while saving document
+                std::shared_ptr<ProtocolHandlerInterface> protocolHandler = getProtocol();
+                bool ret, messageHandlingEnabled = false;
+                if (protocolHandler)
+                {
+                    messageHandlingEnabled = protocolHandler->isMessageHandlingEnabled();
+                    if (messageHandlingEnabled)
+                        protocolHandler->enableMessageHandling(false);
+                }
+                ret = unoCommand(buffer, length, tokens);
+                if (protocolHandler && messageHandlingEnabled)
+                    protocolHandler->enableMessageHandling(true);
+
+                return ret;
+            }
+
             return unoCommand(buffer, length, tokens);
         }
         else if (tokens.equals(0, "selecttext"))
