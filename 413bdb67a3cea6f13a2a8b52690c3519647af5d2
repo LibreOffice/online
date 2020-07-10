@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6abade_59fc540f",
+        "filename": "loleaflet/src/layer/tile/WriterTileLayer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-07-10T07:00:49Z",
+      "side": 1,
+      "message": "what about putting remove calls in Control.UIManager.js ? I think this is related to UI elements not tile layer.\n\nbest place in my opinion in: https://opengrok.libreoffice.org/xref/online/loleaflet/src/control/Control.UIManager.js?r\u003d72c49927#64\n\nthen we can put in one place:\nif (docType !\u003d\u003d \u0027spreadsheet\u0027) {\n    L.DomUtil.remove(L.DomUtil.get(\u0027spreadsheet-row-column-frame\u0027));\n    L.DomUtil.remove(L.DomUtil.get(\u0027spreadsheet-toolbar\u0027));\n}",
+      "revId": "413bdb67a3cea6f13a2a8b52690c3519647af5d2",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
