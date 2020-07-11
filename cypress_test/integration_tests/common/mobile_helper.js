@@ -33,6 +33,30 @@ function beforeAllMobile(fileName, subFolder) {
 	helper.loadTestDoc(fileName, subFolder, true);
 }
 
+function tapOnDocument(posX, posY) {
+	cy.log('Emulating a click - start.');
+	cy.log('Param - posX: ' + posX);
+	cy.log('Param - posY: ' + posY);
+
+	cy.get('.leaflet-pane.leaflet-map-pane')
+		.then(function(items) {
+			expect(items).have.length(1);
+
+			var eventOptions = {
+				force: true,
+				button: 0,
+				pointerType: 'touch',
+				x: posX - items[0].getBoundingClientRect().left,
+				y: posY - items[0].getBoundingClientRect().top
+			};
+
+			cy.get('.leaflet-pane.leaflet-map-pane')
+				.trigger('pointerdown', eventOptions)
+				.trigger('pointerup', eventOptions);
+		});
+	cy.log('Emulating a click - end.');
+}
+
 function longPressOnDocument(posX, posY) {
 	cy.log('Emulating a long press - start.');
 	cy.log('Param - posX: ' + posX);
@@ -209,6 +233,7 @@ function selectFromColorPalette(paletteNum, groupNum, colorNum) {
 
 module.exports.enableEditingMobile = enableEditingMobile;
 module.exports.beforeAllMobile = beforeAllMobile;
+module.exports.tapOnDocument = tapOnDocument;
 module.exports.longPressOnDocument = longPressOnDocument;
 module.exports.openHamburgerMenu = openHamburgerMenu;
 module.exports.closeHamburgerMenu = closeHamburgerMenu;
