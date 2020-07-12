@@ -117,8 +117,8 @@ namespace Log
           : _func(std::move(func)),
             _enabled(true)
         {
-            char buffer[1024];
-            _stream << prefix<sizeof(buffer) - 1>(buffer, level);
+            std::array<char, 1024> buffer;
+            _stream << prefix<buffer.size() - 1>(buffer.data(), level);
         }
 
         StreamLogger(StreamLogger&& sl) noexcept
@@ -282,8 +282,8 @@ namespace Log
 #ifdef __ANDROID__
 
 #define LOG_BODY_(LOG, PRIO, LVL, X, FILEP)                                                        \
-    char b_[1024];                                                                                 \
-    std::ostringstream oss_(Log::prefix<sizeof(b_) - 1>(b_, LVL), std::ostringstream::ate);        \
+    std::array<char, 1024> b_;                                                                     \
+    std::ostringstream oss_(Log::prefix<sizeof(b_) - 1>(b_.data(), LVL), std::ostringstream::ate); \
     oss_ << std::boolalpha << X;                                                                   \
     LOG_END(oss_, FILEP);                                                                          \
     ((void)__android_log_print(ANDROID_LOG_DEBUG, "loolwsd", "%s %s", LVL, oss_.str().c_str()))
@@ -291,8 +291,8 @@ namespace Log
 #else
 
 #define LOG_BODY_(LOG, PRIO, LVL, X, FILEP)                                                        \
-    char b_[1024];                                                                                 \
-    std::ostringstream oss_(Log::prefix<sizeof(b_) - 1>(b_, LVL), std::ostringstream::ate);        \
+    std::array<char, 1024> b_;                                                                     \
+    std::ostringstream oss_(Log::prefix<sizeof(b_) - 1>(b_.data(), LVL), std::ostringstream::ate); \
     oss_ << std::boolalpha << X;                                                                   \
     LOG_END(oss_, FILEP);                                                                          \
     LOG.log(Poco::Message(LOG.name(), oss_.str(), Poco::Message::PRIO_##PRIO));
