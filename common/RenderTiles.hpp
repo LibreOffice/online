@@ -348,17 +348,6 @@ namespace RenderTiles
         unsigned char *data() { return _data; }
     };
 
-    class WatermarkBlender
-    {
-    public:
-        virtual void blendWatermark(TileCombined &tileCombined,
-                                    unsigned char *data,
-                                    int offsetX, int offsetY,
-                                    size_t pixmapWidth, size_t pixmapHeight,
-                                    int pixelWidth, int pixelHeight,
-                                    LibreOfficeKitTileMode mode) = 0;
-    };
-
     static void pushRendered(std::vector<TileDesc> &renderedTiles,
                              const TileDesc &desc, TileWireId wireId, size_t imgSize)
     {
@@ -369,12 +358,15 @@ namespace RenderTiles
 
     bool doRender(std::shared_ptr<lok::Document> document,
                   TileCombined &tileCombined,
-                  WatermarkBlender &watermarkBlender,
-                  std::unique_ptr<char[]> &response,
-                  size_t &responseSize,
                   PngCache &pngCache,
                   ThreadPool &pngPool,
-                  bool combined)
+                  bool combined,
+                  const std::function<void (unsigned char *data,
+                                            int offsetX, int offsetY,
+                                            size_t pixmapWidth, size_t pixmapHeight,
+                                            int pixelWidth, int pixelHeight,
+                                            LibreOfficeKitTileMode mode)>& blendWatermark,
+                  const std::function<void (const char *buffer, size_t length)>& outputMessage)
     {
         auto& tiles = tileCombined.getTiles();
 
@@ -453,11 +445,10 @@ namespace RenderTiles
 
             const int offsetX = positionX * pixelWidth;
             const int offsetY = positionY * pixelHeight;
-            watermarkBlender.blendWatermark(tileCombined,
-                                            pixmap.data(), offsetX, offsetY,
-                                            pixmapWidth, pixmapHeight,
-                                            pixelWidth, pixelHeight,
-                                            mode);
+            blendWatermark(pixmap.data(), offsetX, offsetY,
+                           pixmapWidth, pixmapHeight,
+                           pixelWidth, pixelHeight,
+                           mode);
 
             const uint64_t hash = Png::hashSubBuffer(pixmap.data(), offsetX, offsetY,
                                                      pixelWidth, pixelHeight, pixmapWidth, pixmapHeight);
@@ -520,10 +511,25 @@ namespace RenderTiles
                         }
 
                         LOG_DBG("Tile " << tileIndex << " is " << data->size() << " bytes.");
+                        // We use the same pngMutex to also avoid parallel calls of the
+                        // outputMessage function.
                         std::unique_lock<std::mutex> pngLock(pngMutex);
-                        output.insert(output.end(), data->begin(), data->end());
+                        if (!combined)
+                        {
+                            const std::string tileMsg = tiles[tileIndex].serialize("tile:", ADD_DEBUG_RENDERID);
+                            const size_t responseSize = tileMsg.size() + data->size();
+                            std::unique_ptr<char[]> response;
+                            response.reset(new char[responseSize]);
+                            std::copy(tileMsg.begin(), tileMsg.end(), response.get());
+                            std::copy(data->begin(), data->end(), response.get() + tileMsg.size());
+                            outputMessage(response.get(), responseSize);
+                        }
+                        else
+                        {
+                            output.insert(output.end(), data->begin(), data->end());
+                            pushRendered(renderedTiles, tiles[tileIndex], wireId, data->size());
+                        }
                         pngCache.addToCache(data, wireId, hash);
-                        pushRendered(renderedTiles, tiles[tileIndex], wireId, data->size());
                     });
             }
 
@@ -534,27 +540,30 @@ namespace RenderTiles
 
         pngPool.run();
 
-        for (auto &i : renderedTiles)
+        if (combined)
         {
-            if (i.getImgSize() == 0)
+            for (auto &i : renderedTiles)
             {
-                LOG_ERR("Encoded 0-sized tile!");
-                assert(!"0-sized tile enocded!");
+                if (i.getImgSize() == 0)
+                {
+                    LOG_ERR("Encoded 0-sized tile!");
+                    assert(!"0-sized tile enocded!");
+                }
             }
-        }
 
-        // FIXME: append duplicates - tragically for now as real duplicates
-        // we should append these as
-        {
-            size_t imgSize = -1;
-            assert(duplicateTiles.size() == duplicateHashes.size());
-            for (size_t i = 0; i < duplicateTiles.size(); ++i)
+            // FIXME: append duplicates - tragically for now as real duplicates
+            // we should append these as
             {
-                if (pngCache.copyFromCache(duplicateHashes[i], output, imgSize))
-                    pushRendered(renderedTiles, duplicateTiles[i],
-                                 duplicateTiles[i].getWireId(), imgSize);
-                else
-                    LOG_ERR("Horror - tile disappeared while rendering! " << duplicateHashes[i]);
+                size_t imgSize = -1;
+                assert(duplicateTiles.size() == duplicateHashes.size());
+                for (size_t i = 0; i < duplicateTiles.size(); ++i)
+                {
+                    if (pngCache.copyFromCache(duplicateHashes[i], output, imgSize))
+                        pushRendered(renderedTiles, duplicateTiles[i],
+                                     duplicateTiles[i].getWireId(), imgSize);
+                    else
+                        LOG_ERR("Horror - tile disappeared while rendering! " << duplicateHashes[i]);
+                }
             }
         }
 
@@ -570,18 +579,19 @@ namespace RenderTiles
         if (tileIndex == 0)
             return false;
 
-        std::string tileMsg;
         if (combined)
-            tileMsg = tileCombined.serialize("tilecombine:", ADD_DEBUG_RENDERID, renderedTiles);
-        else
-            tileMsg = tiles[0].serialize("tile:", ADD_DEBUG_RENDERID);
+        {
+            const std::string tileMsg = tileCombined.serialize("tilecombine:", ADD_DEBUG_RENDERID, renderedTiles);
 
-        LOG_TRC("Sending back painted tiles for " << tileMsg << " of size " << output.size() << " bytes) for: " << tileMsg);
+            LOG_TRC("Sending back painted tiles for " << tileMsg << " of size " << output.size() << " bytes) for: " << tileMsg);
 
-        responseSize = tileMsg.size() + output.size();
-        response.reset(new char[responseSize]);
-        std::copy(tileMsg.begin(), tileMsg.end(), response.get());
-        std::copy(output.begin(), output.end(), response.get() + tileMsg.size());
+            std::unique_ptr<char[]> response;
+            const size_t responseSize = tileMsg.size() + output.size();
+            response.reset(new char[responseSize]);
+            std::copy(tileMsg.begin(), tileMsg.end(), response.get());
+            std::copy(output.begin(), output.end(), response.get() + tileMsg.size());
+            outputMessage(response.get(), responseSize);
+        }
 
         return true;
     }
