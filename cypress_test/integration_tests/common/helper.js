@@ -361,10 +361,37 @@ function clickOnIdle(selector, content) {
 	cy.log('Clicking on item when idle - start.');
 
 	waitUntilIdle(selector, content);
+
 	if (content) {
+		cy.contains(selector, content)
+			.then(function(item) {
+				expect(item).to.have.length(1);
+				if (Cypress.dom.isHidden(item[0])) {
+					cy.contains(selector, content)
+						.scrollIntoView();
+
+					waitUntilIdle(selector, content);
+
+					cy.contains(selector, content)
+						.should('be.visible');
+				}
+			});
 		cy.contains(selector, content)
 			.click();
 	} else {
+		cy.get(selector)
+			.then(function(item) {
+				expect(item).to.have.length(1);
+				if (Cypress.dom.isHidden(item[0])) {
+					cy.get(selector)
+						.scrollIntoView();
+
+					waitUntilIdle(selector);
+
+					cy.get(selector)
+						.should('be.visible');
+				}
+			});
 		cy.get(selector)
 			.click();
 	}
