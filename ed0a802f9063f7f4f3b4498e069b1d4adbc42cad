@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4944f325_4320273b",
+        "filename": "wsd/TileCache.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-13T14:00:10Z",
+      "side": 1,
+      "message": "please don\u0027t waste the non-renewable vertical space resource \u003d)",
+      "revId": "ed0a802f9063f7f4f3b4498e069b1d4adbc42cad",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5345d14_019210d0",
+        "filename": "wsd/TileCache.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-13T14:00:10Z",
+      "side": 1,
+      "message": "ditto.",
+      "revId": "ed0a802f9063f7f4f3b4498e069b1d4adbc42cad",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79c48149_99d85766",
+        "filename": "wsd/TileCache.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-13T14:00:10Z",
+      "side": 1,
+      "message": "This doesn\u0027t compare two items to see if they are equal - but only some subset of properties useful to the cache. So - surely having that in the name of this comparator and/or hash class is important (?)",
+      "revId": "ed0a802f9063f7f4f3b4498e069b1d4adbc42cad",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
