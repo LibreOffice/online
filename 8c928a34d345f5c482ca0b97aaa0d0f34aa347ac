@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "366b1e31_0d399a2c",
+        "filename": "loleaflet/src/core/Socket.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-13T18:10:43Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need to track the reason of failure.\n\nI think the design here assumes that we either get passwordrequired, wrongpassword, or faileddocloading. But not more than one.\n\nSo, the bug is very likely a regression in WSD that started sending faileddocloading for password-protected files. Fixing that regression (by stopping WSD from sending faileddocloading for password-protected files) should fix the issue without needed this logic at all.",
+      "revId": "8c928a34d345f5c482ca0b97aaa0d0f34aa347ac",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
