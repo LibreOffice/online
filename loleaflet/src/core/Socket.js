@@ -620,6 +620,7 @@ L.Socket = L.Class.extend({
 			var passwordNeeded = false;
 			if (errorKind.startsWith('passwordrequired')) {
 				passwordNeeded = true;
+				this.loadFailBecauseOfPassword = true;
 				var msg = '';
 				var passwordType = errorKind.split(':')[1];
 				if (passwordType === 'to-view') {
@@ -634,8 +635,14 @@ L.Socket = L.Class.extend({
 				passwordNeeded = true;
 				msg = _('Wrong password provided. Please try again.');
 			} else if (errorKind.startsWith('faileddocloading')) {
+				if (this.loadFailBecauseOfPassword && this.loadFailBecauseOfPassword === true) {
+					//try to load it just once if failed because of password
+					//else doc is indeed correcpted or not supported
+					this.loadFailBecauseOfPassword = false;
+				} else {
 				this._map._fatal = true;
 				this._map.fire('error', {msg: errorMessages.faileddocloading});
+				}
 			} else if (errorKind.startsWith('docloadtimeout')) {
 				this._map._fatal = true;
 				this._map.fire('error', {msg: errorMessages.docloadtimeout});
