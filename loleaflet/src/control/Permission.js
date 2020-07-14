@@ -2,7 +2,7 @@
 /*
  * Document permission handler
  */
-/* global $ */
+/* global $ _ vex */
 L.Map.include({
 	setPermission: function (perm) {
 		if (perm === 'edit') {
@@ -13,13 +13,7 @@ L.Map.include({
 
 				var that = this;
 				button.on('click', function () {
-					button.hide();
-					that._enterEditMode('edit');
-					that.fire('editorgotfocus');
-					// In the iOS/android app, just clicking the mobile-edit-button is
-					// not reason enough to pop up the on-screen keyboard.
-					if (!(window.ThisIsTheiOSApp || window.ThisIsTheAndroidApp))
-						that.focus();
+					that._switchToEditMode();
 				});
 
 				// temporarily, before the user touches the floating action button
@@ -30,11 +24,45 @@ L.Map.include({
 			}
 		}
 		else if (perm === 'view' || perm === 'readonly') {
-			if (window.mode.isMobile() || window.mode.isTablet()) {
+			if (this.options.canTryUnlock) {
+				// This status is not permanent. Allow to try to lock the file for edit again.
+				button = $('#mobile-edit-button');
+				button.show();
+				button.off('click');
+
+				that = this;
+				button.on('click', function () {
+					var result = that._tryLockFile();
+					if (result === 'ok') {
+						that._switchToEditMode();
+					}
+					else {
+						vex.dialog.alert({ message: _('The document could not be unlocked.') });
+					}
+				});
+			}
+			else if (window.mode.isMobile() || window.mode.isTablet()) {
 				$('#mobile-edit-button').hide();
 			}
 
 			this._enterReadOnlyMode(perm);
+		}
+	},
+
+	_tryLockFile: function () {
+		// TODO: send locking request, return result
+		return Math.random() < 0.5 ? '' : 'ok';
+	},
+
+	_switchToEditMode: function () {
+		$('#mobile-edit-button').hide();
+		this._enterEditMode('edit');
+		if (window.mode.isMobile() || window.mode.isTablet()) {
+			this.fire('editorgotfocus');
+			// In the iOS/android app, just clicking the mobile-edit-button is
+			// not reason enough to pop up the on-screen keyboard.
+			if (!(window.ThisIsTheiOSApp || window.ThisIsTheAndroidApp))
+				this.focus();
 		}
 	},
 
