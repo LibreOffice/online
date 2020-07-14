@@ -7,20 +7,7 @@ L.Map.include({
 	setPermission: function (perm) {
 		if (perm === 'edit') {
 			if (window.mode.isMobile() || window.mode.isTablet()) {
-				var button = $('#mobile-edit-button');
-				button.show();
-				button.off('click');
-
-				var that = this;
-				button.on('click', function () {
-					button.hide();
-					that._enterEditMode('edit');
-					that.fire('editorgotfocus');
-					// In the iOS/android app, just clicking the mobile-edit-button is
-					// not reason enough to pop up the on-screen keyboard.
-					if (!(window.ThisIsTheiOSApp || window.ThisIsTheAndroidApp))
-						that.focus();
-				});
+				this._showEditButton();
 
 				// temporarily, before the user touches the floating action button
 				this._enterReadOnlyMode('readonly');
@@ -33,9 +20,29 @@ L.Map.include({
 			if (window.mode.isMobile() || window.mode.isTablet()) {
 				$('#mobile-edit-button').hide();
 			}
+			else if (this.options.canTryUnlock) {
+				this._showEditButton();
+			}
 
 			this._enterReadOnlyMode(perm);
 		}
+	},
+
+	_showEditButton: function () {
+		var button = $('#mobile-edit-button');
+		button.show();
+		button.off('click');
+
+		var that = this;
+		button.on('click', function () {
+			button.hide();
+			that._enterEditMode('edit');
+			that.fire('editorgotfocus');
+			// In the iOS/android app, just clicking the mobile-edit-button is
+			// not reason enough to pop up the on-screen keyboard.
+			if (!(window.ThisIsTheiOSApp || window.ThisIsTheAndroidApp))
+				that.focus();
+		});
 	},
 
 	_enterEditMode: function (perm) {
