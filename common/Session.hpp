@@ -59,6 +59,13 @@ public:
         }
         return std::shared_ptr<T>();
     }
+    void dumpState(std::ostream& oss)
+    {
+        for (auto &it : *this) {
+            oss << "\tsession '" << it.first << "'\n";
+            it.second->dumpState(oss);
+        }
+    }
 };
 
 /// Base class of a WebSocket session.
