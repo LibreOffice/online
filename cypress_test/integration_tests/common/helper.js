@@ -302,7 +302,9 @@ function waitUntilIdle(selector, content) {
 	cy.log('Waiting item to be idle - start.');
 
 	var item;
-	var waitingTime = 2000;
+	var timeOut = 1000;
+	var waitOnce = 250;
+	var idleSince = 0;
 	if (content) {
 		cy.contains(selector, content, { log: false })
 			.then(function(itemToIdle) {
@@ -310,17 +312,18 @@ function waitUntilIdle(selector, content) {
 			});
 
 		cy.waitUntil(function() {
-			cy.wait(waitingTime);
+			cy.wait(waitOnce, { log: false });
 
 			return cy.contains(selector, content, { log: false })
 				.then(function(itemToIdle) {
 					if (Cypress.dom.isDetached(item[0])) {
-						cy.log('Item is detached.');
+						cy.log('Item is detached after ' + (idleSince + waitOnce).toString() + ' ms.');
 						item = itemToIdle;
-						return false;
+						idleSince = 0;
 					} else {
-						return true;
+						idleSince += waitOnce;
 					}
+					return idleSince > timeOut;
 				});
 		});
 	} else {
@@ -330,17 +333,18 @@ function waitUntilIdle(selector, content) {
 			});
 
 		cy.waitUntil(function() {
-			cy.wait(waitingTime);
+			cy.wait(waitOnce, { log: false });
 
 			return cy.get(selector, { log: false })
 				.then(function(itemToIdle) {
 					if (Cypress.dom.isDetached(item[0])) {
-						cy.log('Item is detached.');
+						cy.log('Item is detached after ' + (idleSince + waitOnce).toString() + ' ms.');
 						item = itemToIdle;
-						return false;
+						idleSince = 0;
 					} else {
-						return true;
+						idleSince += waitOnce;
 					}
+					return idleSince > timeOut;
 				});
 		});
 	}
