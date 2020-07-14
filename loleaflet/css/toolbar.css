@@ -167,9 +167,9 @@ w2ui-toolbar {
 }
 
 #document-name-input {
-		font-size: 16px;
-		border: 1px solid transparent;
-		background-color: transparent;
+	font-size: 16px;
+	border: 1px solid transparent;
+	background-color: transparent;
 }
 
 #document-name-input.editable {
@@ -180,6 +180,11 @@ w2ui-toolbar {
 	overflow: hidden;
 	text-overflow:ellipsis;
 	height: 18px;
+}
+
+.notebookbar #document-name-input.editable{
+	background: #f9f9f9;
+	box-shadow: 0 0 0.1px 1px #dfdfdf, 0 0 2px 1px #f0f0f0;
 }
 
 #document-name-input.editable:focus {
