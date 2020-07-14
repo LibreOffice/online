@@ -38,6 +38,16 @@ L.Map.include({
 		}
 	},
 
+	onEditDenied: function(reason) {
+		var alertMsg = _('The document could not be locked, and is opened in read-only mode.');
+		if (reason) {
+			alertMsg += _('\nServer returned this reason: "') + reason + '"';
+		}
+
+		vex.dialog.alert({ message: alertMsg });
+		this.options.canTryUnlock = true;
+	},
+
 	_enterEditMode: function (perm) {
 		if (this.isPermissionReadOnly() && (window.mode.isMobile() || window.mode.isTablet())) {
 			this.sendInitUNOCommands();
