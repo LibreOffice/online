@@ -24,7 +24,7 @@ L.Control.UIManager = L.Control.extend({
 			this.map.addControl(menubar);
 		}
 
-		if (window.mode.isMobile()) {
+		if (this.map.options.canTryUnlock || window.mode.isMobile()) {
 			$('#mobile-edit-button').show();
 		} else {
 			if (!enableNotebookbar) {

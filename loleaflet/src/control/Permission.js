@@ -6,7 +6,7 @@
 L.Map.include({
 	setPermission: function (perm) {
 		if (perm === 'edit') {
-			if (window.mode.isMobile() || window.mode.isTablet()) {
+			if (this.options.canTryUnlock || window.mode.isMobile() || window.mode.isTablet()) {
 				var button = $('#mobile-edit-button');
 				button.show();
 				button.off('click');
@@ -30,7 +30,7 @@ L.Map.include({
 			}
 		}
 		else if (perm === 'view' || perm === 'readonly') {
-			if (window.mode.isMobile() || window.mode.isTablet()) {
+			if (this.options.canTryUnlock || window.mode.isMobile() || window.mode.isTablet()) {
 				$('#mobile-edit-button').hide();
 			}
 
