@@ -4,27 +4,34 @@
 .ui-tabs.notebookbar {
 	display: inline-block;
 	z-index: 1000;
+	padding: 0px;
+	height: 100%;
 }
 
 .ui-tab.notebookbar {
 	float: left;
-	margin-right: 10px;
 	font-size: 12pt;
+	color: dimgray;
+	height: 24px;
+	padding: 0px 1em;
+	background: #efefef;
+	padding-top: 7px;
 }
 
 .ui-tab.selected.notebookbar {
 	border: none;
-	color: #0b87e7;
+	color: #4d82b8;
 	border-radius: 0px;
-	border-bottom: solid 1px #0b87e7;
 	font-weight: bold;
+	background: #fff;
 }
 
 .ui-tab.notebookbar:hover {
 	box-shadow: 0 0 0px 4px #e6e6e6b0;
 	border-radius: 0.1px;
-	background-color: #e6e6e6b0;
+	background-color: #f9f9f9;
 	cursor: pointer;
+	color: #555;
 }
 
 /* shortcuts bar */
