@@ -2,7 +2,7 @@
 /*
  * Document permission handler
  */
-/* global $ */
+/* global $ _ vex */
 L.Map.include({
 	setPermission: function (perm) {
 		if (perm === 'edit') {
@@ -13,24 +13,22 @@ L.Map.include({
 
 				var that = this;
 				button.on('click', function () {
-					button.hide();
-					that._enterEditMode('edit');
-					that.fire('editorgotfocus');
-					// In the iOS/android app, just clicking the mobile-edit-button is
-					// not reason enough to pop up the on-screen keyboard.
-					if (!(window.ThisIsTheiOSApp || window.ThisIsTheAndroidApp))
-						that.focus();
+					that._switchToEditMode();
 				});
 
 				// temporarily, before the user touches the floating action button
 				this._enterReadOnlyMode('readonly');
+			}
+			else if (this.options.canTryUnlock) {
+				// This is a success response to an attempt to unlock using mobile-edit-button
+				this._switchToEditMode();
 			}
 			else {
 				this._enterEditMode(perm);
 			}
 		}
 		else if (perm === 'view' || perm === 'readonly') {
-			if (window.mode.isMobile() || window.mode.isTablet()) {
+			if (!this.options.canTryUnlock && (window.mode.isMobile() || window.mode.isTablet())) {
 				$('#mobile-edit-button').hide();
 			}
 
@@ -39,13 +37,46 @@ L.Map.include({
 	},
 
 	onEditDenied: function(reason) {
-		var alertMsg = _('The document could not be locked, and is opened in read-only mode.');
-		if (reason) {
-			alertMsg += _('\nServer returned this reason: "') + reason + '"';
-		}
+		if (this.options.canTryUnlock !== undefined) {
+			// This is the initial notification. This status is not permanent.
+			// Allow to try to lock the file for edit again.
+			this.options.canTryUnlock = true;
 
-		vex.dialog.alert({ message: alertMsg });
-		this.options.canTryUnlock = true;
+			var button = $('#mobile-edit-button');
+			// TODO: modify the icon here
+			button.show();
+			button.off('click');
+
+			var that = this;
+			button.on('click', function () {
+				that._socket.sendMessage('attemptlock');
+			});
+
+			var alertMsg = _('The document could not be locked, and is opened in read-only mode.');
+			if (reason) {
+				alertMsg += _('\nServer returned this reason: "') + reason + '"';
+			}
+
+			vex.dialog.alert({ message: alertMsg });
+		}
+		else if (this.options.canTryUnlock) {
+			// This is a failed response to an attempt to unlock using mobile-edit-button
+			vex.dialog.alert({ message: _('The document could not be unlocked.') });
+		}
+		// do nothing if this.options.canTryUnlock is defined and is false
+	},
+
+	_switchToEditMode: function () {
+		this.options.canTryUnlock = false;
+		$('#mobile-edit-button').hide();
+		this._enterEditMode('edit');
+		if (window.mode.isMobile() || window.mode.isTablet()) {
+			this.fire('editorgotfocus');
+			// In the iOS/android app, just clicking the mobile-edit-button is
+			// not reason enough to pop up the on-screen keyboard.
+			if (!(window.ThisIsTheiOSApp || window.ThisIsTheAndroidApp))
+				this.focus();
+		}
 	},
 
 	_enterEditMode: function (perm) {
