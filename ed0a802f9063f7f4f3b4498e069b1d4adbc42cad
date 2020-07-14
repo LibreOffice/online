@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d3a8dbe_a8c396d7",
+        "filename": "wsd/TileCache.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-14T01:09:18Z",
+      "side": 1,
+      "message": "Yes, I\u0027m not happy with them either, but since clang-tidy did them, I tried ignoring them but gave up after a while. I can certainly remove them, but path of least resistance is tempting.",
+      "parentUuid": "4944f325_4320273b",
+      "revId": "ed0a802f9063f7f4f3b4498e069b1d4adbc42cad",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5345d14_019210d0",
         "filename": "wsd/TileCache.cpp",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2020-07-13T14:00:10Z",
       "side": 1,
       "message": "This doesn\u0027t compare two items to see if they are equal - but only some subset of properties useful to the cache. So - surely having that in the name of this comparator and/or hash class is important (?)",
+      "revId": "ed0a802f9063f7f4f3b4498e069b1d4adbc42cad",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f96969b8_f8750ac2",
+        "filename": "wsd/TileCache.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-14T01:09:18Z",
+      "side": 1,
+      "message": "Sure, I only removed \"Cache\" from the name, leaving all else the same. Will rename to TileDescCacheCompareEq (restoring the original name and shortening Equal).",
+      "parentUuid": "79c48149_99d85766",
       "revId": "ed0a802f9063f7f4f3b4498e069b1d4adbc42cad",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
