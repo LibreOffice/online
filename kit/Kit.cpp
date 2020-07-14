@@ -1680,7 +1680,6 @@ public:
         int maxExtraEvents = 15;
         int eventsSignalled = 0;
 
-
         if (timeoutMicroS < 0)
         {
             // Flush at most 1 + maxExtraEvents, or return when nothing left.
@@ -1689,18 +1688,21 @@ public:
         }
         else
         {
+            // Split poll into 100 ms intervals
+            const int partialTimeout = timeoutMicroS > 100000 ? 100000 : timeoutMicroS;
+
             // Flush at most maxEvents+1, or return when nothing left.
             _pollEnd = std::chrono::steady_clock::now() + std::chrono::microseconds(timeoutMicroS);
             do
             {
-                if (poll(timeoutMicroS) <= 0)
-                    break;
+                int pollResult = poll(partialTimeout);
+                if (pollResult > 0)
+                    ++eventsSignalled;
 
                 const auto now = std::chrono::steady_clock::now();
                 drainQueue(now);
 
                 timeoutMicroS = std::chrono::duration_cast<std::chrono::microseconds>(_pollEnd - now).count();
-                ++eventsSignalled;
             }
             while (timeoutMicroS > 0 && !SigUtil::getTerminationFlag() && maxExtraEvents-- > 0);
         }
