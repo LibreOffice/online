@@ -50,6 +50,11 @@
     white-space: nowrap;
 }
 
+.main-nav.hasnotebookbar{
+	background: #efefef;
+	margin-top: 0px;
+}
+
 /* Customizations to sm-simple theme to make it look like LO menu, lo-menu class */
 .lo-menu {
     border: none;
