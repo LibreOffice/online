@@ -334,6 +334,16 @@ L.Socket = L.Class.extend({
 
 			return;
 		}
+		else if (textMsg.startsWith('editdenied:')) {
+			var msg = _('The document could not be locked, and is opened in read-only mode.');
+			var reason = textMsg.substring('editdenied:'.length).trim();
+			if (reason) {
+				msg += _('\nServer returned this reason: "') + reason + '"';
+			}
+
+			vex.dialog.alert({ message: msg });
+			this._map.options.canTryUnlock = true;
+		}
 		else if (textMsg.startsWith('wopi: ')) {
 			// Handle WOPI related messages
 			var wopiInfo = JSON.parse(textMsg.substring(textMsg.indexOf('{')));
