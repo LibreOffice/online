@@ -2,7 +2,7 @@
 /*
  * Document permission handler
  */
-/* global $ */
+/* global $ _ vex */
 L.Map.include({
 	setPermission: function (perm) {
 		if (perm === 'edit') {
@@ -30,12 +30,35 @@ L.Map.include({
 			}
 		}
 		else if (perm === 'view' || perm === 'readonly') {
-			if (window.mode.isMobile() || window.mode.isTablet()) {
+			if (this.options.canTryUnlock) {
+				// This status is not permanent. Allow to try to lock the file for edit again.
+				button = $('#mobile-edit-button');
+				button.show();
+				button.off('click');
+
+				that = this;
+				button.on('click', function () {
+					var result = that._tryLockFile();
+					if (result === 'ok') {
+						button.hide();
+						that._enterEditMode('edit');
+					}
+					else {
+						vex.dialog.alert({ message: _('The document could not be unlocked.') });
+					}
+				});
+			}
+			else if (window.mode.isMobile() || window.mode.isTablet()) {
 				$('#mobile-edit-button').hide();
 			}
 
 			this._enterReadOnlyMode(perm);
 		}
+	},
+
+	_tryLockFile: function () {
+		// TODO: send locking request, return result
+		return Math.random() < 0.5 ? '' : 'ok';
 	},
 
 	_enterEditMode: function (perm) {
