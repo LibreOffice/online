@@ -780,9 +780,19 @@ public class LOActivity extends AppCompatActivity {
      */
     void callFakeWebsocketOnMessage(final String message) {
         // call from the UI thread
+<<<<<<< HEAD   (a33d8d clipboard: avoid error when localStorage is not available)
         mWebView.post(new Runnable() {
             public void run() {
                 Log.i(TAG, "Forwarding to the WebView: " + message);
+=======
+        if (mWebView != null)
+            mWebView.post(new Runnable() {
+                public void run() {
+                    if (mWebView == null) {
+                        Log.i(TAG, "Skipped forwarding to the WebView: " + message);
+                        return;
+                    }
+>>>>>>> CHANGE (fffcc4 android: A small follow-up, the intention was an early retur)
 
                 /* Debug only: in case the message is too long, truncated in the logcat, and you need to see it.
                 final int size = 80;
