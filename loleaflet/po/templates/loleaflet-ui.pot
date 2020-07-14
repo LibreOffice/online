@@ -1105,6 +1105,16 @@ msgstr ""
 msgid "Unsupported server version."
 msgstr ""
 
+#: src/core/Socket.js:338
+msgid "The document could not be locked, and is opened in read-only mode."
+msgstr ""
+
+#: src/core/Socket.js:341
+msgid ""
+"\n"
+"Server returned this reason: \""
+msgstr ""
+
 #: src/core/Socket.js:383
 msgid "Session terminated by document owner"
 msgstr ""
