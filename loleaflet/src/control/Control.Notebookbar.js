@@ -23,6 +23,7 @@ L.Control.Notebookbar = L.Control.extend({
 		this.map.on('updatepermission', this.onUpdatePermission, this);
 
 		$('.main-nav').addClass('hasnotebookbar');
+		$('.main-nav').addClass(this._map.getDocType() + '-color-indicator');
 	},
 
 	onRemove: function() {
@@ -82,7 +83,7 @@ L.Control.Notebookbar = L.Control.extend({
 	selectedTab: function() {
 		// implement in child classes
 	},
-	
+
 	getTabs: function() {
 		// implement in child classes
 		return [];
