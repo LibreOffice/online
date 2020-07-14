@@ -908,6 +908,10 @@ msgid ""
 "Server returned this reason: \""
 msgstr ""
 
+#: src/control/Permission.js:54
+msgid "The document could not be unlocked."
+msgstr ""
+
 #: src/control/Ruler.js:366
 msgid "Left Margin"
 msgstr ""
