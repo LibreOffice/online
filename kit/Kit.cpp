@@ -834,6 +834,9 @@ public:
         else
             tileQueue->put("callback " + std::to_string(descriptor->getViewId()) + ' ' + std::to_string(type) + ' ' + payload);
 
+        if (auto document = dynamic_cast<Document*>(descriptor->getDoc()))
+            document->wakeupSocketPoll();
+
         LOG_TRC("Document::ViewCallback end.");
     }
 
@@ -1542,6 +1545,8 @@ private:
         sendTextFrame(msg);
     }
 
+    void wakeupSocketPoll();
+
 private:
     std::shared_ptr<lok::Office> _loKit;
     const std::string _jailId;
@@ -1762,6 +1767,11 @@ public:
     {
     }
 
+    void wakeupSocketPoll()
+    {
+        _ksPoll->wakeup();
+    }
+
 protected:
     void handleMessage(const std::vector<char>& data) override
     {
@@ -1887,6 +1897,12 @@ protected:
 #endif
     }
 };
+
+void Document::wakeupSocketPoll()
+{
+    if (auto handler = dynamic_cast<KitWebSocketHandler*>(_websocketHandler.get()))
+        handler->wakeupSocketPoll();
+}
 
 void documentViewCallback(const int type, const char* payload, void* data)
 {
