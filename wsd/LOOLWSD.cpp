@@ -517,7 +517,7 @@ std::shared_ptr<ChildProcess> getNewChild_Blocks(unsigned mobileAppDocId)
 #else
     const auto timeout = std::chrono::hours(100);
 
-    std::thread([&]
+    std::thread([mobileAppDocId]
                 {
 #ifndef IOS
                     std::lock_guard<std::mutex> lock(LOOLWSD::lokit_main_mutex);
