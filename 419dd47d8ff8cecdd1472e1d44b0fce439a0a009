@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "493ada26_500e954d",
+        "filename": "common/Session.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-16T23:13:23Z",
+      "side": 1,
+      "message": "const auto\u0026",
+      "revId": "419dd47d8ff8cecdd1472e1d44b0fce439a0a009",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b2e1017_9546868b",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1703,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-16T23:13:23Z",
+      "side": 1,
+      "message": "Maybe we do this when we idle? We can drain the queue and if poll timesout, we do this. I fear this check is excessive in the hot loop.",
+      "revId": "419dd47d8ff8cecdd1472e1d44b0fce439a0a009",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
