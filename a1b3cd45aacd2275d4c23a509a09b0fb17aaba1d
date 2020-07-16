@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91438860_152884e7",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1747,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-16T23:05:54Z",
+      "side": 1,
+      "message": "Perhaps we should simply move drainQueue() to here?\n\nI thin we already wake poll if we push something into the queue, no?",
+      "revId": "a1b3cd45aacd2275d4c23a509a09b0fb17aaba1d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
