@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5afc86b9_265f94c2",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 1204,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-16T16:38:09Z",
+      "side": 1,
+      "message": "This is necessary. Otherwise, we send faileddocloading after sending wrongpassword or passwordrequired.",
+      "revId": "204bb06ca11e39ec0a5f7240ed21a54b16679f69",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
