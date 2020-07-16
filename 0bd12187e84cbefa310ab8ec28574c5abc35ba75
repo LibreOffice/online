@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65ee0e2e_3e91ae15",
+        "filename": "cypress_test/integration_tests/common/calc_helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-16T22:26:08Z",
+      "side": 1,
+      "message": "clickOnSidebar(xPos, yPos) is really shorter than cy.get(\u0027#\u0027 + getSideBarID()).click(xPos, yPos);?\nPlease don\u0027t introduce helper functions which maps one line command to an other one line command. It does not make things really shorter, but makes debugging harder.",
+      "range": {
+        "startLine": 64,
+        "startChar": 14,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6d7ba39_74310ba8",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-16T22:26:08Z",
+      "side": 1,
+      "message": "Why this function is extracted here? Instead of using the generally used descirbed / it structure? Is there a specific reason for that?",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ef47680_138af37c",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-16T22:26:08Z",
+      "side": 1,
+      "message": "This is a very, very bad idea to create test using hard coded positions. Core can change anytime so it does not worth to write this kind of tests becasue it has a large maintanance cost. I don\u0027t like the idea to spend my time updating this values all the time.\nSidebar is just an image so we can\u0027t interact with it directly without using this kind of positions. It would be good to find another way around, but I would not start adding this kind of test beacuse other 40 similar tests and I can spend my whole time updating these tests.",
+      "range": {
+        "startLine": 21,
+        "startChar": 16,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed8a5906_ac84a852",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-16T22:26:08Z",
+      "side": 1,
+      "message": "Isn\u0027t there an indicator that the sidebar has the focus? Check the other tests related to focus. cy.wait() is always better to avoid.",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 10
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acab2c4b_ad25e044",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-16T22:26:08Z",
+      "side": 1,
+      "message": "Why is this wait is here? cy.get(\u0027[id*\u003d\"floating\"]\u0027) gets the child window right? Then you don\u0027t need an explicit waiting here, because the cy.get() method will wait until the child window is opened.",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 14
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6785692_46078c32",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-16T22:26:08Z",
+      "side": 1,
+      "message": "One test file means a test suite, which consist of more tests. So creating a test file for only one test case would not be effective. So it would be good to add a more general name to this test suite like sidebar positioning or something like that. So later more tests can be added here. This is about some kind of organization of tests.",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
