@@ -60,6 +60,17 @@ function dblClickOnFirstCell() {
 	clickOnFirstCell(false, true);
 }
 
+function clickOnSidebar(xPos, yPos) {
+	cy.get('#' + getSideBarID()).click(xPos, yPos);
+}
+
+function getSideBarID()
+{
+	return 'sidebar-panel';
+}
+
 module.exports.clickOnFirstCell = clickOnFirstCell;
 module.exports.dblClickOnFirstCell = dblClickOnFirstCell;
 module.exports.clickFormulaBar = clickFormulaBar;
+module.exports.clickOnSidebar = clickOnSidebar;
+module.exports.getSideBarID = getSideBarID;
