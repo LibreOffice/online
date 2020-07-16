@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f893bcd4_72e815be",
+        "filename": "cypress_test/integration_tests/common/calc_helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-16T23:21:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "65ee0e2e_3e91ae15",
+      "range": {
+        "startLine": 64,
+        "startChar": 14,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6d7ba39_74310ba8",
         "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-07-16T22:26:08Z",
       "side": 1,
       "message": "Why this function is extracted here? Instead of using the generally used descirbed / it structure? Is there a specific reason for that?",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "089c8a3f_7b898198",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-16T23:21:57Z",
+      "side": 1,
+      "message": "I prefer splitting code into functions for maintainability \u0026 readability. There may be more functions in time.",
+      "parentUuid": "d6d7ba39_74310ba8",
       "range": {
         "startLine": 14,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "af22e529_3dd0c69b",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-16T23:21:57Z",
+      "side": 1,
+      "message": "Okay, i will write test for others then:)",
+      "parentUuid": "6ef47680_138af37c",
+      "range": {
+        "startLine": 21,
+        "startChar": 16,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed8a5906_ac84a852",
         "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2020-07-16T22:26:08Z",
       "side": 1,
       "message": "Isn\u0027t there an indicator that the sidebar has the focus? Check the other tests related to focus. cy.wait() is always better to avoid.",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 10
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dc27f36_f4efc3a1",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-16T23:21:57Z",
+      "side": 1,
+      "message": "I will check it.",
+      "parentUuid": "ed8a5906_ac84a852",
       "range": {
         "startLine": 26,
         "startChar": 6,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a0d515ab_08760f4a",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-16T23:21:57Z",
+      "side": 1,
+      "message": "After it is opened, there is latency before it is positioned. This waits for it, or it fails.",
+      "parentUuid": "acab2c4b_ad25e044",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 14
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6785692_46078c32",
         "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
         "patchSetId": 1
@@ -128,6 +248,30 @@
       "writtenOn": "2020-07-16T22:26:08Z",
       "side": 1,
       "message": "One test file means a test suite, which consist of more tests. So creating a test file for only one test case would not be effective. So it would be good to add a more general name to this test suite like sidebar positioning or something like that. So later more tests can be added here. This is about some kind of organization of tests.",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27672840_904eb466",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-16T23:21:57Z",
+      "side": 1,
+      "message": "This test suite is for the lok child dialogs. Sidebar is just a sample window container i choosed. Maybe i could use a name like lok child dialogs or lok dialogs.",
+      "parentUuid": "c6785692_46078c32",
       "range": {
         "startLine": 46,
         "startChar": 14,
