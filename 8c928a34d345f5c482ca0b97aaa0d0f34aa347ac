@@ -16,6 +16,24 @@
       "revId": "8c928a34d345f5c482ca0b97aaa0d0f34aa347ac",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46984ff7_e8140903",
+        "filename": "loleaflet/src/core/Socket.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1002266
+      },
+      "writtenOn": "2020-07-16T16:33:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366b1e31_0d399a2c",
+      "revId": "8c928a34d345f5c482ca0b97aaa0d0f34aa347ac",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
