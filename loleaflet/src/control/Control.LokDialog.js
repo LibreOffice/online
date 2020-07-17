@@ -893,7 +893,15 @@ L.Control.LokDialog = L.Control.extend({
 
 			var oldWidth = this._calcInputBar.width;
 			delta = width - oldWidth;
-			if (delta !== 0) {
+
+			var container = L.DomUtil.get(this._toStrId(id));
+			var sidebar = L.DomUtil.get(this._currentDeck.strId);
+			if (sidebar) {
+				var deckOffset = sidebar.clientWidth + 10; // Allow some margin.
+			}
+			var correctWidth = container.clientWidth - deckOffset;
+
+			if (delta !== 0 && this._calcInputBar.width !== correctWidth) {
 				console.log('_adjustCalcInputBar: start: id: ' + id + ', width: ' + oldWidth + ' -> ' + width);
 
 				var strId = this._toStrId(id);
