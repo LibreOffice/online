@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "01ce6eec_10cc6e82",
+        "filename": "cypress_test/integration_tests/common/calc_helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-17T11:43:53Z",
+      "side": 1,
+      "message": "And what happens if somebody want to use a bigger timeout for clicking on the sidebar, then you will extend the helper function with one more parameter. You implement the same click API, what cypress has already provided us.\nIt\u0027s worth to create a helper function, when the shared code is more then one line, so the method actually simplifies something. See openMobileWizard() method for example. It contains clicking and an indicator that the wizard is opened.",
+      "parentUuid": "ccc612ed_1c5f46c8",
+      "range": {
+        "startLine": 64,
+        "startChar": 14,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6d7ba39_74310ba8",
         "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
         "patchSetId": 1
