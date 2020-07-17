@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "88efbadb_4efead64",
+        "filename": "cypress_test/integration_tests/common/calc_helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-17T11:45:26Z",
+      "side": 1,
+      "message": "This one here makes sense, because if the application code changes this ID, then we need to update this ID only here. So this is good, but the one above has no this kind of advantage.",
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6d7ba39_74310ba8",
         "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
         "patchSetId": 1
