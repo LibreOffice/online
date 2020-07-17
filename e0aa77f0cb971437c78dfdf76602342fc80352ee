@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "985512d1_79ba89e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-17T15:03:47Z",
+      "side": 1,
+      "message": "This doesn\u0027t describe what the problem was and why it disappeared, or how the session timeout is related.\n\nThe fix doesn\u0027t explain any of the above either, so it\u0027s not helpful for someone to read the change to understand why the changed code should actually fix the problem described.",
+      "revId": "e0aa77f0cb971437c78dfdf76602342fc80352ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1f343d6_0d2c739c",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-17T15:03:47Z",
+      "side": 1,
+      "message": "What is the value of deckOffset when there is no sidebar?\n\nAlso, the +10 is very problematic, since now it\u0027s in more than one place. It\u0027s best to localize that in a single function that returns the offset and reuse it.",
+      "revId": "e0aa77f0cb971437c78dfdf76602342fc80352ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dded705_7d460d78",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-17T15:03:47Z",
+      "side": 1,
+      "message": "What happens when container is null ?",
+      "revId": "e0aa77f0cb971437c78dfdf76602342fc80352ee",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
