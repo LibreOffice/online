@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ccc612ed_1c5f46c8",
+        "filename": "cypress_test/integration_tests/common/calc_helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-17T11:31:05Z",
+      "side": 1,
+      "message": "Yes, this is your opininon after adding so much tests. The downside of creating this kind of functions is that when a test fails, then you will have one more line in the track trace. You need to follow one more function to see what is actually failing.\nIf it\u0027s not meant to shorten other functions, then how it simplifies things? It simplifies things because it easier to write down the clickOnSidebar() name then the actualy cypress command. I don\u0027t think we need to hide all cypress command behind an own function. It\u0027s good if you see what cypress command is actually called, because then you now what actually happens.",
+      "parentUuid": "5b57c3ff_833961d1",
+      "range": {
+        "startLine": 64,
+        "startChar": 14,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6d7ba39_74310ba8",
         "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "I prefer splitting code into functions for maintainability \u0026 readability. There may be more functions in time.",
       "parentUuid": "d6d7ba39_74310ba8",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec09481_4cf39fab",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-17T11:31:05Z",
+      "side": 1,
+      "message": "It makes sense to create functions when you have duplicated code and so you extract the shared code to a separate function and use it everywhere. However here we have a specific test which won\u0027t be called anywhere else I expect.\nSo better to use the common structure, having the it() method inside describe(). This is the general structure used in mocha test framework (which is used internally by cypress). It\u0027s more readable in this way, because it\u0027s consistent and so if anyone knows one test file, knows how to read other test files, having the same structure.",
+      "parentUuid": "089c8a3f_7b898198",
       "range": {
         "startLine": 14,
         "startChar": 9,
@@ -261,6 +309,30 @@
     },
     {
       "key": {
+        "uuid": "981a501a_6f068ca4",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-17T11:31:05Z",
+      "side": 1,
+      "message": "You can use should() instead of then() (e.g. cy.get().should()). The should() version retries until all expect() assertions are met.",
+      "parentUuid": "a0d515ab_08760f4a",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 14
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6785692_46078c32",
         "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
         "patchSetId": 1
@@ -301,6 +373,53 @@
         "startChar": 14,
         "endLine": 46,
         "endChar": 20
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3c19f9c_125522a5",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-17T11:31:05Z",
+      "side": 1,
+      "message": "OK, for me, but better to not use the word \"lok\" here. We used to use the \"lok\" word in core commits indicating that it\u0027s a LibreOffice online related change, but this is LibreOffice online, so everyhting is online related code. I think \"lok\" means LibreOffice Online Kit. I don\u0027t think it\u0027s relevant here.",
+      "parentUuid": "27672840_904eb466",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ced9a99d_9db1e4b8",
+        "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-17T11:31:05Z",
+      "side": 1,
+      "message": "Please create a separate test file for a new test suite, because it might cause issues to use shared test files when run the tests in parallel.",
+      "range": {
+        "startLine": 47,
+        "startChar": 21,
+        "endLine": 47,
+        "endChar": 26
       },
       "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
