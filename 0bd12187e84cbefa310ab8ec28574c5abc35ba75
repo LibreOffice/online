@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5b57c3ff_833961d1",
+        "filename": "cypress_test/integration_tests/common/calc_helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-17T11:17:23Z",
+      "side": 1,
+      "message": "IMHO:\nHaving this function simplify writing tests. It is not meant to shorten other functions. If we had more functions like this, writing tests would need much less effort.",
+      "parentUuid": "f893bcd4_72e815be",
+      "range": {
+        "startLine": 64,
+        "startChar": 14,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "0bd12187e84cbefa310ab8ec28574c5abc35ba75",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6d7ba39_74310ba8",
         "filename": "cypress_test/integration_tests/desktop/calc/lok_children_positions.js",
         "patchSetId": 1
