@@ -16,6 +16,24 @@
       "revId": "a1b3cd45aacd2275d4c23a509a09b0fb17aaba1d",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff993a76_0e4d5fd1",
+        "filename": "kit/Kit.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1747,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-17T10:29:51Z",
+      "side": 1,
+      "message": "We don\u0027t it\u0027s slightly trickier structurally, and there is no point in writing to a wakeup socket for every message; also - for whatever reason core asked us to go away for 5 seconds, and it hasn\u0027t asked for a wakeup, so - prolly best to do the work \u0026 keep spinning here I think; hence the change \u003d)",
+      "parentUuid": "91438860_152884e7",
+      "revId": "a1b3cd45aacd2275d4c23a509a09b0fb17aaba1d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
