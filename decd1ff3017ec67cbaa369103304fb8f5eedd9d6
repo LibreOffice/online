@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31cf39f1_b51880e9",
+        "filename": "cypress_test/integration_tests/desktop/calc/bottom_bar_spec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-20T10:04:16Z",
+      "side": 1,
+      "message": "You can use cy.get(#tb_actionbar_item_StateTableCellMenu .w2ui-button).click() here. A bit shorter.",
+      "range": {
+        "startLine": 22,
+        "startChar": 11,
+        "endLine": 22,
+        "endChar": 47
+      },
+      "revId": "decd1ff3017ec67cbaa369103304fb8f5eedd9d6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e06297b_33eb073c",
+        "filename": "cypress_test/integration_tests/desktop/calc/bottom_bar_spec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-07-20T10:04:16Z",
+      "side": 1,
+      "message": "You can use something like cy.contains(\u0027.w2ui-drop-menu .menu-text\u0027, \u0027CountA\u0027).click() here, if the \u0027CountA\u0027 is the item what you intended to click here  It\u0027s shorter and more readable.",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "decd1ff3017ec67cbaa369103304fb8f5eedd9d6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
