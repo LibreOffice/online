@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "407fcb87_4f3ca89a",
+        "filename": "loleaflet/src/core/Socket.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1000871
+      },
+      "writtenOn": "2020-07-20T18:39:32Z",
+      "side": 1,
+      "message": "Is this supposed to be undefined or null? \n\nfalse doesn\u0027t make sense here, I think.",
+      "revId": "ecab5c74431063663d203d59378e6591045457c1",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
