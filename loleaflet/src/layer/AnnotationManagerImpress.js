@@ -55,6 +55,7 @@ L.AnnotationManagerImpress = L.AnnotationManagerBase.extend({
 		this.onAnnotationCancel();
 
 		if (window.mode.isMobile() || window.mode.isTablet()) {
+			var self = this;
 			tileLayer.newAnnotationVex(comment, function(annotation) {
 				self.onAnnotationSave(annotation);
 			});
@@ -85,6 +86,10 @@ L.AnnotationManagerImpress = L.AnnotationManagerBase.extend({
 		if (annotations && annotations.length === count) {
 			this._map._docLayer._updateMaxBounds(true, extraSize);
 		}
+	},
+	unselectAnnotations: function() {
+		this._selection = null;
+		this.onAnnotationCancel();
 	},
 	_onAnnotationZoom: function () {
 		this.onAnnotationCancel();
