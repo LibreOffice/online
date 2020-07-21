@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25dddcad_d058d6a0",
+        "filename": "kit/ChildSession.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-21T15:15:29Z",
+      "side": 1,
+      "message": "I would put this into an exception-safe stack allocated class eg. InputHandlingDisabler aDisable(protocol); We really don\u0027t want exceptions to leave us in a state where we have input disabled and it can\u0027t be re-enabled.\n\nQuite possibly we also want to stack these (?) \u003d)\n\nAnother thing that concerns me (I guess) is the password-protection thing - I imagine we -may- want to enable input processing for password dialogs: did you test with password protected files on load/save ? (well worth doing I think) \u003d)\n\nOtherwise this looks really cute. Thanks !",
+      "revId": "8fa6193db2f88ed2f36234ce7bf9dfcfe2cacc12",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cce5e7cc_43aeb2af",
+        "filename": "net/Socket.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-21T15:15:29Z",
+      "side": 1,
+      "message": "should we shorten this to \u0027processInput()\u0027 or something ? ;-) either way having consistent _inputProcessingEnable vs. isMessageHandlingEnabled.",
+      "revId": "8fa6193db2f88ed2f36234ce7bf9dfcfe2cacc12",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
