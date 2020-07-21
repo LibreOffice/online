@@ -61,7 +61,8 @@
 	margin-right: 10px;
 }
 
-.notebookbar-shortcuts-bar .unotoolbutton.notebookbar .unobutton {
+.notebookbar-shortcuts-bar .unotoolbutton.notebookbar .unobutton,
+.notebookbar-options-section .unotoolbutton.notebookbar .unobutton {
 	width: 16px !important;
 	height: 16px !important;
 	margin-right: 0px;
@@ -70,7 +71,9 @@
 
 /* options section */
 .notebookbar-options-section {
-	margin-left: 10px;
+	display: inline;
+	position: fixed;
+	right: 0px;
 }
 
 /* root container */
@@ -89,6 +92,10 @@
 .notebookbar-scroll-wrapper::-webkit-scrollbar { /* WebKit */
     width: 0;
     height: 0;
+}
+
+#toolbar-wrapper.hasnotebookbar {
+	position: fixed;
 }
 
 /* unobuttons */
