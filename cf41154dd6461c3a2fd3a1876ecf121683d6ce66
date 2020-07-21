@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1202a97d_5de7e9d5",
+        "filename": "loleaflet/src/control/Control.JSDialogBuilder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1002126
+      },
+      "writtenOn": "2020-07-21T13:53:13Z",
+      "side": 1,
+      "message": "somehow it does not enter in the else if",
+      "revId": "cf41154dd6461c3a2fd3a1876ecf121683d6ce66",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
