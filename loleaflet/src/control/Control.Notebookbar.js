@@ -244,7 +244,7 @@ L.Control.Notebookbar = L.Control.extend({
 		$(optionsTd).css('width', this._optionsSectionWidth + 'px');
 
 		var optionsSection = L.DomUtil.create('div', 'notebookbar-options-section', optionsTd);
-		$('#toolbar-up').parent().append(optionsTd);
+		$('#document-titlebar').parent().append(optionsTd);
 
 		var builderOptions = {
 			mobileWizard: this,
