@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-03 12:58+0200\n"
-"PO-Revision-Date: 2020-07-06 08:19+0000\n"
+"PO-Revision-Date: 2020-07-20 16:22+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Asturian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ast/>\n"
 "Language: ast\n"
@@ -903,6 +903,18 @@ msgstr ""
 #| msgid "Fullscreen presentation"
 msgid "Start Presentation"
 msgstr "Presentación a pantalla completa"
+
+#: src/control/Permission.js:45
+msgid "The document could not be locked, and is opened in read-only mode."
+msgstr "Nun se pudo bloquiar el documentu y s'abrió nel mou namái de llectura."
+
+#: src/control/Permission.js:47 src/control/Permission.js:65
+msgid "Server returned this reason:"
+msgstr ""
+
+#: src/control/Permission.js:63
+msgid "The document could not be locked."
+msgstr "Nun pudo bloquiase'l documentu."
 
 #: src/control/Ruler.js:366
 msgid "Left Margin"
