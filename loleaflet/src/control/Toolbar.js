@@ -305,6 +305,10 @@ L.Map.include({
 					for (i = 0, max = translatableContent.length; i < max; i++) {
 						translatableContent[i].innerHTML = translatableContent[i].innerHTML.toLocaleString();
 					}
+					translatableContent = $vexContent.find('button'); // TOC
+					for (i = 0, max = translatableContent.length; i < max; i++) {
+						translatableContent[i].innerHTML = translatableContent[i].innerHTML.toLocaleString();
+					}
 
 					// Substitute %productName in Online Help
 					if (id === 'online-help') {
