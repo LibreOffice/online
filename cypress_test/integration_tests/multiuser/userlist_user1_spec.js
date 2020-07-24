@@ -29,7 +29,7 @@ describe('Check user list with user-1.', function() {
 		cy.get('#menu-insertcomment')
 			.click();
 
-		cy.get('.loleaflet-annotation-edit:nth-of-type(2) .loleaflet-annotation-textarea')
+		cy.get('.loleaflet-annotation-edit:not([style=\'display: none;\']) .loleaflet-annotation-textarea')
 			.type('Done');
 
 		helper.waitUntilIdle('#annotation-save');
