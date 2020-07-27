@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be954c16_b677c51a",
+        "filename": "loleaflet/src/control/Control.PartsPreview.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-07-27T18:32:28Z",
+      "side": 1,
+      "message": "By design the previews frames are created before the document is ready, it is better to check the _doclayer in case someone tries to drag it early",
+      "revId": "6b034057e64e6d754431df9e3bd4917e2277e51e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
