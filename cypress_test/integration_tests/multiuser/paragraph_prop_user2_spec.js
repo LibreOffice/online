@@ -2,20 +2,22 @@
 
 var helper = require('../common/helper');
 
-describe('Check user list with user-1.', function() {
+describe('Change paragraph properties: user-2.', function() {
 	var testFileName = 'userlist.odt';
 
 	beforeEach(function() {
+		// Wait here, before loading the document.
+		// Opening two clients at the same time causes an issue.
+		cy.wait(5000);
 		helper.beforeAllDesktop(testFileName);
 	});
 
 	afterEach(function() {
 		helper.afterAll(testFileName);
-		cy.wait(20000);
 	});
 
-	it('Userlist visibility.', function() {
-		// user-2 loads the same document
+	it('Change paragraph alignment.', function() {
+		// user-1 loads the same document
 
 		cy.get('#tb_actionbar_item_userlist')
 			.should('be.visible');
@@ -23,15 +25,11 @@ describe('Check user list with user-1.', function() {
 		cy.get('#tb_actionbar_item_userlist .w2ui-tb-caption')
 			.should('have.text', '2 users');
 
-		// Change the paragraph alignment
-		cy.get('#tb_editbar_item_leftpara .w2ui-button')
+		// user-1 changes the paragraph alignment
+		cy.get('#tb_editbar_item_centerpara .w2ui-button')
 			.should('have.class', 'checked');
 
-		cy.get('#tb_editbar_item_centerpara .w2ui-button')
+		cy.get('#tb_editbar_item_rightpara .w2ui-button')
 			.click();
-
-		cy.get('#tb_editbar_item_centerpara .w2ui-button')
-			.should('have.class', 'checked');
 	});
-
 });
