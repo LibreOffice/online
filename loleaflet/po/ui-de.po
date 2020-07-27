@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-03 12:58+0200\n"
-"PO-Revision-Date: 2020-07-07 08:18+0000\n"
+"PO-Revision-Date: 2020-07-25 19:23+0000\n"
 "Last-Translator: Christian Kühl <kuehl.christian@googlemail.com>\n"
 "Language-Team: German <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/de/>\n"
 "Language: de\n"
@@ -901,17 +901,15 @@ msgstr "Präsentation starten"
 
 #: src/control/Permission.js:45
 msgid "The document could not be locked, and is opened in read-only mode."
-msgstr ""
+msgstr "Das Dokument konnte nicht gesperrt werden und wird im schreibgeschützten Modus geöffnet."
 
 #: src/control/Permission.js:47 src/control/Permission.js:65
 msgid "Server returned this reason:"
-msgstr ""
+msgstr "Der Server hat diesen Grund zurückgegeben:"
 
 #: src/control/Permission.js:63
-#, fuzzy
-#| msgid "Document cannot be saved."
 msgid "The document could not be locked."
-msgstr "Dokument kann nicht gespeichert werden."
+msgstr "Das Dokument konnte nicht gesperrt werden."
 
 #: src/control/Ruler.js:366
 msgid "Left Margin"
