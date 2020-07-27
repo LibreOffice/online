@@ -34,6 +34,15 @@
 			navigator.userAgent.toLowerCase().indexOf('trident') != -1);
 
 	global.L = {};
+
+	global.L.Params = {
+		/// Shows close button if non-zero value provided
+		closeButtonEnabled: getParameterByName('closebutton'),
+
+		/// Shows revision history file menu option
+		revHistoryEnabled: getParameterByName('revisionhistory'),
+	};
+
 	global.L.Browser = {
 
 		// @property ie: Boolean
