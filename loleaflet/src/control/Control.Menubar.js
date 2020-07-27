@@ -252,6 +252,7 @@ L.Control.Menubar = L.Control.extend({
 			{name: _UNO('.uno:PickList', 'presentation'), id: 'file', type: 'menu', menu: [
 				{name: _UNO('.uno:Save', 'presentation'), id: 'save', type: 'action'},
 				{name: _UNO('.uno:SaveAs', 'presentation'), id: 'saveas', type: 'action'},
+				{name: _('Save Comments'), id: 'savecomments', type: 'action'},
 				{name: _('Share...'), id:'shareas', type: 'action'},
 				{name: _UNO('.uno:Print', 'presentation'), id: 'print', type: 'action'},
 				{name: _('See revision history'), id: 'rev-history', type: 'action'},
@@ -722,15 +723,16 @@ L.Control.Menubar = L.Control.extend({
 		commandStates: {},
 
 		// Only these menu options will be visible in readonly mode
-		allowedReadonlyMenus: ['file', 'downloadas', 'view', 'help'],
+		allowedReadonlyMenus: ['file', 'downloadas', 'view', 'insert', 'help'],
 
 		allowedViewModeActions: [
-			'shareas', 'print', // file menu
+			'savecomments', 'shareas', 'print', // file menu
 			'downloadas-pdf', 'downloadas-odt', 'downloadas-doc', 'downloadas-docx', 'downloadas-rtf', 'downloadas-epub', // file menu
 			'downloadas-odp', 'downloadas-ppt', 'downloadas-pptx', 'downloadas-odg', 'print', // file menu
 			'downloadas-ods', 'downloadas-xls', 'downloadas-xlsx', 'closedocument', // file menu
 			'fullscreen', 'zoomin', 'zoomout', 'zoomreset', 'showresolved', // view menu
-			'about', 'keyboard-shortcuts', 'latest-updates', 'online-help', 'report-an-issue' // help menu
+			'about', 'keyboard-shortcuts', 'latest-updates', 'online-help', 'report-an-issue', // help menu
+			'insertcomment'
 		]
 	},
 
@@ -1143,6 +1145,13 @@ L.Control.Menubar = L.Control.extend({
 			}
 		} else if (id === 'saveas') {
 			this._map.fire('postMessage', {msgId: 'UI_SaveAs'});
+		} else if (id === 'savecomments') {
+			if (this._map.isPermissionEditForComments()) {
+				this._map.fire('postMessage', {msgId: 'UI_Save'});
+				if (!this._map._disableDefaultAction['UI_Save']) {
+					this._map.save(false, false);
+				}
+			}
 		} else if (id === 'shareas') {
 			this._map.fire('postMessage', {msgId: 'UI_Share'});
 		} else if (id === 'print') {
@@ -1358,6 +1367,13 @@ L.Control.Menubar = L.Control.extend({
 			case 'save':
 			case 'pagesetup':
 			case 'watermark':
+				return false;
+			}
+		}
+
+		if (this._map.isPermissionEdit()) {
+			switch (menuItem.id) {
+			case 'savecomments':
 				return false;
 			}
 		}
