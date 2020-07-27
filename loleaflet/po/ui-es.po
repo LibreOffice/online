@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-03 12:58+0200\n"
-"PO-Revision-Date: 2020-07-23 11:58+0000\n"
+"PO-Revision-Date: 2020-07-27 08:57+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/es/>\n"
 "Language: es\n"
@@ -868,13 +868,13 @@ msgstr "Rehacer"
 #: src/control/Control.NotebookbarCalc.js:12
 #: src/control/Control.NotebookbarImpress.js:43
 msgid "~Home"
-msgstr "I~nicio"
+msgstr "~Inicio"
 
 #: src/control/Control.NotebookbarWriter.js:18
 #: src/control/Control.NotebookbarCalc.js:18
 #: src/control/Control.NotebookbarImpress.js:49
 msgid "~Insert"
-msgstr "~Insertar"
+msgstr "I~nsertar"
 
 #: src/control/Control.NotebookbarWriter.js:23
 msgid "~Layout"
