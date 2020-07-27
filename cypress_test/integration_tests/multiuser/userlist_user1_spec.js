@@ -11,6 +11,7 @@ describe('Check user list with user-1.', function() {
 
 	afterEach(function() {
 		helper.afterAll(testFileName);
+		cy.wait(20000);
 	});
 
 	it('Userlist visibility.', function() {
