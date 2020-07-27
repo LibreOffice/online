@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-03 12:58+0200\n"
-"PO-Revision-Date: 2020-07-08 12:37+0000\n"
+"PO-Revision-Date: 2020-07-25 19:23+0000\n"
 "Last-Translator: Miloš Šrámek <msramek22@gmail.com>\n"
 "Language-Team: Slovak <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/sk/>\n"
 "Language: sk\n"
@@ -902,17 +902,15 @@ msgstr "Spustiť prezentáciu"
 
 #: src/control/Permission.js:45
 msgid "The document could not be locked, and is opened in read-only mode."
-msgstr ""
+msgstr "Dokument nemožno uzamknúť a je otvorený v režime len na čítanie."
 
 #: src/control/Permission.js:47 src/control/Permission.js:65
 msgid "Server returned this reason:"
-msgstr ""
+msgstr "Server ako príčinu vrátil tento dôvod:"
 
 #: src/control/Permission.js:63
-#, fuzzy
-#| msgid "Document cannot be saved."
 msgid "The document could not be locked."
-msgstr "Dokument nemožno uložiť."
+msgstr "Dokument nemožno uzamknúť."
 
 #: src/control/Ruler.js:366
 msgid "Left Margin"
