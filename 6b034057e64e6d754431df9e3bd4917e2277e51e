@@ -16,6 +16,24 @@
       "revId": "6b034057e64e6d754431df9e3bd4917e2277e51e",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4bb3a8f_7d7b0d4f",
+        "filename": "loleaflet/src/control/Control.PartsPreview.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1002266
+      },
+      "writtenOn": "2020-07-28T12:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be954c16_b677c51a",
+      "revId": "6b034057e64e6d754431df9e3bd4917e2277e51e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
