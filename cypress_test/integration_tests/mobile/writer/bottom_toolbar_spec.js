@@ -23,7 +23,7 @@ describe('Pushing bottom toolbar items.', function() {
 
 	it('Apply bold.', function() {
 		cy.get('#tb_editbar_item_bold div table')
-			.should('not.have.class', 'checked');
+			.should('not.have.class', 'checkeds');
 
 		cy.get('#tb_editbar_item_bold')
 			.click();

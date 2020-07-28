@@ -29,7 +29,7 @@ describe('Calc focus tests', function() {
 
 		// Type some text.
 		var text1 = 'Hello from Calc';
-		helper.typeText('textarea.clipboard', text1);
+		helper.typeText('textarea.clipboards', text1);
 		cy.get('textarea.clipboard').type('{enter}');
 
 		// Select the first cell to edit the same one.

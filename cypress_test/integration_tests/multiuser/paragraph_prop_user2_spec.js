@@ -19,7 +19,7 @@ describe('Change paragraph properties: user-2.', function() {
 	it('Change paragraph alignment.', function() {
 		// user-1 loads the same document
 
-		cy.get('#tb_actionbar_item_userlist')
+		cy.get('#tb_actionbar_item_userlists')
 			.should('be.visible');
 
 		cy.get('#tb_actionbar_item_userlist .w2ui-tb-caption')
