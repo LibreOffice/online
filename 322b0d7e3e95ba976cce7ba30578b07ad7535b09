@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3510daaf_f0047c1e",
+        "filename": "loleaflet/js/global.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-28T09:05:24Z",
+      "side": 1,
+      "message": "It is not clear to me that this sort of whitespace / moving brackets around sort of change is terribly useful by itself. It tends to churn the commit history and make reading the git blame rather difficult - and we do quite a lot of that.",
+      "revId": "322b0d7e3e95ba976cce7ba30578b07ad7535b09",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aa0944d_4869a778",
+        "filename": "loleaflet/js/jquery.mCustomScrollbar.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-07-28T09:05:24Z",
+      "side": 1,
+      "message": "In general, for copies of these external modules we embed and minimally patch - we want to keep the changes as small as possible so that we can maintain and merge up-stream changes.",
+      "revId": "322b0d7e3e95ba976cce7ba30578b07ad7535b09",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
