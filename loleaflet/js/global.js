@@ -408,31 +408,27 @@
 				this.pollInterval = setInterval(this.doSend, intervalMs);
 		},
 		this.doSend = function () {
-			if (that.sessionId === 'open')
-			{
-				if (that.readyState === 3)
-					console.debug('Error: sending on closed socket');
-				return;
+			if (that.sessionId === 'open') {
+			    if (that.readyState === 3) {
+			        console.debug('Error: sending on closed socket');
+                }
+			    return;
 			}
 
-			if (that.msgInflight >= 4) // something went badly wrong.
-			{
+			if (that.msgInflight >= 4) { // something went badly wrong.
 				// We shouldn't get here because we throttle sending when we
 				// have something in flight, but if the server hangs, we
 				// will do up to 3 retries before we end up here and yield.
-				if (that.curPollMs < that.maxPollMs)
-				{
+				if (that.curPollMs < that.maxPollMs) {
 					that.curPollMs = Math.min(that.maxPollMs, that.curPollMs * that.throttleFactor) | 0;
 					console.debug('High latency connection - too much in-flight, throttling to ' + that.curPollMs + ' ms.');
 					that._setPollInterval(that.curPollMs);
-				}
-				else if (performance.now() - that.lastDataTimestamp > 30 * 1000)
-				{
+				} else if (performance.now() - that.lastDataTimestamp > 30 * 1000) {
 					console.debug('Close connection after no response for 30secs');
 					that._signalErrorClose();
-				}
-				else
+				} else {
 					console.debug('High latency connection - too much in-flight, pausing.');
+                }
 				return;
 			}
 
@@ -450,8 +446,7 @@
 				if (this.status == 200)
 				{
 					var data = new Uint8Array(this.response);
-					if (data.length)
-					{
+					if (data.length) {
 						// We have some data back from WSD.
 						// Another user might be editing and we want
 						// to see their changes in real time.
@@ -462,19 +457,15 @@
 						that.parseIncomingArray(data);
 						return;
 					}
-				}
-				else
-				{
+				} else {
 					console.debug('proxy: error on incoming response ' + this.status);
 					that._signalErrorClose();
 				}
 
-				if (that.curPollMs < that.maxPollMs) // If we aren't throttled, see if we should.
-				{
+				if (that.curPollMs < that.maxPollMs) { // If we aren't throttled, see if we should.
 					// Has it been long enough since we got any data?
 					var timeSinceLastDataMs = (performance.now() - that.lastDataTimestamp) | 0;
-					if (timeSinceLastDataMs >= that.minIdlePollsToThrottle * that.curPollMs)
-					{
+					if (timeSinceLastDataMs >= that.minIdlePollsToThrottle * that.curPollMs) {
 						// Throttle.
 						that.curPollMs = Math.min(that.maxPollMs, that.curPollMs * that.throttleFactor) | 0;
 //						console.debug('No data for ' + timeSinceLastDataMs + ' ms -- throttling to ' + that.curPollMs + ' ms.');
@@ -491,18 +482,17 @@
 			that.msgInflight++;
 		};
 		this.getSessionId = function() {
-			if (this.openInflight > 0)
-			{
+			if (this.openInflight > 0) {
 				console.debug('Waiting for session open');
 				return;
 			}
 
-			if (this.delaySession)
+			if (this.delaySession) {
 				return;
+            }
 
 			// avoid attempting to re-connect too quickly
-			if (global.lastCreatedProxySocket)
-			{
+			if (global.lastCreatedProxySocket) {
 				var msSince = performance.now() - global.lastCreatedProxySocket;
 				if (msSince < 250) {
 					var delay = 250 - msSince;
@@ -523,13 +513,10 @@
 			req.addEventListener('load', function() {
 				console.debug('got session: ' + this.responseText);
 				if (this.status !== 200 || !this.responseText ||
-				    this.responseText.indexOf('\n') >= 0) // multi-line error
-				{
+				    this.responseText.indexOf('\n') >= 0) { // multi-line error
 					console.debug('Error: failed to fetch session id! error: ' + this.status);
 					that._signalErrorClose();
-				}
-				else // we connected - lets get going ...
-				{
+				} else { // we connected - lets get going ...
 					that.sessionId = this.responseText;
 					that.readyState = 1;
 					that.onopen();
@@ -551,27 +538,21 @@
 			this.outSerial++;
 
 			// Send ASAP, if we have throttled.
-			if (that.curPollMs > that.minPollMs || !hadData)
-			{
+			if ((that.curPollMs > that.minPollMs || !hadData) && that.msgInflight <= 3) {
 				// Unless we are backed up.
-				if (that.msgInflight <= 3)
-				{
-//					console.debug('Have data to send, lowering poll interval.');
-					that.curPollMs = that.minPollMs;
-					that._setPollInterval(that.curPollMs);
-				}
+				that.curPollMs = that.minPollMs;
+				that._setPollInterval(that.curPollMs);
 			}
 		};
 		this.sendCloseMsg = function(beacon) {
 			var url = that.getEndPoint('close');
-			if (!beacon)
-			{
+			if (!beacon) {
 				var req = new XMLHttpRequest();
 				req.open('POST', url);
 				req.send('');
-			}
-			else
+			} else {
 				navigator.sendBeacon(url, '');
+            }
 		};
 		this.close = function() {
 			var oldState = this.readyState;
@@ -581,8 +562,9 @@
 			clearInterval(this.pollInterval);
 			clearTimeout(this.delaySession);
 			this.pollInterval = undefined;
-			if (oldState === 1) // was open
+			if (oldState === 1) { // was open
 				this.sendCloseMsg(this.unloading);
+            }
 			this.sessionId = 'open';
 		};
 		this.setUnloading = function() {
@@ -598,13 +580,13 @@
 		this.getSessionId();
 	};
 
-	if (global.socketProxy)
-	{
+	if (global.socketProxy) {
 		// re-write relative URLs in CSS - somewhat grim.
 		window.addEventListener('load', function() {
 			var replaceUrls = function(rules, replaceBase) {
-				if (!rules)
+				if (!rules) {
 					return;
+                }
 
 				for (var r = 0; r < rules.length; ++r) {
 					// check subset of rules like @media or @import
@@ -612,13 +594,14 @@
 						replaceUrls(rules[r].cssRules || rules[r].rules, replaceBase);
 						continue;
 					}
-					if (!rules[r] || !rules[r].style)
+					if (!rules[r] || !rules[r].style) {
 						continue;
+                    }
 					var img = rules[r].style.backgroundImage;
-					if (img === '' || img === undefined)
+					if (img === '' || img === undefined) {
 						continue;
-					if (img.startsWith('url("images/'))
-					{
+                    }
+					if (img.startsWith('url("images/')) {
 						rules[r].style.backgroundImage =
 							img.replace('url("images/', replaceBase);
 					}
@@ -718,16 +701,14 @@
 		wopiSrc = '?WOPISrc=' + wopiSrc + '&compat=/ws';
 		if (global.accessToken !== '') {
 			wopiParams = { 'access_token': global.accessToken, 'access_token_ttl': global.accessTokenTTL };
-		}
-		else if (global.accessHeader !== '') {
+		} else if (global.accessHeader !== '') {
 			wopiParams = { 'access_header': global.accessHeader };
 		}
 
 		if (global.reuseCookies !== '') {
 			if (wopiParams) {
 				wopiParams['reuse_cookies'] = global.reuseCookies;
-			}
-			else {
+			} else {
 				wopiParams = { 'reuse_cookies': global.reuseCookies };
 			}
 		}
@@ -756,8 +737,9 @@
 
 	var lang = global.getParameterByName('lang');
 	global.queueMsg = [];
-	if (window.ThisIsAMobileApp)
+	if (window.ThisIsAMobileApp) {
 		window.LANG = lang;
+    }
 	if (global.socket && global.socket.readyState !== 3) {
 		global.socket.onopen = function () {
 			if (global.socket.readyState === 1) {
