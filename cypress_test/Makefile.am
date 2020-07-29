@@ -67,6 +67,10 @@ MULTIUSER_TESTS= \
 	sidebar_visibility \
 	simultaneous_typing
 
+# force serial test execution
+$(MULTIUSER_TRACK_FOLDER)/sidebar_visibility.done: $(MULTIUSER_TRACK_FOLDER)/paragraph_prop.done
+$(MULTIUSER_TRACK_FOLDER)/simultaneous_typing.done: $(MULTIUSER_TRACK_FOLDER)/sidebar_visibility.done
+
 MOBILE_TEST_FILES_DONE= \
 	$(foreach test_file,$(MOBILE_TEST_FILES),$(MOBILE_TRACK_FOLDER)/$(test_file).done)
 
