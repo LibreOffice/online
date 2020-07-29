@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b172975a_08282e34",
+        "filename": "cypress_test/integration_tests/desktop/calc/bottom_bar_spec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-29T16:12:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31cf39f1_b51880e9",
+      "range": {
+        "startLine": 22,
+        "startChar": 11,
+        "endLine": 22,
+        "endChar": 47
+      },
+      "revId": "decd1ff3017ec67cbaa369103304fb8f5eedd9d6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e06297b_33eb073c",
         "filename": "cypress_test/integration_tests/desktop/calc/bottom_bar_spec.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "decd1ff3017ec67cbaa369103304fb8f5eedd9d6",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4a00130_de16ea9c",
+        "filename": "cypress_test/integration_tests/desktop/calc/bottom_bar_spec.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-07-29T16:12:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e06297b_33eb073c",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "decd1ff3017ec67cbaa369103304fb8f5eedd9d6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
