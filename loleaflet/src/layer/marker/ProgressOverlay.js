@@ -18,7 +18,7 @@ L.ProgressOverlay = L.Layer.extend({
 	},
 
 	_initLayout: function () {
-		this._container = L.DomUtil.create('div', 'leaflet-progress-layer', L.DomUtil.get('document-container'));
+		this._container = L.DomUtil.create('div', 'leaflet-progress-layer');
 		this._spinner = L.DomUtil.create('div', 'leaflet-progress-spinner', this._container);
 		this._spinnerCanvas = L.DomUtil.create('canvas', 'leaflet-progress-spinner-canvas', this._spinner);
 
@@ -67,6 +67,7 @@ L.ProgressOverlay = L.Layer.extend({
 				switch (self.state) {
 				// 0.5s -> start the spinner
 				case 1:
+					L.DomUtil.get('document-container').appendChild(self._container);
 					self._spinnerInterval = L.LOUtil.startSpinner(self._spinnerCanvas, self.options.spinnerSpeed);
 					break;
 				// 2s -> enable the progress bar if we have one & it's low
