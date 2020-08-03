@@ -5,7 +5,7 @@
 
 /* global _ _UNO */
 L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
-	
+
 	getTabs: function() {
 		return [
 			{
@@ -25,6 +25,21 @@ L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
 				'name': 'InsertLabel'
 			},
 			{
+				'text': _('~Sheet'),
+				'id': '0',
+				'name': 'Sheet'
+			},
+			{
+				'text': _('~Layout'),
+				'id': '4',
+				'name': 'LayoutLabel'
+			},
+			{
+				'text': _('~Data'),
+				'id': '5',
+				'name': 'DataLabel'
+			},
+			{
 				'text': _('~Review'),
 				'id': '6',
 				'name': 'ReviewLabel'
@@ -35,6 +50,22 @@ L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
 				'name': 'Help',
 			}
 		];
+	},
+
+	selectedTab: function(tabName) {
+		switch (tabName) {
+		case 'File':
+			this.loadTab(this.getFileTab());
+			break;
+
+		case 'Help':
+			this.loadTab(this.getHelpTab());
+			break;
+		case 'Sheet':
+			this.loadTab(this.getSpreadsheetTab());
+			break;
+
+		}
 	},
 
 	getFileTab: function() {
@@ -1797,7 +1828,24 @@ L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
 				}
 			]
 		};
+	},
+
+	getSheetTab: function() {
+		 /*
+		 Add:
+		'.uno:InsertRowsBefore'
+		'.uno:InsertRowsAfter'
+		'.uno:InsertColumnsBefore'
+		'.uno:InsertColumnsAfter'
+		'.uno:InsertRowBreak'
+		'.uno:InsertColumnBreak'
+		'.uno:DeleteRows'
+		'.uno:DeleteColumns'
+		'.uno:DeleteRowbreak'
+		'.uno:DeleteColumnbreak'
+		*/
 	}
+
 });
 
 L.control.notebookbarCalc = function (options) {
