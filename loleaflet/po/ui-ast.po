@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-29 10:42+0200\n"
-"PO-Revision-Date: 2020-07-23 11:58+0000\n"
+"PO-Revision-Date: 2020-07-31 07:08+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Asturian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/ast/>\n"
 "Language: ast\n"
@@ -905,7 +905,7 @@ msgstr "Refacer"
 #: src/control/Control.NotebookbarCalc.js:12
 #: src/control/Control.NotebookbarImpress.js:86
 msgid "~File"
-msgstr ""
+msgstr "~Ficheru"
 
 #: src/control/Control.NotebookbarWriter.js:17
 #: src/control/Control.NotebookbarCalc.js:17
@@ -1172,7 +1172,7 @@ msgstr "Nun s'almite la versión del sirvidor."
 
 #: src/core/Socket.js:396
 msgid "Session terminated by document owner"
-msgstr ""
+msgstr "La sesión terminóla'l propietariu del documentu"
 
 #: src/core/Socket.js:401
 msgid "Idle document - please click to reload and resume editing"
@@ -1216,7 +1216,7 @@ msgstr "Sobroscribir"
 
 #: src/core/Socket.js:585
 msgid "Save to new file"
-msgstr ""
+msgstr "Guardar nun ficheru nuevu"
 
 #: src/core/Socket.js:655
 msgid "Document requires password to view."
@@ -1260,7 +1260,7 @@ msgstr ""
 
 #: src/errormessages.js:16
 msgid "More information and support"
-msgstr ""
+msgstr "Más información y sofitu"
 
 #: src/errormessages.js:17
 msgid "This service is limited to %0 documents, and %1 connections total by the admin. This limit has been reached. Please try again later."
