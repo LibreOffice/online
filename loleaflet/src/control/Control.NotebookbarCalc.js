@@ -5,7 +5,7 @@
 
 /* global _ _UNO */
 L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
-	
+
 	getTabs: function() {
 		return [
 			{
@@ -23,6 +23,16 @@ L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
 				'text': _('~Insert'),
 				'id': '3',
 				'name': 'InsertLabel'
+			},
+			{
+				'text': _('~Sheet'),
+				'id': '4',
+				'name': 'LayoutLabel'
+			},
+			{
+				'text': _('~Data'),
+				'id': '5',
+				'name': 'DataLabel'
 			},
 			{
 				'text': _('~Review'),

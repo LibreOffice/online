@@ -409,7 +409,7 @@ L.Control.Menubar = L.Control.extend({
 				{type: 'separator'},
 				{name: _UNO('.uno:HyperlinkDialog'), id: 'inserthyperlink', type: 'action'},
 				{uno: '.uno:InsertSymbol'},
-				{uno: '.uno:EditHeaderAndFooter'}
+				{uno: '.uno:EditHeaderAndFooter'} /*todo: add to Control.Notebookbar.Calc.js (as Insert tab)*/
 			]},
 			{name: _UNO('.uno:FormatMenu', 'spreadsheet'), id: 'format', type: 'menu', menu: [
 				{uno: '.uno:ResetAttributes'},
@@ -431,20 +431,20 @@ L.Control.Menubar = L.Control.extend({
 			]},
 			{name: _UNO('.uno:SheetMenu', 'spreadsheet'), type: 'menu', menu: [
 				{name: _UNO('.uno:InsertRowsMenu', 'spreadsheet'), type: 'menu', menu: [
-					{uno: '.uno:InsertRowsBefore'},
-					{uno: '.uno:InsertRowsAfter'}]},
+					{uno: '.uno:InsertRowsBefore'}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
+					{uno: '.uno:InsertRowsAfter'}]}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
 				{name: _UNO('.uno:InsertColumnsMenu', 'spreadsheet'), type: 'menu', menu: [
-					{uno: '.uno:InsertColumnsBefore'},
-					{uno: '.uno:InsertColumnsAfter'}]},
+					{uno: '.uno:InsertColumnsBefore'}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
+					{uno: '.uno:InsertColumnsAfter'}]}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
 				{name: _UNO('.uno:InsertBreakMenu', 'spreadsheet'), type: 'menu', menu: [
-					{uno: '.uno:InsertRowBreak'},
-					{uno: '.uno:InsertColumnBreak'}]},
+					{uno: '.uno:InsertRowBreak'}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
+					{uno: '.uno:InsertColumnBreak'}]}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
 				{type: 'separator'},
-				{uno: '.uno:DeleteRows'},
-				{uno: '.uno:DeleteColumns'},
+				{uno: '.uno:DeleteRows'}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
+				{uno: '.uno:DeleteColumns'}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
 				{name: _UNO('.uno:DelBreakMenu', 'spreadsheet'), type: 'menu', menu: [
-					{uno: '.uno:DeleteRowbreak'},
-					{uno: '.uno:DeleteColumnbreak'}]}
+					{uno: '.uno:DeleteRowbreak'}, /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
+					{uno: '.uno:DeleteColumnbreak'}]} /*todo: add to Control.Notebookbar.Calc.js (as Sheet Tab)*/
 			]},
 			{name: _UNO('.uno:DataMenu', 'spreadsheet'), type: 'menu', menu: [
 				{uno: '.uno:DataSort'},
