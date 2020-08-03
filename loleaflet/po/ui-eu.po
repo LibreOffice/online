@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-29 10:42+0200\n"
-"PO-Revision-Date: 2020-07-26 13:09+0000\n"
+"PO-Revision-Date: 2020-07-31 10:58+0000\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersar@yahoo.com>\n"
 "Language-Team: Basque <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/eu/>\n"
 "Language: eu\n"
@@ -618,10 +618,8 @@ msgid "Last modification"
 msgstr "Azken aldaketa"
 
 #: src/control/Control.Menubar.js:257
-#, fuzzy
-#| msgid "Comment"
 msgid "Save Comments"
-msgstr "Iruzkina"
+msgstr "Gorde iruzkinak"
 
 #: src/control/Control.Menubar.js:263 src/control/Control.Menubar.js:548
 #: src/control/Control.NotebookbarImpress.js:258
@@ -889,7 +887,7 @@ msgstr "Unekoa"
 
 #: src/control/Control.Notebookbar.js:123
 msgid "Menu"
-msgstr ""
+msgstr "Menua"
 
 #: src/control/Control.Notebookbar.js:133
 #: src/control/Control.NotebookbarImpress.js:27
@@ -905,7 +903,7 @@ msgstr "Berregin"
 #: src/control/Control.NotebookbarCalc.js:12
 #: src/control/Control.NotebookbarImpress.js:86
 msgid "~File"
-msgstr ""
+msgstr "~Fitxategia"
 
 #: src/control/Control.NotebookbarWriter.js:17
 #: src/control/Control.NotebookbarCalc.js:17
@@ -940,13 +938,13 @@ msgstr "~Taula"
 
 #: src/control/Control.NotebookbarWriter.js:49
 msgid "~Draw"
-msgstr ""
+msgstr "~Marraztu"
 
 #: src/control/Control.NotebookbarWriter.js:55
 #: src/control/Control.NotebookbarCalc.js:33
 #: src/control/Control.NotebookbarImpress.js:36
 msgid "~Help"
-msgstr ""
+msgstr "~Laguntza"
 
 #: src/control/Control.NotebookbarImpress.js:22
 msgid "Start Presentation"
@@ -1173,10 +1171,8 @@ msgid "Idle document - please click to reload and resume editing"
 msgstr "Dokumentu inaktiboa - egin klik birkargatzeko eta edizioa berrasteko"
 
 #: src/core/Socket.js:403
-#, fuzzy
-#| msgid "Idle document - please click to reload and resume editing"
 msgid "Idle document - please tap to reload and resume editing"
-msgstr "Dokumentu inaktiboa - egin klik birkargatzeko eta edizioa berrasteko"
+msgstr "Dokumentu inaktiboa - hatzarekin sakatu birkargatzeko eta edizioa berrasteko"
 
 #: src/core/Socket.js:411
 msgid "Server is shutting down for maintenance (auto-saving)"
