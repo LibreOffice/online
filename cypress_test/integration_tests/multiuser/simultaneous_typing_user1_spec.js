@@ -31,8 +31,7 @@ describe('Simultaneous typing: user-1.', function() {
 
 		helper.selectAllText();
 
-		cy.get('#copy-paste-container p')
-			.should('contain.text', text);
+		helper.expectTextForClipboard(text);
 
 		// Change paragraph alignment to trigger user-2 actions
 		cy.get('textarea.clipboard')

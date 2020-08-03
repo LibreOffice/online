@@ -31,8 +31,7 @@ describe('Simultaneous typing: user-2.', function() {
 
 		helper.selectAllText();
 
-		cy.get('#copy-paste-container p')
-			.should('contain.text', text);
+		helper.expectTextForClipboard(text);
 
 		// user-1 changes the paragraph alignment after finished
 		cy.get('#tb_editbar_item_centerpara .w2ui-button')

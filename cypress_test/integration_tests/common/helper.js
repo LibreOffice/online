@@ -126,8 +126,18 @@ function clearAllText() {
 // Check that the clipboard text matches with the specified text.
 function expectTextForClipboard(expectedPlainText) {
 	doIfInWriter(function() {
-		cy.get('#copy-paste-container p font')
-			.should('have.text', expectedPlainText);
+		cy.get('#copy-paste-container p')
+			.then(function(items) {
+				expect(items).to.have.length(1);
+				if (items.children('font').length === 1) {
+					cy.get('#copy-paste-container p font')
+						.should('have.text', expectedPlainText);
+				} else {
+					cy.get('#copy-paste-container p')
+						.should('have.text', expectedPlainText);
+				}
+
+			});
 	});
 	doIfInCalc(function() {
 		cy.get('#copy-paste-container pre')
