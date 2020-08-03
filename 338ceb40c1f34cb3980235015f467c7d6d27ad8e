@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba761227_5e2cde04",
+        "filename": "loleaflet/src/layer/tile/WriterTileLayer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-08-03T06:29:54Z",
+      "side": 1,
+      "message": "for UI initialization (to be in one place) I created UIManager, to add it only in writer you can put this code in initializeSpecializedUI :\nhttps://opengrok.libreoffice.org/xref/online/loleaflet/src/control/Control.UIManager.js?r\u003dbb9ee333#64",
+      "revId": "338ceb40c1f34cb3980235015f467c7d6d27ad8e",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
