@@ -5,7 +5,7 @@
 
 /* global _ _UNO */
 L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
-	
+
 	getTabs: function() {
 		return [
 			{
@@ -25,6 +25,21 @@ L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
 				'name': 'InsertLabel'
 			},
 			{
+				'text': _('~Sheet'),
+				'id': '',
+				'name': 'Sheet'
+			},
+			{
+				'text': _('~Layout'),
+				'id': '4',
+				'name': 'LayoutLabel'
+			},
+			{
+				'text': _('~Data'),
+				'id': '5',
+				'name': 'DataLabel'
+			},
+			{
 				'text': _('~Review'),
 				'id': '6',
 				'name': 'ReviewLabel'
@@ -35,6 +50,22 @@ L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
 				'name': 'Help',
 			}
 		];
+	},
+
+	selectedTab: function(tabName) {
+		switch (tabName) {
+		case 'File':
+			this.loadTab(this.getFileTab());
+			break;
+
+		case 'Help':
+			this.loadTab(this.getHelpTab());
+			break;
+		case 'Sheet':
+			this.loadTab(this.getSheetTab());
+			break;
+
+		}
 	},
 
 	getFileTab: function() {
@@ -1794,6 +1825,151 @@ L.Control.NotebookbarCalc = L.Control.NotebookbarWriter.extend({
 						}
 					],
 					'vertical': 'true'
+				}
+			]
+		};
+	},
+
+	getSheetTab: function() {
+		 /*
+		 Add:
+		'.uno:InsertRowsBefore'
+		'.uno:InsertRowsAfter'
+		'.uno:InsertColumnsBefore'
+		'.uno:InsertColumnsAfter'
+		'.uno:InsertRowBreak'
+		'.uno:InsertColumnBreak'
+		'.uno:DeleteRows'
+		'.uno:DeleteColumns'
+		'.uno:DeleteRowbreak'
+		'.uno:DeleteColumnbreak'
+		*/
+		return {
+			'id': '',
+			'type': 'control',
+			'text': '',
+			'enabled': 'true',
+			'children': [
+				{
+					'id': '',
+					'type': 'container',
+					'text': '',
+					'enabled': 'true',
+					'children': [
+						{
+							'id': 'NotebookBar',
+							'type': 'grid',
+							'text': '',
+							'enabled': 'true',
+							'children': [
+								{
+									'id': 'box1',
+									'type': 'container',
+									'text': '',
+									'enabled': 'true',
+									'children': [
+										{
+											'id': 'ContextContainer',
+											'type': 'tabcontrol',
+											'text': '',
+											'enabled': 'true',
+											'children': [
+												{
+													'id': '',
+													'type': 'pushbutton',
+													'text': '',
+													'enabled': 'true'
+												},
+												{
+													'id': '',
+													'type': 'toolbox',
+													'text': '',
+													'enabled': 'true',
+													'children': [
+														{
+															'type': 'toolitem',
+															'text': 'Menubar',
+															'command': '.uno:Menubar'
+														},
+														{
+															'type': 'toolitem',
+															'text': 'Open',
+															'command': '.uno:OpenFromCalc'
+														},
+														{
+															'type': 'toolitem',
+															'text': 'Save',
+															'command': '.uno:Save'
+														},
+														{
+															'type': 'toolitem',
+															'text': 'Undo',
+															'command': '.uno:Undo'
+														},
+														{
+															'type': 'toolitem',
+															'text': 'Redo',
+															'command': '.uno:Redo'
+														},
+														{
+															'type': 'toolitem',
+															'text': 'Print',
+															'command': '.uno:Print'
+														}
+													]
+												},
+												{
+													'id': '',
+													'type': 'tabpage',
+													'text': '',
+													'enabled': 'true',
+													'children': [
+														{
+															'id': 'Home Tab',
+															'type': 'container',
+															'text': '',
+															'enabled': 'true',
+															'children': [
+																{
+																	'id': 'Home',
+																	'type': 'container',
+																	'text': '',
+																	'enabled': 'true',
+																	'children': [
+																		{
+																			'id': 'Home-Section-Clipboard',
+																			'type': 'container',
+																			'text': '',
+																			'enabled': 'true',
+																			'children': [
+																				{
+																					'id': 'SectionBottom87',
+																					'type': 'toolbox',
+																					'text': '',
+																					'enabled': 'true',
+																					'children': [
+																						{
+																							'type': 'toolitem',
+																							'text': 'Paste',
+																							'command': '.uno:Paste'
+																						}
+																					]
+																				}
+																			]
+																		}
+																	]
+																}
+															]
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
 				}
 			]
 		};
