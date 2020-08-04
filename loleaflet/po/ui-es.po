@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-29 10:42+0200\n"
-"PO-Revision-Date: 2020-07-27 08:57+0000\n"
+"PO-Revision-Date: 2020-07-31 07:08+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/es/>\n"
 "Language: es\n"
@@ -617,10 +617,8 @@ msgid "Last modification"
 msgstr "Última modificación"
 
 #: src/control/Control.Menubar.js:257
-#, fuzzy
-#| msgid "Comment"
 msgid "Save Comments"
-msgstr "Comentario"
+msgstr "Guardar comentarios"
 
 #: src/control/Control.Menubar.js:263 src/control/Control.Menubar.js:548
 #: src/control/Control.NotebookbarImpress.js:258
@@ -888,7 +886,7 @@ msgstr "Actual"
 
 #: src/control/Control.Notebookbar.js:123
 msgid "Menu"
-msgstr ""
+msgstr "Menú"
 
 #: src/control/Control.Notebookbar.js:133
 #: src/control/Control.NotebookbarImpress.js:27
@@ -904,7 +902,7 @@ msgstr "Rehacer"
 #: src/control/Control.NotebookbarCalc.js:12
 #: src/control/Control.NotebookbarImpress.js:86
 msgid "~File"
-msgstr ""
+msgstr "~Archivo"
 
 #: src/control/Control.NotebookbarWriter.js:17
 #: src/control/Control.NotebookbarCalc.js:17
@@ -945,7 +943,7 @@ msgstr ""
 #: src/control/Control.NotebookbarCalc.js:33
 #: src/control/Control.NotebookbarImpress.js:36
 msgid "~Help"
-msgstr ""
+msgstr "Ay~uda"
 
 #: src/control/Control.NotebookbarImpress.js:22
 msgid "Start Presentation"
@@ -1169,13 +1167,11 @@ msgstr "El propietario del documento finalizó la sesión"
 
 #: src/core/Socket.js:401
 msgid "Idle document - please click to reload and resume editing"
-msgstr "Documento inactivo; pulse para recargar y continuar editando"
+msgstr "Documento inactivo; pulse para recargarlo y continuar editándolo"
 
 #: src/core/Socket.js:403
-#, fuzzy
-#| msgid "Idle document - please click to reload and resume editing"
 msgid "Idle document - please tap to reload and resume editing"
-msgstr "Documento inactivo; pulse para recargar y continuar editando"
+msgstr "Documento inactivo; toque para recargarlo y continuar editándolo"
 
 #: src/core/Socket.js:411
 msgid "Server is shutting down for maintenance (auto-saving)"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-29 10:42+0200\n"
-"PO-Revision-Date: 2020-07-01 15:58+0000\n"
+"PO-Revision-Date: 2020-08-04 07:34+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Aragonese <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/an/>\n"
 "Language: an\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 4.1.1\n"
 "X-Pootle-Path: /an/libo_online/loleaflet-ui-an.po\n"
 "X-Pootle-Revision: 3937623\n"
 
@@ -42,7 +42,7 @@ msgstr ""
 
 #: admin/admin.strings.js:11
 msgid "History"
-msgstr ""
+msgstr "Historial"
 
 #: admin/admin.strings.js:12
 msgid "Log"
@@ -224,7 +224,7 @@ msgstr ""
 #: src/control/Control.PresentationBar.js:85 src/control/Control.Tabs.js:200
 #: src/control/Control.Tabs.js:217 src/control/Toolbar.js:607
 msgid "OK"
-msgstr ""
+msgstr "Acceptar"
 
 #: admin/src/AdminSocketOverview.js:17 admin/src/AdminSocketOverview.js:124
 #: admin/src/AdminSocketSettings.js:37 src/control/Control.LanguageDialog.js:86
@@ -233,7 +233,7 @@ msgstr ""
 #: src/control/Control.Tabs.js:218 src/control/Toolbar.js:608
 #: src/layer/marker/Annotation.js:202 src/layer/tile/TileLayer.js:405
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: admin/src/AdminSocketOverview.js:199 admin/src/AdminSocketOverview.js:301
 msgid "Documents"
@@ -253,7 +253,7 @@ msgstr ""
 
 #: admin/src/Util.js:14
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: admin/src/Util.js:14
 msgid "MB"
@@ -333,7 +333,7 @@ msgstr ""
 
 #: src/control/Control.DocumentRepair.js:44
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: src/control/Control.DocumentRepair.js:46
 msgid "Index"
@@ -345,11 +345,11 @@ msgstr ""
 
 #: src/control/Control.DocumentRepair.js:50
 msgid "User name"
-msgstr ""
+msgstr "Nome d'usuario"
 
 #: src/control/Control.DocumentRepair.js:52
 msgid "Timestamp"
-msgstr ""
+msgstr "Marca de tiempo"
 
 #: src/control/Control.DocumentRepair.js:56
 msgid "Jump to state"
@@ -959,10 +959,8 @@ msgid "Server returned this reason:"
 msgstr ""
 
 #: src/control/Permission.js:63
-#, fuzzy
-#| msgid "Document cannot be saved."
 msgid "The document could not be locked."
-msgstr "No s'ha puesto alzar o documento."
+msgstr "No s'ha puesto blocar o documento."
 
 #: src/control/Ruler.js:366
 msgid "Left Margin"
