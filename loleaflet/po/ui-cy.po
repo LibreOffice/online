@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-29 10:42+0200\n"
-"PO-Revision-Date: 2020-07-22 15:17+0000\n"
+"PO-Revision-Date: 2020-08-04 12:03+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@yahoo.com>\n"
 "Language-Team: Welsh <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/cy/>\n"
 "Language: cy\n"
@@ -618,10 +618,8 @@ msgid "Last modification"
 msgstr "Newid diwethaf"
 
 #: src/control/Control.Menubar.js:257
-#, fuzzy
-#| msgid "Comment"
 msgid "Save Comments"
-msgstr "Sylw"
+msgstr "Cadw Sylwadau"
 
 #: src/control/Control.Menubar.js:263 src/control/Control.Menubar.js:548
 #: src/control/Control.NotebookbarImpress.js:258
@@ -889,7 +887,7 @@ msgstr "Cyfredol"
 
 #: src/control/Control.Notebookbar.js:123
 msgid "Menu"
-msgstr ""
+msgstr "Dewislen"
 
 #: src/control/Control.Notebookbar.js:133
 #: src/control/Control.NotebookbarImpress.js:27
@@ -905,7 +903,7 @@ msgstr "Ail-wneud"
 #: src/control/Control.NotebookbarCalc.js:12
 #: src/control/Control.NotebookbarImpress.js:86
 msgid "~File"
-msgstr ""
+msgstr "~Ffeil"
 
 #: src/control/Control.NotebookbarWriter.js:17
 #: src/control/Control.NotebookbarCalc.js:17
@@ -940,13 +938,13 @@ msgstr "~Tabl"
 
 #: src/control/Control.NotebookbarWriter.js:49
 msgid "~Draw"
-msgstr ""
+msgstr "~Lluniadu"
 
 #: src/control/Control.NotebookbarWriter.js:55
 #: src/control/Control.NotebookbarCalc.js:33
 #: src/control/Control.NotebookbarImpress.js:36
 msgid "~Help"
-msgstr ""
+msgstr "~Cymorth"
 
 #: src/control/Control.NotebookbarImpress.js:22
 msgid "Start Presentation"
@@ -957,14 +955,8 @@ msgid "The document could not be locked, and is opened in read-only mode."
 msgstr "Nid oedd modd cloi'r ddogfen, ac mae wedi'i hagor yn y modd darllen yn unig."
 
 #: src/control/Permission.js:47 src/control/Permission.js:65
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "Server returned this reason: \""
 msgid "Server returned this reason:"
-msgstr ""
-"\n"
-"Dychwelodd y gweinydd y rheswm hwn: \""
+msgstr "Dychwelodd y gweinydd y rheswm hwn:"
 
 #: src/control/Permission.js:63
 msgid "The document could not be locked."
@@ -1179,10 +1171,8 @@ msgid "Idle document - please click to reload and resume editing"
 msgstr "Dogfen anweithredol - cliciwch i ail-lwytho ac ailgychwyn golygu"
 
 #: src/core/Socket.js:403
-#, fuzzy
-#| msgid "Idle document - please click to reload and resume editing"
 msgid "Idle document - please tap to reload and resume editing"
-msgstr "Dogfen anweithredol - cliciwch i ail-lwytho ac ailgychwyn golygu"
+msgstr "Dogfen anweithredol - tapiwch i ail-lwytho ac ailgychwyn golygu"
 
 #: src/core/Socket.js:411
 msgid "Server is shutting down for maintenance (auto-saving)"
