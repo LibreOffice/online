@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-29 10:42+0200\n"
-"PO-Revision-Date: 2020-07-27 21:19+0000\n"
-"Last-Translator: Valter Mura <valtermura@gmail.com>\n"
+"PO-Revision-Date: 2020-08-03 13:39+0000\n"
+"Last-Translator: Marco Marega <marco.marega@libreitalia.it>\n"
 "Language-Team: Italian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -386,7 +386,7 @@ msgstr "Nessuno"
 
 #: src/control/Control.JSDialogBuilder.js:290
 msgid "Solid"
-msgstr "In tinta unita"
+msgstr "Tinta unita"
 
 #: src/control/Control.JSDialogBuilder.js:293
 msgid "Linear"
@@ -618,10 +618,8 @@ msgid "Last modification"
 msgstr "Ultima modifica"
 
 #: src/control/Control.Menubar.js:257
-#, fuzzy
-#| msgid "Comment"
 msgid "Save Comments"
-msgstr "Commento"
+msgstr "Salva commenti"
 
 #: src/control/Control.Menubar.js:263 src/control/Control.Menubar.js:548
 #: src/control/Control.NotebookbarImpress.js:258
@@ -889,7 +887,7 @@ msgstr "Corrente"
 
 #: src/control/Control.Notebookbar.js:123
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: src/control/Control.Notebookbar.js:133
 #: src/control/Control.NotebookbarImpress.js:27
@@ -905,7 +903,7 @@ msgstr "Ripeti"
 #: src/control/Control.NotebookbarCalc.js:12
 #: src/control/Control.NotebookbarImpress.js:86
 msgid "~File"
-msgstr ""
+msgstr "~File"
 
 #: src/control/Control.NotebookbarWriter.js:17
 #: src/control/Control.NotebookbarCalc.js:17
@@ -940,13 +938,13 @@ msgstr "~Tabella"
 
 #: src/control/Control.NotebookbarWriter.js:49
 msgid "~Draw"
-msgstr ""
+msgstr "~Disegno"
 
 #: src/control/Control.NotebookbarWriter.js:55
 #: src/control/Control.NotebookbarCalc.js:33
 #: src/control/Control.NotebookbarImpress.js:36
 msgid "~Help"
-msgstr ""
+msgstr "Ai~uto"
 
 #: src/control/Control.NotebookbarImpress.js:22
 msgid "Start Presentation"
@@ -1174,10 +1172,8 @@ msgid "Idle document - please click to reload and resume editing"
 msgstr "Documento inattivo - fai clic per ricaricare e riprendere le modifiche"
 
 #: src/core/Socket.js:403
-#, fuzzy
-#| msgid "Idle document - please click to reload and resume editing"
 msgid "Idle document - please tap to reload and resume editing"
-msgstr "Documento inattivo - fai clic per ricaricare e riprendere le modifiche"
+msgstr "Documento inattivo - tocca per ricaricare e riprendere le modifiche"
 
 #: src/core/Socket.js:411
 msgid "Server is shutting down for maintenance (auto-saving)"
