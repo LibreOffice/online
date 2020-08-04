@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:38+0200\n"
-"PO-Revision-Date: 2020-08-03 22:26+0000\n"
-"Last-Translator: raal <raal@post.cz>\n"
+"PO-Revision-Date: 2020-08-04 21:18+0000\n"
+"Last-Translator: Stanislav Horáček <stanislav.horacek@gmail.com>\n"
 "Language-Team: Czech <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -657,7 +657,7 @@ msgstr "Prezentace na celou obrazovku"
 
 #: src/control/Control.Menubar.js:354
 msgid "Present current slide"
-msgstr ""
+msgstr "Prezentovat aktuální snímek"
 
 #: src/control/Control.Menubar.js:381 src/control/Control.Menubar.js:597
 #: src/control/Control.NotebookbarCalc.js:211
