@@ -176,6 +176,7 @@ DocumentBroker::DocumentBroker(ChildType type,
     _docKey(docKey),
     _docId(Util::encodeId(DocBrokerId++, 3)),
     _documentChangedInStorage(false),
+    _lastStorageSaveSuccessful(true),
     _lastSaveTime(std::chrono::steady_clock::now()),
     _lastSaveRequestTime(std::chrono::steady_clock::now() - std::chrono::milliseconds(COMMAND_TIMEOUT_MS)),
     _markToDestroy(false),
@@ -1049,6 +1050,7 @@ bool DocumentBroker::saveToStorageInternal(const std::string& sessionId, bool su
     assert(_storage && _tileCache);
     const StorageBase::SaveResult storageSaveResult = _storage->saveLocalFileToStorage(
         auth, it->second->getCookies(), *_lockCtx, saveAsPath, saveAsFilename, isRename);
+    _lastStorageSaveSuccessful = storageSaveResult.getResult() == StorageBase::SaveResult::OK;
     if (storageSaveResult.getResult() == StorageBase::SaveResult::OK)
     {
 #if !MOBILEAPP
