@@ -11,6 +11,7 @@ L.Control.MobileWizard = L.Control.extend({
 
 	_inMainMenu: true,
 	_isActive: false,
+	_inBuilding: false,
 	_currentDepth: 0,
 	_mainTitle: '',
 	_isTabMode: false,
@@ -57,10 +58,9 @@ L.Control.MobileWizard = L.Control.extend({
 	},
 
 	_setupBackButton: function() {
-		var that = this;
 		this.content = $('#mobile-wizard-content');
 		this.backButton = $('#mobile-wizard-back');
-		this.backButton.click(function() { that.goLevelUp(); });
+		this.backButton.click(function() { history.back(); });
 		$(this.backButton).addClass('close-button');
 	},
 
@@ -130,6 +130,10 @@ L.Control.MobileWizard = L.Control.extend({
 		this._updateMapSize();
 	},
 
+	isOpen: function() {
+		return $('#mobile-wizard').is(':visible');
+	},
+
 	_hideKeyboard: function() {
 		document.activeElement.blur();
 	},
@@ -191,6 +195,8 @@ L.Control.MobileWizard = L.Control.extend({
 			$(contentToShow).show();
 
 		this._currentDepth++;
+		if (!this._inBuilding)
+			history.pushState(null, 'mobile-wizard-level-' + this._currentDepth);
 		this._setTitle(contentToShow.title);
 		this._inMainMenu = false;
 
@@ -314,6 +320,8 @@ L.Control.MobileWizard = L.Control.extend({
 
 	_onMobileWizard: function(data) {
 		if (data) {
+			this._inBuilding = true;
+
 			var isSidebar = (data.children && data.children.length >= 1 &&
 					 data.children[0].type == 'deck');
 
@@ -325,7 +333,8 @@ L.Control.MobileWizard = L.Control.extend({
 				return;
 			}
 
-			if (data.id && !isNaN(data.id) && !isSidebar) {
+			var isMobileDialog = data.id && !isNaN(data.id) && !isSidebar;
+			if (isMobileDialog) {
 				// id is a number - remember window id for interaction
 				window.mobileDialogId = data.id;
 			}
@@ -347,6 +356,7 @@ L.Control.MobileWizard = L.Control.extend({
 			this._isActive = true;
 			var currentPath = null;
 			var lastScrollPosition = null;
+			var alreadyOpen = this.isOpen();
 
 			if (this._currentPath)
 				currentPath = this._currentPath;
@@ -371,6 +381,9 @@ L.Control.MobileWizard = L.Control.extend({
 			// Morph the sidebar into something prettier
 			if (isSidebar)
 				this._modifySidebarLayout(data);
+
+			if (!alreadyOpen)
+				history.pushState(null, 'mobile-wizard');
 
 			var builder = L.control.jsDialogBuilder({mobileWizard: this, map: this.map, cssClass: 'mobile-wizard'});
 			builder.build(this.content.get(0), [data]);
@@ -404,6 +417,8 @@ L.Control.MobileWizard = L.Control.extend({
 			}
 
 			this._updateMapSize();
+
+			this._inBuilding = false;
 		}
 	},
 
