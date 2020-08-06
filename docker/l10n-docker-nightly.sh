@@ -80,17 +80,17 @@ mkdir -p "$INSTDIR"
 
 # libreoffice repo
 if test ! -d libreoffice ; then
-    git clone https://git.libreoffice.org/core libreoffice || exit 1
+    git -c protocol.version=2 clone https://git.libreoffice.org/core libreoffice || exit 1
 fi
 
-( cd libreoffice && git fetch --all && git checkout $LIBREOFFICE_BRANCH && ./g pull -r ) || exit 1
+( cd libreoffice && git -c protocol.version=2 fetch --all && git -c protocol.version=2 checkout $LIBREOFFICE_BRANCH && ./g pull -r ) || exit 1
 
 # online repo
 if test ! -d online ; then
-    git clone "$LIBREOFFICE_ONLINE_REPO" online || exit 1
+    git -c protocol.version=2 clone "$LIBREOFFICE_ONLINE_REPO" online || exit 1
 fi
 
-( cd online && git fetch --all && git checkout -f $LIBREOFFICE_ONLINE_BRANCH && git clean -f -d && git pull -r ) || exit 1
+( cd online && git -c protocol.version=2 fetch --all && git -c protocol.version=2 checkout -f $LIBREOFFICE_ONLINE_BRANCH && git clean -f -d && git pull -r ) || exit 1
 
 ##### LibreOffice #####
 
