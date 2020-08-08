@@ -125,6 +125,16 @@ L.Socket = L.Class.extend({
 		return this.socket && this.socket.readyState === 1;
 	},
 
+	messageNeedsToBeRedirected: function(msg) {
+		if (msg === 'uno .uno:EditHyperlink') {
+			this._map.showHyperlinkDialog();
+			return true;
+		}
+		else {
+			return false;
+		}
+	},
+
 	sendMessage: function (msg) {
 		if (this._map._fatal) {
 			// Avoid communicating when we're in fatal state
@@ -146,7 +156,9 @@ L.Socket = L.Class.extend({
 		}
 
 		if (socketState === 1) {
-			this._doSend(msg);
+			if (!this.messageNeedsToBeRedirected(msg)) {
+				this._doSend(msg);
+			}
 		}
 		else {
 			// push message while trying to connect socket again.
