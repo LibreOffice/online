@@ -1749,10 +1749,15 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			builder.map.sendUnoCommand('.uno:FillPageGradient?FillPageGradientJSON:string=' + JSON.stringify(gradientItem));
 			return;
 		} else if (data.id === 'Color' || data.id === 'CharBackColor') {
+			if (color === 'transparent')
+				color = -1;
+			else
+				color = parseInt('0x' + color);
+
 			var params = {};
 			params[data.id] = {
 				type : 'long',
-				value : parseInt('0x' + color)
+				value : color
 			};
 
 			builder.map['stateChangeHandler'].setItemValue(data.command, params[data.id].value);
@@ -1763,8 +1768,13 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		var command = data.command + '?Color:string=' + color;
 
 		// update the item state as we send
+		if (color === 'transparent')
+			color = -1;
+		else
+			color = parseInt('0x' + color);
+
 		var items = builder.map['stateChangeHandler'];
-		items.setItemValue(data.command, parseInt('0x' + color));
+		items.setItemValue(data.command, color);
 
 		builder.map.sendUnoCommand(command);
 	},
