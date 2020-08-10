@@ -1,40 +1,32 @@
-/* global cy expect require */
-
-var helper = require('../../common/helper');
+/* global cy expect */
 
 function removeTextSelection() {
 	cy.log('Removing text selection - start.');
 
-	// TODO: select all does not work with core/master
-	// if we have a column selected
-	if (helper.getLOVersion() === 'master') {
-		cy.get('body')
-			.type('{enter}');
+	cy.get('.spreadsheet-header-columns')
+		.click();
 
-		cy.get('.leaflet-marker-icon')
-			.should('exist');
-	} else {
-		cy.get('.spreadsheet-header-columns')
-			.click();
+	cy.get('.spreadsheet-cell-resize-marker')
+		.invoke('attr', 'style')
+		.should('contain', '-8px,');
 
-		cy.get('.spreadsheet-cell-resize-marker')
-			.invoke('attr', 'style')
-			.should('contain', '-8px,');
-
-		var regex = /[A-Z]1:[A-Z]1048576/;
-		cy.get('input#addressInput')
-			.should('have.prop', 'value')
-			.should('match', regex);
-	}
+	var regex = /[A-Z]1:[A-Z]1048576/;
+	cy.get('input#addressInput')
+		.should('have.prop', 'value')
+		.should('match', regex);
 
 	cy.log('Removing text selection - end.');
 }
 
-function selectAllMobile(removeSelection = true) {
-	cy.log('Selecting all text - start.');
+function selectAllMobile() {
+	cy.log('Selecting all - start.');
 
-	if (removeSelection)
-		removeTextSelection();
+	cy.get('.leaflet-marker-pane')
+		.then(function(pane) {
+			if (pane.find('.spreadsheet-cell-autofill-marker').length === 0) {
+				removeTextSelection();
+			}
+		});
 
 	cy.get('#spreadsheet-header-corner')
 		.then(function(corner) {
@@ -49,7 +41,7 @@ function selectAllMobile(removeSelection = true) {
 	cy.get('input#addressInput')
 		.should('have.prop', 'value', 'A1:AMJ1048576');
 
-	cy.log('Selecting all text - end.');
+	cy.log('Selecting all - end.');
 }
 
 function selectFirstRow() {

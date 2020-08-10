@@ -358,7 +358,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Rows Above')
 			.click();
 
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table tr')
 			.should('have.length', 3);
@@ -388,7 +388,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Rows Below')
 			.click();
 
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table tr')
 			.should('have.length', 3);
@@ -418,7 +418,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Columns Before')
 			.click();
 
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table tr')
 			.should('have.length', 2);
@@ -448,7 +448,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Columns After')
 			.click();
 
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table tr')
 			.should('have.length', 2);
@@ -475,7 +475,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Delete Rows')
 			.click();
 
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table tr')
 			.should('have.length', 1);
@@ -500,7 +500,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Delete Columns')
 			.click();
 
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table tr')
 			.should('have.length', 2);
@@ -620,7 +620,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Sort Ascending')
 			.click();
 
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table tr')
 			.should('have.length', 4);
@@ -649,7 +649,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Sort Descending')
 			.click();
 
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table tr')
 			.should('have.length', 4);
@@ -812,7 +812,7 @@ describe('Trigger hamburger menu options.', function() {
 			});
 
 		// Use selected content as indicator
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table')
 			.should('exist');
@@ -830,7 +830,7 @@ describe('Trigger hamburger menu options.', function() {
 			.click();
 
 		// Frist column is hidden -> no content
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table')
 			.should('not.exist');
@@ -848,7 +848,7 @@ describe('Trigger hamburger menu options.', function() {
 			.click();
 
 		// Frist column is visible again -> we have content again
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container table')
 			.should('exist');
@@ -858,7 +858,7 @@ describe('Trigger hamburger menu options.', function() {
 		before('hamburger_menu.ods');
 
 		// Make everything white on tile
-		calcMobileHelper.selectAllMobile(false);
+		calcMobileHelper.selectAllMobile();
 
 		mobileHelper.openMobileWizard();
 
