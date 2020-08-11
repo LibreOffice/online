@@ -1412,7 +1412,9 @@ L.Control.JSDialogBuilder = L.Control.extend({
 		if (data.id === 'applystyle' ||
 			data.id === 'fontnamecombobox' ||
 			data.id === 'fontsizecombobox' ||
-			data.id === 'FontBox') {
+			data.id === 'FontBox' ||
+			data.id === 'LB_ANGLE' ||
+			data.id === 'LB_DISTANCE') {
 			builder._listboxControl(parentContainer, data, builder);
 		} else if (data.id === 'searchterm' ||
 			data.id === 'replaceterm') {
