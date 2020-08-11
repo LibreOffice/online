@@ -16,7 +16,7 @@ describe('Simultaneous typing: user-2.', function() {
 		helper.afterAll(testFileName);
 	});
 
-	it('Simultaneous typing.', function() {
+	it.skip('Simultaneous typing.', function() {
 		// user-1 loads the same document
 
 		cy.get('#tb_actionbar_item_userlist')
