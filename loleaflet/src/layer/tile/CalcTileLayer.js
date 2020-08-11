@@ -4,7 +4,7 @@
  */
 
 /* global */
-L.CalcTileLayer = (L.Browser.mobile ? L.TileLayer : L.CanvasTileLayer).extend({
+L.CalcTileLayer = ((window.mode.isMobile() || window.mode.isTablet()) && !L.Browser.cypressTest ? L.TileLayer : L.CanvasTileLayer).extend({
 	options: {
 		// TODO: sync these automatically from SAL_LOK_OPTIONS
 		sheetGeometryDataEnabled: true,
