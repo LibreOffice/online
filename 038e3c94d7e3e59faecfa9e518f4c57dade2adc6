@@ -16,6 +16,24 @@
       "revId": "038e3c94d7e3e59faecfa9e518f4c57dade2adc6",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dd8e96d_696b6c87",
+        "filename": "loleaflet/src/core/Socket.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-08-11T14:35:37Z",
+      "side": 1,
+      "message": "When i do that, it requires to be added in two places. Then i avoided code duplication.",
+      "parentUuid": "c766938a_eb99f569",
+      "revId": "038e3c94d7e3e59faecfa9e518f4c57dade2adc6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
