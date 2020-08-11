@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c766938a_eb99f569",
+        "filename": "loleaflet/src/core/Socket.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-08-11T14:25:37Z",
+      "side": 1,
+      "message": "I think it should be done at higher level in: sendUnoCommand method which is in loleaflet/src/control/Toolbar.js",
+      "revId": "038e3c94d7e3e59faecfa9e518f4c57dade2adc6",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
