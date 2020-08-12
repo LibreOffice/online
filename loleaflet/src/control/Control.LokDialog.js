@@ -989,6 +989,11 @@ L.Control.LokDialog = L.Control.extend({
 	},
 
 	_launchSidebar: function(id, width, height) {
+		// In read-only mode, we don't need to show sidebar. This if clause prevents sidebar from opening also when revision history is open.
+		if (document.getElementById('document-container').classList.contains('readonly')) {
+			return;
+		}
+
 		console.log('_launchSidebar: start: id: ' + id + ', width: ' + width + ', height: ' + height);
 		if ((window.mode.isMobile() || window.mode.isTablet())
 			&& !this._map.isPermissionEdit())
