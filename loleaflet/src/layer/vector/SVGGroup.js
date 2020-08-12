@@ -66,13 +66,16 @@ L.SVGGroup = L.Layer.extend({
 
 		var svgLastChild = svgDoc.lastChild;
 		var thisObj = this;
+		var nodeIndex = 0;
 		this._forEachGroupNode(function (groupNode, rectNode, nodeData) {
-			var svgNode = groupNode.insertBefore(svgLastChild, rectNode);
+			var lastChildClone = thisObj._cloneNodeWithIdSuffix(svgLastChild, '_' + nodeIndex);
+			var svgNode = groupNode.insertBefore(lastChildClone, rectNode);
 			nodeData.setCustomField('svg', svgNode);
 			nodeData.setCustomField('dragShape', rectNode);
 			thisObj._dragShapePresent = true;
 			svgNode.setAttribute('pointer-events', 'none');
 			svgNode.setAttribute('opacity', thisObj._dragStarted ? 1 : 0);
+			nodeIndex += 1;
 		});
 
 		this._hasSVGNode = true;
@@ -173,26 +176,30 @@ L.SVGGroup = L.Layer.extend({
 		this._renderer._initPath(this._rect);
 		this._renderer._addGroup(this);
 
+		this._rect._map = this._map;
+		this._rect._renderer = this._renderer;
+
+		var svgDoc = this.options.svg ? this.parseSVG(this.options.svg) : undefined;
+
+		var nodeIndex = -1;
+
 		this._forEachGroupNode(function (groupNode, rectNode, nodeData) {
+
+			nodeIndex += 1;
 
 			if (!groupNode || !rectNode) {
 				return;
 			}
 
-			this._rect._map = this._map;
-			this._rect._renderer = this._renderer;
 			L.DomUtil.addClass(groupNode, 'leaflet-control-buttons-disabled');
 
-			if (this.options.svg) {
-				var doc = this.parseSVG(this.options.svg);
-				if (doc && doc.lastChild.localName === 'svg') {
-					this._hasSVGNode = true;
-					var svgNode = groupNode.appendChild(doc.lastChild);
-					nodeData.setCustomField('svg', svgNode);
-					svgNode.setAttribute('opacity', 0);
-					svgNode.setAttribute('pointer-events', 'none');
-				}
-				delete this.options.svg;
+			if (svgDoc && svgDoc.lastChild.localName === 'svg') {
+				var lastChildClone = this._cloneNodeWithIdSuffix(svgDoc.lastChild, '_' + nodeIndex);
+				this._hasSVGNode = true;
+				var svgNode = groupNode.appendChild(lastChildClone);
+				nodeData.setCustomField('svg', svgNode);
+				svgNode.setAttribute('opacity', 0);
+				svgNode.setAttribute('pointer-events', 'none');
 			}
 
 			groupNode.appendChild(rectNode);
@@ -203,6 +210,10 @@ L.SVGGroup = L.Layer.extend({
 				L.DomEvent.on(rectNode, 'mousedown', this._onDragStart, this);
 			}
 		}.bind(this));
+
+		if (this.options.svg) {
+			delete this.options.svg;
+		}
 
 		this.sizeSVG();
 
@@ -356,6 +367,22 @@ L.SVGGroup = L.Layer.extend({
 		});
 
 		return true;
+	},
+
+	_cloneNodeWithIdSuffix: function (srcNode, idSuffix) {
+		console.assert((typeof idSuffix === 'string') && idSuffix, 'Invalid idSuffix parameter');
+		console.assert(srcNode instanceof Element, 'invalid srcNode argument');
+
+		var nodeClone = srcNode.cloneNode(true /* deep */);
+		var nodeList = nodeClone.querySelectorAll('*');
+
+		Array.prototype.forEach.call(nodeList, function (innerNode) {
+			if (innerNode.id) {
+				innerNode.id += idSuffix;
+			}
+		});
+
+		return nodeClone;
 	},
 
 });
