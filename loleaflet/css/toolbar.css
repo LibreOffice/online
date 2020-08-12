@@ -801,11 +801,15 @@ button.leaflet-control-search-next
 }
 
 .insertshape-grid .row {
-		height: 30px;
+		height: auto;
+}
+
+.insertshape-grid .row:last-child {
+	min-height: 240px;
 }
 
 .insertshape-grid .col {
-		height: 100%;
+		height: 30px;
 		float: left;
 		padding: 2px;
 		width: 30px;
