@@ -44,6 +44,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 		cy.get('.leaflet-marker-icon.table-row-resize-marker')
 			.should('have.length', 4);
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		// Check rows / columns
@@ -66,6 +68,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 
 		cy.get('.leaflet-marker-icon.table-row-resize-marker')
 			.should('have.length', 4);
+
+		mobileHelper.closeMobileWizard();
 
 		selectFullTable();
 
@@ -90,6 +94,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 		cy.get('.leaflet-marker-icon.table-column-resize-marker')
 			.should('have.length', 4);
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		// Check rows / columns
@@ -113,6 +119,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 		cy.get('.leaflet-marker-icon.table-column-resize-marker')
 			.should('have.length', 4);
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		// Check rows / columns
@@ -135,6 +143,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 
 		cy.get('.leaflet-marker-icon.table-row-resize-marker')
 			.should('have.length', 2);
+
+		mobileHelper.closeMobileWizard();
 
 		selectFullTable();
 
@@ -202,6 +212,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 
 		helper.clickOnIdle('#MergeCells');
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		// Check rows / columns
@@ -227,6 +239,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 		cy.get('#rowheight .spinfield')
 			.should('have.attr', 'value', '1.4');
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		// Check row height
@@ -247,6 +261,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 		cy.get('#columnwidth .spinfield')
 			.should('have.attr', 'value', '1.6');
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		// Check row height
@@ -263,6 +279,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 
 		helper.clickOnIdle('#SetMinimalRowHeight');
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		// Check new row height
@@ -278,6 +296,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 		openTablePanel();
 
 		helper.clickOnIdle('#SetOptimalRowHeight');
+
+		mobileHelper.closeMobileWizard();
 
 		selectFullTable();
 
@@ -305,6 +325,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 
 		helper.clickOnIdle('#DistributeRows');
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		// Check new row height
@@ -331,6 +353,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 
 		helper.clickOnIdle('#SetMinimalColumnWidth');
 
+		mobileHelper.closeMobileWizard();
+
 		selectFullTable();
 
 		cy.get('#copy-paste-container td')
@@ -345,6 +369,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 		openTablePanel();
 
 		helper.clickOnIdle('#SetOptimalColumnWidth');
+
+		mobileHelper.closeMobileWizard();
 
 		selectFullTable();
 
@@ -362,6 +388,8 @@ describe('Change table properties / layout via mobile wizard.', function() {
 		openTablePanel();
 
 		helper.clickOnIdle('#DistributeColumns');
+
+		mobileHelper.closeMobileWizard();
 
 		selectFullTable();
 
