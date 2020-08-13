@@ -52,6 +52,24 @@
       "revId": "833ed215be6474945ce576cb574648d047a01ae7",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a2b6a2d_5f2cd89b",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-08-13T10:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0444468a_64ec553f",
+      "revId": "833ed215be6474945ce576cb574648d047a01ae7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
