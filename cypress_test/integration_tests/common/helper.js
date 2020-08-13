@@ -58,18 +58,24 @@ function loadTestDoc(fileName, subFolder, noFileCopy) {
 
 	// Wait for the sidebar to open.
 	doIfOnDesktop(function() {
-		cy.get('#sidebar-panel')
-			.should('be.visible');
+		doIfNotInImpress(function() {
+			cy.get('#sidebar-panel')
+				.should('be.visible');
 
-		// Check that the document does not take the whole window width.
-		cy.window()
-			.then(function(win) {
-				cy.get('#document-container')
-					.should(function(doc) {
-						expect(doc).to.have.lengthOf(1);
-						expect(doc[0].getBoundingClientRect().right).to.be.lessThan(win.innerWidth * 0.95);
-					});
-			});
+			// Check that the document does not take the whole window width.
+			cy.window()
+				.then(function(win) {
+					cy.get('#document-container')
+						.should(function(doc) {
+							expect(doc).to.have.lengthOf(1);
+							expect(doc[0].getBoundingClientRect().right).to.be.lessThan(win.innerWidth * 0.95);
+						});
+				});
+		});
+		// In impress, the sidebar is not opened sometimes after loading the document.
+		doIfInImpress(function() {
+			cy.wait(1000);
+		});
 	});
 
 	cy.log('Loading test document - end.');
@@ -241,10 +247,27 @@ function doIfInCalc(callback) {
 		});
 }
 
+function doIfNotInCalc(callback) {
+	cy.get('#document-container')
+		.then(function(doc) {
+			if (!doc.hasClass('spreadsheet-doctype')) {
+				callback();
+			}
+		});
+}
+
 function doIfInImpress(callback) {
 	cy.get('#document-container')
 		.then(function(doc) {
 			if (doc.hasClass('presentation-doctype')) {
+				callback();
+			}
+		});
+}
+function doIfNotInImpress(callback) {
+	cy.get('#document-container')
+		.then(function(doc) {
+			if (!doc.hasClass('presentation-doctype')) {
 				callback();
 			}
 		});
@@ -254,6 +277,15 @@ function doIfInWriter(callback) {
 	cy.get('#document-container')
 		.then(function(doc) {
 			if (doc.hasClass('text-doctype')) {
+				callback();
+			}
+		});
+}
+
+function doIfNotInWriter(callback) {
+	cy.get('#document-container')
+		.then(function(doc) {
+			if (!doc.hasClass('text-doctype')) {
 				callback();
 			}
 		});
@@ -507,6 +539,9 @@ module.exports.initAliasToEmptyString = initAliasToEmptyString;
 module.exports.doIfInCalc = doIfInCalc;
 module.exports.doIfInImpress = doIfInImpress;
 module.exports.doIfInWriter = doIfInWriter;
+module.exports.doIfNotInCalc = doIfNotInCalc;
+module.exports.doIfNotInImpress = doIfNotInImpress;
+module.exports.doIfNotInWriter = doIfNotInWriter;
 module.exports.beforeAll = beforeAll;
 module.exports.typeText = typeText;
 module.exports.getLOVersion = getLOVersion;
