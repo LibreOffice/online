@@ -50,7 +50,12 @@ L.SVGGroup = L.Layer.extend({
 
 	parseSVG: function (svgString) {
 		var parser = new DOMParser();
-		return parser.parseFromString(svgString, 'image/svg+xml');
+		var svgDoc = parser.parseFromString(svgString, 'image/svg+xml');
+		var scriptNode = svgDoc.querySelector('script');
+		if (scriptNode && scriptNode.parentElement) {
+			scriptNode.parentElement.removeChild(scriptNode);
+		}
+		return svgDoc;
 	},
 
 	addEmbeddedSVG: function (svgString) {
