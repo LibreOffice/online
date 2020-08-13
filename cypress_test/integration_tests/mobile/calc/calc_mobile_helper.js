@@ -1,15 +1,21 @@
-/* global cy expect */
+/* global cy expect require */
+
+var helper = require('../../common/helper');
 
 function removeTextSelection() {
 	cy.log('Removing text selection - start.');
 
-	cy.get('.spreadsheet-header-columns')
-		.click();
+	// Select a row to remove existing text selection.
+	helper.inputOnIdle('input#addressInput', 'A10:AMJ10');
 
-	var regex = /[A-Z]1:[A-Z]1048576/;
 	cy.get('input#addressInput')
-		.should('have.prop', 'value')
-		.should('match', regex);
+		.should('have.prop', 'value', 'A10:AMJ10');
+
+	cy.get('.spreadsheet-cell-resize-marker:nth-of-type(1)')
+		.should('be.visible');
+
+	cy.get('.spreadsheet-cell-resize-marker:nth-of-type(2)')
+		.should('not.be.visible');
 
 	cy.log('Removing text selection - end.');
 }
