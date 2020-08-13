@@ -16,6 +16,24 @@
       "revId": "833ed215be6474945ce576cb574648d047a01ae7",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a609a5c_f08d2a95",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-08-13T07:01:45Z",
+      "side": 1,
+      "message": "We have \u0027this._map.isPermissionReadOnly()\u0027 function for that",
+      "parentUuid": "e8c0870a_e0c1d9dc",
+      "revId": "833ed215be6474945ce576cb574648d047a01ae7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
