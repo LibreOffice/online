@@ -3,10 +3,10 @@
 function removeTextSelection() {
 	cy.log('Removing text selection - start.');
 
-	cy.get('.spreadsheet-header-columns')
+	cy.get('.spreadsheet-header-rows')
 		.click();
 
-	var regex = /[A-Z]1:[A-Z]1048576/;
+	var regex = /[A-Z]+([0-9]+):[A-Z]+\1$/;
 	cy.get('input#addressInput')
 		.should('have.prop', 'value')
 		.should('match', regex);
