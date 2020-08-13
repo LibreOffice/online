@@ -41,18 +41,22 @@ function selectTextOfShape() {
 }
 
 function removeShapeSelection() {
-	// Remove selection first with clicking next to the rotate handler
+	// Make sure there is no text selection.
+	// There is a bug here that if we have a text selection, then
+	// clicking outside of the shape does not remove the selection.
+	helper.typeIntoDocument('{leftarrow}');
+
+	cy.get('.leaflet-selection-marker-start')
+		.should('not.exist');
+
+
+	// Remove selection with clicking next to the rotate handler
 	cy.get('.transform-handler--rotate')
 		.then(function(items) {
 			var XPos = items[0].getBoundingClientRect().left - 10;
 			var YPos = items[0].getBoundingClientRect().top;
-			// Sometimes selection is persistent, so click more times
-			// to achive actual deselection.
 			cy.get('body')
 				.click(XPos, YPos);
-
-			cy.get('body')
-				.dblclick(XPos, YPos);
 		});
 
 	cy.get('.leaflet-drag-transform-marker')
