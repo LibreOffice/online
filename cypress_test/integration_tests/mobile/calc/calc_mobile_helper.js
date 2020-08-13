@@ -3,13 +3,19 @@
 function removeTextSelection() {
 	cy.log('Removing text selection - start.');
 
-	cy.get('.spreadsheet-header-columns')
-		.click();
-
-	var regex = /[A-Z]1:[A-Z]1048576/;
+	// Select a row to remove existing text selection.
 	cy.get('input#addressInput')
-		.should('have.prop', 'value')
-		.should('match', regex);
+		.clear()
+		.type('A10:AMJ10{enter}');
+
+	cy.get('input#addressInput')
+		.should('have.prop', 'value', 'A10:AMJ10');
+
+	cy.get('.spreadsheet-cell-resize-marker:nth-of-type(1)')
+		.should('be.visible');
+
+	cy.get('.spreadsheet-cell-resize-marker:nth-of-type(2)')
+		.should('not.be.visible');
 
 	cy.log('Removing text selection - end.');
 }
