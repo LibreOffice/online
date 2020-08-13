@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8c0870a_e0c1d9dc",
+        "filename": "loleaflet/src/control/Control.LokDialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-08-13T00:31:59Z",
+      "side": 1,
+      "message": "I suggest to use L.DomUtil.hasClass, just to use existing functions\non the other hand, your approach to check read only I think it is a good solution,\nwe use isReadOnly function (it could be deprecated)",
+      "revId": "833ed215be6474945ce576cb574648d047a01ae7",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
