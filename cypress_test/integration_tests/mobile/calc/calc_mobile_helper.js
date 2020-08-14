@@ -25,6 +25,10 @@ function selectAllMobile(removeSelection = true) {
 			var yPos = corner.height() - 10;
 			cy.get('#spreadsheet-header-corner')
 				.click(0, yPos);
+			// A known issue that removing a column selection
+			// triggers a small freeze of the document.
+			// So let's wait here to avoit timeout.
+			cy.wait(3000);
 		});
 
 	cy.get('.spreadsheet-cell-resize-marker')
