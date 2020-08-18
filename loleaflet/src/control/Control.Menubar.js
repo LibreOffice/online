@@ -1387,6 +1387,16 @@ L.Control.Menubar = L.Control.extend({
 		if (menuItem.drawing === false && this._map.getDocType() === 'drawing')
 			return false;
 
+		// polyfill endsWidth for IE11
+		if (!String.prototype.endsWith) {
+			String.prototype.endsWith = function(search, this_len) {
+				if (this_len === undefined || this_len > this.length) {
+					this_len = this.length;
+				}
+				return this.substring(this_len - search.length, this_len) === search;
+			};
+		}
+
 		if (menuItem.id === 'downloadas-odg' && !this._map['wopi'].BaseFileName.endsWith('.odg'))
 			return false;
 
