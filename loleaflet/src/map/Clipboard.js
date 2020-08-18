@@ -665,6 +665,9 @@ L.Clipboard = L.Class.extend({
 			// paste into dialog
 			var KEY_PASTE = 1299;
 			map._textInput._sendKeyEvent(0, KEY_PASTE);
+		} else if (this.pasteSpecialVex && this.pasteSpecialVex.isOpen) {
+			this.pasteSpecialVex.close();
+			map._socket.sendMessage('uno .uno:PasteSpecial');
 		} else {
 			// paste into document
 			map._socket.sendMessage('uno .uno:Paste');

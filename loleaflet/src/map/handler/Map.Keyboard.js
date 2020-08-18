@@ -7,6 +7,8 @@
  * at TextInput.
  */
 
+ /* global vex _ */
+
 L.Map.mergeOptions({
 	keyboard: true,
 	keyboardPanOffset: 20,
@@ -413,6 +415,37 @@ L.Map.Keyboard = L.Handler.extend({
 		if (e.ctrlKey && e.shiftKey && e.key === '?') {
 			this._map.showHelp('keyboard-shortcuts');
 			e.preventDefault();
+			return true;
+		}
+
+		// Handles paste special
+		if (e.ctrlKey && e.shiftKey && e.altKey && (e.key === 'v' || e.key === 'V')) {
+			var msg = _('<p>Your browser has very limited access to the clipboard, so now press:</li><li><b>Ctrl+V</b>: To open paste special menu.</li></ul></p><p>Close popup to ignore paste special</p>');
+			if (navigator.appVersion.indexOf('Mac') != -1 || navigator.userAgent.indexOf('Mac') != -1) {
+				var ctrl = /Ctrl/g;
+				if (String.locale.startsWith('de') || String.locale.startsWith('dsb') || String.locale.startsWith('hsb')) {
+					ctrl = /Strg/g;
+				}
+				if (String.locale.startsWith('lt')) {
+					ctrl = /Vald/g;
+				}
+				if (String.locale.startsWith('sl')) {
+					ctrl = /Krmilka/g;
+				}
+				msg = msg.replace(ctrl, '⌘');
+			}
+			this._map._clip.pasteSpecialVex = vex.open({
+				unsafeContent: msg,
+				showCloseButton: true,
+				escapeButtonCloses: true,
+				overlayClosesOnClick: true,
+				buttons: {}
+			});
+			return true;
+		}
+
+		// Handles unformatted paste
+		if (e.ctrlKey && e.shiftKey && (e.key === 'v' || e.key === 'V')) {
 			return true;
 		}
 
