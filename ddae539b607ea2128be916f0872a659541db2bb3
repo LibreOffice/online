@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "817d477b_ce534f1d",
+        "filename": "loleaflet/src/map/handler/Map.Keyboard.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000037
+      },
+      "writtenOn": "2020-08-18T15:05:27Z",
+      "side": 1,
+      "message": "This looks like -makes-my-eyes-bleed- copy/paste coding.\n\n*Never* copy/paste complex chunks of code [!].",
+      "revId": "ddae539b607ea2128be916f0872a659541db2bb3",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
