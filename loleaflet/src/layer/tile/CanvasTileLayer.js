@@ -40,22 +40,13 @@ L.CanvasTilePainter = L.Class.extend({
 		debug: false,
 	},
 
-	initialize: function (layer, enableImageSmoothing) {
+	initialize: function (layer) {
 		this._layer = layer;
 		this._canvas = this._layer._canvas;
-
-		var dpiScale = L.getDpiScaleFactor();
-		if (dpiScale === 1 || dpiScale === 2) {
-			enableImageSmoothing = (enableImageSmoothing === true);
-		}
-		else {
-			enableImageSmoothing = (enableImageSmoothing === undefined || enableImageSmoothing);
-		}
-
-		this._dpiScale = dpiScale;
+		this._dpiScale = L.getDpiScaleFactor();
 
 		this._map = this._layer._map;
-		this._setupCanvas(enableImageSmoothing);
+		this._setupCanvas(false);
 
 		this._topLeft = undefined;
 		this._lastZoom = undefined;
@@ -134,7 +125,7 @@ L.CanvasTilePainter = L.Class.extend({
 
 	clear: function () {
 		this._canvasCtx.save();
-		this._canvasCtx.scale(this._dpiScale, this._dpiScale);
+		this._canvasCtx.scale(1, 1);
 		this._canvasCtx.fillStyle = 'white';
 		this._canvasCtx.fillRect(0, 0, this._width, this._height);
 		this._canvasCtx.restore();
@@ -174,7 +165,7 @@ L.CanvasTilePainter = L.Class.extend({
 			}
 
 			this._canvasCtx.save();
-			this._canvasCtx.scale(this._dpiScale, this._dpiScale);
+			this._canvasCtx.scale(1, 1);
 			this._canvasCtx.translate(-topLeft.x, -topLeft.y);
 
 			// create a clip for the pane/view.
@@ -183,13 +174,14 @@ L.CanvasTilePainter = L.Class.extend({
 			this._canvasCtx.rect(paneBounds.min.x, paneBounds.min.y, paneSize.x + 1, paneSize.y + 1);
 			this._canvasCtx.clip();
 
-			if (this._dpiScale !== 1) {
+//			if (this._dpiScale !== 1)
+			{
 				// FIXME: avoid this scaling when possible (dpiScale = 2).
 				this._canvasCtx.drawImage(tile.el, tile.coords.x, tile.coords.y, this._tileSizeCSSPx, this._tileSizeCSSPx);
 			}
-			else {
+/*			else  {
 				this._canvasCtx.drawImage(tile.el, tile.coords.x, tile.coords.y);
-			}
+			}*/
 			this._canvasCtx.restore();
 		}
 	},
@@ -201,7 +193,7 @@ L.CanvasTilePainter = L.Class.extend({
 		}
 		var splitPos = splitPanesContext.getSplitPos();
 		this._canvasCtx.save();
-		this._canvasCtx.scale(this._dpiScale, this._dpiScale);
+		this._canvasCtx.scale(1, 1);
 		this._canvasCtx.strokeStyle = 'red';
 		this._canvasCtx.strokeRect(0, 0, splitPos.x, splitPos.y);
 		this._canvasCtx.restore();
@@ -214,7 +206,6 @@ L.CanvasTilePainter = L.Class.extend({
 	},
 
 	update: function () {
-
 		var splitPanesContext = this._layer.getSplitPanesContext();
 		var zoom = Math.round(this._map.getZoom());
 		var pixelBounds = this._map.getPixelBounds();
