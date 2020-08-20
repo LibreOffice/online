@@ -1,3 +1,28 @@
+<<<<<<< HEAD   (8b1716 Mobile: Fix misalignment due to vex sizing)
+=======
+:root {
+	/*All used fonts (except w2ui)
+	----------------------------------*/
+	--loleaflet-font: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
+	/*investigate what are the drawback in consisntly use --loleaflet-fonts
+	for vex, jquery-ui and perhaps mobile*/
+	--mobile-font: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+	--vex-font: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+	--jquery-ui-font: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+
+	--docs-font: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	--docs--pre-font: 'Consolas', 'Menlo', 'Lucida Console', 'Courier New', monospace;
+
+	/*LibreOffice Colors: https://wiki.documentfoundation.org/Marketing/Branding#Colors
+	----------------------------------[to do]*/
+	--blue1-txt-primary-color: 3, 105, 163;
+	--green0-txt-primary-color: 16, 104, 2; /*green1 lacks contrast against white*/
+	--orange1-txt-primary-color: 163, 62, 3;
+
+	--gray-light-txt--color: #696969;
+	--gray-bg-color: #EFEFEF;
+}
+>>>>>>> CHANGE (1c4dcc Document Name Input: make it flexible (dynamic width) and)
 #document-container {
 	border-top: 1px solid #B6B6B6;
 	background: #DFDFDF;

@@ -665,7 +665,11 @@ a.leaflet-control-zoom-in {
 	float:left;
 }
 #MergeCells > span{
+<<<<<<< HEAD   (8b1716 Mobile: Fix misalignment due to vex sizing)
 	color: #4d82b8;
+=======
+	color: var(rgb(--blue1-txt-primary-color));
+>>>>>>> CHANGE (1c4dcc Document Name Input: make it flexible (dynamic width) and)
 	text-align: end;
 	vertical-align: bottom;
 }
