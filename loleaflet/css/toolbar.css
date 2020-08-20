@@ -149,13 +149,62 @@ w2ui-toolbar {
 #tb_formulabar_item_formula div table {
 		width: 100%;
 }
+
+@keyframes textPulse {
+	0% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--blue1-txt-primary-color), 0.1);
+	}
+	50% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--blue1-txt-primary-color), 0.2);
+	}
+	100% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--blue1-txt-primary-color), 0.1);
+	}
+}
+@keyframes presentationPulse {
+	0% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--orange1-txt-primary-color), 0.1);
+	}
+	50% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--orange1-txt-primary-color), 0.2);
+	}
+	100% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--orange1-txt-primary-color), 0.1);
+	}
+}
+@keyframes spreadsheetPulse {
+	0% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--green0-txt-primary-color), 0.1);
+	}
+	50% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--green0-txt-primary-color), 0.2);
+	}
+	100% {
+		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb, 0 0 4px rgba(var(--green0-txt-primary-color), 0.1);
+	}
+}
+.text-color-indicator #document-name-input.editable:focus{
+	animation: textPulse 1.5s infinite ease-in-out;
+}
+.presentation-color-indicator #document-name-input.editable:focus{
+	animation: presentationPulse 1.5s infinite ease-in-out;
+}
+.spreadsheet-color-indicator #document-name-input.editable:focus{
+	animation: spreadsheetPulse 1.5s infinite ease-in-out;
+}
 #document-title-pencil.editable {
 	visibility: visible;
 	width: 24px;
 	height: 18px;
-	position: absolute;
-	right: 10px;
+	position: relative;
+	right: 24px;
 	background: url('images/baseline-edit.svg') right center no-repeat, radial-gradient(circle, #fff 20%, #fff0 100%);
+<<<<<<< HEAD   (8b1716 Mobile: Fix misalignment due to vex sizing)
+=======
+	padding: 1px 0px;
+	margin: 0px;
+	border: none;
+>>>>>>> CHANGE (1c4dcc Document Name Input: make it flexible (dynamic width) and)
 }
 
 #document-title-pencil:not(.editable){
@@ -163,9 +212,18 @@ w2ui-toolbar {
 }
 
 #document-name-input {
+<<<<<<< HEAD   (8b1716 Mobile: Fix misalignment due to vex sizing)
 		font-size: 16px;
 		border: 1px solid transparent;
 		background-color: transparent;
+=======
+	font-size: 16px;
+	border: 1px solid transparent;
+	background-color: transparent;
+	border-radius: 1px;
+	padding: 0px 2px;
+	transition: 0.5s;
+>>>>>>> CHANGE (1c4dcc Document Name Input: make it flexible (dynamic width) and)
 }
 
 #document-name-input.editable {
@@ -176,12 +234,16 @@ w2ui-toolbar {
 	padding-right: 24px;
 	max-width: 100%;
 }
-
 #document-name-input.editable:focus {
 		border: none;
 		box-shadow: inset 0 0 2px 1px #f0f0f0, 0 0 0.1px 1px #bbb;
 		background-color: white;
 		background-image: none;
+<<<<<<< HEAD   (8b1716 Mobile: Fix misalignment due to vex sizing)
+=======
+		outline: none;
+		flex: 2;
+>>>>>>> CHANGE (1c4dcc Document Name Input: make it flexible (dynamic width) and)
 }
 
 #document-name-input.editable:hover:not(:focus) {

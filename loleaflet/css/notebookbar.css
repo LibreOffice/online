@@ -19,9 +19,25 @@
 	border-bottom: solid 1px #0b87e7;
 	font-weight: bold;
 }
+<<<<<<< HEAD   (8b1716 Mobile: Fix misalignment due to vex sizing)
 
 .ui-tab.notebookbar:hover {
 	box-shadow: 0 0 0px 4px #e6e6e6b0;
+=======
+.main-nav.hasnotebookbar.text-color-indicator .ui-tab.selected.notebookbar{
+	color: var(rgb(--blue1-txt-primary-color));
+	text-shadow: 0px 0px 0.2px var(rgb(--blue1-txt-primary-color));
+}
+.main-nav.hasnotebookbar.spreadsheet-color-indicator .ui-tab.selected.notebookbar{
+	color: var(rgb(--green0-txt-primary-color));
+	text-shadow: 0px 0px 0.2px var(rgb(--green0-txt-primary-color));
+}
+.main-nav.hasnotebookbar.presentation-color-indicator .ui-tab.selected.notebookbar{
+	color: var(rgb(--orange1-txt-primary-color));
+	text-shadow: 0px 0px 0.2px var(rgb(--orange1-txt-primary-color));
+}
+.ui-tab.notebookbar:hover:not(.selected) {
+>>>>>>> CHANGE (1c4dcc Document Name Input: make it flexible (dynamic width) and)
 	border-radius: 0.1px;
 	background-color: #e6e6e6b0;
 	cursor: pointer;
@@ -43,6 +59,77 @@
 	width: 16px !important;
 	height: 16px !important;
 	margin-right: 0px;
+<<<<<<< HEAD   (8b1716 Mobile: Fix misalignment due to vex sizing)
+=======
+	margin-top: 3px;
+}
+
+/* Hamburger icon: from shortcutsbar (notebookbar) */
+.hasnotebookbar.text-color-indicator #shortcuts-menubar-icon,
+.hasnotebookbar.text-color-indicator #shortcuts-menubar-icon:before,
+.hasnotebookbar.text-color-indicator #shortcuts-menubar-icon:after {
+	background: var(rgb(--blue1-txt-primary-color));
+}
+.hasnotebookbar.presentation-color-indicator #shortcuts-menubar-icon,
+.hasnotebookbar.presentation-color-indicator #shortcuts-menubar-icon:before,
+.hasnotebookbar.presentation-color-indicator #shortcuts-menubar-icon:after {
+	background: var(rgb(--orange1-txt-primary-color));
+}
+.hasnotebookbar.spreadsheet-color-indicator #shortcuts-menubar-icon,
+.hasnotebookbar.spreadsheet-color-indicator #shortcuts-menubar-icon:before,
+.hasnotebookbar.spreadsheet-color-indicator #shortcuts-menubar-icon:after {
+	background: var(rgb(--green0-txt-primary-color));
+}
+
+.hasnotebookbar .notebookbar-shortcuts-bar #Menubar > li > a {
+    cursor: pointer;
+    border: none;
+	background: var(--gray-bg-color);
+	height: 20px;
+}
+
+.hasnotebookbar #shortcuts-menubar-icon {
+    position: absolute;
+	top: 52%;
+	left: 0px;
+	height: 1px;
+	width: 13px;
+	-webkit-transition: all 0.25s;
+    transition: all 0.25s;
+
+    margin-left: 8px;
+}
+
+.hasnotebookbar #shortcuts-menubar-icon:before,
+.hasnotebookbar #shortcuts-menubar-icon:after {
+	position: absolute;
+	top: 52%;
+	left: 0px;
+	height: 1px;
+	width: 13px;
+	-webkit-transition: all 0.25s;
+	transition: all 0.25s;
+}
+
+.hasnotebookbar #shortcuts-menubar-icon:before {
+	content: '';
+	top: -6px;
+	left: 0;
+}
+
+.hasnotebookbar #shortcuts-menubar-icon:after {
+	content: '';
+	top: 6px;
+	left: 0;
+}
+
+/* options section */
+.notebookbar-options-section {
+	display: inline;
+	position: fixed;
+	right: 0px;
+	z-index: 1000;
+>>>>>>> CHANGE (1c4dcc Document Name Input: make it flexible (dynamic width) and)
 }
 
 /* root container */
