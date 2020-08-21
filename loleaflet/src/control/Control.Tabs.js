@@ -66,6 +66,58 @@ L.Control.Tabs = L.Control.extend({
 			}
 		};
 
+		if (window.mode.isMobile()) {
+			this._menuItem['freezepanescolumnlabel'] = {
+				name: _('Freeze Column'),
+				type: 'fixedtext'
+			};
+
+			this._menuItem['freezepanescolumn'] = {
+				name: _UNO('.uno:FreezePanesColumn', 'spreadsheet', true),
+				type: 'spinfield',
+				id: 'freezepanescolumn',
+				callback: function (objectType, eventType, object, data, builder) {
+					var value = builder._getUnoStateForItemId('freezepanescolumn', builder);
+					value = parseInt(value);
+
+					if (eventType === 'plus') value++;
+					else value--;
+
+					var command = {};
+					command['FreezePanesColumn'] = {
+						type: 'int32',
+						value: value
+					};
+					builder.map.sendUnoCommand('.uno:FreezePanesColumn', command);
+				}
+			};
+
+			this._menuItem['freezepanesrowlabel'] = {
+				name: _('Freeze Row'),
+				type: 'fixedtext'
+			};
+
+			this._menuItem['freezepanesrow'] = {
+				name: _UNO('.uno:FreezePanesRow', 'spreadsheet', true),
+				type: 'spinfield',
+				id: 'freezepanesrow',
+				callback: function (objectType, eventType, object, data, builder) {
+					var value = builder._getUnoStateForItemId('freezepanesrow', builder);
+					value = parseInt(value);
+
+					if (eventType === 'plus') value++;
+					else value--;
+
+					var command = {};
+					command['FreezePanesRow'] = {
+						type: 'int32',
+						value: value
+					};
+					builder.map.sendUnoCommand('.uno:FreezePanesRow', command);
+				}
+			};
+		}
+
 		if (!window.mode.isMobile()) {
 			L.installContextMenu({
 				selector: '.spreadsheet-tab',
