@@ -959,6 +959,11 @@ L.Control.JSDialogBuilder = L.Control.extend({
 
 		case 'fontsizecombobox':
 			return '.uno:FontHeight';
+
+		case 'freezepanescolumn':
+			return '.uno:FreezePanesColumn';
+		case 'freezepanesrow':
+			return '.uno:FreezePanesRow';
 		}
 
 		return null;
@@ -1180,6 +1185,20 @@ L.Control.JSDialogBuilder = L.Control.extend({
 				return String(state.replace(',', '.') / 100.0);
 			}
 			break;
+
+		case 'freezepanescolumn':
+			state = items.getItemValue('.uno:FreezePanesColumn');
+			if (state) {
+				return state;
+			}
+			break;
+
+		case 'freezepanesrow':
+			state = items.getItemValue('.uno:FreezePanesRow');
+			if (state) {
+				return state;
+			}
+			break;
 		}
 
 		return null;
@@ -1236,7 +1255,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 
 		controls.spinfield.addEventListener('change', function() {
 			if (customCallback)
-				customCallback();
+				customCallback('spinfield', 'set', controls.container, this.value, builder);
 			else
 				builder.callback('spinfield', 'set', controls.container, this.value, builder);
 		});
@@ -2297,7 +2316,7 @@ L.Control.JSDialogBuilder = L.Control.extend({
 				processChildren = handler(childObject, childData.children, this);
 			} else {
 				if (handler)
-					processChildren = handler(childObject, childData, this);
+					processChildren = handler(childObject, childData, this, childData.callback);
 				else
 					console.warn('Unsupported control type: \"' + childType + '\"');
 
@@ -2332,6 +2351,8 @@ L.Control.JSDialogBuilder.getMenuStructureForMobileWizard = function(menu, mainM
 		executionType = 'command';
 	}
 
+	if (menu.type) itemType = menu.type;
+
 	var menuStructure = {
 		type : itemType,
 		enabled : true,
@@ -2339,6 +2360,9 @@ L.Control.JSDialogBuilder.getMenuStructureForMobileWizard = function(menu, mainM
 		executionType : executionType,
 		children : []
 	};
+
+	if (menu.id) menuStructure.id = menu.id;
+
 	if (itemCommand)
 		menuStructure['command'] = itemCommand;
 	if (menu.icon)
