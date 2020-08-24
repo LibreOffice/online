@@ -262,9 +262,9 @@ input[type="checkbox"].w2ui-toggle + div > div {
   height: 22px;
   border-radius: inherit;
   background: #f5f5f5;
-  -webkit-transition-duration: 0.3s;
+  -webkit-transition-duration: 0.5s;
   -webkit-transition-property: transform, background-color, box-shadow;
-  -moz-transition-duration: 0.3s;
+  -moz-transition-duration: 0.5s;
   -moz-transition-property: transform, background-color;
   box-shadow: 0px 0px 1px #323232, 0 0 0 1px rgba(200, 200, 200, 0.6);
   pointer-events: none;
@@ -374,11 +374,11 @@ input[type=checkbox].w2ui-toggle:focus {
   position: absolute;
   z-index: 1300;
   opacity: 0;
-  -webkit-transition: opacity 0.3s;
-  -moz-transition: opacity 0.3s;
-  -ms-transition: opacity 0.3s;
-  -o-transition: opacity 0.3s;
-  transition: opacity 0.3s;
+  -webkit-transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -ms-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 .w2ui-tag .w2ui-tag-body {
   box-sizing: border-box;
