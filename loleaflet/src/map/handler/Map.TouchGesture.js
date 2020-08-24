@@ -272,7 +272,7 @@ L.Map.TouchGesture = L.Handler.extend({
 		else {
 			// try to select a graphic object or move the cell cursor
 			singleClick();
-			setTimeout(waitForSelectionMsg, 300);
+			setTimeout(waitForSelectionMsg, 500);
 		}
 
 		this._map.notifyActive();
