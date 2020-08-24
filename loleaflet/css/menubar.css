@@ -120,7 +120,7 @@
 }
 .lo-menu > li > ul {
     margin-top: -1px !important;
-    z-index: 400;
+    z-index: 1000;
 }
 .lo-menu > li > a span.sub-arrow {
     display: none;
