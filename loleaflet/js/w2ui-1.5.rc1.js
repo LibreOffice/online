@@ -3594,7 +3594,7 @@ w2utils.event = {
                                 obj.refresh();
                                 // event after
                                 obj.trigger($.extend(edata, { phase: 'after' }));
-                            }, 300);
+                            }, 500);
                         } else {
                             // trigger event
                             var edata = obj.trigger({ phase: 'before', type: 'click', target: obj.el, originalEvent: event.originalEvent, item: item });
