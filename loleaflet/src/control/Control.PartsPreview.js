@@ -223,6 +223,7 @@ L.Control.PartsPreview = L.Control.extend({
 			if (!window.mode.isDesktop() && partId === this._map._docLayer._selectedPart) {
 				// if mobile or tab then second tap will open the mobile wizard
 				if (this._map._permission === 'edit') {
+					this._setPart(e);
 					setTimeout(function () {
 						w2ui['actionbar'].click('mobile_wizard');
 					}, 0);
