@@ -35,3 +35,19 @@
 .main-nav {
     margin: 0;
 }
+<<<<<<< HEAD   (e52760 Fix insert image dialog only opens once)
+=======
+.hasnotebookbar{
+	min-width: 808px; /*set a minimum so the logo fits*/
+	overflow: auto hidden;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.hasnotebookbar::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+.vex-content .loleaflet-annotation-img {
+	box-sizing: content-box !important;
+}
+>>>>>>> CHANGE (1cbb87 Mobile: Fix misalignment due to vex sizing)
