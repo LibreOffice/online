@@ -691,6 +691,7 @@ L.Control.Menubar = L.Control.extend({
 			spreadsheet : {
 				name: _UNO('.uno:InsertMenu', 'spreadsheet'), id: 'insert', type: 'menu', menu: [
 					{name: _('Local Image...'), id: 'insertgraphic', type: 'action'},
+					{name: _UNO('.uno:InsertAnnotation', 'spreadsheet'), id: 'insertcomment', type: 'action'},
 					{name: _UNO('.uno:InsertGraphic', 'spreadsheet'), id: 'insertgraphicremote', type: 'action'},
 					{uno: '.uno:InsertObjectChart'},
 					{type: 'separator'},
