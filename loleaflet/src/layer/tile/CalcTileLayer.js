@@ -804,6 +804,20 @@ L.CalcTileLayer = (L.Browser.mobile ? L.TileLayer : L.CanvasTileLayer).extend({
 		else if (e.commandName === '.uno:FreezePanesRow') {
 			this._onSplitStateChanged(e, false /* isSplitCol */);
 		}
+		else if (e.commandName === '.uno:InsertMode') {
+			this._onInsertModeChanged(e);
+		}
+	},
+
+	_onInsertModeChanged: function (e) {
+		if (e.state === 'true') {
+			this._map._isCursorVisible = true;
+			this._map._textInput.showCursor();
+		}
+		else {
+			this._map._isCursorVisible = false;
+			this._map._textInput.hideCursor();
+		}
 	},
 
 	_onSplitStateChanged: function (e, isSplitCol) {
@@ -924,6 +938,14 @@ L.CalcTileLayer = (L.Browser.mobile ? L.TileLayer : L.CanvasTileLayer).extend({
 	},
 
 	_onCellCursorMsg: function (textMsg) {
+		if (textMsg === 'cellcursor: EMPTY') {
+			this._map._isCursorVisible = true;
+			this._map._textInput.showCursor();
+		}
+		else {
+			this._map._isCursorVisible = false;
+			this._map._textInput.hideCursor();
+		}
 		L.TileLayer.prototype._onCellCursorMsg.call(this, textMsg);
 		this._onUpdateCurrentHeader();
 	},
