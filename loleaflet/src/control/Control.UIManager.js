@@ -114,7 +114,8 @@ L.Control.UIManager = L.Control.extend({
 			this.map.addControl(L.control.presentationBar());
 		}
 
-		if (window.mode.isMobile() || window.mode.isTablet()) {
+		var notebookbarEnabled = document.getElementById('toolbar-wrapper').className.includes('hasnotebookbar');
+		if (window.mode.isMobile() || (window.mode.isTablet() && !notebookbarEnabled)) {
 			this.map.on('updatetoolbarcommandvalues', function() {
 				w2ui['editbar'].refresh();
 			});
