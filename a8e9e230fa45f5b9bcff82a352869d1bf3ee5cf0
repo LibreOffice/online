@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a5778c6_a3fe49e2",
+        "filename": "loleaflet/src/control/Control.UIManager.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-08-28T08:58:13Z",
+      "side": 1,
+      "message": "please read code above, there is enableNotebookbar already, reuse it",
+      "revId": "a8e9e230fa45f5b9bcff82a352869d1bf3ee5cf0",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
