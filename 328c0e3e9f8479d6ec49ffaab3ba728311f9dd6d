@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43f13296_7237c16c",
+        "filename": "loleaflet/src/control/Control.UIManager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-08-28T09:04:29Z",
+      "side": 1,
+      "message": "better to reuse enableNotebookbar variable directly, not rewrite string comparison second time",
+      "revId": "328c0e3e9f8479d6ec49ffaab3ba728311f9dd6d",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
