@@ -34,7 +34,7 @@ L.Map.TouchGesture = L.Handler.extend({
 			});
 			// avoid to trigger the context menu too early so the user can start panning in a relaxed way
 			this._hammer.get('press').set({
-				time: 500
+				time: 300
 			});
 
 			this._hammer.get('swipe').set({
