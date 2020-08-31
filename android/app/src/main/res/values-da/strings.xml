@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name_settings">Indstillinger</string>
+    <string name="no_items">Ingen elementer</string>
+    <string name="no_recent_items">Åbn en fil ved at klikke på fil-ikonet på værktøjslinjen.</string>
+    <string name="app_vendor">"Denne udgave er fra  $VENDOR."</string>
+    <string name="app_description">$APP_NAME er en moderne open source kontorpakke som er nem at bruge, indeholdende tekstbehandling, regneark, præsentationer, mm.</string>
+    <string name="temp_file_saving_disabled">Denne fil kan kun læses, og kan ikke gemmes.</string>
 </resources>
