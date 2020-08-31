@@ -977,7 +977,10 @@ namespace Util
         }
         catch (const Poco::Exception& ex)
         {
-            LOG_ERR("Invalid HTTP header [" << header << "]: " << ex.displayText());
+            if( Util::getThreadName() == std::string("unittest") )
+                LOG_INF("Invalid HTTP header [" << header << "]: " << ex.displayText());
+            else
+                LOG_ERR("Invalid HTTP header [" << header << "]: " << ex.displayText());
         }
         catch (const std::exception& ex)
         {
