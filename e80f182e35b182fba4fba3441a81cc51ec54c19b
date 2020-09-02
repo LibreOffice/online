@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43b44cfc_81b9ef10",
+        "filename": "loleaflet/css/toolbar.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002126
+      },
+      "writtenOn": "2020-09-02T13:54:49Z",
+      "side": 1,
+      "message": "double ; detected. Fixed in https://gerrit.libreoffice.org/c/online/+/101872",
+      "range": {
+        "startLine": 23,
+        "startChar": 29,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "e80f182e35b182fba4fba3441a81cc51ec54c19b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
