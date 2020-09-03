@@ -1,9 +1,11 @@
 /* global cy Cypress expect require */
 
 require('cypress-wait-until');
+require('cypress-file-upload');
+var process = require('process');
 
-function loadTestDoc(fileName, subFolder, noFileCopy) {
-	cy.log('Loading test document - start.');
+function loadTestDocLocal(fileName, subFolder, noFileCopy) {
+	cy.log('Loading test document with a local build - start.');
 	cy.log('Param - fileName: ' + fileName);
 	cy.log('Param - subFolder: ' + subFolder);
 	cy.log('Param - noFileCopy: ' + noFileCopy);
@@ -24,10 +26,6 @@ function loadTestDoc(fileName, subFolder, noFileCopy) {
 			});
 		}
 	}
-
-	doIfOnMobile(function() {
-		cy.viewport('iphone-6');
-	});
 
 	// Open test document
 	var URI;
@@ -52,6 +50,123 @@ function loadTestDoc(fileName, subFolder, noFileCopy) {
 		onLoad: function(win) {
 			win.onerror = cy.onUncaughtException;
 		}});
+
+	cy.log('Loading test document with a local build - end.');
+}
+
+function loadTestDocNextcloud(fileName, subFolder) {
+	cy.log('Loading test document with nextcloud - start.');
+	cy.log('Param - fileName: ' + fileName);
+	cy.log('Param - subFolder: ' + subFolder);
+
+	// Open local nextcloud installation
+	cy.visit('http://localhost/nextcloud');
+
+	// Log in with cypress test user / password
+	cy.get('input#user')
+		.clear()
+		.type('cypress_test');
+
+	cy.get('input#password')
+		.clear()
+		.type('cypress_test');
+
+	cy.get('input#submit-form')
+		.click();
+
+	cy.get('.button.new')
+		.should('be.visible');
+
+	// Wait for free space calculation before uploading document
+	cy.get('#free_space')
+		.should('not.have.attr', 'value', '');
+
+	var fileURI = 'mobile/';
+	if (subFolder === undefined) {
+		fileURI += fileName;
+	} else {
+		fileURI += subFolder + '/' + fileName;
+	}
+
+	// Remove file if exists
+	cy.get('#fileList')
+		.then(function(filelist) {
+			if (filelist.find('tr[data-file=\'' + fileName + '\']').length !== 0) {
+				cy.get('tr[data-file=\'' + fileName + '\'] .action-menu.permanent')
+					.click();
+
+				cy.get('.menuitem.action.action-delete.permanent')
+					.click();
+
+				cy.get('tr[data-file=\'' + fileName + '\']')
+					.should('not.exist');
+			}
+		});
+
+	// Upload test document
+	cy.get('input#file_upload_start')
+		.attachFile({ filePath: fileURI, encoding: 'binary' });
+
+	cy.get('#uploadprogressbar')
+		.should('not.be.visible');
+
+	// Open test document
+	cy.get('tr[data-file=\'' + fileName + '\']')
+		.click();
+
+	cy.get('iframe#richdocumentsframe')
+		.should('be.visible', {timeout : Cypress.config('defaultCommandTimeout') * 2.0});
+
+	var getIframeBody = function(originalGet) {
+		return cy.wrap(originalGet('iframe#richdocumentsframe'))
+			.its('0.contentDocument', {log: false}).should('exist')
+			.its('body', {log: false}).should('not.be.undefined')
+			.then(cy.wrap, {log: false})
+			.find('iframe#loleafletframe', {log: false})
+			.its('0.contentDocument', {log: false}).should('exist')
+			.its('body', {log: false}).should('not.be.undefined')
+			.then(cy.wrap, {log: false});
+	};
+
+	cy.get('iframe#richdocumentsframe')
+		.then(function() {
+			Cypress.env('WITHIN_IFRAME', 'TRUE');
+		});
+
+	Cypress.Commands.overwrite('get', function(originalFn, selector, options) {
+		if (Cypress.env('WITHIN_IFRAME') === 'TRUE' && !selector.startsWith('@'))
+			return getIframeBody(originalFn).find(selector, options);
+		else
+			return originalFn(selector, options);
+	});
+
+	Cypress.Commands.overwrite('contains', function(originalFn, selector, content, options) {
+		if (Cypress.env('WITHIN_IFRAME') === 'TRUE')
+			return cy.get('#document-container').parent().wrap(originalFn(selector, content, options));
+		else
+			return originalFn(selector, content, options);
+	});
+	
+	cy.wait(10000);
+
+	cy.log('Loading test document with nextcloud - end.');
+}
+
+function loadTestDoc(fileName, subFolder, noFileCopy) {
+	cy.log('Loading test document - start.');
+	cy.log('Param - fileName: ' + fileName);
+	cy.log('Param - subFolder: ' + subFolder);
+	cy.log('Param - noFileCopy: ' + noFileCopy);
+
+	doIfOnMobile(function() {
+		cy.viewport('iphone-6');
+	});
+
+	if (process.env.CYPRESS_INTEGRATION === 'nextcloud') {
+		loadTestDocLocal(fileName, subFolder, noFileCopy);
+	} else {
+		loadTestDocNextcloud(fileName, subFolder);
+	}
 
 	// Wait for the document to fully load
 	cy.get('.leaflet-tile-loaded', {timeout : Cypress.config('defaultCommandTimeout') * 2.0});
@@ -181,24 +296,61 @@ function beforeAll(fileName, subFolder, noFileCopy) {
 
 function afterAll(fileName) {
 	cy.log('Waiting for closing the document - start.');
-	cy.log('Param - fileName: ' + fileName);
 
-	// Make sure that the document is closed
-	cy.visit('http://admin:admin@localhost:' +
+	if (process.env.CYPRESS_INTEGRATION !== 'nextcloud') {
+		if (Cypress.env('WITHIN_IFRAME') === 'TRUE') {
+			// Close the document
+			doIfOnMobile(function() {
+				cy.get('#tb_actionbar_item_closemobile')
+					.then(function(item) {
+						cy.wrap(item)
+							.click();
+						Cypress.env('WITHIN_IFRAME', '');
+					});
+			});
+			doIfOnDesktop(function() {
+				cy.get('#closebutton')
+					.click();
+			});
+
+			cy.get('#filestable')
+				.should('be.visible');
+
+			cy.get('#filestable')
+				.should('not.have.class', 'hidden');
+
+			cy.wait(3000);
+
+			// Remove the document
+			cy.get('tr[data-file=\'' + fileName + '\'] .action-menu.permanent')
+				.should('be.visible')
+				.click();
+
+			cy.get('.menuitem.action.action-delete.permanent')
+				.click();
+
+			cy.get('tr[data-file=\'' + fileName + '\']')
+				.should('not.exist');
+
+		}
+	} else {
+		// Make sure that the document is closed
+		cy.visit('http://admin:admin@localhost:' +
 			Cypress.env('SERVER_PORT') +
 			'/loleaflet/dist/admin/admin.html');
 
-	cy.get('#uptime')
-		.should('not.have.text', '0');
+		cy.get('#uptime')
+			.should('not.have.text', '0');
 
-	// We have all lines of document infos as one long string.
-	// We have PID number before the file names, with matching
-	// also on the PID number we can make sure to match on the
-	// whole file name, not on a suffix of a file name.
-	var regex = new RegExp('[0-9]' + fileName);
-	cy.get('#docview', { timeout: Cypress.config('defaultCommandTimeout') * 2.0 })
-		.invoke('text')
-		.should('not.match', regex);
+		// We have all lines of document infos as one long string.
+		// We have PID number before the file names, with matching
+		// also on the PID number we can make sure to match on the
+		// whole file name, not on a suffix of a file name.
+		var regex = new RegExp('[0-9]' + fileName);
+		cy.get('#docview', { timeout: Cypress.config('defaultCommandTimeout') * 2.0 })
+			.invoke('text')
+			.should('not.match', regex);
+	}
 
 	cy.log('Waiting for closing the document - end.');
 }
@@ -511,16 +663,6 @@ function moveCursor(direction) {
 function typeIntoDocument(text) {
 	cy.log('Typing into document - start.');
 
-	cy.document()
-		.then(function(doc) {
-			if (doc.activeElement.className !== 'clipboard') {
-				cy.get('textarea.clipboard')
-					.focus();
-
-				cy.document().its('activeElement.className')
-					.should('be.eq', 'clipboard');
-			}
-		});
 
 	cy.get('textarea.clipboard')
 		.type(text, {force: true});

@@ -218,6 +218,7 @@ endef
 
 define start_loolwsd
 	$(eval FREE_PORT:=$(shell $(GET_PORT_BINARY) --host=127.0.0.1 $(ALLOWED_PORTS)))
+	$(if $(findstring nextcloud, $(CYPRESS_INTEGRATION)),$(eval FREE_PORT:=9980))
 	@echo "Found available port for testing: $(FREE_PORT)"
 	@echo
 	@echo "Launching loolwsd..."
