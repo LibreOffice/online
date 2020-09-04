@@ -597,7 +597,7 @@ L.AnnotationManager = L.AnnotationManagerBase.extend({
 
 	add: function (comment) {
 		var annotation = L.annotation(this._map._docLayer._twipsToLatLng(comment.anchorPos.getTopRight()), comment,
-			comment.id === 'new' ? {noMenu: true} : {}).addTo(this._map);
+			comment.id === 'new' ? {noMenu: true, draft: true} : {}).addTo(this._map);
 		if (comment.parent && comment.parent > '0') {
 			var parentIdx = this.getIndexOf(comment.parent);
 			this._items.splice(parentIdx + 1, 0, annotation);
