@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b87dde23_b50cd035",
+        "filename": "loleaflet/css/menubar.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1002126
+      },
+      "writtenOn": "2020-09-04T07:44:44Z",
+      "side": 1,
+      "message": "Please add this info to the README file (Z-index values:)",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 18
+      },
+      "revId": "cc0850b5825ff22b43540924322a2cb4d7ca8124",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f73e9fd_201c3f5c",
+        "filename": "loleaflet/css/toolbar.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002126
+      },
+      "writtenOn": "2020-09-04T07:44:44Z",
+      "side": 1,
+      "message": "Please adjust the README file accordingly (Z-index values:)",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 15
+      },
+      "revId": "cc0850b5825ff22b43540924322a2cb4d7ca8124",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
