@@ -404,6 +404,7 @@ L.ImpressTileLayer = L.TileLayer.extend({
 
 	_onMessage: function (textMsg, img) {
 		if (textMsg.startsWith('comment:')) {
+<<<<<<< HEAD   (875d13 Mobile: Add missing formatlegend icon to the context menu)
 			var obj = JSON.parse(textMsg.substring('comment:'.length + 1));
 			if (obj.comment.action === 'Add') {
 				if (!this._annotations[obj.comment.parthash]) {
@@ -427,6 +428,13 @@ L.ImpressTileLayer = L.TileLayer.extend({
 					this.layoutAnnotations();
 				}
 			}
+=======
+			var object = JSON.parse(textMsg.substring('comment:'.length + 1));
+			if (object.comment.author in this._map._viewInfoByUserName) {
+				object.comment.avatar = this._map._viewInfoByUserName[object.comment.author].userextrainfo.avatar;
+			}
+			this._annotationManager.processCommentMessage(object.comment);
+>>>>>>> CHANGE (581ccb A fix to display the avatar on the comments in Impress slide)
 		} else {
 			L.TileLayer.prototype._onMessage.call(this, textMsg, img);
 		}
