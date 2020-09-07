@@ -11,7 +11,8 @@ L.Annotation = L.Layer.extend({
 		maxHeight: 50,
 		imgSize: L.point([32, 32]),
 		margin: L.point([40, 40]),
-		noMenu: false
+		noMenu: false,
+		draft: false
 	},
 
 	initialize: function (latlng, data, options) {
@@ -88,7 +89,9 @@ L.Annotation = L.Layer.extend({
 	show: function () {
 		this._container.style.visibility = '';
 		this._contentNode.style.display = '';
-		this._nodeModify.style.display = 'none';
+		if (this.options.draft === false) {
+			this._nodeModify.style.display = 'none';
+		}
 		this._nodeReply.style.display = 'none';
 		if (this._data.textSelected && this._map.hasLayer && !this._map.hasLayer(this._data.textSelected)) {
 			this._map.addLayer(this._data.textSelected);
@@ -99,7 +102,9 @@ L.Annotation = L.Layer.extend({
 	hide: function () {
 		this._container.style.visibility = 'hidden';
 		this._contentNode.style.display = 'none';
-		this._nodeModify.style.display = 'none';
+		if (this.options.draft === false) {
+			this._nodeModify.style.display = 'none';
+		}
 		this._nodeReply.style.display = 'none';
 		if (this._data.textSelected && this._map.hasLayer(this._data.textSelected)) {
 			this._map.removeLayer(this._data.textSelected);
@@ -315,13 +320,15 @@ L.Annotation = L.Layer.extend({
 	},
 
 	_onLostFocus: function (e) {
-		$(this._container).removeClass('annotation-active');
-		if (this._contentText.origText !== this._nodeModifyText.value) {
-			this._onSaveComment(e);
-		}
-		else if (this._nodeModifyText.value == '') {
-			// Implies that this._contentText.origText == ''
-			this._onCancelClick(e);
+		if (this.options.draft === false) {
+			$(this._container).removeClass('annotation-active');
+			if (this._contentText.origText !== this._nodeModifyText.value) {
+				this._onSaveComment(e);
+			}
+			else if (this._nodeModifyText.value === '') {
+				// Implies that this._contentText.origText == ''
+				this._onCancelClick(e);
+			}
 		}
 	},
 
@@ -466,7 +473,7 @@ L.Annotation = L.Layer.extend({
 
 	_updateAnnotationMarker: function () {
 		// Make sure to place the markers only for presentations and draw documents
-		if (this._map._docLayer._docType !== 'presentation') 
+		if (this._map._docLayer._docType !== 'presentation')
 			return;
 		if (this._data == null)
 			return;
