@@ -595,9 +595,20 @@ L.AnnotationManager = L.AnnotationManagerBase.extend({
 		} // else - avoid excessive re-layout
 	},
 
+	hasDraftComment: function() {
+		var found = false;
+		for (var i = 0; i < this._items.length; i++) {
+			if (this._items[i].options.draft === true) {
+				found = true;
+				break;
+			}
+		}
+		return found;
+	},
+
 	add: function (comment) {
 		var annotation = L.annotation(this._map._docLayer._twipsToLatLng(comment.anchorPos.getTopRight()), comment,
-			comment.id === 'new' ? {noMenu: true} : {}).addTo(this._map);
+			comment.id === 'new' ? {noMenu: true, draft: true} : {}).addTo(this._map);
 		if (comment.parent && comment.parent > '0') {
 			var parentIdx = this.getIndexOf(comment.parent);
 			this._items.splice(parentIdx + 1, 0, annotation);
@@ -864,6 +875,14 @@ L.AnnotationManager = L.AnnotationManagerBase.extend({
 				Author: {
 					type: 'string',
 					value: e.annotation._data.author
+				},
+				Start: {
+					type: 'string',
+					value: e.annotation._data.anchorPos.min.x
+				},
+				End: {
+					type: 'string',
+					value: e.annotation._data.anchorPos.min.y
 				}
 			};
 			this._map.sendUnoCommand('.uno:InsertAnnotation', comment);
