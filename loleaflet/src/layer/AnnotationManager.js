@@ -595,6 +595,17 @@ L.AnnotationManager = L.AnnotationManagerBase.extend({
 		} // else - avoid excessive re-layout
 	},
 
+	hasDraftComment: function() {
+		var found = false;
+		for (var i = 0; i < this._items.length; i++) {
+			if (this._items[i].options.draft === true) {
+				found = true;
+				break;
+			}
+		}
+		return found;
+	},
+
 	add: function (comment) {
 		var annotation = L.annotation(this._map._docLayer._twipsToLatLng(comment.anchorPos.getTopRight()), comment,
 			comment.id === 'new' ? {noMenu: true, draft: true} : {}).addTo(this._map);
