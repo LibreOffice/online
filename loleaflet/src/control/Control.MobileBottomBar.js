@@ -109,7 +109,6 @@ L.Control.MobileBottomBar = L.Control.extend({
 		var toolbar = $('#toolbar-down');
 		toolbar.w2toolbar({
 			name: 'editbar',
-			tooltip: 'top',
 			items: toolItems,
 			onClick: function (e) {
 				// use global handler
@@ -124,6 +123,8 @@ L.Control.MobileBottomBar = L.Control.extend({
 					window.insertShapes();
 			}
 		});
+		toolbar.tooltip();
+
 		toolbar.bind('touchstart', function(e) {
 			w2ui['editbar'].touchStarted = true;
 			var touchEvent = e.originalEvent;
