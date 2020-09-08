@@ -488,7 +488,10 @@ private:
     static
     std::string getPathFromConfig(Poco::Util::LayeredConfiguration& config, const std::string& property)
     {
-        std::string path = config.getString(property);
+        std::string path;
+        if (config.hasProperty(property))
+            path = config.getString(property);
+
         if (path.empty() && config.hasProperty(property + "[@default]"))
         {
             // Use the default value if empty and a default provided.
