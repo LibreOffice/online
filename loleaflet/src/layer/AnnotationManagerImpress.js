@@ -130,9 +130,13 @@ L.AnnotationManagerImpress = L.AnnotationManagerBase.extend({
 	onAnnotationReply: function (annotation) {
 		this.onAnnotationCancel();
 		this._selectedAnnotation = annotation._data.id;
-		annotation.reply();
-		this.scrollUntilAnnotationIsVisible(annotation);
-		annotation.focus();
+		if (window.mode.isMobile() || window.mode.isTablet()) {
+			this._doclayer.newAnnotationVex(annotation, annotation._onReplyClick,/* isMod */ true, '');
+		} else {
+			annotation.reply();
+			this.scrollUntilAnnotationIsVisible(annotation);
+			annotation.focus();
+		}
 	},
 	onReplyClick: function (e) {
 		var comment = {
