@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4a9aba2_e14ab5bc",
+        "filename": "loleaflet/src/control/Control.JSDialogBuilder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1698,
+      "author": {
+        "id": 1002126
+      },
+      "writtenOn": "2020-09-11T15:21:37Z",
+      "side": 1,
+      "message": "hm..maybe use consistently the same library",
+      "range": {
+        "startLine": 1698,
+        "startChar": 5,
+        "endLine": 1698,
+        "endChar": 14
+      },
+      "revId": "c1a6cc580ac0ce9402210029d0db7dc088a070c4",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
