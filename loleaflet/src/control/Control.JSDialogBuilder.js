@@ -1693,10 +1693,14 @@ L.Control.JSDialogBuilder = L.Control.extend({
 				var items = builder.map['stateChangeHandler'];
 				var state = items.getItemValue(data.command);
 
-				if (state && state === 'true')
+				if (state && state === 'true') {
 					$(button).addClass('selected');
-				else
+					L.DomUtil.addClass(div, 'selected');
+				}
+				else {
 					$(button).removeClass('selected');
+					L.DomUtil.removeClass(div, 'selected');
+				}
 
 				if (state && state === 'disabled')
 					$(div).addClass('disabled');
