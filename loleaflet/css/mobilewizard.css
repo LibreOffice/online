@@ -190,7 +190,7 @@ p.mobile-wizard.ui-combobox-text.selected {
 #mobile-wizard-content {
 	overflow-y: scroll;
 	overflow-x: hidden;
-	position: absolute;
+	position: static;
 	top: 111px;
 	bottom: 0px;
 	width: 100%;
@@ -201,19 +201,13 @@ p.mobile-wizard.ui-combobox-text.selected {
 #mobile-wizard.funcwizard div#mobile-wizard-content.showHelpBG {
 	background: url('images/lc_helpindex_secondary.svg') no-repeat right 16px bottom 88px / 124px !important;
 }
-#mobile-wizard-content:not(.with-slide-sorter-above), .menuwizard #mobile-wizard-content.with-slide-sorter-above{
-	top: 48px !important;
-}
-#mobile-wizard-content.with-slide-sorter-above {
-	top: 128px !important;
-	overflow-x: hidden;
-}
+
 #ParaPropertyPanel > .ui-content{
 	display: flex;
 	flex-wrap: wrap !important;
 	justify-content: space-around;
 }
-.with-slide-sorter-above > .ui-tabs-content > div[title='Layouts']{
+.ui-tabs-content > div[title='Layouts']{
 	justify-content: center;
 	-ms-box-orient: horizontal !important;
 	display: -webkit-box;
@@ -226,6 +220,7 @@ p.mobile-wizard.ui-combobox-text.selected {
 	align-items: center !important;
 	-webkit-flex-wrap: wrap !important;
 	flex-wrap: wrap !important;
+	margin-top: 25px;
 }
 #rotationlabel, #cellbackgroundlabel, #NumberFormatCurrency > .unolabel, #NumberFormatPercent > .unolabel, #NumberFormatDecimal > .unolabel{
 	display: none;
@@ -280,6 +275,7 @@ p.mobile-wizard.ui-combobox-text.selected {
 	color: #636363;
 	border-bottom: 1px solid #dddddd !important;
 	position: sticky;
+	z-index: 2;
 }
 
 .ui-content.mobile-wizard {
@@ -453,6 +449,24 @@ p.mobile-wizard.ui-combobox-text.selected {
 	display: table;
 	width: 100%;
 	padding: 0px;
+}
+
+#mobile-wizard-tabs {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background-color: white;
+}
+
+#mobile-wizard-header {
+	position: sticky;
+	top: 0;
+	background-color: white;
+	z-index: 2;
+}
+
+#mobile-wizard.portrait > #mobile-wizard-header + #mobile-wizard-tabs {
+	top: 60px;
 }
 
 .ui-tab.mobile-wizard {
