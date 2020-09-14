@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8334f69a_940d4876",
+        "filename": "loleaflet/src/layer/marker/Annotation.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-09-14T11:41:40Z",
+      "side": 1,
+      "message": "Please, no jquery dependency for basic operations, use DomUtil remove class",
+      "revId": "e19981fd0d2d0c04bb793079187c9280c6e3d38a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
