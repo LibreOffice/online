@@ -161,7 +161,7 @@ m4_ifelse(MOBILEAPP,[true],
        <div id="document-titlebar">
          <div class="document-title">
            <input id="document-name-input" type="text" disabled="true" style="display: none"/>
-           <div id="document-title-pencil"></div>
+           <div id="document-title-pencil" style="display: none"></div>
          </div>
        </div>
      </nav>
@@ -279,7 +279,11 @@ m4_ifelse(MOBILEAPP,[true],
       window.tileSize = 256;])
 m4_syscmd([cat ]GLOBAL_JS)m4_dnl
 
+<<<<<<< HEAD   (94e461 Fix annotation kebab menu brings up keyboard on mobile)
 <!-- Dynamically load the appropriate *-mobile.css, *-tablet.css or *-desktop.css -->
+=======
+// Dynamically load the appropriate *-mobile.css, *-tablet.css or *-desktop.css
+>>>>>>> CHANGE (6b8d89 Loleaflet: fix pencil icon)
 var link = document.createElement('link');
 link.setAttribute("rel", "stylesheet");
 link.setAttribute("type", "text/css");
