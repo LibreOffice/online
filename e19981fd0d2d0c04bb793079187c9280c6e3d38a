@@ -16,6 +16,24 @@
       "revId": "e19981fd0d2d0c04bb793079187c9280c6e3d38a",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a61f866b_847cece0",
+        "filename": "loleaflet/src/layer/marker/Annotation.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-09-15T14:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8334f69a_940d4876",
+      "revId": "e19981fd0d2d0c04bb793079187c9280c6e3d38a",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": false
     }
   ]
 }
