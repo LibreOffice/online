@@ -5,10 +5,7 @@
 
 /* global */
 
-// NOTE - the window.mode.isDesktop() has to be in sync with
-// var zoomAnimated init in Map.ZoomAnimation.js
-// (the CanvasTileLayer does not have an animated zoom yet)
-var BaseTileLayer = window.mode.isDesktop() ? L.CanvasTileLayer : L.TileLayer;
+var BaseTileLayer = window.mode.useCanvasLayer() ? L.CanvasTileLayer : L.TileLayer;
 
 L.CalcTileLayer = BaseTileLayer.extend({
 	options: {

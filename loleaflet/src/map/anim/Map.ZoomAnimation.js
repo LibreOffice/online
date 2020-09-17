@@ -8,10 +8,8 @@ L.Map.mergeOptions({
 	zoomAnimationThreshold: 4
 });
 
-// NOTE - the window.mode.isDesktop() has to be in sync with
-// var BaseTileLayer init in CalcTileLayer.js
-// (the CanvasTileLayer does not have an animated zoom yet)
-var zoomAnimated = L.DomUtil.TRANSITION && L.Browser.any3d && !L.Browser.mobileOpera && !window.mode.isDesktop();
+// Conditions for the animated zoom
+var zoomAnimated = L.DomUtil.TRANSITION && L.Browser.any3d && !L.Browser.mobileOpera && !window.mode.useCanvasLayer();
 
 if (zoomAnimated) {
 
