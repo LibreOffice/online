@@ -124,6 +124,9 @@ L.Control.MobileWizard = L.Control.extend({
 		if (this._map.getDocType() === 'presentation')
 			this._hideSlideSorter();
 
+		if (window.commentWizard === true)
+			window.commentWizard = false;
+
 		this._updateToolbarItemStateByClose();
 
 		if (!this.map.hasFocus()) {
@@ -150,6 +153,8 @@ L.Control.MobileWizard = L.Control.extend({
 
 			if (window.insertionMobileWizard === false && toolbar.get('insertion_mobile_wizard').checked)
 				toolbar.uncheck('insertion_mobile_wizard');
+			if (window.commentWizard === false && toolbar.get('comment_wizard').checked)
+				toolbar.uncheck('comment_wizard');
 		}
 	},
 
@@ -226,6 +231,8 @@ L.Control.MobileWizard = L.Control.extend({
 				w2ui['actionbar'].click('insertion_mobile_wizard');
 			} else if (window.mobileMenuWizard === true) {
 				$('#main-menu-state').click();
+			} else if (window.commentWizard === true) {
+				w2ui['actionbar'].click('comment_wizard');
 			} else if (window.contextMenuWizard) {
 				window.contextMenuWizard = false;
 				this.map.fire('closemobilewizard');
@@ -254,6 +261,13 @@ L.Control.MobileWizard = L.Control.extend({
 					$('#mobile-wizard-titlebar').hide();
 					$('#mobile-wizard-tabs').show();
 				}
+			}
+			var map = this._map;
+			if (window.commentWizard === true) {
+				$('.ui-header.level-0.mobile-wizard').each(function() {
+					map._docLayer._removeHighlightSelectedWizardComment(this.annotation);
+				});
+
 			}
 		}
 	},
