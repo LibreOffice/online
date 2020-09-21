@@ -1001,7 +1001,7 @@ bool DocumentBroker::saveToStorageInternal(const std::string& sessionId, bool su
     }
 
     // Check that we are actually about to upload a successfully saved document.
-    if (!success && !force)
+    if (!success && result != "unmodified" && !force)
     {
         LOG_ERR("Cannot store docKey [" << _docKey << "] as .uno:Save has failed in LOK.");
         it->second->sendTextFrameAndLogError("error: cmd=storage kind=savefailed");
