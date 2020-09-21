@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "049c9d85_9aa48087",
+        "filename": "cypress_test/integration_tests/mobile/writer/apply_font_spec.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000169
+      },
+      "writtenOn": "2020-09-21T11:25:00Z",
+      "side": 1,
+      "message": "As I see cypress tests fails on this change. This test uses an existing test document, which already have a font. So I think you don\u0027t need to change this to the default font.",
+      "range": {
+        "startLine": 214,
+        "startChar": 33,
+        "endLine": 214,
+        "endChar": 40
+      },
+      "revId": "f773c24fc2101d19890ca44d719ff38b9f13bd41",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
