@@ -211,7 +211,7 @@ describe('Apply font changes.', function() {
 		writerMobileHelper.selectAllMobile();
 
 		cy.get('#copy-paste-container p font')
-			.should('have.attr', 'face', 'Liberation Sans, sans-serif');
+			.should('have.attr', 'face', 'Carlito, sans-serif');
 		cy.get('#copy-paste-container p font font')
 			.should('have.attr', 'style', 'font-size: 28pt');
 
