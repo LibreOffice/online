@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bb8d211_11fee340",
+        "filename": "loleaflet/src/control/Control.MobileWizard.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000664
+      },
+      "writtenOn": "2020-09-21T07:17:22Z",
+      "side": 1,
+      "message": "I don\u0027t see anywhere _removeHighlightSelectedWizardComment  function. Did you add all files to the commit?",
+      "revId": "bab9e9505868b23e953443c518614036f749dc3b",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
