@@ -285,7 +285,7 @@ L.Map = L.Evented.extend({
 				setTimeout(function () {
 					// Show the sidebar by default, but not on mobile.
 					if (window.mode.isDesktop() && !window.ThisIsAMobileApp) {
-						if (uiDefaults && !uiDefaults.ShowSidebarDefault)
+						if (uiDefaults && uiDefaults.ShowSidebar === false)
 							map._socket.sendMessage('uno .uno:SidebarHide');
 						else
 							map._socket.sendMessage('uno .uno:SidebarShow');
@@ -305,10 +305,10 @@ L.Map = L.Evented.extend({
 
 			// ui defaults
 			if (window.mode.isDesktop()) {
-				if (uiDefaults && !uiDefaults.ShowRulerDefault)
+				if (uiDefaults && uiDefaults.ShowRuler === false)
 					this.uiManager.hideRuler();
 
-				if (uiDefaults && !uiDefaults.ShowStatusbarDefault)
+				if (uiDefaults && uiDefaults.ShowStatusbar === false)
 					this.uiManager.hideStatusBar();
 			}
 

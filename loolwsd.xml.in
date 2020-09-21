@@ -137,11 +137,11 @@
     <user_interface>
         <mode type="string" desc="Controls the user interface style (classic|notebookbar)" default="@USER_INTERFACE_MODE@">@USER_INTERFACE_MODE@</mode>
 
-        <writer>
+        <text>
             <ruler type="bool" desc="Controls whether the ruler would be shown at the first load of the document." default="true">true</ruler>
             <statusbar type="bool" desc="Controls whether the statusbar would be shown at the first load of the document." default="true">true</statusbar>
             <sidebar type="bool" desc="Controls whether the sidebar would be shown at the first load of the document." default="true">true</sidebar>
-        </writer>
+        </text>
         <spreadsheet>
             <sidebar type="bool" desc="Controls whether the sidebar would be shown at the first load of the document." default="true">true</sidebar>
         </spreadsheet>
