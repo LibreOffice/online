@@ -223,14 +223,26 @@ L.AnnotationManagerImpress = L.AnnotationManagerBase.extend({
 		this._annotations = {};
 	},
 	removeAnnotation: function (id) {
-		var annotations = this._annotations[this.getSelectedPartHash()];
-		for (var index in annotations) {
-			if (annotations[index]._data.id == id) {
-				this._map.removeLayer(annotations[index]);
-				annotations.splice(index, 1);
+		// Removed annotation may be in another page. So we look inside all of them till we find the matching one.
+		// Hmm let's return page index to specify the page subject to re-order annotations.
+		var found = false;
+		var pageIndex = -1;
+		for (var i = 0; i < this.getPartHashes().length; i++) {
+			var annotations = this._annotations[this.getPartHash(i)];
+			for (var index in annotations) {
+				if (annotations[index]._data.id == id) {
+					this._map.removeLayer(annotations[index]);
+					annotations.splice(index, 1);
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				pageIndex = i;
 				break;
 			}
 		}
+		return pageIndex;
 	},
 	scrollUntilAnnotationIsVisible: function(annotation) {
 		var bounds = annotation.getBounds();
@@ -367,10 +379,12 @@ L.AnnotationManagerImpress = L.AnnotationManagerBase.extend({
 			this.updateDocBounds(1, this.extraSize);
 			this.layoutAnnotations();
 		} else if (comment.action === 'Remove') {
-			this.removeAnnotation(comment.id);
-			this._topAnnotation[this.getSelectedPart()] = Math.min(this._topAnnotation[this.getSelectedPart()], this._annotations[this.getSelectedPartHash()].length - 1);
-			this.updateDocBounds(0);
-			this.layoutAnnotations();
+			var pageIndex = this.removeAnnotation(comment.id);
+			if (pageIndex != -1) {
+				this._topAnnotation[pageIndex] = Math.min(this._topAnnotation[pageIndex], this._annotations[this.getPartHash(pageIndex)].length - 1);
+				this.updateDocBounds(0);
+				this.layoutAnnotations();
+			}
 		} else if (comment.action === 'Modify') {
 			var modified = this.getAnnotation(comment.id);
 			if (modified) {
