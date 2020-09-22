@@ -707,6 +707,9 @@ L.TileLayer = L.GridLayer.extend({
 		else if (textMsg.startsWith('validityinputhelp:')) {
 			this._onValidityInputHelpMsg(textMsg);
 		}
+		else if (textMsg.startsWith('hyperlinklocation:')) {
+			this._onHyperlinkLocationMsg(textMsg);
+		}
 		else if (textMsg.startsWith('signaturestatus:')) {
 			var signstatus = textMsg.substring('signaturestatus:'.length + 1);
 			this._map.onChangeSignStatus(signstatus);
@@ -3137,6 +3140,14 @@ L.TileLayer = L.GridLayer.extend({
 		document.getElementById('input-help-title').innerText = message.title;
 		document.getElementById('input-help-content').innerText = message.content;
 		this._inputHelpPopUp = inputHelpMarker;
+	},
+
+	_onHyperlinkLocationMsg: function(textMsg) {
+		var message = textMsg.replace('hyperlinklocation: ', '');
+		message = JSON.parse(message);
+
+		this._map._clip.setTextSelectionHTML(message.url);
+		this._map._clip._execCopyCutPaste('copy');
 	},
 
 	_addDropDownMarker: function () {
