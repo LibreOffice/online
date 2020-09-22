@@ -833,7 +833,13 @@ input.clipboard {
 .loleaflet-ruler-breakcontainer {
 	height: 100%;
 	position: absolute;
+<<<<<<< HEAD   (1b2bbb Resize tunneled tooltips on invalidation)
 	}
+=======
+	display: flex;
+	align-items: center;
+}
+>>>>>>> CHANGE (f85c0c Ruler: Make sure numbers are always vertically centered)
 
 .loleaflet-ruler-tabstopcontainer {
 	height: 100%;
@@ -894,7 +900,7 @@ input.clipboard {
 	}
 
 .loleaflet-ruler-maj {
-	height: 35%;
+	height: auto;
 	display: inline-block;
 	border-width: 0px .5px;
 	border-style: solid;
