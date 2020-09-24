@@ -16,6 +16,24 @@
       "revId": "29ce2898c221b871552eb010c1248abefa407f40",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e434656_6765c854",
+        "filename": "loleaflet/src/layer/AnnotationManagerImpress.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1002314
+      },
+      "writtenOn": "2020-09-24T15:13:09Z",
+      "side": 1,
+      "message": "No, when all the comments are deleted, all pages\u0027 comments are deleted. I checked it on desktop version. All the document\u0027s comments are deleted. Not page by page.",
+      "parentUuid": "d0acbb47_197dc4a9",
+      "revId": "29ce2898c221b871552eb010c1248abefa407f40",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
