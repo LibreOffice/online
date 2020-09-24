@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0acbb47_197dc4a9",
+        "filename": "loleaflet/src/layer/AnnotationManagerImpress.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-09-24T15:04:18Z",
+      "side": 1,
+      "message": "Every slide has a set of annotation.  This should not happen, probably a bug?",
+      "revId": "29ce2898c221b871552eb010c1248abefa407f40",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
+    }
+  ]
+}
