@@ -34,6 +34,24 @@
       "revId": "29ce2898c221b871552eb010c1248abefa407f40",
       "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f90f9411_ea65b3db",
+        "filename": "loleaflet/src/layer/AnnotationManagerImpress.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000865
+      },
+      "writtenOn": "2020-09-24T15:21:00Z",
+      "side": 1,
+      "message": "when I designed it long time ago, I did the relationship 1 slide has unique set annotations. so you cannot delete annotation from another slide. Or the maybe the design changed?. can you please review the internal structure of LO core design?. If it is modified then your patch add complexity O(n^2) better to redesign all structures",
+      "parentUuid": "4e434656_6765c854",
+      "revId": "29ce2898c221b871552eb010c1248abefa407f40",
+      "serverId": "6622c302-437a-49ad-a91d-55ba7dcf1615",
+      "unresolved": true
     }
   ]
 }
