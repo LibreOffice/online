@@ -179,7 +179,11 @@ L.AnnotationManagerImpress = L.AnnotationManagerBase.extend({
 			this._map.sendUnoCommand('.uno:EditAnnotation', comment);
 			this._selectedAnnotation = undefined;
 		}
-		this._map.focus();
+		if (window.mode.isMobile()) {
+			this._map._docLayer._openCommentWizard(event.annotation);
+		} else {
+			this._map.focus();
+		}
 	},
 	onAnnotationScrollDown: function () {
 		var part = this.getSelectedPart();
@@ -371,6 +375,8 @@ L.AnnotationManagerImpress = L.AnnotationManagerBase.extend({
 			this._topAnnotation[this.getSelectedPart()] = Math.min(this._topAnnotation[this.getSelectedPart()], this._annotations[this.getSelectedPartHash()].length - 1);
 			this.updateDocBounds(0);
 			this.layoutAnnotations();
+			if (window.mode.isMobile())
+				this._map._docLayer._openCommentWizard();
 		} else if (comment.action === 'Modify') {
 			var modified = this.getAnnotation(comment.id);
 			if (modified) {
@@ -379,6 +385,8 @@ L.AnnotationManagerImpress = L.AnnotationManagerBase.extend({
 				this._selectedAnnotation = undefined;
 				this.layoutAnnotations();
 			}
+			if (window.mode.isMobile())
+				this._map._docLayer._openCommentWizard(modified);
 		}
 	},
 	allocateExtraSize: function() {

@@ -257,5 +257,88 @@ L.WriterTileLayer = L.TileLayer.extend({
 
 	_onUpdateMaxBounds: function (e) {
 		this._updateMaxBounds(e.sizeChanged, e.extraSize);
+	},
+
+	_createCommentStructure: function (menuStructure) {
+		var rootComment, lastChild, comment;
+		var annotations = this._map._docLayer._annotations;
+		var showResolved = this._map._docLayer._annotations._showResolved;
+		var annotationList = annotations._items;
+		for (var i = 0; i < annotationList.length; i++) {
+			if (annotationList[i]._data.parent === '0') {
+
+				lastChild = annotations.getLastChildIndexOf(annotationList[i]._data.id);
+				var commentThread = [];
+				while (true) {
+					comment = {
+						id: 'comment' + annotationList[lastChild]._data.id,
+						enable: true,
+						data: annotationList[lastChild]._data,
+						type: 'comment',
+						text: annotationList[lastChild]._data.text,
+						annotation: annotationList[lastChild],
+						children: []
+					};
+
+					if (showResolved || comment.data.resolved !== 'true') {
+						commentThread.unshift(comment);
+					}
+
+					if (annotationList[lastChild]._data.parent === '0')
+						break;
+
+					lastChild = annotations.getIndexOf(annotationList[lastChild]._data.parent);
+				}
+				if (commentThread.length > 0)
+				{
+					rootComment = {
+						id: commentThread[0].id,
+						enable: true,
+						data: commentThread[0].data,
+						type: 'rootcomment',
+						text: commentThread[0].data.text,
+						annotation: commentThread[0].annotation,
+						children: commentThread
+					};
+
+					menuStructure['children'].push(rootComment);
+				}
+			}
+		}
+	},
+
+	_addHighlightSelectedWizardComment: function(annotation) {
+		var annotations = this._map._docLayer._annotations;
+		var annotationList = annotations._items;
+		var lastChild = annotations.getLastChildIndexOf(annotation._data.id);
+
+		while (true) {
+			this._map.removeLayer(annotationList[lastChild]._data.textSelected);
+			this._map.addLayer(annotationList[lastChild]._data.wizardHighlight);
+
+			if (annotationList[lastChild]._data.parent === '0')
+				break;
+
+			lastChild = annotations.getIndexOf(annotationList[lastChild]._data.parent);
+		}
+
+	},
+
+	_removeHighlightSelectedWizardComment: function(annotation) {
+		var annotations = this._map._docLayer._annotations;
+		var annotationList = annotations._items;
+		var lastChild = annotations.getLastChildIndexOf(annotation._data.id);
+
+		if (lastChild) {
+			while (true) {
+				this._map.removeLayer(annotationList[lastChild]._data.wizardHighlight);
+				this._map.addLayer(annotationList[lastChild]._data.textSelected);
+
+				if (annotationList[lastChild]._data.parent === '0')
+					break;
+
+				lastChild = annotations.getIndexOf(annotationList[lastChild]._data.parent);
+			}
+		}
 	}
 });
