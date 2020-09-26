@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-08-05 13:00+0000\n"
-"Last-Translator: Valter Mura <valtermura@gmail.com>\n"
+"PO-Revision-Date: 2020-09-26 10:20+0000\n"
+"Last-Translator: Giacomo Bertolotti <giacomo.chappo@hotmail.it>\n"
 "Language-Team: Italian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -61,17 +61,13 @@ msgid "User Name"
 msgstr "Nome utente"
 
 #: admin/admin.strings.js:16
-#, fuzzy
-#| msgid "Documents opened"
 msgid "Documents open"
 msgstr "Documenti aperti"
 
 #: admin/admin.strings.js:17 admin/src/AdminSocketOverview.js:73
 #: admin/src/AdminSocketOverview.js:117 admin/src/AdminSocketOverview.js:328
-#, fuzzy
-#| msgid "0 users"
 msgid " user(s)."
-msgstr "0 utenti"
+msgstr "utenti"
 
 #: admin/admin.strings.js:18 admin/src/AdminSocketOverview.js:186
 #, fuzzy
