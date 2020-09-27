@@ -240,10 +240,7 @@ L.Control.Menubar = L.Control.extend({
 			]},
 			{name: _UNO('.uno:HelpMenu', 'text'), id: 'help', type: 'menu', menu: [
 				{name: _('Online Help'), id: 'online-help', type: 'action', iosapp: false},
-				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action', iosapp: false},
-				{name: _('Report an issue'), id: 'report-an-issue', type: 'action', iosapp: false},
-				{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
-				{name: _('About'), id: 'about', type: 'action'}]
+				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action', iosapp: false}]
 			},
 			{name: _('Last modification'), id: 'last-mod', type: 'action', tablet: false}
 		],
@@ -354,10 +351,7 @@ L.Control.Menubar = L.Control.extend({
 			]},
 			{name: _UNO('.uno:HelpMenu', 'presentation'), id: 'help', type: 'menu', menu: [
 				{name: _('Online Help'), id: 'online-help', type: 'action', iosapp: false},
-				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action', iosapp: false},
-				{name: _('Report an issue'), id: 'report-an-issue', type: 'action', iosapp: false},
-				{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
-				{name: _('About'), id: 'about', type: 'action'}]
+				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action', iosapp: false}]
 			},
 			{name: _('Last modification'), id: 'last-mod', type: 'action', tablet: false}
 		],
@@ -471,10 +465,7 @@ L.Control.Menubar = L.Control.extend({
 			]},
 			{name: _UNO('.uno:HelpMenu', 'spreadsheet'), id: 'help', type: 'menu', menu: [
 				{name: _('Online Help'), id: 'online-help', type: 'action', iosapp: false},
-				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action', iosapp: false},
-				{name: _('Report an issue'), id: 'report-an-issue', type: 'action', iosapp: false},
-				{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
-				{name: _('About'), id: 'about', type: 'action'}]
+				{name: _('Keyboard shortcuts'), id: 'keyboard-shortcuts', type: 'action', iosapp: false}]
 			},
 			{name: _('Last modification'), id: 'last-mod', type: 'action', tablet: false}
 		],
@@ -524,8 +515,6 @@ L.Control.Menubar = L.Control.extend({
 				{name: _UNO('.uno:ShowResolvedAnnotations', 'text'), id: 'showresolved', type: 'action'},
 			]
 			},
-			{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
-			{name: _('About'), id: 'about', type: 'action'},
 		],
 
 		mobilepresentation: [
@@ -571,8 +560,7 @@ L.Control.Menubar = L.Control.extend({
 			{name: _UNO('.uno:FullScreen', 'presentation'), id: 'fullscreen', type: 'action', mobileapp: false},
 			{uno: '.uno:SpellOnline'},
 			{name: _('Fullscreen presentation'), id: 'fullscreen-presentation', type: 'action'},
-			{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
-			{name: _('About'), id: 'about', type: 'action'},
+			
 		],
 
 		mobilespreadsheet: [
@@ -635,8 +623,6 @@ L.Control.Menubar = L.Control.extend({
 			]},
 			{uno: '.uno:SpellOnline'},
 			{name: _UNO('.uno:FullScreen', 'spreadsheet'), id: 'fullscreen', type: 'action', mobileapp: false},
-			{name: _('Latest Updates'), id: 'latest-updates', type: 'action', iosapp: false},
-			{name: _('About'), id: 'about', type: 'action'},
 		],
 
 		mobileInsertMenu : {
@@ -727,7 +713,7 @@ L.Control.Menubar = L.Control.extend({
 			'downloadas-odp', 'downloadas-ppt', 'downloadas-pptx', 'print', // file menu
 			'downloadas-ods', 'downloadas-xls', 'downloadas-xlsx', 'closedocument', // file menu
 			'fullscreen', 'zoomin', 'zoomout', 'zoomreset', 'showresolved', // view menu
-			'about', 'keyboard-shortcuts', 'latest-updates', 'online-help', 'report-an-issue' // help menu
+			'keyboard-shortcuts', 'online-help' // help menu
 		]
 	},
 
@@ -1194,8 +1180,6 @@ L.Control.Menubar = L.Control.extend({
 					}
 				}
 			});
-		} else if (id === 'about') {
-			this._map.showLOAboutDialog();
 		} else if (id === 'latest-updates') {
 			this._map.showWelcomeDialog(/*calledFromMenu=*/true);
 		} else if (id === 'report-an-issue') {
