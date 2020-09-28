@@ -295,6 +295,7 @@ L.Map = L.Evented.extend({
 			this.initializeModificationIndicator();
 
 			// Show sidebar.
+			/*
 			if (this._docLayer && !this._docLoadedOnce &&
 				(this._docLayer._docType === 'spreadsheet' || this._docLayer._docType === 'text' || this._docLayer._docType === 'presentation')) {
 				// Let the first page finish loading then load the sidebar.
@@ -306,7 +307,7 @@ L.Map = L.Evented.extend({
 					}
 				}, 200);
 			}
-
+		       */
 			// We have loaded.
 			if (!this._docLoadedOnce) {
 				this._docLoadedOnce = this._docLoaded;
