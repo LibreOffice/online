@@ -503,7 +503,7 @@ L.Control.StatusBar = L.Control.extend({
 			var noneLang = _('None (Do not check spelling)');
 			var languages = [];
 			e.commandValues.forEach(function (language) {
-				languages.push({ translated: _(language), neutral: language });
+				languages.push({ translated: _(language.split(';')[0]), neutral: language });
 			});
 			languages.sort(function (a, b) {
 				return a.translated < b.translated ? -1 : a.translated > b.translated ? 1 : 0;
