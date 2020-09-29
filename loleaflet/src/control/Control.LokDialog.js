@@ -11,7 +11,7 @@ L.WinUtil = {
 var firstTouchPositionX = null;
 var firstTouchPositionY = null;
 var previousTouchType = null;
-
+var firstTime = null;
 function updateTransformation(target) {
 	if (target !== null && target !== undefined) {
 		var value = [
@@ -1051,12 +1051,17 @@ L.Control.LokDialog = L.Control.extend({
 			$('#' + strId + '-cursor').css({display: 'none'});
 
 			var panel = L.DomUtil.get('sidebar-panel');
-			if (width > 1)
-				$(panel).parent().show();
-			else
-				$(panel).parent().hide();
-
-			// Render window.
+                        if (firstTime) {
+                            if (width > 1)
+                                $(panel).parent().show();
+                            else
+                                $(panel).parent().hide();
+			}
+                        else {
+                            firstTime = "1";
+                            $(panel).parent().hide();
+                        }
+                        // Render window.
 			this._sendPaintWindowRect(id);
 		} else {
 			this._createSidebar(id, strId, width, height);
