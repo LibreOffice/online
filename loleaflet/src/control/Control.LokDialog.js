@@ -1051,17 +1051,17 @@ L.Control.LokDialog = L.Control.extend({
 			$('#' + strId + '-cursor').css({display: 'none'});
 
 			var panel = L.DomUtil.get('sidebar-panel');
-			if (firstTime)
-                        {
-                            if (width > 1)
-                                $(panel).parent().show();
-                            else
-                                $(panel).parent().hide();
+                        if (firstTime)
+			{
+				if (width > 1)
+                                    $(panel).parent().show();
+				else
+                                    $(panel).parent().hide();
 			}
-			else
-                        {
-                            firstTime = "1";
-                            $(panel).parent().hide();
+                        else
+			{
+				firstTime = '1';
+                                $(panel).parent().hide();
                         }
                         // Render window.
 			this._sendPaintWindowRect(id);
