@@ -995,7 +995,8 @@ L.Control.LokDialog = L.Control.extend({
 		if ((window.mode.isMobile() || window.mode.isTablet())
 		    && this._map._permission != 'edit')
 			return;
-
+		if (!firstTime)
+			firstTime = '1';
 		$('#sidebar-dock-wrapper').css('display', 'block');
 		if (window.mode.isTablet())
 			$('#sidebar-dock-wrapper').addClass('tablet');
