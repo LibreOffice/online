@@ -13,4 +13,5 @@
     <string name="rate_our_app_title">感謝您使用 %1$s！</string>
     <string name="later">稍後再說</string>
     <string name="rate_now">立刻評分</string>
+    <string name="file_chromeos_read_only">此檔案無法儲存在此位置，以唯讀開啟。將其移動至 Play 檔案以取得完整的讀取／寫入權限。</string>
 </resources>
