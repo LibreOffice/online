@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-09-11 16:32+0000\n"
+"PO-Revision-Date: 2020-09-30 19:24+0000\n"
 "Last-Translator: Adam Rak <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/pl/>\n"
 "Language: pl\n"
@@ -310,7 +310,7 @@ msgstr " s"
 
 #: src/control/Parts.js:377
 msgid "Show Selected Sheets"
-msgstr ""
+msgstr "Pokaż wybrane arkusze"
 
 #: src/control/ColorPicker.js:129
 msgid "No color"
