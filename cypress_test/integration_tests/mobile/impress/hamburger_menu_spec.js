@@ -1,4 +1,4 @@
-/* global describe it cy require afterEach expect */
+/* global describe it cy require afterEach expect Cypress */
 
 var helper = require('../../common/helper');
 var impressHelper = require('../../common/impress_helper');
@@ -71,6 +71,9 @@ describe('Trigger hamburger menu options.', function() {
 	});
 
 	it('Download as PDF', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.pdf';
+		helper.removeFileIfExists(downloadedFile);
+
 		before('hamburger_menu.odp');
 
 		mobileHelper.openHamburgerMenu();
@@ -81,12 +84,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'PDF Document (.pdf)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as ODP', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.odp';
+		helper.removeFileIfExists(downloadedFile);
+
 		before('hamburger_menu.odp');
 
 		mobileHelper.openHamburgerMenu();
@@ -97,12 +101,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'ODF presentation (.odp)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as PPT', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.ppt';
+		helper.removeFileIfExists(downloadedFile);
+
 		before('hamburger_menu.odp');
 
 		mobileHelper.openHamburgerMenu();
@@ -113,12 +118,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'PowerPoint 2003 Presentation (.ppt)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as PPTX', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.pptx';
+		helper.removeFileIfExists(downloadedFile);
+
 		before('hamburger_menu.odp');
 
 		mobileHelper.openHamburgerMenu();
@@ -129,9 +135,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'PowerPoint Presentation (.pptx)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	// FIXME temporarily disabled, does not work with CanvasTileLayer

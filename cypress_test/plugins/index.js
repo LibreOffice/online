@@ -8,8 +8,11 @@ var selectTests = require('cypress-select-tests');
 function plugin(on, config) {
 	if (config.env.COVERAGE_RUN)
 		require('@cypress/code-coverage/task')(on, config);
+
 	on('task', {
 		copyFile: tasks.copyFile,
+		removeFileIfExists: tasks.removeFileIfExists,
+		checkIfFileExists: tasks.checkIfFileExists,
 		failed: require('cypress-failed-log/src/failed')()
 	});
 
@@ -27,15 +30,21 @@ function plugin(on, config) {
 		});
 	}
 
-	if (process.env.ENABLE_LOGGING) {
-		on('before:browser:launch', function(browser, launchOptions) {
-			if (browser.family === 'chromium') {
+
+	on('before:browser:launch', function(browser, launchOptions) {
+		if (browser.family === 'chromium') {
+			if (process.env.ENABLE_LOGGING) {
 				launchOptions.args.push('--enable-logging=stderr');
 				launchOptions.args.push('--v=2');
-				return launchOptions;
 			}
-		});
-	}
+
+			var downloadDirectory = config.env.WORKDIR + '/downloads';
+			// eslint-disable-next-line camelcase
+			launchOptions.preferences.default['download'] = { default_directory: downloadDirectory };
+
+			return launchOptions;
+		}
+	});
 
 	if (process.env.CYPRESS_INTEGRATION === 'php-proxy') {
 		config.defaultCommandTimeout = 10000;

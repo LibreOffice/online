@@ -962,11 +962,7 @@ L.TileLayer = L.GridLayer.extend({
 			this._map.fire('slidedownloadready', {url: url});
 		}
 		else if (command.id === 'export') {
-			// Don't do a real download during testing
-			if (!L.Browser.cypressTest)
-				this._map._fileDownloader.src = url;
-			else
-				this._map._fileDownloader.setAttribute('data-src', url);
+			this._map._fileDownloader.src = url;
 		}
 	},
 

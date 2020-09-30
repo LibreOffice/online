@@ -852,6 +852,31 @@ function typeIntoDocument(text) {
 	cy.log('Typing into document - end.');
 }
 
+function assertFileExists(filePath) {
+	cy.waitUntil(function() {
+		return cy.task('checkIfFileExists', {filePath: filePath})
+			.then(function(result) {
+				return result;
+			});
+	});
+}
+
+function assertFileNotExists(filePath) {
+	cy.waitUntil(function() {
+		return cy.task('checkIfFileExists', {filePath: filePath})
+			.then(function(result) {
+				console.error(result);
+				return !result;
+			});
+	});
+}
+
+function removeFileIfExists(filePath) {
+	cy.task('removeFileIfExists', {filePath: filePath});
+
+	assertFileNotExists(filePath);
+}
+
 module.exports.loadTestDoc = loadTestDoc;
 module.exports.assertCursorAndFocus = assertCursorAndFocus;
 module.exports.assertNoKeyboardInput = assertNoKeyboardInput;
@@ -882,3 +907,6 @@ module.exports.doIfOnDesktop = doIfOnDesktop;
 module.exports.moveCursor = moveCursor;
 module.exports.typeIntoDocument = typeIntoDocument;
 module.exports.loadFileToNextCloud = loadFileToNextCloud;
+module.exports.assertFileExists = assertFileExists;
+module.exports.assertFileNotExists = assertFileNotExists;
+module.exports.removeFileIfExists = removeFileIfExists;
