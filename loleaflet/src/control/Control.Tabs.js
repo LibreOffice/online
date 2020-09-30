@@ -228,8 +228,8 @@ L.Control.Tabs = L.Control.extend({
 		this._map.showPage();
 	},
 
-	_hideSheet: function() {
-		this._map.hidePage();
+	_hideSheet: function(trigger, key) {
+		this._map.hidePage(key.$trigger[0].innerText);
 	}
 });
 
