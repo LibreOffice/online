@@ -1,4 +1,4 @@
-/* global describe it cy beforeEach require afterEach expect */
+/* global describe it cy beforeEach require afterEach expect Cypress */
 
 var helper = require('../../common/helper');
 var mobileHelper = require('../../common/mobile_helper');
@@ -89,6 +89,9 @@ describe('Trigger hamburger menu options.', function() {
 	});
 
 	it('Download as PDF', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.pdf';
+		helper.removeFileIfExists(downloadedFile);
+
 		mobileHelper.openHamburgerMenu();
 
 		cy.contains('.menu-entry-with-icon', 'Download as')
@@ -97,12 +100,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'PDF Document (.pdf)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as ODT', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.odt';
+		helper.removeFileIfExists(downloadedFile);
+
 		mobileHelper.openHamburgerMenu();
 
 		cy.contains('.menu-entry-with-icon', 'Download as')
@@ -111,12 +115,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'ODF text document (.odt)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as DOC', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.doc';
+		helper.removeFileIfExists(downloadedFile);
+
 		mobileHelper.openHamburgerMenu();
 
 		cy.contains('.menu-entry-with-icon', 'Download as')
@@ -125,12 +130,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Word 2003 Document (.doc)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as DOCX', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.docx';
+		helper.removeFileIfExists(downloadedFile);
+
 		mobileHelper.openHamburgerMenu();
 
 		cy.contains('.menu-entry-with-icon', 'Download as')
@@ -139,12 +145,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Word Document (.docx)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as RTF', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.rtf';
+		helper.removeFileIfExists(downloadedFile);
+
 		mobileHelper.openHamburgerMenu();
 
 		cy.contains('.menu-entry-with-icon', 'Download as')
@@ -153,12 +160,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Rich Text (.rtf)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as EPUB', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.epub';
+		helper.removeFileIfExists(downloadedFile);
+
 		mobileHelper.openHamburgerMenu();
 
 		cy.contains('.menu-entry-with-icon', 'Download as')
@@ -167,9 +175,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'EPUB (.epub)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Undo/redo.', function() {

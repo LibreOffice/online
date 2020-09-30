@@ -963,10 +963,7 @@ L.TileLayer = L.GridLayer.extend({
 		}
 		else if (command.id === 'export') {
 			// Don't do a real download during testing
-			if (!L.Browser.cypressTest)
-				this._map._fileDownloader.src = url;
-			else
-				this._map._fileDownloader.setAttribute('data-src', url);
+			this._map._fileDownloader.src = url;
 		}
 	},
 

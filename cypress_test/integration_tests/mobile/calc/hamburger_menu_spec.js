@@ -1,4 +1,4 @@
-/* global describe it cy require afterEach expect */
+/* global describe it cy require afterEach expect Cypress */
 
 var helper = require('../../common/helper');
 var calcHelper = require('../../common/calc_helper');
@@ -57,6 +57,9 @@ describe('Trigger hamburger menu options.', function() {
 	});
 
 	it('Download as PDF', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.pdf';
+		helper.removeFileIfExists(downloadedFile);
+
 		before('hamburger_menu.ods');
 
 		mobileHelper.openHamburgerMenu();
@@ -67,12 +70,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'PDF Document (.pdf)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as ODS', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.ods';
+		helper.removeFileIfExists(downloadedFile);
+
 		before('hamburger_menu.ods');
 
 		mobileHelper.openHamburgerMenu();
@@ -83,12 +87,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'ODF spreadsheet (.ods)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as XLS', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.xls';
+		helper.removeFileIfExists(downloadedFile);
+
 		before('hamburger_menu.ods');
 
 		mobileHelper.openHamburgerMenu();
@@ -99,12 +104,13 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Excel 2003 Spreadsheet (.xls)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Download as XLSX', function() {
+		var downloadedFile = Cypress.env('WORKDIR') + 'downloads/document.xlsx';
+		helper.removeFileIfExists(downloadedFile);
+
 		before('hamburger_menu.ods');
 
 		mobileHelper.openHamburgerMenu();
@@ -115,9 +121,7 @@ describe('Trigger hamburger menu options.', function() {
 		cy.contains('.menu-entry-with-icon', 'Excel Spreadsheet (.xlsx)')
 			.click();
 
-		cy.get('iframe')
-			.should('have.attr', 'data-src')
-			.should('contain', 'download');
+		helper.assertFileExists(downloadedFile);
 	});
 
 	it('Undo/redo.', function() {
