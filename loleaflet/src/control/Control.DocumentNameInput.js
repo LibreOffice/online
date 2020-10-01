@@ -100,6 +100,7 @@ L.Control.DocumentNameInput = L.Control.extend({
 		if (e.BaseFileName !== null) {
 			// set the document name into the name field
 			$('#document-name-input').val(e.BaseFileName);
+			this.map['wopi'].BaseFileName = e.BaseFileName;
 		}
 
 		if (e.UserCanNotWriteRelative === false) {
