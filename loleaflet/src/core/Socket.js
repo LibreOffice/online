@@ -699,7 +699,7 @@ L.Socket = L.Class.extend({
 				textMsg = textMsg.replace(/{docs}/g, command.params[0]);
 				textMsg = textMsg.replace(/{connections}/g, command.params[1]);
 				textMsg = textMsg.replace(/{productname}/g, (typeof brandProductName !== 'undefined' ?
-						brandProductName : 'LibreOffice Online'));
+						brandProductName : ''));
 				var brandFAQURL = (typeof brandProductFAQURL !== 'undefined') ?
 						brandProductFAQURL : 'https://hub.libreoffice.org/professional-online-support';
 				this._map.fire('infobar',

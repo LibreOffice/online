@@ -402,7 +402,7 @@ void DocumentBroker::pollThread()
             }
         }
         else if (AutoSaveEnabled && !_stop &&
-                 std::chrono::duration_cast<std::chrono::seconds>(now - last30SecCheckTime).count() >= 30)
+                 std::chrono::duration_cast<std::chrono::seconds>(now - last30SecCheckTime).count() >= 5)
         {
             LOG_TRC("Triggering an autosave.");
             autoSave(false);
@@ -1248,8 +1248,8 @@ bool DocumentBroker::sendUnoSave(const std::string& sessionId, bool dontTerminat
     assertCorrectThread();
 
     LOG_INF("Saving doc [" << _docKey << "].");
-
-    if (_sessions.find(sessionId) != _sessions.end())
+    auto session = _sessions.find(sessionId);
+    if ( session != _sessions.end())
     {
         // Invalidate the timestamp to force persisting.
         _lastFileModifiedTime = std::chrono::system_clock::time_point();
@@ -1294,6 +1294,8 @@ bool DocumentBroker::sendUnoSave(const std::string& sessionId, bool dontTerminat
         const auto command = "uno .uno:Save " + saveArgs;
         forwardToChild(sessionId, command);
         _lastSaveRequestTime = std::chrono::steady_clock::now();
+        _documentLastModifiedTime = std::chrono::system_clock::now();
+        sendLastModificationTime(session, this, _documentLastModifiedTime);
         return true;
     }
 
