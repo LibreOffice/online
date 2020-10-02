@@ -828,7 +828,8 @@ function onCommandStateChanged(e) {
 			w2ui['editbar'].set('save', {img:'savemodified'});
 		}
 		else {
-			w2ui['editbar'].set('save', {img:'save'});
+			w2ui['editbar'].set('save', { img: 'save' });
+			map.updateModificationIndicator(Date.now());
 		}
 	}
 	else if (commandName === '.uno:DocumentRepair') {
