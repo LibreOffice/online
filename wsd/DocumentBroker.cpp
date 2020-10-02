@@ -1248,8 +1248,8 @@ bool DocumentBroker::sendUnoSave(const std::string& sessionId, bool dontTerminat
     assertCorrectThread();
 
     LOG_INF("Saving doc [" << _docKey << "].");
-    auto session = _sessions.find(sessionId);
-    if ( session != _sessions.end())
+
+    if (_sessions.find(sessionId) != _sessions.end())
     {
         // Invalidate the timestamp to force persisting.
         _lastFileModifiedTime = std::chrono::system_clock::time_point();
@@ -1295,7 +1295,7 @@ bool DocumentBroker::sendUnoSave(const std::string& sessionId, bool dontTerminat
         forwardToChild(sessionId, command);
         _lastSaveRequestTime = std::chrono::steady_clock::now();
         _documentLastModifiedTime = std::chrono::system_clock::now();
-        sendLastModificationTime(session, this, _documentLastModifiedTime);
+        //sendLastModificationTime(session, this, _documentLastModifiedTime);
         return true;
     }
 
