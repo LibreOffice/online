@@ -381,7 +381,7 @@ L.Control.Menubar = L.Control.extend({
 				{name: _UNO('.uno:FullScreen', 'spreadsheet'), id: 'fullscreen', type: 'action'},
 				{type: 'separator'},
 				{ uno: '.uno:Sidebar' },
-				{ uno: '.uno:shareas' }
+				{ uno: '.uno:ShareDocument' }
 			]},
 			{name: _UNO('.uno:InsertMenu', 'spreadsheet'), id: 'insert', type: 'menu', menu: [
 				{name: _('Local Image...'), id: 'insertgraphic', type: 'action'},
