@@ -394,7 +394,7 @@ L.Map = L.Evented.extend({
 			mainSpan.appendChild(separator);
 			mainSpan.appendChild(this.lastModIndicator);
 
-			this.updateModificationIndicator(this._lastmodtime);
+			this.updateModificationIndicator('s');
 
 			// Replace menu button body with new content
 			lastModButton.firstChild.innerHTML = '';
@@ -406,7 +406,13 @@ L.Map = L.Evented.extend({
 		}
 	},
 
-	updateModificationIndicator: function(newModificationTime) {
+	updateModificationIndicator: function (newModificationTime) {
+		if (newModificationTime == 's') {
+			this.lastModIndicator.innerHTML = '<p><img src="https://www.rimolgreenhouses.com/sites/default/files/images/blog/check-box.png" width=12 height=12/>Saved</p>';
+		} else {
+			this.lastModIndicator.innerHTML = '<p><img src="https://b7.pngbarn.com/png/563/147/arrow-symbol-semicircle-arrow-png-clip-art.png" width=12 height=12/>Saving</p>';
+		}
+		return;
 		var timeout;
 
 		if (typeof newModificationTime === 'string') {
@@ -429,7 +435,7 @@ L.Map = L.Evented.extend({
 				timeout = 60000;
 			}
 
-			this.lastModIndicator.innerHTML = dateValue;
+			//this.lastModIndicator.innerHTML = dateValue;
 
 			if (timeout) {
 				this._modTimeout = setTimeout(L.bind(this.updateModificationIndicator, this, -1), timeout);

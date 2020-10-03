@@ -219,6 +219,7 @@ L.Control.TopToolbar = L.Control.extend({
 			{type: 'button',  id: 'insertsymbol', img: 'insertsymbol', hint: _UNO('.uno:InsertSymbol', '', true), uno: 'InsertSymbol'},
 			{type: 'spacer'},
 			{type: 'button',  id: 'edit',  img: 'edit'},
+			{ type: 'button', id: 'share', img: 'sidebar_modify_page', hint: _UNO('.uno:Share', '', true), uno: '.uno:Share', hidden: false },
 			{type: 'button',  id: 'sidebar', img: 'sidebar_modify_page', hint: _UNO('.uno:Sidebar', '', true), uno: '.uno:Sidebar', hidden: true},
 			{type: 'button',  id: 'modifypage', img: 'sidebar_modify_page', hint: _UNO('.uno:ModifyPage', 'presentation', true), uno: '.uno:ModifyPage', hidden: true},
 			{type: 'button',  id: 'slidechangewindow', img: 'sidebar_slide_change', hint: _UNO('.uno:SlideChangeWindow', 'presentation', true), uno: '.uno:SlideChangeWindow', hidden: true},

@@ -28,9 +28,7 @@ L.Control.Menubar = L.Control.extend({
 					{name: _('Word Document (.docx)'), id: 'downloadas-docx', type: 'action'},
 					{name: _('Rich Text (.rtf)'), id: 'downloadas-rtf', type: 'action'},
 					{name: _('EPUB (.epub)'), id: 'downloadas-epub', type: 'action'}]},
-				{name: _('Sign document'), id: 'signdocument', type: 'action'},
-				{type: 'separator'},
-				{name: _('Close document'), id: 'closedocument', type: 'action'}
+				{name: _('Sign document'), id: 'signdocument', type: 'action'}
 			]},
 			{name: _UNO('.uno:EditMenu', 'text'), id: 'editmenu', type: 'menu', menu: [
 				{uno: '.uno:Undo'},
@@ -256,9 +254,7 @@ L.Control.Menubar = L.Control.extend({
 					{name: _('PDF Document (.pdf)'), id: 'downloadas-pdf', type: 'action'},
 					{name: _('ODF presentation (.odp)'), id: 'downloadas-odp', type: 'action'},
 					{name: _('PowerPoint 2003 Presentation (.ppt)'), id: 'downloadas-ppt', type: 'action'},
-					{name: _('PowerPoint Presentation (.pptx)'), id: 'downloadas-pptx', type: 'action'}]},
-				{type: 'separator'},
-				{name: _('Close document'), id: 'closedocument', type: 'action'}
+					{name: _('PowerPoint Presentation (.pptx)'), id: 'downloadas-pptx', type: 'action'}]}
 			]},
 			{name: _UNO('.uno:EditMenu', 'presentation'), id: 'editmenu', type: 'menu', menu: [
 				{uno: '.uno:Undo'},
@@ -367,9 +363,7 @@ L.Control.Menubar = L.Control.extend({
 					{name: _('PDF Document (.pdf)'), id: 'downloadas-pdf', type: 'action'},
 					{name: _('ODF spreadsheet (.ods)'), id: 'downloadas-ods', type: 'action'},
 					{name: _('Excel 2003 Spreadsheet (.xls)'), id: 'downloadas-xls', type: 'action'},
-					{name: _('Excel Spreadsheet (.xlsx)'), id: 'downloadas-xlsx', type: 'action'}]},
-				{type: 'separator'},
-				{name: _('Close document'), id: 'closedocument', type: 'action'}
+					{name: _('Excel Spreadsheet (.xlsx)'), id: 'downloadas-xlsx', type: 'action'}]}
 			]},
 			{name: _UNO('.uno:EditMenu', 'spreadsheet'), id: 'editmenu', type: 'menu', menu: [
 				{uno: '.uno:Undo'},
@@ -386,7 +380,8 @@ L.Control.Menubar = L.Control.extend({
 			{name: _UNO('.uno:ViewMenu', 'spreadsheet'), id: 'view', type: 'menu', menu: [
 				{name: _UNO('.uno:FullScreen', 'spreadsheet'), id: 'fullscreen', type: 'action'},
 				{type: 'separator'},
-				{uno: '.uno:Sidebar'},
+				{ uno: '.uno:Sidebar' },
+				{ uno: '.uno:Share' }
 			]},
 			{name: _UNO('.uno:InsertMenu', 'spreadsheet'), id: 'insert', type: 'menu', menu: [
 				{name: _('Local Image...'), id: 'insertgraphic', type: 'action'},

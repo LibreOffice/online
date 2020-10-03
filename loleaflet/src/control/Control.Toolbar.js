@@ -826,11 +826,11 @@ function onCommandStateChanged(e) {
 	else if (commandName === '.uno:ModifiedStatus') {
 		if (e.state === 'true') {
 			w2ui['editbar'].set('save', { img: 'savemodified' });
-			map.updateModificationIndicator(Date.now());
+			map.updateModificationIndicator('u');
 		}
 		else {
 			w2ui['editbar'].set('save', { img: 'save' });
-			map.updateModificationIndicator(Date.now());
+			map.updateModificationIndicator('s');
 		}
 	}
 	else if (commandName === '.uno:DocumentRepair') {
