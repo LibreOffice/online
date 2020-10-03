@@ -413,34 +413,6 @@ L.Map = L.Evented.extend({
 			this.lastModIndicator.innerHTML = '<p><img src="https://b7.pngbarn.com/png/563/147/arrow-symbol-semicircle-arrow-png-clip-art.png" width=12 height=12/>Saving</p>';
 		}
 		return;
-		var timeout;
-
-		if (typeof newModificationTime === 'string') {
-			this._lastmodtime = newModificationTime;
-		}
-
-		clearTimeout(this._modTimeout);
-
-		if (this.lastModIndicator !== null && this.lastModIndicator !== undefined) {
-			var dateTime = new Date(this._lastmodtime.replace(/,.*/, 'Z'));
-			var dateValue = dateTime.toLocaleDateString(String.locale,
-				{ year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-			var elapsed = Date.now() - dateTime;
-			if (elapsed < 60000) {
-				dateValue = _('%d seconds ago').replace('%d', Math.round(elapsed / 1000));
-				timeout = 6000;
-			} else if (elapsed < 3600000) {
-				dateValue = _('%d minutes ago').replace('%d', Math.round(elapsed / 60000));
-				timeout = 60000;
-			}
-
-			//this.lastModIndicator.innerHTML = dateValue;
-
-			if (timeout) {
-				this._modTimeout = setTimeout(L.bind(this.updateModificationIndicator, this, -1), timeout);
-			}
-		}
 	},
 
 	showBusy: function(label, bar) {
