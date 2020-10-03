@@ -220,7 +220,7 @@ L.Map.include({
 			if (window.ThisIsAMobileApp) {
 				productName = window.MobileAppName;
 			} else {
-				productName = (typeof brandProductName !== 'undefined') ? brandProductName : 'LibreOffice Online';
+				productName = (typeof brandProductName !== 'undefined') ? brandProductName : '';
 			}
 			vex.open({
 				unsafeContent: data,

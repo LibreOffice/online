@@ -825,7 +825,8 @@ function onCommandStateChanged(e) {
 	}
 	else if (commandName === '.uno:ModifiedStatus') {
 		if (e.state === 'true') {
-			w2ui['editbar'].set('save', {img:'savemodified'});
+			w2ui['editbar'].set('save', { img: 'savemodified' });
+			map.updateModificationIndicator(Date.now());
 		}
 		else {
 			w2ui['editbar'].set('save', { img: 'save' });
