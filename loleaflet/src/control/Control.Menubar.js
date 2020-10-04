@@ -1217,6 +1217,8 @@ L.Control.Menubar = L.Control.extend({
 			this._map.sendUnoCommand('.uno:LOKSidebarWriterPage');
 			this._map.fire('showwizardsidebar');
 			window.pageMobileWizard = true;
+		} else if (id === 'sharedocument') {
+			this._map.showShareDialogue();
 		}
 		// Inform the host if asked
 		if (postmessage)

@@ -386,12 +386,12 @@ L.Map = L.Evented.extend({
 		if (lastModButton !== null && lastModButton !== undefined
 			&& lastModButton.firstChild.innerHTML !== null
 			&& lastModButton.firstChild.childElementCount == 0) {
-			var mainSpan = document.createElement('span');
-			var label = document.createTextNode(_('Last modification'));
-			var separator = document.createTextNode(': ');
+			//var mainSpan = documentcreateElement('span');
+			//var label = document.createTextNode(_('Last modification'));
+			//var separator = document.createElement('img');
 			this.lastModIndicator = document.createElement('span');
-			mainSpan.appendChild(label);
-			mainSpan.appendChild(separator);
+			//mainSpan.appendChild(label);
+			//mainSpan.appendChild(separator);
 			mainSpan.appendChild(this.lastModIndicator);
 
 			this.updateModificationIndicator('s');
@@ -408,9 +408,9 @@ L.Map = L.Evented.extend({
 
 	updateModificationIndicator: function (newModificationTime) {
 		if (newModificationTime == 's') {
-			this.lastModIndicator.innerHTML = '<p><img src="https://www.rimolgreenhouses.com/sites/default/files/images/blog/check-box.png" width=12 height=12/>Saved</p>';
+			this.lastModIndicator.innerHTML = '<p><img src="images/saved.svg" width="12" height="12" >Saved</p>';
 		} else {
-			this.lastModIndicator.innerHTML = '<p><img src="https://b7.pngbarn.com/png/563/147/arrow-symbol-semicircle-arrow-png-clip-art.png" width=12 height=12/>Saving</p>';
+			this.lastModIndicator.innerHTML = '<p><img src="images/saving.svg" width="12" height="12" >Saving</p>';
 		}
 		return;
 	},
@@ -427,7 +427,9 @@ L.Map = L.Evented.extend({
 		}
 		this._progressBar.delayedStart(this, label, bar);
 	},
+	showShareDialogue: function () {
 
+	}
 	hideBusy: function () {
 		if (window.ThisIsTheAndroidApp)
 			return;
