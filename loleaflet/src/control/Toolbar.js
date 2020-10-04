@@ -179,7 +179,7 @@ L.Map.include({
 		this.fire('inserturl', {url: url});
 	},
 	showShareDialogue: function () {
-		this.fire("showShareDialogue", {});
+		this.fire('showShareDialogue', {});
 	},
 	selectBackground: function (file) {
 		this.fire('selectbackground', {file: file});

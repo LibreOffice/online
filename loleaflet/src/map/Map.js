@@ -429,7 +429,7 @@ L.Map = L.Evented.extend({
 	},
 	showShareDialogue: function () {
 
-	}
+	},
 	hideBusy: function () {
 		if (window.ThisIsTheAndroidApp)
 			return;
