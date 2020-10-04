@@ -386,7 +386,7 @@ L.Map = L.Evented.extend({
 		if (lastModButton !== null && lastModButton !== undefined
 			&& lastModButton.firstChild.innerHTML !== null
 			&& lastModButton.firstChild.childElementCount == 0) {
-			var mainSpan = documentcreateElement('span');
+			var mainSpan = document.createElement('span');
 			//var label = document.createTextNode(_('Last modification'));
 			//var separator = document.createElement('img');
 			this.lastModIndicator = document.createElement('span');
