@@ -238,28 +238,27 @@
 
 .writer-icon-img {
 	background-image: url('images/edgedrive_logo.svg');
-	background-size: 30px 36px;
+	background-size: 36px 30px;
 	background-repeat: no-repeat;
 	background-position: bottom;
 }
 
 .calc-icon-img {
     background-image: url('images/edgedrive_logo.svg');
-    background-size: 30px 36px;
+    background-size: 36px 30px;
     background-repeat: no-repeat;
     background-position: bottom;
 }
 
 .impress-icon-img {
     background-image: url('images/edgedrive_logo.svg');
-    background-size: 30px 36px;
+    background-size: 36px 30px;
     background-repeat: no-repeat;
     background-position: bottom;
 }
 
 #menu-last-mod a {
     color: grey;
-    text-decoration: underline;
     padding: 8px 15px 7px 15px;
     z-index: 500;
     border: 1px solid transparent;

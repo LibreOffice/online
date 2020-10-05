@@ -44,8 +44,9 @@ L.Control.DocumentNameInput = L.Control.extend({
 		this.map._onGotFocus();
 	},
 
-	onDocumentNameKeyPress: function(e) {
-		$('#document-name-input').css('width',(($('#document-name-input').val().length + 1) * 10) + 'px');
+	onDocumentNameKeyPress: function (e) {
+            console.log('key pressed', e.keyCode);
+            $('#document-name-input').css('width',(($('#document-name-input').val().length + 1) * 10) + 'px');
 		if (e.keyCode === 13) { // Enter key
 			this.documentNameConfirm();
 		} else if (e.keyCode === 27) { // Escape key
@@ -110,7 +111,7 @@ L.Control.DocumentNameInput = L.Control.extend({
 			$('#document-title-pencil').addClass('editable');
 			$('#document-name-input').off('keypress', this.onDocumentNameKeyPress).on('keypress', this.onDocumentNameKeyPress.bind(this));
 			$('#document-name-input').off('focus', this.onDocumentNameFocus).on('focus', this.onDocumentNameFocus.bind(this));
-			$('#document-name-input').off('blur', this.documentNameCancel).on('blur', this.documentNameCancel.bind(this));
+			$('#document-name-input').off('blur', this.documentNameConfirm).on('blur', this.documentNameConfirm.bind(this));
 		} else {
 			$('#document-name-input').prop('disabled', true);
 			$('#document-name-input').removeClass('editable');
