@@ -45,8 +45,8 @@ L.Control.DocumentNameInput = L.Control.extend({
 	},
 
 	onDocumentNameKeyPress: function (e) {
-            console.log('key pressed', e.keyCode);
-            $('#document-name-input').css('width',(($('#document-name-input').val().length + 1) * 10) + 'px');
+		console.log('key pressed', e.keyCode);
+		$('#document-name-input').css('width',(($('#document-name-input').val().length + 1) * 10) + 'px');
 		if (e.keyCode === 13) { // Enter key
 			this.documentNameConfirm();
 		} else if (e.keyCode === 27) { // Escape key
