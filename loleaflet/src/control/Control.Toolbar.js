@@ -147,9 +147,9 @@ function onClick(e, id, item) {
 		map.fire('languagedialog');
 	}
 	else if (id === 'share' || id === 'shareas') {
-		console.log("sharedocument dialog show");
+		console.log('sharedocument dialog show');
 		this.fire('postMessage', { msgId: 'Doc_ShareDocument' });
-        }
+	}
 
 }
 
