@@ -146,7 +146,7 @@ function onClick(e, id, item) {
 	else if (id === 'languagecode') {
 		map.fire('languagedialog');
 	}
-	else if (id === 'share' || id === 'shareas') {
+	else if (id === 'ShareDocument' || id === 'shareas') {
 		console.log('sharedocument dialog show');
 		this.fire('postMessage', { msgId: 'Doc_ShareDocument' });
 	}
