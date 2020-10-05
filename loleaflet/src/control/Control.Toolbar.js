@@ -148,7 +148,7 @@ function onClick(e, id, item) {
 	}
 	else if (id === 'ShareDocument' || id === 'shareas') {
 		console.log('sharedocument dialog show');
-		this.fire('postMessage', { msgId: 'Doc_ShareDocument' });
+		map.fire('postMessage', { msgId: 'Doc_ShareDocument' });
 	}
 
 }
