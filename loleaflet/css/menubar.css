@@ -22,7 +22,7 @@
 
 .document-logo {
 	position: relative;
-	width: 22px;
+	width: 30px;
 	height: 30px;
 }
 
@@ -238,7 +238,7 @@
 
 .writer-icon-img {
 	background-image: url('images/edgedrive_logo.svg');
-	background-size: 26px 26px;
+	background-size: 30px 30px;
 	background-repeat: no-repeat;
 	background-position: bottom;
 }
