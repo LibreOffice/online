@@ -68,7 +68,7 @@ function onClick(e, id, item) {
 	}
 
 	if (item.postmessage && item.type === 'button') {
-		map.fire('postMessage', {msgId: 'Clicked_Button', args: {Id: item.id} });
+		map.fire('postMessage', { msgId: 'Clicked_Button', args: { Id: item.id } });
 	}
 	else if (item.uno) {
 		if (item.unosheet && map.getDocType() === 'spreadsheet') {
@@ -84,7 +84,7 @@ function onClick(e, id, item) {
 	else if (id === 'save') {
 		// Save only when not read-only.
 		if (map._permission !== 'readonly') {
-			map.fire('postMessage', {msgId: 'UI_Save'});
+			map.fire('postMessage', { msgId: 'UI_Save' });
 			if (!map._disableDefaultAction['UI_Save']) {
 				map.save(false /* An explicit save should terminate cell edit */, false /* An explicit save should save it again */);
 			}
@@ -109,7 +109,7 @@ function onClick(e, id, item) {
 		L.DomUtil.get('insertgraphic').click();
 	}
 	else if (item.id === 'remotegraphic') {
-		map.fire('postMessage', {msgId: 'UI_InsertGraphic'});
+		map.fire('postMessage', { msgId: 'UI_InsertGraphic' });
 	}
 	else if (id === 'fontcolor' && typeof e.color === 'undefined') {
 		map.fire('mobilewizard', getColorPickerData('Font Color'));
@@ -133,8 +133,8 @@ function onClick(e, id, item) {
 		if (window.ThisIsAMobileApp) {
 			window.postMobileMessage('BYE');
 		} else {
-			map.fire('postMessage', {msgId: 'close', args: {EverModified: map._everModified, Deprecated: true}});
-			map.fire('postMessage', {msgId: 'UI_Close', args: {EverModified: map._everModified}});
+			map.fire('postMessage', { msgId: 'close', args: { EverModified: map._everModified, Deprecated: true } });
+			map.fire('postMessage', { msgId: 'UI_Close', args: { EverModified: map._everModified } });
 		}
 		if (!map._disableDefaultAction['UI_Close']) {
 			map.remove();
@@ -146,6 +146,11 @@ function onClick(e, id, item) {
 	else if (id === 'languagecode') {
 		map.fire('languagedialog');
 	}
+	else if (id === 'share' || id === 'shareas') {
+		console.log("sharedocument dialog show");
+		this.fire('postMessage', { msgId: 'Doc_ShareDocument' });
+        }
+
 }
 
 function _setBorders(left, right, bottom, top, horiz, vert, color) {

@@ -178,9 +178,6 @@ L.Map.include({
 	insertURL: function (url) {
 		this.fire('inserturl', {url: url});
 	},
-	showShareDialogue: function () {
-		this.fire('showShareDialogue', {});
-	},
 	selectBackground: function (file) {
 		this.fire('selectbackground', {file: file});
 	},

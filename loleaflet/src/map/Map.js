@@ -386,19 +386,18 @@ L.Map = L.Evented.extend({
 		if (lastModButton !== null && lastModButton !== undefined
 			&& lastModButton.firstChild.innerHTML !== null
 			&& lastModButton.firstChild.childElementCount == 0) {
-			var mainSpan = document.createElement('span');
+			
 			//var label = document.createTextNode(_('Last modification'));
 			//var separator = document.createElement('img');
 			this.lastModIndicator = document.createElement('span');
 			//mainSpan.appendChild(label);
 			//mainSpan.appendChild(separator);
-			mainSpan.appendChild(this.lastModIndicator);
-
+			
 			this.updateModificationIndicator('s');
 
 			// Replace menu button body with new content
 			lastModButton.firstChild.innerHTML = '';
-			lastModButton.firstChild.appendChild(mainSpan);
+			lastModButton.firstChild.appendChild(this.lastModIndicator);
 
 			if (L.Params.revHistoryEnabled) {
 				L.DomUtil.setStyle(lastModButton, 'cursor', 'pointer');
@@ -408,9 +407,9 @@ L.Map = L.Evented.extend({
 
 	updateModificationIndicator: function (newModificationTime) {
 		if (newModificationTime == 's') {
-			this.lastModIndicator.innerHTML = '<p><img src="images/saved.svg" width="12" height="12" >Saved</p>';
+			this.lastModIndicator.innerHTML = '<img style="vertical-align: bottom" src="images/saved.svg" width="16" height="16"><span>Saved</span>';
 		} else {
-			this.lastModIndicator.innerHTML = '<p><img src="images/saving.svg" width="12" height="12" >Saving</p>';
+			this.lastModIndicator.innerHTML = '<img style="vertical-align: bottom" src="images/saved.svg" width="16" height="16"><span>Saving</span>';
 		}
 		return;
 	},
@@ -427,9 +426,7 @@ L.Map = L.Evented.extend({
 		}
 		this._progressBar.delayedStart(this, label, bar);
 	},
-	showShareDialogue: function () {
 
-	},
 	hideBusy: function () {
 		if (window.ThisIsTheAndroidApp)
 			return;

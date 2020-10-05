@@ -1218,7 +1218,8 @@ L.Control.Menubar = L.Control.extend({
 			this._map.fire('showwizardsidebar');
 			window.pageMobileWizard = true;
 		} else if (id === 'sharedocument') {
-			this._map.showShareDialogue();
+			console.log("sharedocument dialog show");
+			this.fire('postMessage', { msgId: 'Doc_ShareDocument' });
 		}
 		// Inform the host if asked
 		if (postmessage)
