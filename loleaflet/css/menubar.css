@@ -257,6 +257,43 @@
     background-position: bottom;
 }
 
+.office-share-button {
+    width: 95px;
+    float: left;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+    font-weight: 500;
+    font-size: 14px;
+    height: 36px;
+    letter-spacing: 0.25px;
+    line-height: 16px;
+    background: rgb(26, 115, 232);
+    color: rgb(255, 255, 255);
+    padding: 8px 16px 10px 32px;
+    text-transform: capitalize;
+    border: 1px solid transparent !important;
+    position: relative;
+    background-color: #0071bc;
+}
+
+.office-share-button:hover {
+    background: #0786d8;
+}
+
+.office-share-button:before {
+    z-index: 10;
+    background: url(../images/office-sprite-icon.svg) no-repeat 2px 3px;
+    content: '';
+    position: absolute;
+    margin: 0 auto;
+    width: 22px;
+    height: 19px;
+    left: 10px;
+    top: 7px;
+}
+
 #menu-last-mod a {
     color: grey;
     padding: 8px 15px 7px 15px;
