@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-07-29 07:14+0000\n"
+"PO-Revision-Date: 2020-10-05 19:35+0000\n"
 "Last-Translator: Євген Кондратюк <lachend@gmail.com>\n"
 "Language-Team: Ukrainian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/uk/>\n"
 "Language: uk\n"
@@ -52,14 +52,12 @@ msgid "Paste as unformatted text"
 msgstr "Вставити як неформатований текст"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:26-70
-#, fuzzy
-#| msgid "Ctrl + Shift + ?"
 msgid "Ctrl + Shift + V"
-msgstr "Ctrl + Shift + ?"
+msgstr "Ctrl + Shift + V"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:27-18
 msgid "Paste special"
-msgstr ""
+msgstr "Спеціальна вставка"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:27-58
 msgid "Ctrl + Alt + Shift + V"
@@ -1173,11 +1171,11 @@ msgstr "Коли <span class=\"productname\">%productName</span> виявляє,
 
 #: html/loleaflet-help.html%2Bdiv.p:300-5
 msgid "To continue editing, click on the document and the layover and message disappear. Any changes that may have been made by other users – while collaboratively editing the document – are re-loaded."
-msgstr ""
+msgstr "Щоб продовжити редагування, клацніть на документі; повідомлення та затінення зникнуть. Будь-які зміни, зроблені іншими користувачами – під час спільного редагування документа – дозавантажаться."
 
 #: html/loleaflet-help.html%2Bdiv.h4:301-5
 msgid "Pasting"
-msgstr ""
+msgstr "Вставка"
 
 #: html/loleaflet-help.html%2Bdiv.p:302-5
 msgid "When you paste content copied from within the same document, the format and elements are maintained. If you copy from another document, in another tab or browser window, or from outside of the browser, the pasted content will preserve rich text."
