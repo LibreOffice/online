@@ -73,13 +73,19 @@
 }
 
 .lo-menu > li > a, .lo-menu > li > a.has-submenu {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 8px;
     z-index: 500;
-    border-left: 1px solid #ffffff;
-    border-right: 1px solid #ffffff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
     border-top: 1px solid transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: none;
+    color: rgb(32, 33, 36);
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    padding: 6px 6px;
+    margin: 2px 4px 0;
 }
 
 .lo-menu {
@@ -104,14 +110,15 @@
     background: #ffffff; /* top-level menus remain greyish */
     border-left-color: transparent;
 }
-.lo-menu > li > a:hover, .lo-menu > li > a:focus, .lo-menu > li > a:active, .lo-menu > li > a.highlighted {
+.lo-menu>li>a:hover, .lo-menu>li>a:focus, .lo-menu>li>a:active, .lo-menu>li>a.highlighted {
     background: #fff;
     color: #000;
-    border-color: #bbbbbb;
-    border-bottom: 1px solid #bbb;
+    border-color: #e2e1e1;
+    background-color: #f5f5f5;
+    border-radius: 2px;
 }
 .lo-menu > li > a.highlighted {
-    border-bottom-color: #fff;
+    border-bottom-color: #f5f5f5;
 }
 .lo-menu > li > ul {
     margin-top: -1px !important;
@@ -238,7 +245,7 @@
 
 .writer-icon-img {
 	background-image: url('images/edgedrive_logo.svg');
-	background-size: 36px 30px;
+	background-size: 80%;
 	background-repeat: no-repeat;
 	background-position: bottom;
 }
@@ -258,7 +265,7 @@
 }
 
 .office-share-button {
-    width: 95px;
+    width: 75px;
     float: left;
     cursor: pointer;
     border-radius: 4px;
@@ -284,7 +291,7 @@
 
 .office-share-button:before {
     z-index: 10;
-    background: url(../images/office-sprite-icon.svg) no-repeat 2px 3px;
+    background: url(images/office-sprite-icon.svg) no-repeat 2px 3px;
     content: '';
     position: absolute;
     margin: 0 auto;
@@ -296,7 +303,10 @@
 
 #menu-last-mod a {
     color: grey;
-    padding: 8px 15px 7px 15px;
+    padding: 5px 15px 7px 15px;
     z-index: 500;
     border: 1px solid transparent;
 }
+
+.lo-menu>li#menu-last-mod>a:hover, .lo-menu>li#menu-last-mod>a:focus, .lo-menu>li#menu-last-mod>a:active, .lo-menu>li#menu-last-mod>a.highlighted
+{font-size: 14px;border: 1px solid transparent;  background-color:transparent;}

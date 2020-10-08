@@ -2944,7 +2944,7 @@ button.w2ui-btn-small:focus:before {
   width: 22px;
   height: 16px;
   padding: 0;
-  margin: 0px 1px!important;
+  margin: 0px 6px!important;
   border: 0!important;
   text-align: center;
 }
@@ -2983,8 +2983,12 @@ button.w2ui-btn-small:focus:before {
   margin-top: 5px;
 }
 .w2ui-toolbar table.w2ui-button.over {
-  border: 1px solid #cccccc;
-  background-color: #eeeeee;
+  border: 1px solid #ccc;
+    background: #fff;
+    color: #000;
+    border-color: #e2e1e1;
+    background-color: #f5f5f5;
+    border-radius: 2px;
 }
 .w2ui-toolbar table.w2ui-button.over .w2ui-tb-caption {
   color: #000000;
@@ -2997,8 +3001,12 @@ button.w2ui-btn-small:focus:before {
   color: #666666;
 }
 .w2ui-toolbar table.w2ui-button.checked {
-  border: 1px solid #aaaaaa;
-  background-color: #ffffff;
+  background: #fff;
+  color: #000;
+  border-color: #e2e1e1;
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  margin: 4px !important;
 }
 .w2ui-toolbar table.w2ui-button.checked .w2ui-tb-caption {
   color: #000000;
@@ -3244,4 +3252,28 @@ button.w2ui-btn-small:focus:before {
 }
 .w2ui-listview > ul > li div.icon-none {
   border: 1px solid rgba(102, 102, 102, 0.35);
+}
+
+w2ui-toolbar table.w2ui-button .w2ui-tb-image.insertgraphic{
+  width: 17px !important;
+  height: 17px !important;
+}
+.w2ui-toolbar table.w2ui-button .w2ui-tb-image.annotation {
+  width: 16px !important;
+  height: 16px !important;
+  margin-top: 3px !important;
+}
+.w2ui-toolbar table.w2ui-button .w2ui-tb-image.inserttable {
+  width: 16px !important;
+  height: 16px !important;
+  margin-top: 1px !important;
+}
+.w2ui-toolbar table.w2ui-button .w2ui-tb-image.insertobjectchart {
+  width: 20px !important;
+  height: 20px !important;
+}
+.w2ui-toolbar table.w2ui-button .w2ui-tb-image.w2ui-icon.backcolor {
+  width: 20px !important;
+  height: 20px !important;
+  margin-top: 7px !important;
 }
