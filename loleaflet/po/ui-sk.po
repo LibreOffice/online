@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-09-16 10:39+0000\n"
+"PO-Revision-Date: 2020-10-07 10:35+0000\n"
 "Last-Translator: Miloš Šrámek <msramek22@gmail.com>\n"
 "Language-Team: Slovak <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/sk/>\n"
 "Language: sk\n"
@@ -310,7 +310,7 @@ msgstr " s"
 
 #: src/control/Parts.js:377
 msgid "Show Selected Sheets"
-msgstr ""
+msgstr "Zobraziť vybrané hárky"
 
 #: src/control/ColorPicker.js:129
 msgid "No color"

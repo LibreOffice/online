@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-09-12 22:35+0000\n"
+"PO-Revision-Date: 2020-10-02 05:55+0000\n"
 "Last-Translator: Mihail Balabanov <m.balabanov@gmail.com>\n"
 "Language-Team: Bulgarian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/bg/>\n"
 "Language: bg\n"
@@ -310,7 +310,7 @@ msgstr " с"
 
 #: src/control/Parts.js:377
 msgid "Show Selected Sheets"
-msgstr ""
+msgstr "Показване на избраните листове"
 
 #: src/control/ColorPicker.js:129
 msgid "No color"
