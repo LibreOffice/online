@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-09-16 10:39+0000\n"
+"PO-Revision-Date: 2020-10-04 04:35+0000\n"
 "Last-Translator: Christian Kühl <kuehl.christian@googlemail.com>\n"
 "Language-Team: German <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/de/>\n"
 "Language: de\n"
@@ -309,7 +309,7 @@ msgstr " Sekunden"
 
 #: src/control/Parts.js:377
 msgid "Show Selected Sheets"
-msgstr ""
+msgstr "Ausgewählte Tabellen anzeigen"
 
 #: src/control/ColorPicker.js:129
 msgid "No color"

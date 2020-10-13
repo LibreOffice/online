@@ -105,4 +105,9 @@
     <string name="app_version_and_hash">Verze: %1$s
 \ngit-hash pro online: %2$s
 \ngit-hash pro core: %3$s</string>
+    <string name="theme_light">Světlý</string>
+    <string name="theme_dark">Tmavý</string>
+    <string name="theme_system_default">Výchozí systémový</string>
+    <string name="choose_theme">Zvolit motiv vzhledu</string>
+    <string name="theme">Nastavení motivu vzhledu</string>
 </resources>
