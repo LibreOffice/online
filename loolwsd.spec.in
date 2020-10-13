@@ -78,6 +78,7 @@ make %{?_smp_mflags}
 %install
 make install DESTDIR=%{buildroot}
 %__install -D -m 444 loolwsd.service %{buildroot}%{_unitdir}/loolwsd.service
+%__install -D -m 444 loolwsd.timer %{buildroot}%{_unitdir}/loolwsd.service
 install -d -m 755 %{buildroot}/var/adm/fillup-templates
 %if 0%{?fedora} || 0%{?rhel} >= 7
 install -D -m 644 sysconfig.loolwsd %{buildroot}/etc/sysconfig/loolwsd
@@ -86,9 +87,6 @@ install -D -m 644 sysconfig.loolwsd %{buildroot}/etc/sysconfig/loolwsd
 install -D -m 644 sysconfig.loolwsd %{buildroot}/var/adm/fillup-templates
 %endif
 %endif
-mkdir -p %{buildroot}/etc/cron.d
-echo "#Remove old tiles once every 10 days at midnight" > %{buildroot}/etc/cron.d/loolwsd.cron
-echo "0 0 */1 * * root find /var/cache/loolwsd -type f -a -atime +10 -exec rm {} \;" >> %{buildroot}/etc/cron.d/loolwsd.cron
 mkdir -p %{buildroot}/etc/pam.d
 echo "auth       required     pam_unix.so" > %{buildroot}/etc/pam.d/loolwsd
 echo "account    required     pam_unix.so" >>  %{buildroot}/etc/pam.d/loolwsd
@@ -116,6 +114,7 @@ echo "account    required     pam_unix.so" >>  %{buildroot}/etc/pam.d/loolwsd
 /usr/share/man/man1/loolwsd-systemplate-setup.1
 /usr/share/man/man1/loolwsd-generate-proof-key.1
 %{_unitdir}/loolwsd.service
+%{_unitdir}/loolwsd.timer
 %if 0%{?fedora} || 0%{?rhel} >= 7
 %config(noreplace) /etc/sysconfig/loolwsd
 %else
@@ -124,7 +123,6 @@ echo "account    required     pam_unix.so" >>  %{buildroot}/etc/pam.d/loolwsd
 %endif
 %endif
 
-%config(noreplace) /etc/cron.d/loolwsd.cron
 %config(noreplace) /etc/pam.d/loolwsd
 %config(noreplace) %attr(640, lool, root) /etc/loolwsd/loolwsd.xml
 %config /etc/loolwsd/loolkitconfig.xcu
@@ -133,7 +131,7 @@ echo "account    required     pam_unix.so" >>  %{buildroot}/etc/pam.d/loolwsd
 
 %pre
 %if 0%{?suse_version}
-%service_add_pre loolwsd.service
+%service_add_pre loolwsd.service loolwsd.timer
 %endif
 
 getent group lool >/dev/null || groupadd -r lool
@@ -161,10 +159,10 @@ loolwsd-systemplate-setup ${loolparent}/lool/systemplate ${loroot} >/dev/null 2>
 loolwsd-generate-proof-key >/dev/null 2>&1
 
 %if 0%{?fedora} || 0%{?rhel} >= 7
-%systemd_post loolwsd.service
+%systemd_post loolwsd.service loolwsd.timer
 %else
 %if 0%{?suse_version}
-%service_add_post loolwsd.service
+%service_add_post loolwsd.service loolwsd.timer
 %{fillup_only -n loolwsd}
 %endif
 %endif
@@ -172,19 +170,19 @@ loolwsd-generate-proof-key >/dev/null 2>&1
 
 %preun
 %if 0%{?fedora} || 0%{?rhel} >= 7
-%systemd_preun loolwsd.service
+%systemd_preun loolwsd.service loolwsd.timer
 %else
 %if 0%{?suse_version}
-%service_del_preun loolwsd.service
+%service_del_preun loolwsd.service loolwsd.timer
 %endif
 %endif
 
 %postun
 %if 0%{?fedora} || 0%{?rhel} >= 7
-%systemd_postun loolwsd.service
+%systemd_postun loolwsd.service loolwsd.timer
 %else
 %if 0%{?suse_version}
-%service_del_postun loolwsd.service
+%service_del_postun loolwsd.service loolwsd.timer
 %endif
 %endif
 

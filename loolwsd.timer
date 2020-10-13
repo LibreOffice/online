@@ -1,0 +1,13 @@
+[Unit]
+Description=LibreOffice Online Timer: Remove old tiles once every 10 days at midnight
+After=loolwsd.service
+
+[Timer]
+OnActiveSec=1h
+OnUnitActiveSec=10d
+ExecStart=find /var/cache/loolwsd -type f -a -atime +10 -exec rm {} \;
+Unit=loolwsd.timer
+User=root
+
+[Install]
+WantedBy=timers.target

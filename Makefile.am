@@ -303,6 +303,7 @@ EXTRA_DIST = discovery.xml \
              loolwsd.spec \
              loolwsd.xml.in \
              loolwsd.service \
+             loolwsd.timer\
              sysconfig.loolwsd \
              debian/compat \
              debian/copyright \
