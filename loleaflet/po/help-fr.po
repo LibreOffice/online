@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-03-27 17:04+0000\n"
+"PO-Revision-Date: 2020-10-02 05:55+0000\n"
 "Last-Translator: sophie <gautier.sophie@gmail.com>\n"
 "Language-Team: French <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/fr/>\n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 4.1.1\n"
 "X-Pootle-Path: /fr/libo_online/loleaflet-help-fr.po\n"
 "X-Pootle-Revision: 3339432\n"
 
@@ -52,14 +52,12 @@ msgid "Paste as unformatted text"
 msgstr "Coller comme texte non formaté"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:26-70
-#, fuzzy
-#| msgid "Ctrl + Shift + ?"
 msgid "Ctrl + Shift + V"
-msgstr "Ctrl + Maj + ?"
+msgstr "Ctrl + Maj + V"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:27-18
 msgid "Paste special"
-msgstr ""
+msgstr "Collage spécial"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:27-58
 msgid "Ctrl + Alt + Shift + V"
@@ -1184,10 +1182,8 @@ msgid "When you paste content copied from within the same document, the format a
 msgstr "Lorsque vous collez du contenu copiez à partir du même document, le format et les éléments sont maintenus. Si vous copiez à partir d'un autre document, d'un autre onglet ou d'un autre fenêtre du navigateur, ou en dehors du navigateur, le contenu collé conservera le texte riche."
 
 #: html/loleaflet-help.html%2Bdiv.p:303-5
-#, fuzzy
-#| msgid "You can paste as unformatted text with the keyboard shortcut: <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">Alt</span> + <span class=\"kbd\">Shift</span> + <span class=\"kbd\">V</span>"
 msgid "You can paste as unformatted text with the keyboard shortcut: <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">Shift</span> + <span class=\"kbd\">V</span>"
-msgstr "Vous pouvez coller en tant que texte non formaté avec la combinaison de touche : <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">Alt</span> + <span class=\"kbd\">Maj</span> + <span class=\"kbd\">V</span>"
+msgstr "Vous pouvez coller en tant que texte non formaté avec la combinaison de touche : <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">Maj</span> + <span class=\"kbd\">V</span>"
 
 #: html/loleaflet-help.html%2Bdiv.p:304-5
 msgid "When you paste text from within the document, formatting will be respected. You can also paste objects, such as images, if they are copied from the document you are working in."
@@ -1804,7 +1800,7 @@ msgstr "Ouvrez la présentation dans <span class=\"productname\">%productName</s
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p.img:570-11
 msgid "Either choose <span class=\"ui\">Slide Show</span> → <span class=\"ui\">Full Screen Presentation</span> or click on the left-most icon in the bottom of the slide panel: <img style=\"height:0.6cm;width:0.6cm;\" alt=\"\" src=\"images/lc_dia.svg\">"
-msgstr "Choisissez <span class=\"ui\">Diaporama</span> → <span class=\"ui\">Présentation en mode plein écran</span> ou cliquez sur l'icône la plus à gauche en bas du volet de diapositives : <img style=\"hauteur:0.6 cm;largeur:0.6 cm;\" alt=\"\" src=\"images/lc_dia.svg\">"
+msgstr "Choisissez <span class=\"ui\">Diaporama</span> → <span class=\"ui\">Présentation en mode plein écran</span> ou cliquez sur l'icône la plus à gauche en bas du volet de diapositives : <img style=\"height:0.6cm;width:0.6cm;\" alt=\"\" src=\"images/lc_dia.svg\">"
 
 #: html/loleaflet-help.html%2Bdiv.div.h4:572-5
 msgid "How can I change the line, area and position of a shape in my slides?"
