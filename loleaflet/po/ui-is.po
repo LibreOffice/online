@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-09-10 11:05+0000\n"
+"PO-Revision-Date: 2020-10-13 16:35+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/is/>\n"
 "Language: is\n"
@@ -61,23 +61,17 @@ msgid "User Name"
 msgstr "Notandanafn"
 
 #: admin/admin.strings.js:16
-#, fuzzy
-#| msgid "Documents opened"
 msgid "Documents open"
 msgstr "Opnuð skjöl"
 
 #: admin/admin.strings.js:17 admin/src/AdminSocketOverview.js:73
 #: admin/src/AdminSocketOverview.js:117 admin/src/AdminSocketOverview.js:328
-#, fuzzy
-#| msgid "0 users"
 msgid " user(s)."
-msgstr "0 notendur"
+msgstr " notendur."
 
 #: admin/admin.strings.js:18 admin/src/AdminSocketOverview.js:186
-#, fuzzy
-#| msgid "Documents opened"
 msgid " document(s) open."
-msgstr "Opnuð skjöl"
+msgstr " skjöl opin."
 
 #: admin/admin.strings.js:19
 msgid "Number of Documents"
@@ -105,7 +99,7 @@ msgstr "Skjal"
 
 #: admin/admin.strings.js:25
 msgid "Views"
-msgstr ""
+msgstr "Skoðanir"
 
 #: admin/admin.strings.js:26
 msgid "Elapsed time"
@@ -163,7 +157,7 @@ msgstr "Tíðni á athugunum með tölfræði örgjörva (í msek)"
 
 #: admin/admin.strings.js:39 admin/src/AdminSocketOverview.js:91
 msgid "Kill session."
-msgstr ""
+msgstr "Loka setu."
 
 #: admin/admin.strings.js:40
 msgid "Maximum Document process virtual memory (in MB) - reduce only"
@@ -316,7 +310,7 @@ msgstr " sek"
 
 #: src/control/Parts.js:377
 msgid "Show Selected Sheets"
-msgstr ""
+msgstr "Birta valin blöð"
 
 #: src/control/ColorPicker.js:129
 msgid "No color"
@@ -966,7 +960,7 @@ msgstr "Yfirfa~ra"
 #: src/control/Control.NotebookbarWriter.js:43
 #: src/control/Control.NotebookbarImpress.js:107
 msgid "Format"
-msgstr ""
+msgstr "Snið"
 
 #: src/control/Control.NotebookbarWriter.js:48
 #: src/control/Control.NotebookbarImpress.js:112
@@ -1454,10 +1448,8 @@ msgid "Resolve"
 msgstr "Leysa"
 
 #: src/layer/tile/TileLayer.js:826
-#, fuzzy
-#| msgid "Function Wizard"
 msgid "Functions"
-msgstr "Fallagerðarpúki"
+msgstr "Föll"
 
 #: src/map/Clipboard.js:137
 msgid "To paste outside %productName, please first click the 'download' button"
