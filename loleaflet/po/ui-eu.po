@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-09-25 13:37+0000\n"
+"PO-Revision-Date: 2020-10-20 14:20+0000\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersar@yahoo.com>\n"
 "Language-Team: Basque <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/eu/>\n"
 "Language: eu\n"
@@ -310,7 +310,7 @@ msgstr " s"
 
 #: src/control/Parts.js:377
 msgid "Show Selected Sheets"
-msgstr ""
+msgstr "Erakutsi orri hautatuak"
 
 #: src/control/ColorPicker.js:129
 msgid "No color"
