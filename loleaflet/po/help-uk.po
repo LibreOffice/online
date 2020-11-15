@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-10-18 20:35+0000\n"
+"PO-Revision-Date: 2020-11-15 09:47+0000\n"
 "Last-Translator: Євген Кондратюк <lachend@gmail.com>\n"
 "Language-Team: Ukrainian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/uk/>\n"
 "Language: uk\n"
@@ -1223,31 +1223,31 @@ msgstr "<span class=\"def\">Редагування діаграми:</span> Дв
 
 #: html/loleaflet-help.html%2Bdiv.p:321-5
 msgid "<span class=\"def\">Chart formatting:</span> The same context menu brings you to chart data table and chart type selection."
-msgstr ""
+msgstr "<span class=\"def\">Зміна формату діаграм:</span> Те саме контекстне меню надає доступ до таблиці даних і таблиці вибору типу діаграми."
 
 #: html/loleaflet-help.html%2Bdiv.p:322-5
 msgid "<span class=\"def\">Data series formatting:</span> Open the context menu and choose <span class=\"ui\">Format data series</span>."
-msgstr ""
+msgstr "<span class=\"def\">Форматування діапазонів даних:</span> Відкрийте контекстне меню і виберіть <span class=\"ui\">Формат діапазонів даних</span>."
 
 #: html/loleaflet-help.html%2Bdiv.h4:323-5
 msgid "Handling images"
-msgstr ""
+msgstr "Обробка зображень"
 
 #: html/loleaflet-help.html%2Bdiv.p:324-5
 msgid "<span class=\"productname\">%productName</span> inserts images in the text document from your local computer or from your cloud storage. Inserted images are always embedded in the document."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> вставляє зображення у текстовий документ з Вашого комп'ютера або із \"хмарного\" сховища. Вставлені зображення завжди вбудовуються в документ."
 
 #: html/loleaflet-help.html%2Bdiv.p:325-5
 msgid "<span class=\"def\">Insert image:</span> Clicking on the <span class=\"ui\">Insert image</span> icon allows you to choose an image from the cloud storage's folders and shares."
-msgstr ""
+msgstr "<span class=\"def\">Вставити зображення:</span> Натискання на піктограмі <span class=\"ui\">Вставити зображення</span> дозволяє вибрати зображення у каталогах та спільних ресурсах хмарних сервісів."
 
 #: html/loleaflet-help.html%2Bdiv.p:326-5
 msgid "<span class=\"def\">Insert local image:</span> opens the browser file picker to upload the image from your local computer and insert it into the document."
-msgstr ""
+msgstr "<span class=\"def\">Вставити локальне зображення:</span> відкриває оглядач файлів браузера, щоб вивантажити зображення з Вашого комп'ютера і вставити його в документ."
 
 #: html/loleaflet-help.html%2Bdiv.p:327-5
 msgid "Images can be resized, rotated and anchored. Text can be wrapped around the image. Select the image and open the context menu. Use the images handles to resize the image with the mouse."
-msgstr ""
+msgstr "Можна змінити розмір зображення, обернути і закріпити на сторінці. Текст можна зробити обтічним навколо зображення. Для цього виберіть зображення і відкрийте контекстне меню. Використовуйте краї граней зображення, щоб змінити його розмір мишею."
 
 #: html/loleaflet-help.html%2Bdiv.h4:328-5
 msgid "Comments in documents"
@@ -1255,15 +1255,15 @@ msgstr "Коментарі в документах"
 
 #: html/loleaflet-help.html%2Bdiv.p:329-5
 msgid "Insert comments in <span class=\"productname\">%productName</span> in places that need special reader attention. Comments are displayed on the right and carry the name and date of the issuer."
-msgstr ""
+msgstr "Вставляйте коментарі у <span class=\"productname\">%productName</span> у місцях, вартих особливої уваги читача. Коментарі розміщено справа і вони містять ім'я підписанта та дату написання."
 
 #: html/loleaflet-help.html%2Bdiv.p.img:331-5
 msgid "Click on the submenu (<img style=\"height:0.6cm;width:0.6cm;\" alt=\"\" src=\"images/submenu.svg\">) icon to reply, move and delete comments."
-msgstr ""
+msgstr "Натисніть значок підменю (<img style=\"height:0.6cm;width:0.6cm;\" alt=\"\" src=\"images/submenu.svg\">) щоб відповісти, перемістити чи видалити коментарі."
 
 #: html/loleaflet-help.html%2Bdiv.h4:332-5
 msgid "Spellchecking"
-msgstr ""
+msgstr "Перевірка правопису"
 
 #: html/loleaflet-help.html%2Bdiv.p:333-5
 msgid "<span class=\"productname\">%productName</span> can check spelling in text documents, spreadsheets and presentations. A red wavy underline indicates misspelled words. Click on the right mouse button to open a context menu with suggested misspelling corrections."
