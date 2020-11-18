@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-10-18 20:35+0000\n"
+"PO-Revision-Date: 2020-11-18 19:35+0000\n"
 "Last-Translator: Євген Кондратюк <lachend@gmail.com>\n"
 "Language-Team: Ukrainian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/uk/>\n"
 "Language: uk\n"
@@ -1223,31 +1223,31 @@ msgstr "<span class=\"def\">Редагування діаграми:</span> Дв
 
 #: html/loleaflet-help.html%2Bdiv.p:321-5
 msgid "<span class=\"def\">Chart formatting:</span> The same context menu brings you to chart data table and chart type selection."
-msgstr ""
+msgstr "<span class=\"def\">Зміна формату діаграм:</span> Те саме контекстне меню надає доступ до таблиці даних і таблиці вибору типу діаграми."
 
 #: html/loleaflet-help.html%2Bdiv.p:322-5
 msgid "<span class=\"def\">Data series formatting:</span> Open the context menu and choose <span class=\"ui\">Format data series</span>."
-msgstr ""
+msgstr "<span class=\"def\">Форматування діапазонів даних:</span> Відкрийте контекстне меню і виберіть <span class=\"ui\">Формат діапазонів даних</span>."
 
 #: html/loleaflet-help.html%2Bdiv.h4:323-5
 msgid "Handling images"
-msgstr ""
+msgstr "Обробка зображень"
 
 #: html/loleaflet-help.html%2Bdiv.p:324-5
 msgid "<span class=\"productname\">%productName</span> inserts images in the text document from your local computer or from your cloud storage. Inserted images are always embedded in the document."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> вставляє зображення у текстовий документ з Вашого комп'ютера або із \"хмарного\" сховища. Вставлені зображення завжди вбудовуються в документ."
 
 #: html/loleaflet-help.html%2Bdiv.p:325-5
 msgid "<span class=\"def\">Insert image:</span> Clicking on the <span class=\"ui\">Insert image</span> icon allows you to choose an image from the cloud storage's folders and shares."
-msgstr ""
+msgstr "<span class=\"def\">Вставити зображення:</span> Натискання на піктограмі <span class=\"ui\">Вставити зображення</span> дозволяє вибрати зображення у каталогах та спільних ресурсах хмарних сервісів."
 
 #: html/loleaflet-help.html%2Bdiv.p:326-5
 msgid "<span class=\"def\">Insert local image:</span> opens the browser file picker to upload the image from your local computer and insert it into the document."
-msgstr ""
+msgstr "<span class=\"def\">Вставити локальне зображення:</span> відкриває оглядач файлів браузера, щоб вивантажити зображення з Вашого комп'ютера і вставити його в документ."
 
 #: html/loleaflet-help.html%2Bdiv.p:327-5
 msgid "Images can be resized, rotated and anchored. Text can be wrapped around the image. Select the image and open the context menu. Use the images handles to resize the image with the mouse."
-msgstr ""
+msgstr "Можна змінити розмір зображення, обернути і закріпити на сторінці. Текст можна зробити обтічним навколо зображення. Для цього виберіть зображення і відкрийте контекстне меню. Використовуйте краї граней зображення, щоб змінити його розмір мишею."
 
 #: html/loleaflet-help.html%2Bdiv.h4:328-5
 msgid "Comments in documents"
@@ -1255,43 +1255,43 @@ msgstr "Коментарі в документах"
 
 #: html/loleaflet-help.html%2Bdiv.p:329-5
 msgid "Insert comments in <span class=\"productname\">%productName</span> in places that need special reader attention. Comments are displayed on the right and carry the name and date of the issuer."
-msgstr ""
+msgstr "Вставляйте коментарі у <span class=\"productname\">%productName</span> у місцях, вартих особливої уваги читача. Коментарі розміщено справа і вони містять ім'я підписанта та дату написання."
 
 #: html/loleaflet-help.html%2Bdiv.p.img:331-5
 msgid "Click on the submenu (<img style=\"height:0.6cm;width:0.6cm;\" alt=\"\" src=\"images/submenu.svg\">) icon to reply, move and delete comments."
-msgstr ""
+msgstr "Натисніть значок підменю (<img style=\"height:0.6cm;width:0.6cm;\" alt=\"\" src=\"images/submenu.svg\">) щоб відповісти, перемістити чи видалити коментарі."
 
 #: html/loleaflet-help.html%2Bdiv.h4:332-5
 msgid "Spellchecking"
-msgstr ""
+msgstr "Перевірка правопису"
 
 #: html/loleaflet-help.html%2Bdiv.p:333-5
 msgid "<span class=\"productname\">%productName</span> can check spelling in text documents, spreadsheets and presentations. A red wavy underline indicates misspelled words. Click on the right mouse button to open a context menu with suggested misspelling corrections."
-msgstr ""
+msgstr "<span class=\"productname\">%productName</span> може перевіряти правопис у текстових документах, електронних таблицях та презентаціях. Червоне хвилясте підкреслення вказує на неправильне слово. Викличте правою кнопкою миші контекстне меню, щоб вибрати варіант виправлення."
 
 #: html/loleaflet-help.html%2Bdiv.p:335-5
 msgid "To systematically spell-check the whole document use the <span class=\"ui\">Tools</span> menu’s <span class=\"ui\">Spelling</span> option."
-msgstr ""
+msgstr "Щоб завжди перевіряти правопис усього документа, використовуйте в меню <span class=\"ui\">Засоби</span> параметр <span class=\"ui\">Перевірка правопису</span>."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:341-5
 msgid "You edit an online spreadsheet in the same way you edit a desktop spreadsheet. Operations like entering data, selecting ranges, columns, rows or sheets are the same. Use the keyboard, menus or toolbar to command actions in the spreadsheet. Dragging cells contents to fill cells with data is also supported. Copy, cut and paste commands are available from the context menu. Following entered data with a <span class=\"kbd\">Tab</span> will move the cursor to the next cell to the right, and with an <span class=\"kbd\">Enter</span> to the cell below for easy further data entry."
-msgstr ""
+msgstr "Ви редагуєте електронну таблицю в Інтернеті так само, як редагуєте її у програмі на своєму комп'ютері. Такі операції, як введення даних, вибір діапазонів, стовпців, рядків або аркушів, однакові. Використовуйте клавіатуру, меню або панель інструментів для виконання дій у електронній таблиці. Також підтримується перетягування вмісту комірок для заповнення комірок даними. Команди копіювання, вирізання та вставки доступні в контекстному меню. Ввівши дані, використовуйте клавішу <span class=\"kbd\">Tab</span>, щоб перемістити курсор у комірку справа,  а клавішу <span class=\"kbd\">Enter</span>, щоб переміститись на одну комірку вниз."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:344-5
 msgid "Formulas are entered in the formula bar. Enter '=' and insert the formula."
-msgstr ""
+msgstr "Формули вводять у рядку формул. Введіть '=' і вставте формулу."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:345-5
 msgid "All spreadsheets functions and mathematical rules applies."
-msgstr ""
+msgstr "Застосовуються всі функції електронних таблиць та всі математичні правила."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:347-5
 msgid "The formula language should be extremely familiar to any spreadsheet user, and is specified in great detail in the <a href=\"https://www.oasis-open.org/committees/download.php/16826/openformula-spec-20060221.html\">OASIS OpenFormula specification</a>."
-msgstr ""
+msgstr "Мова формул повинна бути знайомою кожному користувачеві електронних таблиць і детально описана в <a href=\"https://www.oasis-open.org/committees/download.php/16826/openformula-spec-20060221.html\">специфікації OASIS OpenFormula </a>."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:350-5
 msgid "<span class=\"def\">Direct formatting:</span> You can format spreadsheets cells, columns, rows and sheets by formatting directly from the menus, toolbar or context menus. Direct formatting applies only to the current object selected. To format a cell either use the menu or hit <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">1</span>. The dialog allows complex and custom number formatting, as well as font, complex border, background, cell protection and other options."
-msgstr ""
+msgstr "<span class=\"def\">Пряме форматування:</span> Ви можете форматувати комірки, стовпці, рядки та аркуші електронних таблиць, форматуючи безпосередньо з меню, панелі інструментів або контекстного меню. Пряме форматування застосовується лише до поточного вибраного об’єкта. Для форматування комірки скористайтеся меню або натисніть <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">1</span>. Це діалогове вікно дозволяє складне та спеціальне форматування чисел, а також налаштування шрифта, границь, фону, захист комірки та інші параметри."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:354-5
 msgid "<span class=\"def\">Sorting data:</span> You can sort a list of numbers or text ascending or descending. <span class=\"productname\">%productName</span> automatically detects cells that are headers, and adjoining columns, to extend the selection."
