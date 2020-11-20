@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-07-21 11:30+0000\n"
+"PO-Revision-Date: 2020-11-19 11:08+0000\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/id/>\n"
 "Language: id\n"
@@ -52,14 +52,12 @@ msgid "Paste as unformatted text"
 msgstr "Tempel sebagai surat tak terformat"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:26-70
-#, fuzzy
-#| msgid "Ctrl + Shift + ?"
 msgid "Ctrl + Shift + V"
-msgstr "Ctrl + Shift + ?"
+msgstr "Ctrl + Shift + V"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:27-18
 msgid "Paste special"
-msgstr ""
+msgstr "Tempel khusus"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:27-58
 msgid "Ctrl + Alt + Shift + V"
