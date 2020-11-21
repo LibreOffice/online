@@ -105,4 +105,9 @@
     <string name="failed_to_load_file">Malsukcesis decidi dosieron ŝargotan</string>
     <string name="storage_permission_required">Permeso bezonata por konservi</string>
     <string name="file_creation_failed">Malsukcesis krei dosieron</string>
+    <string name="theme_light">Hela</string>
+    <string name="theme_dark">Malhela</string>
+    <string name="theme_system_default">Sisteme apriora</string>
+    <string name="choose_theme">Elekti etoson</string>
+    <string name="theme">Etoso</string>
 </resources>
