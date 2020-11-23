@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-07-21 11:30+0000\n"
-"Last-Translator: Budi Aryo <venera.android.phone@gmail.com>\n"
+"PO-Revision-Date: 2020-11-06 01:35+0000\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "Log"
 
 #: admin/admin.strings.js:13
 msgid "Dashboard"
-msgstr "Dashboard"
+msgstr "Dasbor"
 
 #: admin/admin.strings.js:14
 msgid "Users online"
@@ -61,27 +61,21 @@ msgid "User Name"
 msgstr "Nama Pengguna"
 
 #: admin/admin.strings.js:16
-#, fuzzy
-#| msgid "Documents opened"
 msgid "Documents open"
 msgstr "Dokumen terbuka"
 
 #: admin/admin.strings.js:17 admin/src/AdminSocketOverview.js:73
 #: admin/src/AdminSocketOverview.js:117 admin/src/AdminSocketOverview.js:328
-#, fuzzy
-#| msgid "0 users"
 msgid " user(s)."
-msgstr "0 pengguna"
+msgstr " pengguna."
 
 #: admin/admin.strings.js:18 admin/src/AdminSocketOverview.js:186
-#, fuzzy
-#| msgid "Documents opened"
 msgid " document(s) open."
-msgstr "Dokumen terbuka"
+msgstr " dokumen terbuka."
 
 #: admin/admin.strings.js:19
 msgid "Number of Documents"
-msgstr "Nomor dari Dokumen"
+msgstr "Banyaknya Dokumen"
 
 #: admin/admin.strings.js:20
 msgid "Memory consumed"
@@ -105,7 +99,7 @@ msgstr "Dokumen"
 
 #: admin/admin.strings.js:25
 msgid "Views"
-msgstr ""
+msgstr "Tampilan"
 
 #: admin/admin.strings.js:26
 msgid "Elapsed time"
@@ -113,7 +107,7 @@ msgstr "Waktu berjalan"
 
 #: admin/admin.strings.js:27
 msgid "Idle time"
-msgstr "Waktu jeda"
+msgstr "Waktu menganggur"
 
 #: admin/admin.strings.js:28
 msgid "Modified"
@@ -163,7 +157,7 @@ msgstr "Selang waktu statistik CPU (dalam ms)"
 
 #: admin/admin.strings.js:39 admin/src/AdminSocketOverview.js:91
 msgid "Kill session."
-msgstr ""
+msgstr "Matikan sesi."
 
 #: admin/admin.strings.js:40
 msgid "Maximum Document process virtual memory (in MB) - reduce only"
@@ -175,7 +169,7 @@ msgstr "Dokumen Maksimum yang diporoses Memori virtual (dalam kB) - Hanya kurang
 
 #: admin/admin.strings.js:42
 msgid "Maximum file size allowed to write to disk (in MB) - reduce only"
-msgstr "Ukuran file maksimum diizinkan untuk menulis ke disk (dalam MB) - kurangi saja"
+msgstr "Ukuran berkas maksimum diizinkan untuk menulis ke disk (dalam MB) - kurangi saja"
 
 #: admin/admin.strings.js:43
 msgid "Documents:"
@@ -187,7 +181,7 @@ msgstr "Kedaluwarsa:"
 
 #: admin/admin.strings.js:45
 msgid "Refresh"
-msgstr "Perbarui"
+msgstr "Segarkan"
 
 #: admin/admin.strings.js:46
 msgid "Shutdown Server"
@@ -316,7 +310,7 @@ msgstr " d"
 
 #: src/control/Parts.js:377
 msgid "Show Selected Sheets"
-msgstr ""
+msgstr "Tampilkan Lembar yang Dipilih"
 
 #: src/control/ColorPicker.js:129
 msgid "No color"
@@ -642,10 +636,8 @@ msgid "Last modification"
 msgstr "Modifikasi terakhir"
 
 #: src/control/Control.Menubar.js:257
-#, fuzzy
-#| msgid "Comment"
 msgid "Save Comments"
-msgstr "Komentar"
+msgstr "Simpan Komentar"
 
 #: src/control/Control.Menubar.js:263 src/control/Control.Menubar.js:554
 #: src/control/Control.NotebookbarImpress.js:294
@@ -674,7 +666,7 @@ msgstr "Presentasi layar penuh"
 
 #: src/control/Control.Menubar.js:359
 msgid "Present current slide"
-msgstr ""
+msgstr "Sajikan salindia saat ini"
 
 #: src/control/Control.Menubar.js:386 src/control/Control.Menubar.js:602
 #: src/control/Control.NotebookbarCalc.js:214
@@ -744,19 +736,19 @@ msgstr "Sembunyikan bilah pencarian"
 
 #: src/control/Control.SheetsBar.js:27
 msgid "Scroll to the first sheet"
-msgstr ""
+msgstr "Gulir ke lembar pertama"
 
 #: src/control/Control.SheetsBar.js:28
 msgid "Scroll left"
-msgstr ""
+msgstr "Gulung kiri"
 
 #: src/control/Control.SheetsBar.js:29
 msgid "Scroll right"
-msgstr ""
+msgstr "Gulung kanan"
 
 #: src/control/Control.SheetsBar.js:30
 msgid "Scroll to the last sheet"
-msgstr ""
+msgstr "Gulir ke lembar terakhir"
 
 #: src/control/Control.SheetsBar.js:31
 msgid "Insert sheet"
@@ -921,7 +913,7 @@ msgstr "Saat Ini"
 #: src/control/Control.NotebookbarBuilder.js:658
 #: src/control/Control.NotebookbarBuilder.js:674
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: src/control/Control.Notebookbar.js:134
 #: src/control/Control.NotebookbarImpress.js:32
@@ -937,7 +929,7 @@ msgstr "Jadi Lagi"
 #: src/control/Control.NotebookbarCalc.js:12
 #: src/control/Control.NotebookbarImpress.js:86
 msgid "~File"
-msgstr ""
+msgstr "~Berkas"
 
 #: src/control/Control.NotebookbarWriter.js:17
 #: src/control/Control.NotebookbarCalc.js:17
@@ -968,7 +960,7 @@ msgstr "~Tinjauan"
 #: src/control/Control.NotebookbarWriter.js:43
 #: src/control/Control.NotebookbarImpress.js:107
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: src/control/Control.NotebookbarWriter.js:48
 #: src/control/Control.NotebookbarImpress.js:112
@@ -977,73 +969,61 @@ msgstr "~Tabel"
 
 #: src/control/Control.NotebookbarWriter.js:54
 msgid "~Draw"
-msgstr ""
+msgstr "~Gambar"
 
 #: src/control/Control.NotebookbarWriter.js:60
 #: src/control/Control.NotebookbarCalc.js:43
 #: src/control/Control.NotebookbarImpress.js:124
 msgid "~Help"
-msgstr ""
+msgstr "~Bantuan"
 
 #: src/control/Control.NotebookbarCalc.js:28
 msgid "~Sheet"
-msgstr ""
+msgstr "~Lembar"
 
 #: src/control/Control.NotebookbarCalc.js:33
 msgid "~Data"
-msgstr ""
+msgstr "~Data"
 
 #: src/control/Control.NotebookbarCalc.js:1903
-#, fuzzy
-#| msgid "Insert table"
 msgid "Insert Rows Above"
-msgstr "Sisip tabel"
+msgstr "Sisip Baris Di Atas"
 
 #: src/control/Control.NotebookbarCalc.js:1916
-#, fuzzy
-#| msgid "Insert sheet"
 msgid "Insert Rows Below"
-msgstr "Sisipkan lembar kerja"
+msgstr "Sisip Baris Di Bawah"
 
 #: src/control/Control.NotebookbarCalc.js:1938
-#, fuzzy
-#| msgid "Insert sheet before this"
 msgid "Insert Columns Before"
-msgstr "Sisipkan lembar sebelum ini"
+msgstr "Sisip Kolom Sebelum"
 
 #: src/control/Control.NotebookbarCalc.js:1951
-#, fuzzy
-#| msgid "Insert sheet after this"
 msgid "Insert Columns After"
-msgstr "Sisip lembar setelah ini"
+msgstr "Sisip Kolom Setelah"
 
 #: src/control/Control.NotebookbarCalc.js:1973
 msgid "Insert Row Break"
-msgstr ""
+msgstr "Sisip Putus Baris"
 
 #: src/control/Control.NotebookbarCalc.js:1986
 msgid "Insert Column Break"
-msgstr ""
+msgstr "Sisip Putus Kolom"
 
 #: src/control/Control.NotebookbarCalc.js:2008
-#, fuzzy
-#| msgid "Delete"
 msgid "Delete Rows"
-msgstr "Hapus"
+msgstr "Hapus Baris"
 
 #: src/control/Control.NotebookbarCalc.js:2021
-#, fuzzy
-#| msgid "Columns"
 msgid "Delete Columns"
-msgstr "Kolom"
+msgstr "Hapus Kolom"
 
 #: src/control/Control.NotebookbarCalc.js:2043
 msgid "Remove Row Break"
-msgstr ""
+msgstr "Buang Putus Baris"
 
 #: src/control/Control.NotebookbarCalc.js:2056
 msgid "Remove Column Break"
-msgstr ""
+msgstr "Buang Putus Kolom"
 
 #: src/control/Control.NotebookbarImpress.js:27
 msgid "Start Presentation"
@@ -1054,14 +1034,8 @@ msgid "The document could not be locked, and is opened in read-only mode."
 msgstr "Dokumen tidak bisa dikunci, dan dibuka dalam mode hanya baca."
 
 #: src/control/Permission.js:47 src/control/Permission.js:65
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "Server returned this reason: \""
 msgid "Server returned this reason:"
-msgstr ""
-"\n"
-"Server mengembalikan alasan ini: \""
+msgstr "Server mengembalikan alasan ini:"
 
 #: src/control/Permission.js:63
 msgid "The document could not be locked."
@@ -1276,10 +1250,8 @@ msgid "Idle document - please click to reload and resume editing"
 msgstr "Dokumen idle - silakan klik untuk memuat ulang dan melanjutkan penyuntingan"
 
 #: src/core/Socket.js:403
-#, fuzzy
-#| msgid "Idle document - please click to reload and resume editing"
 msgid "Idle document - please tap to reload and resume editing"
-msgstr "Dokumen idle - silakan klik untuk memuat ulang dan melanjutkan penyuntingan"
+msgstr "Dokumen menganggur - silakan ketuk untuk memuat ulang dan melanjutkan penyuntingan"
 
 #: src/core/Socket.js:411
 msgid "Server is shutting down for maintenance (auto-saving)"
@@ -1476,10 +1448,8 @@ msgid "Resolve"
 msgstr "Selesaikan"
 
 #: src/layer/tile/TileLayer.js:826
-#, fuzzy
-#| msgid "Function Wizard"
 msgid "Functions"
-msgstr "Fungsi Wisaya"
+msgstr "Fungsi"
 
 #: src/map/Clipboard.js:137
 msgid "To paste outside %productName, please first click the 'download' button"
