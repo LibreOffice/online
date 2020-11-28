@@ -105,4 +105,9 @@
     <string name="app_version_and_hash">Versi: %1$s
 \ngit-hash daring: %2$s
 \ngit-hash core: %3$s</string>
+    <string name="theme_light">Terang</string>
+    <string name="theme_dark">Gelap</string>
+    <string name="theme_system_default">Baku sistem</string>
+    <string name="choose_theme">Pilih tema</string>
+    <string name="theme">Tema</string>
 </resources>

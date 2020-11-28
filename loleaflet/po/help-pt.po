@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-09-25 13:37+0000\n"
+"PO-Revision-Date: 2020-11-20 06:29+0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: Portuguese <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/pt/>\n"
 "Language: pt\n"
@@ -1135,7 +1135,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:289-5
 msgid "Copy and Paste"
-msgstr ""
+msgstr "Copiar e colar"
 
 #: html/loleaflet-help.html%2Bdiv.p:290-5
 msgid "Rich content copy/cut and paste is supported, not only within a given document, but also across documents on the same or different <span class=\"productname\">%productName</span>. For these internal uses, users can copy/cut content, including images and mixed content, on PC by using the keyboard shortcuts directly (<span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">X</span>, <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">C</span>, <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">V</span>). For security reasons it is necessary to use <span class=\"kbd\">Ctrl</span> + <span class=\"kbd\">V</span> to paste on PC, but context menus can be used for cut and copy. On Android or iOS selecting text by double tapping, and using a long-tap to access copy/cut/paste via the context menu is required."
@@ -1147,7 +1147,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:292-5
 msgid "Document repair"
-msgstr ""
+msgstr "Reparação de documentos"
 
 #: html/loleaflet-help.html%2Bdiv.p:293-5
 msgid "When multiple people edit the same document concurrently, it is possible for their changes to conflict and this can cause some confusion. The Document Repair function allows users to undo other editor’s changes to the document to a previous state."
@@ -1163,7 +1163,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:297-5
 msgid "Inactive document"
-msgstr ""
+msgstr "Documento inativo"
 
 #: html/loleaflet-help.html%2Bdiv.p:298-5
 msgid "When <span class=\"productname\">%productName</span> detects that there has not been any activity in the browser for a while, it puts the document in an “Inactive” state. The document is shown with a transparent gray overlay, with the message “Inactive document – please click to resume editing”."
@@ -1175,7 +1175,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:301-5
 msgid "Pasting"
-msgstr ""
+msgstr "Colar"
 
 #: html/loleaflet-help.html%2Bdiv.p:302-5
 msgid "When you paste content copied from within the same document, the format and elements are maintained. If you copy from another document, in another tab or browser window, or from outside of the browser, the pasted content will preserve rich text."
@@ -1199,7 +1199,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:309-5
 msgid "Adding charts"
-msgstr ""
+msgstr "Adicionar gráficos"
 
 #: html/loleaflet-help.html%2Bdiv.p:310-5
 msgid "<span class=\"productname\">%productName</span> supports inserting and visualization of charts in documents. To add a chart:"
@@ -1211,11 +1211,11 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:314-9
 msgid "Choose <span class=\"ui\">Insert</span> → <span class=\"ui\">Charts</span>. Customize your chart on the sidebar:"
-msgstr ""
+msgstr "Escolha <span class=\"ui\">Inserir</span> → <span class=\"ui\">Gráficos</span> e personalize o gráfico na barra lateral:"
 
 #: html/loleaflet-help.html%2Bdiv.ol.li.p:317-11
 msgid "If no table or range was selected, a prototype chart is displayed."
-msgstr ""
+msgstr "Se não selecionar uma tabela ou um intervalo, é mostrado um protótipo de um gráfico."
 
 #: html/loleaflet-help.html%2Bdiv.p:320-5
 msgid "<span class=\"def\">Chart editing:</span> Double click the chart to select. Use context menus to add chart elements such as title, axis, and other. Choose <span class=\"ui\">Data Range</span> and <span class=\"ui\">Chart Type</span> to edit chart data and select chart type."
@@ -1231,7 +1231,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:323-5
 msgid "Handling images"
-msgstr ""
+msgstr "Gerir imagens"
 
 #: html/loleaflet-help.html%2Bdiv.p:324-5
 msgid "<span class=\"productname\">%productName</span> inserts images in the text document from your local computer or from your cloud storage. Inserted images are always embedded in the document."
@@ -1250,10 +1250,8 @@ msgid "Images can be resized, rotated and anchored. Text can be wrapped around t
 msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:328-5
-#, fuzzy
-#| msgid "Go to end of document"
 msgid "Comments in documents"
-msgstr "Ir para o fim do documento"
+msgstr "Comentários em documentos"
 
 #: html/loleaflet-help.html%2Bdiv.p:329-5
 msgid "Insert comments in <span class=\"productname\">%productName</span> in places that need special reader attention. Comments are displayed on the right and carry the name and date of the issuer."
@@ -1265,7 +1263,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.h4:332-5
 msgid "Spellchecking"
-msgstr ""
+msgstr "Verificação ortográfica"
 
 #: html/loleaflet-help.html%2Bdiv.p:333-5
 msgid "<span class=\"productname\">%productName</span> can check spelling in text documents, spreadsheets and presentations. A red wavy underline indicates misspelled words. Click on the right mouse button to open a context menu with suggested misspelling corrections."
@@ -1281,7 +1279,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.p:344-5
 msgid "Formulas are entered in the formula bar. Enter '=' and insert the formula."
-msgstr ""
+msgstr "As fórmulas são introduzidas na barra de fórmulas. Utilize a tecla = e insira a fórmula."
 
 #: html/loleaflet-help.html%2Bdiv.div.p:345-5
 msgid "All spreadsheets functions and mathematical rules applies."
