@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-05-14 08:13+0000\n"
+"PO-Revision-Date: 2020-11-28 04:35+0000\n"
 "Last-Translator: Paul Roos <iNetRoos@gmail.com>\n"
 "Language-Team: Afrikaans <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-help/af/>\n"
 "Language: af\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 4.1.1\n"
 "X-Pootle-Path: /af/libo_online/loleaflet-help-af.po\n"
 "X-Pootle-Revision: 3816701\n"
 
@@ -52,14 +52,12 @@ msgid "Paste as unformatted text"
 msgstr "Plak teks ongeformateerd"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:26-70
-#, fuzzy
-#| msgid "Ctrl + Shift + ?"
 msgid "Ctrl + Shift + V"
-msgstr "Ctrl + Shift + ?"
+msgstr "Ctrl + Shift + V"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:27-18
 msgid "Paste special"
-msgstr ""
+msgstr "Plak spesiaal"
 
 #: html/loleaflet-help.html%2Bdiv.div.table.tr.td:27-58
 msgid "Ctrl + Alt + Shift + V"
@@ -935,7 +933,7 @@ msgstr "<span class=\"productname\">%productName</span> gebruikers koppelvlak"
 #: html/loleaflet-help.html%2Bdiv.p:216-5
 #: html/loleaflet-help.html%2Bdiv.h3:279-5
 msgid "Opening, closing, saving, printing and downloading documents"
-msgstr ""
+msgstr "Oopmaak, sluit, stoor, druk en aflaai van dokumente"
 
 #: html/loleaflet-help.html%2Bdiv.p:217-5
 #: html/loleaflet-help.html%2Bdiv.h3:287-5
@@ -1041,31 +1039,33 @@ msgstr "<span class=\"productname\">%productName</span> stel u in staat om teksd
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:254-11
 msgid "Each user gets assigned a color. The cursor of each user will be shown in the assigned color. Note: you will see your cursor as black, blinking cursor, although others will see you with a different color."
-msgstr ""
+msgstr "Aan elke gebruiker word 'n kleur toegewys. Die wyser van elke gebruiker word in die toegewysde kleur vertoon. Opmerking: u sal u wyser as 'n swart, vlikkerende wyser sien, terwyl ander u as 'n ander kleur sal sien."
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:255-11
 msgid "You can jump to the cursor of a user by clicking on the name (or avatar) of the user. It is possible to follow the editor."
-msgstr ""
+msgstr "U kan na die gebruiker se wyser spring deur op die gebruiker se naam (of avatar) te klik. Dit is moontlik om die redigeerder te volg."
 
 #: html/loleaflet-help.html%2Bdiv.ul.li.p:256-11
 msgid "<span class=\"productname\">%productName</span> notifies you with a small notification in the footer when a new user enters or when a user leaves."
-msgstr ""
+msgstr "<span class = \"productname\">%productName </span> lig u in met 'n klein voetskrif kennisgewing, wanneer 'n nuwe gebruiker van die dokument, bykom of dit verlaat."
 
 #: html/loleaflet-help.html%2Bdiv.p:260-5
 msgid "<span class=\"productname\">%productName</span> uses modern browser resources to adapt the user interface to the size of the viewing area, including small screens found in mobile devices. The interface is composed of:"
-msgstr ""
+msgstr "<span class = \"productname\">%productName </span> gebruik moderne blaaiers wat die gebruikerskoppelvlak aanpas volgens  die vertoonarea se grootte, insluitend klein skerms op mobiele toestelle. Die koppelvlak bestaan uit:"
 
 #: html/loleaflet-help.html%2Bdiv.p:261-5
 msgid "<span class=\"def\">The document area:</span> The application area shows the document contents, either spreadsheets, presentations or text documents."
 msgstr ""
+"<span class = \"def\">Die dokumentarea: </span> Die toepassingsarea vertoon die dokumentinhoud, hetsy spreiblad-, aanbieding- of \n"
+"teks-dokumente."
 
 #: html/loleaflet-help.html%2Bdiv.p.img:262-5
 msgid "<span class=\"def\">The menu bar:</span> The main menu is placed on the top and includes many options, commands for printing, editing, viewing and other advanced commands. You can hide the menu bar clicking on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/fold.svg\"> icon on the far right. Click on the <img style=\"height:0.6cm;width:0.6cm;\" src=\"images/unfold.svg\"> icon to show the menu."
-msgstr ""
+msgstr "<span class = \"def\"> Die kieslysbalk: </span> Die hoofkieslys is boaan en bevat baie opsies, opdragte vir druk, redigering, besigtiging en ander gevorderde opdragte. U kan die kieslysbalk verberg deur te klik op <img style = \"height: 0.6cm; width: 0.6cm;\" src=\"images / fold.svg\"> ikoon-element aan die vêr regterkant. Klik op die ikoon <img style = \"height: 0.6cm; width: 0.6cm;\" src = \"images/unfold.svg\"> om die kieslys te vertoon."
 
 #: html/loleaflet-help.html%2Bdiv.p:263-5
 msgid "<span class=\"def\">Context menus:</span> On clicking with the right mouse button, a menu appears with commands associated with the underlying object."
-msgstr ""
+msgstr "<span class=\"def\"> Konteks-kieslyste: </span> Wanneer u regs-klik, word 'n kieslys met opdragte betreffende die onderliggende geassosieerde objek, vertoon."
 
 #: html/loleaflet-help.html%2Bdiv.p:264-5
 msgid "<span class=\"def\">The toolbar:</span> The toolbar contains the most used options for daily editing. Toolbar buttons are dynamic, meaning that their state (on or off) depends on different factors."
@@ -1225,7 +1225,7 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.p:321-5
 msgid "<span class=\"def\">Chart formatting:</span> The same context menu brings you to chart data table and chart type selection."
-msgstr ""
+msgstr "<span class=\"def\">Diagram formatering: </span>Gebruik dieselfde konteks-kieslys om die diagram-datatabel en die diagram-tipe te kies."
 
 #: html/loleaflet-help.html%2Bdiv.p:322-5
 msgid "<span class=\"def\">Data series formatting:</span> Open the context menu and choose <span class=\"ui\">Format data series</span>."
@@ -1818,4 +1818,4 @@ msgstr ""
 
 #: html/loleaflet-help.html%2Bdiv.div.ol.li.p:579-11
 msgid "Set the properties of the element of the object."
-msgstr ""
+msgstr "Stel die eienskappe van die element van die objek."
