@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 09:41+0200\n"
-"PO-Revision-Date: 2020-07-04 07:55+0000\n"
+"PO-Revision-Date: 2020-12-01 05:36+0000\n"
 "Last-Translator: Paul Roos <iNetRoos@gmail.com>\n"
 "Language-Team: Afrikaans <https://weblate.documentfoundation.org/projects/libo_online/loleaflet-ui/af/>\n"
 "Language: af\n"
@@ -61,21 +61,17 @@ msgid "User Name"
 msgstr "Gebruikernaam"
 
 #: admin/admin.strings.js:16
-#, fuzzy
-#| msgid "Documents opened"
 msgid "Documents open"
 msgstr "Oopgemaakte dokumente"
 
 #: admin/admin.strings.js:17 admin/src/AdminSocketOverview.js:73
 #: admin/src/AdminSocketOverview.js:117 admin/src/AdminSocketOverview.js:328
 msgid " user(s)."
-msgstr ""
+msgstr " gebruiker(s)."
 
 #: admin/admin.strings.js:18 admin/src/AdminSocketOverview.js:186
-#, fuzzy
-#| msgid "Documents opened"
 msgid " document(s) open."
-msgstr "Oopgemaakte dokumente"
+msgstr " oopgemaakte dokument(e)."
 
 #: admin/admin.strings.js:19
 msgid "Number of Documents"
@@ -103,7 +99,7 @@ msgstr "Dokument"
 
 #: admin/admin.strings.js:25
 msgid "Views"
-msgstr ""
+msgstr "Aansigte"
 
 #: admin/admin.strings.js:26
 msgid "Elapsed time"
@@ -161,7 +157,7 @@ msgstr "Tyd interval van SRE statistiek (in ms)"
 
 #: admin/admin.strings.js:39 admin/src/AdminSocketOverview.js:91
 msgid "Kill session."
-msgstr ""
+msgstr "Termineer sessie."
 
 #: admin/admin.strings.js:40
 msgid "Maximum Document process virtual memory (in MB) - reduce only"
@@ -314,7 +310,7 @@ msgstr " s"
 
 #: src/control/Parts.js:377
 msgid "Show Selected Sheets"
-msgstr ""
+msgstr "Vertoon Geselekteerde Blaaie"
 
 #: src/control/ColorPicker.js:129
 msgid "No color"
@@ -591,116 +587,114 @@ msgstr "Vertoon liniaal"
 #: src/control/Control.Menubar.js:410 src/control/Control.Menubar.js:658
 #: src/control/Control.Menubar.js:698 src/control/Control.Menubar.js:712
 msgid "Local Image..."
-msgstr ""
+msgstr "Lokale Afbeelding..."
 
 #: src/control/Control.Menubar.js:93 src/control/Control.Menubar.js:95
 #: src/control/Control.Menubar.js:674 src/control/Control.Menubar.js:676
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: src/control/Control.Menubar.js:144
 msgid "Text orientation"
-msgstr ""
+msgstr "Teks oriëntasie"
 
 #: src/control/Control.Menubar.js:244 src/control/Control.Menubar.js:368
 #: src/control/Control.Menubar.js:485
 #: src/control/Control.NotebookbarWriter.js:471
 msgid "Online Help"
-msgstr ""
+msgstr "Aanlyn Hulp"
 
 #: src/control/Control.Menubar.js:245 src/control/Control.Menubar.js:369
 #: src/control/Control.Menubar.js:486
 #: src/control/Control.NotebookbarWriter.js:485
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "Sneltoetse"
 
 #: src/control/Control.Menubar.js:246 src/control/Control.Menubar.js:370
 #: src/control/Control.Menubar.js:487
 #: src/control/Control.NotebookbarWriter.js:499
 msgid "Report an issue"
-msgstr ""
+msgstr "Rapporteer 'n kwessie"
 
 #: src/control/Control.Menubar.js:247 src/control/Control.Menubar.js:371
 #: src/control/Control.Menubar.js:488 src/control/Control.Menubar.js:540
 #: src/control/Control.Menubar.js:588 src/control/Control.Menubar.js:651
 #: src/control/Control.NotebookbarWriter.js:514
 msgid "Latest Updates"
-msgstr ""
+msgstr "Nuutste Opdatterings"
 
 #: src/control/Control.Menubar.js:248 src/control/Control.Menubar.js:372
 #: src/control/Control.Menubar.js:489 src/control/Control.Menubar.js:541
 #: src/control/Control.Menubar.js:589 src/control/Control.Menubar.js:652
 #: src/control/Control.NotebookbarWriter.js:528
 msgid "About"
-msgstr ""
+msgstr "Meer oor"
 
 #: src/control/Control.Menubar.js:250 src/control/Control.Menubar.js:374
 #: src/control/Control.Menubar.js:491 src/map/Map.js:384
 msgid "Last modification"
-msgstr ""
+msgstr "Laaste wysiging"
 
 #: src/control/Control.Menubar.js:257
-#, fuzzy
-#| msgid "Comment"
 msgid "Save Comments"
-msgstr "Opmerking"
+msgstr "Stoor Opmerkings"
 
 #: src/control/Control.Menubar.js:263 src/control/Control.Menubar.js:554
 #: src/control/Control.NotebookbarImpress.js:294
 msgid "ODF presentation (.odp)"
-msgstr ""
+msgstr "ODF vertoning (.odp)"
 
 #: src/control/Control.Menubar.js:264 src/control/Control.Menubar.js:555
 #: src/control/Control.NotebookbarImpress.js:347
 msgid "PowerPoint 2003 Presentation (.ppt)"
-msgstr ""
+msgstr "PowerPoint 2003 Aanbieding (.ppt)"
 
 #: src/control/Control.Menubar.js:265 src/control/Control.Menubar.js:556
 #: src/control/Control.NotebookbarImpress.js:369
 msgid "PowerPoint Presentation (.pptx)"
-msgstr ""
+msgstr "PowerPoint Aanbieding (.pptx)"
 
 #: src/control/Control.Menubar.js:266 src/control/Control.Menubar.js:557
 #: src/control/Control.NotebookbarImpress.js:316
 msgid "ODF Drawing (.odg)"
-msgstr ""
+msgstr "ODF Tekening (.odg)"
 
 #: src/control/Control.Menubar.js:358 src/control/Control.Menubar.js:587
 #: src/control/Control.PresentationBar.js:33
 msgid "Fullscreen presentation"
-msgstr ""
+msgstr "Volskerm aanbieding"
 
 #: src/control/Control.Menubar.js:359
 msgid "Present current slide"
-msgstr ""
+msgstr "Huidige Skyfie vertoon"
 
 #: src/control/Control.Menubar.js:386 src/control/Control.Menubar.js:602
 #: src/control/Control.NotebookbarCalc.js:214
 msgid "ODF spreadsheet (.ods)"
-msgstr ""
+msgstr "ODF spreiblad (.ods)"
 
 #: src/control/Control.Menubar.js:387 src/control/Control.Menubar.js:603
 #: src/control/Control.NotebookbarCalc.js:267
 msgid "Excel 2003 Spreadsheet (.xls)"
-msgstr ""
+msgstr "Excel 2003 Spreiblad (.xls)"
 
 #: src/control/Control.Menubar.js:388 src/control/Control.Menubar.js:604
 #: src/control/Control.NotebookbarCalc.js:289
 msgid "Excel Spreadsheet (.xlsx)"
-msgstr ""
+msgstr "Excel Spreiblad (.xlsx)"
 
 #: src/control/Control.Menubar.js:521 src/control/Control.Menubar.js:569
 #: src/control/Control.Menubar.js:616 src/control/Control.StatusBar.js:189
 msgid "Search"
-msgstr ""
+msgstr "Soek"
 
 #: src/control/Control.Menubar.js:532
 msgid "Page Setup"
-msgstr ""
+msgstr "Bladsy Instellings"
 
 #: src/control/Control.Menubar.js:799 src/control/Control.StatusBar.js:496
 msgid "Reset to Default Language"
-msgstr ""
+msgstr "Herstel na Verstek Taal"
 
 #: src/control/Control.Menubar.js:1137
 msgid "Insert Shape"
@@ -708,171 +702,166 @@ msgstr ""
 
 #: src/control/Control.Menubar.js:1228
 msgid "Are you sure you want to delete this slide?"
-msgstr ""
+msgstr "Is u seker dat u hierdie skyfie wil skrap?"
 
 #: src/control/Control.MobileBottomBar.js:27
 #: src/control/Control.MobileBottomBar.js:55
 #: src/control/Control.MobileBottomBar.js:84
 msgid "Show the search bar"
-msgstr ""
+msgstr "Vertoon die soekbalk"
 
 #: src/control/Control.MobileTopBar.js:44
-#, fuzzy
-#| msgid "Accept change"
 msgid "Accept"
-msgstr "veranderings aanvaar"
+msgstr "Aanvaar"
 
 #: src/control/Control.PresentationBar.js:84
 msgid "Are you sure you want to delete this page?"
-msgstr ""
+msgstr "Is u seker dat u hierdie bladsy wil skrap?"
 
 #: src/control/Control.Scroll.Annotation.js:10
 msgid "Scroll up annotations"
-msgstr ""
+msgstr "Opmerkings rol na boontoe"
 
 #: src/control/Control.Scroll.Annotation.js:12
 msgid "Scroll down annotations"
-msgstr ""
+msgstr "Opmerkings rol na ondertoe"
 
 #: src/control/Control.SearchBar.js:30
 msgid "Clear the search field"
-msgstr ""
+msgstr "Soekveld uitvee"
 
 #: src/control/Control.SearchBar.js:32
 msgid "Hide the search bar"
-msgstr ""
+msgstr "Verberg die soekbalk"
 
 #: src/control/Control.SheetsBar.js:27
 msgid "Scroll to the first sheet"
-msgstr ""
+msgstr "Rol na die eerste blad"
 
 #: src/control/Control.SheetsBar.js:28
 msgid "Scroll left"
-msgstr ""
+msgstr "Rol na links"
 
 #: src/control/Control.SheetsBar.js:29
 msgid "Scroll right"
-msgstr ""
+msgstr "Rol na regs"
 
 #: src/control/Control.SheetsBar.js:30
 msgid "Scroll to the last sheet"
-msgstr ""
+msgstr "Rol na die laaste blad"
 
 #: src/control/Control.SheetsBar.js:31
 msgid "Insert sheet"
-msgstr ""
+msgstr "Blad invoeg"
 
 #: src/control/Control.StatusBar.js:195
 msgid "Cancel the search"
-msgstr ""
+msgstr "Kanselleer die soektog"
 
 #: src/control/Control.StatusBar.js:295
-#, fuzzy
 msgid "Number of Sheets"
-msgstr "Aantal Aansig"
+msgstr "Aantal Blaaie"
 
 #: src/control/Control.StatusBar.js:300
 msgid "Selected range of cells"
-msgstr ""
+msgstr "Geselekteerde selbereik"
 
 #: src/control/Control.StatusBar.js:305 src/control/Control.StatusBar.js:354
 msgid "Entering text mode"
-msgstr ""
+msgstr "Aktiveer teksmodus"
 
 #: src/control/Control.StatusBar.js:314 src/control/Control.StatusBar.js:359
 msgid "Selection Mode"
-msgstr ""
+msgstr "Seleksie Modus"
 
 #: src/control/Control.StatusBar.js:319
 msgid "Choice of functions"
-msgstr ""
+msgstr "Funksies uitverkies"
 
 #: src/control/Control.StatusBar.js:323
 msgid "Average"
-msgstr ""
+msgstr "Gemiddelde"
 
 #: src/control/Control.StatusBar.js:324
 msgid "CountA"
-msgstr ""
+msgstr "AantalA"
 
 #: src/control/Control.StatusBar.js:325
 msgid "Count"
-msgstr ""
+msgstr "Aantal"
 
 #: src/control/Control.StatusBar.js:326
 msgid "Maximum"
-msgstr ""
+msgstr "Maksimum"
 
 #: src/control/Control.StatusBar.js:327
 msgid "Minimum"
-msgstr ""
+msgstr "Minimum"
 
 #: src/control/Control.StatusBar.js:328
 msgid "Sum"
-msgstr ""
+msgstr "Som"
 
 #: src/control/Control.StatusBar.js:329
 msgid "Selection count"
-msgstr ""
+msgstr "Seleksie hoeveelheid"
 
 #: src/control/Control.StatusBar.js:344
-#, fuzzy
 msgid "Number of Pages"
-msgstr "Aantal Aansig"
+msgstr "Aantal Bladsye"
 
 #: src/control/Control.StatusBar.js:349
 msgid "Word Counter"
-msgstr ""
+msgstr "Woord tellling"
 
 #: src/control/Control.StatusBar.js:376
-#, fuzzy
 msgid "Number of Slides"
-msgstr "Aantal Aansig"
+msgstr "Aantal Skyfies"
 
 #: src/control/Control.Tabs.js:47
 msgid "Insert sheet before this"
-msgstr ""
+msgstr "Blad invoeg voor hierdie"
 
 #: src/control/Control.Tabs.js:50
 msgid "Insert sheet after this"
-msgstr ""
+msgstr "Blad invoeg na hierdie"
 
 #: src/control/Control.Tabs.js:197
 msgid "Are you sure you want to delete sheet, %sheet% ?"
-msgstr ""
+msgstr "Is u seker dat u die blad %sheet% wil verwyderen?"
 
 #: src/control/Control.Tabs.js:214
 msgid "Enter new sheet name"
-msgstr ""
+msgstr "Voer nuwe bladnaam in"
 
 #: src/control/Control.Toolbar.js:900
 msgid "Previous slide"
-msgstr ""
+msgstr "Vorige skyfie"
 
 #: src/control/Control.Toolbar.js:901
 msgid "Next slide"
-msgstr ""
+msgstr "Volgende skyfie"
 
 #: src/control/Control.Toolbar.js:956
 msgid "Conflict Undo/Redo with multiple users. Please use document repair to resolve"
-msgstr ""
+msgstr "Konflik tussen verskeie gebruikers terugstel / herhaal. Gebruik asseblief dokument herstel as oplossing"
 
 #: src/control/Control.TopToolbar.js:105
 msgid "Default Style"
-msgstr ""
+msgstr "Verstek Styl"
 
 #: src/control/Control.TopToolbar.js:162
 msgid "Borders"
-msgstr ""
+msgstr "Rande"
 
 #: src/control/Control.TopToolbar.js:170
 msgid "More..."
-msgstr ""
+msgstr "Meer..."
 
 #: src/control/Control.TopToolbar.js:213
 #: src/control/Control.NotebookbarBuilder.js:511
 msgid "Insert Local Image"
-msgstr ""
+msgstr "Lokale Beeld invoeg"
 
 #: src/control/Control.TopToolbar.js:217
 msgid "Insert shapes"
@@ -880,43 +869,43 @@ msgstr ""
 
 #: src/control/Control.TopToolbar.js:457
 msgid "Style"
-msgstr ""
+msgstr "Styl"
 
 #: src/control/Control.TopToolbar.js:480
 msgid "Font"
-msgstr ""
+msgstr "Font"
 
 #: src/control/Control.UserList.js:10
 msgid "%user has joined"
-msgstr ""
+msgstr "%user het aangesluit"
 
 #: src/control/Control.UserList.js:11
 msgid "%user has left"
-msgstr ""
+msgstr "%user het verlaat"
 
 #: src/control/Control.UserList.js:33
 msgid "%n users"
-msgstr ""
+msgstr "%n gebruikers"
 
 #: src/control/Control.UserList.js:34
 msgid "1 user"
-msgstr ""
+msgstr "1 gebruiker"
 
 #: src/control/Control.UserList.js:35
 msgid "0 users"
-msgstr ""
+msgstr "0 gebruikers"
 
 #: src/control/Control.UserList.js:202
 msgid "Readonly"
-msgstr ""
+msgstr "Lees-alleen"
 
 #: src/control/Control.UserList.js:250
 msgid "Always follow the editor"
-msgstr ""
+msgstr "Volg altyd die redigeerder"
 
 #: src/control/Control.UserList.js:253
 msgid "Current"
-msgstr ""
+msgstr "Huidig"
 
 #: src/control/Control.Notebookbar.js:124
 #: src/control/Control.NotebookbarImpress.js:17
@@ -924,283 +913,273 @@ msgstr ""
 #: src/control/Control.NotebookbarBuilder.js:658
 #: src/control/Control.NotebookbarBuilder.js:674
 msgid "Menu"
-msgstr ""
+msgstr "Keuselys"
 
 #: src/control/Control.Notebookbar.js:134
 #: src/control/Control.NotebookbarImpress.js:32
 msgid "Undo"
-msgstr ""
+msgstr "Terugstel"
 
 #: src/control/Control.Notebookbar.js:139
 #: src/control/Control.NotebookbarImpress.js:37
 msgid "Redo"
-msgstr ""
+msgstr "Herhaal"
 
 #: src/control/Control.NotebookbarWriter.js:12
 #: src/control/Control.NotebookbarCalc.js:12
 #: src/control/Control.NotebookbarImpress.js:86
 msgid "~File"
-msgstr ""
+msgstr "~Lêer"
 
 #: src/control/Control.NotebookbarWriter.js:17
 #: src/control/Control.NotebookbarCalc.js:17
 #: src/control/Control.NotebookbarImpress.js:91
 msgid "~Home"
-msgstr ""
+msgstr "~Begin"
 
 #: src/control/Control.NotebookbarWriter.js:23
 #: src/control/Control.NotebookbarCalc.js:23
 #: src/control/Control.NotebookbarImpress.js:97
-#, fuzzy
-#| msgid "Insert table"
 msgid "~Insert"
-msgstr "Tabel Invoeg"
+msgstr "~Invoeg"
 
 #: src/control/Control.NotebookbarWriter.js:28
 msgid "~Layout"
-msgstr ""
+msgstr "~Uitleg"
 
 #: src/control/Control.NotebookbarWriter.js:33
 msgid "Reference~s"
-msgstr ""
+msgstr "V~erwysings"
 
 #: src/control/Control.NotebookbarWriter.js:38
 #: src/control/Control.NotebookbarCalc.js:38
 #: src/control/Control.NotebookbarImpress.js:102
-#, fuzzy
-#| msgid "Overview"
 msgid "~Review"
-msgstr "Oorsig"
+msgstr "Hersien"
 
 #: src/control/Control.NotebookbarWriter.js:43
 #: src/control/Control.NotebookbarImpress.js:107
 msgid "Format"
-msgstr ""
+msgstr "Formaat"
 
 #: src/control/Control.NotebookbarWriter.js:48
 #: src/control/Control.NotebookbarImpress.js:112
 msgid "~Table"
-msgstr ""
+msgstr "~Tabel"
 
 #: src/control/Control.NotebookbarWriter.js:54
 msgid "~Draw"
-msgstr ""
+msgstr "~Teken"
 
 #: src/control/Control.NotebookbarWriter.js:60
 #: src/control/Control.NotebookbarCalc.js:43
 #: src/control/Control.NotebookbarImpress.js:124
 msgid "~Help"
-msgstr ""
+msgstr "~Hulp"
 
 #: src/control/Control.NotebookbarCalc.js:28
 msgid "~Sheet"
-msgstr ""
+msgstr "~Blad"
 
 #: src/control/Control.NotebookbarCalc.js:33
 msgid "~Data"
-msgstr ""
+msgstr "~Data"
 
 #: src/control/Control.NotebookbarCalc.js:1903
-#, fuzzy
-#| msgid "Insert table"
 msgid "Insert Rows Above"
-msgstr "Tabel Invoeg"
+msgstr "Rye na bo  Invoeg"
 
 #: src/control/Control.NotebookbarCalc.js:1916
 msgid "Insert Rows Below"
-msgstr ""
+msgstr "Rye ondertoe invoeg"
 
 #: src/control/Control.NotebookbarCalc.js:1938
 msgid "Insert Columns Before"
-msgstr ""
+msgstr "Kolomme voor invoeg"
 
 #: src/control/Control.NotebookbarCalc.js:1951
 msgid "Insert Columns After"
-msgstr ""
+msgstr "Kolomme agterna byvoeg"
 
 #: src/control/Control.NotebookbarCalc.js:1973
 msgid "Insert Row Break"
-msgstr ""
+msgstr "Rybreuk Invoeg"
 
 #: src/control/Control.NotebookbarCalc.js:1986
 msgid "Insert Column Break"
-msgstr ""
+msgstr "Kolombreuk Invoeg"
 
 #: src/control/Control.NotebookbarCalc.js:2008
-#, fuzzy
-#| msgid "Delete"
 msgid "Delete Rows"
-msgstr "Skrap"
+msgstr "Skrap Rye"
 
 #: src/control/Control.NotebookbarCalc.js:2021
-#, fuzzy
-#| msgid "Columns"
 msgid "Delete Columns"
-msgstr "Kolomme"
+msgstr "Skrap Kolomme"
 
 #: src/control/Control.NotebookbarCalc.js:2043
 msgid "Remove Row Break"
-msgstr ""
+msgstr "Verwyder Rybreuk"
 
 #: src/control/Control.NotebookbarCalc.js:2056
 msgid "Remove Column Break"
-msgstr ""
+msgstr "Verwyder kolombreuk"
 
 #: src/control/Control.NotebookbarImpress.js:27
 msgid "Start Presentation"
-msgstr ""
+msgstr "Begin Voorlegging"
 
 #: src/control/Permission.js:45
 msgid "The document could not be locked, and is opened in read-only mode."
-msgstr ""
+msgstr "Die dokument kon nie gereserveer word nie en sal in die leesalleen-modus oopmaak."
 
 #: src/control/Permission.js:47 src/control/Permission.js:65
 msgid "Server returned this reason:"
-msgstr ""
+msgstr "Bediener lewer hierdie rede:"
 
 #: src/control/Permission.js:63
 msgid "The document could not be locked."
-msgstr ""
+msgstr "Die dokument kon nie gereserveer word nie."
 
 #: src/control/Ruler.js:362
 msgid "Left Margin"
-msgstr ""
+msgstr "Linker Rand"
 
 #: src/control/Ruler.js:363
 msgid "Right Margin"
-msgstr ""
+msgstr "Regter Rand"
 
 #: src/control/Ruler.js:641
 msgid "Insert tabstop"
-msgstr ""
+msgstr "Tabelstop invoeg"
 
 #: src/control/Ruler.js:648
 msgid "Delete tabstop"
-msgstr ""
+msgstr "Verwyder tabelstop"
 
 #: src/control/Signing.js:195
 msgid "Please enter the PIN Code"
-msgstr ""
+msgstr "Voer die PIN kode in asseblief"
 
 #: src/control/Signing.js:214
 msgid "Error at login."
-msgstr ""
+msgstr "Fout tydens inteken."
 
 #: src/control/Signing.js:227
 msgid "Please scan the code"
-msgstr ""
+msgstr "Skandeer die kode asseblief."
 
 #: src/control/Signing.js:242
 msgid "Couldn't get the QR code image."
-msgstr ""
+msgstr "Kon nie die QR kode inlees nie."
 
 #: src/control/Signing.js:269
 msgid "Error when trying to restore access to identity."
-msgstr ""
+msgstr "Kon nie toegang tot die identiteit herstel nie."
 
 #: src/control/Signing.js:275
 msgid "PIN Code"
-msgstr ""
+msgstr "PIN-kode"
 
 #: src/control/Signing.js:276
 msgid "Please enter the PIN code from the EMail or SMS"
-msgstr ""
+msgstr "Voer in die die PIN kode dmv. E-pos of SMS"
 
 #: src/control/Signing.js:296
 msgid "Login from email or mobile number"
-msgstr ""
+msgstr "Teken aan dmv. e-Pos of selfoon nommer"
 
 #: src/control/Signing.js:329
 msgid "Select document type to upload"
-msgstr ""
+msgstr "Kies die tipe dokument wat u wil oplaai"
 
 #: src/control/Signing.js:330
 msgid "Type:"
-msgstr ""
+msgstr "Tipe:"
 
 #: src/control/Signing.js:361 src/control/Signing.js:660
 msgid "Document uploaded."
-msgstr ""
+msgstr "Dokument opgelaai."
 
 #: src/control/Signing.js:488
 msgid "Select identity:"
-msgstr ""
+msgstr "Selekteer 'n identiteit:"
 
 #: src/control/Signing.js:489
 msgid "Login from mobile"
-msgstr ""
+msgstr "Aanteken via selfoon"
 
 #: src/control/Signing.js:490
 msgid "Recover from email"
-msgstr ""
+msgstr "Herwin vanaf e-Pos"
 
 #: src/control/Signing.js:598
 msgid "Select passport"
-msgstr ""
+msgstr "Selekteer wagwoord"
 
 #: src/control/Signing.js:599
 msgid "Passport: N/A"
-msgstr ""
+msgstr "Wagwoord:NVT"
 
 #: src/control/Signing.js:601
 msgid "Sign"
-msgstr ""
+msgstr "Onderteken"
 
 #: src/control/Signing.js:603
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #: src/control/Signing.js:604
 msgid "N/A"
-msgstr ""
+msgstr "NVT"
 
 #: src/control/Signing.js:607
 msgid "Login"
-msgstr ""
+msgstr "Aanteken"
 
 #: src/control/Signing.js:616
 msgid "Not Signed"
-msgstr ""
+msgstr "Nie onderteken"
 
 #: src/control/Signing.js:619
 msgid "This document is digitally signed and the signature is valid."
-msgstr ""
+msgstr "Hierdie dokument is digitaal onderteken en die handtekening is geldig."
 
 #: src/control/Signing.js:620
 msgid "Signed and validated"
-msgstr ""
+msgstr "Onderteken en gevalideer"
 
 #: src/control/Signing.js:623
 msgid "This document has an invalid signature."
-msgstr ""
+msgstr "Die dokument het 'n ongeldige ondertekening."
 
 #: src/control/Signing.js:624
 msgid "Signature broken"
-msgstr ""
+msgstr "Handtekening beskadig"
 
 #: src/control/Signing.js:627
 msgid "The signature was valid, but the document has been modified"
-msgstr ""
+msgstr "Die handtekening is geldig, maar die dokument is gewysig."
 
 #: src/control/Signing.js:628
 msgid "Signed but document modified"
-msgstr ""
+msgstr "Onderteken maar dokument is gewysig"
 
 #: src/control/Signing.js:631
 msgid "The signature is OK, but the certificate could not be validated."
-msgstr ""
+msgstr "Die handtekening is OK, maar die sertifikaat kon nie gevalideer word nie."
 
 #: src/control/Signing.js:632
 msgid "Signed but not validated"
-msgstr ""
+msgstr "Onderteken maar nie gevalideer nie."
 
 #: src/control/Signing.js:635
 msgid "The signature is OK, but the document is only partially signed"
-msgstr ""
+msgstr "Die handtekening is geldig, maar die dokument is gedeeltelik onderteken."
 
 #: src/control/Signing.js:636
 msgid "Signed but not all files are signed"
-msgstr ""
+msgstr "Onderteken maar nie alle lêers is onderteken nie."
 
 #: src/control/Toolbar.js:76 src/control/Toolbar.js:88
 msgid "Downloading..."
@@ -1212,55 +1191,55 @@ msgstr "Stoor..."
 
 #: src/control/Toolbar.js:115
 msgid "Renaming..."
-msgstr ""
+msgstr "Hernoem..."
 
 #: src/control/Toolbar.js:422
 msgid "I understand the risks"
-msgstr ""
+msgstr "I begryp die risiko"
 
 #: src/control/Toolbar.js:474
 msgid "We are sorry, the information about the latest updates is not available."
-msgstr ""
+msgstr "Helaas is die informasie oor die nuutste opdaterings onbeskikbaar."
 
 #: src/control/Toolbar.js:519
 msgid "This version of %productName is powered by"
-msgstr ""
+msgstr "Hierdie weergawe van %productName werk op basis van"
 
 #: src/control/Toolbar.js:529
 msgid "\"Slow Proxy\""
-msgstr ""
+msgstr "\"Stadige Proxy\""
 
 #: src/control/Toolbar.js:532
 msgid "The Personal edition is supported by volunteers and intended for individual use."
-msgstr ""
+msgstr "Die Persoonlike uitgawe is ondersteun deur vrywilligers en bedoel vir individuele gebruik."
 
 #: src/control/Toolbar.js:619
 msgid "Insert hyperlink"
-msgstr ""
+msgstr "Voeg hiperskakel in."
 
 #: src/control/Toolbar.js:621
 msgid "Text"
-msgstr ""
+msgstr "Teks"
 
 #: src/control/Toolbar.js:622
 msgid "Link"
-msgstr ""
+msgstr "Hiperskakel"
 
 #: src/core/Socket.js:59
 msgid "IE11 has reached its maximum number of connections. Please see this document to increase this limit if needed: https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/general-info/ee330736(v=vs.85)#websocket-maximum-server-connections"
-msgstr ""
+msgstr "IE11 het die maksimum aantal verbindings bereik. Lees indien nodig in hierdie dokument hoe u hierdie limiet kan verhoog: https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/general-info/ee330736 (v = vs.85)#websocket-maksimum-bedienerverbindings"
 
 #: src/core/Socket.js:61
 msgid "Oops, there is a problem connecting to LibreOffice Online : "
-msgstr ""
+msgstr "Kon nie aan LibreOffice Online koppel nie: "
 
 #: src/core/Socket.js:297
 msgid "Served by:"
-msgstr ""
+msgstr "Aangebied deur:"
 
 #: src/core/Socket.js:302
 msgid "Unsupported server version."
-msgstr ""
+msgstr "Hierdie bedienerweergawe word nie ondersteun nie."
 
 #: src/core/Socket.js:396
 msgid "Session terminated by document owner"
@@ -1268,15 +1247,15 @@ msgstr "Die dokument se eienaar het die sessie beëindig"
 
 #: src/core/Socket.js:401
 msgid "Idle document - please click to reload and resume editing"
-msgstr ""
+msgstr "Leë dokument - klik om te herlaai en voort te gaan met redigering"
 
 #: src/core/Socket.js:403
 msgid "Idle document - please tap to reload and resume editing"
-msgstr ""
+msgstr "Onaktiewe dokument - tik asseblief om te herlaai en verder te redigeer"
 
 #: src/core/Socket.js:411
 msgid "Server is shutting down for maintenance (auto-saving)"
-msgstr ""
+msgstr "Die bediener word afgehaal vir instandhoudingsdoeleindes (outomatiese rugsteun)"
 
 #: src/core/Socket.js:415
 msgid "Oops, there is a problem connecting the document"
@@ -1284,27 +1263,27 @@ msgstr "Daar is a probleem om na die dokument toe te konnekteer"
 
 #: src/core/Socket.js:419
 msgid "Server is recycling and will be available shortly"
-msgstr ""
+msgstr "Die bediener word herlaai en sal binnekort weer beskikbaar wees."
 
 #: src/core/Socket.js:447
 msgid "Document has changed in storage. Loading the new document. Your version is available as revision."
-msgstr ""
+msgstr "Die dokument in die geheue het verander. Maak die nuwe dokument oop. U weergawe is beskikbaar vir hersiening."
 
 #: src/core/Socket.js:453
 msgid "Restoring older revision. Any unsaved changes will be available in version history"
-msgstr ""
+msgstr "Restoureer na 'n ouer weergawe. Alle ongestoorde wysigings word in die weergawegeskiedenis behou"
 
 #: src/core/Socket.js:572
 msgid "Document has been changed in storage. What would you like to do with your unsaved changes?"
-msgstr ""
+msgstr "Die dokument in die geheue is verander. Hoe wil u, u ongestoorde veranderinge hanteer?"
 
 #: src/core/Socket.js:576
 msgid "Discard"
-msgstr ""
+msgstr "Verwerp"
 
 #: src/core/Socket.js:581
 msgid "Overwrite"
-msgstr ""
+msgstr "Oorskryf"
 
 #: src/core/Socket.js:586
 msgid "Save to new file"
@@ -1312,43 +1291,43 @@ msgstr "Stoor na nuwe lêer"
 
 #: src/core/Socket.js:656
 msgid "Document requires password to view."
-msgstr ""
+msgstr "'n Wagwoord is nodig om die dokument te besigtig."
 
 #: src/core/Socket.js:659
 msgid "Document requires password to modify."
-msgstr ""
+msgstr "Dokument benodig 'n wagwoord vir wysiging."
 
 #: src/core/Socket.js:661
 msgid "Hit Cancel to open in view-only mode."
-msgstr ""
+msgstr "Klik \"Kanselleer\" om in lees-alleen modus te open."
 
 #: src/core/Socket.js:665
 msgid "Wrong password provided. Please try again."
-msgstr ""
+msgstr "Verkeerde wagwoord ingevoer. Probeer weer asseblief."
 
 #: src/core/Socket.js:803 src/map/Map.js:1518
 msgid "Loading..."
-msgstr ""
+msgstr "Laai..."
 
 #: src/core/Socket.js:803
 msgid "Connecting..."
-msgstr ""
+msgstr "Koppel..."
 
 #: src/core/Socket.js:1081
 msgid "Well, this is embarrassing, we cannot connect to your document. Please try again."
-msgstr ""
+msgstr "'n Verbinding met u dokument kon nie bewerkstellig word nie. Probeer asseblief weer."
 
 #: src/errormessages.js:13
 msgid "No disk space left on server, please contact the server administrator to continue."
-msgstr ""
+msgstr "Geen beskikbare skyfspasie op die bediener, om voort te gaan kontak asseblief die bediener-administrateur."
 
 #: src/errormessages.js:14
 msgid "The host URL is empty. The loolwsd server is probably misconfigured, please contact the administrator."
-msgstr ""
+msgstr "Die bediener URL is leeg. Die loolwsd bediener se konfigurasie is waarskynlik foutief, kontak asb. die administrateur."
 
 #: src/errormessages.js:15
 msgid "This is an unsupported version of {productname}. To avoid the impression that it is suitable for deployment in enterprises, this message appears when more than {docs} documents or {connections} connections are in use concurrently"
-msgstr ""
+msgstr "Dit is 'n nie-ondersteunde weergawe van {productname}. Om die indruk te voorkom dat dit geskik is vir gebruik in maatskappye, verskyn hierdie boodskap wanneer meer as {docs} dokumente of {verbindings} verbindings gelyktydig gebruik word."
 
 #: src/errormessages.js:16
 msgid "More information and support"
@@ -1356,89 +1335,89 @@ msgstr "Meer inligting en ondersteuning"
 
 #: src/errormessages.js:17
 msgid "This service is limited to %0 documents, and %1 connections total by the admin. This limit has been reached. Please try again later."
-msgstr ""
+msgstr "Die administrateur beperk hierdie diens tot %0 dokumente en %1 verbindings in totaal. Die limiet is bereik. Probeer asseblief weer later."
 
 #: src/errormessages.js:18
 msgid "Service is unavailable. Please try again later and report to your administrator if the issue persists."
-msgstr ""
+msgstr "Die diens is nie beskikbaar nie. Probeer later weer en kontak u administrateur as die probleem voortduur."
 
 #: src/errormessages.js:19
 msgid "Unauthorized WOPI host. Please try again later and report to your administrator if the issue persists."
-msgstr ""
+msgstr "Ongemagtigde WOPI-bediener. Probeer later weer en kontak u administrateur as die probleem voortduur."
 
 #: src/errormessages.js:20
 msgid "Wrong or missing WOPISrc parameter, please contact support."
-msgstr ""
+msgstr "Verkeerde of ontbrekende  WOPISrc parameter, kontak ondersteuning asb."
 
 #: src/errormessages.js:21
 msgid "Your session will expire in %time. Please save your work and refresh the session (or webpage) to continue."
-msgstr ""
+msgstr "U sessie sal verstyk in %time. Asseblief stoor u werk en verfris die sessie (of webbladsy) om voort te gaan."
 
 #: src/errormessages.js:22
 msgid "Your session has been expired. Further changes to document might not be saved. Please refresh the session (or webpage) to continue."
-msgstr ""
+msgstr "U sessie het verstyk. Verdere wysigings aan die dokument kan verloor word. Asseblief verfris die sessie (of webbladsy) om voort te gaan."
 
 #: src/errormessages.js:23
 msgid "Failed to load the document. Please ensure the file type is supported and not corrupted, and try again."
-msgstr ""
+msgstr "Laai van die dokument het gefaal. Kontroleer dat die lêer tipe word ondersteun of defektief nie, en probeer opnuut."
 
 #: src/errormessages.js:24
 msgid "Invalid link: '%url'"
-msgstr ""
+msgstr "Ongeldige koppeling: '%url'"
 
 #: src/errormessages.js:25
 msgid "You are leaving the editor, are you sure you want to visit %url?"
-msgstr ""
+msgstr "U verlaat die redigeerder, is u seker dat u %url wil besoek?"
 
 #: src/errormessages.js:26
 msgid "Failed to load the document. This document is either malformed or is taking more resources than allowed. Please contact the administrator."
-msgstr ""
+msgstr "Kon nie dokument laai nie. Hierdie dokument is defek of gebruik meer as die toegelate hulpbronne. Kontak die administrateur."
 
 #: src/errormessages.js:30
 msgid "Failed to load document."
-msgstr ""
+msgstr "Laai van die dokument het misluk."
 
 #: src/errormessages.js:31
 msgid "Save failed due to no disk space left. Document will now be read-only."
-msgstr ""
+msgstr "Stoor het gefaal weens onvoldoende skyfspasie. Dokument sal 'lees-alleen' wees."
 
 #: src/errormessages.js:32 src/errormessages.js:40
 msgid "Document cannot be saved due to expired or invalid access token."
-msgstr ""
+msgstr "Dokument kon nie gestoor word nie weens verstreke of ongeldige toegangs-teken."
 
 #: src/errormessages.js:33
 msgid "Document cannot be saved."
-msgstr ""
+msgstr "Dokument kan nie gestoor word nie."
 
 #: src/errormessages.js:34
 msgid "Document cannot be renamed."
-msgstr ""
+msgstr "Dokument kon nie hernoem word nie."
 
 #: src/errormessages.js:38
 #, javascript-format
 msgid "Failed to read document from storage. Please contact your storage server (%storageserver) administrator."
-msgstr ""
+msgstr "Kon nie die dokument uit die geheue lees nie. Kontak asseblief die bergingsbediener (% storageserver) se administrateur."
 
 #: src/errormessages.js:39
 #, javascript-format
 msgid "Save failed due to no disk space left on storage server. Document will now be read-only. Please contact the server (%storageserver) administrator to continue editing."
-msgstr ""
+msgstr "Kon nie stoor op die stoorbediener nie weens onvoldoende hardeskyf spasie. Die dokument is nou leesalleen. Kontak die administrateur van u bergingsbediener (% storageserver) om voort te gaan met verwerking."
 
 #: src/errormessages.js:41
 msgid "Document cannot be saved. Check your permissions or contact the storage server administrator."
-msgstr ""
+msgstr "Die dokument kan nie gestoor word nie. Gaan u toestemmings na of kontak die bergingsbediener-administrateur."
 
 #: src/errormessages.js:42
 msgid "Document cannot be renamed. Check your permissions or contact the storage server administrator."
-msgstr ""
+msgstr "Die dokument kon nie hernoem word nie. Gaan u toestemmings na of kontak die bergingsbediener-administrateur."
 
 #: src/errormessages.js:47
 msgid "Uploading file to server failed, file not found."
-msgstr ""
+msgstr "Oplaai van die lêer op die bediener het gefaal, lêer word nie gevind nie."
 
 #: src/errormessages.js:48
 msgid "Uploading file to server failed, the file is too large."
-msgstr ""
+msgstr "Oplaai van die lêer op die bediener het gefaal, lêer is te groot."
 
 #: src/layer/marker/Annotation.js:240
 msgid "Accept change"
@@ -1446,11 +1425,11 @@ msgstr "veranderings aanvaar"
 
 #: src/layer/marker/Annotation.js:245
 msgid "Reject change"
-msgstr ""
+msgstr "Verwerp wysigings."
 
 #: src/layer/marker/Annotation.js:254
 msgid "Open menu"
-msgstr ""
+msgstr "Maak keuselys oop."
 
 #: src/layer/marker/Annotation.js:275 src/layer/tile/TileLayer.js:243
 msgid "Reply"
@@ -1462,85 +1441,83 @@ msgstr "Wysig"
 
 #: src/layer/tile/TileLayer.js:249
 msgid "Remove"
-msgstr ""
+msgstr "Verwyder"
 
 #: src/layer/tile/TileLayer.js:255
 msgid "Resolve"
-msgstr ""
+msgstr "Oplos"
 
 #: src/layer/tile/TileLayer.js:826
-#, fuzzy
-#| msgid "Function Wizard"
 msgid "Functions"
-msgstr "Funksie Slimmerd"
+msgstr "Funksies"
 
 #: src/map/Clipboard.js:137
 msgid "To paste outside %productName, please first click the 'download' button"
-msgstr ""
+msgstr "Klik eers op 'download', om buite  %productName te kan plak."
 
 #: src/map/Clipboard.js:289
 msgid "Failed to download clipboard, please re-copy"
-msgstr ""
+msgstr "Aflaai van die klembord misluk;  kopieër weer."
 
 #: src/map/Clipboard.js:838
 msgid "<p>Please use the copy/paste buttons on your on-screen keyboard.</p>"
-msgstr ""
+msgstr "<p>Gebruik asseblief die kopieer/plak-knoppies  op u skermsleutelbord. </p>"
 
 #: src/map/Clipboard.js:840
 msgid "<p>Your browser has very limited access to the clipboard, so use these keyboard shortcuts:<ul><li><b>Ctrl+C</b>: For copying.</li><li><b>Ctrl+X</b>: For cutting.</li><li><b>Ctrl+V</b>: For pasting.</li></ul></p>"
-msgstr ""
+msgstr "<p>U blaaier het slegs baie beperkte toegang tot die klembord, dus gebruik slegs die volgende kortpaaie: <ul> <li> <b> Ctrl + C </b>: vir kopiëring. </li> <li> <b > Ctrl + X </b>: Om te knip. </li> <li> <b> Ctrl + V </b>: Om te plak. </li> </ul> </p>"
 
 #: src/map/Clipboard.js:861
 msgid "<p>If you would like to share larger elements of your document with other applications it is necessary to first download them onto your device. To do that press the \"Start download\" button below, and when complete click \"Confirm copy to clipboard\".</p><p>If you are copy and pasting between documents inside %productName, there is no need to download.</p>"
-msgstr ""
+msgstr "<p>As u groter elemente van u dokument met ander toepassings wil deel, moet u dit eers na u toestel aflaai. Klik hiervoor op die knoppie \"Begin aflaai\" en dan op \"Bevestig kopie na klembord\". </p> <p> Moet niks aflaai as u tussen dokumente in %productName wil kopiëer nie. </p>"
 
 #: src/map/Clipboard.js:877
 msgid "<p>A download due to a large copy/paste operation has already started. Please, wait for the current download or cancel it before starting a new one</p>"
-msgstr ""
+msgstr "<p>'n Aflaai het reeds begin as gevolg van 'n groot kopiëer/plak-bewerking. Wag asseblief vir die huidige aflaai of kanselleer dit voordat u met 'n nuwe een begin.</p>"
 
 #: src/map/Map.js:219
 msgid "Initializing..."
-msgstr ""
+msgstr "Inisialisering..."
 
 #: src/map/Map.js:419
 #, javascript-format
 msgid "%d seconds ago"
-msgstr ""
+msgstr "%d sekondes gelede"
 
 #: src/map/Map.js:422
 #, javascript-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d minute gelede"
 
 #: src/map/Map.js:1369
 msgid "Inactive document - please click to resume editing"
-msgstr ""
+msgstr "Onaktiewe dokument - klik asseblief om met redigering voort te gaan"
 
 #: src/map/handler/Map.FileInserter.js:96
 #, javascript-format
 msgid "The file of type: %0 cannot be uploaded to server since the file has no name"
-msgstr ""
+msgstr "Die tipe: %0 lêer kan nie na die bediener opgelaai word nie omdat die lêer geen naam het nie."
 
 #: src/map/handler/Map.FileInserter.js:98
 #, javascript-format
 msgid "The file of type: %0 cannot be uploaded to server since the file is empty"
-msgstr ""
+msgstr "Die tipe: %0 lêer kan nie na die bediener opgelaai word nie omdat die lêer leeg is."
 
 #: src/map/handler/Map.FileInserter.js:129
 msgid "Uploading..."
-msgstr ""
+msgstr "Oplaai..."
 
 #: src/map/handler/Map.FileInserter.js:143
 msgid "Uploading file to server failed with status: %0"
-msgstr ""
+msgstr "Oplaai van lêer na bediener misluk met status: %0"
 
 #: src/map/handler/Map.WOPI.js:111
 msgid "Creating new file from template..."
-msgstr ""
+msgstr "Skep 'n nuwe lêer van sjabloon..."
 
 #: src/map/handler/Map.WOPI.js:436
 msgid "Creating copy..."
-msgstr ""
+msgstr "Skepping van kopie..."
 
 #~ msgid "Number of views"
 #~ msgstr "Aantal Aansig"

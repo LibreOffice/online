@@ -105,4 +105,9 @@
     <string name="app_version_and_hash">Versione: %1$s
 \nonline git-hash: %2$s
 \ncore git-hash: %3$s</string>
+    <string name="choose_theme">Scegli il tema</string>
+    <string name="theme">Tema</string>
+    <string name="theme_light">Chiaro</string>
+    <string name="theme_dark">Scuro</string>
+    <string name="theme_system_default">Predefinito di sistema</string>
 </resources>
